@@ -1,0 +1,19 @@
+name = "timsac-modern-fortran"
+version = "1.0.0"
+license = "GPL-2.0-or-later"
+author = "Original TIMSAC authors; modern Fortran port generated from timsac 1.3.8-6"
+maintainer = ""
+copyright = "The Institute of Statistical Mathematics and contributors"
+description = "Modern Fortran port of the TIMSAC time-series analysis numerical core"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = false
+
+[fortran]
+implicit-external = true
+

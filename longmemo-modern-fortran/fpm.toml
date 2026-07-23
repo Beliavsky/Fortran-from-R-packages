@@ -1,0 +1,24 @@
+name = "longmemo-modern-fortran"
+version = "1.0.0"
+license = "GPL-2.0-or-later"
+author = "Jan Beran, Martin Maechler, Brandon Whitcher; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Original longmemo authors and contributors"
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_longmemo"
+source-dir = "examples"
+main = "demo_longmemo.f90"
+
+[[executable]]
+name = "fit_csv"
+source-dir = "examples"
+main = "fit_csv.f90"
+
+[[test]]
+name = "test_longmemo"
+source-dir = "tests"
+main = "test_longmemo.f90"

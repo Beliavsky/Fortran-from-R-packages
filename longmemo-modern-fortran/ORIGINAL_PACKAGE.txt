@@ -1,0 +1,13 @@
+Original package: longmemo
+Version: 1.1-4
+Date: 2025-07-08
+Title: Statistics for Long-Memory Processes (Book Jan Beran), and Related Functionality
+License: GPL (>= 2)
+
+Original credited authors/contributors:
+Jan Beran
+Martin Maechler
+Brandon Whitcher
+
+This project translates the package's computational R code to standalone modern Fortran.
+Plotting code is intentionally omitted.

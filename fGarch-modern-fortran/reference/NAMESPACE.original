@@ -1,0 +1,142 @@
+useDynLib("fGarch", .registration=TRUE)
+
+## imports
+
+importFrom("timeDate", timeDate, timeSequence)
+
+importFrom("timeSeries", as.timeSeries, timeSeries
+       ##, dummyDailySeries  # in Examples and tests
+         , description
+         , isUnivariate, isMultivariate)
+
+importFrom("fBasics",
+           Heaviside, jarqueberaTest
+       ##, teffectPlot  # used in test
+         , dsnig, qsnig
+         , volatility # we will re-export, as we define an S3 method
+         , distCheck, .sliderMenu)
+
+## importFrom("fastICA", fastICA)# only used in  R/mgarch-FitFromFormula.R  .gogarchFit()
+
+importFrom("cvar", VaR, ES)
+
+importFrom(Matrix, Matrix) # only in  R/garch-Hessian.R
+
+importFrom("graphics", abline, grid, hist, legend, lines,
+           par, polygon, title)
+
+importFrom("methods", new, show, slot, slotNames, is)
+
+importFrom("stats", Box.test, acf, arima, as.formula, ccf, tsdiag,
+           density, dnorm, dt, filter, integrate, lm,
+           model.frame, na.omit, nlminb, optim, optimHess,
+           pchisq, pgamma, pnorm, ppoints, printCoefmat,
+           pt, qgamma, qnorm, qt, quantile, rgamma,
+           rnorm, rt, runif, sd, shapiro.test, summary.lm,
+           terms, var)
+
+importFrom("utils", capture.output, menu)
+
+
+## Exports
+
+S3method(print, summary_fGARCH)
+S3method(print, tsdiag_fGARCH)
+S3method(tsdiag, fGARCH)
+
+S3method(volatility, fGARCH)
+
+S3method(VaR, fGARCH)
+S3method(ES, fGARCH)
+
+exportClasses("fGARCH",
+              "fGARCHSPEC",
+              "fUGARCHSPEC" )
+
+exportMethods("coef",
+              "fitted",
+              "formula",
+              "plot",
+              "predict",
+              "residuals",
+              "show",
+              "summary",
+              "update" )
+
+export(timeSeries) # we import it from timeSeries
+export(volatility) # we import it from fBasics
+export(VaR, ES)    # we import them from cvar
+
+export(
+    ## export these '.xxx' for now
+    ".gogarchFit",
+    ".ugarchFit", ".ugarchSpec",
+    
+    "absMoments",
+    "dged",   "pged",   "qged",   "rged",   "gedFit",   "gedSlider",
+    "dsged",  "psged",  "qsged",  "rsged",  "sgedFit",  "sgedSlider",
+    "dsnorm", "psnorm", "qsnorm", "rsnorm", "snormFit", "snormSlider",
+    "dsstd",  "psstd",  "qsstd",  "rsstd",  "sstdFit",  "sstdSlider",
+    "dstd",   "pstd",   "qstd",   "rstd",   "stdFit",   "stdSlider", 
+    "garchFit",
+    "garchFitControl",
+    "garchKappa",
+    "garchSim",
+    "garchSpec"
+)
+
+## ".aparchLLH.filter", ".aparchLLH.internal", ".aparchLLH.testing",
+
+##                                            ".gedFit",   ".gedCondDist",
+##                                                         ".QMLECondDist",
+##                                                         ".normCondDist",
+## ".dsged",  ".psged",  ".qsged", ".rsged",  ".sgedFit",  ".sgedCondDist",  
+## ".dsnorm", ".psnorm", ".qsnorm",".rsnorm", ".snormFit", ".snormCondDist", 
+## ".dsstd",  ".psstd",  ".qsstd", ".rsstd",  ".sstdFit",  ".sstdCondDist",  
+##                                            ".stdFit",   ".stdCondDist",   
+##                                                         ".snigCondDist",
+
+## ".garchArgsParser",
+## ".garchFit",
+## ".garchInitParameters",
+## ".garchInitSeries",
+## ".garchKappaFun",
+## ".garchLLH",
+## ".garchModelSeries",
+## ".garchNames",
+## ".garchOptimizeLLH",
+## ".garchOptimizerControl",
+## ".garchRCDAGradient",
+## ".garchRCDAHessian",
+## ".garchRlbfgsb",
+## ".garchRnlminb",
+## ".garchRnm",
+## ".garchRoptimhess",
+## ".garchSetCondDist",
+## ".garchTSHessian",
+ 
+## ".getfGarchEnv", ".setfGarchEnv",
+
+## ".hessian2sided",
+
+## ".interactiveGarchPlot", ## GNB: these two may be worth exporting
+## ".multGarchPlot",
+
+## ".plot.garch.1",
+## ".plot.garch.10",
+## ".plot.garch.11",
+## ".plot.garch.12",
+## ".plot.garch.13",
+## ".plot.garch.2",
+## ".plot.garch.3",
+## ".plot.garch.4",
+## ".plot.garch.5",
+## ".plot.garch.6",
+## ".plot.garch.7",
+## ".plot.garch.8",
+## ".plot.garch.9",
+ 
+## ".qqDist", ".qqLine",
+
+## ".truePersistence",
+

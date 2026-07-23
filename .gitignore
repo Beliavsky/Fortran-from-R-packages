@@ -1,0 +1,16 @@
+build/
+.fpm/
+*.mod
+*.smod
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.zip
+__pycache__/
+*.py[cod]

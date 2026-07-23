@@ -1,0 +1,23 @@
+Package: timsac
+Version: 1.3.8-6
+Title: Time Series Analysis and Control Package
+Authors@R: c(person("Yoshinori", "Kawasaki", role = c("aut", "cre"),
+             email = "kawasaki@ism.ac.jp"),
+             person("Junji", " Nakano", role="aut"),
+             person("Masami", "Saga", role = "aut"),
+             person("The Institute of Statistical Mathematics", role = c("cph", "fnd")))
+Author: Yoshinori Kawasaki [aut, cre],
+  Junji Nakano [aut],
+  Masami Saga [aut],
+  The Institute of Statistical Mathematics [cph, fnd]
+Maintainer: Yoshinori Kawasaki <kawasaki@ism.ac.jp>
+Copyright: file COPYRIGHTS
+Depends: R (>= 4.0.0)
+Imports: graphics, grDevices, stats
+Description: Functions for statistical analysis, prediction and control of time
+ series based mainly on Akaike and Nakagawa (1988) <ISBN 978-90-277-2786-2>.
+License: GPL (>= 2)
+NeedsCompilation: yes
+Packaged: 2026-03-24 08:27:01 UTC; msaga
+Repository: CRAN
+Date/Publication: 2026-03-25 08:30:03 UTC
