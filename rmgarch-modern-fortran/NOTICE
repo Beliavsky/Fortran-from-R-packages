@@ -1,0 +1,23 @@
+rmgarch-modern-fortran
+======================
+
+This repository is an independent, experimental modern Fortran translation of
+computational methods from the R package rmgarch 1.4-2.
+
+Original package:
+  rmgarch: Multivariate GARCH Models
+  Copyright (C) 2008-2025 Alexios Galanos
+  https://github.com/alexiosg/rmgarch
+
+Fortran translation:
+  Copyright (C) 2026 translation contributors
+
+The original package DESCRIPTION declares "License: GPL-3". Some original
+source-file notices also permit GPL version 3 or, at the recipient's option, a
+later version. This translation is conservatively distributed under GNU GPL
+version 3 only (SPDX identifier GPL-3.0-only), which is permitted by those
+notices. See LICENSE for the complete license text.
+
+This project is not an official release of rmgarch and is not endorsed by its
+original author. It is experimental and has not been extensively validated
+against the R implementation.

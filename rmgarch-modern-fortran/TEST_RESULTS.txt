@@ -1,0 +1,45 @@
+rmgarch-modern-fortran 0.2.0 release validation
+Date: 2026-07-23
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+fpm: not installed; not tested
+
+Runtime-checked, warnings-as-errors command:
+make CHECKFLAGS='-std=f2018 -O0 -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace' check
+
+Test output:
+GPL-3.0-only source license checks passed.
+DCC tests passed.
+Core tests passed.
+Extended computational tests passed.
+
+Optimized, warnings-as-errors command:
+make FFLAGS='-std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror' all fit_csv
+
+Demo output:
+observations: 500
+assets: 3
+true DCC alpha:   0.045000
+fitted DCC alpha:   0.038726
+true DCC beta:    0.930000
+fitted DCC beta:    0.929464
+DCC log likelihood:     -1988.8453
+Gaussian copula log likelihood:        87.7109
+last correlation (1,2):   0.353544
+one-step forecast correlation (1,2):   0.356780
+correlation-distance matrix dimensions: 6 x 6
+fit status: 0
+
+CSV example output:
+observations: 350
+assets: 3
+margin 1: alpha=  0.042167 beta=  0.937445 persistence=  0.979611
+margin 2: alpha=  0.088444 beta=  0.877508 persistence=  0.965952
+margin 3: alpha=  0.024366 beta=  0.907908 persistence=  0.932273
+DCC alpha:   0.000000
+DCC beta:    0.999000
+DCC log likelihood:     -1429.3531
+status: 0
+
+Scope note:
+These are internal regression and invariant checks. They do not establish full
+numerical equivalence with R rmgarch 1.4-2. See README.md for explicit omissions.
