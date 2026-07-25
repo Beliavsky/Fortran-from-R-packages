@@ -1,0 +1,46 @@
+name = "tserieschaos-modern-fortran"
+version = "0.2.0"
+license = "GPL-2.0-only"
+author = "Antonio Fabio Di Narzo; Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran translation of the computational routines in tseriesChaos"
+categories = ["time-series", "nonlinear-dynamics", "chaos"]
+keywords = ["correlation-dimension", "lyapunov", "embedding", "mutual-information"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_tserieschaos"
+source-dir = "app"
+main = "demo_tserieschaos.f90"
+
+[[executable]]
+name = "analyze_csv"
+source-dir = "app"
+main = "analyze_csv.f90"
+
+[[executable]]
+name = "lorenz_analysis"
+source-dir = "example"
+main = "lorenz_analysis.f90"
+
+[[test]]
+name = "test_core"
+source-dir = "test"
+main = "test_core.f90"
+
+[[test]]
+name = "test_neighbors"
+source-dir = "test"
+main = "test_neighbors.f90"
+
+[[test]]
+name = "test_systems"
+source-dir = "test"
+main = "test_systems.f90"

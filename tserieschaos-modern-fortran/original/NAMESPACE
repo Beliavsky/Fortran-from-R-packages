@@ -1,0 +1,35 @@
+export(
+lyap, 
+lyap_k, 
+C2, 
+mutual, 
+plot.ami,
+embedd, 
+sim.cont, 
+lorenz.syst, 
+rossler.syst,
+duffing.syst, 
+stplot, 
+d2, 
+plot.d2,
+print.d2,
+recurr,
+false.nearest,
+print.false.nearest,
+plot.false.nearest)
+
+useDynLib(tseriesChaos)
+
+S3method(plot, ami)
+S3method(plot, d2)
+S3method(plot, false.nearest)
+S3method(print, d2)
+S3method(print, false.nearest)
+
+importFrom("grDevices", "gray")
+importFrom("graphics", "abline", "filled.contour", "lines", "plot")
+importFrom("stats", "as.ts", "dist", "end", "frequency", "lag", "lm",
+           "sd", "start", "time", "ts", "ts.intersect", "tsp",
+           "window")
+
+importFrom("deSolve", "lsoda")

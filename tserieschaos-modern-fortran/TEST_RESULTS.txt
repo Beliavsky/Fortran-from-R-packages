@@ -1,0 +1,38 @@
+tseriesChaos Modern Fortran 0.2.0 validation
+Date: 2026-07-24
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Command:
+  make check
+
+Output:
+  Core embedding and nonlinear-statistic tests passed.
+  Direct, box-index, auto-search, and Lyapunov tests passed.
+  Continuous-system and RK4 tests passed.
+  GPL-2.0-only source license checks passed.
+  debug build, tests, and applications passed.
+
+Command:
+  make check-opt
+
+Output:
+  Core embedding and nonlinear-statistic tests passed.
+  Direct, box-index, auto-search, and Lyapunov tests passed.
+  Continuous-system and RK4 tests passed.
+  GPL-2.0-only source license checks passed.
+  release build, tests, and applications passed.
+
+Deterministic distance-evaluation regression:
+  k-nearest direct:       474415
+  k-nearest box:           87901
+  false-neighbor direct:  1410156
+  false-neighbor box:      261242
+
+Applications executed in both configurations:
+  demo_tserieschaos
+  analyze_csv data/lorenz_sample.csv
+  analyze_csv data/lorenz_sample.csv box
+  analyze_csv data/lorenz_sample.csv direct
+  lorenz_analysis
+
+fpm.toml is included but fpm was not installed in the validation environment.
