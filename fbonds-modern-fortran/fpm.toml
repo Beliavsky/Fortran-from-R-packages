@@ -1,0 +1,32 @@
+name = "fbonds-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of the fBonds computational routines"
+maintainer = "OpenAI"
+description = "Nelson-Siegel and Nelson-Siegel-Svensson term-structure fitting"
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_fbonds"
+source-dir = "app"
+main = "demo_fbonds.f90"
+
+[[executable]]
+name = "fit_csv"
+source-dir = "app"
+main = "fit_csv.f90"
+
+[[example]]
+name = "fit_example"
+source-dir = "example"
+main = "fit_example.f90"
+
+[[test]]
+name = "test_term_structure"
+source-dir = "test"
+main = "test_term_structure.f90"
+
+[build]
+link = ["lapack", "blas"]
