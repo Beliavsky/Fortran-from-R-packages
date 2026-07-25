@@ -1,0 +1,49 @@
+name = "bayesgarch-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "David Ardia; Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+copyright = "Copyright (C) 2008-2021 David Ardia"
+description = "Modern Fortran translation of the computational core of bayesGARCH"
+categories = ["finance", "statistics", "mcmc"]
+keywords = ["garch", "bayesian", "student-t", "metropolis-hastings"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[[executable]]
+name = "demo_bayesgarch"
+source-dir = "app"
+main = "demo_bayesgarch.f90"
+
+[[executable]]
+name = "fit_csv"
+source-dir = "app"
+main = "fit_csv.f90"
+
+[[example]]
+name = "custom_constraint"
+source-dir = "example"
+main = "custom_constraint.f90"
+
+[[test]]
+name = "filters"
+source-dir = "test"
+main = "test_filters.f90"
+
+[[test]]
+name = "rng_math"
+source-dir = "test"
+main = "test_rng_math.f90"
+
+[[test]]
+name = "sampler"
+source-dir = "test"
+main = "test_sampler.f90"

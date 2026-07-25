@@ -1,0 +1,74 @@
+bayesGARCH Modern Fortran 0.1.0 - Validation Record
+===================================================
+
+Validation date: 2026-07-23
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Build system tested: GNU Make
+fpm status: fpm was not installed; fpm.toml is supplied but is not claimed as tested.
+
+Runtime-checked build
+---------------------
+
+Command:
+
+  make check
+
+Compiler options:
+
+  -O0 -g -std=f2018 -Wall -Wextra -Wimplicit-interface -Werror
+  -fcheck=all -fbacktrace
+
+Results:
+
+  GPL-2.0-or-later source license checks passed.
+  Filter, likelihood, and simulation tests passed.
+  Random-number and special-function tests passed.
+  Bayesian sampler and posterior-sample tests passed.
+  demo_bayesgarch executed successfully.
+  fit_csv executed successfully on data/example_returns.csv.
+  custom_constraint_example executed successfully.
+
+Optimized build
+---------------
+
+Command:
+
+  make optimized-check
+
+Compiler options:
+
+  -O2 -std=f2018 -Wall -Wextra -Wimplicit-interface -Werror
+
+Results:
+
+  GPL-2.0-or-later source license checks passed.
+  Filter, likelihood, and simulation tests passed.
+  Random-number and special-function tests passed.
+  Bayesian sampler and posterior-sample tests passed.
+  demo_bayesgarch executed successfully.
+  fit_csv executed successfully on data/example_returns.csv.
+  custom_constraint_example executed successfully.
+
+What the tests establish
+------------------------
+
+- Exact hard-coded checks for the GARCH(1,1), general GARCH, threshold-GARCH,
+  alpha-filter, asymmetric alpha-filter, W-filter, asymmetric W-filter, and
+  quasi-difference recursions.
+- Exact hard-coded checks for the standardized Student-t likelihood,
+  augmented log posterior, one- and two-parameter proposal regressions,
+  degrees-of-freedom root equation, and acceptance probability.
+- Simulation/filter identities for GARCH and threshold-GARCH routines.
+- Fixed-seed moment checks for Normal, Gamma, Exponential, and standardized
+  Student-t random generation, plus digamma reference values.
+- Fixed-seed multi-chain sampler checks for positive parameters, nu > 2,
+  movement of all sampling blocks, covariance stationarity, a user-supplied
+  prior constraint, posterior burn-in/thinning, and chain concatenation.
+
+Limitations of validation
+-------------------------
+
+R was not installed in the validation environment. Complete random chains were
+therefore not compared draw-for-draw with the R package. The Fortran project
+uses its own random-number generators, so bit-for-bit chain equivalence is not
+expected. No full statistical-equivalence claim is made.
