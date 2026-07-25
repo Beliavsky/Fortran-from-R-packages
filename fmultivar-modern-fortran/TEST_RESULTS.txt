@@ -1,0 +1,39 @@
+fmultivar-modern-fortran 0.1.0 validation
+Date: 2026-07-23
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+DEBUG COMMAND
+  make check
+
+DEBUG RESULT
+  GPL-2.0-or-later source license checks passed.
+  Distribution tests passed.
+  Integration, grid, density, histogram, and binning tests passed.
+  Multivariate Normal, skew-Normal, skew-t, and skew-Cauchy fitting tests passed.
+  Original-name distribution and fitting compatibility tests passed.
+  demo_fmultivar executed successfully.
+  integration_example executed successfully.
+  fit_csv normal executed successfully.
+  fit_csv snorm executed successfully.
+  fit_csv st with fixed nu=6 executed successfully.
+  fit_csv cauchy executed successfully.
+  debug build and test workflow passed.
+
+OPTIMIZED COMMAND
+  make release-check
+
+OPTIMIZED RESULT
+  GPL-2.0-or-later source license checks passed.
+  Distribution tests passed.
+  Integration, grid, density, histogram, and binning tests passed.
+  Multivariate Normal, skew-Normal, skew-t, and skew-Cauchy fitting tests passed.
+  Original-name distribution and fitting compatibility tests passed.
+  demo_fmultivar executed successfully.
+  integration_example executed successfully.
+  fit_csv normal executed successfully.
+  fit_csv snorm executed successfully.
+  fit_csv st with fixed nu=6 executed successfully.
+  fit_csv cauchy executed successfully.
+  release build and test workflow passed.
+
+No exact R-output equivalence is claimed. R and fpm were unavailable.

@@ -1,0 +1,13 @@
+name = "fmultivar-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "fMultivar authors; modern Fortran translation"
+maintainer = "Vivek Rao"
+copyright = "Copyright (C) fMultivar authors and translation contributors"
+description = "Modern Fortran translation of computational routines from the R package fMultivar"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]

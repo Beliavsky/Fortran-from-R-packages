@@ -1,0 +1,30 @@
+Package: fMultivar
+Title: Rmetrics - Modeling of Multivariate Financial Return
+        Distributions
+Date: 2023-07-07
+Version: 4031.84
+Authors@R: c( person("Diethelm", "Wuertz", role = "aut"),
+              person("Tobias", "Setz", role = "aut"),
+              person("Stefan", "Theussl", role = c("aut", "cre"), email = "Stefan.Theussl@R-Project.org"),
+	      person("Yohan", "Chalabi", role = "ctb"),
+	      person("Martin", "Maechler", role = "ctb"),
+	      person("CRAN", "team", role = "ctb") )
+Description: A collection of functions inspired by Venables and Ripley (2002) <doi:10.1007/978-0-387-21706-2>
+             and Azzalini and Capitanio (1999) <arXiv:0911.2093> to manage, investigate and analyze
+             bivariate and multivariate data sets of financial returns.
+Imports: fBasics, cubature, mvtnorm, sn, methods, grDevices, graphics,
+        stats
+Suggests: RUnit, tcltk
+License: GPL (>= 2)
+URL: https://www.rmetrics.org
+NeedsCompilation: no
+Packaged: 2023-07-07 17:26:47 UTC; theussl
+Author: Diethelm Wuertz [aut],
+  Tobias Setz [aut],
+  Stefan Theussl [aut, cre],
+  Yohan Chalabi [ctb],
+  Martin Maechler [ctb],
+  CRAN team [ctb]
+Maintainer: Stefan Theussl <Stefan.Theussl@R-Project.org>
+Repository: CRAN
+Date/Publication: 2023-07-11 08:40:35 UTC
