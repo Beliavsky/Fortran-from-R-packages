@@ -1,0 +1,13 @@
+name = "deoptimr-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI; based on DEoptimR by Eduardo L. T. Conceicao and contributors"
+maintainer = "OpenAI"
+copyright = "Copyright 2013-2026 DEoptimR authors; 2026 OpenAI"
+description = "Modern Fortran translation of DEoptimR differential-evolution optimizers"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

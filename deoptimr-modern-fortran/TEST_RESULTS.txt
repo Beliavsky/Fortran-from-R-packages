@@ -1,0 +1,31 @@
+DEoptimR Modern Fortran 0.1.0 validation
+========================================
+
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Date: 2026-07-24
+
+Commands:
+  make debug
+  make release
+
+Debug flags:
+  -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror
+  -fcheck=all -fbacktrace
+
+Release flags:
+  -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace
+
+Results:
+  JDE and SPJDE tests passed.
+  NCDE tests passed.
+  Demo and constrained example passed.
+  GPL-2.0-or-later source license checks passed.
+  Debug build passed.
+  Release build passed.
+
+Representative application output:
+  JDE sphere:  -4.374198E-06   4.108426E-06 f=   3.601277E-11
+  SPJDE Aluffi:  -1.046682E+00  -3.557022E-06 f=  -3.523861E-01
+  NCDE archived solutions: 4
+
+R and fpm were unavailable. Exact R RNG and iteration equivalence are not claimed.
