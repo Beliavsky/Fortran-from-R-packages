@@ -1,0 +1,47 @@
+name = "fcopulae-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "fCopulae authors and translation contributors"
+maintainer = "translation contributors"
+description = "Modern Fortran computational translation of the fCopulae R package"
+categories = ["statistics", "copulas", "finance"]
+keywords = ["copula", "Archimedean", "elliptical", "extreme-value", "dependence"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_fcopulae"
+source-dir = "app"
+main = "demo_fcopulae.f90"
+
+[[executable]]
+name = "fit_csv"
+source-dir = "app"
+main = "fit_csv.f90"
+
+[[executable]]
+name = "dependence_example"
+source-dir = "example"
+main = "dependence_example.f90"
+
+[[test]]
+name = "test_archimedean"
+source-dir = "test"
+main = "test_archimedean.f90"
+
+[[test]]
+name = "test_elliptical"
+source-dir = "test"
+main = "test_elliptical.f90"
+
+[[test]]
+name = "test_extreme_empirical"
+source-dir = "test"
+main = "test_extreme_empirical.f90"

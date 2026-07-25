@@ -1,0 +1,90 @@
+# Test results
+
+Compiler:
+GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Debug command:
+./scripts/build_and_test.sh debug
+
+Archimedean copula tests passed.
+Elliptical copula tests passed.
+Extreme-value and empirical copula tests passed.
+Clayton true alpha:         2.00000
+Clayton fitted alpha:       1.91208
+Clayton Kendall tau:        0.48876
+Gaussian true rho:          0.55000
+Gaussian fitted rho:        0.59123
+Gaussian Kendall tau:       0.40272
+EV Gumbel true alpha:       2.00000
+EV Gumbel fitted alpha:     2.00508
+EV Gumbel Kendall tau:      0.50127
+Clayton tau/rho/lower-tail:     0.500000    0.682266    0.707107
+Student-t tau/rho/tail:         0.409666    0.570290    0.266570
+EV Gumbel tau/rho/upper:        0.500000    0.682234    0.585786
+converged: T
+iterations: 55
+evaluations: 142
+log_likelihood:    2.069637666E+01
+AIC:   -3.939275332E+01
+BIC:   -3.850238157E+01
+parameters:    7.669140625E+00
+converged: T
+iterations: 13
+evaluations: 28
+log_likelihood:    2.937672124E+01
+AIC:   -5.675344247E+01
+BIC:   -5.586307071E+01
+parameters:    9.847091611E-01
+converged: T
+iterations: 15
+evaluations: 32
+log_likelihood:    2.835510284E+01
+AIC:   -5.471020569E+01
+BIC:   -5.381983393E+01
+parameters:    7.801562500E+00
+GPL-2.0-or-later source license checks passed.
+debug build, tests, and applications passed.
+
+Release command:
+./scripts/build_and_test.sh release
+
+Archimedean copula tests passed.
+Elliptical copula tests passed.
+Extreme-value and empirical copula tests passed.
+Clayton true alpha:         2.00000
+Clayton fitted alpha:       1.91208
+Clayton Kendall tau:        0.48876
+Gaussian true rho:          0.55000
+Gaussian fitted rho:        0.59123
+Gaussian Kendall tau:       0.40272
+EV Gumbel true alpha:       2.00000
+EV Gumbel fitted alpha:     2.00508
+EV Gumbel Kendall tau:      0.50127
+Clayton tau/rho/lower-tail:     0.500000    0.682266    0.707107
+Student-t tau/rho/tail:         0.409666    0.570290    0.266570
+EV Gumbel tau/rho/upper:        0.500000    0.682234    0.585786
+converged: T
+iterations: 55
+evaluations: 142
+log_likelihood:    2.069637666E+01
+AIC:   -3.939275332E+01
+BIC:   -3.850238157E+01
+parameters:    7.669140625E+00
+converged: T
+iterations: 13
+evaluations: 28
+log_likelihood:    2.937672124E+01
+AIC:   -5.675344247E+01
+BIC:   -5.586307071E+01
+parameters:    9.847091611E-01
+converged: T
+iterations: 15
+evaluations: 32
+log_likelihood:    2.835510284E+01
+AIC:   -5.471020569E+01
+BIC:   -5.381983393E+01
+parameters:    7.801562500E+00
+GPL-2.0-or-later source license checks passed.
+release build, tests, and applications passed.
+
+fpm was unavailable; fpm.toml is included but not claimed as tested.

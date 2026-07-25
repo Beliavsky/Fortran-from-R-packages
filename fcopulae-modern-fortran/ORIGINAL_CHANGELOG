@@ -1,0 +1,113 @@
+
+ChangeLog
+Package fCopulae
+
+2025-12-07 smith
+	* DESCRIPTION: Add Authors@R to fix CRAN note. Updated version number.
+	
+2023-01-03 smith
+
+	* R/ArchimedieanGenerator.R further work on uniroot to refine
+	  handling of cases where .invK was limited by numerical tolerance
+	  of uniroot
+
+2022-12-11 smith
+
+	* DESCRIPTION: Updated version number
+	* R/ArchimedieanGenerator.R fixed bounds on uniroot in .invK
+	  function to avoid intermitent warnings on CRAN
+	* inst/unitTest/runTests.R alter options to recommended
+	  warn=1. Set random number generators to match R4.2.2 defaults-
+	  avoids warnings in the test output
+
+2021-07-18  smith
+
+	* DESCRIPTION: Updated version number and maintainer
+	* R/EllipticalCopulae.R method for random number generation from
+	normal copula calls fMultivar::rnorm2d rather then
+	fMultivar:::.rnorm2d. This breaks the reproducability of the
+	output from previous versions.
+	* inst/obsolete removed
+
+2014-09-16  setz
+
+	* ChangeLog, DESCRIPTION: Updated ChangeLog and DESCRIPTION files
+	  after submission to CRAN
+	* NAMESPACE: Updated NAMESPACE; functions with a dot in front are no longer
+	  exported.
+	* R/ArchimedianSlider.R: Removed duplicated functions
+	* src and depending R functions moved to inst/obsolete/
+
+2014-02-03  wuertz
+
+	* mvtnorm and sn are now loaded as Depends from fMultivar
+
+2013-03-15  chalabi
+
+	* DESCRIPTION: Updated maintainer field and version number
+	* R/zzz.R: Removed depcrecated .First.lib()
+	* R/bv-dnorm.R: Removed trailing whitespaces
+
+2011-09-23  mmaechler
+
+	* DESCRIPTION: remove deprecated "LazyLoad" entry
+
+2010-10-26  chalabi
+
+	* NAMESPACE: updated NAMESPACE
+
+2010-07-23  chalabi
+
+	* inst/DocCopying.pdf: removed DocCopying.pdf license is already
+	  specified in DESCRIPTION file
+
+2009-10-27  chalabi
+
+	* ChangeLog, DESCRIPTION: updated Changelog and DESCRIPTION file
+	* DESCRIPTION, src/adapt_callback.c: added declaration of FORTRAN
+	  routine in C before use
+
+2009-10-16  chalabi
+
+	* NAMESPACE: updated NAMESPACE
+
+2009-10-16  wuertz
+
+	* DESCRIPTION, R/builtin-adapt.R, man/builtin-adapt.Rd, src,
+	  src/adapt2.f, src/adapt_callback.c: adapt added
+
+2009-09-28  chalabi
+
+	* DESCRIPTION: updated version number
+	* ChangeLog, DESCRIPTION: updated DESCR and ChangeLog
+	* NAMESPACE: new NAMESPACE structure which should ease maintenance
+	  of packages.
+
+2009-06-25  chalabi
+
+	* DESCRIPTION: Merge branch 'devel-timeSeries'
+	  
+	  Conflicts:
+	  pkg/timeSeries/R/base-Extract.R
+	  pkg/timeSeries/R/timeSeries.R
+
+2009-04-19  chalabi
+
+	* DESCRIPTION: added explicit version number in Depends field for
+	  key packages
+
+2009-04-02  chalabi
+
+	* DESCRIPTION: more explicit depends and suggests field in DESC
+	  file.
+	* NAMESPACE: updated NAMESPACE
+	* DESCRIPTION: updated DESC file
+
+2009-01-28  chalabi
+
+	* man/ArchimedeanCopulae.Rd, man/ArchimedeanDependency.Rd,
+	  man/ArchimedeanModelling.Rd, man/EmpiricalCopulae.Rd,
+	  man/ExtremeValueCopulae.Rd, man/ExtremeValueDependency.Rd,
+	  man/ExtremeValueGenerator.Rd, man/ExtremeValueModelling.Rd:
+	  updated manual pages to new Rd parser
+
