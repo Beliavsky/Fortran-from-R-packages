@@ -1,0 +1,15 @@
+name = "fextremes-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of the fExtremes computational routines"
+maintainer = "Generated translation"
+description = "Extreme-value distributions, fitting, risk, diagnostics, and extremal-index tools"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
