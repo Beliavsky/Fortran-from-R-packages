@@ -1,0 +1,29 @@
+stochfactor-modern-fortran 0.1.0 validation
+
+Compiler:
+GNU Fortran 14.2.0
+
+Libraries:
+LAPACK and BLAS
+
+DEBUG COMMAND
+make debug
+
+DEBUG RESULT
+Univariate SV simulation, likelihood, MCMC, regression, t-error, leverage, residual, and prediction tests passed.
+Factor-SV simulation, covariance, initialization, fitting, identification, prediction, and density tests passed.
+GPL-2.0-or-later source license checks passed.
+Both demos, both CSV modes, and the custom-restriction example compiled and ran.
+
+RELEASE COMMAND
+make release
+
+RELEASE RESULT
+Univariate SV simulation, likelihood, MCMC, regression, t-error, leverage, residual, and prediction tests passed.
+Factor-SV simulation, covariance, initialization, fitting, identification, prediction, and density tests passed.
+GPL-2.0-or-later source license checks passed.
+Both demos, both CSV modes, and the custom-restriction example compiled and ran.
+
+NOT TESTED
+- fpm build: fpm was unavailable.
+- Direct R output or MCMC-chain equivalence: R was unavailable.

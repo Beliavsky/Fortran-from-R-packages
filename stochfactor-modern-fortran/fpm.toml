@@ -1,0 +1,11 @@
+name = "stochfactor-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Original stochvol and factorstochvol authors; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Combined modern Fortran translation of stochvol and factorstochvol computational routines"
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
