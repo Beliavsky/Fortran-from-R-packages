@@ -1,0 +1,101 @@
+betategarch-modern-fortran 0.1.0 validation record
+================================================
+
+Validation environment
+----------------------
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Build system used: GNU make
+fpm: not installed in the validation environment; fpm.toml is included but
+     fpm execution is not claimed as tested.
+R: not installed in the validation environment. Deterministic recursion and
+   likelihood reference values were independently calculated from the attached
+   R/C formulas; no live R cross-run is claimed.
+
+Runtime-checked build and tests
+-------------------------------
+Command:
+
+  make check
+
+Flags:
+
+  -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror
+  -ffree-line-length-none -fcheck=all -fbacktrace
+  -ffpe-trap=invalid,zero,overflow
+
+Result:
+
+  GPL-2.0-only source license checks passed.
+  Skew-t tests passed.
+  Recursion, simulation, and likelihood tests passed.
+  Fitting, Hessian, covariance, and forecasting tests passed.
+  Application and example execution tests passed.
+
+The tests cover:
+
+  * skew-t density, log-density, analytical moments, Monte Carlo mean/variance,
+    and seed reproducibility;
+  * independent fixed-value checks for one- and two-component recursion paths
+    and log-likelihoods;
+  * simulation/filter path identity for both model specifications;
+  * symmetric one-component fitting;
+  * asymmetric/skewed one-component fitting;
+  * asymmetric/skewed two-component fitting;
+  * numerical Hessian symmetry, covariance inversion, standard errors, and BIC;
+  * one-step formula verification and multi-step execution for both forecast
+    specifications;
+  * demo, CSV application, and fpm-style example execution.
+
+Optimized build
+---------------
+Command:
+
+  make clean
+  make -j1 all
+
+Flags:
+
+  -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror
+  -ffree-line-length-none
+
+Result: successful with no compiler or linker warnings.
+
+Demo execution
+--------------
+
+  Beta-Skew-t-EGARCH one-component demonstration
+  log-likelihood:  -826.780024
+  BIC per observation:     3.381695
+  optimizer convergence code: 0
+  iterations: 160
+  evaluations: 259
+  five-step conditional standard-deviation forecast:
+    1   1.1201297564E+00
+    2   1.1427635186E+00
+    3   1.1622629213E+00
+    4   1.1790604610E+00
+    5   1.1935305563E+00
+
+CSV execution
+-------------
+Command:
+
+  ./build/fit_csv data/example_returns.csv 1 1 0 0
+
+Result:
+
+  observations: 180
+  log-likelihood:      -231.16959417
+  BIC per observation:         2.68395009
+  convergence code: 0
+  iterations: 304
+  evaluations: 528
+  Hessian available: T
+  covariance available: T
+
+Scope statement
+---------------
+Only features implemented in the source and exercised as described above are
+claimed. Plotting, zoo/date-index handling, S3 classes and dispatch, and R
+package infrastructure are intentionally excluded. The optimizer and random
+stream differ from R, as documented in README.md.
