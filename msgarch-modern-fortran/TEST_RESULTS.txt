@@ -1,0 +1,78 @@
+MSGARCH Modern Fortran 0.1.0 validation record
+================================================
+
+Validation date: 2026-07-24
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Platform: GNU/Linux x86-64
+
+License check
+-------------
+Command:
+  ./test/check_license.sh
+
+Result:
+  GPL-2.0-or-later source license checks passed.
+
+Debug configuration
+-------------------
+Flags:
+  -std=f2018 -ffree-line-length-none -O0 -g
+  -Wall -Wextra -Wimplicit-interface -Werror
+  -fcheck=all -fbacktrace
+
+Command:
+  ./run_checks.sh debug
+
+Numerical-suite results:
+  Distribution and regime-model tests passed.
+  Filtering, simulation, forecast, PIT, and risk tests passed.
+  ML, constrained fitting, MCMC, DIC, and Gaussian EM tests passed.
+
+Application results:
+  demo_msgarch executed successfully.
+  mcmc_example executed successfully.
+  fit_csv executed successfully in single, Markov, and mixture modes.
+  debug build, tests, and applications passed.
+
+Release configuration
+---------------------
+Flags:
+  -std=f2018 -ffree-line-length-none -O2
+  -Wall -Wextra -Wimplicit-interface -Werror
+  -fbacktrace
+
+Command:
+  ./run_checks.sh release
+
+Numerical-suite results:
+  Distribution and regime-model tests passed.
+  Filtering, simulation, forecast, PIT, and risk tests passed.
+  ML, constrained fitting, MCMC, DIC, and Gaussian EM tests passed.
+
+Application results:
+  demo_msgarch executed successfully.
+  mcmc_example executed successfully.
+  fit_csv executed successfully in single, Markov, and mixture modes.
+  release build, tests, and applications passed.
+
+Archive verification
+--------------------
+The source archive was checked with unzip -t, extracted into a fresh directory,
+and the license, debug, and release commands above were rerun from that extracted
+copy.
+
+Notes
+-----
+Compiler diagnostics are treated as errors. GNU ld reports that
+msgarch_estimation.o requires an executable stack because internal Fortran
+objective procedures are passed as optimizer callbacks. Linking and every test
+and application run succeeded. This linker diagnostic is not presented as a
+compiler-cleanliness claim.
+
+The sample single-regime CSV fit converges. The deliberately small Markov and
+mixture CSV runs are application/API smoke tests; they are not claimed as
+convergence benchmarks.
+
+R and fpm were unavailable. Exact R optimizer endpoints, MCMC chains, KDE
+values, and random-number streams are not claimed. The included fpm.toml was
+syntax-checked as TOML but was not executed with fpm.

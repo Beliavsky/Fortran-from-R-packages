@@ -1,0 +1,41 @@
+name = "msgarch-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "MSGARCH authors and Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran computational translation of the MSGARCH R package"
+categories = ["statistics", "time-series", "finance"]
+keywords = ["GARCH", "Markov switching", "Bayesian", "risk"]
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_msgarch"
+source-dir = "app"
+main = "demo_msgarch.f90"
+
+[[example]]
+name = "mcmc_example"
+source-dir = "example"
+main = "mcmc_example.f90"
+
+[[example]]
+name = "fit_csv"
+source-dir = "example"
+main = "fit_csv.f90"
+
+[[test]]
+name = "test_distributions_models"
+source-dir = "test"
+main = "test_distributions_models.f90"
+
+[[test]]
+name = "test_filter_simulation_risk"
+source-dir = "test"
+main = "test_filter_simulation_risk.f90"
+
+[[test]]
+name = "test_estimation_hmm"
+source-dir = "test"
+main = "test_estimation_hmm.f90"
