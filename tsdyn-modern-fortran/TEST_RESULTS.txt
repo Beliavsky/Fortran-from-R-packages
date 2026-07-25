@@ -1,0 +1,26 @@
+tsDyn Modern Fortran 0.1.0 validation
+Compiler: GNU Fortran 14.2.0
+Libraries: system LAPACK and BLAS
+
+make debug-check
+  GPL-2.0-or-later source license checks passed.
+  Univariate and nonlinear tests passed.
+  Multivariate linear and cointegration tests passed.
+  Threshold multivariate and nonlinear impulse-response tests passed.
+  debug build, tests, and applications passed.
+
+make release-check
+  GPL-2.0-or-later source license checks passed.
+  Univariate and nonlinear tests passed.
+  Multivariate linear and cointegration tests passed.
+  Threshold multivariate and nonlinear impulse-response tests passed.
+  release build, tests, and applications passed.
+
+Applications exercised:
+  demo_tsdyn
+  fit_csv data/sample.csv ar 2
+  fit_csv data/sample.csv var 1
+  threshold_example
+
+fpm was not installed and is not claimed as tested.
+Exact R output equivalence is not claimed.
