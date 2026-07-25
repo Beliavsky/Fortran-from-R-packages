@@ -1,0 +1,16 @@
+Validated with GNU Fortran 14.2.0, LAPACK, and BLAS.
+
+Commands:
+  make check
+  make check-opt
+
+Observed output in both configurations:
+  Chaotic-map and RK4 tests passed.
+  Embedding, entropy, recurrence, and dimension tests passed.
+  False-neighbor, box-index, and Lyapunov tests passed.
+  BDS, neural-network, dispatcher, and runs tests passed.
+  GPL-2.0-or-later source license checks passed.
+  debug/release build, tests, and applications passed.
+
+The demo, CSV analyzer using data/logistic_sample.csv, and the standalone
+nonlinear-test example all executed successfully.

@@ -1,0 +1,52 @@
+name = "fnonlinear-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Rmetrics contributors; Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran translation of the computational routines in fNonlinear"
+categories = ["time-series", "nonlinear-dynamics", "statistics"]
+keywords = ["BDS", "neural-network-test", "chaos", "Lyapunov", "embedding"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_fnonlinear"
+source-dir = "app"
+main = "demo_fnonlinear.f90"
+
+[[executable]]
+name = "analyze_csv"
+source-dir = "app"
+main = "analyze_csv.f90"
+
+[[executable]]
+name = "nonlinear_tests_example"
+source-dir = "example"
+main = "nonlinear_tests_example.f90"
+
+[[test]]
+name = "test_maps"
+source-dir = "test"
+main = "test_maps.f90"
+
+[[test]]
+name = "test_statistics"
+source-dir = "test"
+main = "test_statistics.f90"
+
+[[test]]
+name = "test_neighbors"
+source-dir = "test"
+main = "test_neighbors.f90"
+
+[[test]]
+name = "test_tests"
+source-dir = "test"
+main = "test_tests.f90"

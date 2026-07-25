@@ -1,0 +1,36 @@
+Package: fNonlinear
+Title: Rmetrics - Nonlinear and Chaotic Time Series Modelling
+Date: 2026-02-21
+Version: 4052.83
+Authors@R: c(person(given = "Diethelm",
+		    family = "Wuertz",
+                    role = "aut"),
+             person(given = "Tobias",
+                    family = "Setz",
+                    role = "aut"),
+             person(given = "Yohan",
+                    family = "Chalabi",
+                    role = "aut"),
+             person(given = "Paul",
+                    family = "Smith",
+                    role = "cre",
+                    email = "paul@waternumbers.co.uk"))
+Maintainer: Paul Smith <paul@waternumbers.co.uk>
+Description: Provides a collection of functions for testing various aspects of
+	univariate time series including independence and neglected
+	nonlinearities. Further provides functions to investigate the chaotic
+	behavior of time series processes and to simulate different types of chaotic
+	time series maps.
+Depends: R (>= 3.4.0), timeDate, timeSeries, fBasics
+Imports: methods, stats
+Suggests: RUnit, tcltk
+License: GPL (>= 2)
+URL: https://www.rmetrics.org
+NeedsCompilation: yes
+Packaged: 2026-02-21 23:06:42 UTC; paul
+Author: Diethelm Wuertz [aut],
+  Tobias Setz [aut],
+  Yohan Chalabi [aut],
+  Paul Smith [cre]
+Repository: CRAN
+Date/Publication: 2026-02-22 06:10:08 UTC
