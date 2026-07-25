@@ -1,0 +1,19 @@
+Package: gogarch
+Version: 0.7-6
+Date: 2026-01-24
+Type: Package
+Title: Generalized Orthogonal GARCH (GO-GARCH) Models
+Description: Provision of classes and methods for estimating generalized
+   orthogonal GARCH models. This is an alternative approach to CC-GARCH models
+   in the context of multivariate volatility modeling.
+Authors@R: person("Bernhard", "Pfaff",
+   email = "bernhard@pfaffikus.de", role = c("aut", "cre"))
+Depends: R (>= 2.10.0), methods, stats, graphics, fGarch, fastICA
+License: GPL (>= 2)
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2026-01-24 15:59:59 UTC; bp
+Author: Bernhard Pfaff [aut, cre]
+Maintainer: Bernhard Pfaff <bernhard@pfaffikus.de>
+Repository: CRAN
+Date/Publication: 2026-01-24 16:30:02 UTC

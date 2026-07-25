@@ -1,0 +1,34 @@
+gogarch-modern-fortran 0.2.0 validation
+Date: 2026-07-23
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Libraries: system LAPACK and BLAS
+
+Command:
+  ./run_checks.sh
+
+Runtime-checked flags:
+  -std=f2018 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace
+  -O0 -g -fcheck=all
+
+Optimized flags:
+  -std=f2018 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -O2
+
+Observed output for both builds:
+  GPL-2.0-or-later source license checks passed.
+  Core numerical tests passed.
+  Higher-order GARCH, APARCH, and distribution tests passed.
+  GO-GARCH estimator and workflow tests passed.
+  Extended GO-GARCH specification tests passed.
+  build and execution checks passed.
+
+Applications executed:
+  demo_gogarch
+  fit_csv data/sample_returns.csv ica
+  fit_csv data/sample_returns.csv mm
+  fit_csv data/sample_returns.csv nls
+  fit_csv data/sample_returns.csv ml
+  fit_csv data/sample_returns.csv ica garch std 2 0 1
+  fit_csv data/sample_returns.csv ica aparch sstd 1 1 1
+
+The tests establish executable coverage and internal consistency. Exact
+numerical equivalence with R and fGarch is not claimed.
