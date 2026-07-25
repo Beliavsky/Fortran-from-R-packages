@@ -1,0 +1,59 @@
+garchx-modern-fortran 0.1.0 validation
+======================================
+
+Compiler
+--------
+GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Libraries
+---------
+LAPACK and BLAS from the Debian runtime environment.
+
+Runtime-checked validation
+--------------------------
+Command:
+  make clean
+  make check
+
+Flags:
+  -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror
+  -fcheck=all -fbacktrace
+
+Result:
+  GPL-2.0-or-later source license checks passed.
+  Core recursion, derivative, simulation, utility, and probability tests passed.
+  QML fitting, covariance, forecasting, quantile, refit, and avar tests passed.
+  Multivariate-normal and boundary-inference tests passed.
+  Application and CSV workflow tests passed.
+
+Optimized validation
+--------------------
+Command:
+  make optimized-check
+
+Flags:
+  -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace
+
+Result:
+  GPL-2.0-or-later source license checks passed.
+  Core recursion, derivative, simulation, utility, and probability tests passed.
+  QML fitting, covariance, forecasting, quantile, refit, and avar tests passed.
+  Multivariate-normal and boundary-inference tests passed.
+  Application and CSV workflow tests passed.
+
+Applications executed
+---------------------
+  demo_garchx
+  sparse_garchx_example
+  fit_csv data/example.csv 1 1 1 ordinary
+  fit_csv data/example.csv 1 1 1 robust
+  fit_csv data/example.csv 1 1 1 hac
+
+Notes
+-----
+GNU ld reports that garchx_model.o requests an executable stack. This is caused
+by GNU Fortran trampolines for internal procedure callbacks passed to the
+optimizer and numerical-Hessian routines. The binaries executed successfully
+in both validation configurations. Exact R optimizer and random-stream
+reproduction is not claimed. R and fpm were unavailable in the validation
+environment.
