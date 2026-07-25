@@ -1,0 +1,23 @@
+fBasics modern Fortran 0.3.0 validation
+
+Compiler: GNU Fortran 14.2.0
+Libraries: LAPACK, BLAS
+Command: make check
+
+GPL-2.0-or-later source license checks passed.
+Matrix, lag, RNG, and statistics tests passed.
+Distribution density, moment, RNG, and fitting tests passed.
+Interpolation, inference, and drawdown tests passed.
+Extended stable, GLD, GH, GMM/GEL, spline-density, spatial, and test algorithms passed.
+GMM prewhitening and Andrews ARMA(1,1) bandwidth tests passed.
+
+Both runtime-checked debug and optimized builds passed.
+Applications executed in both builds are listed in VALIDATION.md.
+
+Important distinctions:
+- stable calculations use Nolan S1 and numerical Fourier integration;
+- smoothing density is a penalized B-spline implementation;
+- Akima is represented by triangulated linear interpolation, not exact cubic interpolation;
+- Andrews automatic bandwidth covers both AR(1) and ARMA(1,1) plug-in paths;
+- VAR(p) prewhitening is recolored through the estimated long-run multiplier;
+- exact R optimizer, dependency, and random-stream equivalence is not claimed.

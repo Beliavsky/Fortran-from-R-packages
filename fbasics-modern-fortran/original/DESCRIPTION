@@ -1,0 +1,42 @@
+Package: fBasics
+Title: Rmetrics - Markets and Basic Statistics
+Version: 4052.98
+Authors@R: c(person("Diethelm", "Wuertz", role="aut", comment = "original code")
+	   , person("Tobias", "Setz", role = c("aut"), email = "tobias.setz@live.com")
+	   , person("Yohan", "Chalabi", role = "aut")
+	   , person("Martin","Maechler", role="ctb", email="maechler@stat.math.ethz.ch",
+	            comment = c(ORCID = "0000-0002-8685-9910"))
+	   , person("CRAN Team", role = "ctb")
+	   , person(given = c("Georgi", "N."), family = "Boshnakov", 
+                    role = c("cre", "aut"), email = "georgi.boshnakov@manchester.ac.uk",
+		    comment = c(ORCID = "0000-0003-2839-346X")) )
+Description: Provides a collection of functions to 
+    explore and to investigate basic properties of financial returns 
+    and related quantities.
+    The covered fields include techniques of explorative data analysis
+    and the investigation of distributional properties, including
+    parameter estimation and hypothesis testing. Even more there are
+    several utility functions for data handling and management.
+Depends: R (>= 2.15.1)
+Imports: timeDate, timeSeries (>= 4021.105), stats, grDevices,
+        graphics, methods, utils, MASS, spatial, gss, stabledist
+Suggests: interp, RUnit, tcltk
+LazyData: yes
+License: GPL (>= 2)
+Encoding: UTF-8
+URL: https://geobosh.github.io/fBasicsDoc/ (doc),
+        https://r-forge.r-project.org/scm/viewvc.php/pkg/fBasics/?root=rmetrics
+        (devel), https://www.rmetrics.org
+BugReports: https://r-forge.r-project.org/projects/rmetrics
+NeedsCompilation: yes
+Packaged: 2025-12-06 16:23:51 UTC; georgi
+Author: Diethelm Wuertz [aut] (original code),
+  Tobias Setz [aut],
+  Yohan Chalabi [aut],
+  Martin Maechler [ctb] (ORCID: <https://orcid.org/0000-0002-8685-9910>),
+  CRAN Team [ctb],
+  Georgi N. Boshnakov [cre, aut] (ORCID:
+    <https://orcid.org/0000-0003-2839-346X>)
+Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
+Repository: CRAN
+Date/Publication: 2025-12-07 06:40:07 UTC

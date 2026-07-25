@@ -1,0 +1,11 @@
+name = "fbasics-modern-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "fBasics authors and modern Fortran translation contributors"
+maintainer = "OpenAI"
+description = "Modern Fortran numerical translation of the computational core of fBasics"
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+link = ["lapack", "blas"]
