@@ -1,0 +1,83 @@
+Version 0.7 (25 March 2025)
+===========================
+
+
+* class checking in rss() is now done with is()
+
+* minor changes to DESCRIPTION file
+
+* minor changes to virtually all the .Rd files (i.e. the help-files)
+
+* fix:
+- mlgarch(): bug-fix (thanks to Rik Wienke!) that affected the dimension of the 'xreg' argument
+
+
+Version 0.6-2 (14 September 2015)
+=================================
+
+* lgarch():
+- formula for the variance-covariance matrix of the ARMA-representation corrected when method = "ls"
+- improved column-names handling of X-regressors
+- the dates/index of regressor(s), i.e. the xreg argument, is automatically matched with dates/index of the regressand
+
+
+Version 0.5 (1 September 2014)
+==============================
+
+* lgarchSim: c.code argument added with default TRUE (i.e. compiled C-code is used for the recursion; this speeds up simulations considerably)
+
+* S3 method summary() added for objects of class lgarch and mlgarch
+
+* lgarch() and mlgarch() functions: backcast.values argument removed
+
+* lgarchRecursion1(): for improved numerical stability, the backcast values of ln(y^2) was changed to the empirical mean. Also, a bug that occurred whenever c.code = FALSE was corrected
+
+
+Version 0.4 (1 July 2014)
+=========================
+
+* lgarch():
+- mean-correction as estimation-option added
+- a third estimation method was added: QML via the centred Chi-squared distribution as instrumental density
+- fitted.lgarch(): bug fix (the bug induced incorrect fitted values at zero-locations)
+- stylistic changes to the documentation
+
+
+Version 0.3 (1 June 2014)
+=========================
+
+* functions and S3 methods for the simulation and estimation of the multivariate CCC-log-GARCH(1,1) model were added
+
+* gdiff() function added
+
+* rss.lgarch() function changed name to rss
+
+* zoo-related bug corrected in glag()
+
+* glag() function: improved further, and the pad argument in the glag function acquired a new default (TRUE)
+
+* minor improvements throughout, and several stylistic changes made to the documentation
+
+
+Version 0.2 (28 April 2014)
+===========================
+
+* lgarch():
+- a couple of bugs corrected in the parameter-indexing, which ocurred whenever the garch order argument was set to 0
+- argument logl.penalty changed name to objective.penalty
+- the argument method=c("ml","ls") was added. If method="ml", then estimation is with Gaussian QML via the ARMA representation. If method="ls", then estimation is with least squares via the ARMA representation. Although asymptotically equivalent in most respects, the latter is slightly faster since one parameter less is estimated
+
+* glag(): Completely rewritten. Now it can also lag matrices, and it gives a "special treatment" to zoo-objects (the indexing is retained)
+
+* lgarchLogl() function changed name to lgarchObjective()
+
+* new functions:
+- rss.lgarch(), extract the Residual Sum of Squares of the ARMA representation an object of class lgarch
+- mlgarchSim(), simulate from a multivariate log-GARCH(1,1)
+- rmnorm(), simulate from multivariate normal distribution
+
+
+Version 0.1 (18 March 2014)
+===========================
+
+* all versions until 1.0 should be considered as beta-versions

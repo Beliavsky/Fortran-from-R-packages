@@ -1,0 +1,15 @@
+Package: lgarch
+Version: 0.7
+Date: 2025-03-25
+Title: Simulation and Estimation of Log-GARCH Models
+Authors@R: person(given = "Genaro", family = "Sucarrat", role = c("aut", "cre"), email = "genaro.sucarrat@bi.no")
+Maintainer: Genaro Sucarrat <genaro.sucarrat@bi.no>
+Depends: R (>= 3.4.0), methods, zoo
+URL: https://www.sucarrat.net/
+Description: Simulation and estimation of univariate and multivariate log-GARCH models. The main functions of the package are: lgarchSim(), mlgarchSim(), lgarch() and mlgarch(). The first two functions simulate from a univariate and a multivariate log-GARCH model, respectively, whereas the latter two estimate a univariate and multivariate log-GARCH model, respectively.
+License: GPL-2
+NeedsCompilation: yes
+Packaged: 2025-03-25 15:59:52 UTC; sucarrat
+Author: Genaro Sucarrat [aut, cre]
+Repository: CRAN
+Date/Publication: 2025-03-25 19:00:02 UTC

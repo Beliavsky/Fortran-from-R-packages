@@ -1,0 +1,39 @@
+lgarch-modern-fortran 0.1.0 validation
+=======================================
+
+Compiler:
+  GNU Fortran 14.2.0
+
+Libraries:
+  LAPACK
+  BLAS
+
+Runtime-checked command:
+  make clean
+  make FFLAGS="-std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -ffree-line-length-none -fcheck=all -fbacktrace" check
+
+Runtime-checked results:
+  GPL-2.0-only source license checks passed.
+  Utility tests passed.
+  Univariate simulation, recursion, objective, fitting, and covariance tests passed.
+  Multivariate simulation, recursion, objective, fitting, and covariance tests passed.
+  demo_lgarch executed successfully.
+  xreg_example executed successfully.
+  fit_csv univariate mode executed successfully.
+  fit_csv multivariate mode executed successfully.
+
+Optimized command:
+  make clean
+  make FFLAGS="-std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -ffree-line-length-none -fbacktrace" check
+
+Optimized results:
+  The same license audit, three test programs, two examples/applications, and
+  both CSV fitting modes passed.
+
+Notes:
+  The GNU linker reports that objects containing internal callback procedures
+  request an executable stack. This is a linker/platform warning caused by
+  compiler trampolines for passed internal procedures; it is not a failed
+  Fortran warning, runtime-check failure, or test failure.
+  fpm was not installed, so fpm execution is not claimed as tested.
+  R was not installed, so exact R optimizer/RNG equivalence is not claimed.

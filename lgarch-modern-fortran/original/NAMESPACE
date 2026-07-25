@@ -1,0 +1,36 @@
+##c code:
+useDynLib("lgarch")
+
+## import:
+import(zoo)
+importFrom("stats", "cor", "dnorm", "nlminb", "optimHess", "rnorm", "sd", "var", "window")
+importFrom("methods", "is")
+
+export(
+  ##basic infrastructure:
+  "glag", "gdiff",
+
+  ##univariate functions (lgarch):
+  "lgarchSim", "lgarchRecursion1", "lgarchObjective", "lgarch", "rss",
+
+  ##multivariate functions (mlgarch):
+  "rmnorm", "mlgarchSim", "mlgarchRecursion1", "mlgarchObjective", "mlgarch"
+)
+
+##methods for class lgarch:
+S3method("coef", "lgarch")
+S3method("fitted", "lgarch")
+S3method("logLik", "lgarch")
+S3method("print", "lgarch")
+S3method("residuals", "lgarch")
+S3method("summary", "lgarch")
+S3method("vcov", "lgarch")
+
+##methods for class mlgarch:
+S3method("coef", "mlgarch")
+S3method("fitted", "mlgarch")
+S3method("logLik", "mlgarch")
+S3method("print", "mlgarch")
+S3method("residuals", "mlgarch")
+S3method("summary", "mlgarch")
+S3method("vcov", "mlgarch")
