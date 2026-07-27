@@ -1,0 +1,25 @@
+Package: PeerPerformance
+Version: 2.4.0
+Title: Luck-Corrected Peer Performance Analysis in R
+Authors@R: c(person("David", "Ardia", role = c("aut", "cre", "cph", "fnd"),
+             email = "david.ardia.ch@gmail.com",
+             comment = c(ORCID = "0000-0003-2823-782X")),
+             person("Nabil", "Bouamara", role = "ctb"),
+             person("Kris", "Boudt", role = "aut",
+             comment = c(ORCID = "0000-0002-1000-5142")),
+             person("Sebastien", "Legros", role = "ctb"),
+             person("Murilo Andre", "Peres Pereira", role = "ctb",
+             comment = c(ORCID = "0009-0007-0086-4801")),
+             person("Benjamin", "Seguin", role = "ctb"))
+Depends: R (>= 3.5.0)
+Imports: compiler, graphics, grDevices, lmtest, parallel, sandwich, stats
+Suggests: knitr, rmarkdown, testthat
+VignetteBuilder: knitr
+Description: Provides functions to perform the peer performance
+    analysis of funds' returns as described in Ardia and Boudt (2018) <doi:10.1016/j.jbankfin.2017.10.014>.
+BugReports: https://github.com/ArdiaD/PeerPerformance/issues
+URL: https://github.com/ArdiaD/PeerPerformance
+License: GPL (>= 2)
+LazyData: true
+Encoding: UTF-8
+Config/roxygen2/version: 8.0.0

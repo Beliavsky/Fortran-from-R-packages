@@ -1,0 +1,13 @@
+PeerPerformance modern Fortran translation
+
+This project is a derivative work of PeerPerformance 2.4.0.
+
+Original code:
+  Copyright (C) 2012-2023 David Ardia and Kris Boudt
+  Additional contributors are listed in original/PeerPerformance-2.4.0/DESCRIPTION.
+
+The original package declares GNU GPL version 2 or later. This translation is
+therefore distributed under GPL-2.0-or-later. The unmodified supplied source is
+retained under original/ and the supplied archive is retained under provenance/.
+
+The Fortran project is not an official release of the upstream authors.

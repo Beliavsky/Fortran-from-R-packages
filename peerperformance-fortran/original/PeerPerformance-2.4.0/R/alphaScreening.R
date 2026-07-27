@@ -1,0 +1,364 @@
+## Set of R function for alpha screening
+
+#@name .alphaScreening
+#@description See alphaScreening
+.alphaScreening <- function(X, factors = NULL, control = list(),
+                            screen_beta = NULL, Y = NULL) {
+
+  # process control
+  ctr <- processControl(control)
+
+  # screen_beta can be passed either as an argument (takes precedence, for
+  # backward compatibility) or via the control list
+  if (is.null(screen_beta)) {
+    screen_beta <- ctr$screen_beta
+  }
+  # screen_beta only makes sense with factors; coerce to FALSE otherwise
+  # (this avoids a downstream crash in infoFund() when factors is NULL)
+  if (isTRUE(screen_beta) && is.null(factors)) {
+    warning("'screen_beta = TRUE' requires 'factors'; it is ignored.")
+    screen_beta <- FALSE
+  }
+
+  # cross-group screening: each fund in X against every fund in group Y
+  if (!is.null(Y)) {
+    return(.alphaScreeningXY(X, Y, factors = factors, control = control,
+                             screen_beta = screen_beta))
+  }
+
+  X <- as.matrix(X)
+  T <- nrow(X)
+  N <- ncol(X)
+  if (N < 2L) {
+    stop("within-group screening needs at least two funds in 'X'; supply 'Y' to screen a single fund against a peer group")
+  }
+
+  if (screen_beta & !is.null(factors)) {
+    row_return <- 1:(1 + ncol(factors))
+    pval <- dalpha <- tstat <- array(rep(NA, N * N * (1 + ncol(factors))), 
+                                     dim = c((1 + ncol(factors)), N, N))
+  } else {
+    row_return <- 1
+    pval <- dalpha <- tstat <- array(rep(NA, N*N), dim = c(1, N, N))
+  }
+  # pval <- dalpha <- tstat <- matrix(data = NA, N, N)
+
+  # determine which pairs can be compared (in a matrix way)
+  Y <- 1 * (!is.nan(X) & !is.na(X))
+  YY <- crossprod(Y)  #YY = t(Y) %*% Y # row i indicates how many observations in common with column k
+  YY[YY < ctr$minObs] <- 0
+  YY[YY > 0] <- 1
+  liststocks <- c(1:nrow(YY))[rowSums(YY) > ctr$minObsPi]
+
+  if (length(liststocks) > 1) {
+    liststocks <- liststocks[1:(length(liststocks) - 1)]
+
+    if (ctr$nCore == 1) {
+      # serial path: no PSOCK cluster (avoids the per-call cluster overhead,
+      # e.g. inside rollScreening's window loop)
+      z <- lapply(as.list(liststocks), alphaScreeningi,
+                  rdata = X, factors = factors, T = T, N = N,
+                  hac = ctr$hac, screen_beta = screen_beta,
+                  minObs = ctr$minObs)
+    } else {
+      cl <- parallel::makeCluster(ctr$nCore)
+      on.exit(parallel::stopCluster(cl), add = TRUE)
+      z <- parallel::clusterApplyLB(cl = cl, x = as.list(liststocks),
+                                    fun = alphaScreeningi,
+                                    rdata = X, factors = factors, T = T, N = N,
+                                    hac = ctr$hac, screen_beta = screen_beta,
+                                    minObs = ctr$minObs)
+    }
+
+    for (i in 1:length(liststocks)) {
+      out <- z[[i]]
+      id <- liststocks[i]
+      pval[row_return, id, id:N] <- pval[row_return, id:N, id] <- out[[2]][row_return, id:N]
+      dalpha[row_return, id, id:N] <- out[[1]][row_return, id:N]
+      dalpha[row_return, id:N, id] <- -out[[1]][row_return, id:N]
+      tstat[row_return, id, id:N] <- out[[3]][row_return, id:N]
+      tstat[row_return, id:N, id] <- -out[[3]][row_return, id:N]
+    }
+  }
+
+  # pi
+  pi <- computePi(pval = pval, dalpha = dalpha, tstat = tstat, lambda = ctr$lambda,
+                  nBoot = ctr$nBoot, bpos = ctr$gammaPos, bneg = ctr$gammaNeg,
+                  fast = ctr$fastAdjust)
+
+
+  # info on the funds
+  info <- infoFund(X, factors = factors, screen_beta = screen_beta)
+
+  if (screen_beta == FALSE) {
+  	pval <- pval[1, , ]
+  	dalpha <- dalpha[1, , ]
+  	tstat <- tstat[1, , ]
+  	npeer <- colSums(!is.na(pval))
+  } else {
+    npeer <- apply(!is.na(pval), c(1, 3), sum)
+    # label the coefficient rows (alpha + factor betas)
+    cn <- .coefNames(factors)
+    rownames(pi$pizero) <- rownames(pi$pipos) <- rownames(pi$pineg) <- cn
+    rownames(pi$lambda) <- cn
+    rownames(info$alpha) <- cn
+    rownames(npeer) <- cn
+  }
+
+  # form output
+  out <- list(n = info$nObs, npeer = npeer, alpha = info$alpha,
+              dalpha = dalpha, pval = pval, tstat = tstat, lambda = pi$lambda,
+              pizero = pi$pizero, pipos = pi$pipos, pineg = pi$pineg)
+  class(out) <- "SCREENING"
+
+  return(out)
+}
+
+#' @name alphaScreening
+#' @title Screening using the alpha outperformance ratio
+#' @description Function which performs the screening of a universe of returns, and
+#' computes the alpha outperformance ratio.
+#' @details The alpha measure (Treynor and Black 1973, Carhart 1997, Fung and Hsieh
+#' 2004) is one industry standard for measuring the absolute risk adjusted
+#' performance of hedge funds. We propose to complement the alpha measure with
+#' the fund's alpha outperformance ratio, defined as the percentage number of
+#' funds that have a significantly lower alpha. In a pairwise testing
+#' framework, a fund can have a significantly higher alpha because of luck. We
+#' correct for this by applying the false discovery rate approach by Storey (2002).
+#'
+#' The methodology proceeds as follows:
+#' \itemize{
+#' \item (1) compute all pairwise tests of alpha differences. This means that for a universe of
+#' \eqn{N} funds, we perform \eqn{N(N-1)/2}{N*(N-1)/2} tests. The algorithm has
+#' been parallelized and the computational burden can be split across several
+#' cores. The number of cores can be defined in \code{control}, see below.
+#' \item (2) for each fund, the false discovery rate approach by Storey (2002)
+#' is used to determine the proportions of over, equal, and underperforming
+#' funds, in terms of alpha, in the database.}
+#' The argument \code{control} is a list that can supply any of the following
+#' components:
+#' \itemize{
+#' \item \code{'hac'} Heteroscedastic-autocorrelation consistent
+#' standard errors. Default: \code{hac = FALSE}.
+#' \item \code{'minObs'} Minimum number of concordant observations to compute the ratios. Default:
+#' \code{minObs = 10}.
+#' \item \code{'minObsPi'} Minimum number of observations
+#' for computing the p-values). Default: \code{minObsPi = 1}.
+#' \item \code{'nCore'} Number of cores used to perform the screening. Default:
+#' \code{nCore = 1}.
+#' \item \code{'lambda'} Threshold value to compute pi0.
+#' Default: \code{lambda = NULL}, i.e. data driven choice.
+#' \item \code{'gammaPos'} One-sided quantile level (of the standard Normal
+#' distribution) used as the critical value for counting outperformed peers:
+#' a peer counts as outperformed when the pairwise t-statistic exceeds
+#' \code{qnorm(gammaPos)} (a \emph{negative} threshold for
+#' \code{gammaPos < 0.5}; e.g., \code{qnorm(0.4)} is about \code{-0.25}), and
+#' the expected fraction \code{1 - gammaPos} of false positives among the
+#' equal-performing peers is then subtracted. Smaller values count more peers
+#' before the correction. Default: \code{gammaPos = 0.4} (the value
+#' recommended in Ardia and Boudt, 2018).
+#' \item \code{'gammaNeg'} Mirror image of \code{gammaPos} for the peers that
+#' outperform the focal fund: the count uses \code{tstat <= qnorm(gammaNeg)}
+#' and subtracts the expected fraction \code{gammaNeg} of false positives.
+#' Default: \code{gammaNeg = 0.6}.
+#' \item \code{'fastAdjust'} Use a fast vectorised inversion in the
+#' truncated-normal bias correction of \eqn{\pi^0}{pi0} instead of one
+#' \code{uniroot} call per value. This is the dominant cost when \code{lambda}
+#' is data driven and gives a large speed-up on big universes. The bisection
+#' locates the root to about 1e-12; since \code{uniroot} stops at its own
+#' tolerance (about 1.2e-4), the two paths typically differ by a few 1e-5, the
+#' fast path being the more accurate. Default: \code{fastAdjust = FALSE},
+#' i.e. the original code path, kept as default so that published results
+#' reproduce exactly.
+#' \item \code{'screen_beta'} Screen the factor exposures (betas) in addition to
+#' the alpha; see the \code{screen_beta} argument. Default:
+#' \code{screen_beta = FALSE}.
+#' }
+#' @param X Matrix \eqn{(T \times N)}{(TxN)} of \eqn{T} returns for the \eqn{N}
+#' funds. \code{NA} values are allowed.
+#' @param factors Matrix \eqn{(T \times K)}{(TxK)} of \eqn{T} returns for the
+#' \eqn{K} factors. \code{NA} values are allowed.
+#' @param control Control parameters (see *Details*).
+#' @param screen_beta Boolean to screen all factors' coefficients (beta).
+#' Default: \code{screen_beta = NULL}, in which case the value is taken from
+#' \code{control$screen_beta} (itself defaulting to \code{FALSE}, i.e. only the
+#' alpha is screened). When supplied directly, the argument takes precedence
+#' over the control list. If \code{TRUE}, each element of the returned list will
+#' have a new first dimension representing each coefficient (the first one being
+#' alpha).
+#' @param Y Optional matrix \eqn{(T \times M)}{(TxM)} of returns for a second
+#' (peer) group of \eqn{M} funds. When supplied, the ratios are computed for
+#' each fund in \code{X} \emph{against the funds in \code{Y}} (cross-group
+#' screening) instead of against the other funds in \code{X}. A single focal
+#' fund versus a peer group corresponds to \code{X} being a vector (or a
+#' one-column matrix). Columns of \code{Y} identical to the focal fund (e.g.
+#' when \code{X} is a subset of \code{Y}) are automatically excluded. Default:
+#' \code{Y = NULL}, i.e. within-group screening.
+#' @return A list with the following components:\cr
+#'
+#' \code{n}: Vector (of length \eqn{N}) of number of non-\code{NA}
+#' observations.\cr
+#'
+#' \code{npeer}: Vector (of length \eqn{N}) of number of available peers.\cr
+#'
+#' \code{alpha}: Vector (of length \eqn{N}) of unconditional alpha.\cr
+#'
+#' \code{dalpha}: Matrix (of size \eqn{N \times N}{NxN}) of alpha
+#' differences.\cr
+#'
+#' \code{tstat}: Matrix (of size \eqn{N \times N}{NxN}) of t-statistics.\cr
+#'
+#' \code{pval}: Matrix (of size \eqn{N \times N}) of p-values of test for alpha
+#' differences.\cr
+#'
+#' \code{lambda}: Vector (of length \eqn{N}) of lambda values.\cr
+#'
+#' \code{pizero}: Vector (of length \eqn{N}) of probability of equal
+#' performance.\cr
+#'
+#' \code{pipos}: Vector (of length \eqn{N}) of probability of outperformance
+#' performance.\cr
+#'
+#' \code{pineg}: Vector (of length \eqn{N}) of probability of underperformance
+#' performance.
+#' @note Further details on the methodology with an application to the hedge
+#' fund industry is given in Ardia and Boudt (2018).
+#'
+#' Application of the false discovery rate approach applied to the mutual fund
+#' industry has been presented in Barras, Scaillet and Wermers (2010).
+#'
+#' HAC standard errors are available via \code{control = list(hac = TRUE)}
+#' (computed with \pkg{sandwich}/\pkg{lmtest}). The studentized circular block
+#' bootstrap of Ledoit and Wolf (2008) applies to the Sharpe-ratio routines
+#' (\code{\link{sharpeScreening}}, \code{\link{msharpeScreening}}) and is not
+#' used by \code{alphaScreening}.
+#' @author David Ardia and Kris Boudt.
+#' @seealso \code{\link{sharpeScreening}} and \code{\link{msharpeScreening}}.
+#' @references
+#' Ardia, D., Boudt, K. (2015).
+#' Testing equality of modified Sharpe ratios.
+#' \emph{Finance Research Letters} \bold{13}, pp.97--104.
+#' \doi{10.1016/j.frl.2015.02.008}
+#'
+#' Ardia, D., Boudt, K. (2018).
+#' The peer performance ratios of hedge funds.
+#' \emph{Journal of Banking and Finance} \bold{87}, pp.351--368.
+#' \doi{10.1016/j.jbankfin.2017.10.014}
+#'
+#' Barras, L., Scaillet, O., Wermers, R. (2010).
+#' False discoveries in mutual fund performance: Measuring luck in estimated alphas.
+#' \emph{Journal of Finance} \bold{65}(1), pp.179--216.
+#'
+#' Carhart, M. (1997).
+#' On persistence in mutual fund performance.
+#' \emph{Journal of Finance} \bold{52}(1), pp.57--82.
+#'
+#' Fama, E., French, K. (2010).
+#' Luck versus skill in the cross-section of mutual fund returns.
+#' \emph{Journal of Finance} \bold{65}(5), pp.1915--1947.
+#'
+#' Fung, W., Hsieh, D. (2004).
+#' Hedge fund benchmarks: A risk based approach.
+#' \emph{Financial Analysts Journal} \bold{60}(5), pp.65--80.
+#'
+#' Storey, J. (2002).
+#' A direct approach to false discovery rates.
+#' \emph{Journal of the Royal Statistical Society B} \bold{64}(3), pp.479--498.
+#'
+#' Treynor, J. L., Black, F. (1973).
+#' How to use security analysis to improve portfolio selection.
+#' \emph{Journal of Business} \bold{46}(1), pp.66--86.
+#' @keywords htest
+#' @examples
+#' ## Load the data (randomized data of monthly hedge fund returns)
+#' data("hfdata")
+#' rets = hfdata[,1:4]
+#'
+#' ## Run alpha screening
+#' ctr = list(nCore = 1)
+#' alphaScreening(rets, control = ctr)
+#'
+#' ## Run alpha screening with HAC standard deviation
+#' ctr = list(nCore = 1, hac = TRUE)
+#' alphaScreening(rets, control = ctr)
+#'
+#' ## Cross-group screening: a single focal fund against a peer group
+#' alphaScreening(hfdata[, 1], Y = hfdata[, 11:20], control = list(nCore = 1))
+#'
+#' ## Cross-group screening: peer group X against peer group Y
+#' alphaScreening(hfdata[, 1:5], Y = hfdata[, 11:20], control = list(nCore = 1))
+#' @export
+#' @importFrom parallel makeCluster clusterApplyLB stopCluster
+#' @importFrom compiler cmpfun
+alphaScreening <- compiler::cmpfun(.alphaScreening)
+
+# #' @name .alphaScreeningi
+# #' @title Screening for fund i again its peers
+# #' @importFrom stats lm na.omit
+# #' @importFrom lmtest coeftest
+# #' @importFrom sandwich vcovHAC
+.alphaScreeningi <- function(i, rdata, factors, T, N, hac, screen_beta=FALSE,
+                             minObs = 10) {
+
+
+  if(screen_beta & !is.null(factors)){
+    row_return <- 1:(1+ncol(factors))
+    pvali <- dalphai <- tstati <- matrix(rep(NA, N*(1+ncol(factors))), ncol=N)
+  }else{
+    row_return <- 1
+    pvali <- dalphai <- tstati <- matrix(rep(NA, N), ncol=N)
+  }
+
+  nPeer <- N - i
+  X <- matrix(rdata[, i], nrow = T, ncol = nPeer)
+  Y <- matrix(rdata[, (i + 1):N], nrow = T, ncol = nPeer)
+  dXY <- X - Y
+
+  # Per-pair complete-case availability. Count only rows where the return
+  # differential AND the factors (when supplied) are observed, so a pair is
+  # tested only when at least 'minObs' usable observations remain. (Previously
+  # the factor NAs were ignored and 'minObs' was not enforced at the pair level.)
+  if (is.null(factors)) {
+    avail <- colSums(!is.na(dXY))
+  } else {
+    fok   <- stats::complete.cases(factors)          # length T, recycled per column
+    avail <- colSums(!is.na(dXY) & fok)
+  }
+  selId.in  <- which(avail >= minObs)
+  selId.out <- selId.in + i
+
+  # k selects the column in dXY (matches selId.in); j places the result in the
+  # full N-vector (matches selId.out). seq_along guards the empty case.
+  for (idx in seq_along(selId.in)) {
+    k <- selId.in[idx]
+    j <- selId.out[idx]
+
+    if (is.null(factors)) {
+      fit <- stats::lm(dXY[, k] ~ 1, na.action = stats::na.omit)
+    } else {
+      fit <- stats::lm(dXY[, k] ~ 1 + factors, na.action = stats::na.omit)
+    } # end of factors/no factors
+
+    # skip (near) deterministic differentials (zero residual variance)
+    sfit_lm <- summary(fit)
+    if (!is.finite(sfit_lm$sigma) || sfit_lm$sigma < sqrt(.Machine$double.eps)) {
+      next
+    }
+
+    # HAC within loop.
+    if (!hac) {
+      pvali[row_return, j] <- sfit_lm$coef[row_return, 4]
+      dalphai[row_return, j] <- sfit_lm$coef[row_return, 1]
+      tstati[row_return, j] <- sfit_lm$coef[row_return, 3]
+    } else {
+      sumfit <- lmtest::coeftest(fit, vcov. = sandwich::vcovHAC(fit))
+      pvali[row_return, j] <- sumfit[row_return, 4]
+      dalphai[row_return, j] <- sumfit[row_return, 1]
+      tstati[row_return, j] <- sumfit[row_return, 3]
+    }
+  }
+
+  out <- list(dalphai = dalphai, pvali = pvali, tstati = tstati)
+  return(out)
+}
+alphaScreeningi <- compiler::cmpfun(.alphaScreeningi)
