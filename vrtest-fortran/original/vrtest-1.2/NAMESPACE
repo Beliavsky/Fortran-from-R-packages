@@ -1,0 +1,4 @@
+export(AutoBoot.test, Boot.test, Chow.Denning, Joint.Wright, JWright.crit, Lo.Mac, Subsample.test, Wald, Wright.crit, Wright, Chen.Deo, VR.plot, Auto.VR, Ave.Ex, Spec.shape, Adjust.thin, VR.minus.1, Auto.Q, Gen.Spec.Test, DL.test, Panel.VR)
+importFrom("graphics", "abline", "grid", "matplot", "title")
+    importFrom("stats", "acf", "ar.ols", "filter", "pchisq", "qchisq",
+               "qnorm", "quantile", "rnorm", "runif", "sd", "var")

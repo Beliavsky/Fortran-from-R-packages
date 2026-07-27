@@ -1,0 +1,27 @@
+vrtest-fortran
+==============
+
+This project is a modern Fortran translation of vrtest version 1.2, an R
+package by Jae H. Kim for variance-ratio and other martingale-difference
+tests.
+
+Original package metadata:
+
+  Package: vrtest
+  Version: 1.2
+  Date: 2023-08-31
+  Author and maintainer: Jae H. Kim
+  Declared license: GPL-2
+
+The Fortran project is distributed under GPL version 2 only, represented by
+the SPDX identifier GPL-2.0-only. The complete GPL version 2 text is in
+LICENSE. The unmodified supplied R package is retained under
+original/vrtest-1.2 for attribution, auditability, and formula comparison.
+It is not compiled by FPM.
+
+The translation preserves numerical algorithms and public test families,
+while replacing R lists with derived types and replacing R random-number,
+linear-algebra, distribution, rank, and quantile functions with self-contained
+Fortran implementations.
+
+No warranty is provided.
