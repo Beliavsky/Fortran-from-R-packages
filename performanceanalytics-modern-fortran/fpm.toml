@@ -1,0 +1,15 @@
+name = "performanceanalytics-modern-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+copyright = "Original PerformanceAnalytics authors and translation contributors"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

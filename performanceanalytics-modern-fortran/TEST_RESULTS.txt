@@ -1,0 +1,18 @@
+Compiler: GNU Fortran 14.2.0
+
+Commands:
+  make check
+  make release
+
+Results:
+  Return, portfolio, and drawdown tests passed.
+  Risk and performance-ratio tests passed.
+  CAPM, co-moment, and portfolio-risk tests passed.
+  Rolling and cleaning tests passed.
+  Advanced moments, NCE/MCA, GPD, Monte Carlo, and dynamic analytics tests passed.
+  Exact finite-sample M2/M3/M4 shrinkage-correction tests passed.
+  GPL-2.0-or-later source license checks passed.
+  debug build, tests, and applications passed.
+  release build, tests, and applications passed.
+
+The exact correction tests use independent influence-function calculations, fixed sixth-order references, and deterministic target-covariance b-vector references. Exact R optimizer iteration paths and random streams are not claimed.
