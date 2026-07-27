@@ -1,0 +1,17 @@
+name = "garchsk-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Kei Nakagawa; Fortran translation generated from GARCHSK 0.1.0"
+copyright = "Copyright (C) 2021 Kei Nakagawa"
+description = "Modern Fortran implementation of GARCHSK and GJRSK models"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

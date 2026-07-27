@@ -1,0 +1,18 @@
+Package: GARCHSK
+Type: Package
+Title: Estimating a GARCHSK Model and GJRSK Model
+Version: 0.1.0
+Authors@R: c(
+            person("Kei","Nakagawa",email="kei.nak.0315@gmail.com",role=c("aut","cre"),comment = c(ORCID = "0000-0001-5046-8128"))
+          )
+Description: Functions for estimating a GARCHSK model and GJRSK model based on a publication by Leon et,al (2005)<doi:10.1016/j.qref.2004.12.020> and Nakagawa and Uchiyama (2020)<doi:10.3390/math8111990>. These are a GARCH-type model allowing for time-varying volatility, skewness and kurtosis.
+License: GPL (>= 2)
+LazyData: TRUE
+Imports: stats, Rsolnp
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2021-07-21 23:53:27 UTC; keina
+Author: Kei Nakagawa [aut, cre] (<https://orcid.org/0000-0001-5046-8128>)
+Maintainer: Kei Nakagawa <kei.nak.0315@gmail.com>
+Repository: CRAN
+Date/Publication: 2021-07-22 07:00:07 UTC

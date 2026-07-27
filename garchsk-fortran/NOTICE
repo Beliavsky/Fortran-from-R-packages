@@ -1,0 +1,16 @@
+GARCHSK Fortran translation
+
+This project is a derivative work of the R package GARCHSK 0.1.0.
+
+Original package copyright:
+  Copyright (C) 2021 Kei Nakagawa
+
+Original package license:
+  GNU General Public License, version 2 or any later version.
+
+The original source is retained unmodified under original/GARCHSK-0.1.0.
+The source archive supplied for this translation is retained under provenance/.
+
+The translation preserves the original license and attribution. It replaces the
+Rsolnp dependency with a self-contained constrained Nelder-Mead implementation
+and documents deliberate numerical corrections in PORTING_NOTES.md.
