@@ -1,0 +1,40 @@
+name = "backtest-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of the CRAN backtest package"
+maintainer = "Translation maintainers"
+description = "Plain-array modern Fortran implementation of portfolio sorting backtests"
+categories = ["finance", "statistics", "backtesting"]
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_backtest"
+source-dir = "app"
+main = "demo_backtest.f90"
+
+[[executable]]
+name = "backtest_csv"
+source-dir = "app"
+main = "backtest_csv.f90"
+
+[[example]]
+name = "overlap_example"
+source-dir = "example"
+main = "overlap_example.f90"
+
+[[test]]
+name = "test_bucket"
+source-dir = "test"
+main = "test_bucket.f90"
+
+[[test]]
+name = "test_portfolio"
+source-dir = "test"
+main = "test_portfolio.f90"
+
+[[test]]
+name = "test_engine"
+source-dir = "test"
+main = "test_engine.f90"

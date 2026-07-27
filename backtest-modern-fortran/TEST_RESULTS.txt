@@ -1,0 +1,40 @@
+backtest-modern-fortran 0.1.0 validation record
+Date: 2026-07-25
+Compiler: GNU Fortran 14.2.0
+
+Debug command:
+  ./test/build_and_test.sh debug
+
+Debug flags:
+  -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror
+  -fcheck=all -fbacktrace
+
+Debug output:
+  GPL-2.0-or-later source license checks passed.
+  Bucket, quantile, grouping, and trimming tests passed.
+  Turnover and overlapping-portfolio tests passed.
+  Backtest engine, summaries, spreads, and accessor tests passed.
+  debug build, tests, and applications passed.
+
+Release command:
+  ./test/build_and_test.sh release
+
+Release flags:
+  -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace
+
+Release output:
+  GPL-2.0-or-later source license checks passed.
+  Bucket, quantile, grouping, and trimming tests passed.
+  Turnover and overlapping-portfolio tests passed.
+  Backtest engine, summaries, spreads, and accessor tests passed.
+  release build, tests, and applications passed.
+
+Executed applications:
+  demo_backtest
+  backtest_csv data/example_panel.csv 2 1
+  backtest_csv data/example_panel.csv 2 2
+  overlap_example
+
+The archive was also extracted into a fresh directory and both commands above
+were rerun from that extraction. No exact R random stream, object formatting,
+factor/date metadata, or plotting equivalence is claimed.
