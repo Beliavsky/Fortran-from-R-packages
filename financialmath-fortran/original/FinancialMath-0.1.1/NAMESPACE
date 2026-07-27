@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+  importFrom("grDevices", "dev.new")
+  importFrom("graphics", "abline", "axis", "legend", "lines", "par",
+             "plot.new", "points", "text")
+  importFrom("stats", "dnorm", "median", "pnorm")

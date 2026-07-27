@@ -1,0 +1,15 @@
+name = "financialmath"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Kameron Penn and Jack Schmidt; Fortran translation"
+maintainer = "Fortran community"
+copyright = "Copyright (C) 2016 Kameron Penn and Jack Schmidt"
+description = "Modern Fortran translation of the numerical core of the R FinancialMath package"
+categories = ["finance", "actuarial", "options"]
+keywords = ["financial mathematics", "annuities", "bonds", "options", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
