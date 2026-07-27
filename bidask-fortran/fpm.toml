@@ -1,0 +1,19 @@
+name = "bidask"
+version = "2.1.5"
+license = "MIT"
+author = "Emanuele Guidotti, David Ardia, Tim Kroencke; Fortran translation"
+maintainer = "Fortran community"
+copyright = "Copyright (c) 2024 Emanuele Guidotti"
+description = "Modern Fortran implementation of OHLC bid-ask spread estimators"
+keywords = ["finance", "bid-ask", "spread", "ohlc", "microstructure"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

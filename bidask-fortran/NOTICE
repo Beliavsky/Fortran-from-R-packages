@@ -1,0 +1,15 @@
+bidask-fortran is a modern Fortran translation of the numerical algorithms in
+bidask 2.1.5.
+
+Upstream package:
+  bidask: Efficient Estimation of Bid-Ask Spreads from Open, High, Low, and
+  Close Prices
+  Copyright (c) 2024 Emanuele Guidotti
+  Contributors: David Ardia and Tim Kroencke
+  License: MIT
+
+The original source is retained unmodified under original/bidask-2.1.5.
+The supplied archive is retained under provenance/bidask-master.zip.
+
+The translation preserves the MIT license. No endorsement by the upstream
+authors is implied.

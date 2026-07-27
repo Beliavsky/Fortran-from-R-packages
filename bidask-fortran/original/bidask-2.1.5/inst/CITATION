@@ -1,0 +1,11 @@
+bibentry(
+	bibtype     = "article",
+	title       = "Efficient estimation of bid–ask spreads from open, high, low, and close prices", 
+	journal     = "Journal of Financial Economics",
+	year        = 2024,
+	author      = as.person("David Ardia [aut], Emanuele Guidotti [aut], Tim A. Kroencke [aut]"),
+	volume      = "161",
+	pages       = "103916",
+    doi         = "10.1016/j.jfineco.2024.103916",
+	textVersion = 'Ardia, D., Guidotti, E., Kroencke, T.A. (2024). Efficient Estimation of Bid-Ask Spreads from Open, High, Low, and Close Prices. Journal of Financial Economics, 161, 103916. doi: 10.1016/j.jfineco.2024.103916'
+)
