@@ -1,0 +1,18 @@
+name = "rquantlib-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "RQuantLib contributors; modern Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "2026 OpenAI and upstream contributors"
+description = "Standalone modern Fortran quantitative-finance algorithms inspired by RQuantLib"
+categories = ["finance", "options", "bonds", "yield-curves"]
+keywords = ["Black-Scholes", "bonds", "SABR", "Hull-White"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"
