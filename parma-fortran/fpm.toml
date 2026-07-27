@@ -1,0 +1,19 @@
+name = "parma"
+version = "1.7.0"
+license = "GPL-3.0-or-later"
+author = "Alexios Galanos, Bernhard Pfaff; Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "Copyright (C) 2012-2014 Alexios Galanos and Bernhard Pfaff"
+description = "Modern Fortran portfolio allocation and risk management library translated from the R package parma"
+keywords = ["portfolio", "risk", "optimization", "cma-es", "cvar", "cdar"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

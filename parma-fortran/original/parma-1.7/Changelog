@@ -1,0 +1,68 @@
+2022-10-27 Alexios Galanos <alexios$4dscape.com>
+	* DESCRIPTION (Version): version is 1.7
+	* Fix to socp C files to avoid warnings on CRAN.
+	
+2022-06-13 Alexios Galanos <alexios$4dscape.com>
+	* DESCRIPTION (Version): version is 1.6
+	* Added init.c file and fix to documentation to avoid warnings on CRAN.
+	
+2016-08-25 Alexios Galanos <alexios$4dscape.com>
+	* DESCRIPTION (Version): version is 1.5-3
+	* Bernhard copied the socp solver from FRAPO (which removed it)
+	to parma to allow compatibility while we work on porting to the
+	new cccp solver.
+
+2015-07-02  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.5-2.
+	* Fixed bug in QP spec where the targetType equality was
+	not respected.
+	* Fixes to pass new CRAN checks which only attach base.
+
+2014-02-23  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.5-1.
+	* Fixed bug in QP spec where the eq.mat custom equality
+	constraint was not passed to the solver. [AG]
+	* New socp type problems and formulations and use of Socp
+	solver from FRAPO. Updated vignette entry with details. [AG]
+	* New tests in parma.tests for socp problems. [AG]
+	* Replaced dependency on timeSeries for dataset with xts. [AG]
+	* Removed Daily2Weekly and Daily2Monthly functions since xts can
+	easily be used to create these without additional functionality. [AG]
+	* Moved nloptr to Depends since there were problems with the pure
+	import of the main solver function without loading package in user space. [AG]
+	* Some more fixes to pass latest CRAN tests. [AG]
+	
+2013-04-30  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.5-0.
+	* Exported and documented custom constraint functions and their jacobians 
+	for use with the NLP problems (minrisk and fractional), including turnover 
+	constraint (simple, and buy/sell), and a portfolio variance target 
+	constraint.
+	* Vignette now built using sweave.
+
+2013-01-10  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.03.
+	* Streamlining/re-write of all methods and functions.
+	* Addition of frontier function.
+	* Removal of scenario generation functions and rmgarch dependence (moved
+	to rmgarch).
+	* Fixes to some NLP functions.
+	* Numerous tests, examples added to inst folder.
+	* Release to CRAN.
+	
+2012-06-20  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.02.
+	* Removed global solvers which had poor performance.
+	* Created and exported a direct translation into R of the cmaes 
+	solver of Hansen from his matlab version 3.6 code with many options.
+	* Some cleanup in the GNLP problems and more tests added in inst folder.
+
+2012-06-15  Alexios Galanos <alexios@4dscape.com>
+	* DESCRIPTION (Version): version is 1.01.
+	* Added parmaset<- and parmaget access methods on the parmaSpec object.
+	* Renamed old parmaget function for loading previously saved scenario or 
+	moments from file to parmaload.
+	* Added GNLP solvers for cardinality constraints in NLP and for the
+	LPMUPM problem formulation.
+	* Added MILP for the minrisk LP problems with cardinality constraints.
+	

@@ -1,0 +1,22 @@
+useDynLib(parma,.registration = TRUE)
+import(methods)
+importFrom("stats", "weights","median", "na.omit", "nlminb", "pnorm", "quantile", "rbinom", "rnorm")
+importFrom("utils", "head", "tail")
+importFrom(nloptr, nloptr, nloptr.print.options)
+importFrom(truncnorm, rtruncnorm)
+importFrom(quadprog, solve.QP)
+importFrom(Rglpk, Rglpk_solve_LP)
+importFrom(slam, as.simple_triplet_matrix)
+importFrom(corpcor, make.positive.definite)
+importFrom(parallel, clusterEvalQ, clusterExport, parLapply)
+exportClasses("parmaSpec", "parmaPort")
+export("parmaspec", "parmasolve", "parmafrontier","parmautility")
+exportMethods("checkarbitrage", "tictoc", "weights", "show")
+exportMethods("parmaset<-", "parmaget", "parmastatus")
+exportMethods("parmarisk", "parmareward")
+export("cmaes", "cmaes.control", "riskfun")
+export("Socp","SocpControl","SocpPhase1","SocpPhase2")
+export("ineqfun.turnover.min","ineqjac.turnover.min","ineqfun.bsturnover.min",
+"ineqjac.bsturnover.min","ineqfun.turnover.opt","ineqjac.turnover.opt",
+"ineqfun.bsturnover.opt","ineqjac.bsturnover.opt", "ineqfun.variance.opt",
+"ineqjac.variance.opt","ineqfun.variance.min","ineqjac.variance.min")

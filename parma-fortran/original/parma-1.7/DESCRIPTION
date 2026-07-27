@@ -1,0 +1,27 @@
+Package: parma
+Type: Package
+Title: Portfolio Allocation and Risk Management Applications
+Version: 1.7
+Date: 2022-10-27
+Authors@R: c(person("Alexios", "Galanos", email =
+        "alexios@4dscape.com", role = c("aut", "cre")),
+	person("Bernhard", "Pfaff", email =
+        "bernhard@pfaffikus.de", role = "ctb"),
+        person("Miguel Sousa", "Lobo", email =
+        "mlobo@isl.stanford.edu", role = "ctb", comment = "SOCP"),
+        person("Lieven", "Vandenberghe", email =
+        "vandenbe@isl.stanford.edu", role = "ctb", comment = "SOCP"),
+        person("Stephen", "Boyd", email = "boyd@isl.stanford.edu", role
+        = "ctb", comment = "SOCP"), person("Herve", "Lebret", role =
+        "ctb", comment = "SOCP"))
+Maintainer: Alexios Galanos <alexios@4dscape.com>
+Description: Provision of a set of models and methods for use in the allocation and management of capital in financial portfolios.
+Collate: p-cmaes.R p-classes.R p-constraints.R p-timeseries.R p-fun.R p-Utility.R p-MILP.R p-NLP.R p-GNLP.R p-LP.R p-QP.R p-SOCP.R p-main.R p-methods.R Socp.R zzz.R
+Depends: R (>= 2.10), methods, nloptr
+Imports: slam, Rglpk, quadprog, corpcor, parallel, truncnorm
+Suggests: xts, R.rsp
+LazyLoad: yes
+LazyData: yes
+License: GPL-3
+URL: https://github.com/alexiosg/parma
+VignetteBuilder: R.rsp

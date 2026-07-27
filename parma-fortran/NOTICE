@@ -1,0 +1,17 @@
+parma-fortran is a derivative work of the R package parma 1.7.
+
+Original package:
+  Copyright (C) 2012-2013 Alexios Galanos
+  Copyright (C) 2013-2014 Alexios Galanos and Bernhard Pfaff
+
+Additional SOCP contributors named by the original DESCRIPTION:
+  Miguel Sousa Lobo, Lieven Vandenberghe, Stephen Boyd, and Herve Lebret.
+
+The original package declares GNU General Public License version 3. This
+translation is distributed under GPL-3.0-or-later. The full license text is in
+LICENSE. The unmodified supplied package is retained under original/parma-1.7.
+
+R language object infrastructure, graphics, package data, and bindings to
+nloptr, Rglpk, quadprog, corpcor, slam, truncnorm, and parallel are not copied
+as runtime dependencies. Native Fortran implementations or callback-based
+interfaces are used instead.
