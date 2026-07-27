@@ -1,0 +1,11 @@
+fhmm-fortran is a modern Fortran translation of the numerical algorithms in
+fHMM 1.4.3.
+
+Upstream package:
+  fHMM: Fitting Hidden Markov Models to Financial Data
+  Authors: Lennart Oelschlaeger, Timo Adam, and Rouven Michels
+  License: GNU General Public License version 3
+
+This translation is a modified work. It is not an official release of the
+upstream authors. The complete supplied upstream source is retained under
+original/fHMM-1.4.3 and the uploaded archive is retained under provenance.

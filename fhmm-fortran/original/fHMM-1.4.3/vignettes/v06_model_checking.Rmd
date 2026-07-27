@@ -1,0 +1,66 @@
+---
+title: "Model checking"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Model checking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: ref.bib
+link-citations: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.dim = c(10, 6),
+  out.width = "80%",
+  fig.align = "center",
+  fig.path = "fHMM-"
+)
+library("fHMM")
+```
+
+This vignette^[This vignette was built using R `r paste(R.Version()[c("major", "minor")], collapse = ".")` with the `{fHMM}` `r utils::packageVersion("fHMM")` package.] discusses model checking in `{fHMM}`, that means the task of verifying whether the fitted model describes the data well.
+
+## Model checking using pseudo-residuals
+
+Since the observations are explained by different distributions (depending on the active state), model checking cannot be done by analyzing standard residuals. Instead, we consider "pseudo-residuals". To transform all observations on a common scale, we proceed as follows: If $X_t$ has the invertible distribution function $F_{X_t}$, then
+
+\begin{align*}
+Z_t=\Phi^{-1}(F_{X_t} (X_t))
+\end{align*}
+
+is standard normally distributed, where $\Phi$ denotes the cumulative distribution function of the standard normal distribution. The observations, $(X_t)_t$, are modeled well if the so-called pseudo-residuals, $(Z_t)_t$, are approximately standard normally distributed, which can be visually assessed using quantile-quantile plots or further investigated using statistical tests such as the Jarque-Bera test [@zuc16]. 
+
+For HHMMs, we first decode the coarse-scale state process using the Viterbi algorithm. Subsequently, we assign each coarse-scale observation its distribution function under the fitted model and perform the transformation described above. Using the Viterbi-decoded coarse-scale states, we then treat the fine-scale observations analogously.
+
+## Implementation
+
+In `{fHMM}`, pseudo-residuals can be computed via the `compute_residuals()` function, provided that the states have been decoded beforehand.
+
+We revisit the DAX example:
+
+```{r dax model}
+data(dax_model_3t)
+```
+
+The following line computes the residuals and saves them into the `model` object:
+
+```{r res}
+dax_model_3t <- compute_residuals(dax_model_3t)
+```
+
+The residuals can be visualized as follows:
+
+```{r plot-res}
+plot(dax_model_3t, plot_type = "pr")
+```
+
+For additional normality tests, the residuals can be extracted from the `model` object via the `residuals()` method. The following lines perform a [Jarque–Bera test](https://en.wikipedia.org/wiki/Jarque%E2%80%93Bera_test) as an example [@jar87]:
+
+```{r, message=FALSE}
+tseries::jarque.bera.test(residuals(dax_model_3t))
+```
+
+## References
