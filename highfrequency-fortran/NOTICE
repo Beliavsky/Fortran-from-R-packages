@@ -1,0 +1,18 @@
+highfrequency-fortran
+
+This project is a derivative computational port of the R package
+highfrequency 1.0.2.
+
+Upstream authors listed in DESCRIPTION:
+Kris Boudt, Jonathan Cornelissen, Scott Payseur, Giang Nguyen,
+Onno Kleen, Emil Sjoerup, and contributors.
+
+Upstream project:
+https://github.com/jonathancornelissen/highfrequency
+
+The upstream package declares GPL version 2 or later. This derivative work is
+distributed under GPL-2.0-or-later. See LICENSE.
+
+The unmodified source supplied by the user is retained under
+original/highfrequency-1.0.2 and the supplied archive is retained under
+provenance/highfrequency-master.zip.

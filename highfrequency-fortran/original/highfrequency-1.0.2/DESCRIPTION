@@ -1,0 +1,54 @@
+Package: highfrequency
+Version: 1.0.2
+Date: 2025-12-06
+Title: Tools for Highfrequency Data Analysis
+Authors@R: c(
+    person("Kris", "Boudt", , "kris.boudt@ugent.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1000-5142")),
+    person("Jonathan", "Cornelissen", role = "aut"),
+    person("Scott", "Payseur", , "Scott.Payseur@gmail.com", role = "aut"),
+    person("Giang", "Nguyen", role = "ctb"),
+    person("Onno", "Kleen", role = "aut",
+           comment = c(ORCID = "0000-0003-4731-4640")),
+    person("Emil", "Sjoerup", role = "aut")
+  )
+Description: Provide functionality to manage, clean and match highfrequency
+    trades and quotes data, calculate various liquidity measures, estimate and
+    forecast volatility, detect price jumps and investigate microstructure noise and intraday
+    periodicity. A detailed vignette can be found in the open-access paper 
+    "Analyzing Intraday Financial Data in R: The highfrequency Package" 
+    by Boudt, Kleen, and Sjoerup (2022, <doi:10.18637/jss.v104.i08>). 
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/jonathancornelissen/highfrequency
+BugReports: https://github.com/jonathancornelissen/highfrequency/issues
+Depends:
+    R (>= 3.5.0)
+Imports:
+    xts,
+    zoo,
+    Rcpp,
+    graphics,
+    methods,
+    stats,
+    utils,
+    grDevices,
+    robustbase,
+    data.table (>= 1.12.0),
+    RcppRoll,
+    quantmod,
+    sandwich,
+    numDeriv,
+    Rsolnp
+LinkingTo: Rcpp, 
+    RcppArmadillo
+Suggests:
+    mvtnorm,
+    covr,
+    FKF,
+    rugarch,
+    testthat,
+    knitr,
+    rmarkdown
+RoxygenNote: 7.3.3
