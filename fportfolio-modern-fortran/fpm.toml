@@ -1,0 +1,14 @@
+name = "fportfolio-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of fPortfolio contributors"
+maintainer = "Translation project maintainers"
+description = "Portfolio optimization, risk budgeting, and backtesting algorithms translated from fPortfolio"
+categories = ["finance", "optimization", "statistics"]
+keywords = ["portfolio", "mean-variance", "cvar", "risk-parity", "backtest"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]

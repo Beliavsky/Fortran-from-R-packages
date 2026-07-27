@@ -1,0 +1,28 @@
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Libraries: LAPACK and BLAS
+Date: 2026-07-25
+
+Debug command:
+./scripts/build_and_test.sh debug
+
+Statistics, estimators, risk measures, and risk-budget tests passed.
+Mean-variance, frontier, ratio, MAD, CVaR, risk-parity, and cardinality tests passed.
+Rolling backtest, transaction-cost, smoothing, and monitoring tests passed.
+GPL-2.0-or-later source license checks passed.
+debug build, tests, and applications passed.
+
+Release command:
+./scripts/build_and_test.sh release
+
+Statistics, estimators, risk measures, and risk-budget tests passed.
+Mean-variance, frontier, ratio, MAD, CVaR, risk-parity, and cardinality tests passed.
+Rolling backtest, transaction-cost, smoothing, and monitoring tests passed.
+GPL-2.0-or-later source license checks passed.
+release build, tests, and applications passed.
+
+Additional CSV workflows exercised by the build harness:
+- fit_csv: minvariance, tangency, riskparity, maxdiv, mad, cvar, efficient, maxreturn
+- backtest_csv: minvariance, tangency, riskparity
+
+fpm status:
+fpm was not installed and fpm.toml is not claimed as tested.
