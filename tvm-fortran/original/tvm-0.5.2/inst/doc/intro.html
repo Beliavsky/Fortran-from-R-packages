@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Juan Manuel Truppia" />
+
+<meta name="date" content="2023-08-30" />
+
+<title>Intro to tvm</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Intro to tvm</h1>
+<h4 class="author">Juan Manuel Truppia</h4>
+<h4 class="date">2023-08-30</h4>
+
+
+
+<div id="why-tvm" class="section level2">
+<h2>Why <code>tvm</code>?</h2>
+<p>Well, first, <code>tvm</code> stands for “time value of money”, the
+usual name for financial calculations that involve interest rates,
+present values and future values.</p>
+<p>Base R doesn’t have built-in calculations for this, and they are on
+of the most used functions in Excel for financial calculations.
+<code>tvm</code> attempts to provide these calculations to the user,
+using known Excel names where possible.</p>
+</div>
+<div id="simple-present-values-and-rate-calculations" class="section level2">
+<h2>Simple present values and rate calculations</h2>
+<p>For the Excel user, the following functions will be known</p>
+<ul>
+<li><code>npv</code></li>
+<li><code>xpnv</code></li>
+<li><code>irr</code></li>
+<li><code>xirr</code></li>
+<li><code>pmt</code></li>
+<li><code>rate</code></li>
+</ul>
+<p>These work as expected, and require no further explanation. Please
+check the documentation or the README for some examples.</p>
+</div>
+<div id="rate-curves" class="section level2">
+<h2>Rate curves</h2>
+<p>A rate curve is an abstraction for a set of rates with different
+maturities. Currently, <code>tvm</code> only supports creating curves
+with equally spaced maturities, where the periodicity is implicitly
+specified by the user (i.e., no dates accepted).</p>
+<p>In the current implementation, a rate curve is a S3 class, based on a
+list which has 2 components: a discount factor function $f, and a
+numeric vector $knots, which corresponds to the points of the curve
+where the bootstrapping between the different rate types is done.</p>
+<p>The different rate types used are - zero (spot rates) in effective
+and nominal form (effective are compounded, nominal are linear) - fut
+(futures rate) - swap (bullet rates) - french (french type loans) -
+german (german type loans)</p>
+<p>You create a rate curve with the constructor, and the use subsetting
+to get functions for the different loan structures. Note that only some
+rate types are available in the constructor.</p>
+<p>The basis for all the curves are the discount factor. Within the
+constructor, calculations are performed to find the discount factors
+that create a curve equivalent to the one given.</p>
+<p>You can create rate curves from a vector of rates (it is assumed that
+<code>rates[i]</code> is the rate corresponding to the <code>i</code>
+period), a rate function (given a maturity returns a rate) or a discount
+function (given a maturity returns a discount factor)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">rate_curve</span>(<span class="at">rates =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">rate_type =</span> <span class="st">&quot;zero_eff&quot;</span>)</span></code></pre></div>
+<pre><code>## $f
+## function (x, deriv = 0, extrapol = c(&quot;linear&quot;, &quot;cubic&quot;)) 
+## {
+##     extrapol &lt;- match.arg(extrapol)
+##     deriv &lt;- as.integer(deriv)
+##     if (deriv &lt; 0 || deriv &gt; 3) 
+##         stop(&quot;&#39;deriv&#39; must be between 0 and 3&quot;)
+##     i &lt;- findInterval(x, x0, all.inside = (extrapol == &quot;cubic&quot;))
+##     if (deriv == 0) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             t1 &lt;- t - 1
+##             h01 &lt;- t * t * (3 - 2 * t)
+##             h00 &lt;- 1 - h01
+##             tt1 &lt;- t * t1
+##             h10 &lt;- tt1 * t1
+##             h11 &lt;- tt1 * t
+##             y0[i] * h00 + h * m[i] * h10 + y0[i + 1] * h01 + 
+##                 h * m[i + 1] * h11
+##         }
+##     else if (deriv == 1) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             t1 &lt;- t - 1
+##             h01 &lt;- -6 * t * t1
+##             h10 &lt;- (3 * t - 1) * t1
+##             h11 &lt;- (3 * t - 2) * t
+##             (y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 
+##                 1] * h11
+##         }
+##     else if (deriv == 2) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             h01 &lt;- 6 * (1 - 2 * t)
+##             h10 &lt;- 2 * (3 * t - 2)
+##             h11 &lt;- 2 * (3 * t - 1)
+##             ((y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 
+##                 1] * h11)/h
+##         }
+##     else interp &lt;- function(x, i) {
+##         h &lt;- dx[i]
+##         h01 &lt;- -12
+##         h10 &lt;- 6
+##         h11 &lt;- 6
+##         ((y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 1] * 
+##             h11)/h
+##     }
+##     if (extrapol == &quot;linear&quot; &amp;&amp; any(iXtra &lt;- (iL &lt;- (i == 0)) | 
+##         (iR &lt;- (i == (n &lt;- length(x0)))))) {
+##         r &lt;- x
+##         if (any(iL)) 
+##             r[iL] &lt;- if (deriv == 0) 
+##                 y0[1L] + m[1L] * (x[iL] - x0[1L])
+##             else if (deriv == 1) 
+##                 m[1L]
+##             else 0
+##         if (any(iR)) 
+##             r[iR] &lt;- if (deriv == 0) 
+##                 y0[n] + m[n] * (x[iR] - x0[n])
+##             else if (deriv == 1) 
+##                 m[n]
+##             else 0
+##         ini &lt;- !iXtra
+##         r[ini] &lt;- interp(x[ini], i[ini])
+##         r
+##     }
+##     else {
+##         interp(x, i)
+##     }
+## }
+## &lt;bytecode: 0x000001ef4e210d20&gt;
+## &lt;environment: 0x000001ef4e228b78&gt;
+## 
+## $knots
+## [1] 1 2 3
+## 
+## $functor
+## function (x, y) 
+## splinefun(x = x, y = y, method = &quot;monoH.FC&quot;)
+## &lt;environment: 0x000001ef4e15a138&gt;
+## 
+## $rate_scale
+## [1] 1
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;rate_curve&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">rate_curve</span>(<span class="at">fun_r =</span> <span class="cf">function</span>(x) <span class="fu">rep_len</span>(<span class="fl">0.1</span>, <span class="fu">length</span>(x)), <span class="at">rate_type =</span> <span class="st">&quot;swap&quot;</span>, <span class="at">knots =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## $f
+## function (x, deriv = 0, extrapol = c(&quot;linear&quot;, &quot;cubic&quot;)) 
+## {
+##     extrapol &lt;- match.arg(extrapol)
+##     deriv &lt;- as.integer(deriv)
+##     if (deriv &lt; 0 || deriv &gt; 3) 
+##         stop(&quot;&#39;deriv&#39; must be between 0 and 3&quot;)
+##     i &lt;- findInterval(x, x0, all.inside = (extrapol == &quot;cubic&quot;))
+##     if (deriv == 0) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             t1 &lt;- t - 1
+##             h01 &lt;- t * t * (3 - 2 * t)
+##             h00 &lt;- 1 - h01
+##             tt1 &lt;- t * t1
+##             h10 &lt;- tt1 * t1
+##             h11 &lt;- tt1 * t
+##             y0[i] * h00 + h * m[i] * h10 + y0[i + 1] * h01 + 
+##                 h * m[i + 1] * h11
+##         }
+##     else if (deriv == 1) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             t1 &lt;- t - 1
+##             h01 &lt;- -6 * t * t1
+##             h10 &lt;- (3 * t - 1) * t1
+##             h11 &lt;- (3 * t - 2) * t
+##             (y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 
+##                 1] * h11
+##         }
+##     else if (deriv == 2) 
+##         interp &lt;- function(x, i) {
+##             h &lt;- dx[i]
+##             t &lt;- (x - x0[i])/h
+##             h01 &lt;- 6 * (1 - 2 * t)
+##             h10 &lt;- 2 * (3 * t - 2)
+##             h11 &lt;- 2 * (3 * t - 1)
+##             ((y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 
+##                 1] * h11)/h
+##         }
+##     else interp &lt;- function(x, i) {
+##         h &lt;- dx[i]
+##         h01 &lt;- -12
+##         h10 &lt;- 6
+##         h11 &lt;- 6
+##         ((y0[i + 1] - y0[i])/h * h01 + m[i] * h10 + m[i + 1] * 
+##             h11)/h
+##     }
+##     if (extrapol == &quot;linear&quot; &amp;&amp; any(iXtra &lt;- (iL &lt;- (i == 0)) | 
+##         (iR &lt;- (i == (n &lt;- length(x0)))))) {
+##         r &lt;- x
+##         if (any(iL)) 
+##             r[iL] &lt;- if (deriv == 0) 
+##                 y0[1L] + m[1L] * (x[iL] - x0[1L])
+##             else if (deriv == 1) 
+##                 m[1L]
+##             else 0
+##         if (any(iR)) 
+##             r[iR] &lt;- if (deriv == 0) 
+##                 y0[n] + m[n] * (x[iR] - x0[n])
+##             else if (deriv == 1) 
+##                 m[n]
+##             else 0
+##         ini &lt;- !iXtra
+##         r[ini] &lt;- interp(x[ini], i[ini])
+##         r
+##     }
+##     else {
+##         interp(x, i)
+##     }
+## }
+## &lt;bytecode: 0x000001ef4e210d20&gt;
+## &lt;environment: 0x000001ef4e2d1df8&gt;
+## 
+## $knots
+##  [1]  1  2  3  4  5  6  7  8  9 10
+## 
+## $functor
+## function (x, y) 
+## splinefun(x = x, y = y, method = &quot;monoH.FC&quot;)
+## &lt;environment: 0x000001ef4e29ea28&gt;
+## 
+## $rate_scale
+## [1] 1
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;rate_curve&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">rate_curve</span>(<span class="at">fun_d =</span> <span class="cf">function</span>(x) <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> x), <span class="at">knots =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## $f
+## function(x) 1 / (1 + x)
+## 
+## $knots
+##  [1]  1  2  3  4  5  6  7  8  9 10
+## 
+## $functor
+## function (x, y) 
+## splinefun(x = x, y = y, method = &quot;monoH.FC&quot;)
+## &lt;environment: 0x000001ef4e364df0&gt;
+## 
+## $rate_scale
+## [1] 1
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;rate_curve&quot;</code></pre>
+<p>The subset operator allows you to retrieve certain rates only, or
+retrieve the equivalent rate curve in another type</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rate_curve</span>(<span class="at">rates =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">rate_type =</span> <span class="st">&quot;zero_eff&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>r[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span></code></pre></div>
+<pre><code>## [1] 0.1 0.2</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>r[<span class="st">&quot;zero_eff&quot;</span>]</span></code></pre></div>
+<pre><code>## function (x) 
+## rescale(f(x), rate_scale = r$rate_scale, rate_type = rate_type)
+## &lt;bytecode: 0x000001ef4ec6eb00&gt;
+## &lt;environment: 0x000001ef4ecfe390&gt;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>r[<span class="st">&quot;swap&quot;</span>,<span class="fu">c</span>(<span class="fl">1.5</span>, <span class="dv">2</span>)]</span></code></pre></div>
+<pre><code>## [1] 0.1463039 0.1905512</code></pre>
+<p>Plotting rate curves is supported, and you can choose which rate type
+or types to plot</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">plot</span>(r, <span class="at">rate_type =</span> <span class="st">&quot;german&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">plot</span>(r, <span class="at">rate_type =</span> <span class="fu">c</span>(<span class="st">&quot;french&quot;</span>, <span class="st">&quot;german&quot;</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

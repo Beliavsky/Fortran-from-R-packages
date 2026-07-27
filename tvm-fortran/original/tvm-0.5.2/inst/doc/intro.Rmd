@@ -1,0 +1,75 @@
+---
+title: "Intro to tvm"
+author: "Juan Manuel Truppia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+library(tvm)
+```
+
+## Why `tvm`?
+
+Well, first, `tvm` stands for "time value of money", the usual name for financial calculations that involve interest rates, present values and future values.
+
+Base R doesn't have built-in calculations for this, and they are on of the most used functions in Excel for financial calculations. `tvm` attempts to provide these calculations to the user, using known Excel names where possible.
+
+## Simple present values and rate calculations
+
+For the Excel user, the following functions will be known
+
+* `npv`
+* `xpnv`
+* `irr`
+* `xirr`
+* `pmt`
+* `rate`
+
+These work as expected, and require no further explanation. Please check the documentation or the README for some examples.
+
+## Rate curves
+
+A rate curve is an abstraction for a set of rates with different maturities. Currently, `tvm` only supports creating curves with equally spaced maturities, where the periodicity is implicitly specified by the user (i.e., no dates accepted).
+
+In the current implementation, a rate curve is a S3 class, based on a list which has 2 components: a discount factor function $f, and a numeric vector $knots, which corresponds to the points of the curve where the bootstrapping between the different rate types is done.
+
+The different rate types used are
+- zero (spot rates) in effective and nominal form (effective are compounded, nominal are linear)
+- fut (futures rate)
+- swap (bullet rates)
+- french (french type loans)
+- german (german type loans)
+
+You create a rate curve with the constructor, and the use subsetting to get functions for the different loan structures. Note that only some rate types are available in the constructor.
+
+The basis for all the curves are the discount factor. Within the constructor, calculations are performed to find the discount factors that create a curve equivalent to the one given.
+
+You can create rate curves from a vector of rates (it is assumed that `rates[i]` is the rate corresponding to the `i` period), a rate function (given a maturity returns a rate) or a discount function (given a maturity returns a discount factor)
+
+```{r}
+rate_curve(rates = c(0.1, 0.2, 0.3), rate_type = "zero_eff")
+rate_curve(fun_r = function(x) rep_len(0.1, length(x)), rate_type = "swap", knots = 1:10)
+rate_curve(fun_d = function(x) 1 / (1 + x), knots = 1:10)
+```
+
+The subset operator allows you to retrieve certain rates only, or retrieve the equivalent rate curve in another type
+
+```{r}
+r <- rate_curve(rates = c(0.1, 0.2, 0.3), rate_type = "zero_eff")
+r[, c(1, 2)]
+r["zero_eff"]
+r["swap",c(1.5, 2)]
+```
+
+Plotting rate curves is supported, and you can choose which rate type or types to plot
+
+```{r}
+plot(r)
+plot(r, rate_type = "german")
+plot(r, rate_type = c("french", "german"))
+```
