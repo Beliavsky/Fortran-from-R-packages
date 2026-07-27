@@ -1,0 +1,15 @@
+name = "bcc1997"
+version = "0.1.1"
+license = "GPL-2.0-or-later"
+author = "Haoran Zhang; modern Fortran port contributors"
+maintainer = "modern Fortran port contributors"
+copyright = "Copyright (C) 2017 Haoran Zhang"
+description = "Modern Fortran implementation of the Bakshi-Cao-Chen (1997) universal European option pricing model"
+categories = ["finance", "option-pricing", "numerical-integration"]
+keywords = ["BCC1997", "stochastic-volatility", "stochastic-interest-rates", "jump-diffusion"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

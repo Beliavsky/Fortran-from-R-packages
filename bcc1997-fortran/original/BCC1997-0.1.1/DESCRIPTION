@@ -1,0 +1,17 @@
+Package: BCC1997
+Type: Package
+Title: Calculation of Option Prices Based on a Universal Solution
+Version: 0.1.1
+Author: Haoran Zhang 
+Maintainer: Haoran Zhang <hzz0017@auburn.edu>
+Description: Calculates the prices of European options based on the universal solution provided by Bakshi, Cao and Chen (1997) <doi:10.1111/j.1540-6261.1997.tb02749.x>. This solution considers stochastic volatility, stochastic interest and random jumps. Please cite their work if this package is used. 
+Depends: R (>= 3.1.0)
+Imports: stats
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2017-02-21 22:38:36 UTC; hzz0017
+Repository: CRAN
+Date/Publication: 2017-02-22 08:42:11

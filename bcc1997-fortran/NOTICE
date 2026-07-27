@@ -1,0 +1,15 @@
+BCC1997 modern Fortran port
+
+This project is a derivative work of the R package BCC1997 0.1.1.
+
+Original package:
+  Copyright (C) 2017 Haoran Zhang
+  License: GPL version 2 or later
+
+The original package implements the universal European option-pricing
+solution described by Bakshi, Cao, and Chen (1997), DOI:
+10.1111/j.1540-6261.1997.tb02749.x.
+
+The modern Fortran translation is distributed under the same
+GPL-2.0-or-later terms. The original package and the supplied source archive
+are retained unmodified under original/ and provenance/.

@@ -1,0 +1,6 @@
+build/
+.validation-build/
+*.mod
+*.o
+*.obj
+*.exe
