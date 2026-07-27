@@ -1,0 +1,19 @@
+name = "optionpricing"
+version = "0.1.2"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Wolfgang Hormann and Kemal Dingec; Fortran translation generated from the supplied R package"
+maintainer = ""
+copyright = "Copyright Wolfgang Hormann; original authors Wolfgang Hormann and Kemal Dingec"
+description = "Modern Fortran translation of numerical routines from the R OptionPricing package"
+keywords = ["options", "asian options", "monte carlo", "quasi monte carlo", "greeks"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

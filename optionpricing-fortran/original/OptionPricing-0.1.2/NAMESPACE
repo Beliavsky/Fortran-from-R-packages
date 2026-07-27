@@ -1,0 +1,7 @@
+export(
+AsianCall, AsianCall_AppLord, BS_EC, BS_EP 
+)
+importFrom("graphics", "hist")
+importFrom("stats", "dnorm", "integrate", "lm", "pnorm", "qnorm",
+           "rnorm", "runif", "sd", "uniroot")
+

@@ -1,0 +1,17 @@
+Package: OptionPricing
+Type: Package
+Title: Option Pricing with Efficient Simulation Algorithms
+Version: 0.1.2
+Authors@R: c(person("Wolfgang", "Hormann", email = "hormanngw@yahoo.com",
+                  role = c("aut", "cre")),
+				  person("Kemal","Dingec",role = c("aut")))
+Maintainer: Wolfgang Hormann <hormanngw@yahoo.com>
+Description: Efficient Monte Carlo Algorithms for the price and the sensitivities of Asian and European Options under Geometric Brownian Motion.
+License: GPL-2 | GPL-3
+Copyright: Wolfgang Hormann
+Packaged: 2023-09-16 05:49:57 UTC; hormannw
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2023-09-16 08:40:08 UTC
+Author: Wolfgang Hormann [aut, cre],
+  Kemal Dingec [aut]
