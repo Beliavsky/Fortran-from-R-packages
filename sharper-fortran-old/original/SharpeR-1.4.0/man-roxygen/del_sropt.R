@@ -1,1 +1,0 @@
-#' @family del_sropt
