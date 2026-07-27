@@ -1,0 +1,18 @@
+exportPattern("^[[:alpha:]]+")
+
+S3method(print, AmerPut)
+S3method(print, AmerPutAV)
+S3method(print, AmerPutCV)
+S3method(print, AsianAmerPut)
+S3method(print, QuantoAmerPut)
+S3method(print, QuantoAmerPut_AV)
+S3method(plot, PriceSurface)
+S3method(summary, AmerPut)
+S3method(summary, AmerPutAV)
+S3method(summary, AmerPutCV)
+S3method(summary, AsianAmerPut)
+S3method(summary, QuantoAmerPut)
+S3method(summary, QuantoAmerPut_AV)
+S3method(summary, PriceSurface)
+
+import(mvtnorm, fBasics, stats, utils, graphics, grDevices)

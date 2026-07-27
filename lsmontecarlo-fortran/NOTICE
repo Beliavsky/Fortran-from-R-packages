@@ -1,0 +1,21 @@
+LSMonteCarlo modern Fortran translation
+=======================================
+
+This project is a derivative work of LSMonteCarlo 1.0 by Mikhail A. Beketov,
+originally published as an R package in 2013.
+
+Original package:
+  Title: American options pricing with Least Squares Monte Carlo method
+  Author and maintainer: Mikhail A. Beketov
+  Version: 1.0
+  License: GPL-3
+
+The original package is retained without modification under
+original/LSMonteCarlo-1.0. The supplied source archive is retained under
+provenance/LSMonteCarlo-master.zip.
+
+The modern Fortran translation is distributed under GPL-3.0-only, preserving
+the original package's license. See LICENSE for the complete license text.
+
+The translation was produced independently from the supplied R source. It is
+not an official release by the original author.

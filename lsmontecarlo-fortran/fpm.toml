@@ -1,0 +1,18 @@
+name = "lsmontecarlo"
+version = "1.0.0"
+license = "GPL-3.0-only"
+author = "Mikhail A. Beketov; modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+copyright = "Copyright (C) 2013 Mikhail A. Beketov"
+description = "American option pricing with Longstaff-Schwartz least-squares Monte Carlo"
+categories = ["finance", "monte-carlo", "options"]
+keywords = ["american options", "longstaff-schwartz", "least squares monte carlo", "black-scholes"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
