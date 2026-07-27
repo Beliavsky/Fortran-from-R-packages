@@ -1,0 +1,181 @@
+---
+title: "Implied volatility"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Implied volatility}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(greeks)
+```
+
+Implied volatility is the volatility parameter that makes a model price match an
+observed option price. In `greeks`, `BS_Implied_Volatility()` handles European
+Black-Scholes calls and puts directly. `Implied_Volatility()` provides a wrapper
+for other option types by repeatedly evaluating the corresponding pricing
+function and vega.
+
+The test suite checks implied volatility by a round trip:
+
+1. choose a volatility;
+2. compute an option price from that volatility;
+3. infer implied volatility from the option price;
+4. price the same option again with the inferred volatility.
+
+## European Black-Scholes implied volatility
+
+```{r}
+true_volatility <- 0.28
+
+option_price <- BS_European_Greeks(
+  initial_price = 100,
+  exercise_price = 105,
+  r = 0.03,
+  time_to_maturity = 1.25,
+  dividend_yield = 0.01,
+  volatility = true_volatility,
+  payoff = "call",
+  greek = "fair_value"
+)
+
+implied_volatility <- BS_Implied_Volatility(
+  option_price = option_price,
+  initial_price = 100,
+  exercise_price = 105,
+  r = 0.03,
+  time_to_maturity = 1.25,
+  dividend_yield = 0.01,
+  payoff = "call",
+  start_volatility = 0.2
+)
+
+round(
+  c(
+    option_price = option_price,
+    true_volatility = true_volatility,
+    implied_volatility = implied_volatility
+  ),
+  6
+)
+```
+
+The reconstructed price should match the original option price up to numerical
+precision.
+
+```{r}
+reconstructed_price <- BS_European_Greeks(
+  initial_price = 100,
+  exercise_price = 105,
+  r = 0.03,
+  time_to_maturity = 1.25,
+  dividend_yield = 0.01,
+  volatility = implied_volatility,
+  payoff = "call",
+  greek = "fair_value"
+)
+
+round(
+  c(
+    original_price = option_price,
+    reconstructed_price = reconstructed_price,
+    absolute_error = abs(option_price - reconstructed_price)
+  ),
+  10
+)
+```
+
+## Implied volatility for other option types
+
+For non-European options, use `Implied_Volatility()`. The wrapper uses the same
+pricing entry point as `Greeks()`.
+
+```{r}
+geometric_true_volatility <- 0.35
+
+geometric_price <- Greeks(
+  initial_price = 100,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  dividend_yield = 0,
+  volatility = geometric_true_volatility,
+  option_type = "Geometric Asian",
+  payoff = "put",
+  greek = "fair_value"
+)
+
+geometric_implied_volatility <- Implied_Volatility(
+  option_price = geometric_price,
+  initial_price = 100,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  dividend_yield = 0,
+  option_type = "Geometric Asian",
+  payoff = "put"
+)
+
+geometric_reconstructed_price <- Greeks(
+  initial_price = 100,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  dividend_yield = 0,
+  volatility = geometric_implied_volatility,
+  option_type = "Geometric Asian",
+  payoff = "put",
+  greek = "fair_value"
+)
+
+round(
+  c(
+    original_price = geometric_price,
+    true_volatility = geometric_true_volatility,
+    implied_volatility = geometric_implied_volatility,
+    reconstructed_price = geometric_reconstructed_price,
+    absolute_error = abs(geometric_price - geometric_reconstructed_price)
+  ),
+  6
+)
+```
+
+## Prices below the zero-volatility value
+
+An implied volatility is not defined when the requested option price is below
+the lowest value attainable by the pricing model. A practical first check is to
+compare the observed price with a near-zero-volatility model value.
+
+```{r}
+near_zero_volatility_price <- Greeks(
+  initial_price = 100,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  dividend_yield = 0,
+  volatility = 1e-12,
+  option_type = "Geometric Asian",
+  payoff = "put",
+  greek = "fair_value"
+)
+
+round(near_zero_volatility_price, 6)
+```
+
+If the observed option price is lower than this value, the implied volatility
+calculation should be treated as infeasible rather than as a numerical tuning
+problem.
+
+## Reference
+
+The concept of implied volatility and the Black-Scholes model are standard
+option pricing material; see Hull (2022).
+

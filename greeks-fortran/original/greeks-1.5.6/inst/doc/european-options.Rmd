@@ -1,0 +1,167 @@
+---
+title: "European options and Greeks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{European options and Greeks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(greeks)
+```
+
+European options can be exercised only at maturity. In the Black-Scholes model,
+the package computes their prices and sensitivities with closed formulas through
+`BS_European_Greeks()`. The generic `Greeks()` wrapper dispatches to the same
+implementation when `option_type = "European"` and `model = "Black_Scholes"`.
+
+The examples below are compact versions of the checks used in the test suite:
+they compute a few Greeks directly, check one Greek with a finite difference,
+and compare exact Black-Scholes values with the Malliavin Monte Carlo estimator.
+
+## Exact Black-Scholes values
+
+The `greek` argument can contain more than one quantity. The result is a named
+numeric vector.
+
+```{r}
+european_put <- BS_European_Greeks(
+  initial_price = 120,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 4.5,
+  dividend_yield = 0.015,
+  volatility = 0.22,
+  payoff = "put",
+  greek = c("fair_value", "delta", "gamma", "vega", "theta", "rho")
+)
+
+round(european_put, 4)
+```
+
+The same calculation can be written with the wrapper:
+
+```{r}
+round(
+  Greeks(
+    initial_price = 120,
+    exercise_price = 100,
+    r = 0.02,
+    time_to_maturity = 4.5,
+    dividend_yield = 0.015,
+    volatility = 0.22,
+    payoff = "put",
+    greek = c("fair_value", "delta", "gamma")
+  ),
+  4
+)
+```
+
+Digital payoffs are supported by the European Black-Scholes implementation. A
+cash-or-nothing call pays one unit of cash at maturity if the option finishes in
+the money.
+
+```{r}
+digital_call <- BS_European_Greeks(
+  initial_price = 100,
+  exercise_price = 105,
+  r = 0.03,
+  time_to_maturity = 1,
+  volatility = 0.25,
+  payoff = "cash_or_nothing_call",
+  greek = c("fair_value", "delta", "vega")
+)
+
+round(digital_call, 4)
+```
+
+## A finite-difference check
+
+Delta is the derivative of the option value with respect to the initial price
+of the underlying asset. The tests verify this over many random inputs. For a
+single option, the same idea can be seen with a central finite difference.
+
+```{r}
+base_args <- list(
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1.5,
+  dividend_yield = 0,
+  volatility = 0.3,
+  payoff = "call"
+)
+
+fair_value_at <- function(initial_price) {
+  do.call(
+    BS_European_Greeks,
+    c(base_args, list(initial_price = initial_price, greek = "fair_value"))
+  )
+}
+
+step_size <- 1e-4
+finite_difference_delta <-
+  (fair_value_at(100 + step_size) - fair_value_at(100 - step_size)) /
+  (2 * step_size)
+
+exact_delta <- do.call(
+  BS_European_Greeks,
+  c(base_args, list(initial_price = 100, greek = "delta"))
+)
+
+round(
+  c(
+    exact_delta = exact_delta,
+    finite_difference_delta = finite_difference_delta,
+    absolute_error = abs(exact_delta - finite_difference_delta)
+  ),
+  8
+)
+```
+
+## Malliavin Monte Carlo comparison
+
+`Malliavin_European_Greeks()` estimates the same Greeks by simulation. This is
+less efficient than closed formulas for plain European options, but it is useful
+as a bridge to the Malliavin methods used for path-dependent options.
+
+```{r}
+greeks_to_compare <- c("fair_value", "delta", "vega", "theta", "rho", "gamma")
+
+exact <- BS_European_Greeks(
+  initial_price = 110,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  volatility = 0.25,
+  payoff = "call",
+  greek = greeks_to_compare
+)
+
+monte_carlo <- Malliavin_European_Greeks(
+  initial_price = 110,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  volatility = 0.25,
+  payoff = "call",
+  greek = greeks_to_compare,
+  paths = 50000,
+  seed = 42,
+  antithetic = TRUE
+)
+
+round(rbind(exact = exact, malliavin_monte_carlo = monte_carlo), 4)
+```
+
+## References
+
+The closed-form European formulas are standard Black-Scholes results; see Hull
+(2022). The Malliavin estimators are described in Hudde and Rueschendorf (2023).

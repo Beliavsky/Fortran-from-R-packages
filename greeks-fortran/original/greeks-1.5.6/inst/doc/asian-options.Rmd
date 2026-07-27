@@ -1,0 +1,210 @@
+---
+title: "Asian options and Greeks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Asian options and Greeks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(greeks)
+```
+
+Asian options are path-dependent: their payoff depends on an average of the
+underlying asset price over time. The package supports two related cases:
+
+- geometric Asian options, where the geometric average is used and exact
+  Black-Scholes formulas are available for call and put payoffs;
+- arithmetic Asian options, where Malliavin Monte Carlo methods are used.
+
+The package tests compare exact formulas, Monte Carlo estimates, and finite
+differences. This vignette turns those checks into small reproducible examples.
+
+## Geometric Asian options
+
+`BS_Geometric_Asian_Greeks()` computes exact Black-Scholes values for geometric
+Asian calls and puts.
+
+```{r}
+geometric_exact <- BS_Geometric_Asian_Greeks(
+  initial_price = 110,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1.5,
+  dividend_yield = 0.01,
+  volatility = 0.25,
+  payoff = "call",
+  greek = c("fair_value", "delta", "rho", "vega", "theta", "gamma")
+)
+
+round(geometric_exact, 4)
+```
+
+The tests check the formulas by comparing each Greek with a finite difference.
+Here is that idea for vega, the derivative with respect to volatility.
+
+```{r}
+geometric_price_at <- function(volatility) {
+  BS_Geometric_Asian_Greeks(
+    initial_price = 110,
+    exercise_price = 100,
+    r = 0.02,
+    time_to_maturity = 1.5,
+    dividend_yield = 0.01,
+    volatility = volatility,
+    payoff = "call",
+    greek = "fair_value"
+  )
+}
+
+step_size <- 1e-4
+finite_difference_vega <-
+  (geometric_price_at(0.25 + step_size) -
+     geometric_price_at(0.25 - step_size)) /
+  (2 * step_size)
+
+round(
+  c(
+    exact_vega = geometric_exact["vega"],
+    finite_difference_vega = finite_difference_vega,
+    absolute_error = abs(geometric_exact["vega"] - finite_difference_vega)
+  ),
+  8
+)
+```
+
+`Malliavin_Geometric_Asian_Greeks()` can estimate the same quantities by
+simulation. A moderate number of paths is enough for a vignette example; for
+production work, increase `paths` and check stability.
+
+```{r}
+greeks_to_compare <- c("fair_value", "delta", "rho", "vega")
+
+geometric_monte_carlo <- Malliavin_Geometric_Asian_Greeks(
+  initial_price = 110,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1.5,
+  dividend_yield = 0.01,
+  volatility = 0.25,
+  payoff = "call",
+  greek = greeks_to_compare,
+  paths = 20000,
+  steps = 24,
+  seed = 42,
+  antithetic = TRUE
+)
+
+round(
+  rbind(
+    exact = geometric_exact[greeks_to_compare],
+    malliavin_monte_carlo = geometric_monte_carlo
+  ),
+  4
+)
+```
+
+## Arithmetic Asian options
+
+For arithmetic Asian options the package uses Malliavin Monte Carlo estimators.
+`BS_Malliavin_Asian_Greeks()` is optimized for the Black-Scholes model and the
+most common Greeks.
+
+```{r}
+arithmetic_asian <- BS_Malliavin_Asian_Greeks(
+  initial_price = 110,
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1.5,
+  dividend_yield = 0.01,
+  volatility = 0.25,
+  payoff = "call",
+  greek = c("fair_value", "delta", "rho", "vega"),
+  paths = 10000,
+  steps = 24,
+  seed = 42
+)
+
+round(arithmetic_asian, 4)
+```
+
+The generic `Greeks()` wrapper dispatches to the Asian implementation when
+`option_type = "Asian"`.
+
+```{r}
+round(
+  Greeks(
+    initial_price = 110,
+    exercise_price = 100,
+    r = 0.02,
+    time_to_maturity = 1.5,
+    dividend_yield = 0.01,
+    volatility = 0.25,
+    payoff = "call",
+    option_type = "Asian",
+    greek = c("fair_value", "delta", "rho", "vega")
+  ),
+  4
+)
+```
+
+## Vectorized inputs and custom payoffs
+
+The Malliavin Asian functions can vary one scalar parameter over a vector. This
+is useful for plotting how values change with the current underlying price.
+
+```{r}
+price_grid <- Malliavin_Geometric_Asian_Greeks(
+  initial_price = c(95, 100, 105),
+  exercise_price = 100,
+  r = 0.02,
+  time_to_maturity = 1,
+  volatility = 0.25,
+  payoff = "put",
+  greek = c("fair_value", "delta"),
+  paths = 5000,
+  steps = 12,
+  seed = 42
+)
+
+round(price_grid, 4)
+```
+
+Custom payoff functions are also accepted. The payoff function receives the
+averaged underlying value and the exercise price.
+
+```{r}
+digital_call <- function(x, exercise_price) {
+  ifelse(x >= exercise_price, 1, 0)
+}
+
+invisible(capture.output(
+  custom_digital <- Malliavin_Geometric_Asian_Greeks(
+    initial_price = 100,
+    exercise_price = 100,
+    r = 0.02,
+    time_to_maturity = 1,
+    volatility = 0.25,
+    payoff = digital_call,
+    greek = c("fair_value", "delta"),
+    paths = 5000,
+    steps = 12,
+    seed = 42
+  )
+))
+
+round(custom_digital, 4)
+```
+
+## References
+
+Asian option pricing and Greeks are discussed in Hull (2022). The Malliavin
+Monte Carlo estimators used here are described in Hudde and Rueschendorf (2023).

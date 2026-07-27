@@ -1,0 +1,13 @@
+name = "greeks"
+version = "1.5.6"
+license = "MIT"
+author = "Anselm Hudde; Fortran translation generated from greeks 1.5.6"
+maintainer = "Anselm Hudde"
+copyright = "Copyright (c) 2023 greeks authors"
+description = "Modern Fortran option sensitivities, implied volatility, binomial American pricing, and Malliavin Monte Carlo Greeks"
+keywords = ["greeks", "black-scholes", "asian-options", "implied-volatility"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
