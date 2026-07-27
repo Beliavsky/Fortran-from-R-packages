@@ -1,0 +1,16 @@
+ob_analytics modern Fortran translation
+
+This project is a derivative translation of obAnalytics 0.1.2.
+
+Original work:
+  obAnalytics
+  Copyright (C) 2015,2016 Philip Stubbings <phil@parasec.net>
+  Contributor: Petr Fedorov <petr.fedorov@phystech.edu>
+  License: GNU General Public License version 2 or later
+
+The original package is retained unmodified under original/obAnalytics-0.1.2.
+The supplied source archive is retained under provenance/.
+
+The modern Fortran translation was prepared in 2026. It is distributed under
+the same GPL-2.0-or-later terms. It is not an official release by the original
+authors.

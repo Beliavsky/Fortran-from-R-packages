@@ -1,0 +1,18 @@
+name = "ob_analytics"
+version = "0.1.2"
+license = "GPL-2.0-or-later"
+author = "Philip Stubbings; Petr Fedorov; modern Fortran translation contributors"
+maintainer = "Fortran community"
+copyright = "Copyright (C) 2015,2016 Philip Stubbings"
+description = "Modern Fortran limit order book analytics translated from obAnalytics"
+categories = ["finance", "market-microstructure", "limit-order-book"]
+keywords = ["order-book", "trades", "depth", "matching", "microstructure"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

@@ -1,0 +1,7 @@
+id,timestamp,exchange.timestamp,price,volume,action,direction
+1,1000,900,100.00,10.0,created,bid
+1,2000,900,100.00,5.0,changed,bid
+1,3000,900,100.00,5.0,deleted,bid
+2,1500,1400,101.00,5.0,created,ask
+2,2010,1400,101.00,0.0,deleted,ask
+3,1800,1700,102.00,-1.0,created,ask
