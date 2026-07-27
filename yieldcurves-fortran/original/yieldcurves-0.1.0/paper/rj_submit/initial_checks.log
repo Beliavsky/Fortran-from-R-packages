@@ -1,0 +1,15 @@
+Initial check results: 
+
+SUCCESS: Submission has consistently named tex, bib, and R files
+SUCCESS: File and directory names are compliant.
+NOTE: Remove .log, .aux and .out files before submitting.
+SUCCESS: No problematic file found
+SUCCESS: Possible motivation letter found: motivation-letter, motivation-letter.pdf
+SUCCESS: Article title formatted in title case.
+SUCCESS: Section titles formatted in sentence case.
+SUCCESS: Abstract formatted in plain text.
+NOTE: A potential list of spelling to check: yieldcurves, parametrically, cli, xts, generalises, reframing, reframe, affine, yc, analytics, optimiser, optimisers, cumulating, rangebound, pre, premia, specialised, amortising
+NOTE: No proposed package supplied.
+SUCCESS: No error with the use of \pkg markup.
+SUCCESS: All packages marked-up with \CRANpkg or \BIOpkg are available on CRAN or Bioconductor.
+NOTE: 1 package(s) used in the text without \CRANpkg or \BIOpkg commands: termstrc

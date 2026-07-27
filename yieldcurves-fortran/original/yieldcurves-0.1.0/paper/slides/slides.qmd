@@ -1,0 +1,358 @@
+---
+title: "yieldcurves"
+subtitle: "Yield curve fitting and analysis in R"
+author: "Charles Coverdale"
+institute: "London, United Kingdom"
+date: "2026-04-01"
+date-format: "MMMM YYYY"
+format:
+  beamer:
+    aspectratio: 169
+    fontsize: 11pt
+    navigation: empty
+    theme: default
+    colortheme: default
+    fonttheme: default
+    pdf-engine: xelatex
+    include-in-header: header.tex
+    slide-level: 2
+    keep-tex: false
+    fig-align: center
+    classoption:
+      - t
+---
+
+
+## The question
+
+\vspace{1.5em}
+
+\begin{center}
+\Large\bfseries\color{econblue}
+How should we fit, decompose, and analyse the term structure\\[0.1em]
+of interest rates in a single reproducible R interface?
+\end{center}
+
+\vspace{1em}
+
+\begin{center}
+\normalsize\itshape
+Nineteen functions, one curve object, no heavy dependencies.
+\end{center}
+
+::: notes
+Open with the question, not the package. The problem: yield-curve
+work is routine but the R ecosystem delivers it piecemeal. We need
+a single interface that matches the workflow of a rates analyst.
+:::
+
+
+## Why it matters
+
+- **Central banks** publish fitted Nelson-Siegel and Svensson curves daily
+- **Fixed-income portfolio managers** need duration, convexity, and key rate exposures
+- **Relative-value traders** price carry and roll-down across the curve
+- **Academic researchers** decompose curve movements via PCA and factor models
+
+::: notes
+Four distinct stakeholder groups, four live use cases. Point at
+portfolio managers and central banks: those are the largest demand
+segments. 60 seconds.
+:::
+
+
+
+## What is already out there
+
+- **`YieldCurve`**: Nelson-Siegel and Svensson fits only; requires xts/zoo; no duration, convexity, PCA, or carry\footnote{\scriptsize Guirreri (2022), \textit{YieldCurve: Modelling and Estimation of the Yield Curve}, R package v5.2.}
+- **`termstrc`**: broader coverage but archived from CRAN in 2018; no current maintenance
+- **`fBonds`**: bond-pricing primitives only; no curve estimation
+- **Bespoke scripts**: central-bank desks reimplement the same pipeline in-house
+
+\vspace{0.5em}
+
+The gap: **no single package delivers fitting, risk measures, and decomposition in one interface**.
+
+::: notes
+Respect existing packages. termstrc covered similar ground but is
+archived. yieldcurves fills the vacuum with a unified curve object.
+45 seconds.
+:::
+
+
+
+## What yieldcurves offers
+
+1. **Coverage**: 19 functions spanning fitting (Nelson-Siegel, Svensson, cubic spline), extraction (forwards, discount factors, par-zero), risk (duration, convexity, Z-spread, KRD), and decomposition (PCA, level-slope-curvature, carry)
+2. **Interface**: one `yc_curve` S3 object flows through every downstream function; inputs are plain numeric vectors
+3. **Provenance**: pure R, no compiled code, no heavy dependencies, 172 unit tests
+
+\vspace{0.5em}
+
+On CRAN since March 2026. Parametric fits follow Nelson and Siegel (1987) and Svensson (1994)\footnote{\scriptsize Nelson \& Siegel (1987), \textit{Parsimonious modeling of yield curves}, J.\ Business 60(4); Svensson (1994), \textit{Estimating and interpreting forward interest rates}, IMF WP 94/114.}.
+
+::: notes
+Three bullets, three selling points. Emphasise the single curve
+object: that is the usability advantage. CRAN presence signals
+maturity. 45 seconds.
+:::
+
+
+
+## Fitting: Nelson-Siegel and Svensson
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig1_ns_svensson.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Parametric fits to a US Treasury curve.}
+```
+
+::: notes
+First family. Nelson-Siegel three-factor fit against the four-factor
+Svensson extension, both wrapped in the same \texttt{yc\_curve} object.
+Point at the short-end fit quality. 25 seconds.
+:::
+
+
+## Decomposition: PCA level, slope, curvature
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig3_pca.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape PCA of monthly US Treasury curve changes.}
+```
+
+::: notes
+Second family. Classical Litterman-Scheinkman factor pattern.
+PC1 flat (level), PC2 monotone (slope), PC3 hump (curvature).
+25 seconds.
+:::
+
+
+## Carry and roll-down
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig5_carry.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Carry and roll-down at a three-month horizon.}
+```
+
+::: notes
+Third family. Relative-value trader view: where does holding a bond
+to the next quarter earn its running yield versus its roll-down the
+curve? Point at the belly. 25 seconds.
+:::
+
+
+## Risk: duration and convexity
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.65\textheight]{figures/fig4_duration.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape Modified duration across maturities, zero-coupon versus par-coupon.}
+```
+
+::: notes
+Fourth family. Risk measures dispatching on the same \texttt{yc\_curve}
+object. Point at the wedge between zero and coupon duration at longer
+maturities: that is the coupon-reinvestment effect. 25 seconds.
+:::
+
+
+## Central formulas
+
+\vspace{0.3em}
+
+\textbf{Nelson-Siegel} (three factors plus decay $\tau$):
+\begin{equation}
+y(m) = \beta_0 + \beta_1\!\left(\tfrac{1 - e^{-m/\tau}}{m/\tau}\right) + \beta_2\!\left(\tfrac{1 - e^{-m/\tau}}{m/\tau} - e^{-m/\tau}\right)
+\end{equation}
+
+\textbf{Svensson extension} (adds second curvature $\beta_3, \tau_2$):
+\begin{equation}
+y(m) = y_{\mathrm{NS}}(m) + \beta_3\!\left(\tfrac{1 - e^{-m/\tau_2}}{m/\tau_2} - e^{-m/\tau_2}\right)
+\end{equation}
+
+\textbf{Modified duration} (price sensitivity to parallel shift):
+\begin{equation}
+D_{\mathrm{mod}} = \frac{1}{P}\sum_{t} \frac{t \cdot CF_t}{(1 + y/k)^{kt + 1}}
+\end{equation}
+
+::: notes
+Three equations, one family each. Do not read them aloud. Point at
+the Nelson-Siegel curvature loading and the duration denominator.
+The pattern: parsimonious functional forms applied consistently
+across maturities. 60 seconds.
+:::
+
+
+
+## Package at a glance
+
+::: columns
+::: {.column width="58%"}
+
+Function families:
+
+- **Fitting**: `yc_nelson_siegel`, `yc_svensson`, `yc_cubic_spline`, `yc_fit`
+- **Extraction**: `yc_predict`, `yc_forward`, `yc_discount`, `yc_par_to_zero`, `yc_zero_to_par`
+- **Risk**: `yc_duration`, `yc_bond_duration`, `yc_zspread`, `yc_key_rate_duration`
+- **Decomposition**: `yc_pca`, `yc_level_slope_curvature`, `yc_slope`, `yc_carry`
+
+Deps: `cli`, `graphics`, `stats`. R $\geq$ 4.1.0.
+
+:::
+::: {.column width="40%"}
+
+\begin{block}{One curve object}
+Every fit returns a \texttt{yc\_curve}:
+
+\texttt{maturities} | \texttt{rates} | \texttt{params} | \texttt{method}
+
+All downstream functions dispatch on this class.
+\end{block}
+
+:::
+:::
+
+::: notes
+Two columns. Left lists the families. Right highlights the shared
+curve object in the blue block. The consistency is the pitch. 45
+seconds.
+:::
+
+
+
+## Minimal working example
+
+```r
+library(yieldcurves)
+
+# Fit a Nelson-Siegel curve to the current US Treasury quotes
+mats  <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.0495, 0.048, 0.046, 0.042, 0.041, 0.045, 0.050)
+fit   <- yc_nelson_siegel(mats, rates)
+
+# Derive forwards and three-month carry from the fitted curve
+yc_forward(fit, maturities = c(2, 5, 10))
+yc_carry(fit,   maturities = c(2, 5, 10), horizon = 0.25)
+```
+
+\footnotesize
+All three downstream calls dispatch on the `yc_curve` class, so the
+same idiom works whether you fit with Nelson-Siegel, Svensson, or a
+cubic spline.
+
+::: notes
+Live-read the code. One fit, two downstream queries, zero reshaping.
+That is the entire user experience. No xts or zoo required. 60 seconds.
+:::
+
+
+
+## US Treasury curve through the pandemic cycle
+
+**Data.** FRED Constant Maturity Treasury rates at ten maturities, monthly from January 2019 to the most recent trading day. Source: Federal Reserve Bank of St.\ Louis.
+
+**Question.** *How has the US Treasury term structure evolved across the pandemic monetary cycle?*
+
+**Why this case.** Flagship global benchmark curve. Three distinct regimes in a five-year window: pre-pandemic flat-and-low, October 2023 peak inversion, current re-steepening. Reproducible with three public function calls from the `yc_curve` interface\footnote{\scriptsize Bauer \& Rudebusch (2020), \textit{Interest rates under falling stars}, American Economic Review 110(5).}.
+
+::: notes
+Setup only. No results on this slide. Point forward: hero figure is
+next. Name the source, the period, the question, and why the US
+curve is the right case. 45 seconds.
+:::
+
+
+
+## US Treasury curve: three regimes in five years
+
+```{=latex}
+\begin{center}
+\includegraphics[height=0.68\textheight]{figures/hero_figure.pdf}
+\end{center}
+
+\vspace{-0.4em}
+
+{\footnotesize\itshape US Treasury curves on three dates: pre-pandemic (Dec 2019), rate peak (Oct 2023), and most recent. Points are FRED CMT rates; lines are Nelson-Siegel fits.}
+```
+
+::: notes
+The money slide. Ninety seconds. Walk the audience through each
+curve: 2019 is flat and low, 2023 is inverted, the current shape is
+positively-sloped again. The pattern: same fitting function, three
+different stories about the macro cycle. Pause before moving on.
+:::
+
+
+
+## What yieldcurves does not yet do
+
+- **Single-date fitting only**: no dynamic term-structure models, no affine Gaussian class
+- **No return forecasting**: Cochrane-Piazzesi and similar predictive regressions out of scope
+- **Bootstrap stripping**: annual and semi-annual coupons only; exotic schedules need preprocessing
+- **No real-time central-bank feed**: users ingest Gurkaynak-Sack-Wright curves separately if desired
+
+\vspace{0.5em}
+
+**v0.2.0 roadmap**: arbitrage-free Nelson-Siegel following Christensen et al.\ (2011), Adrian-Crump-Moench term-premium regression, Cochrane-Piazzesi forecasting helpers, asset-swap spread computation.
+
+::: notes
+Honest limitations. Name each one. Frame v0.2.0 as a commitment, not
+a vague plan. The arbitrage-free extension matters most to academic
+users. 45 seconds.
+:::
+
+
+
+## Contact, code, paper
+
+::: columns
+::: {.column width="62%"}
+
+```{=latex}
+{\large\bfseries Charles Coverdale\par}
+\vspace{0.5em}
+\texttt{charles.f.coverdale@gmail.com}\\
+\texttt{github.com/charlescoverdale/yieldcurves}\\
+\texttt{charlescoverdale.github.io/publications}
+\vspace{0.9em}
+
+\textbf{Acknowledgements.} Data: Federal Reserve Bank of St.\ Louis (FRED, public domain). Thanks to the CRAN maintainers, \texttt{cli} developers, and reviewers of \emph{yieldcurves} v0.1.0.
+```
+
+:::
+::: {.column width="35%"}
+
+\begin{center}
+\includegraphics[width=0.85\linewidth]{figures/qrcode_paper.png}
+
+\vspace{0.3em}
+
+{\footnotesize\itshape Scan for paper PDF}
+\end{center}
+
+:::
+:::
+
+::: notes
+Close cleanly. Name, email, GitHub, publications. Point at the QR
+code. Acknowledge FRED and CRAN. Open for questions.
+:::

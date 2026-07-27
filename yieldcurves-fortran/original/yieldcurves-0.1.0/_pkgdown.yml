@@ -1,0 +1,60 @@
+url: https://charlescoverdale.github.io/yieldcurves/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+  - title: "Curve Fitting"
+    desc: "Parametric and spline yield curve models"
+    contents:
+      - yc_nelson_siegel
+      - yc_svensson
+      - yc_cubic_spline
+      - yc_fit
+      - yc_predict
+
+  - title: "Curve Metrics"
+    desc: "Level, slope, curvature, and forward rates"
+    contents:
+      - yc_curve
+      - yc_forward
+      - yc_slope
+      - yc_level_slope_curvature
+      - yc_interpolate
+
+  - title: "Risk and Returns"
+    desc: "Duration, carry, rolldown, and z-spread"
+    contents:
+      - yc_duration
+      - yc_bond_duration
+      - yc_key_rate_duration
+      - yc_carry
+      - yc_zspread
+
+  - title: "Decomposition"
+    desc: "PCA and zero/par conversions"
+    contents:
+      - yc_pca
+      - yc_par_to_zero
+      - yc_zero_to_par
+      - yc_discount
+
+
+  - title: "Package"
+    contents:
+      - yieldcurves-package
+
+  - title: "S3 Methods"
+    desc: "Plot, print, and summary methods for curve objects"
+    contents:
+      - plot.yc_curve
+      - plot.yc_pca
+      - print.yc_curve
+      - print.yc_pca
+      - summary.yc_curve
+      - summary.yc_pca

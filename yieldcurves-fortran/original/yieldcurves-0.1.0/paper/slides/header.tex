@@ -1,0 +1,152 @@
+% header.tex (yieldcurves slide deck)
+% Reimplementation of the LaTeXTemplates.com "Beamer Presentation" by Vel.
+% Copied from ~/.claude/skills/econ-slides/templates/header.tex
+% Per-deck short identifiers added at the bottom.
+
+\usepackage{tikz}
+\usetikzlibrary{shadows,calc}
+\usepackage{xcolor}
+
+% Fonts (xelatex): macOS system Palatino and Helvetica Neue, Latin Modern Math
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{Palatino}
+\setsansfont{Helvetica Neue}
+\setmonofont{Menlo}
+\setmathfont{STIX Two Math}
+
+% ---------------------------------------------------------------
+% Colours
+% ---------------------------------------------------------------
+\definecolor{econblue}{RGB}{44, 58, 150}
+\definecolor{econbluelight}{RGB}{80, 94, 180}
+\definecolor{econbluedark}{RGB}{30, 40, 110}
+\definecolor{econaccent}{RGB}{232, 119, 34}
+
+\setbeamercolor{structure}{fg=econblue}
+\setbeamercolor{frametitle}{fg=econblue, bg=white}
+\setbeamercolor{title}{fg=white, bg=econblue}
+\setbeamercolor{subtitle}{fg=white, bg=econblue}
+\setbeamercolor{section in toc}{fg=econblue}
+\setbeamercolor{subsection in toc}{fg=econblue}
+\setbeamercolor{item}{fg=econblue}
+\setbeamercolor{enumerate item}{fg=econblue}
+\setbeamercolor{itemize item}{fg=econblue}
+\setbeamercolor{itemize subitem}{fg=econbluelight}
+\setbeamercolor{block title}{bg=econblue, fg=white}
+\setbeamercolor{block body}{bg=econblue!6, fg=black}
+\setbeamercolor{alerted text}{fg=econaccent}
+\setbeamercolor{example text}{fg=econbluedark}
+
+% ---------------------------------------------------------------
+% Hyperlinks
+% ---------------------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=econblue,
+  urlcolor=econblue,
+  citecolor=econblue
+}
+
+% ---------------------------------------------------------------
+% Title page: rounded blue block with drop shadow
+% ---------------------------------------------------------------
+\setbeamertemplate{title page}{%
+  \vspace{0.4em}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[
+        fill=econblue,
+        rounded corners=6pt,
+        text width=0.92\textwidth,
+        inner sep=14pt,
+        align=center,
+        drop shadow={shadow xshift=2pt, shadow yshift=-2pt, opacity=0.35, fill=black!60}
+      ]{%
+        \color{white}%
+        {\LARGE\bfseries\inserttitle\par}%
+        \ifx\insertsubtitle\empty\else
+          \vspace{0.35em}%
+          {\large\insertsubtitle\par}%
+        \fi
+      };
+    \end{tikzpicture}
+  \end{center}
+  \vspace{1.2em}
+  \begin{center}
+    {\large\insertauthor\par}
+    \vspace{0.6em}
+    {\normalsize\itshape\insertinstitute\par}
+    \vspace{0.9em}
+    {\normalsize\insertdate\par}
+  \end{center}
+}
+
+% ---------------------------------------------------------------
+% Footer
+% ---------------------------------------------------------------
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=0.30\paperwidth, ht=3.0ex, dp=1.4ex, left, leftskip=1em]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortauthor%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.35\paperwidth, ht=3.0ex, dp=1.4ex, center]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.20\paperwidth, ht=3.0ex, dp=1.4ex, center]{date in head/foot}%
+      \usebeamerfont{date in head/foot}\insertshortdate%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.15\paperwidth, ht=3.0ex, dp=1.4ex, right, rightskip=1em]{page number in head/foot}%
+      \usebeamerfont{page number in head/foot}\insertframenumber\,/\,\inserttotalframenumber%
+    \end{beamercolorbox}%
+  }%
+}
+
+\setbeamercolor{author in head/foot}{fg=white, bg=econblue}
+\setbeamercolor{title in head/foot}{fg=white, bg=econbluelight}
+\setbeamercolor{date in head/foot}{fg=white, bg=econblue}
+\setbeamercolor{page number in head/foot}{fg=white, bg=econblue}
+
+\setbeamerfont{author in head/foot}{size=\footnotesize, series=\bfseries}
+\setbeamerfont{title in head/foot}{size=\footnotesize}
+\setbeamerfont{date in head/foot}{size=\footnotesize}
+\setbeamerfont{page number in head/foot}{size=\footnotesize, series=\bfseries}
+
+% ---------------------------------------------------------------
+% Frame titles
+% ---------------------------------------------------------------
+\setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+\setbeamertemplate{frametitle}[default][left]
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\graphicspath{{figures/}}
+
+\setlength{\leftmargini}{1.2em}
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{itemize subitem}[circle]
+\setbeamertemplate{itemize subsubitem}[circle]
+
+\setbeamertemplate{caption}{\tiny\insertcaption}
+\setbeamertemplate{caption label separator}{: }
+
+% Footnote: left-aligned, no odd hanging indent
+\setbeamertemplate{footnote}{%
+  \parindent 0em\noindent%
+  \raggedright
+  \usebeamerfont{footnote}\hbox to 1.2em{\hfil\insertfootnotemark\,}\insertfootnotetext\par%
+}
+\setbeamerfont{footnote}{size=\scriptsize}
+
+% ---------------------------------------------------------------
+% Per-deck short identifiers for the footer.
+% Use \AtBeginDocument so these run AFTER Quarto's YAML-derived
+% \title / \author / \institute / \date declarations and override them.
+% ---------------------------------------------------------------
+\AtBeginDocument{%
+  \title[yieldcurves: NS/Svensson fitting in R]{yieldcurves}%
+  \subtitle{Yield curve fitting and analysis in R}%
+  \author[Charles Coverdale]{Charles Coverdale}%
+  \institute[London]{London, United Kingdom}%
+  \date[Apr 2026]{April 2026}%
+}

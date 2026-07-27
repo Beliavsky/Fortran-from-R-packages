@@ -1,0 +1,731 @@
+# yieldcurves — full API reference
+
+> Fits yield curves using Nelson-Siegel (1987) <doi:10.
+
+- Version: 0.1.0
+- Install: `install.packages("yieldcurves")`
+- CRAN: https://CRAN.R-project.org/package=yieldcurves
+- GitHub: https://github.com/charlescoverdale/yieldcurves
+- Reference site: https://charlescoverdale.github.io/yieldcurves/
+
+This file is a self-contained reference for LLM agents: every exported
+function with its signature, arguments, return value, and example.
+
+---
+
+## `yc_bond_duration()`
+
+**Coupon Bond Duration and Convexity**
+
+Compute Macaulay duration, modified duration, and convexity for a coupon-bearing bond.
+
+**Usage**
+
+```r
+yc_bond_duration(
+  face = 100,
+  coupon_rate,
+  maturity,
+  yield,
+  frequency = 2,
+  compounding = c("semi_annual", "annual", "continuous")
+)
+```
+
+**Arguments**
+
+- `face` — Numeric. Face (par) value of the bond. Default is 100.
+- `coupon_rate` — Numeric. Annual coupon rate as a decimal (e.g., 0.05 for 5 percent).
+- `maturity` — Numeric. Time to maturity in years.
+- `yield` — Numeric. Yield to maturity as a decimal.
+- `frequency` — Integer. Coupon frequency per year: 1 for annual or 2 for semi-annual (default).
+- `compounding` — Character. Compounding convention: `"semi_annual"` (default), `"annual"`, or `"continuous"`.
+
+**Returns**
+
+A list with components `macaulay_duration`, `modified_duration`, `convexity`, and `price`.
+
+**Example**
+
+```r
+# 2-year 5% bond at 4% yield, semi-annual coupons
+yc_bond_duration(face = 100, coupon_rate = 0.05, maturity = 2,
+                 yield = 0.04, frequency = 2)
+```
+
+---
+
+## `yc_carry()`
+
+**Carry and Roll-Down Analysis**
+
+Decompose expected return from holding a bond into carry (yield income minus financing cost) and roll-down (capital gain from sliding down the curve).
+
+**Usage**
+
+```r
+yc_carry(curve, maturities = NULL, horizon = 1/12, funding_rate = NULL)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+- `maturities` — Numeric vector of bond maturities to analyse. If NULL, uses the curve's own maturities (excluding the shortest).
+- `horizon` — Numeric. Holding period in years. Default is `1/12` (one month).
+- `funding_rate` — Optional numeric. Overnight funding rate as a decimal. If NULL, uses the shortest rate on the curve.
+
+**Returns**
+
+A data frame with columns `maturity`, `carry`, `rolldown`, and `total`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 1, 2, 5, 10, 30)
+rates <- c(0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_carry(fit)
+```
+
+---
+
+## `yc_cubic_spline()`
+
+**Fit Cubic Spline Yield Curve**
+
+Fit a yield curve using cubic spline interpolation. Provides an exact fit through all observed data points with smooth interpolation between them.
+
+**Usage**
+
+```r
+yc_cubic_spline(
+  maturities,
+  rates,
+  method = c("natural", "fmm"),
+  type = c("zero", "par", "forward"),
+  date = NULL
+)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years.
+- `rates` — Numeric vector of observed yields as decimals.
+- `method` — Character. Spline method: `"natural"` (default) or `"fmm"` (Forsythe, Malcolm, and Moler).
+- `type` — Character. Rate type: `"zero"` (default), `"par"`, or `"forward"`.
+- `date` — Optional Date for the curve.
+
+**Returns**
+
+A `yc_curve` object with `method = "cubic_spline"`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_cubic_spline(maturities, rates)
+fit
+```
+
+---
+
+## `yc_curve()`
+
+**Create a Yield Curve Object**
+
+Construct a `yc_curve` object from observed maturity-rate pairs. This is the core data structure used throughout the package.
+
+**Usage**
+
+```r
+yc_curve(maturities, rates, type = c("zero", "par", "forward"), date = NULL)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years (e.g., 0.25 for 3 months, 2 for 2 years).
+- `rates` — Numeric vector of yields as decimals (e.g., 0.05 for 5\%). Must be the same length as `maturities`.
+- `type` — Character. The type of rate: `"zero"` (default), `"par"`, or `"forward"`.
+- `date` — Optional Date for the curve observation.
+
+**Returns**
+
+A `yc_curve` object (S3 class) with components: maturitiesNumeric vector of maturities in years. ratesNumeric vector of rates as decimals. typeCharacter string indicating rate type. methodCharacter string indicating fitting method. paramsList of model parameters (empty for observed curves). fittedNumeric vector of fitted rates (NULL for observed curves). residualsNumeric vector of residuals (NULL for observed curves). dateDate of the curve observation. n_obsInteger count of maturity points.
+
+**Example**
+
+```r
+# US Treasury yields (2Y, 5Y, 10Y, 30Y)
+maturities <- c(2, 5, 10, 30)
+rates <- c(0.045, 0.042, 0.040, 0.043)
+curve <- yc_curve(maturities, rates)
+curve
+```
+
+---
+
+## `yc_discount()`
+
+**Compute Discount Factors**
+
+Calculate discount factors from a yield curve assuming continuous compounding.
+
+**Usage**
+
+```r
+yc_discount(
+  curve,
+  maturities = NULL,
+  compounding = c("continuous", "annual", "semi_annual")
+)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+- `maturities` — Optional numeric vector of maturities. If NULL, uses the curve's own maturities.
+- `compounding` — Character. Compounding convention: `"continuous"` (default), `"annual"`, or `"semi_annual"`.
+
+**Returns**
+
+A data frame with columns `maturity` and `discount_factor`.
+
+**Example**
+
+```r
+maturities <- c(1, 2, 5, 10)
+rates <- c(0.045, 0.043, 0.042, 0.040)
+curve <- yc_curve(maturities, rates)
+yc_discount(curve)
+yc_discount(curve, compounding = "annual")
+```
+
+---
+
+## `yc_duration()`
+
+**Duration and Convexity**
+
+Compute Macaulay duration, modified duration, and convexity for zero-coupon bonds at each maturity on the curve.
+
+**Usage**
+
+```r
+yc_duration(
+  curve,
+  maturities = NULL,
+  compounding = c("continuous", "annual", "semi_annual")
+)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+- `maturities` — Optional numeric vector of maturities. If NULL, uses the curve's own maturities.
+- `compounding` — Character. Compounding convention: `"continuous"` (default), `"annual"`, or `"semi_annual"`.
+
+**Returns**
+
+A data frame with columns `maturity`, `macaulay_duration`, `modified_duration`, and `convexity`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 1, 2, 5, 10, 30)
+rates <- c(0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_duration(fit)
+```
+
+---
+
+## `yc_fit()`
+
+**Fit a Yield Curve**
+
+Unified interface for fitting a yield curve using different methods. Dispatches to `yc_nelson_siegel()`, `yc_svensson()`, or `yc_cubic_spline()`.
+
+**Usage**
+
+```r
+yc_fit(
+  maturities,
+  rates,
+  method = c("nelson_siegel", "svensson", "cubic_spline"),
+  type = c("zero", "par", "forward"),
+  date = NULL,
+  ...
+)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years.
+- `rates` — Numeric vector of observed yields as decimals.
+- `method` — Character. Fitting method: `"nelson_siegel"` (default), `"svensson"`, or `"cubic_spline"`.
+- `type` — Character. Rate type: `"zero"` (default), `"par"`, or `"forward"`.
+- `date` — Optional Date for the curve.
+- `...` — Additional arguments passed to the fitting function.
+
+**Returns**
+
+A `yc_curve` object.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_fit(maturities, rates, method = "nelson_siegel")
+fit
+```
+
+---
+
+## `yc_forward()`
+
+**Extract Forward Rates**
+
+Compute forward rates from a yield curve. Can compute either instantaneous forward rates or forward-forward rates between two tenors.
+
+**Usage**
+
+```r
+yc_forward(curve, maturities = NULL, horizon = NULL)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+- `maturities` — Optional numeric vector of maturities at which to compute forward rates. If NULL, uses the curve's own maturities.
+- `horizon` — Optional numeric. If provided, computes the forward rate from each maturity to maturity + horizon (forward-forward rate).
+
+**Returns**
+
+A data frame with columns `maturity` and `forward_rate`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_forward(fit)
+yc_forward(fit, maturities = c(1, 5, 10), horizon = 1)
+```
+
+---
+
+## `yc_interpolate()`
+
+**Interpolate Yield Curve**
+
+Interpolate rates at arbitrary maturities from an observed or fitted yield curve.
+
+**Usage**
+
+```r
+yc_interpolate(curve, maturities, method = c("linear", "log_linear", "cubic"))
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+- `maturities` — Numeric vector of maturities at which to interpolate.
+- `method` — Character. Interpolation method: `"linear"` (default), `"log_linear"`, or `"cubic"`.
+
+**Returns**
+
+A data frame with columns `maturity` and `rate`.
+
+**Example**
+
+```r
+maturities <- c(1, 2, 5, 10, 30)
+rates <- c(0.045, 0.043, 0.042, 0.040, 0.043)
+curve <- yc_curve(maturities, rates)
+yc_interpolate(curve, c(3, 7, 15, 20))
+```
+
+---
+
+## `yc_key_rate_duration()`
+
+**Key Rate Durations**
+
+Compute key rate durations by bumping the yield curve at specific tenors. Each bump is triangular: the full shift is applied at the key rate tenor and linearly interpolated to zero at adjacent key rate tenors.
+
+**Usage**
+
+```r
+yc_key_rate_duration(
+  coupon_rate,
+  maturity,
+  curve,
+  key_rates = c(1, 2, 5, 10, 30),
+  shift = 1e-04,
+  face = 100,
+  frequency = 2
+)
+```
+
+**Arguments**
+
+- `coupon_rate` — Numeric. Annual coupon rate as a decimal.
+- `maturity` — Numeric. Time to maturity in years.
+- `curve` — Either a `yc_curve` object or a list/data frame with components `maturities` and `rates`.
+- `key_rates` — Numeric vector of key rate tenors in years. Default is `c(1, 2, 5, 10, 30)`.
+- `shift` — Numeric. Size of the rate bump in decimal (default 0.0001, i.e. 1 basis point).
+- `face` — Numeric. Face value. Default is 100.
+- `frequency` — Integer. Coupon frequency: 1 (annual) or 2 (semi-annual, default).
+
+**Returns**
+
+A data frame with columns `tenor` and `key_rate_duration`.
+
+**Example**
+
+```r
+curve <- yc_curve(c(1, 2, 5, 10, 30), c(0.03, 0.035, 0.04, 0.042, 0.045))
+yc_key_rate_duration(coupon_rate = 0.04, maturity = 10,
+                     curve = curve, key_rates = c(1, 2, 5, 10, 30))
+```
+
+---
+
+## `yc_level_slope_curvature()`
+
+**Extract Level, Slope, and Curvature Factors**
+
+For Nelson-Siegel or Svensson curves, extracts the estimated factors directly from the model parameters. For other curves, computes empirical measures.
+
+**Usage**
+
+```r
+yc_level_slope_curvature(curve)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+
+**Returns**
+
+A named list with: levelLong-run level (beta0 for NS/Svensson, or mean rate). slopeSlope factor (beta1 for NS/Svensson, or short - long rate). curvatureCurvature factor (beta2 for NS/Svensson, or 2*mid - short - long rate).
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_level_slope_curvature(fit)
+```
+
+---
+
+## `yc_nelson_siegel()`
+
+**Fit Nelson-Siegel Yield Curve**
+
+Estimate a Nelson-Siegel (1987) yield curve model from observed maturity-rate pairs. The model decomposes the yield curve into three factors: level, slope, and curvature.
+
+**Usage**
+
+```r
+yc_nelson_siegel(
+  maturities,
+  rates,
+  tau_init = 1,
+  weights = NULL,
+  type = c("zero", "par", "forward"),
+  date = NULL
+)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years.
+- `rates` — Numeric vector of observed yields as decimals.
+- `tau_init` — Numeric. Initial value for the decay parameter tau. Default is 1.
+- `weights` — Optional numeric vector of weights for each observation. Must be the same length as `maturities`. Useful for emphasising liquid tenors. If NULL (default), all observations are equally weighted.
+- `type` — Character. Rate type: `"zero"` (default), `"par"`, or `"forward"`.
+- `date` — Optional Date for the curve.
+
+**Returns**
+
+A `yc_curve` object with `method = "nelson_siegel"` and `params` containing `beta0`, `beta1`, `beta2`, and `tau`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 3, 5, 7, 10, 20, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.043, 0.042, 0.041,
+           0.040, 0.042, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+fit
+```
+
+---
+
+## `yc_par_to_zero()`
+
+**Convert Par Rates to Zero Rates**
+
+Bootstrap zero (spot) rates from par (coupon) rates using iterative stripping.
+
+**Usage**
+
+```r
+yc_par_to_zero(maturities, par_rates, frequency = 1)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years (must be positive integers or half-years).
+- `par_rates` — Numeric vector of par rates as decimals.
+- `frequency` — Integer. Coupon frequency per year: 1 for annual (default) or 2 for semi-annual.
+
+**Returns**
+
+A data frame with columns `maturity` and `zero_rate`.
+
+**Example**
+
+```r
+maturities <- c(1, 2, 3, 5, 10)
+par_rates <- c(0.040, 0.042, 0.043, 0.044, 0.045)
+yc_par_to_zero(maturities, par_rates)
+
+# Semi-annual coupons
+yc_par_to_zero(c(0.5, 1, 2), c(0.04, 0.042, 0.043), frequency = 2)
+```
+
+---
+
+## `yc_pca()`
+
+**Principal Component Analysis of Yield Curves**
+
+Perform PCA on a time series of yield curves to extract the dominant factors (level, slope, curvature) following Litterman and Scheinkman (1991).
+
+**Usage**
+
+```r
+yc_pca(curves_matrix, n_components = 3, scale = FALSE)
+```
+
+**Arguments**
+
+- `curves_matrix` — Numeric matrix where each row is a yield curve observation (e.g., daily curves) and each column is a tenor. Column names should be maturity labels.
+- `n_components` — Integer. Number of principal components to retain. Default is 3 (level, slope, curvature).
+- `scale` — Logical. Whether to scale variables before PCA. Default is `FALSE` (use covariance matrix, standard in yield curve PCA).
+
+**Returns**
+
+A `yc_pca` object (S3 class) with components: loadingsMatrix of factor loadings (tenors x components). scoresMatrix of factor scores (observations x components). variance_explainedNumeric vector of proportion of variance explained by each component. cumulative_varianceNumeric vector of cumulative variance explained. sdevStandard deviations of each component. n_componentsNumber of components retained. tenorsColumn names from the input matrix.
+
+**Example**
+
+```r
+# Simulate 100 days of yield curves at 5 tenors
+set.seed(42)
+n_days <- 100
+tenors <- c(1, 2, 5, 10, 30)
+base_rates <- c(0.045, 0.043, 0.042, 0.040, 0.043)
+curves <- matrix(NA, n_days, length(tenors))
+colnames(curves) <- paste0(tenors, "Y")
+level <- cumsum(rnorm(n_days, 0, 0.001))
+slope <- cumsum(rnorm(n_days, 0, 0.0005))
+for (i in seq_len(n_days)) {
+  curves[i, ] <- base_rates + level[i] + slope[i] * (tenors - mean(tenors)) / 30
+}
+pca_result <- yc_pca(curves)
+pca_result
+```
+
+---
+
+## `yc_predict()`
+
+**Predict Rates from a Fitted Yield Curve**
+
+Evaluate a fitted yield curve at new maturities.
+
+**Usage**
+
+```r
+yc_predict(curve, maturities)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object from a fitting function.
+- `maturities` — Numeric vector of maturities at which to predict rates.
+
+**Returns**
+
+A data frame with columns `maturity` and `rate`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_predict(fit, c(3, 7, 15, 20))
+```
+
+---
+
+## `yc_slope()`
+
+**Yield Curve Slope Measures**
+
+Compute common slope and curvature measures from a yield curve.
+
+**Usage**
+
+```r
+yc_slope(curve)
+```
+
+**Arguments**
+
+- `curve` — A `yc_curve` object.
+
+**Returns**
+
+A named list with slope measures: spread_2s10s10-year minus 2-year rate (the most common slope measure). spread_2s30s30-year minus 2-year rate. spread_5s30s30-year minus 5-year rate. spread_3m10y10-year minus 3-month rate (term premium proxy). butterfly_2s5s10s2 * 5-year minus 2-year minus 10-year (curvature measure). Returns NA for any measure whose required tenors fall outside the curve range.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.042, 0.040, 0.043)
+fit <- yc_nelson_siegel(maturities, rates)
+yc_slope(fit)
+```
+
+---
+
+## `yc_svensson()`
+
+**Fit Svensson Yield Curve**
+
+Estimate a Svensson (1994) yield curve model from observed maturity-rate pairs. Extends Nelson-Siegel by adding a second curvature term with its own decay parameter, providing greater flexibility for curves with two humps.
+
+**Usage**
+
+```r
+yc_svensson(
+  maturities,
+  rates,
+  tau1_init = 1,
+  tau2_init = 5,
+  weights = NULL,
+  type = c("zero", "par", "forward"),
+  date = NULL
+)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years.
+- `rates` — Numeric vector of observed yields as decimals.
+- `tau1_init` — Numeric. Initial value for the first decay parameter. Default is 1.
+- `tau2_init` — Numeric. Initial value for the second decay parameter. Default is 5.
+- `weights` — Optional numeric vector of weights for each observation. Must be the same length as `maturities`. If NULL (default), all observations are equally weighted.
+- `type` — Character. Rate type: `"zero"` (default), `"par"`, or `"forward"`.
+- `date` — Optional Date for the curve.
+
+**Returns**
+
+A `yc_curve` object with `method = "svensson"` and `params` containing `beta0`, `beta1`, `beta2`, `beta3`, `tau1`, and `tau2`.
+
+**Example**
+
+```r
+maturities <- c(0.25, 0.5, 1, 2, 3, 5, 7, 10, 20, 30)
+rates <- c(0.052, 0.050, 0.048, 0.045, 0.043, 0.042, 0.041,
+           0.040, 0.042, 0.043)
+fit <- yc_svensson(maturities, rates)
+fit
+```
+
+---
+
+## `yc_zero_to_par()`
+
+**Convert Zero Rates to Par Rates**
+
+Compute par (coupon) rates from zero (spot) rates. The par rate for maturity T is the coupon rate that makes a bond price equal to par.
+
+**Usage**
+
+```r
+yc_zero_to_par(maturities, zero_rates, frequency = 1)
+```
+
+**Arguments**
+
+- `maturities` — Numeric vector of maturities in years.
+- `zero_rates` — Numeric vector of zero rates as decimals.
+- `frequency` — Integer. Coupon frequency per year: 1 for annual (default) or 2 for semi-annual.
+
+**Returns**
+
+A data frame with columns `maturity` and `par_rate`.
+
+**Example**
+
+```r
+maturities <- c(1, 2, 3, 5, 10)
+zero_rates <- c(0.040, 0.042, 0.043, 0.044, 0.045)
+yc_zero_to_par(maturities, zero_rates)
+
+# Semi-annual coupons
+yc_zero_to_par(c(0.5, 1, 2), c(0.04, 0.042, 0.043), frequency = 2)
+```
+
+---
+
+## `yc_zspread()`
+
+**Z-Spread**
+
+Compute the Z-spread (zero-volatility spread) for a bond. The Z-spread is the constant spread added to each zero rate on the benchmark curve that makes the discounted cash flows equal the market price.
+
+**Usage**
+
+```r
+yc_zspread(price, coupon_rate, maturity, curve, face = 100, frequency = 2)
+```
+
+**Arguments**
+
+- `price` — Numeric. Market price of the bond.
+- `coupon_rate` — Numeric. Annual coupon rate as a decimal.
+- `maturity` — Numeric. Time to maturity in years.
+- `curve` — Either a `yc_curve` object or a list/data frame with components `maturities` and `rates`.
+- `face` — Numeric. Face value of the bond. Default is 100.
+- `frequency` — Integer. Coupon frequency per year: 1 for annual or 2 for semi-annual (default).
+
+**Returns**
+
+A list with components `zspread` (the Z-spread as a decimal), `price` (the input price), and `model_price` (the price implied by the curve with the Z-spread applied).
+
+**Example**
+
+```r
+# Create a benchmark curve
+curve <- yc_curve(c(0.5, 1, 2, 5, 10), c(0.03, 0.035, 0.04, 0.042, 0.045))
+
+# A bond priced below par (positive Z-spread)
+yc_zspread(price = 95, coupon_rate = 0.04, maturity = 5,
+           curve = curve, frequency = 2)
+```
+
+---
+

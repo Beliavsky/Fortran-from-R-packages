@@ -1,0 +1,69 @@
+% Custom preamble for Charles Coverdale's R Journal-style papers.
+% Drop into the paper/rj/ directory and reference via the Rmd YAML:
+%   output:
+%     rticles::rjournal_article:
+%       includes:
+%         in_header: header.tex
+
+% Tables
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+% Float placement: use floating [tbp] rather than hard [H] for better
+% page packing. Tune LaTeX's defaults to allow bigger fractions of a
+% page to be given to a float before it drifts to a dedicated page.
+\usepackage{float}
+\usepackage{placeins}  % for \FloatBarrier
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.7}
+\renewcommand{\textfraction}{0.07}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
+% Leave page bottoms ragged rather than stretching vertical space
+% between figures or sections to justify to the bottom margin.
+\raggedbottom
+
+% Suppress the auto-generated \address{...} trailer. The R Journal
+% template emits an author block from the YAML metadata at the end of
+% the paper; Charles's preference is title page byline only.
+\renewcommand{\address}[1]{}
+
+% Title-page byline override. The R Journal's \maketitle (RJournal.sty)
+% prints \RJ@author in italics. We hook \maketitle to rewrite the
+% author command to include the location on a second line and an
+% email / repository footnote, without relying on pandoc's YAML author
+% escaping (which mangles commas and backslashes).
+\makeatletter
+\let\RJ@origmaketitle\maketitle
+\renewcommand{\maketitle}{%
+  \def\RJ@author{by Charles Coverdale\thanks{Email: \href{mailto:charles.f.coverdale@gmail.com}{charles.f.coverdale@gmail.com}. Package repository: \href{https://github.com/charlescoverdale/yieldcurves}{github.com/charlescoverdale/yieldcurves}. Other publications: \href{https://charlescoverdale.github.io/publications/}{charlescoverdale.github.io/publications}.}\\ London, United Kingdom}%
+  \RJ@origmaketitle%
+}
+\makeatother
+
+% Numbered sections and subsections. pandoc maps markdown ## to
+% \subsection, which RJournal.sty leaves unnumbered by default.
+% Override the titleformat so subsections display a single arabic
+% counter ("1 Introduction", "2 Background", ...).
+\setcounter{secnumdepth}{3}
+\usepackage{titlesec}
+\renewcommand\thesubsection{\arabic{subsection}}
+\renewcommand\thesubsubsection{\arabic{subsection}.\arabic{subsubsection}}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Blue DOI / URL / citation hyperlinks (RJournal.sty leaves colorlinks off).
+\hypersetup{colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  citecolor=blue!60!black}
+
+% Make DOIs in the bibliography clickable. natbib / plainnat prints
+% "doi: 10.xxxx" as plain text; define \doi so the string is wrapped
+% in \href and gets the blue colorlinks treatment. Use providecommand
+% so we don't clash with existing definitions from natbib or doi.sty.
+\providecommand{\doi}[1]{\href{https://doi.org/#1}{doi:~#1}}

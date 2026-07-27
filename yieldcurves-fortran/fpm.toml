@@ -1,0 +1,19 @@
+name = "yieldcurves"
+version = "0.1.0"
+license = "MIT"
+author = "Charles Coverdale; modern Fortran translation"
+copyright = "Copyright (c) 2026 Charles Coverdale"
+description = "Modern Fortran yield-curve fitting, analysis, and decomposition"
+categories = ["finance", "fixed-income", "statistics"]
+keywords = ["yield curve", "nelson-siegel", "svensson", "pca", "duration"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

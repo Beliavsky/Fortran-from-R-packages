@@ -1,0 +1,36 @@
+# yieldcurves
+
+> Fits yield curves using Nelson-Siegel (1987) <doi:10. Install with `install.packages("yieldcurves")`.
+
+Full API reference (for agents): https://raw.githubusercontent.com/charlescoverdale/yieldcurves/main/llms-full.txt
+
+Version: 0.1.0. License: MIT.
+
+## Functions
+
+- [`yc_bond_duration()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_bond_duration.html): Coupon Bond Duration and Convexity
+- [`yc_carry()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_carry.html): Carry and Roll-Down Analysis
+- [`yc_cubic_spline()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_cubic_spline.html): Fit Cubic Spline Yield Curve
+- [`yc_curve()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_curve.html): Create a Yield Curve Object
+- [`yc_discount()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_discount.html): Compute Discount Factors
+- [`yc_duration()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_duration.html): Duration and Convexity
+- [`yc_fit()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_fit.html): Fit a Yield Curve
+- [`yc_forward()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_forward.html): Extract Forward Rates
+- [`yc_interpolate()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_interpolate.html): Interpolate Yield Curve
+- [`yc_key_rate_duration()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_key_rate_duration.html): Key Rate Durations
+- [`yc_level_slope_curvature()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_level_slope_curvature.html): Extract Level, Slope, and Curvature Factors
+- [`yc_nelson_siegel()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_nelson_siegel.html): Fit Nelson-Siegel Yield Curve
+- [`yc_par_to_zero()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_par_to_zero.html): Convert Par Rates to Zero Rates
+- [`yc_pca()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_pca.html): Principal Component Analysis of Yield Curves
+- [`yc_predict()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_predict.html): Predict Rates from a Fitted Yield Curve
+- [`yc_slope()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_slope.html): Yield Curve Slope Measures
+- [`yc_svensson()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_svensson.html): Fit Svensson Yield Curve
+- [`yc_zero_to_par()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_zero_to_par.html): Convert Zero Rates to Par Rates
+- [`yc_zspread()`](https://charlescoverdale.github.io/yieldcurves/reference/yc_zspread.html): Z-Spread
+
+## Documentation
+
+- [Full reference](https://charlescoverdale.github.io/yieldcurves/reference/)
+- [GitHub](https://github.com/charlescoverdale/yieldcurves)
+- [CRAN](https://CRAN.R-project.org/package=yieldcurves)
+

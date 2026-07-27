@@ -1,0 +1,30 @@
+Package: yieldcurves
+Title: Yield Curve Fitting, Analysis, and Decomposition
+Version: 0.1.0
+Authors@R:
+    person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
+Description: Fits yield curves using Nelson-Siegel (1987)
+    <doi:10.1086/296409>, Svensson (1994) <doi:10.3386/w4871>, and cubic
+    spline methods. Extracts forward rates, discount factors, and par rates
+    from fitted curves. Computes duration and convexity risk measures.
+    Computes Z-spread and key rate durations. Provides principal component
+    decomposition following Litterman and Scheinkman (1991)
+    <doi:10.3905/jfi.1991.692347>, carry and roll-down analysis, and slope
+    measures. All methods are pure computation with no
+    external dependencies beyond base R; works with yield data from any
+    source.
+Depends: R (>= 4.1.0)
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    cli (>= 3.6.0),
+    graphics,
+    stats
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://charlescoverdale.github.io/yieldcurves/, https://github.com/charlescoverdale/yieldcurves
+BugReports: https://github.com/charlescoverdale/yieldcurves/issues

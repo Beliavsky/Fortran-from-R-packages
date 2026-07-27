@@ -1,0 +1,11 @@
+yieldcurves-fortran is a modern Fortran translation of the numerical routines
+in the R package yieldcurves 0.1.0.
+
+Original package:
+  Copyright (c) 2026 Charles Coverdale
+  License: MIT
+
+The original package source is retained unmodified under
+original/yieldcurves-0.1.0. The supplied source archive is retained under
+provenance. Plotting, S3 printing, and R-specific presentation infrastructure
+are not compiled.

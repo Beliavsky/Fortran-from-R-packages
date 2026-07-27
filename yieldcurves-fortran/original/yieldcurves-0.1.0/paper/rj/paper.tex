@@ -1,0 +1,444 @@
+% !TeX root = RJwrapper.tex
+\title{yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in
+R}
+\author{by Charles Coverdale}
+
+\maketitle
+
+\abstract{%
+The \CRANpkg{yieldcurves} package provides an end-to-end toolkit for
+term-structure analysis in R. It fits parametric yield curves via the
+Nelson-Siegel (1987) and Svensson (1994) models and interpolates
+non-parametrically via cubic splines. From a fitted curve it extracts
+spot rates, instantaneous forward rates, discount factors, and par rates
+via bootstrap stripping. It computes Macaulay and modified duration,
+convexity, Z-spread, and key rate durations for zero-coupon and coupon
+bonds. It decomposes yield-curve movements into principal components
+following Litterman and Scheinkman (1991) and into level, slope, and
+curvature factors. It reports carry and roll-down over a user-specified
+horizon and a menu of slope and butterfly measures. Every function
+accepts plain numeric inputs and has no dependencies beyond base R and
+\CRANpkg{cli}. The package is available on CRAN at
+\url{https://cran.r-project.org/package=yieldcurves} with source at
+\url{https://github.com/charlescoverdale/yieldcurves}.
+}
+
+\subsection{Introduction}\label{introduction}
+
+The \CRANpkg{yieldcurves} package implements the standard toolkit of
+term-structure analysis: parametric and non-parametric curve fitting,
+extraction of forward rates and discount factors, risk measurement, and
+factor-style decomposition of curve movements. Nineteen exported
+functions share a uniform \code{yc\_} prefix and a curve-object-based
+interface, so a workflow that begins with \code{yc\_nelson\_siegel()}
+can chain through \code{yc\_forward()}, \code{yc\_duration()},
+\code{yc\_carry()}, and \code{yc\_pca()} without reshaping or re-coding.
+
+The state of R infrastructure for yield-curve work has been thin.
+\CRANpkg{YieldCurve} \citep{guirreri2022yieldcurve} fits Nelson-Siegel
+and Svensson models but requires xts or zoo objects, does not compute
+duration, convexity, Z-spread, or any factor decomposition, and has not
+been updated since 2022. The more comprehensive \pkg{termstrc} was
+archived from CRAN in 2018 after repeated failures against the current
+CRAN check machinery and has not been resurrected. The \CRANpkg{fBonds}
+package exposes bond-pricing primitives but not curve estimation.
+Neither existing package covers the full workflow from raw bond quotes
+through to carry, roll-down, key rate durations, and principal-component
+decomposition.
+
+\CRANpkg{yieldcurves} consolidates these operations into a single
+package with no heavy dependencies. Imports are \CRANpkg{cli} (error
+messages) plus base R \code{graphics} and \code{stats}. R 4.1.0 or later
+is required. The only suggested package is \CRANpkg{testthat} for the
+test suite, which contains over one hundred and seventy tests across
+every exported function. All inputs are plain numeric vectors:
+maturities in years, rates as decimals. Outputs are S3 objects with
+\code{print()} and, where geometric intuition is central, \code{plot()}
+methods.
+
+\subsection{Background}\label{background}
+
+Yield-curve analysis combines three families of techniques: smoothing
+across the maturity dimension, risk-measure derivation from a smooth
+curve, and factor-style decomposition of curve time series.
+
+\textbf{Parametric smoothing.} \citet{nelson1987parsimonious} proposed a
+four-parameter functional form consisting of a level component, a slope
+component decaying exponentially with maturity, and a curvature
+component producing a medium-maturity hump. Over two decades later the
+Nelson-Siegel form remains the workhorse of central-bank yield-curve
+estimation, used by the Federal Reserve, the European Central Bank, the
+Bank of Canada, and over twenty other central banks in the Bank for
+International Settlements survey \citep{bis2005zero}.
+
+\citet{svensson1994estimating} generalises Nelson-Siegel with a second
+curvature term, giving a six-parameter form with enough flexibility to
+match the occasionally-bi-humped US Treasury curve.
+\citet{diebold2006forecasting} showed that the Nelson-Siegel parameters
+can be interpreted as dynamic latent factors (level, slope, curvature),
+reframing the curve as a vector autoregression in parameter space and
+providing a natural forecasting model; \citet{diebold2013yield} provide
+the textbook treatment. \citet{gurkaynak2007us} publish a real-time
+Svensson curve for the US Treasury market that has become the standard
+research dataset for term-structure studies. \citet{bauer2020interest}
+document that the long-run component of that curve, corresponding to
+Nelson- Siegel's \(\beta_0\), has drifted noticeably downward over the
+past four decades as the perceived level of the long-run neutral rate
+has fallen.
+
+\textbf{Non-parametric smoothing.} Cubic splines
+\citep{mcculloch1971measuring} and tension splines
+\citep{fisher1995fitting} avoid the tight functional restriction of
+Nelson-Siegel. They can fit any observed curve exactly at the cost of
+potentially wiggly forward rates. \CRANpkg{yieldcurves} exposes
+\code{stats::splinefun()} cubic splines for users who want
+non-parametric interpolation alongside the parametric fits.
+
+\textbf{Risk measures.} \citet{macaulay1938movements} defined duration
+as the value-weighted average time to a bond's cash flows; modified
+duration, the sensitivity of bond price to a parallel shift in yields,
+is the Macaulay quantity divided by \((1 + y/k)\)
+\citep{hicks1939value}. Convexity is the second derivative. The Z-spread
+is the constant additive shift to the zero-coupon curve that prices a
+bond at par. Key rate durations \citep{ho1992key} decompose a bond's
+overall duration into exposures to movements at specific points on the
+curve. These measures are the inputs to portfolio hedging and scenario
+analysis and must be computed against a smoothed curve rather than a raw
+set of quoted yields.
+
+\textbf{Factor decomposition.} \citet{litterman1991common} showed that
+the first three principal components of US Treasury yield changes
+explain over 97 per cent of daily variation and have robust
+interpretations as level, slope, and curvature factors. A thirty-year
+panel of monthly curves still reproduces this decomposition almost
+exactly. The 2s10s and 2s30s spreads and the 2s-5s-10s butterfly are the
+daily curve-shape indicators traders and central-bank economists watch.
+More formally, \citet{diebold2006forecasting} reframe Nelson-Siegel as a
+dynamic factor model; \citet{piazzesi2010affine} surveys the
+arbitrage-free affine class that embeds these factors in a no-arbitrage
+pricing kernel.
+
+\textbf{Carry and roll-down.} Holding a bond over a short horizon yields
+an expected return equal to the bond's yield (carry) plus the gain from
+being revalued at the lower yield appropriate to its shorter remaining
+maturity (roll-down), provided the curve itself does not shift. Carry
+and roll-down analysis decomposes this expected return by maturity and
+is a staple of rates-relative-value trading.
+
+\subsection{Package design}\label{package-design}
+
+\subsubsection{Architecture}\label{architecture}
+
+\CRANpkg{yieldcurves} is pure R with no compiled code. Runtime imports
+are \CRANpkg{cli}, \code{graphics}, and \code{stats}. Nineteen functions
+cover fitting, extraction, risk measures, and decomposition; the test
+suite contains over one hundred and seventy tests.
+
+\subsubsection{\texorpdfstring{The \code{yc\_curve}
+class}{The  class}}\label{the-class}
+
+Every fitting function (\code{yc\_nelson\_siegel}, \code{yc\_svensson},
+\code{yc\_cubic\_spline}, and the unifying \code{yc\_fit}) returns an
+object of class \code{yc\_curve} with a common shape: maturities and
+rates as supplied, the fitted rates at the same maturities, parameter
+estimates (the \code{params} list), residuals, method identifier, rate
+type (\code{"zero"}, \code{"par"}, or \code{"forward"}), and an
+observation date. Downstream functions dispatch on this class. A user
+needs to learn one object to use every capability in the package.
+
+\subsubsection{Extraction and risk
+functions}\label{extraction-and-risk-functions}
+
+\code{yc\_predict()} returns fitted rates at an arbitrary maturity
+vector. \code{yc\_forward()} and \code{yc\_discount()} return forward
+rates and discount factors. \code{yc\_duration()},
+\code{yc\_bond\_duration()}, \code{yc\_zspread()}, and
+\code{yc\_key\_rate\_duration()} compute risk measures. Compounding
+convention (continuous, annual, or semi-annual) is configurable where
+relevant.
+
+\subsubsection{Decomposition and portfolio
+analytics}\label{decomposition-and-portfolio-analytics}
+
+\code{yc\_pca()} runs a principal-component decomposition on a matrix of
+observed curves (rows are dates, columns are maturities).
+\code{yc\_level\_slope\_curvature()} returns the three standard factors
+defined as fixed linear combinations of points on the curve.
+\code{yc\_slope()} returns the 2s10s, 2s30s, and 2s-5s-10s butterfly
+spreads. \code{yc\_carry()} reports carry and roll-down at a
+user-specified horizon.
+
+\subsubsection{Reproducibility}\label{reproducibility}
+
+Every numerical result is deterministic given the input. The only
+stochastic element in the fitting pipeline is the multi-start optimiser
+for the Svensson model, which accepts a \code{seed} argument for
+reproducibility. The package ships no bundled data; the examples in this
+paper use US Treasury yields obtained from the Federal Reserve Bank of
+St.~Louis Economic Data (FRED) service.
+
+\subsection{Curve fitting}\label{curve-fitting}
+
+\code{yc\_nelson\_siegel()} and \code{yc\_svensson()} estimate the
+Nelson-Siegel and Svensson parameters by non-linear least squares,
+taking \code{maturities}, \code{rates}, and optional observation
+\code{weights}; Nelson-Siegel additionally exposes a \code{tau}
+argument. The optimisers use multiple starting values for the decay
+parameters (\(\tau\) for Nelson-Siegel, \(\tau_1\) and \(\tau_2\) for
+Svensson) and return the best fit by root-mean-squared error.
+Observation weights are supported for users who wish to down-weight
+short-end or long-end points.
+
+Figure \ref{fig:ns-svensson} fits both models to the US Treasury curve
+on the most recent trading day. Svensson's extra curvature term delivers
+a roughly one and a half basis point improvement in RMSE at the cost of
+two additional parameters. The gain is most visible at the very long
+end, where the two models disagree by about three basis points.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig1_ns_svensson.pdf}
+\caption{\textbf{Nelson-Siegel and Svensson fits to the US Treasury yield curve, most recent trading day.} Points are the Constant Maturity Treasury rates from FRED at ten maturities. Solid line: Nelson-Siegel, RMSE 4.5 basis points. Dashed: Svensson, RMSE 2.9 basis points. Maturity on a log scale.}
+\label{fig:ns-svensson}
+\end{figure}
+
+Table \ref{tab:params} reports the parameter estimates at the same date.
+The Nelson-Siegel \(\beta_0\) is the asymptotic long-run rate, close to
+the thirty-year yield. \(\beta_0 + \beta_1\) is the short rate. Svensson
+adds \(\beta_3\) and \(\tau_2\) to capture a second hump when one is
+present.
+
+\begin{table}[!htbp]
+\centering
+\caption{\textbf{Parameter estimates for Nelson-Siegel and Svensson fits on the most recent US Treasury curve.} Rates are in decimal units. The Nelson-Siegel level $\beta_0$ is the asymptotic long-run rate. The negative slope $\beta_1$ reflects the upward-sloping curve at the observation date. RMSE in basis points.}
+\label{tab:params}
+\input{tables/params.tex}
+\end{table}
+
+\code{yc\_cubic\_spline()} fits a cubic interpolating spline via
+\code{stats::splinefun()} with the \code{"natural"} boundary condition.
+It passes through every input point exactly and is useful for users who
+have clean data and want no smoothing bias, at the cost of
+sometimes-wiggly forward rates.
+
+\subsection{Derived quantities and risk
+measures}\label{derived-quantities-and-risk-measures}
+
+\code{yc\_forward()} returns the instantaneous forward rate at each
+maturity, derived analytically for Nelson-Siegel and Svensson fits and
+numerically from the first derivative of \(\log\)-discount factor for
+spline fits. \code{yc\_discount()} returns discount factors under
+continuous, annual, or semi-annual compounding.
+\code{yc\_par\_to\_zero()} and \code{yc\_zero\_to\_par()} convert
+between par and zero-coupon rates by bootstrap stripping.
+
+Figure \ref{fig:forward} plots the spot and instantaneous forward curves
+from the current Nelson-Siegel fit. Where the spot curve rises, the
+forward curve sits above it; the gap is the additional yield an investor
+demands for locking in a longer rate today.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig2_forward.pdf}
+\caption{\textbf{Spot and instantaneous forward rates from a Nelson-Siegel fit to the most recent US Treasury curve.} Spot (zero) rate in blue, instantaneous forward in red dashed. The forward curve lies above the spot curve wherever the spot curve is upward-sloping, with the gap widening at maturities where the spot rate rises most steeply.}
+\label{fig:forward}
+\end{figure}
+
+\code{yc\_duration()} returns Macaulay and modified duration for a
+zero-coupon bond at each maturity, using the curve's own yields.
+\code{yc\_bond\_duration()} does the same for a coupon bond, taking face
+value, coupon rate, maturity, yield, coupon frequency, and compounding
+as arguments, and additionally returns convexity. Figure
+\ref{fig:duration} shows the standard textbook result: zero-coupon
+duration equals maturity, but a coupon bond of the same maturity has
+lower duration because the intermediate coupons carry weight that
+shortens the effective payment horizon.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_duration.pdf}
+\caption{\textbf{Modified duration versus maturity for zero-coupon and 5 per cent semi-annual coupon bonds.} Zero-coupon duration (solid blue) equals maturity minus a small yield-dependent adjustment. A 5 per cent semi-annual coupon bond (red dashed) has substantially lower duration than a zero-coupon bond of the same maturity because the coupon cash flows carry weight at intermediate dates. Yields at each maturity read from a Nelson-Siegel fit to the current US Treasury curve.}
+\label{fig:duration}
+\end{figure}
+
+\code{yc\_zspread()} returns the Z-spread for a coupon bond: the
+constant additive shift to the zero-coupon curve that prices the bond at
+its market price. It is the standard spread measure for non-Treasury
+bonds.
+
+\code{yc\_key\_rate\_duration()} decomposes total duration into
+exposures to shifts at specific curve points (typically 1, 2, 5, 10, and
+30 years) via the \code{key\_rates} argument. These decompositions are
+the input to key-rate hedging and to scenario analysis that goes beyond
+parallel shifts.
+
+\FloatBarrier
+
+\subsection{Decomposition}\label{decomposition}
+
+\code{yc\_pca()} performs a principal-component decomposition of a panel
+of curves. Figure \ref{fig:pca} shows the loadings from PCA on the US
+Treasury curve across monthly observations from January 2019 through the
+most recent month. The three dominant factors are nearly orthogonal,
+produce the classical level-slope-curvature pattern documented in
+\citet{litterman1991common}, and explain 97 per cent, 3 per cent, and 1
+per cent of variation respectively, cumulating to 99.9 per cent. The
+default \code{scale = FALSE} runs PCA on the covariance of yield
+changes, so level-heavy samples like this one assign more variance to
+PC1 than long-run figures in \citet{litterman1991common}; users studying
+shorter, rangebound samples may prefer \code{scale = TRUE}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig3_pca.pdf}
+\caption{\textbf{First three principal-component loadings of monthly US Treasury curve changes, 2019 to current.} PC1 (level, blue) is roughly flat across maturities, indicating a parallel shift. PC2 (slope, red) is monotonically increasing with maturity, flipping sign around the 3- to 5-year maturity. PC3 (curvature, green) is humped with peaks at the short and long ends and a trough in the intermediate maturities. The three components together explain 99.9 per cent of variation.}
+\label{fig:pca}
+\end{figure}
+
+\code{yc\_level\_slope\_curvature()} returns the three factors as fixed
+linear combinations (level is the average, slope is long-short,
+curvature is a butterfly around the belly), which are easier to compare
+across dates than rolling PCA.
+
+\code{yc\_slope()} returns the 2s10s (ten-year minus two-year yield),
+2s30s (thirty minus two), and the 2s-5s-10s butterfly (twice the
+five-year minus the two- and ten-year); these three are the standard
+curve-shape statistics reported in every fixed-income briefing.
+
+\FloatBarrier
+
+\subsection{Carry and roll-down}\label{carry-and-roll-down}
+
+\code{yc\_carry()} returns the expected return over a specified horizon
+from holding a bond at each maturity, assuming the curve does not move.
+The \code{funding\_rate} argument can override the default, which is the
+curve's own yield at the horizon point. Carry is the bond's yield (less
+any funding rate if the position is leveraged). Roll-down is the capital
+gain from being repriced at a shorter maturity's (typically lower)
+yield. Their sum is the all-in expected return conditional on a static
+curve.
+
+Figure \ref{fig:carry} shows the breakdown across maturities at a
+three-month horizon, using the current US Treasury Nelson-Siegel fit.
+The pattern is informative: at the two- to five-year range, carry and
+roll-down are modest. At the belly (five- to ten-year) they are
+comparable and additive. At the long end, carry dominates and roll-down
+falls because the curve flattens.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig5_carry.pdf}
+\caption{\textbf{Expected three-month return decomposed into carry and roll-down, US Treasury curve at the most recent date.} Bars are in basis points. Carry (blue) is the bond yield less the short-end funding rate (here the 3-month Treasury yield), scaled to the three-month horizon. Roll-down (red) is the capital gain from being revalued at the shorter-maturity yield implied by the current curve, assuming the curve does not shift. The 30-year point has the largest carry because the curve is upward-sloping, but modest roll-down because the curve is nearly flat at the long end.}
+\label{fig:carry}
+\end{figure}
+
+\subsection{Replication}\label{replication}
+
+A canonical yield-curve workflow is five lines:
+
+\begin{verbatim}
+library(yieldcurves)
+mats  <- c(0.25, 0.5, 1, 2, 5, 10, 30)
+rates <- c(0.0495, 0.048, 0.046, 0.042, 0.041, 0.045, 0.050)
+fit   <- yc_nelson_siegel(mats, rates)
+yc_forward(fit, maturities = c(2, 5, 10))
+yc_carry(fit, maturities = c(2, 5, 10), horizon = 0.25)
+\end{verbatim}
+
+The same idiom, with \code{yc\_nelson\_siegel()} replaced by
+\code{yc\_svensson()} or \code{yc\_cubic\_spline()}, works for every
+fitting method. Downstream functions dispatch on the \code{yc\_curve}
+class and accept plain numeric vectors otherwise.
+
+\subsection{Case study: the US Treasury curve through the pandemic
+cycle}\label{case-study-the-us-treasury-curve-through-the-pandemic-cycle}
+
+Figure \ref{fig:curves} shows the US Treasury curve at three dates
+spanning the pandemic monetary cycle: the end of 2019, the rate-peak
+month of October 2023, and the most recent trading day. The pre-pandemic
+curve is flat and low, reflecting the near-zero policy rate and modest
+term premia of the prior decade. The October 2023 curve is inverted,
+with two-year yields above long yields, reflecting the Federal Reserve's
+tightening cycle and the market's expectation of eventual rate cuts. The
+current curve is positively-sloped again, with short-end yields having
+come down from their peak.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig6_curves.pdf}
+\caption{\textbf{US Treasury yield curves at three dates: pre-pandemic, rate peak, and most recent.} Points are FRED Constant Maturity Treasury rates at ten maturities. Lines are Nelson-Siegel fits. December 2019 shows a flat low-rate curve. October 2023 shows an inverted curve around the 2- to 5-year belly. The most recent curve has re-steepened as front-end rates have fallen from their peak.}
+\label{fig:curves}
+\end{figure}
+
+Each of these three curves can be passed to the full downstream
+workflow: \code{yc\_pca()} on the full monthly panel produces the
+decomposition in Figure \ref{fig:pca}; \code{yc\_carry()} on the current
+fit produces Figure \ref{fig:carry}; \code{yc\_duration()} on any fit
+produces Figure \ref{fig:duration}.
+
+\subsection{Limitations}\label{limitations}
+
+Five limitations apply.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \CRANpkg{yieldcurves} fits curves at a single point in time. Dynamic
+  term-structure models, including affine Gaussian models following
+  \citet{ang2003no} and arbitrage-free Nelson-Siegel models, are out of
+  scope. For those, use specialised packages or bespoke estimation.
+\item
+  The package does not implement the return-forecasting regressions of
+  \citet{cochrane2005bond} or other predictive exercises using the
+  fitted curve as a regressor. Those are natural extensions but belong
+  in a forecasting-focused package.
+\item
+  Par-to-zero bootstrap stripping supports annual and semi-annual
+  frequencies only. Exotic coupon schedules and amortising instruments
+  require user-side preprocessing.
+\item
+  The Svensson optimiser is non-convex and can return local minima in
+  pathological cases. The multi-start implementation reduces but does
+  not eliminate this risk; users concerned about convergence should
+  inspect residuals and consider alternative starting values.
+\item
+  Real-time curve estimation at a central-bank's publication frequency
+  is not provided. \citet{gurkaynak2007us} publish a
+  continuously-updated Svensson curve for the US Treasury market that
+  users can ingest as an alternative to fitting their own.
+\end{enumerate}
+
+\FloatBarrier
+
+\subsection{Conclusion}\label{conclusion}
+
+Yield-curve analysis is a routine part of fixed-income research,
+portfolio management, and central-bank monitoring, and had been
+under-served on CRAN. \CRANpkg{yieldcurves} consolidates the standard
+toolkit: Nelson-Siegel, Svensson, and spline fitting; forward rates,
+discount factors, and par-zero conversions; duration, convexity,
+Z-spread, and key rate durations; principal- component,
+level-slope-curvature, and slope-and-butterfly decompositions; carry and
+roll-down. Every function accepts plain numeric inputs and returns S3
+objects with print and plot methods. Planned additions include
+arbitrage-free Nelson-Siegel following \citet{christensen2011affine}, a
+reduced-form term-premium decomposition via \code{yc\_term\_premium()}
+following the regression-based approach of \citet{adrian2013pricing},
+return-forecasting helpers for the Cochrane-Piazzesi factor, a
+Bloomberg-style ASW (asset-swap) spread computation, and optional
+integration with real-time Svensson curves from central-bank
+publications. Contributions and bug reports are welcome at
+\url{https://github.com/charlescoverdale/yieldcurves}.
+
+\bibliography{RJreferences.bib}
+
+\address{%
+Charles Coverdale\\
+London, United Kingdom\\%
+United Kingdom\\
+%
+\url{https://github.com/charlescoverdale/yieldcurves}\\%
+%
+\href{mailto:charles.f.coverdale@gmail.com}{\nolinkurl{charles.f.coverdale@gmail.com}}%
+}

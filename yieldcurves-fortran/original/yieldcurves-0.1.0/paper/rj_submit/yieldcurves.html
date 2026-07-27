@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+      margin-bottom: 0em;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R</title>
+
+  <meta property="description" itemprop="description" content="The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub."/>
+
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2026-04-19"/>
+  <meta property="article:created" itemprop="dateCreated" content="2026-04-19"/>
+  <meta name="article:author" content="Charles Coverdale"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R"/>
+  <meta property="twitter:description" content="The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub."/>
+
+  <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+  <meta name="citation_title" content="Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R"/>
+  <meta name="citation_pdf_url" content="yieldcurves.pdf"/>
+  <meta name="citation_journal_title" content="The R Journal"/>
+  <meta name="citation_issn" content="2073-4859"/>
+  <meta name="citation_firstpage" content="1"/>
+  <meta name="citation_fulltext_world_readable" content=""/>
+  <meta name="citation_online_date" content="2026/04/19"/>
+  <meta name="citation_publication_date" content="2026/04/19"/>
+  <meta name="citation_author" content="Charles Coverdale"/>
+  <meta name="citation_author_institution" content="Independent"/>
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Parsimonious modeling of yield curves;citation_volume=60;citation_doi=10.1086/296409;citation_author=Charles R. Nelson;citation_author=Andrew F. Siegel"/>
+  <meta name="citation_reference" content="citation_title=Estimating and interpreting forward interest rates: Sweden 1992-1994;citation_publisher=National Bureau of Economic Research;citation_number=4871;citation_doi=10.3386/w4871;citation_author=Lars E. O. Svensson"/>
+  <meta name="citation_reference" content="citation_title=Common factors affecting bond returns;citation_volume=1;citation_doi=10.3905/jfi.1991.692347;citation_author=Robert Litterman;citation_author=Jose Scheinkman"/>
+  <meta name="citation_reference" content="citation_title=Forecasting the term structure of government bond yields;citation_volume=130;citation_doi=10.1016/j.jeconom.2005.03.005;citation_author=Francis X. Diebold;citation_author=Canlin Li"/>
+  <meta name="citation_reference" content="citation_title=The U.S. Treasury yield curve: 1961 to the present;citation_volume=54;citation_doi=10.1016/j.jmoneco.2007.06.029;citation_author=Refet S. Gürkaynak;citation_author=Brian Sack;citation_author=Jonathan H. Wright"/>
+  <meta name="citation_reference" content="citation_title=Measuring the term structure of interest rates;citation_volume=44;citation_doi=10.1086/295329;citation_author=J. Huston McCulloch"/>
+  <meta name="citation_reference" content="citation_title=Fitting the term structure of interest rates with smoothing splines;citation_publisher=Board of Governors of the Federal Reserve System;citation_number=95-1;citation_author=Mark Fisher;citation_author=Douglas Nychka;citation_author=David Zervos"/>
+  <meta name="citation_reference" content="citation_title=Some theoretical problems suggested by the movements of interest rates, bond yields and stock prices in the United States since 1856;citation_publisher=National Bureau of Economic Research;citation_author=Frederick R. Macaulay"/>
+  <meta name="citation_reference" content="citation_title=Key rate durations: Measures of interest rate risks;citation_volume=2;citation_doi=10.3905/jfi.1992.408049;citation_author=Thomas S. Y. Ho"/>
+  <meta name="citation_reference" content="citation_title=Zero-coupon yield curves: Technical documentation;citation_publisher=Bank for International Settlements;citation_number=25;citation_author=Zero-coupon yield curves: Technical documentation"/>
+  <meta name="citation_reference" content="citation_title=A no-arbitrage vector autoregression of term structure dynamics with macroeconomic and latent variables;citation_volume=50;citation_doi=10.1016/S0304-3932(03)00032-1;citation_author=Andrew Ang;citation_author=Monika Piazzesi"/>
+  <meta name="citation_reference" content="citation_title=Bond risk premia;citation_volume=95;citation_doi=10.1257/0002828053828581;citation_author=John H. Cochrane;citation_author=Monika Piazzesi"/>
+  <meta name="citation_reference" content="citation_title=The affine arbitrage-free class of Nelson-Siegel term structure models;citation_volume=164;citation_doi=10.1016/j.jeconom.2011.02.011;citation_author=Jens H. E. Christensen;citation_author=Francis X. Diebold;citation_author=Glenn D. Rudebusch"/>
+  <meta name="citation_reference" content="citation_title=YieldCurve: Modelling and Estimation of the Yield Curve;citation_author=Sergio Salvino Guirreri"/>
+  <meta name="citation_reference" content="citation_title=Value and capital: An inquiry into some fundamental principles of economic theory;citation_publisher=Clarendon Press;citation_author=John R. Hicks"/>
+  <meta name="citation_reference" content="citation_title=Pricing the term structure with linear regressions;citation_volume=110;citation_doi=10.1016/j.jfineco.2013.04.009;citation_author=Tobias Adrian;citation_author=Richard K. Crump;citation_author=Emanuel Moench"/>
+  <meta name="citation_reference" content="citation_title=Interest rates under falling stars;citation_volume=110;citation_doi=10.1257/aer.20171822;citation_author=Michael D. Bauer;citation_author=Glenn D. Rudebusch"/>
+  <meta name="citation_reference" content="citation_title=Affine term structure models;citation_publisher=Elsevier;citation_volume=1;citation_doi=10.1016/B978-0-444-50897-3.50015-8;citation_author=Monika Piazzesi"/>
+  <meta name="citation_reference" content="citation_title=Yield curve modeling and forecasting: The dynamic Nelson-Siegel approach;citation_publisher=Princeton University Press;citation_author=Francis X. Diebold;citation_author=Glenn D. Rudebusch"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","description","draft","author","type","journal","output","header-includes","bibliography","slug","pdf_url","creative_commons","packages","CTV","csl"]}},"value":[{"type":"character","attributes":{},"value":["Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R"]},{"type":"character","attributes":{},"value":["2026-04-19"]},{"type":"character","attributes":{},"value":["The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub.\n"]},{"type":"logical","attributes":{},"value":[false]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","address","url","email"]}},"value":[{"type":"character","attributes":{},"value":["Charles Coverdale"]},{"type":"character","attributes":{},"value":["Independent"]},{"type":"character","attributes":{},"value":["London, United Kingdom"]},{"type":"character","attributes":{},"value":["https://github.com/charlescoverdale/yieldcurves"]},{"type":"character","attributes":{},"value":["charles.f.coverdale@gmail.com"]}]}]},{"type":"character","attributes":{},"value":["package"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","issn","firstpage","lastpage"]}},"value":[{"type":"character","attributes":{},"value":["The R Journal"]},{"type":"character","attributes":{},"value":["2073-4859"]},{"type":"double","attributes":{},"value":[1]},{"type":"NULL"}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["\\renewcommand{\\address}[1]{}"]},{"type":"character","attributes":{},"value":["RJreferences.bib"]},{"type":"character","attributes":{},"value":["yieldcurves"]},{"type":"character","attributes":{},"value":["yieldcurves.pdf"]},{"type":"character","attributes":{},"value":["CC BY"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["cran","bioc"]}},"value":[{"type":"character","attributes":{},"value":["yieldcurves","YieldCurve","fBonds","cli","testthat"]},{"type":"list","attributes":{},"value":[]}]},{"type":"character","attributes":{},"value":["Finance"]},{"type":"character","attributes":{},"value":["/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rjtools/rjournal.csl"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["figures/fig1_ns_svensson.pdf","figures/fig2_forward.pdf","figures/fig3_pca.pdf","figures/fig4_duration.pdf","figures/fig5_carry.pdf","figures/fig6_curves.pdf","initial_checks.log","motivation-letter/motivation-letter.md","RJournal.sty","RJreferences.bib","RJwrapper.log","RJwrapper.tex","yieldcurves.log","yieldcurves.pdf","yieldcurves.tex"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+    border-top: none;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="yieldcurves_files/header-attrs-2.30/header-attrs.js"></script>
+  <script src="yieldcurves_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="yieldcurves_files/popper-2.6.0/popper.min.js"></script>
+  <link href="yieldcurves_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="yieldcurves_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="yieldcurves_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="yieldcurves_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="yieldcurves_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="yieldcurves_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="yieldcurves_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+  <script>
+    $(function() {
+      console.log("Starting...")
+
+      // Mathjax config (add automatic linebreaks when supported)
+      // MathJax = {
+      //    tex: {
+      //        inlineMath: [['$', '$'], ['\\(', '\\)']],
+      //        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      //        tags: 'ams',
+      //        multline: true,
+      //    },
+      //    options: {
+      //        linebreaks: { automatic: true },
+      //    },
+      // };
+
+      // Always show Published - distill hides it if not set
+      function show_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'visible');
+      }
+
+      show_byline_column('Published')
+
+      // tweak function
+      var rmd_meta = JSON.parse($("#radix-rmarkdown-metadata").html());
+      function get_meta(name, meta) {
+        var ind = meta.attributes.names.value.findIndex((e) => e == name)
+        var val = meta.value[ind]
+        if (val.type != 'list') {
+          return val.value.toString()
+        }
+        return val
+      }
+
+      // tweak description
+      // Add clickable tags
+      const slug = get_meta('slug', rmd_meta)
+      const cite_url = get_meta('citation_url', rmd_meta)
+
+      var title = $("d-title").text
+
+      const buttons = $('<div class="dt-tags" style="grid-column: page;">')
+      buttons.append('<a href="#citation" class="dt-tag"><i class="fas fa-quote-left"></i> Cite</a>')
+      buttons.append('<a href="' + slug + '.pdf" class="dt-tag"><i class="fas fa-file-pdf"></i> PDF</a>')
+      buttons.append('<a href="' + slug + '.zip" class="dt-tag"><i class="fas fa-file-zipper"></i> Supplement</a>')
+
+      // adds Abstract: in front of the first <p> in the title section --
+      // unless it happens to be the subtitle (FIXME: this is a bad hack - can't distill do this?)
+      var tpar = $("d-title p:not(:empty)").filter(function() {
+        return !$(this).hasClass("subtitle");
+      }).first();
+      if (tpar) {
+        const abstract = $('<d-abstract>')
+        abstract.append('<b>Abstract:</b><br>')
+        abstract.append(tpar) // Move description to d-abstract
+        $("d-title p:empty").remove() // Remove empty paragraphs after title
+        abstract.append(buttons)
+        abstract.insertAfter($('d-title')) // Add abstract section after title */
+      }
+
+      // tweak by-line
+      var byline = $("d-byline div.byline")
+      ind = rmd_meta.attributes.names.value.findIndex((e) => e == "journal")
+      const journal = get_meta('journal', rmd_meta)
+      const volume = get_meta('volume', rmd_meta)
+      const issue = get_meta('issue', rmd_meta)
+      const jrtitle = get_meta('title', journal)
+      const year = ((jrtitle == "R News") ? 2000 : 2008) + parseInt(volume)
+      const firstpage = get_meta('firstpage', journal)
+      const lastpage = get_meta('lastpage', journal)
+      byline.append('<div class="rjournal grid">')
+      $('div.rjournal').append('<h3>Volume</h3>')
+      $('div.rjournal').append('<h3>Pages</h3>')
+      $('div.rjournal').append('<a class="volume" href="../../issues/'+year+'-'+issue+'">'+volume+'/'+issue+'</a>')
+      $('div.rjournal').append('<p class="pages">'+firstpage+' - '+lastpage+'</p>')
+
+      const received_date = new Date(get_meta('date_received', rmd_meta))
+      byline.find('h3:contains("Published")').parent().append('<h3>Received</h3><p>'+received_date.toLocaleDateString('en-US', {month: 'short'})+' '+received_date.getDate()+', '+received_date.getFullYear()+'</p>')
+
+    })
+  </script>
+
+  <style>
+      /*
+    .nav-dropdown-content .nav-dropdown-header {
+      text-transform: lowercase;
+    }
+    */
+
+    d-byline .byline {
+      grid-template-columns: 2fr 2fr 2fr 2fr;
+    }
+
+    d-byline .rjournal {
+      grid-column-end: span 2;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 0;
+    }
+
+    d-title h1, d-title p, d-title figure,
+    d-abstract p, d-abstract b {
+      grid-column: page;
+    }
+
+    d-title .dt-tags {
+      grid-column: page;
+    }
+
+    .dt-tags .dt-tag {
+      text-transform: lowercase;
+    }
+
+    d-article h1 {
+      line-height: 1.1em;
+    }
+
+    d-abstract p, d-article p {
+      text-align: justify;
+    }
+
+    @media(min-width: 1000px) {
+      .d-contents.d-contents-float {
+        justify-self: end;
+      }
+
+      nav.toc {
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .posts-list .dt-tags .dt-tag {
+      text-transform: lowercase;
+    }
+
+    @keyframes highlight-target {
+      0% {
+        background-color: #ffa;
+      }
+      66% {
+        background-color: #ffa;
+      }
+      100% {
+        background-color: none;
+      }
+    }
+
+    d-article :target, d-appendix :target {
+       animation: highlight-target 3s;
+    }
+
+    .header-section-number {
+      margin-right: 0.5em;
+    }
+    
+    d-appendix .citation-appendix,
+    .d-appendix .citation-appendix {
+      color: rgb(60, 60, 60);
+    }
+
+    d-article h2 {
+      border-bottom: 0px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 0rem;
+    }
+    d-article h3 {
+      font-size: 20px;
+    }
+    d-article h4 {
+      font-size: 18px;
+      text-transform: none;
+    }
+
+    @media (min-width: 1024px) {
+      d-article h2 {
+        font-size: 32px;
+      }
+      d-article h3 {
+        font-size: 24px;
+      }
+      d-article h4 {
+        font-size: 20px;
+      }
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R","description":"The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub.","authors":[{"author":"Charles Coverdale","authorURL":"https://github.com/charlescoverdale/yieldcurves","affiliation":"Independent","affiliationURL":"#","orcidID":""}],"publishedDate":"2026-04-19T00:00:00.000+01:00","citationText":"Coverdale, 2026"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R</h1>
+
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>The yieldcurves package provides an end-to-end toolkit for term-structure analysis in R. It fits parametric yield curves via the Nelson-Siegel (1987) and Svensson (1994) models and interpolates non-parametrically via cubic splines. From a fitted curve it extracts spot rates, instantaneous forward rates, discount factors, and par rates via bootstrap stripping. It computes Macaulay and modified duration, convexity, Z-spread, and key rate durations for zero-coupon and coupon bonds. It decomposes yield-curve movements into principal components following Litterman and Scheinkman (1991) and into level, slope, and curvature factors. It reports carry and roll-down over a user-specified horizon and a menu of slope and butterfly measures. Every function accepts plain numeric inputs and has no dependencies beyond base R and cli. The package is available on CRAN with source on GitHub.</p></p>
+</div>
+
+<div class="d-byline">
+  Charles Coverdale <a href="https://github.com/charlescoverdale/yieldcurves" class="uri">https://github.com/charlescoverdale/yieldcurves</a> (Independent)
+  
+<br/>2026-04-19
+</div>
+
+<div class="d-article">
+<h2 data-number="1" id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>The <a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> package implements the standard toolkit
+of term-structure analysis: parametric and non-parametric curve
+fitting, extraction of forward rates and discount factors, risk
+measurement, and factor-style decomposition of curve movements.
+Nineteen exported functions share a uniform prefix and
+a curve-object-based interface, so a workflow that begins with
+can chain through ,
+, , and
+without reshaping or re-coding.</p>
+<p>The state of R infrastructure for yield-curve work has been thin.
+<a href="https://cran.r-project.org/package=YieldCurve">YieldCurve</a> <span class="citation" data-cites="guirreri2022yieldcurve">(<a href="#ref-guirreri2022yieldcurve" role="doc-biblioref">Guirreri 2022</a>)</span> fits Nelson-Siegel
+and Svensson models but requires xts or zoo objects, does not
+compute duration, convexity, Z-spread, or any factor decomposition,
+and has not been updated since 2022. The more comprehensive
+<a href="#">termstrc</a> was archived from CRAN in 2018 after repeated
+failures against the current CRAN check machinery and has not been
+resurrected. The <a href="https://cran.r-project.org/package=fBonds">fBonds</a> package exposes bond-pricing
+primitives but not curve estimation. Neither existing package
+covers the full workflow from raw bond quotes through to carry,
+roll-down, key rate durations, and principal-component
+decomposition.</p>
+<p><a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> consolidates these operations into a single
+package with no heavy dependencies. Imports are <a href="https://cran.r-project.org/package=cli">cli</a>
+(error messages) plus base R and . R
+4.1.0 or later is required. The only suggested package is
+<a href="https://cran.r-project.org/package=testthat">testthat</a> for the test suite, which contains over one
+hundred and seventy tests across every exported function. All
+inputs are plain numeric vectors: maturities in years, rates as
+decimals. Outputs are S3 objects with and, where
+geometric intuition is central, methods.</p>
+<h2 data-number="2" id="background"><span class="header-section-number">2</span> Background</h2>
+<p>Yield-curve analysis combines three families of techniques:
+smoothing across the maturity dimension, risk-measure derivation
+from a smooth curve, and factor-style decomposition of curve time
+series.</p>
+<p><strong>Parametric smoothing.</strong> <span class="citation" data-cites="nelson1987parsimonious">Nelson and Siegel (<a href="#ref-nelson1987parsimonious" role="doc-biblioref">1987</a>)</span> proposed a
+four-parameter functional form consisting of a level component, a
+slope component decaying exponentially with maturity, and a
+curvature component producing a medium-maturity hump. Over two
+decades later the Nelson-Siegel form remains the workhorse of
+central-bank yield-curve estimation, used by the Federal Reserve,
+the European Central Bank, the Bank of Canada, and over twenty
+other central banks in the Bank for International Settlements
+survey <span class="citation" data-cites="bis2005zero">(<a href="#ref-bis2005zero" role="doc-biblioref">Bank for International Settlements 2005</a>)</span>.</p>
+<p><span class="citation" data-cites="svensson1994estimating">Svensson (<a href="#ref-svensson1994estimating" role="doc-biblioref">1994</a>)</span> generalises Nelson-Siegel with a second
+curvature term, giving a six-parameter form with enough flexibility
+to match the occasionally-bi-humped US Treasury curve.
+<span class="citation" data-cites="diebold2006forecasting">Diebold and Li (<a href="#ref-diebold2006forecasting" role="doc-biblioref">2006</a>)</span> showed that the Nelson-Siegel parameters
+can be interpreted as dynamic latent factors (level, slope,
+curvature), reframing the curve as a vector autoregression in
+parameter space and providing a natural forecasting model;
+<span class="citation" data-cites="diebold2013yield">Diebold and Rudebusch (<a href="#ref-diebold2013yield" role="doc-biblioref">2013</a>)</span> provide the textbook treatment. <span class="citation" data-cites="gurkaynak2007us">Gürkaynak et al. (<a href="#ref-gurkaynak2007us" role="doc-biblioref">2007</a>)</span>
+publish a real-time Svensson curve for the US Treasury market that
+has become the standard research dataset for term-structure
+studies. <span class="citation" data-cites="bauer2020interest">Bauer and Rudebusch (<a href="#ref-bauer2020interest" role="doc-biblioref">2020</a>)</span> document that the long-run component
+of that curve, corresponding to Nelson-Siegel’s <span class="math inline">\(\beta_0\)</span>, has
+drifted noticeably downward over the past four decades as the
+perceived level of the long-run neutral rate has fallen.</p>
+<p><strong>Non-parametric smoothing.</strong> Cubic splines
+<span class="citation" data-cites="mcculloch1971measuring">(<a href="#ref-mcculloch1971measuring" role="doc-biblioref">McCulloch 1971</a>)</span> and tension splines
+<span class="citation" data-cites="fisher1995fitting">(<a href="#ref-fisher1995fitting" role="doc-biblioref">Fisher et al. 1995</a>)</span> avoid the tight functional restriction of
+Nelson-Siegel. They can fit any observed curve exactly at the cost
+of potentially wiggly forward rates. <a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> exposes
+cubic splines for users who want
+non-parametric interpolation alongside the parametric fits.</p>
+<p><strong>Risk measures.</strong> <span class="citation" data-cites="macaulay1938movements">Macaulay (<a href="#ref-macaulay1938movements" role="doc-biblioref">1938</a>)</span> defined duration as the
+value-weighted average time to a bond’s cash flows; modified
+duration, the sensitivity of bond price to a parallel shift in
+yields, is the Macaulay quantity divided by <span class="math inline">\((1 + y/k)\)</span>
+<span class="citation" data-cites="hicks1939value">(<a href="#ref-hicks1939value" role="doc-biblioref">Hicks 1939</a>)</span>. Convexity is the second derivative. The
+Z-spread is the constant additive shift to the zero-coupon curve
+that prices a bond at par. Key rate durations <span class="citation" data-cites="ho1992key">(<a href="#ref-ho1992key" role="doc-biblioref">Ho 1992</a>)</span>
+decompose a bond’s overall duration into exposures to movements at
+specific points on the curve. These measures are the inputs to
+portfolio hedging and scenario analysis and must be computed
+against a smoothed curve rather than a raw set of quoted yields.</p>
+<p><strong>Factor decomposition.</strong> <span class="citation" data-cites="litterman1991common">Litterman and Scheinkman (<a href="#ref-litterman1991common" role="doc-biblioref">1991</a>)</span> showed that the
+first three principal components of US Treasury yield changes
+explain over 97 per cent of daily variation and have robust
+interpretations as level, slope, and curvature factors. A
+thirty-year panel of monthly curves still reproduces this
+decomposition almost exactly. The 2s10s and 2s30s spreads and the
+2s-5s-10s butterfly are the daily curve-shape indicators traders
+and central-bank economists watch. More formally,
+<span class="citation" data-cites="diebold2006forecasting">Diebold and Li (<a href="#ref-diebold2006forecasting" role="doc-biblioref">2006</a>)</span> reframe Nelson-Siegel as a dynamic factor
+model; <span class="citation" data-cites="piazzesi2010affine">Piazzesi (<a href="#ref-piazzesi2010affine" role="doc-biblioref">2010</a>)</span> surveys the arbitrage-free affine class
+that embeds these factors in a no-arbitrage pricing kernel.</p>
+<p><strong>Carry and roll-down.</strong> Holding a bond over a short horizon
+yields an expected return equal to the bond’s yield (carry) plus
+the gain from being revalued at the lower yield appropriate to its
+shorter remaining maturity (roll-down), provided the curve itself
+does not shift. Carry and roll-down analysis decomposes this
+expected return by maturity and is a staple of
+rates-relative-value trading.</p>
+<h2 data-number="3" id="package-design"><span class="header-section-number">3</span> Package design</h2>
+<p><a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> is pure R with no compiled code. Runtime
+imports are <a href="https://cran.r-project.org/package=cli">cli</a>, , and .
+Nineteen functions cover fitting, extraction, risk measures, and
+decomposition; the test suite contains over one hundred and
+seventy tests.</p>
+<h3 data-number="3.1" id="the-yc_curve-class"><span class="header-section-number">3.1</span> The yc_curve class</h3>
+<p>Every fitting function (,
+, , and the unifying
+) returns an object of class with a
+common shape: maturities and rates as supplied, the fitted rates at
+the same maturities, parameter estimates (the list),
+residuals, method identifier, rate type (,
+, or ), and an observation date.
+Downstream functions dispatch on this class. A user needs to learn
+one object to use every capability in the package.</p>
+<h3 data-number="3.2" id="extraction-and-risk-functions"><span class="header-section-number">3.2</span> Extraction and risk functions</h3>
+<p> returns fitted rates at an arbitrary maturity
+vector. and return
+forward rates and discount factors. ,
+, , and
+compute risk measures.
+Compounding convention (continuous, annual, or semi-annual) is
+configurable where relevant.</p>
+<h3 data-number="3.3" id="decomposition-and-portfolio-analytics"><span class="header-section-number">3.3</span> Decomposition and portfolio analytics</h3>
+<p> runs a principal-component decomposition on a
+matrix of observed curves (rows are dates, columns are maturities).
+returns the three standard
+factors defined as fixed linear combinations of points on the
+curve. returns the 2s10s, 2s30s, and 2s-5s-10s
+butterfly spreads. reports carry and roll-down
+at a user-specified horizon.</p>
+<h3 data-number="3.4" id="reproducibility"><span class="header-section-number">3.4</span> Reproducibility</h3>
+<p>Every numerical result is deterministic given the input. The only
+stochastic element in the fitting pipeline is the multi-start
+optimiser for the Svensson model, which accepts a
+argument for reproducibility. The package ships no bundled data;
+the examples in this paper use US Treasury yields obtained from the
+Federal Reserve Bank of St. Louis Economic Data (FRED) service.</p>
+<h2 data-number="4" id="curve-fitting"><span class="header-section-number">4</span> Curve fitting</h2>
+<p> and estimate the
+Nelson-Siegel and Svensson parameters by non-linear least squares,
+taking , , and optional observation
+; Nelson-Siegel additionally exposes a
+argument. The optimisers use multiple starting values for the
+decay parameters (<span class="math inline">\(\tau\)</span> for Nelson-Siegel, <span class="math inline">\(\tau_1\)</span> and <span class="math inline">\(\tau_2\)</span>
+for Svensson) and return the best fit by root-mean-squared error.
+Observation weights are supported for users who wish to down-weight
+short-end or long-end points.</p>
+<p>Figure <a href="#fig:ns-svensson">1</a> fits both models to the US Treasury
+curve on the most recent trading day. Svensson’s extra curvature
+term delivers a roughly one and a half basis point improvement in
+RMSE at the cost of two additional parameters. The gain is most
+visible at the very long end, where the two models disagree by
+about three basis points.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ns-svensson"></span>
+<embed src="figures/fig1_ns_svensson.pdf" title="A scatter plot of US Treasury yields against maturity on a log scale from three months to thirty years. Ten points trace an upward-sloping curve. Two fitted lines overlay the points: a solid Nelson-Siegel line and a dashed Svensson line. The two lines are very close at short and medium maturities and diverge slightly at the long end." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 1: Nelson-Siegel and Svensson fits to the US Treasury yield curve, most recent trading day. Points are the Constant Maturity Treasury rates from FRED at ten maturities. Solid line: Nelson-Siegel, RMSE 4.5 basis points. Dashed: Svensson, RMSE 2.9 basis points. Maturity on a log scale.
+</p>
+</div>
+</div>
+<p>Table <a href="#tab:params">1</a> reports the parameter estimates at the
+same date. The Nelson-Siegel <span class="math inline">\(\beta_0\)</span> is the asymptotic long-run
+rate, close to the thirty-year yield. <span class="math inline">\(\beta_0 + \beta_1\)</span> is the
+short rate. Svensson adds <span class="math inline">\(\beta_3\)</span> and <span class="math inline">\(\tau_2\)</span> to capture a
+second hump when one is present.</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption><span id="tab:params">Table 1: </span>Parameter estimates for Nelson-Siegel and Svensson fits on the most recent US Treasury curve. Rates are in decimal units. The Nelson-Siegel level <span class="math inline">\(\beta_0\)</span> is the asymptotic long-run rate. The negative slope <span class="math inline">\(\beta_1\)</span> reflects the upward-sloping curve at the observation date. RMSE in basis points.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Nelson-Siegel</th>
+<th style="text-align: right;">Svensson</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\beta_0\)</span></td>
+<td style="text-align: right;">0.0536</td>
+<td style="text-align: right;">0.0455</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\beta_1\)</span></td>
+<td style="text-align: right;">-0.0162</td>
+<td style="text-align: right;">-0.0082</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\beta_2\)</span></td>
+<td style="text-align: right;">-0.0210</td>
+<td style="text-align: right;">0.0578</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\beta_3\)</span></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">-0.0459</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\tau_1\)</span></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">8.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\tau_2\)</span></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">5.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSE (bps)</td>
+<td style="text-align: right;">4.5</td>
+<td style="text-align: right;">2.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> fits a cubic interpolating spline via
+with the boundary
+condition. It passes through every input point exactly and is
+useful for users who have clean data and want no smoothing bias,
+at the cost of sometimes-wiggly forward rates.</p>
+<h2 data-number="5" id="derived-quantities-and-risk-measures"><span class="header-section-number">5</span> Derived quantities and risk measures</h2>
+<p> returns the instantaneous forward rate at
+each maturity, derived analytically for Nelson-Siegel and Svensson
+fits and numerically from the first derivative of <span class="math inline">\(\log\)</span>-discount
+factor for spline fits. returns discount
+factors under continuous, annual, or semi-annual compounding.
+and convert
+between par and zero-coupon rates by bootstrap stripping.</p>
+<p>Figure <a href="#fig:forward">2</a> plots the spot and instantaneous forward
+curves from the current Nelson-Siegel fit. Where the spot curve
+rises, the forward curve sits above it; the gap is the additional
+yield an investor demands for locking in a longer rate today.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:forward"></span>
+<embed src="figures/fig2_forward.pdf" title="A line chart of US Treasury yields against maturity from zero to thirty years. A solid blue line is the spot rate curve, rising from about four per cent at the short end to about five per cent at the long end. A red dashed line is the instantaneous forward rate curve, which sits above the spot curve where the spot curve rises and converges to it at the long end." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 2: Spot and instantaneous forward rates from a Nelson-Siegel fit to the most recent US Treasury curve. Spot (zero) rate in blue, instantaneous forward in red dashed. The forward curve lies above the spot curve wherever the spot curve is upward-sloping, with the gap widening at maturities where the spot rate rises most steeply.
+</p>
+</div>
+</div>
+<p> returns Macaulay and modified duration for a
+zero-coupon bond at each maturity, using the curve’s own yields.
+does the same for a coupon bond,
+taking face value, coupon rate, maturity, yield, coupon frequency,
+and compounding as arguments, and additionally returns convexity.
+Figure <a href="#fig:duration">3</a> shows the standard textbook result:
+zero-coupon duration equals maturity, but a coupon bond of the same
+maturity has lower duration because the intermediate coupons carry
+weight that shortens the effective payment horizon.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:duration"></span>
+<embed src="figures/fig4_duration.pdf" title="A line chart of modified duration against maturity from zero to thirty years. A solid blue line for zero-coupon bonds rises roughly linearly from zero to about twenty-eight years. A red dashed line for a 5 per cent semi-annual coupon bond sits below the zero-coupon line throughout, rising from zero to about fifteen years, with the gap widening at longer maturities." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 3: Modified duration versus maturity for zero-coupon and 5 per cent semi-annual coupon bonds. Zero-coupon duration (solid blue) equals maturity minus a small yield-dependent adjustment. A 5 per cent semi-annual coupon bond (red dashed) has substantially lower duration than a zero-coupon bond of the same maturity because the coupon cash flows carry weight at intermediate dates. Yields at each maturity read from a Nelson-Siegel fit to the current US Treasury curve.
+</p>
+</div>
+</div>
+<p> returns the Z-spread for a coupon bond: the
+constant additive shift to the zero-coupon curve that prices the
+bond at its market price. It is the standard spread measure for
+non-Treasury bonds.</p>
+<p> decomposes total duration into
+exposures to shifts at specific curve points (typically 1, 2, 5,
+10, and 30 years) via the argument. These
+decompositions are the input to key-rate hedging and to scenario
+analysis that goes beyond parallel shifts.</p>
+<h2 data-number="6" id="decomposition"><span class="header-section-number">6</span> Decomposition</h2>
+<p> performs a principal-component decomposition of a
+panel of curves. Figure <a href="#fig:pca">4</a> shows the loadings from PCA
+on the US Treasury curve across monthly observations from January
+2019 through the most recent month. The three dominant factors are
+nearly orthogonal, produce the classical level-slope-curvature
+pattern documented in <span class="citation" data-cites="litterman1991common">Litterman and Scheinkman (<a href="#ref-litterman1991common" role="doc-biblioref">1991</a>)</span>, and explain 97 per
+cent, 3 per cent, and 1 per cent of variation respectively,
+cumulating to 99.9 per cent. The default runs
+PCA on the covariance of yield changes, so level-heavy samples
+like this one assign more variance to PC1 than long-run figures in
+<span class="citation" data-cites="litterman1991common">Litterman and Scheinkman (<a href="#ref-litterman1991common" role="doc-biblioref">1991</a>)</span>; users studying shorter, rangebound samples
+may prefer .</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pca"></span>
+<embed src="figures/fig3_pca.pdf" title="A line chart of principal component loadings against maturity from zero to thirty years. The first principal component (blue) is roughly flat around 0.4 across maturities, the classical level factor. The second principal component (red) starts negative at short maturities, crosses zero near five years, and rises to positive values at long maturities, the slope factor. The third principal component (green) is humped, positive at short and long ends and negative in the middle, the curvature factor." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 4: First three principal-component loadings of monthly US Treasury curve changes, 2019 to current. PC1 (level, blue) is roughly flat across maturities, indicating a parallel shift. PC2 (slope, red) is monotonically increasing with maturity, flipping sign around the 3- to 5-year maturity. PC3 (curvature, green) is humped with peaks at the short and long ends and a trough in the intermediate maturities. The three components together explain 99.9 per cent of variation.
+</p>
+</div>
+</div>
+<p> returns the three factors as
+fixed linear combinations (level is the average, slope is
+long-short, curvature is a butterfly around the belly), which are
+easier to compare across dates than rolling PCA.</p>
+<p> returns the 2s10s (ten-year minus two-year
+yield), 2s30s (thirty minus two), and the 2s-5s-10s butterfly
+(twice the five-year minus the two- and ten-year); these three are
+the standard curve-shape statistics reported in every fixed-income
+briefing.</p>
+<h2 data-number="7" id="carry-and-roll-down"><span class="header-section-number">7</span> Carry and roll-down</h2>
+<p> returns the expected return over a specified
+horizon from holding a bond at each maturity, assuming the curve
+does not move. The argument can override the
+default, which is the curve’s own yield at the horizon point.
+Carry is the bond’s yield (less any funding rate if the position
+is leveraged). Roll-down is the capital gain from being repriced
+at a shorter maturity’s (typically lower) yield. Their sum is the
+all-in expected return conditional on a static curve.</p>
+<p>Figure <a href="#fig:carry">5</a> shows the breakdown across maturities at a
+three-month horizon, using the current US Treasury Nelson-Siegel
+fit. The pattern is informative: at the two- to five-year range,
+carry and roll-down are modest. At the belly (five- to ten-year)
+they are comparable and additive. At the long end, carry dominates
+and roll-down falls because the curve flattens.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:carry"></span>
+<embed src="figures/fig5_carry.pdf" title="A grouped bar chart of expected three-month return contributions in basis points against maturity from two to thirty years. For each maturity there are two bars: blue for carry and red for roll-down. Carry rises with maturity; roll-down is largest at the belly of the curve (five to ten years) and smaller at both the short and long ends." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 5: Expected three-month return decomposed into carry and roll-down, US Treasury curve at the most recent date. Bars are in basis points. Carry (blue) is the bond yield less the short-end funding rate (here the 3-month Treasury yield), scaled to the three-month horizon. Roll-down (red) is the capital gain from being revalued at the shorter-maturity yield implied by the current curve, assuming the curve does not shift. The 30-year point has the largest carry because the curve is upward-sloping, but modest roll-down because the curve is nearly flat at the long end.
+</p>
+</div>
+</div>
+<h2 data-number="8" id="replication"><span class="header-section-number">8</span> Replication</h2>
+<p>A canonical yield-curve workflow is five lines:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yieldcurves)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mats  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.0495</span>, <span class="fl">0.048</span>, <span class="fl">0.046</span>, <span class="fl">0.042</span>, <span class="fl">0.041</span>, <span class="fl">0.045</span>, <span class="fl">0.050</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fit   <span class="ot">&lt;-</span> <span class="fu">yc_nelson_siegel</span>(mats, rates)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">yc_forward</span>(fit, <span class="at">maturities =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">yc_carry</span>(fit, <span class="at">maturities =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">horizon =</span> <span class="fl">0.25</span>)</span></code></pre></div>
+<p>The same idiom, with replaced by
+or , works for
+every fitting method. Downstream functions dispatch on the
+class and accept plain numeric vectors otherwise.</p>
+<h2 data-number="9" id="a-pandemic-cycle-case-study"><span class="header-section-number">9</span> A pandemic-cycle case study</h2>
+<p>Figure <a href="#fig:curves">6</a> shows the US Treasury curve at three
+dates spanning the pandemic monetary cycle: the end of 2019, the
+rate-peak month of October 2023, and the most recent trading day.
+The pre-pandemic curve is flat and low, reflecting the near-zero
+policy rate and modest term premia of the prior decade. The
+October 2023 curve is inverted, with two-year yields above long
+yields, reflecting the Federal Reserve’s tightening cycle and the
+market’s expectation of eventual rate cuts. The current curve is
+positively-sloped again, with short-end yields having come down
+from their peak.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:curves"></span>
+<embed src="figures/fig6_curves.pdf" title="A line chart of US Treasury yields against maturity on a log scale from three months to thirty years. Three curves are shown: a low and flat curve for December 2019 near two per cent, an inverted curve for October 2023 with short rates above long rates around five per cent, and a more recent upward-sloping curve between four and five per cent." width="100%" type="application/pdf" />
+<p class="caption">
+Figure 6: US Treasury yield curves at three dates: pre-pandemic, rate peak, and most recent. Points are FRED Constant Maturity Treasury rates at ten maturities. Lines are Nelson-Siegel fits. December 2019 shows a flat low-rate curve. October 2023 shows an inverted curve around the 2- to 5-year belly. The most recent curve has re-steepened as front-end rates have fallen from their peak.
+</p>
+</div>
+</div>
+<p>Each of these three curves can be passed to the full downstream
+workflow: on the full monthly panel produces the
+decomposition in Figure <a href="#fig:pca">4</a>; on the
+current fit produces Figure <a href="#fig:carry">5</a>;
+on any fit produces Figure <a href="#fig:duration">3</a>.</p>
+<h2 data-number="10" id="limitations"><span class="header-section-number">10</span> Limitations</h2>
+<p>Five limitations apply.</p>
+<ol type="1">
+<li><a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> fits curves at a single point in time.
+Dynamic term-structure models, including affine Gaussian models
+following <span class="citation" data-cites="ang2003no">Ang and Piazzesi (<a href="#ref-ang2003no" role="doc-biblioref">2003</a>)</span> and arbitrage-free Nelson-Siegel models,
+are out of scope. For those, use specialised packages or
+bespoke estimation.</li>
+<li>The package does not implement the return-forecasting
+regressions of <span class="citation" data-cites="cochrane2005bond">Cochrane and Piazzesi (<a href="#ref-cochrane2005bond" role="doc-biblioref">2005</a>)</span> or other predictive exercises
+using the fitted curve as a regressor. Those are natural
+extensions but belong in a forecasting-focused package.</li>
+<li>Par-to-zero bootstrap stripping supports annual and semi-annual
+frequencies only. Exotic coupon schedules and amortising
+instruments require user-side preprocessing.</li>
+<li>The Svensson optimiser is non-convex and can return local
+minima in pathological cases. The multi-start implementation
+reduces but does not eliminate this risk; users concerned about
+convergence should inspect residuals and consider alternative
+starting values.</li>
+<li>Real-time curve estimation at a central-bank’s publication
+frequency is not provided. <span class="citation" data-cites="gurkaynak2007us">Gürkaynak et al. (<a href="#ref-gurkaynak2007us" role="doc-biblioref">2007</a>)</span> publish a
+continuously-updated Svensson curve for the US Treasury market
+that users can ingest as an alternative to fitting their own.</li>
+</ol>
+<h2 data-number="11" id="conclusion"><span class="header-section-number">11</span> Conclusion</h2>
+<p>Yield-curve analysis is a routine part of fixed-income research,
+portfolio management, and central-bank monitoring, and had been
+under-served on CRAN. <a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a> consolidates the
+standard toolkit: Nelson-Siegel, Svensson, and spline fitting;
+forward rates, discount factors, and par-zero conversions;
+duration, convexity, Z-spread, and key rate durations;
+principal-component, level-slope-curvature, and slope-and-butterfly
+decompositions; carry and roll-down. Every function accepts plain
+numeric inputs and returns S3 objects with print and plot methods.
+Planned additions include arbitrage-free Nelson-Siegel following
+<span class="citation" data-cites="christensen2011affine">Christensen et al. (<a href="#ref-christensen2011affine" role="doc-biblioref">2011</a>)</span>, a reduced-form term-premium decomposition
+via following the regression-based
+approach of <span class="citation" data-cites="adrian2013pricing">Adrian et al. (<a href="#ref-adrian2013pricing" role="doc-biblioref">2013</a>)</span>, return-forecasting helpers for the
+Cochrane-Piazzesi factor, a Bloomberg-style ASW (asset-swap)
+spread computation, and optional integration with real-time
+Svensson curves from central-bank publications. Contributions and
+bug reports are welcome on GitHub.</p>
+<h2 class="unnumbered" id="acknowledgements">Acknowledgements</h2>
+<p>The Federal Reserve Bank of St. Louis publishes the Economic Data
+(FRED) service used for the US Treasury Constant Maturity Treasury
+examples in this paper. The author thanks the R Core Team and CRAN
+maintainers for the infrastructure that supports open-source
+statistical software.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 class="appendix" data-number="11.1" id="cran-packages-used"><span class="header-section-number">11.1</span> CRAN packages used</h3>
+<p><a href="https://cran.r-project.org/package=yieldcurves">yieldcurves</a>, <a href="https://cran.r-project.org/package=YieldCurve">YieldCurve</a>, <a href="https://cran.r-project.org/package=fBonds">fBonds</a>, <a href="https://cran.r-project.org/package=cli">cli</a>, <a href="https://cran.r-project.org/package=testthat">testthat</a></p>
+<h3 class="appendix" data-number="11.2" id="cran-task-views-implied-by-cited-packages"><span class="header-section-number">11.2</span> CRAN Task Views implied by cited packages</h3>
+<p><a href="https://cran.r-project.org/view=Finance">Finance</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-adrian2013pricing" class="csl-entry" role="listitem">
+T. Adrian, R. K. Crump and E. Moench. Pricing the term structure with linear regressions. <em>Journal of Financial Economics</em>, 110(1): 110–138, 2013. DOI <a href="https://doi.org/10.1016/j.jfineco.2013.04.009">10.1016/j.jfineco.2013.04.009</a>.
+</div>
+<div id="ref-ang2003no" class="csl-entry" role="listitem">
+A. Ang and M. Piazzesi. A no-arbitrage vector autoregression of term structure dynamics with macroeconomic and latent variables. <em>Journal of Monetary Economics</em>, 50(4): 745–787, 2003. DOI <a href="https://doi.org/10.1016/S0304-3932(03)00032-1">10.1016/S0304-3932(03)00032-1</a>.
+</div>
+<div id="ref-bis2005zero" class="csl-entry" role="listitem">
+Bank for International Settlements. Zero-coupon yield curves: Technical documentation. 25. Bank for International Settlements. 2005.
+</div>
+<div id="ref-bauer2020interest" class="csl-entry" role="listitem">
+M. D. Bauer and G. D. Rudebusch. Interest rates under falling stars. <em>American Economic Review</em>, 110(5): 1316–1354, 2020. DOI <a href="https://doi.org/10.1257/aer.20171822">10.1257/aer.20171822</a>.
+</div>
+<div id="ref-christensen2011affine" class="csl-entry" role="listitem">
+J. H. E. Christensen, F. X. Diebold and G. D. Rudebusch. The affine arbitrage-free class of <span>N</span>elson-<span>S</span>iegel term structure models. <em>Journal of Econometrics</em>, 164(1): 4–20, 2011. DOI <a href="https://doi.org/10.1016/j.jeconom.2011.02.011">10.1016/j.jeconom.2011.02.011</a>.
+</div>
+<div id="ref-cochrane2005bond" class="csl-entry" role="listitem">
+J. H. Cochrane and M. Piazzesi. Bond risk premia. <em>American Economic Review</em>, 95(1): 138–160, 2005. DOI <a href="https://doi.org/10.1257/0002828053828581">10.1257/0002828053828581</a>.
+</div>
+<div id="ref-diebold2006forecasting" class="csl-entry" role="listitem">
+F. X. Diebold and C. Li. Forecasting the term structure of government bond yields. <em>Journal of Econometrics</em>, 130(2): 337–364, 2006. DOI <a href="https://doi.org/10.1016/j.jeconom.2005.03.005">10.1016/j.jeconom.2005.03.005</a>.
+</div>
+<div id="ref-diebold2013yield" class="csl-entry" role="listitem">
+F. X. Diebold and G. D. Rudebusch. <em>Yield curve modeling and forecasting: The dynamic <span>N</span>elson-<span>S</span>iegel approach.</em> Princeton: Princeton University Press, 2013.
+</div>
+<div id="ref-fisher1995fitting" class="csl-entry" role="listitem">
+M. Fisher, D. Nychka and D. Zervos. Fitting the term structure of interest rates with smoothing splines. 95-1. Board of Governors of the Federal Reserve System. 1995.
+</div>
+<div id="ref-guirreri2022yieldcurve" class="csl-entry" role="listitem">
+S. S. Guirreri. <em><span class="nocase">YieldCurve: Modelling and Estimation of the Yield Curve</span>.</em> 2022. R package version 5.1.
+</div>
+<div id="ref-gurkaynak2007us" class="csl-entry" role="listitem">
+R. S. Gürkaynak, B. Sack and J. H. Wright. The <span>U.S.</span> <span>T</span>reasury yield curve: 1961 to the present. <em>Journal of Monetary Economics</em>, 54(8): 2291–2304, 2007. DOI <a href="https://doi.org/10.1016/j.jmoneco.2007.06.029">10.1016/j.jmoneco.2007.06.029</a>.
+</div>
+<div id="ref-hicks1939value" class="csl-entry" role="listitem">
+J. R. Hicks. <em>Value and capital: An inquiry into some fundamental principles of economic theory.</em> Oxford: Clarendon Press, 1939.
+</div>
+<div id="ref-ho1992key" class="csl-entry" role="listitem">
+T. S. Y. Ho. Key rate durations: Measures of interest rate risks. <em>Journal of Fixed Income</em>, 2(2): 29–44, 1992. DOI <a href="https://doi.org/10.3905/jfi.1992.408049">10.3905/jfi.1992.408049</a>.
+</div>
+<div id="ref-litterman1991common" class="csl-entry" role="listitem">
+R. Litterman and J. Scheinkman. Common factors affecting bond returns. <em>Journal of Fixed Income</em>, 1(1): 54–61, 1991. DOI <a href="https://doi.org/10.3905/jfi.1991.692347">10.3905/jfi.1991.692347</a>.
+</div>
+<div id="ref-macaulay1938movements" class="csl-entry" role="listitem">
+F. R. Macaulay. <em>Some theoretical problems suggested by the movements of interest rates, bond yields and stock prices in the <span>U</span>nited <span>S</span>tates since 1856.</em> New York: National Bureau of Economic Research, 1938.
+</div>
+<div id="ref-mcculloch1971measuring" class="csl-entry" role="listitem">
+J. H. McCulloch. Measuring the term structure of interest rates. <em>Journal of Business</em>, 44(1): 19–31, 1971. DOI <a href="https://doi.org/10.1086/295329">10.1086/295329</a>.
+</div>
+<div id="ref-nelson1987parsimonious" class="csl-entry" role="listitem">
+C. R. Nelson and A. F. Siegel. Parsimonious modeling of yield curves. <em>Journal of Business</em>, 60(4): 473–489, 1987. DOI <a href="https://doi.org/10.1086/296409">10.1086/296409</a>.
+</div>
+<div id="ref-piazzesi2010affine" class="csl-entry" role="listitem">
+M. Piazzesi. Affine term structure models. In <em>Handbook of financial econometrics: Tools and techniques</em>, Eds Y. Aït-Sahalia and L. P. Hansen pages. 691–766 2010. Elsevier. DOI <a href="https://doi.org/10.1016/B978-0-444-50897-3.50015-8">10.1016/B978-0-444-50897-3.50015-8</a>.
+</div>
+<div id="ref-svensson1994estimating" class="csl-entry" role="listitem">
+L. E. O. Svensson. Estimating and interpreting forward interest rates: <span>S</span>weden 1992-1994. 4871. National Bureau of Economic Research. 1994. DOI <a href="https://doi.org/10.3386/w4871">10.3386/w4871</a>.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+<h3 id="citation">Citation</h3>
+<p>For attribution, please cite this work as</p>
+<pre class="citation-appendix short">Coverdale, "Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R", The R Journal, 2026</pre>
+<p>BibTeX citation</p>
+<pre class="citation-appendix long">@article{yieldcurves,
+  author = {Coverdale, Charles},
+  title = {Yieldcurves: Yield Curve Fitting, Analysis, and Decomposition in R},
+  journal = {The R Journal},
+  year = {2026},
+  issn = {2073-4859},
+  pages = {1}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
