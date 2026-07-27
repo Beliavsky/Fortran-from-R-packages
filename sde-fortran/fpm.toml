@@ -1,0 +1,22 @@
+name = "sde-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Stefano Maria Iacus; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (C) 2006 S. M. Iacus; 2026 Fortran translation contributors"
+description = "Modern Fortran simulation and inference for stochastic differential equations"
+homepage = "https://github.com/cran/sde"
+keywords = ["sde", "stochastic-differential-equations", "simulation", "inference"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

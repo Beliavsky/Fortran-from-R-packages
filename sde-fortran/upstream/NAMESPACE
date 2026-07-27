@@ -1,0 +1,73 @@
+useDynLib(sde, .registration = TRUE)
+export(sde.sim)
+# Ornstein-Uhlenbeck
+export(rcOU)
+export(dcOU)
+export(pcOU)
+export(qcOU)
+export(rsOU)
+export(dsOU)
+export(psOU)
+export(qsOU)
+# Black and Scholes
+export(rcBS)
+export(dcBS)
+export(pcBS)
+export(qcBS)
+# Cox-Ingersoll-Ross
+export(rcCIR)
+export(dcCIR)
+export(pcCIR)
+export(qcCIR)
+export(rsCIR)
+export(dsCIR)
+export(psCIR)
+export(qsCIR)
+# Conditional density approximations
+export(dcEuler)
+export(dcElerian)
+export(dcKessler)
+export(dcOzaki)
+export(dcShoji)
+export(dcSim)
+# Brownian motion related
+export(BM)
+export(GBM)
+export(BBridge)
+# Diffusion bridges
+export(DBridge)
+# likelihood related
+export(HPloglik)
+export(EULERloglik)
+export(SIMloglik)
+# estimating functions related
+export(simple.ef)
+export(simple.ef2)
+export(linear.mart.ef)
+# GMM
+export(gmm)
+# nonparametrics
+export(ksdrift)
+export(ksdiff)
+export(ksdens)
+# changepoint
+export(cpoint)
+# AIC
+export(sdeAIC)
+export(MOdist)
+export(sdeDiv)
+# imports
+importFrom("MASS", mvrnorm)
+importFrom("fda", eval.basis, create.bspline.basis)
+importFrom("zoo", zoo, na.approx)
+importFrom("stats4", mle)
+ importFrom("stats", "D", "as.dist", "deltat", "density", "deriv",
+     "dgamma", "dlnorm", "dnorm", "end", "frequency",
+     "integrate", "is.ts", "na.omit", "optim", "optimize",
+     "pchisq", "pgamma", "plnorm", "pnorm", "qchisq", "qgamma",
+     "qlnorm", "qnorm", "rchisq", "rgamma", "rlnorm", "rnorm",
+     "rpois", "runif", "sd", "start", "time", "ts")
+
+
+
+

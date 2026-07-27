@@ -1,0 +1,17 @@
+Package: sde
+Type: Package
+Title: Simulation and Inference for Stochastic Differential Equations
+Version: 2.0.21
+Authors@R: person(given = c("Stefano", "Maria"),
+                      family = "Iacus",
+                      role = c("aut", "cre"),
+                      email = "smiacus@gmail.com")
+Depends: MASS, stats4, fda, zoo
+Maintainer: Stefano Maria Iacus <smiacus@gmail.com>
+Description: Description: Provides functions for simulation and inference for stochastic differential equations (SDEs). It accompanies the book "Simulation and Inference for Stochastic Differential Equations: With R Examples" (Iacus, 2008, Springer; ISBN: 978-0-387-75838-1).
+License: GPL (>= 2)
+NeedsCompilation: yes
+Packaged: 2025-12-22 16:03:54 UTC; jago
+Author: Stefano Maria Iacus [aut, cre]
+Repository: CRAN
+Date/Publication: 2025-12-22 16:50:02 UTC

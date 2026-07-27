@@ -1,0 +1,5 @@
+V 2.0.18
+* changed maintainer email
+* fixed man pages for urls
+* fixed "Found no call to: ‘R_useDynamicSymbols’" warning
+* removed unused C code

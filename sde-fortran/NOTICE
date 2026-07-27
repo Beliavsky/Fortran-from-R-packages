@@ -1,0 +1,20 @@
+sde-fortran is a modern Fortran translation and adaptation of the R package
+"sde: Simulation and Inference for Stochastic Differential Equations",
+version 2.0.21, by Stefano Maria Iacus.
+
+Upstream package metadata:
+  Author: Stefano Maria Iacus
+  License: GNU General Public License, version 2 or any later version
+  Source package: sde 2.0.21
+
+The supplied upstream C source states:
+  Code of this package: Copyright (C) 2006 S. M. Iacus
+
+This translation is a derivative work and is distributed under the GNU
+General Public License, version 2 or any later version. The complete GPL-2.0
+text is in LICENSE. Copies of the upstream DESCRIPTION, NAMESPACE, NEWS, and
+original C license header are retained in upstream/.
+
+R expression parsing, ts/zoo/fda object infrastructure, plotting, and bundled
+R data files are not reproduced. Their numerical functionality is represented
+by typed arrays, procedure callbacks, direct kernels, or documented exclusions.
