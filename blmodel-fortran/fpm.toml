@@ -1,0 +1,20 @@
+name = "blmodel-fortran"
+version = "1.0.2"
+license = "GPL-3.0-only"
+author = "Andrzej Palczewski, Jan Palczewski; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright (C) 2017 Andrzej Palczewski and Jan Palczewski"
+description = "Modern Fortran port of the numerical core of the R package BLModel"
+categories = ["finance", "portfolio", "statistics"]
+keywords = ["Black-Litterman", "portfolio", "Bayesian", "risk"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

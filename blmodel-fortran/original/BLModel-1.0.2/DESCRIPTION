@@ -1,0 +1,22 @@
+Package: BLModel
+Title: Black-Litterman Posterior Distribution
+Version: 1.0.2
+Authors@R: c(
+          person("Andrzej", "Palczewski", email = "A.Palczewski@mimuw.edu.pl", role = c("aut", "cre")),
+          person("Jan", "Palczewski", email = "J.Palczewski@leeds.ac.uk", role = c("aut")),
+          person("Alicja","Gosiewska", email = "alicjagosiewska@gmail.com", role = c("ctb")))      
+Description: Posterior distribution in the Black-Litterman model is computed from a prior distribution given in the form of a time series of asset returns and a continuous distribution of views provided by the user as an external function.
+Depends: R (>= 3.3.0)
+License: GNU General Public License version 3
+Encoding: UTF-8
+LazyData: true
+Author: Andrzej Palczewski [aut, cre],
+        Jan Palczewski [aut],
+        Alicja Gosiewska [ctb]
+Maintainer: Andrzej Palczewski <A.Palczewski@mimuw.edu.pl>
+RoxygenNote: 6.0.1
+Suggests: mvtnorm, testthat
+NeedsCompilation: no
+Packaged: 2017-03-28 16:52:03 UTC; apalczew
+Repository: CRAN
+Date/Publication: 2017-03-29 06:38:36 UTC

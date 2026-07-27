@@ -1,0 +1,15 @@
+BLModel modern Fortran translation
+
+This project is a derivative work of BLModel 1.0.2.
+
+Original package:
+  Copyright (C) 2017 Andrzej Palczewski and Jan Palczewski
+  Contributor: Alicja Gosiewska
+  License: GNU General Public License version 3
+
+The original source is retained unmodified under original/BLModel-1.0.2.
+The supplied archive is retained under provenance/BLModel-master.zip.
+
+The Fortran translation preserves GPL-3.0-only licensing. It replaces R
+matrices, lists, and function objects with typed arrays, derived types, and
+procedure callbacks. No warranty is provided.
