@@ -1,0 +1,19 @@
+name = "hdshop"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "HDShOP authors; Fortran translation generated from the supplied source"
+copyright = "Copyright (c) HDShOP authors"
+description = "Modern Fortran translation of numerical algorithms from HDShOP"
+categories = ["finance", "statistics", "portfolio-optimization"]
+keywords = ["shrinkage", "high-dimensional", "portfolio", "covariance"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
