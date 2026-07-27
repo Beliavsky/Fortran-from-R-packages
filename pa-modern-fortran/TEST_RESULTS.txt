@@ -1,0 +1,18 @@
+pa-modern-fortran 0.1.0 validation record
+
+Compiler: GNU Fortran 14.2.0
+Libraries: LAPACK, BLAS
+
+Commands:
+  make debug
+  make release
+
+Expected test output:
+  All performance-attribution tests passed.
+  GPL-2.0-only source license checks passed.
+
+Both application modes are exercised by `make check`:
+  fit_csv data/example_attribution.csv brinson geometric
+  fit_csv data/example_attribution.csv regression geometric
+
+The final archive is additionally extracted into a clean directory and both builds are rerun from that extraction.

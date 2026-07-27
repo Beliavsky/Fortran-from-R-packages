@@ -1,0 +1,17 @@
+name = "pa-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Yang Lu, David Kane, and Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran translation of the computational core of the R pa package"
+categories = ["finance", "portfolio", "performance-attribution"]
+keywords = ["Brinson", "regression attribution", "portfolio exposure"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
