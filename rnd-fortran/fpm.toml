@@ -1,0 +1,20 @@
+name = "rnd"
+version = "1.2.0"
+license = "GPL-2.0-or-later"
+author = "Kam Hamidieh; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (C) 2017 Kam Hamidieh"
+description = "Modern Fortran translation of the computational routines in the RND R package"
+categories = ["finance", "statistics", "option-pricing"]
+keywords = ["risk-neutral-density", "options", "implied-volatility", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

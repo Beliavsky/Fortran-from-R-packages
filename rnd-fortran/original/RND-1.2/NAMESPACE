@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("grDevices", "dev.off", "pdf")
+importFrom("graphics", "abline", "legend", "matplot", "par", "plot","points")
+importFrom("stats", "dbeta", "dlnorm", "dnorm", "integrate", "lm", "optim", "pbeta", "pnorm", "uniroot")
+importFrom("utils", "write.table")

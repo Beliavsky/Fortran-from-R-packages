@@ -1,0 +1,14 @@
+Package: RND
+Type: Package
+Title: Risk Neutral Density Extraction Package
+Version: 1.2
+Date: 2017-01-10
+Author: Kam Hamidieh <khamidieh@gmail.com>
+Maintainer: Kam Hamidieh <khamidieh@gmail.com>
+Description: Extract the implied risk neutral density from options using various methods.
+Depends: R (>= 3.0.1)
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2017-01-10 18:31:18 UTC; proud
+Repository: CRAN
+Date/Publication: 2017-01-11 00:14:55
