@@ -1,0 +1,14 @@
+# History files
+.Rhistory
+.Rproj
+.Rproj.*
+.RData
+*.Rcheck/*
+README.html
+*-Ex.R
+.Rproj.user
+docs
+*.rds
+inst/doc
+/doc/
+/Meta/

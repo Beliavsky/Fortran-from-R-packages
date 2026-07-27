@@ -1,0 +1,34 @@
+Package: pbo
+Type: Package
+Title: Probability of Backtest Overfitting
+Version: 1.3.5
+Authors@R: c(
+  person('Matt','Barry',email='mrb@softisms.com',
+    role=c('aut','cre')))
+Description: Following the method of Bailey et al., computes for a collection
+    of candidate models the probability of backtest overfitting, the
+    performance degradation and probability of loss, and the stochastic
+    dominance.
+License: MIT + file LICENSE
+URL: https://github.com/mrbcuda/pbo
+BugReports: https://github.com/mrbcuda/pbo/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends:
+  R (>= 4.0.0)
+Imports:
+    utils (>= 4.1.2),
+    lattice (>= 0.20.45),
+    latticeExtra (>= 0.6.29),
+    foreach (>= 1.5.2)
+Suggests:
+    PerformanceAnalytics,
+    grid,
+    testthat,
+    doParallel,
+    parallel,
+    knitr,
+    spelling
+VignetteBuilder: knitr
+Language: en-US

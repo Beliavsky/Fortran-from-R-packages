@@ -1,0 +1,12 @@
+pbo-fortran is a modern Fortran translation of the computational
+parts of the R package pbo 1.3.5.
+
+Original package:
+  pbo: Probability of Backtest Overfitting
+  Copyright (c) 2014 Matthew R. Barry
+  License: MIT
+
+The original source supplied for this translation is retained unmodified under
+original/pbo-1.3.5 and the supplied archive is retained under provenance.
+Plotting, R S3 presentation, grid/lattice integration, and foreach parallel
+adapters are not compiled into the Fortran library.
