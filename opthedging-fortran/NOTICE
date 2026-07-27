@@ -1,0 +1,16 @@
+OptHedging modern Fortran translation
+=====================================
+
+This project is a derivative work of OptHedging 1.0 by Bruno Remillard.
+
+Original package:
+  Copyright (C) 2013 Bruno Remillard
+  License: GNU General Public License, version 2 or later
+
+Modern Fortran translation:
+  Copyright (C) 2026 OpenAI
+  License: GNU General Public License, version 2 or later
+
+The original package source is retained unmodified under
+original/OptHedging-1.0. The supplied source archive is retained under
+provenance. See PORTING_NOTES.md and COVERAGE.md for the translation scope.

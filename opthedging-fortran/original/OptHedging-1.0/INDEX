@@ -1,0 +1,7 @@
+OptHedging-package      Functions used in Chapter 3 of
+                        'Statistical Methods for Financial
+                        Engineering', by Bruno Remillard. ~~ package
+                        title ~~
+interpol1d              Linear interpolation function. ~~
+
+hedging.iid             Function for computing Monte Carlo estimates of put or call prices together with the optimal hedging strategy.~~

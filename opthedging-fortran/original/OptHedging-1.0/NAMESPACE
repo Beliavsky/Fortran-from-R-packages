@@ -1,0 +1,3 @@
+exportPattern("^[[:alpha:]]+")
+useDynLib(OptHedging,interpolation1d,HedgingIID)
+export(interpolation1d,HedgingIID)
