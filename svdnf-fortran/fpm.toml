@@ -1,0 +1,30 @@
+name = "svdnf"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Louis Arsenault-Mahjoubi, Jean-Francois Begin, Mathieu Boudreault; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright (C) 2024 SVDNF authors"
+description = "Modern Fortran discrete nonlinear filtering for stochastic volatility models"
+categories = ["finance", "statistics", "stochastic-volatility"]
+keywords = ["stochastic volatility", "nonlinear filtering", "maximum likelihood", "jumps"]
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = true
+module-naming = false
+
+[[example]]
+name = "built_in_models"
+source-dir = "example"
+main = "built_in_models.f90"
+
+[[example]]
+name = "filter_and_forecast"
+source-dir = "example"
+main = "filter_and_forecast.f90"
+
+[[example]]
+name = "estimate_taylor"
+source-dir = "example"
+main = "estimate_taylor.f90"

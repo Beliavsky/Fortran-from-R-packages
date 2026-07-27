@@ -1,0 +1,24 @@
+Package: SVDNF
+Type: Package
+Title: Discrete Nonlinear Filtering for Stochastic Volatility Models
+Version: 0.1.11
+Authors@R: c(person("Louis", "Arsenault-Mahjoubi", role = c("aut", "cre"),
+                      email = "larsenau@sfu.ca"),
+                      person("Jean-François", "Bégin", role = "aut"),
+                      person("Mathieu", "Boudreault", role = "aut")  )
+Author: Louis Arsenault-Mahjoubi [aut, cre],
+  Jean-François Bégin [aut],
+  Mathieu Boudreault [aut]
+Maintainer: Louis Arsenault-Mahjoubi <larsenau@sfu.ca>
+Description: Implements the discrete nonlinear filter (DNF) of Kitagawa (1987) <doi:10.1080/01621459.1987.10478534> to a wide class of stochastic volatility (SV) models with return and volatility jumps following the work of Bégin and Boudreault (2021) <doi:10.1080/10618600.2020.1840995> to obtain likelihood evaluations and maximum likelihood parameter estimates. Offers several built-in SV models and a flexible framework for users to create customized models by specifying drift and diffusion functions along with an arrival distribution for the return and volatility jumps. Allows for the estimation of factor models with stochastic volatility (e.g., heteroskedastic volatility CAPM) by incorporating expected return predictors. Also includes functions to compute filtering and prediction distribution estimates, to simulate data from built-in and custom SV models with jumps, and to forecast future returns and volatility values using Monte Carlo simulation from a given SV model. 
+License: GPL-3
+Encoding: UTF-8
+Imports: Rcpp (>= 1.0.9), methods, zoo, xts
+LinkingTo: Rcpp
+RoxygenNote: 7.2.3
+Suggests: R.rsp
+VignetteBuilder: R.rsp
+NeedsCompilation: yes
+Packaged: 2024-10-29 00:03:01 UTC; Louis
+Repository: CRAN
+Date/Publication: 2024-10-29 00:30:02 UTC
