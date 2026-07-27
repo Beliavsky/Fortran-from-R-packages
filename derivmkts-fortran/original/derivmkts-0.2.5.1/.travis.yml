@@ -1,0 +1,10 @@
+language: r
+
+r_github_packages:
+  - rmcd1024/derivmkts
+
+warnings_are_errors: true
+
+sudo: required
+
+after_success: R -e 'rmarkdown::render("README.Rmd")'

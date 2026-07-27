@@ -1,0 +1,14 @@
+derivmkts-fortran is a modern Fortran translation of the numerical routines in
+Robert L. McDonald's R package derivmkts 0.2.5.1.
+
+Original work:
+  Copyright (c) 2014-2022 Robert L. McDonald
+  License: MIT
+  Source supplied as derivmkts-master.zip
+
+The original package is retained unmodified under original/derivmkts-0.2.5.1.
+The supplied archive is retained under provenance/derivmkts-master.zip.
+
+The Fortran translation preserves the MIT license and attribution. It is an
+independent derivative implementation and is not an official release of the
+original author.
