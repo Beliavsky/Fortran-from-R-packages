@@ -1,0 +1,7 @@
+build/
+build_opt/
+build_clean/
+*.mod
+*.o
+*.obj
+*.exe

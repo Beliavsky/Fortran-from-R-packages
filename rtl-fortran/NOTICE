@@ -1,0 +1,10 @@
+rtl-fortran is a modern Fortran translation of selected numerical routines from RTL 1.3.9.
+
+Original package:
+  RTL - Risk Tool Library
+  Copyright (c) 2020 RTL Authors
+  Authors listed by the supplied package: Philippe Cote and Nima Safaian
+  License: MIT
+
+This translation excludes GARCH, web/API clients, plotting, R object infrastructure,
+and compiled use of bundled data. See COVERAGE.md and PORTING_NOTES.md.
