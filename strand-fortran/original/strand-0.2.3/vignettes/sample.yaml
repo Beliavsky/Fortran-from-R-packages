@@ -1,0 +1,46 @@
+from: 2020-06-01
+to: 2020-08-31
+solver: glpk
+strategies:
+  strategy_1:
+    in_var: value
+    strategy_capital: 1e6
+    ideal_long_weight: 1
+    ideal_short_weight: 1
+    position_limit_pct_lmv: 1
+    position_limit_pct_smv: 1
+    position_limit_pct_adv: 30
+    trading_limit_pct_adv: 5
+    constraints:
+      size:
+        type: factor
+        in_var: size
+        upper_bound: 0.01
+        lower_bound: -0.01
+      sector:
+        type: category
+        in_var: sector
+        upper_bound: 0.02
+        lower_bound: -0.02
+turnover_limit: 25000
+target_weight_policy: half-way
+simulator:
+  fill_rate_pct_vol: 4
+  transaction_cost_pct: 0.1
+  financing_cost_pct: 1
+  calculate_exposures:
+    category_vars: sector
+    factor_vars: [value, size]
+  input_data:
+    type: object
+  pricing_data:
+    type: object
+    columns:
+      close_price: price_unadj
+      prior_close_price: prior_close_unadj
+      adjustment_ratio: adjustment_ratio
+      volume: volume
+      dividend: dividend_unadj
+      distribution: distribution_unadj
+  secref_data:
+    type: object

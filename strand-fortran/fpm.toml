@@ -1,0 +1,15 @@
+name = "strand-fortran"
+version = "0.2.3"
+license = "GPL-3.0-only"
+author = "Jeff Enos, David Kane, and strand contributors"
+maintainer = "strand-fortran contributors"
+copyright = "Copyright (C) strand authors and contributors"
+description = "Modern Fortran numerical port of strand portfolio construction and simulation"
+categories = ["finance", "portfolio", "optimization", "simulation"]
+keywords = ["portfolio optimization", "backtesting", "linear programming", "investment strategy"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
