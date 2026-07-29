@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Please cite the original etrm article when using this Fortran port."
+title: "etrm-fortran"
+version: "1.0.2-fortran.1"
+license: MIT
+authors:
+  - family-names: Sleire
+    given-names: Anders D.
+preferred-citation:
+  type: article
+  title: "etrm: Energy Trading and Risk Management in R"
+  authors:
+    - family-names: Sleire
+      given-names: Anders D.
+  journal: "The R Journal"
+  year: 2022
+  volume: 14
+  issue: 1
+  pages: 320-341
+  doi: 10.32614/RJ-2022-013
