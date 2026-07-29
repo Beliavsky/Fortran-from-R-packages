@@ -1,0 +1,13 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(
+    bibtype = "Manual",
+    title = "{FatTailsR}: Kiener Distributions and Fat Tails in Finance",
+    author = c(person("Patrice", "Kiener")),
+    year = year,
+    note = note,
+    url = "https://CRAN.R-project.org/package=FatTailsR",
+    key = "FatTailsR-package",
+	header = "To cite FatTailsR in publications use:"
+)

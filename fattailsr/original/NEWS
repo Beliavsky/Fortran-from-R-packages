@@ -1,0 +1,233 @@
+=== FatTailsR: Kiener Distributions and Fat Tails in Finance ===
+
+
+FatTailsR 2.0.1 - 2026-02-15 - current version on CRAN
+======================================================
+- Version packaged with R-4.5.2 and sent to CRAN (R-4.5.2)
+- fatreturns.R: change timeSeries::time(z) <- timeSeries::time(x) to 
+  timeSeries::time(z) <- stat::time(x) as per Georgi Boshnakov's recommandation
+  to cope with the next version of timeSeries
+
+
+FatTailsR 2.0.0 - 2025-04-21 - in CRAN archives
+===============================================
+- Version packaged with R-4.5.0 and sent to CRAN (R-4.5.0)
+- First version on CRAN with the scaling parameter (x-m)*pi/sqrt(3)/g to get sd=1 at k=Inf
+- BREAK with previous results for the g parameter (other parameters stay unchanged). 
+
+
+FatTailsR 1.9.10 - 2025-04-13
+=============================
+- version 1.9.9 packaged with R-4.5.0
+- Depends changed from R >= 3.1.0 to R >= 4.1.0
+- FatTailsR 1.9.11: 2025-04-20 change the DESCRIPTION 
+
+
+FatTailsR 1.9.9 - 2024-11-12
+============================
+- FatTailsR 1.9.9: rewrite all equations in proper Latex format with deqn{}{} and eqn{}{}
+- FatTailsR 1.9.8: rewrite kiener1234.R examples using outer()
+- FatTailsR 1.9.7: rewrite pkiener2347: 20x faster and much more accurate (= BIG IMPROVEMENT !!)
+				   has a similar impact on dkiener2347: 20x faster and more accurate
+				   update the examples in kiener1234 with new values for sd, xylim, logisst
+				   rewrite the examples in kashp
+- FatTailsR 1.9.6: update the the doc (kashp,k12347,logisst) with the new conversion
+                   dimdim is now an internal function with a hidden doc
+- FatTailsR 1.9.5: replace *logishp by *logisst (standardized logistic distribution). 
+                   start rewriting the doc
+- FatTailsR 1.9.4: moments. Conversion from (x-m)/2/g to (x-m)*pi/sqrt(3)/g seems OK everywhere
+- FatTailsR 1.9.3: moments
+- FatTailsR 1.9.3: dpqr++logishp, ltm,rtmlogis, hkiener12347, hfitkX:logisk
+- FatTailsR 1.9.2: rtm, ltm
+- FatTailsR 1.9.1: estimkiener11, .hparamkienerX5
+
+
+FatTailsR 1.9.0 - 2024-10-14
+============================
+- Start the transition to v2 with the scaling parameter (x-m)*pi/sqrt(3)/g
+  rather than (x-m)/2/g in order to get a variance of 1 when kappa = Inf
+- Remove the trigonometric functions (see them in FatTailsR23)
+
+
+FatTailsR 1.8-6 - 2024-04-28
+============================
+- version packaged for R-4.4.0
+- FINAL INTERNAL VERSION WITH (x-m)/2/g
+
+
+FatTailsR 1.8-5 - 2024-03-03 - in CRAN archives
+===============================================
+- Version packaged with R-4.3.2 and sent to CRAN (R-4.3.3)
+- !!! FINAL PUBLIC VERSION ON CRAN WITH (x-m)/2/g !!!
+
+
+FatTailsR 1.8-4 - 2024-02-29
+============================
+- Prepared for R-4.3.2
+- rewrite 2x {p} as \code{p} in f_kiener12347 to pass new checks
+- replace \item{}{} by \item in m_laplaceroll to pass new checks
+- rename FatTailsR-package.R and arrange @include in b_data.R
+- split b_data.R in a_data.R and b_fatreturns.R. Arrange the @include
+- DESCRIPTION: arrange collate
+
+
+FatTailsR 1.8-3 - 2022-11-10
+============================
+- Prepared for R-4.2.2
+
+
+FatTailsR 1.8-2 - 2022-04-30
+============================
+- Prepared with R-4.2.0
+
+
+FatTailsR 1.8-0 - 2021-03-12 - in CRAN archives
+===============================================
+- Prepared for R-4.1.0
+- 36 http links changed to https thanks to urlchecker package
+- Roxygen 7.1.1
+
+
+FatTailsR 1.7-6 - 2017-12-30
+============================
+- paramkienerX5 and X7 rewritten : new algorithm
+-- nonlinear interpolation rather than second order approximation
+
+
+FatTailsR 1.7-5 - 2017-05-16 - in CRAN archives
+===============================================
+- Codename: Sister's birthday
+- Version for MNHN Semin-R conference (2017-06-16)
+-- https://rug.mnhn.fr/semin-r/PDF/JourneeR-2017-Programme.pdf
+- Nothing new in this subversion
+- MAIN NOVELTIES vs 1.7-0:
+
+FatTailsR 1.7-3 - 2017-01-07
+- mData 
+- extractData rewritten: "zoo" produces an index in Date format 
+
+FatTailsR 1.7-2 - 2016-10-26
+- Package generated from Windows and Linux
+
+
+FatTailsR 1.7-0 - 2016-05-15 - in CRAN archives
+===============================================
+- Codename: Dimanche de Pentecote
+- MAIN NOVELTIES vs 1.6-0:
+-- (dpqr)kiener7() vectorized for vector and matrix
+-- checkcoefk(), replaceNA()
+-- fatreturns(), logret() and elevate()
+- See details below
+
+FatTailsR 1.6-6 - 2016-05-15
+- Version for AB and documentation synchronised with FatTailsRplot.
+- checkquantiles(..., STOP = FALSE) in estimkiener5/7/11().
+
+FatTailsR 1.6-4 - 2016-04-30
+- extractData(pr="r") uses fatreturns rather than 100*diff(log()). Much better...
+
+FatTailsR 1.6-3 - 2016-04-15
+- New page *kiener7.R and new functions *kiener7() with
+  (x,q,p) integer or vector and (coefk) vector or matrix.
+- New parameter signedES in eskiener12347.R(..., signedES = FALSE) 
+  FALSE = (abs(ltm), abs(rtm)). TRUE = (ltm, rtm).
+- Change the page names and collate order
+
+FatTailsR 1.6-2 - 2016-04-11
+- new functions: checkcoefk(), replaceNA()
+- new function: ckiener7() deals with p vector and coefk matrix (recycling)
+- dimdim(NULL) returns now c(0,0) (before c(1,0))
+- checkquantiles() rewritten with a stop by default except if STOP = FALSE
+- parallel::makeCluster() now requires package {methods}
+  
+FatTailsR 1.6-1 - 2016-04-03
+- fatreturns, logret and elevate transferred from FatTailsRplot to FatTailsR
+
+
+FatTailsR 1.6-0 - 2016-02-20 - in CRAN archives
+===============================================
+- Codename: Caucus in Nevada
+- Bug when lower.tail was FALSE. New version is such that:
+  ltmkiener?(p, ..., lower.tail=FALSE) == rtmkiener?(p, ..., lower.tail=TRUE) 
+  rtmkiener?(p, ..., lower.tail=FALSE) == ltmkiener?(p, ..., lower.tail=TRUE) 
+  eskiener?() =ltmkiener? for left tail, =rtmkiener? for right tail and always positive 
+  
+FatTailsR 1.5-8 - 2016-02-04
+- fitkienerX, paramkienerX, paramkienerX5, paramkienerX7 
+  Recursive approach: accept list of vectors, matrix, timeSeries, xts, zoo...
+  
+FatTailsR 1.5-6 - 2015-12-25
+- R updated from R-3.1.0 to R-3.2.3
+- Expected Shortfall added to {regkienerLX} (dfrESkPk and dfrESkLk)
+
+FatTailsR 1.5-3 - 2015-11-13
+- Improved parallelization of arrays in {fitkienerX} and {paramkienerX57}
+
+
+FatTailsR 1.5-0 - 2015-11-08 - in CRAN archives
+===============================================
+- Codename: Rugby World cup - All Blacks win
+- Parallelization of arrays in {fitkienerX} and {paramkienerX57}
+- Bugs fixed: 
+-- {fitkienerX} returned NA in columns {xmoments} ("m1x","sdx","skx","kex") 
+-- {dimdim} returned wrong values with data.frame 
+
+
+FatTailsR 1.4-1 - 2015-10-25 - in CRAN archives
+===============================================
+- Codename: Rugby World cup
+- A major update !!
+- 3 months of intensive work for better performance and higher flexibility
+- Compatible with commercial package FatTailsRplot (several advanced plots)
+-- Plots can be seen in 2014 and 2015 presentations at R/Rmetrics Conference
+-- Contact me for a demo
+
+NEW FUNCTIONS
+- Functions {fitkienerX} and {paramkienerX}:
+-- accomodate vectors, matrix, data.frame, arrays and lists
+-- replace {fitkienerLX} and {estimkienerX} (1.2-0) which are suppressed
+   (we apologize to early users who will have to rewrite their code)
+   The new code is much better. 
+-- same output than {regkienerLX}$fitk
+-- some parameters renamed ("g.01" changed to "dg.01")
+-- smallest dataset must have more than 15 valid quantiles.
+-- return a huge vector {fitk} with quantiles, moments, VaR, ES, etc...
+- Predefined {exfit0},..,{exfit7} to subset this vector {fitk}
+- {pprobs0},..,{pprobs9} as preset values of probabilities to be combined with
+- {getnamesk} to generate parameter names
+- p1 replaces 1-p1 in elevenprobs (14 august 2015)
+- {dimdim}, {dimdim1}: alternate version to {dim} (03 August 2015)
+- {roundcoefk} to simplify parameter rounding (+ preset values) (1 August 2015, 1.2-6)
+- {ltmkiener1234}, {rtmkiener1234} {eskiener1234}
+  Left tail mean and Right tail mean as signed (+/-) Expected Shortfall 
+  for left and right tails (18 September 2015)
+- {hkiener1234} generate parameter h.01,..,h.99 (ES/ES_logis) (18 October 2015)
+- {ExtractData} as a wrapper of tData, xData, zData, dfData
+- Colnames with upper cases in datasets df,t,x,zData (14 August 2015)
+- {kmoments}, {xmoments} examples rewritten
+
+
+FatTailsR 1.2-3 - 2015-07-08 - in CRAN archives 
+===============================================
+- Code 1.2-0 made compliant with R-devel (next R 3.3-0).
+
+
+FatTailsR 1.2-0 - 2015-06-18 - in CRAN archives
+===============================================
+- Codename: Appel du 18 juin
+- Title changed to: Kiener Distributions and Fat Tails in Finance.
+- Raw and central moments.
+- regkienerLX has now a @exportClass(clregk).
+- fitkienerLX: same algorithm than regkienerLX but displays a flat table.
+- estimkienerX: new algorithm based on 5, 7, 9 or 11 quantiles.
+- {checkquantiles}
+- {pk2pk} conversion function
+- {ckiener1234} and parameter {c.01},..,{c.99}
+
+
+FatTailsR 1.0-3 - 2014-07-14 - in CRAN archives
+===============================================
+- Codename : Liberte, Egalite, Fraternite
+- Initial release.
+- Title: Power Hyperbolic Functions and Kiener Distributions.
+- Developped with R version R-3.1.0

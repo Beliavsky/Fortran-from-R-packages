@@ -1,0 +1,32 @@
+Package: FatTailsR
+Title: Kiener Distributions and Fat Tails in Finance and Neuroscience
+Description: Kiener distributions K1, K2, K3, K4 and K7 to characterize
+    distributions with left and right, symmetric or asymmetric fat tails in 
+    finance, neuroscience and other disciplines. Two algorithms to estimate the
+    distribution parameters, quantiles, value-at-risk and expected shortfall.
+    IMPORTANT: Standardization has been changed in versions >= 2.0.0 to get 
+	sd = 1 when kappa = Inf rather than 2*pi/sqrt(3) in versions <= 1.8.6. 
+	This affects parameter g (other parameters stay unchanged). Do not update 
+	if you need consistent comparisons with previous results for the g parameter. 
+Version: 2.0.1
+Date: 2026-02-15
+Depends: R (>= 4.1.0)
+Imports: minpack.lm, timeSeries, parallel, methods, stats
+Suggests: zoo, xts
+Maintainer: Patrice Kiener <fattailsr@inmodelia.com>
+Author: Patrice Kiener [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-0505-9920>)
+Authors@R: c(
+    person("Patrice", "Kiener", role = c("aut", "cre"), 
+    email = "fattailsr@inmodelia.com", 
+    comment = c(ORCID = "0000-0002-0505-9920"))
+    ) 
+URL: https://www.inmodelia.com/fattailsr-en.html
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+NeedsCompilation: no
+RoxygenNote: 7.3.2
+Packaged: 2026-02-15 14:23:23 UTC; patrice
+Repository: CRAN
+Date/Publication: 2026-02-15 15:00:08 UTC
