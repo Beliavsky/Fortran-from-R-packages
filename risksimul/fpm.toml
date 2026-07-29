@@ -1,0 +1,15 @@
+name = "risksimul"
+version = "0.1.2"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Wolfgang Hormann, Ismail Basoglu; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright Wolfgang Hormann and contributors"
+description = "Rare-event portfolio simulation under t-copulas with t or GH marginals"
+categories = ["finance", "statistics", "monte-carlo"]
+keywords = ["copula", "importance-sampling", "risk", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

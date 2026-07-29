@@ -1,0 +1,8 @@
+riskSimul 0.1.2
+Copyright Wolfgang Hormann and contributors.
+Original authors: Wolfgang Hormann and Ismail Basoglu.
+
+This modern Fortran translation preserves the upstream GPL-2 | GPL-3
+licensing choice. Generalized-hyperbolic numerical support reuses and adapts
+code from the GPL-2-or-later ghyp numerical translation, distributed here
+under the permitted GPL-2-only or GPL-3-only choice.

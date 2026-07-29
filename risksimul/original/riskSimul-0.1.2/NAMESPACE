@@ -1,0 +1,9 @@
+importFrom(Runuran, pinvd.new, udghyp, uq)
+importFrom("stats", "cov", "optim", "pt", "qgamma", "qnorm", "qt",
+     "rgamma", "rnorm", "runif", "uniroot", "var")
+importFrom("utils", "write.table")
+export(SISTCopula, NVTCopula, new.portfobj)
+	   
+
+
+

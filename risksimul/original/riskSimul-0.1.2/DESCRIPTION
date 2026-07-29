@@ -1,0 +1,19 @@
+Package: riskSimul
+Type: Package
+Title: Risk Quantification for Stock Portfolios under the T-Copula
+        Model
+Version: 0.1.2
+Authors@R: c(person("Wolfgang", "Hormann", email = "hormanngw@yahoo.com",
+                  role = c("aut", "cre")),
+				  person("Ismail","Basoglu",role = c("aut")))
+Maintainer: Wolfgang Hormann <hormanngw@yahoo.com>
+Description: Implements efficient simulation procedures to estimate tail loss probabilities and conditional excess for a stock portfolio. The log-returns are assumed to follow a t-copula model with generalized hyperbolic or t marginals. 
+Depends: Runuran
+License: GPL-2 | GPL-3
+Copyright: Wolfgang Hormann
+Packaged: 2023-09-16 05:48:51 UTC; hormannw
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2023-09-16 08:40:02 UTC
+Author: Wolfgang Hormann [aut, cre],
+  Ismail Basoglu [aut]
