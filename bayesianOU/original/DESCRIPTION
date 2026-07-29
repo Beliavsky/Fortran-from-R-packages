@@ -1,0 +1,42 @@
+Package: bayesianOU
+Type: Package
+Title: Bayesian Nonlinear Ornstein-Uhlenbeck Models with Stochastic Volatility
+Version: 0.2.0
+Authors@R: 
+    person("José Mauricio", "Gómez Julián", email = "isadore.nabi@pm.me", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0000-2412-3150"))
+Description: Fits Bayesian nonlinear Ornstein-Uhlenbeck models with cubic drift,
+    stochastic volatility, and Student-t innovations. The package implements
+    hierarchical priors for sector-specific parameters and supports parallel
+    MCMC sampling via 'Stan'. Model comparison is performed using Pareto
+    Smoothed Importance Sampling Leave-One-Out (PSIS-LOO) cross-validation
+    following Vehtari, Gelman, and Gabry (2017)
+    <doi:10.1007/s11222-016-9696-4>. Prior specifications follow recommendations
+    from Gelman (2006) <doi:10.1214/06-BA117A> for scale parameters.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports:
+    stats,
+    graphics,
+    utils,
+    parallel
+Suggests:
+    cmdstanr,
+    rstan (>= 2.21.0),
+    loo (>= 2.5.0),
+    posterior,
+    ggplot2,
+    tidyr,
+    openxlsx,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Additional_repositories: https://mc-stan.org/r-packages/
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://github.com/IsadoreNabi/bayesianOU
+BugReports: https://github.com/IsadoreNabi/bayesianOU/issues
+Config/roxygen2/version: 8.0.0

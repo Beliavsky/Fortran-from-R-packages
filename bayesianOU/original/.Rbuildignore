@@ -1,0 +1,8 @@
+^validation$
+^.*\.hpp$
+^inst/stan/ou_nonlinear_tmg$
+^inst/stan/.*\.o$
+^\.github$
+^LICENSE\.md$
+^bayesou_check$
+^.*\.Rcheck$

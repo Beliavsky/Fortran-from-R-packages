@@ -1,0 +1,18 @@
+# R session and data files
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
+
+# RStudio
+.Rproj.user/
+*.Rproj
+
+# R build artifacts
+*.tar.gz
+*.Rcheck/
+build/
+
+# OS and editor cruft
+.DS_Store
+*~
