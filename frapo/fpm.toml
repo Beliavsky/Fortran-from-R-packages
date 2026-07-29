@@ -1,0 +1,19 @@
+name = "frapo"
+version = "0.4.2"
+license = "GPL-3.0-or-later"
+author = "Bernhard Pfaff; Fortran port"
+maintainer = "Fortran port maintainers"
+description = "Modern Fortran translation of the computational algorithms in FRAPO"
+keywords = ["finance", "portfolio", "drawdown", "risk", "optimization"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
