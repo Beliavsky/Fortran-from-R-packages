@@ -1,0 +1,18 @@
+name = "acdm"
+version = "1.1.0"
+license = "GPL-3.0-or-later"
+author = "Markus Belfrage; Fortran translation"
+maintainer = ""
+copyright = "Copyright (c) Markus Belfrage and contributors"
+description = "Modern Fortran implementation of autoregressive conditional duration models"
+categories = ["finance", "statistics", "time-series"]
+keywords = ["ACD", "durations", "maximum-likelihood", "market-microstructure"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

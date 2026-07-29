@@ -1,0 +1,66 @@
+import(ggplot2)
+
+importFrom(broom, tidy, glance)
+importFrom(dplyr, select, group_by, summarise)
+importFrom(graphics, par)
+importFrom(Rcpp, evalCpp)
+importFrom(Rsolnp, solnp)    
+importFrom(stats, coef, dweibull, quantile, rgamma)
+importFrom(utils, capture.output)
+importFrom(plyr, ddply, summarize)
+importFrom(zoo, rollmean)
+
+S3method(print, acdFit)
+S3method(coef, acdFit)
+S3method(residuals, acdFit)
+S3method(predict, acdFit)
+S3method(tidy, acdFit)
+S3method(glance, acdFit)
+
+useDynLib(ACDm, .registration = TRUE)
+
+export(acdFit,
+	  acf_acd,
+	  burrExpectation,
+	  computeDurations,
+	  dburr,
+	  dgenf,
+	  dgengamma,
+	  diurnalAdj,
+	  dmixinvgauss,
+	  dmixqwe,
+	  dmixqww,
+	  dqweibull,
+	  genfHazard,
+	  gengammaHazard,
+	  mixinvgaussHazard,
+	  mixqweHazard,
+	  mixqwwHazard,
+	  pburr,
+	  pgenf,
+	  pgengamma,
+	  plotDescTrans,
+	  plotHazard,
+	  plotHistAcd,
+	  plotLL,
+	  plotRollMeanAcd,
+	  plotScatterAcd,
+	  pmixinvgauss,
+	  pmixqwe,
+	  pmixqww,
+	  pqweibull,
+	  qburr,
+	  qgengamma,
+	  qqplotAcd,
+	  qqweibull,
+	  qweibullExpectation,
+	  qweibullHazard,
+	  rburr,
+	  resiDensityAcd,
+	  rgengamma,
+	  rqweibull,
+	  sim_ACD,
+	  standardizeResi,
+	  testRmACD,
+	  testSTACD,
+	  testTVACD)
