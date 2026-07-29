@@ -1,0 +1,20 @@
+Package: VaRES
+Type: Package
+Title: Computes Value at Risk and Expected Shortfall for over 100
+        Parametric Distributions
+Version: 1.0.2
+Date: 2023-04-20
+Authors@R: c(person(given="Leo", family="Belzile", role = "cre", email = "belzilel@gmail.com", comment = c(ORCID = "0000-0002-9135-014X")), person(family="Nadarajah", given = "Saralees", role = "aut", email = "Saralees.Nadarajah@manchester.ac.uk"), person(given="Stephen", family="Chan", role= "aut"), person(given="Emmanuel", family="Afuecheta", role="aut", comment = c(ORCID = "0000-0002-9223-0799")))
+Depends: R (>= 2.15.0)
+Description: Computes Value at risk and expected shortfall, two most popular measures of financial risk, for over one hundred parametric distributions, including all commonly known distributions.  Also computed are the corresponding probability density function and cumulative distribution function. See Chan, Nadarajah and Afuecheta (2015) <doi:10.1080/03610918.2014.944658> for more details.
+License: GPL (>= 2)
+NeedsCompilation: no
+BugReports: https://github.com/lbelzile/VaRES/issues/
+Packaged: 2023-04-21 16:03:39 UTC; lbelzile
+Author: Leo Belzile [cre] (<https://orcid.org/0000-0002-9135-014X>),
+  Saralees Nadarajah [aut],
+  Stephen Chan [aut],
+  Emmanuel Afuecheta [aut] (<https://orcid.org/0000-0002-9223-0799>)
+Maintainer: Leo Belzile <belzilel@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-04-22 00:42:37 UTC

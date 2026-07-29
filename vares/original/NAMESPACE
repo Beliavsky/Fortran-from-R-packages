@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+
+importFrom("stats", "dbeta", "dcauchy", "df", "dgamma", "dlnorm",
+           "dlogis", "dnorm", "dt", "dunif", "dweibull", "integrate",
+           "pbeta", "pcauchy", "pf", "pgamma", "plnorm", "plogis",
+           "pnorm", "pt", "punif", "pweibull", "qbeta", "qcauchy", "qf",
+           "qgamma", "qlnorm", "qlogis", "qnorm", "qt", "qunif",
+           "qweibull")
