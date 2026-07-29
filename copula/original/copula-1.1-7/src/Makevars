@@ -1,0 +1,2 @@
+PKG_CPPFLAGS = -I./gsl -I./gsl/specfunc
+

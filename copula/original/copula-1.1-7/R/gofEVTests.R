@@ -1,0 +1,211 @@
+## Copyright (C) 2012 Marius Hofert, Ivan Kojadinovic, Martin Maechler, and Jun Yan
+##
+## This program is free software; you can redistribute it and/or modify it under
+## the terms of the GNU General Public License as published by the Free Software
+## Foundation; either version 3 of the License, or (at your option) any later
+## version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+## FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+## details.
+##
+## You should have received a copy of the GNU General Public License along with
+## this program; if not, see <http://www.gnu.org/licenses/>.
+
+##' Goodness-of-fit test for extreme value copulas
+##' See Bernoulli 2011
+##'
+##' @title Goodness-of-fit test for extreme value copulas
+##' @param copula a copula of the desired family
+##' @param x the data
+##' @param N the number of parameteric bootstrap iterations
+##' @param method parameter estimation method
+##' @param estimator nonparametric estimator of the Pickands dependence function
+##' @param m grid size
+##' @param verbose display progress bar if TRUE
+##' @param ties.method passed to pobs (not for fitting)
+##' @param fit.ties.meth passed to pobs (fitting only)
+##' @param ... : all passed to fitCopula
+##' @return an object of class 'htest'
+##' @author Ivan Kojadinovic
+gofEVCopula <- function(copula, x, N = 1000,
+                        method = c("mpl", "ml", "itau", "irho"),
+                        estimator = c("CFG", "Pickands"), m = 1000,
+                        verbose = interactive(),
+                        ties.method = c("max", "average", "first", "last", "random", "min"),
+                        fit.ties.meth = eval(formals(rank)$ties.method), ...)
+{
+    ## Checks
+    stopifnot(is(copula, "copula"), N >= 1L, m>= 100L)
+    if(!is.matrix(x)) {
+        warning("coercing 'x' to a matrix.")
+        stopifnot(is.matrix(x <- as.matrix(x)))
+    }
+    stopifnot((p <- ncol(x)) > 1, (n <- nrow(x)) > 1, dim(copula) == p)
+    method <- match.arg(method)
+    estimator <- match.arg(estimator)
+    ties.method <- match.arg(ties.method)
+    fit.ties.meth <- match.arg(fit.ties.meth)
+
+    if (p != 2)
+        stop("The copula and the data should be of dimension two")
+
+    ## make pseudo-observations
+    u <- pobs(x, ties.method = ties.method)
+    u.fit <- if (ties.method == fit.ties.meth) u
+             else pobs(x, ties.method = fit.ties.meth)
+
+
+    ## fit the copula
+    fcop <- fitCopula(copula, u.fit, method, estimate.variance=FALSE, ...)@copula
+
+    ## where to compute A
+    g <- seq(0,1-1/m,by=1/m)
+
+    ## compute the test statistic
+    s <- .C(cramer_vonMises_Afun,
+            as.integer(n),
+            as.integer(m),
+            as.double(-log(u[,1])),
+            as.double(-log(u[,2])),
+            as.double(A(fcop,g)),
+            stat = double(2),
+            as.integer(estimator == "CFG"))$stat
+
+    ## simulation of the null distribution
+    s0 <- matrix(NA, N, 2)
+    if (verbose) { # setup progress bar:
+	pb <- txtProgressBar(max = N, style = if(isatty(stdout())) 3 else 1)
+	on.exit(close(pb)) # and close it on exit
+    }
+    for (i in 1:N) {
+        u0 <- pobs(rCopula(n, fcop), ties.method = ties.method)
+        u0.fit <- if (ties.method == fit.ties.meth) u0
+                  else pobs(u0, ties.method = fit.ties.meth)
+
+        ## fit the copula
+        fcop0 <-  fitCopula(copula, u0.fit, method, estimate.variance=FALSE, ...)@copula
+
+        s0[i,] <- .C(cramer_vonMises_Afun,
+                     as.integer(n),
+                     as.integer(m),
+                     as.double(-log(u0[,1])),
+                     as.double(-log(u0[,2])),
+                     as.double(A(fcop0,g)),
+                     stat = double(2),
+                     as.integer(estimator == "CFG"))$stat
+
+        if (verbose) setTxtProgressBar(pb, i) # update progress bar
+    }
+
+    ## corrected version only
+    structure(class = "htest",
+              list(method = paste0(
+   "Parametric bootstrap based GOF test for EV copulas with argument 'method' set to ",
+                                   sQuote(method), " and argument 'estimator' set to ",
+                                   sQuote(estimator)),
+                   parameter = c(parameter = fcop@parameters),
+                   statistic = c(statistic = s[1]),
+                   p.value=(sum(s0[,1] >= s[1])+0.5)/(N+1),
+                   data.name = deparse(substitute(x))))
+}
+
+
+### Original version to reprodcue simulations  ___no longer really used___
+## was named gofEVCopula before -- *not exported*
+gofA <- function(copula, x, N = 1000, method = "mpl", # estimator = "CFG",
+                 m = 1000, verbose = interactive(), optim.method = "Nelder-Mead") {
+    n <- nrow(x)
+    p <- ncol(x)
+    ## make pseudo-observations
+    u <- pobs(x)
+
+    ## fit the copula
+    fcop <- fitCopula(copula, u, method, estimate.variance=FALSE,
+                      optim.method=optim.method)@copula
+
+    ## statistic based on Cn
+    sCn <- .C(cramer_vonMises,
+              as.integer(n),
+              as.integer(p),
+              as.double(u),
+              as.double(pCopula(u,fcop)),
+              stat = double(1))$stat
+
+    ## where to compute A
+    g <- seq(0,1-1/m,by=1/m)
+
+    ## compute the CFG test statistic
+    sCFG <- .C(cramer_vonMises_Afun,
+               as.integer(n),
+               as.integer(m),
+               as.double(-log(u[,1])),
+               as.double(-log(u[,2])),
+               as.double(A(fcop,g)),
+               stat = double(2),
+               as.integer(1)            # estimator == "CFG"
+               )$stat
+    ## compute the Pickands test statistic
+    sPck <- .C(cramer_vonMises_Afun,
+               as.integer(n),
+               as.integer(m),
+               as.double(-log(u[,1])),
+               as.double(-log(u[,2])),
+               as.double(A(fcop,g)),
+               stat = double(2),
+               as.integer(0)# estimator == Pickands
+               )$stat
+
+    s <- c(sCn, sCFG, sPck)
+
+    ## simulation of the null distribution
+    s0 <- matrix(NA_real_, N, 5)
+    if (verbose) {
+	pb <- txtProgressBar(max = N, style = if(isatty(stdout())) 3 else 1) # setup progress bar
+	on.exit(close(pb)) # and close it on exit
+    }
+
+    ## set starting values for fitCopula
+    copula@parameters <- fcop@parameters
+    for (i in 1:N) {
+        u0 <- pobs(rCopula(n, fcop))
+
+        ## fit the copula
+        fcop0 <-  fitCopula(copula, u0, method, estimate.variance=FALSE,
+                            optim.method=optim.method)@copula
+
+        sCn0 <- .C(cramer_vonMises,
+                   as.integer(n),
+                   as.integer(p),
+                   as.double(u0),
+                   as.double(pCopula(u0, fcop0)),
+                   stat = double(1))$stat
+
+        sCFG0 <-  .C(cramer_vonMises_Afun,
+                     as.integer(n),
+                     as.integer(m),
+                     as.double(-log(u0[,1])),
+                     as.double(-log(u0[,2])),
+                     as.double(A(fcop0,g)),
+                     stat = double(2),
+                     as.integer(1)      # estimator == "CFG"
+                     )$stat
+        sPck0 <-  .C(cramer_vonMises_Afun,
+                     as.integer(n),
+                     as.integer(m),
+                     as.double(-log(u0[,1])),
+                     as.double(-log(u0[,2])),
+                     as.double(A(fcop0,g)),
+                     stat = double(2),
+                     as.integer(0)      # estimator == Pickands
+                     )$stat
+        s0[i,] <- c(sCn0, sCFG0, sPck0)
+
+        if (verbose) setTxtProgressBar(pb, i) # update progress bar
+    }
+
+    list(statistic = s,
+         pvalue = sapply(1:5, function(i) (sum(s0[,i] >= s[i])+0.5)/(N+1)),
+         parameters = fcop@parameters)
+}
