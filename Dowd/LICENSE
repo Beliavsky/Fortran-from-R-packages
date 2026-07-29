@@ -1,0 +1,22 @@
+Dowd modern Fortran translation
+================================
+
+The original R package metadata states:
+
+    License: GPL
+
+The CRAN package did not include a version-specific license notice. This
+translation therefore preserves the available licensing choice as:
+
+    GPL-2.0-only OR GPL-3.0-only
+
+You may use, modify, and redistribute this translation under either GNU General
+Public License version 2 only or GNU General Public License version 3 only.
+The complete license texts are provided in:
+
+    LICENSES/GPL-2.0-only.txt
+    LICENSES/GPL-3.0-only.txt
+
+This licensing statement applies to the translated Fortran code and its
+supporting project files. Original authorship and source-package metadata are
+preserved in NOTICE.md and original_metadata/.

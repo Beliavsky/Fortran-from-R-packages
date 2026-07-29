@@ -1,0 +1,20 @@
+name = "dowd"
+version = "0.12.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Dinesh Acharya; modern Fortran translation"
+maintainer = "Modern Fortran community"
+copyright = "2015 Dinesh Acharya and contributors"
+description = "Modern Fortran translation of computational routines from the R package Dowd"
+categories = ["finance", "risk", "statistics"]
+keywords = ["value-at-risk", "expected-shortfall", "backtesting", "copula", "extreme-value"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

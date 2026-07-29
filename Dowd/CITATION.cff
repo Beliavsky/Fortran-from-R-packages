@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite both the original Dowd R package and Kevin Dowd's book when using this translation."
+title: "Dowd: Modern Fortran translation"
+version: "0.12.0-fortran.1"
+license: "GPL-2.0-only OR GPL-3.0-only"
+type: software
+authors:
+  - family-names: "Acharya"
+    given-names: "Dinesh"
+references:
+  - type: book
+    title: "Measuring Market Risk"
+    authors:
+      - family-names: "Dowd"
+        given-names: "Kevin"
+    year: 2007
+    publisher:
+      name: "Wiley"
