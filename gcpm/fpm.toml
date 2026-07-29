@@ -1,0 +1,17 @@
+name = "gcpm"
+version = "1.2.2"
+license = "GPL-2.0-only"
+author = "Kevin Jakob, Matthias Fischer; modern Fortran translation"
+maintainer = "Modern Fortran translation maintainers"
+copyright = "Copyright (C) 2015 Kevin Jakob and Dr. Matthias Fischer; Fortran translation copyright (C) 2026"
+description = "Generalized Credit Portfolio Model: analytical CreditRisk+ and Monte Carlo credit portfolio risk"
+categories = ["finance", "statistics"]
+keywords = ["credit-risk", "creditrisk-plus", "creditmetrics", "var", "expected-shortfall"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
