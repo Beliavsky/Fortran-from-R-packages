@@ -1,0 +1,19 @@
+name = "risk"
+version = "1.0.0"
+license = "GPL-2.0-or-later"
+author = "Saralees Nadarajah and Stephen Chan; Fortran port by OpenAI"
+maintainer = "Vivek Rao"
+copyright = "Copyright (c) 2017 Saralees Nadarajah and Stephen Chan"
+description = "Modern Fortran implementation of 26 continuous-distribution financial risk measures"
+keywords = ["risk", "var", "expected-shortfall", "distribution", "finance"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

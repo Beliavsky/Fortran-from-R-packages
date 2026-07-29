@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "Please cite the original Risk package and its authors when using this translation."
+title: "Risk for Modern Fortran"
+version: "1.0.0"
+date-released: "2026-07-27"
+license: GPL-2.0-or-later
+authors:
+  - family-names: Nadarajah
+    given-names: Saralees
+  - family-names: Chan
+    given-names: Stephen
+preferred-citation:
+  type: software
+  title: "Risk: Computes 26 Financial Risk Measures for Any Continuous Distribution"
+  version: "1.0"
+  year: 2017
+  authors:
+    - family-names: Nadarajah
+      given-names: Saralees
+    - family-names: Chan
+      given-names: Stephen
