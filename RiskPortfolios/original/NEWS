@@ -1,0 +1,84 @@
+Changes in Version 2.1.7 (DA)
+  o Doc fixes
+  
+Changes in Version 2.1.6 (DA)
+  o Update references
+  
+Changes in Version 2.1.5 (DA)
+  o Update references
+  o DOI fixed
+  
+Changes in Version 2.1.4 (DA)
+  o Fix description and citation
+
+Changes in Version 2.1.3 (DA)
+  o Fix description and citation
+
+Changes in Version 2.1.2 (DA)
+  o References updated
+
+Changes in Version 2.1.2 (DA)
+  o Gradient added
+  o Max decorrelation portfolio added
+
+Changes in Version 2.1.0 (DA)
+  o CRAN release
+  o documentation updated
+  o THANKS file added
+
+Changes in Version 2.00.11 (DA)
+  o Documentation improved and finalized
+
+Changes in Version 2.00.10 (DA)
+  o LB and UB added properly
+  o doc modified
+
+Changes in Version 2.00.09 (DA)
+  o dataset added
+  o doc RiskPortfolios added
+
+Changes in Version 2.00.08 (DA)
+  o tests added
+  o doc fixed
+  o positivity fixed
+
+Changes in Version 2.00.07 (DA)
+  o Roxygen documentation
+  o testthat added
+
+Changes in Version 2.00.06 (DA)
+  o update CITATION
+
+Changes in Version 2.00.05 (DA)
+  o update informations and references
+
+Changes in Version 2.00.04 (DA)
+  o serveral error fixes
+  o new Imports instead of Depends
+
+Changes in Version 2.00.03 (DA)
+  o erc initialized at 1/sigma normlized
+
+Changes in Version 2.00.02 (DA)
+  o w0 starting value can now be passed in controls
+  o references updated
+
+Changes in Version 2.00.01 (DA)
+  o Renaming of the package with emphasis of risk-based portfolios
+  o Added inverse volatility portfolio
+
+Changes in Version 1.02.02 (DA)
+  o DESCRIPTION file adapted to new standard
+
+Changes in Version 1.02.01 (DA)
+  o major revision of the package
+
+Changes in Version 1.01.02 (DA)
+  o bug fixd thanks to Samo Pahor
+
+Changes in Version 1.01.01 (DA)
+  o package's name
+  o package's version
+
+Changes in Version 1-00.01 (DA)
+  o first release

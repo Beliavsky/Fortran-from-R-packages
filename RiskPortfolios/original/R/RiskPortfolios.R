@@ -1,0 +1,75 @@
+#' @name RiskPortfolios
+#' @docType package
+#' @title RiskPortfolios: Computation of risk-based portfolios in R
+#' @description \code{RiskPortfolios} (Ardia et al., 2017) is an \R package for constructing risk-based portfolios dedicated to 
+#' portfolio managers and quantitative analysts. It provides a set of 
+#' functionalities to build mean-variance, minimum variance, inverse-volatility weighted (Leote et al., 2012), 
+#' equal-risk-contribution (Maillard et al. 2010), maximum diversification (Choueifaty and Coignard, 2008), and 
+#' risk-efficient (Amenc et al., 2011) portfolios. Optimization is achieved with the \R 
+#' functions \code{\link[quadprog]{solve.QP}} and \code{\link[nloptr]{slsqp}}. Long or gross constraints can be added to the optimizer. 
+#' As risk-based portfolios are mainly based on covariances, the package also provides a large set of 
+#' covariance matrix estimators. A simulation study relying on the package is described in Ardia et al. (2017).
+#' 
+#' @section Functions:
+#' \itemize{
+#' \item \code{\link{optimalPortfolio}}: Optimization of portfolios.
+#' \item \code{\link{meanEstimation}}: Computation of expected returns.
+#' \item \code{\link{covEstimation}}: Computation of covariance matrix.
+#' \item \code{\link{semidevEstimation}}: Computation of semi-deviation.
+#' }
+#' 
+#' @section Update:
+#' The latest version of the package is available at \url{https://github.com/ArdiaD/RiskPortfolios}.
+#' @author David Ardia, Kris Boudt and Jean-Philippe Gagnon-Fleury.
+#' @note By using \code{RiskPortfolios} you agree to the following rules: (1) You must cite Ardia et al. (2017) in 
+#' working papers and published papers that use \code{RiskPortfolios} (use \code{citation("RiskPortfolios")}), (2) you 
+#' must place the URL \url{https://CRAN.R-project.org/package=RiskPortfolios} in a footnote to help 
+#' others find \code{RiskPortfolios}, and (3) you assume all risk for the use of \code{RiskPortfolios}.
+#' @references 
+#' Amenc, N., Goltz, F., Martellini, L., Retowsky, P. (2011).
+#' Efficient indexation: An alternative to cap-weighted indices.  
+#' \emph{Journal of Investment Management} \bold{9}(4), pp.1-23.
+#' 
+#' Ardia, D., Boudt, K. (2015). 
+#' Implied expected returns and the choice of a mean-variance efficient portfolio proxy.
+#' \emph{Journal of Portfolio Management} \bold{41}(4), pp.66-81. 
+#' \doi{10.3905/jpm.2015.41.4.068}
+#' 
+#' Ardia, D., Bolliger, G., Boudt, K., Gagnon-Fleury, J.-P. (2017).  
+#' The Impact of covariance misspecification in risk-based portfolios.  
+#' \emph{Annals of Operations Research} \bold{254}(1-2), pp.1-16. 
+#' \doi{10.1007/s10479-017-2474-7}
+#' 
+#' Ardia, D., Boudt, K., Gagnon-Fleury, J.-P. (2017).  
+#' RiskPortfolios: Computation of risk-based portfolios in R.  
+#' \emph{Journal of Open Source Software} \bold{10}(2).
+#' \doi{10.21105/joss.00171}
+#' 
+#' Choueifaty, Y., Coignard, Y. (2008).  
+#' Toward maximum diversification.
+#' \emph{Journal of Portfolio Management} \bold{35}(1), pp.40-51. 
+#' 
+#' Choueifaty, Y., Froidure, T., Reynier, J. (2013).  
+#' Properties of the most diversified portfolio.  
+#' \emph{Journal of Investment Strategies} \bold{2}(2), pp.49-70. 
+#' 
+#' Das, S., Markowitz, H., Scheid, J., Statman, M. (2010).  
+#' Portfolio optimization with mental accounts.  
+#' \emph{Journal of Financial and Quantitative Analysis} \bold{45}(2), pp.311-334. 
+#' 
+#' DeMiguel, V., Garlappi, L., Uppal, R. (2009).  
+#' Optimal versus naive diversification: How inefficient is the 1/n portfolio strategy.  
+#' \emph{Review of Financial Studies} \bold{22}(5), pp.1915-1953. 
+#' 
+#' Fan, J., Zhang, J., Yu, K. (2012).  
+#' Vast portfolio selection with gross-exposure constraints.
+#' \emph{Journal of the American Statistical Association} \bold{107}(498), pp.592-606. 
+#' 
+#' Maillard, S., Roncalli, T., Teiletche, J. (2010).  
+#' The properties of equally weighted risk contribution portfolios.  
+#' \emph{Journal of Portfolio Management} \bold{36}(4), pp.60-70. 
+#' 
+#' Martellini, L. (2008).  
+#' Towards the design of better equity benchmarks.
+#' \emph{Journal of Portfolio Management} \bold{34}(4), Summer,pp.34-41. 
+NULL

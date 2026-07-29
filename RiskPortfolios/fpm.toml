@@ -1,0 +1,19 @@
+name = "riskportfolios"
+version = "2.1.7"
+license = "GPL-2.0-or-later"
+author = "David Ardia, Kris Boudt, Jean-Philippe Gagnon-Fleury; Fortran port"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (C) 2013-2021 David Ardia"
+description = "Modern Fortran implementation of risk-based portfolio methods from RiskPortfolios"
+keywords = ["portfolio", "covariance", "shrinkage", "risk-parity", "optimization"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
