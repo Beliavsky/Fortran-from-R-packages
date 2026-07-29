@@ -1,0 +1,38 @@
+name = "mcrp"
+version = "0.0.1"
+license = "GPL-3.0-only"
+author = "Bernhard Pfaff; Fortran translation by OpenAI"
+maintainer = ""
+copyright = "Copyright (C) 2017 Bernhard Pfaff"
+description = "Modern Fortran translation of multiple-criteria risk-parity algorithms"
+categories = ["finance", "optimization", "statistics"]
+keywords = ["risk parity", "coskewness", "cokurtosis", "portfolio"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "mcrp_demo"
+source-dir = "app"
+main = "mcrp_demo.f90"
+
+[[example]]
+name = "moment_example"
+source-dir = "example"
+main = "moment_example.f90"
+
+[[test]]
+name = "test_moments"
+source-dir = "test"
+main = "test_moments.f90"
+
+[[test]]
+name = "test_optimizer"
+source-dir = "test"
+main = "test_optimizer.f90"
