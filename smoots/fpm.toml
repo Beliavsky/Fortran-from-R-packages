@@ -1,0 +1,21 @@
+name = "smoots"
+version = "1.1.4"
+license = "GPL-3.0-only"
+author = "Original smoots authors; Fortran port generated from smoots 1.1.4"
+maintainer = "Vivek Rao"
+description = "Modern Fortran port of the computational algorithms in the R package smoots"
+keywords = ["time-series", "smoothing", "local-polynomial", "forecasting", "arma"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

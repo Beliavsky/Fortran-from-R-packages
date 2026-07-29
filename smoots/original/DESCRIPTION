@@ -1,0 +1,62 @@
+Package: smoots
+Type: Package
+Title: Nonparametric Estimation of the Trend and Its Derivatives in TS
+Version: 1.1.4
+Description: The nonparametric trend and its derivatives in equidistant time 
+    series (TS) with short-memory stationary errors can be estimated. The 
+    estimation is conducted via local polynomial regression using an 
+    automatically selected bandwidth obtained by a built-in iterative plug-in 
+    algorithm or a bandwidth fixed by the user. A Nadaraya-Watson kernel 
+    smoother is also built-in as a comparison. With version 1.1.0, a linearity 
+    test for the trend function, forecasting methods and backtesting 
+    approaches are implemented as well.
+    The smoothing methods of the package are described in Feng, Y., Gries, T., 
+    and Fritz, M. (2020) <doi:10.1080/10485252.2020.1759598>.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Imports: stats, utils, graphics, grDevices, Rcpp (>= 1.0.7), future (>=
+        1.22.1), future.apply (>= 1.8.1), progressr (>= 0.8.0),
+        progress (>= 1.2.2)
+Suggests: knitr, rmarkdown, fGarch, RcppArmadillo (>= 0.10.6.0.0),
+        testthat (>= 3.0.0)
+LinkingTo: Rcpp, RcppArmadillo
+Depends: R (>= 2.10)
+Authors@R: 
+    c(person(given = "Yuanhua",
+             family = "Feng",
+             role = "aut",
+             comment = "Paderborn University, Germany"),
+      person(given = "Sebastian",
+             family = "Letmathe",
+             role = "aut",
+             comment = "Paderborn University, Germany"),
+      person(given = "Dominik",
+             family = "Schulz",
+             role = c("aut", "cre"),
+             email = "schulzd@mail.uni-paderborn.de",
+             comment = "Paderborn University, Germany"),
+      person(given = "Thomas",
+             family = "Gries",
+             role = "ctb",
+             comment = "Paderborn University, Germany"),
+      person(given = "Marlon",
+             family = "Fritz",
+             role = "ctb",
+             comment = "Paderborn University, Germany"))
+URL: https://wiwi.uni-paderborn.de/en/dep4/feng/
+        https://wiwi.uni-paderborn.de/dep4/gries/
+Acknowledgments: This work was supported by the German DFG project
+        GZ-FE-1500-2-1.
+Config/testthat/edition: 3
+NeedsCompilation: yes
+Packaged: 2023-09-11 08:10:03 UTC; Dominik Schulz
+Author: Yuanhua Feng [aut] (Paderborn University, Germany),
+  Sebastian Letmathe [aut] (Paderborn University, Germany),
+  Dominik Schulz [aut, cre] (Paderborn University, Germany),
+  Thomas Gries [ctb] (Paderborn University, Germany),
+  Marlon Fritz [ctb] (Paderborn University, Germany)
+Maintainer: Dominik Schulz <schulzd@mail.uni-paderborn.de>
+Repository: CRAN
+Date/Publication: 2023-09-11 08:50:02 UTC
