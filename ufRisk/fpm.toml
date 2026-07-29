@@ -1,0 +1,22 @@
+name = "ufrisk"
+version = "1.0.7"
+license = "GPL-3.0-only"
+author = "Original ufRisk authors; modern Fortran port based on ufRisk 1.0.7"
+maintainer = "Vivek Rao"
+copyright = "Original ufRisk authors and contributors; Fortran port contributors"
+description = "Modern Fortran implementation of parametric and semiparametric GARCH VaR, ES, and backtesting algorithms"
+keywords = ["value-at-risk", "expected-shortfall", "garch", "figarch", "risk-backtesting"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
