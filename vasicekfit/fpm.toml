@@ -1,0 +1,20 @@
+name = "vasicekfit"
+version = "0.2.0"
+license = "MIT"
+author = "Dmitriy Mayorov; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (c) 2026 Dmitriy Mayorov"
+description = "Modern Fortran implementation of the extended Vasicek credit loss model"
+categories = ["finance", "statistics", "credit-risk"]
+keywords = ["vasicek", "credit-risk", "probit", "hac"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

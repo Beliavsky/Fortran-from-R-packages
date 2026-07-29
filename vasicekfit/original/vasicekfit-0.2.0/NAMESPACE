@@ -1,0 +1,18 @@
+export(vasicekfit)
+export(dvasicek)
+export(pvasicek)
+export(qvasicek)
+export(rvasicek)
+
+S3method(print, vasicekfit)
+S3method(summary, vasicekfit)
+S3method(coef, vasicekfit)
+S3method(fitted, vasicekfit)
+S3method(residuals, vasicekfit)
+S3method(predict, vasicekfit)
+S3method(vcov, vasicekfit)
+S3method(confint, vasicekfit)
+
+importFrom(stats, coef, confint, delete.response, dnorm, lm, model.frame,
+           model.matrix, model.response, pnorm, printCoefmat, qnorm, rnorm,
+           terms, var, vcov)

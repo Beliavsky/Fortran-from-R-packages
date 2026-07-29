@@ -1,0 +1,10 @@
+vasicekfit-fortran is a modern Fortran translation of the numerical algorithms
+in the R package vasicekfit 0.2.0.
+
+Original package:
+  Copyright (c) 2026 Dmitriy Mayorov
+  License: MIT
+
+The original source is retained unmodified under original/vasicekfit-0.2.0.
+Translated Fortran source files preserve the MIT SPDX identifier and upstream
+copyright attribution.
