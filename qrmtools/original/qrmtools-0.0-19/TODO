@@ -1,0 +1,16 @@
+- Capital allocation: implement true ACs for elliptical distributions
+
+### (A)RA
+- Maybe write do.call(cbind()) and .rowSums(do.call(cbind())) as C functions
+  to further speed-up rearrange()
+- If one can fix rearrange() to work with Inf quantiles, maybe make rearrange()
+  have already lists as inputs (replace sapply() by lapply() in RA() and ARA()
+  to build the list of columns)
+  => doesn't seem easy, see code
+
+### Composite distributions (see Kurt's email, Sep. 25)
+- Build objects:
+  composite(distr, breaks, weights) sollte ein composite distribution function
+  objekt x konstruieren und man kann dann pcomposite(q, x), qcomposite(p, x) und
+  rcomposite(n, x) damit machen.
+- Use 'breaks' as argument (passed on to cut())

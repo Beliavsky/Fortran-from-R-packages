@@ -1,0 +1,78 @@
+### Special functions ##########################################################
+
+useDynLib(qrmtools, .registration = TRUE)
+
+
+### Imports ####################################################################
+
+importFrom("quantmod", "getSymbols",
+           "Op", "Hi", "Lo", "Cl", "Vo", "Ad",
+           "OpCl", "ClCl", "HiCl", "LoCl", "LoHi", "OpHi", "OpLo", "OpOp")
+## importFrom("Quandl", "Quandl") Archived on 2026-01-13
+importFrom("zoo", "index")
+importFrom("xts", "as.xts")
+importFrom("methods", "hasArg")
+importFrom("stats",
+           "var", "cov", "sd",
+           "uniroot", "integrate", "filter", "ecdf",
+           "dnorm", "dt",
+           "pnorm", "pchisq", "pbeta",
+           "qnorm", "qt",
+           "runif",
+           "qqline", "mahalanobis", "ks.test")
+importFrom("grDevices", "colorRampPalette", "dev.off", "extendrange",
+           "adjustcolor")
+importFrom("graphics", "image", "mtext", "plot", "rug", "abline", "lines",
+           "axis", "segments", "par", "points", "axTicks", "polygon")
+importFrom("lattice", "levelplot")
+importFrom("rugarch", "ugarchspec", "ugarchfit")
+importFrom("stats", "quantile", "HoltWinters", "density", "ppoints", "optim")
+importFrom("methods", "is", "existsFunction")
+importFrom("utils", "head", "tail")
+importFrom("ADGofTest", "ad.test")
+
+
+### Exports ####################################################################
+
+export(
+    ## Distributions
+    "dGEV", "pGEV", "qGEV", "rGEV",
+    "dGPD", "pGPD", "qGPD", "rGPD",
+    "dGPDtail", "pGPDtail", "qGPDtail", "rGPDtail",
+    "dPar", "pPar", "qPar", "rPar",
+    ## EVT
+    "fit_GEV_quantile", "fit_GEV_PWM", "logLik_GEV", "fit_GEV_MLE",
+    "fit_GPD_MOM", "fit_GPD_PWM", "logLik_GPD", "fit_GPD_MLE",
+    "mean_excess_np", "mean_excess_GPD", "mean_excess_plot",
+    "GEV_shape_plot", "GPD_shape_plot", "tail_plot",
+    "Hill_estimator", "Hill_plot",
+    ## Worst/best VaR
+    "crude_VaR_bounds", "dual_bound", "VaR_bounds_hom",
+    "rearrange", "RA", "ARA",
+    "block_rearrange", "ABRA",
+    ## Brownian motion
+    "rBrownian", "deBrowning",
+    ## Black--Scholes formula
+    "Black_Scholes", "Black_Scholes_Greeks",
+    ## General graphics
+    "NA_plot", "matrix_plot", "matrix_density_plot",
+    "pp_plot", "qq_plot", "step_plot", "edf_plot", "eqf_plot",
+    ## Time Series
+    "fit_ARMA_GARCH", "fit_GARCH_11", "tail_index_GARCH_11",
+    ## Result/warning/error catching
+    "catch",
+    ## Returns
+    "returns", "returns_qrmtools",
+    ## Data related functions
+    "get_data",
+    "hierarchical_matrix",
+    ## Risk measures
+    "VaR_np", "VaR_t", "VaR_t01", "VaR_GPD", "VaR_Par", "VaR_GPDtail",
+    "ES_np", "ES_t", "ES_t01", "ES_GPD", "ES_Par", "ES_GPDtail",
+    "RVaR_np",
+    "gVaR", "gEX",
+    ## Tests
+    "maha2_test", "mardia_test",
+    ## Allocation
+    "alloc_ellip", "conditioning", "alloc_np"
+)

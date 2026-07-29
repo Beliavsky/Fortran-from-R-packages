@@ -1,0 +1,30 @@
+Package: qrmtools
+Version: 0.0-19
+Encoding: UTF-8
+Title: Tools for Quantitative Risk Management
+Description: Functions and data sets for reproducing selected results from
+  the book "Quantitative Risk Management: Concepts, Techniques and Tools".
+  Furthermore, new developments and auxiliary functions for Quantitative
+  Risk Management practice.
+Authors@R: c(person(given = "Marius", family = "Hofert", role = c("aut", "cre"),
+                    email = "mhofert@hku.hk"),
+             person(given = "Kurt", family = "Hornik", role = "aut",
+                    email = "Kurt.Hornik@R-project.org"),
+             person(given = "Alexander J.", family = "McNeil", role = "aut",
+                    email = "alexander.mcneil@york.ac.uk"))
+Author: Marius Hofert [aut, cre],
+  Kurt Hornik [aut],
+  Alexander J. McNeil [aut]
+Maintainer: Marius Hofert <mhofert@hku.hk>
+Depends: R (>= 3.2.0)
+Imports: graphics, lattice, quantmod, zoo, xts, methods, grDevices,
+        stats, rugarch, utils, ADGofTest
+Suggests: combinat, copula, qrng, sfsmisc, RColorBrewer, sn, knitr,
+        rmarkdown
+Enhances:
+License: GPL (>= 3) | file LICENCE
+NeedsCompilation: yes
+VignetteBuilder: knitr
+Repository: CRAN
+Date/Publication: 2025-12-10 10:50:01 UTC
+Packaged: 2025-12-10 06:07:45 UTC; mhofert
