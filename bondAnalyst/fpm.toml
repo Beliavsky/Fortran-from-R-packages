@@ -1,0 +1,20 @@
+name = "bondanalyst"
+version = "1.0.1"
+license = "GPL-3.0-only"
+author = "MaheshP Kumar; Fortran port by OpenAI"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (C) 2022 MaheshP Kumar"
+description = "Modern Fortran port of the bondAnalyst fixed-income valuation package"
+categories = ["finance", "fixed-income", "bonds"]
+keywords = ["bond", "yield", "duration", "spread", "money-market"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

@@ -1,0 +1,27 @@
+Package: bondAnalyst
+Type: Package
+Title: Methods for Fixed-Income Valuation, Risk and Return
+Version: 1.0.1
+Authors@R: c(person("MaheshP", "Kumar", role = c("aut", "cre"),
+                     email = "maheshparamjitkumar@gmail.com"),
+              person("MaheshP", "Kumar", role = "aut"),
+              person("MaheshP", "Kumar", role = "ctb",
+                     email = "maheshparamjitkumar@gmail.com"))
+Author: MaheshP Kumar [aut, cre],
+  MaheshP Kumar [aut],
+  MaheshP Kumar [ctb]
+Maintainer: MaheshP Kumar <maheshparamjitkumar@gmail.com>
+Imports: Rdpack, stats
+RdMacros: Rdpack
+Description: Bond Pricing and Fixed-Income Valuation of Selected Securities included here serve as a quick reference of Quantitative Methods for undergraduate courses on Fixed-Income and CFA Level I Readings on Fixed-Income Valuation, Risk and Return.
+    CFA Institute ("CFA Program Curriculum 2020 Level I Volumes 1-6. (Vol. 5, pp. 107-151, pp. 237-299)", 2019, ISBN: 9781119593577).
+    Barbara S. Petitt ("Fixed Income Analysis", 2019, ISBN: 9781119628132).
+    Frank J. Fabozzi ("Handbook of Finance: Financial Markets and Instruments", 2008, ISBN: 9780470078143).
+    Frank J. Fabozzi ("Fixed Income Analysis", 2007, ISBN: 9780470052211).
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+NeedsCompilation: no
+Packaged: 2022-08-10 15:43:50 UTC; mahes
+Repository: CRAN
+Date/Publication: 2022-08-13 12:10:01 UTC
