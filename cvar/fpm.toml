@@ -1,0 +1,20 @@
+name = "cvar-fortran"
+version = "0.6.0"
+license = "GPL-2.0-or-later"
+author = "Georgi N. Boshnakov; Fortran translation"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (c) Georgi N. Boshnakov and contributors"
+description = "Modern Fortran translation of the R cvar package"
+categories = ["finance", "statistics", "risk"]
+keywords = ["VaR", "expected-shortfall", "CVaR", "GARCH"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
