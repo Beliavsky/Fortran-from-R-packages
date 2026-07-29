@@ -1,0 +1,22 @@
+#'Calculates value of a share based on EPS growth under the Multistage Residual Income Valuation.
+#'@details
+#'The method \code{shareValueRImultiStageEPS} is developed to compute share value based on EPS growth under the Multistage Residual Income Valuation for the values passed to its six arguments. Here, \code{bgnBVPS} is beginning Book Value Per Share, \code{EPS} is Earnings Per Share, \code{r} is required rate of return on equity , \code{times} is a vector of number of years ranging from 1 to any specified number of years Residual Income Values are to be computed, \code{premium} certain premium over book value, \code{n} in one finite-horizon model of residual income valuation which assumes that at the end of time horizon \code{n}, a certain premium over book value exists for the company.
+#'@param bgnBVPS A number vector.
+#'@param EPS A number vector.
+#'@param r A number.
+#'@param times A number vector.
+#'@param prem A number.
+#'@param n A number.
+#'@return Input values to six arguments  \code{bgnBVPS} \code{EPS}, \code{r}, \code{times} , \code{prem} and \code{n}.
+#'@author MaheshP Kumar, \email{maheshparamjitkumar@@gmail.com}
+#'@references
+#'Pinto, J. E. (2020). Equity Asset Valuation (4th ed.). Wiley Professional Development (P&T). https://bookshelf.vitalsource.com/books/9781119628194
+#'@examples
+#'shareValueRImultiStageEPS(bgnBVPS=c(6,7,8.25),EPS=c(2,2.5,4),r=0.10, times=c(1,2,3),prem=1.1,n=3)
+#'@export
+shareValueRImultiStageEPS<-function (bgnBVPS,EPS,r,times,prem,n){
+  RI <- (EPS-r*bgnBVPS)
+  pv_RI  <- sum(RI/(1 + r)^times)
+  share_Value <- bgnBVPS[1] + pv_RI + (prem/(1 + r)^n)
+  ( share_Value= round( share_Value, digits=2))
+}

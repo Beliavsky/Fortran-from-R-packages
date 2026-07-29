@@ -1,0 +1,24 @@
+#'Calculates the share value from Equity Value obtained by deducting the given Market Value of Debt from Discounted Value of FCFF and then dividing the output by number of outstanding shares.
+#'@description
+#'FCFF is the cash flow available to all suppliers of capital, using WACC to discount FCFF gives the total value of all of the firm’s capital. The value of equity is the value of the firm minus the market value of its debt. Dividing the total value of equity by the number of outstanding shares gives the value per share (Jerald E. Pinto, 2020).
+#'@details
+#'According to information provided by Jerald E. Pinto (2020), the method \code{shareValueGivenDebtMV} is developed to compute the share value from equity value obtained by deducting the given Market Value of Debt from Discounted Value of FCFF and then dividing the output by number of outstanding shares, for the values passed to its five arguments. Here, \code{FCFF} is given amount of future Free Cash Flow to the Firm (FCFF) in millions of dollars. For example, a value of 0.04 means 0.4 millions or 400,000 dollars, \code{t} is a vector of number of years ranging from 1 to any specified number of years for which FCFF is to be discounted, \code{WACC} is Weighted Average Cost of Capital, \code{debtMV} is Market Value of the debt, and \code{shares} is number of shares. Value of shares at 0.5 represent half a million shares (that means 500,000 shares). Values used for FCFF, and Market Value of Debt are in millions of dollars. An output of 2.01 means one share is valued at 2.01 dollars.
+#'@param FCFF A vector.
+#'@param t A vector.
+#'@param debtMV A number
+#'@param WACC A number.
+#'@param shares A number.
+#'@return Input values to five arguments  \code{FCFF}, \code{t},  \code{WACC}, \code{debtMV} and \code{shares}.
+#'@author MaheshP Kumar, \email{maheshparamjitkumar@@gmail.com}
+#'@references
+#'Pinto, J. E. (2020). Equity Asset Valuation (4th ed.). Wiley Professional Development (P&T). https://bookshelf.vitalsource.com/books/9781119628194
+#'@examples
+#'shareValueGivenDebtMV(FCFF=c(0.4,0.4,0.4,0.4),t=c(1,2,3,4),WACC=0.12,debtMV= 0.21,shares=0.5)
+#'@export
+shareValueGivenDebtMV <-function (FCFF,t,WACC,debtMV,shares)
+{
+  firmValue <- sum(FCFF/(1 + WACC)^t)
+  equityVal <- firmValue - debtMV
+  shareValu <-equityVal/shares
+  (shareValu = round(shareValu, digits=2))
+}

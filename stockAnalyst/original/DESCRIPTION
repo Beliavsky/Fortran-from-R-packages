@@ -1,0 +1,20 @@
+Package: stockAnalyst
+Type: Package
+Title: Equity Valuation using Methods of Fundamental Analysis
+Version: 1.0.1
+Authors@R: c(person("MaheshP", "Kumar", role = c("aut", "cre"),
+                     email = "maheshparamjitkumar@gmail.com"))
+Author: MaheshP Kumar [aut, cre]
+Maintainer: MaheshP Kumar <maheshparamjitkumar@gmail.com>
+Imports: stats
+Description: Methods of Fundamental Analysis for Valuation of Equity included here serve as a quick reference for undergraduate courses on Stock Valuation and Chartered Financial Analyst Levels 1 and 2 Readings on Equity Valuation.
+    Jerald E. Pinto (“Equity Asset Valuation (4th Edition)”, 2020, ISBN: 9781119628194).
+    Chartered Financial Analyst Institute ("Chartered Financial Analyst Program Curriculum 2020 Level I Volumes 1-6. (Vol. 4, pp. 445-491)", 2019, ISBN: 9781119593577).
+    Chartered Financial Analyst Institute ("Chartered Financial Analyst Program Curriculum 2020 Level II Volumes 1-6. (Vol. 4, pp. 197-447)", 2019, ISBN: 9781119593614).
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+NeedsCompilation: no
+Packaged: 2022-09-12 22:29:46 UTC; mahes
+Repository: CRAN
+Date/Publication: 2022-09-13 10:20:02 UTC

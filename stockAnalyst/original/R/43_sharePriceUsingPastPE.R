@@ -1,0 +1,26 @@
+#'Calculates justified share price based on median or mean of values of own historical PE Multiples.
+#'@description
+#'The traditional approach is to use past values of own PE as a basis for computing justified share price. Underlying this approach is the idea that PE may regress to historical average levels. An analyst can obtain a benchmark value in a variety of ways with this approach. Some companies report a PE median as rounded average of four middle values of a average annual PE for the previous 10 years. The five-year arithmetic mean of trailing PE is another reasonable metric. In general, trailing PEs are more commonly used than forward PEs in such computations. Justified price based on this approach may be calculated as follows: Justified price is equal to Average of wn historical PEs multiplied by Most recent EPS (Jerald E. Pinto, 2020).
+#'@details
+#'According to information obtained from Jerald E. Pinto (2020), the method \code{sharePriceUsingPastPE} is developed for computing justified share price based on median or mean of values of own historical PE Multiples for the values passed to its three arguments. Here, \code{avg} is character string, either mean or median , \code{historicalPEs} is a number vector that has values of own historical PE Multiples, and  \code{recentEPS} is most recent EPS of the firm.
+#'@param  avg  character vector.
+#'@param  historicalPEs a number vector.
+#'@param  recentEPS number.
+#'@return Input values to three arguments  \code{avg}, \code{historicalPEs}, and \code{recentEPS}.
+#'@importFrom stats median
+#'@author MaheshP Kumar, \email{maheshparamjitkumar@@gmail.com}
+#'@examples
+#'sharePriceUsingPastPE("mean", historicalPEs=c(15.8,23.1,10.0,19.8,35.8),recentEPS=203.71)
+#'sharePriceUsingPastPE("median", historicalPEs=c(15.8,23.1,10.0,19.8,35.8),recentEPS=203.71)
+#'@export
+sharePriceUsingPastPE<-function (avg=c("mean","median"), historicalPEs,recentEPS){
+  if (avg != "median" )
+  { benchmarkPE<- mean(historicalPEs)
+  jusfiedShval <- benchmarkPE*recentEPS
+  (jusfiedShval = round(jusfiedShval, digits=0))}
+  else
+  { benchmarkPE<- median(historicalPEs)
+  jusfiedShval <- benchmarkPE*recentEPS
+  (jusfiedShval = round(jusfiedShval, digits=0))}
+
+}

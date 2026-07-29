@@ -1,0 +1,20 @@
+#'Computing the Growth Rate Implied by the Current Stock Price.
+#'@description
+#'Because the dividend growth rate affects the estimated value of a stock using the Gordon growth model, differences between estimated values of a stock and its actual market value might be explained by different growth rate assumptions. Given price, the expected next-period dividend, and an estimate of the required rate of return, the dividend growth rate reflected in price can be inferred assuming the Gordon growth model. An analyst can then judge whether the implied dividend growth rate is reasonable, high, or low, based on what he or she knows about the company. In effect, the calculation of the implied dividend growth rate provides an alternative perspective on the valuation of the stock to see whether it is fairly valued, overvalued, or undervalued (Jerald E. Pinto, 2020).
+#'@details
+#'According to information provided by Jerald E. Pinto (2020), the method \code{computingGusingGGM} is developed for computing the Growth Rate Implied by the Current Stock Price for the values passed to its three arguments. Here, \code{divNot} is dollar value of the current dividend, \code{r} is required rate of return, and \code{sharePrice} is price of the share.
+#'@param divNot A number.
+#'@param r A number.
+#'@param sharePrice A number.
+#'@return Input values to three arguments  \code{divNot} , \code{r} and \code{sharePrice}.
+#'@author MaheshP Kumar, \email{maheshparamjitkumar@@gmail.com}
+#'@references
+#'Pinto, J. E. (2020). Equity Asset Valuation (4th ed.). Wiley Professional Development (P&T). https://bookshelf.vitalsource.com/books/9781119628194
+#'@examples
+#'computingGusingGGM(divNot=2,r=0.122,sharePrice=40)
+#'@export
+computingGusingGGM <-function(divNot,r,sharePrice){
+   g <- ((r*sharePrice-divNot)/(divNot+sharePrice))
+    (g = round(g, digits=4))
+}
+

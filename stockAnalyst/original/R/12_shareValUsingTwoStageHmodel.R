@@ -1,0 +1,24 @@
+#'Calculates value of share using two stage H-Model that considers half of the length of the super-normal growth period.
+#'@description
+#'The basic two-stage model assumes a constant, extraordinary rate for the super-normal growth period that is followed by a constant, normal growth rate thereafter. The difference in growth rates may be substantial. For instance, the growth rate for the company Carl Zeiss Meditec was 9 percent annually for 10 years, followed by a drop to 5 percent growth in Year 11 and thereafter. In some cases, a smoother transition to the mature phase growth rate would be more realistic (Jerald E. Pinto, 2020).
+#'@details
+#'According to information provided by Jerald E. Pinto (2020), the method \code{shareValUsingTwoStageHmodel} is developed to compute value of share using two stage H-Model for the values passed to its six arguments. Here, \code{divNot} is dollar value of the current dividend, \code{r} is required rate of return on equity, \code{n} is number of years of super-normal growth period, \code{H} is which is one-half of n (that is half of the length of the super-normal growth period), \code{gS} is initial short-term dividend growth rate, and \code{gL} is normal long-term dividend growth rate after Year 2H (that is n).
+#'@param divNot A number.
+#'@param r A number.
+#'@param n A number.
+#'@param H A number.
+#'@param gS A number.
+#'@param gL A number.
+#'@return Input values to six arguments  \code{divNot}  , \code{r}, \code{n}, \code{H}, \code{gS} and \code{gL}.
+#'@author MaheshP Kumar, \email{maheshparamjitkumar@@gmail.com}
+#'@references
+#'Pinto, J. E. (2020). Equity Asset Valuation (4th ed.). Wiley Professional Development (P&T). https://bookshelf.vitalsource.com/books/9781119628194
+#'@examples
+#'shareValUsingTwoStageHmodel(divNot=0.14, r=0.097,n=10,H=10/2,gS=0.15,gL=0.08)
+#'shareValUsingTwoStageHmodel(divNot=1.37, r=0.10,n=12,H=12/2,gS=0.24,gL=0.06)
+#'shareValUsingTwoStageHmodel(divNot=0.40, r=0.071,n=10,H=10/2,gS=0.09,gL=0.05)
+#'@export
+shareValUsingTwoStageHmodel <-function(divNot,r,n,H,gS,gL){
+  shareVal<- divNot*(1+gL)/(r-gL) + divNot*H*(gS-gL)/(r-gL)
+  (shareVal = round(shareVal, digits=2))
+}
