@@ -1,0 +1,19 @@
+name = "fracdiff"
+version = "1.5.4"
+license = "GPL-2.0-or-later"
+author = "Martin Maechler, Chris Fraley, Friedrich Leisch, Valderio Reisen, Artur Lemonte, Rob Hyndman; Fortran port by OpenAI"
+maintainer = "Fortran port contributors"
+copyright = "1991 Department of Statistics, University of Washington; 2003-2026 Martin Maechler and contributors"
+description = "Modern Fortran implementation of fractional ARIMA estimation, simulation, differencing, and long-memory estimators"
+keywords = ["arfima", "fractional-differencing", "time-series", "maximum-likelihood", "long-memory"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
