@@ -1,0 +1,17 @@
+Package: apt
+Type: Package
+Title: Asymmetric Price Transmission
+Version: 4.0
+Date: 2024-09-30
+Authors@R: person(given = "Changyou", family = "Sun", email = "edwinsun258@gmail.com", role = c("aut", "cre"))
+Description: The transmission between two time-series prices is assessed. It contains several functions for linear and nonlinear threshold co-integration, and furthermore, symmetric and asymmetric error correction models.
+Depends: R (>= 3.0.0), erer
+Imports: car, urca
+License: GPL (>= 2)
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2024-09-30 14:20:30 UTC; csun
+Author: Changyou Sun [aut, cre]
+Maintainer: Changyou Sun <edwinsun258@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-10-01 14:50:08 UTC

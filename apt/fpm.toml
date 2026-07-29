@@ -1,0 +1,17 @@
+name = "apt"
+version = "4.0.0"
+license = "GPL-2.0-or-later"
+author = "Changyou Sun; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright (c) Changyou Sun and contributors"
+description = "Modern Fortran translation of apt: asymmetric price transmission"
+keywords = ["econometrics", "cointegration", "threshold", "error-correction", "price-transmission"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"

@@ -1,0 +1,42 @@
+# Import all packages listed as Imports or Depends
+import(erer, car, urca)
+
+importFrom("graphics", "abline", "grid", "legend", "lines", "par", "text")
+
+importFrom("grDevices", "dev.new", "rainbow")
+
+importFrom("stats", "AIC", "anova", "as.formula", "cor",
+             "df.residual", "dlogis", "dnorm", "embed", "end", "fitted",
+             "formula", "is.ts", "lm", "model.matrix", "na.omit",
+             "plogis", "pnorm", "pt", "residuals", "sd", "start", "time",
+             "ts", "ts.union", "tsp", "vcov", "window", 
+             "Box.test", "deviance", "plot.ts", "resid", "ts.plot", "coef")
+
+importFrom("utils", "available.packages", "capture.output",
+             "download.file", "download.packages", "head", "object.size",
+             "tail", "write.table")
+
+
+# Export all names in my package with the regular expression
+exportPattern(".")
+
+# Register S3 methods in my package
+S3method("plot", "ciTarLag")
+
+S3method("plot", "ciTarThd")
+
+
+S3method("print", "ciTarFit")
+
+S3method("print", "ciTarLag")
+
+S3method("print", "ciTarThd")
+
+S3method("print", "ecm")
+
+S3method("print", "ecmAsyTest")
+
+
+S3method("summary", "ciTarFit")
+
+S3method("summary", "ecm")
