@@ -1,0 +1,9 @@
+##
+## Import directives
+##
+import(Rcpp, methods)
+useDynLib(cccp)
+##
+## Export directives
+##
+exportPattern("^[[:alpha:]]+")
