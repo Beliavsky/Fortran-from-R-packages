@@ -1,0 +1,267 @@
+
+### For the next release #######################################################
+
+0) Please document in the .Rd via '% see ?pnvmix' all arguments on ?rnvmix and ?dnvmix
+   which are actually the same as on ?pnvmix (several reasons for that).
+1) nvmix copulas
+	EH: Done
+2) Estimation (focusing on copulas would simplify the problem of non-identifiability of E(W), right?)
+	EH: Done
+3) Singular matrices 
+	EH: Done
+
+
+- TODO	Finish copula.rd 
+- TODO  'loc' right now has to be a vector, shd maybe also work for 'loc' being (d,1) matrix?
+- TODO: 'factor' should most likely also be an argument of pnvmix() -- sometimes one already
+        has that computed and by passing it one could avoid it being computed
+	every time
+- TODO Allow rmix() to be specified in pnvmix() for method = 'PRNG'. This can be a first
+       step towards evaluation GIG mixtures, where qmix() is not available but one can
+       sample from the mixing distribution.
+
+
+
+### Major changes since release 1 ##############################################
+
+- bug in dnvmix() fixed
+(line 106, drop = FALSE was missing => error in forwardsolve if n = 1) 
+- qnvmix1, copula functions, new argument handling, fitnvmix, dnvmix completely rewritten,…
+
+### For first release ##########################################################
+
+## Questions
+
+- why do we need 'const' (now: is.const.mix) and can't handle that with a corresponding
+  quantile function?
+
+   # EH: We could handle it with corresponding quantile function, but knowing that
+   # W is constant makes the problem (d-1) dimensional => faster
+
+- does the code correctly pick up the case where W is constant but not 1?
+  (this theoretically changes the distribution)
+
+   # EH: It only 'picks up' the case where W is constant when 'qmix' or 'rmix' is
+   # a *string*. If the user provides it, no checking is done (hence also no problem here)
+
+- Can mean.sqrt.mix be Inf (and the code still work correctly)?
+
+   # EH: should be finite (we only divide by mean.sqrt.mix, but always dividing by Inf 
+   # always gives zero. Will include a check/warning 
+
+- The regression coefficients in the first plot of the vignette is smaller
+  without preconditioning (for Sobol'). I guess this is because the error
+  is already much smaller, or not?
+
+   # EH: Yes. Changed it to a different example (this is not a randomized
+   # experiment, hence those numbers are not very meaningful anyway).
+   # I originally had a little mistake when calculating the coefficient; 
+   # so I thought they'd be equal.
+
+- For the density: why can't we compute error estimates for all input rows
+  separately again? And, besides the maximal error, could we report the average error?
+
+   # EH: We could and originally planned on doing that but somehow changed our mind, bc 
+   # we thought it might be a bit of an overkill (especially bc the different estimates are 
+   # highly correlated).
+   # Do you want me to include it?
+
+- I don't quite get the last sentence (conservative...) in Section 3 of the vignette.
+  What do you mean? (feel free to improve)
+   # EH: Will change. Error given is only approximate, in this case even "double" approximate bc 
+   # we use Taylor to get the error of exp(log density). 
+
+
+## Comments after fine-tuning for first release
+- give more meaningful names than 'const' ("don't call a dog 'dog', give him
+  a meaningful name"); I renamed it to 'is.const.mix' and put it next to 'qmix'
+  where it (logically) belongs
+- document arguments (pnvmix1()) that are already documented in another function
+  (pnvmix()) via 'see ?pnvmix()'
+- re-indented files: someone needs to learn Emacs :-) (or use right settings in
+  R Studio to obtain 4 blanks indent per level). A good editor also gives you
+  'parentheses matching', so no need to do ( ( ( (a + b) / 2 )))
+
+  # EH: I used RStudio's reindent command. Will look into it.
+
+- use 'if' as a function, so
+  if() a <- b else a <- c should be a <- if() b else c
+  (see 'next.estimate', for example)
+- keep order in Roxygen heads (@note should come last)
+- *within* functions, separate larger pieces of code by '## <title ####... ###'
+  rather than empty lines (also good reminder of adhering to the 80-column rule)
+- avoid ':' in leading comments (clear that they refer to the code thereafter)
+  as well as before every chunk in .Reds
+- avoid comments 'EH' in code
+- make comments shorter so that ideally can be done 'inline' next to the
+  corresponding statement (avoid searching for corresponding comment)
+- make inline comments shorter to ideally fit in the 80-column rule. Example:
+  "initialize error to something bigger than abstol so that we can enter the while loop"
+  => "initialize error to > abstol to enter while loop"
+- thanks for looking into the mahalanobis() problem
+- removed tryCatch() from 'factorize()': I think this was 'legacy code', it would
+  be bad to just do the around chol() (as it was) as then not always the same
+  object type is returned.
+- 'archived' factorize() as not needed at the moment
+- I omitted all tryCatch() for the following reason:
+  We mostly used it as tryCatch(t(chol(...))). There is no point in doing that
+  as t() will fail if chol(...) fails and the error message is semi-cryptic
+  then. We would need to do tryCatch(chol(...)), then, in case of *no* error,
+  pick out the resulting matrix and transpose it. Too complicated given that chol()
+  already provides an informative error message ("... is not positive definite").
+  Could still change that for next release but too much overhead/code for my taste.
+- renamed all 'cholScale' to 'factor' (as we used that notion in dnvmix(), rnvmix().
+
+  # EH: Reason we had different names: in pnvmix() and dnvmix(), factor HAS to be
+  # the upper triangular cholesky factor, otherwise it wouldn't work
+
+- ?dnvmix, ?pnvmix and ?dnvmix could have a bit more documentation on the argument 'method'
+  (there was none, I added a bit more). Are the 'sobol' and 'ghalton' methods *randomized*?
+  This was given for some but not all methods. I went with the "least common multiple".
+- Also use spaces in the .Rd, so \code{abstol = 0.00...} instead of \code{abstol=0.00...}
+  => also, as the vignette said, this now allows for NULL (=> I now documented that)
+- Avoid abbreviations like 'e.g.' on the help files.
+- Use proper quotation marks on the .Rd files (as in code): method = "sobol", not
+  method = 'sobol', but okay to speak of the argument 'method' just its *value*
+  is a (double-quoted) character string
+- I cited the two 'starred' references from your last email on ?pnvmix (and only there)
+  Feel free to add more and on ?dnvmix if you feel appropriate. I just wanted
+  to keep it short as we don't explicitly mention the references in the text
+  (and I believe we don't really use them for dnvmix() anyways)
+- Almost changed all of rnvmix() because the documentation of 'factor' in the
+  function head was outdated... I see that we can pass a (d, k)-matrix
+  which is then internally t()sed to allow the slightly faster right-multiplication
+  with Z. It makes time-wise no difference (even for d = 1000) and I thought
+  (due to outdated doc) that the user *only in dnvmix()* need to pass an *upper*
+  triangular matrix whereas 'factor' is lower triangular in pnvmix1() and dnvmix().
+  I found that confusing (same argument name, different meaning)... but it's fine
+  now. So careful with keeping both doc in function head (Roxygen) and on ?rnvmix
+  updated.
+
+   # EH: I was very careful here and did change the function head...in my last version:
+   #' @param factor factor R of the covariance matrix 'scale' such that RR^T
+   #'        = 'scale'. If factor is (d,k) => resulting scale is d dimensional"
+   # and similarly in man. Sorry if I didn't make it clear enough
+
+- Use italics only for definitions
+- Properly use defined variables instead of hard-coded values, for example
+  $W\sim\mathrm{Exp}(`r rate`)$ instead of $W\sim Exp(1.9)$; see also the 'upshape'
+  "Exp".
+- Use 'asymmetric' examples, so probabilities 0.2, 0.3, 0.5; not 0.3, 0.4, 0.3
+  ... and avoid to hard-code them in the vignette, see the last bullet point
+- No title-case except for in title (and even there questionable)
+- Give sections proper names (not just 'Two small examples')
+- Ideally separate computation from plotting (see chunks in vignette for method/precond plot)
+- Careful with copy-paste errors in the vignette (regression coefficients; also there,
+  do the computation of *all* things required for the plot first, then plot later)
+- Write non-repetitive code (see error plot in vignette)
+- "Monte Carlo" never with hyphen (as it is a city), not even in 'three noun words'
+  (typically: "run time" but "run-time experiment")
+- when referring to functions, write 'function()', not just 'function'
+- work with ran(), not hard-coded values for xlim/ylim (see Section 4 vignette)
+- don't use ^T but ^\top for the transpose sign (it's not a 'T')
+
+
+
+
+### Some former DONE ###########################################################
+
+
+
+-DONE instead of providing maximum number of fun-evals, maybe max number of iterations?
+	it's a little easier to grasp and easier to work with. That holds for dnvmix and
+	pnvmix
+-DONE an we re-think how we handle all these arguments? For instance, could we provide 
+	all optional arguments as one "list" and then just check if that list wasprovided?
+	I feel like there are way too many arguments that nobody ever changes anyway...
+-DONE Does it make sense to choose the default of fun.eval[2] differently?
+       MH: I feel it should be something like 1/abstol, so that if one plays
+           with abstol, one has a reasonable chance not having to modify
+           fun.eval[2]. I realized this when choosing abstol = 1e-8 (then
+           with fun.eval[2] = 1e8, the computations took forever.
+       EH: the default is set such that the algorithm terminates with reasonable
+           tolerances (0.001, 0.0005, maybe 0.0001). Tolerances beyond that will take
+           forever one way or another. My suggestion: Leave it for now.
+       MH: ... until we see a 'law'
+-DONE   Write vignette nvmix_functionality.Rmd
+-DONE  'factor' in rnvmix/dnvmix changed to be consistent with paper
+-DONE   There was a bug in rnvmix; it couldn't handle non-square 'factor' properly.
+        [MH: Correct, never tested that.]
+        Problem was that a *d* dimensional normal was simulated, should be *k* dimensional.
+        [MH: Correct]
+        Also, 'loc' needs to be *k* (not d) dimensional in this case.
+        [MH: A should be (d,k), so the outcome must be d-dimensional and thus also
+        loc must be d-dimensional]
+
+        Note:
+        *in the paper: A (which somewhat corresponds to our'factor') is a (d,k) matrix such that A A^T = scale.
+        This is the definition in the QRM book.
+        [MH: ... and the one we should follow (anything else is confusing)]
+        The resulting nvmix dist'n has thus dimension *d*.
+        [MH: correct]
+        *in rnvmix: 'factor' is a (d,k) matrix such that A^T A = scale.
+        The resulting nvmix dist'n has thus dimension *k*
+        [MH: ... this is because chol() by default gives you an upper triangular Cholesky factor.
+          For performance reasons, I wanted to avoid doing t(A) in the original code.
+	  Maybe we can still avoid it? If not, do the t(), this is still better than loc being k-dimensional]
+
+        I have left it the way it was (i.e. A^T A = scale) and fixed the bug.
+        I originally wanted to change it to make it consistent with the paper,
+        but it seems to be accepted that a factor is a matrix such that A^T A = scale.
+        [MH: still, it's too confusing to be different from the literature]
+        If you'd like it to be changed, that'd be fine for me, too, though. In this case, factorize() needs
+        to be changed as well.
+        [MH: yeah, should be changed (not sure whether also already in factorize [stay closer to R behavior?]).]
+
+        Another remark:
+        If rnvmix() is called with a *singular* scale, an error is thrown.
+        [MH: How is that tested? couldn't immediately find. rnvmix() should be fast, no (too) long testing...]
+        If the user wishes to sample from that singular distribution, they *have to* provide 'factor'.
+        [MH: sounds ok]
+
+        EH: Please see 'Major Changes'
+- DONE	EH: 'rnvmix()' needs a 'method' argument (see 'pnvmix') + new argument 	'mix' ('rmix'?)
+         for passing a RNG
+         => call other arguments 'mix' 'qmix' instead (check carefully).
+	dnvmix() and pnvmix() have 'qmix' (rather than 'mix') now; rnvmix() has both, 	'qmix' and 'rmix'
+- DONE  EH: rnvmix() should have 'skip' if method = 'sobol'
+- DONE  EH: renaming etc in dnvmix() similar to pnvmix()
+- DONE	EH: TODOs inside pnvmix()
+- DONE 	EH: pnvmix() has multiple lower/upper as input, but only one scale. pnvmix1()
+        then calculates t(chol(scale)) for each input => maybe do that in pnvmix once and
+        pass it as argument to pnvmix1()
+- DONE ?pnvmix and ?dnvmix describe the output value 'numiter'. Can you had
+      	(on each help pages) half a sentence what these iterations are exactly?
+      	=> alternatively, shouldn't we rather return the variance? (one of the
+         five components you previously returned) Seems more intuitive, no?
+	EH: Will do. variance can be computed from error; numiter (or equivalently, total
+        function evaluations) should just give an idea of how long it took to converge
+- DONE	EH: ?pnvmix describes 'precond'; can you add half a sentence
+  	describing the idea behind the preconditioning, please?
+- DONE  implement dnvmix() as well as wrappers for normal/t case.
+- DONE  (d=1): pnvmix() should work with d = 1 and with missing data
+- DONE  pStudent should work with df = Inf
+- DONE  implement multivariate normal distribution
+- DONE  rename 'a' and 'b' to 'lower' and 'upper'; 'nu' to 'df'
+        (first arg should be 'upper' with default lower being '-Inf,...')
+- DONE  'R' should be 'scale' and we need a 'standardized = FALSE' argument;
+        if standardized = TRUE, loc = 0 and sigma = correlation matrix is assumed
+        ... or so)
+- DONE  'swap' needs to be improved
+- DONE  'func' not needed if 'base case' in pnvmix() is part of the loop
+        (only one call necessary then, so can be omitted)
+- DONE  more intuitive names for arguments concerning tolerance(s)
+- DONE  polish ./src
+
+
+### Packages dealing with multivariate Student's t distribution ################
+
+2018-06-21:
+- monomvn (estimation under monotone pattern missing data; MLE & Bayesian)
+- mvnfast (no pnvmix(), simulation, density, Mahalanobis distances)
+- tmvtnorm (has ptmvt(), based on Gibbs sampler, but also needs integer
+            d.o.f. (see example on ?ptmvt());
+	    see http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.26.6892
+- MVT (studentFit(); for fixed nu (= eta here), estimates location and scale; paper mentions EM Algorithm)
+- mvtnorm (clear; no fitting, no non-integer dof, qmvt() [equicoordinate quantile function])
+- QRM (fit.mst())

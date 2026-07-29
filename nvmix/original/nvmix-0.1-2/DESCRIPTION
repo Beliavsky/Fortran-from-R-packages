@@ -1,0 +1,33 @@
+Package: nvmix
+Version: 0.1-2
+Encoding: UTF-8
+Title: Multivariate Normal Variance Mixtures
+Description: Functions for working with (grouped) multivariate normal variance mixture
+  distributions (evaluation of distribution functions and densities,
+  random number generation and parameter estimation), including
+  Student's t distribution for non-integer degrees-of-freedom as well as the grouped t
+  distribution and copula with multiple degrees-of-freedom parameters.
+  See <doi:10.18637/jss.v102.i02> for a high-level description of select functionality.
+Authors@R: c(person(given = "Marius", family = "Hofert", role = c("aut", "cre"),
+                    email = "mhofert@hku.hk"),
+             person(given = "Erik", family = "Hintz", role = "aut",
+                    email = "erik.hintz@uwaterloo.ca"),
+             person(given = "Christiane", family = "Lemieux", role = "aut",
+                    email = "clemieux@uwaterloo.ca"))
+Author: Marius Hofert [aut, cre],
+  Erik Hintz [aut],
+  Christiane Lemieux [aut]
+Maintainer: Marius Hofert <mhofert@hku.hk>
+Depends: R (>= 3.2.0)
+Imports: stats, methods, qrng, Matrix, copula, pcaPP, ADGofTest,
+        mnormt, pracma
+Suggests: RColorBrewer, lattice, qrmdata, xts, knitr, rmarkdown,
+        qrmtools, rugarch, quadprog, mvtnorm, sensitivity,
+        microbenchmark, QRM, zoo
+Enhances:
+License: GPL (>= 3) | file LICENCE
+NeedsCompilation: yes
+VignetteBuilder: knitr
+Repository: CRAN
+Date/Publication: 2025-09-10 07:50:26 UTC
+Packaged: 2025-09-10 03:48:29 UTC; mhofert

@@ -1,0 +1,20 @@
+bibentry(bibtype = "Article",
+  title        = "Multivariate Normal Variance Mixtures in {R}:  The {R} Package {nvmix}",
+  author       = c(person(given = "Erik",
+                          family = "Hintz",
+                          email = "erik.hintz@uwaterloo.ca"),
+                   person(given = "Marius",
+                          family = "Hofert",
+                          email = "marius.hofert@uwaterloo.ca"),
+                   person(given = "Christiane",
+                          family = "Lemieux",
+                          email = "clemieux@uwaterloo.ca")),
+  journal      = "Journal of Statistical Software",
+  year         = "2022",
+  volume       = "102",
+  number       = "2",
+  pages        = "1--31",
+  doi          = "10.18637/jss.v102.i02",
+  header       = "To cite nvmix in publications use:"
+)
+

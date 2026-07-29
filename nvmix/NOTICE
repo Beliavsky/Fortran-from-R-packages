@@ -1,0 +1,16 @@
+nvmix-fortran
+==============
+
+This project is a modern Fortran translation of numerical algorithms from
+nvmix 0.1-2.
+
+Original package:
+  Copyright (C) 2018 Marius Hofert, Erik Hintz and Christiane Lemieux
+  License: GNU General Public License version 3 or later
+
+The original source supplied by the user is retained unmodified under
+original/nvmix-0.1-2 and provenance/nvmix-master.zip.
+
+The translation preserves GPL-3.0-or-later licensing. Plotting, R S3 methods,
+R package registration, R data serialization and third-party adapter code are
+not compiled into the Fortran library.
