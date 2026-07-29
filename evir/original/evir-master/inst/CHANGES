@@ -1,0 +1,62 @@
+CHANGES FROM VERSION 1.5 ARE AS FOLLOWS
+
+  The package has been ORPHANED by the maintainer
+  Alec Stephenson as of 12th July 2008. Version
+  1.6 therefore has no maintainer. If you are the
+  new maintainer, feel free to e-mail me with any
+  questions. Good luck!
+
+CHANGES FROM VERSION 1.4 ARE AS FOLLOWS
+
+  The Depends field has changed: the specification 
+  that R should be version 1.5.0 or later has been 
+  removed (as this is a very old version anyway), 
+  and the library stats (which ts is now merged 
+  into) has been added. Consequently, the call to
+  require in plot.potd has been deleted. 
+
+  There were a couple of T's and F's (rather that 
+  TRUE's or FALSE's) remaining from the port, as 
+  identified up by the new check warnings in R-devel.
+  This has now been corrected. (T or F will ordinarily
+  work in R, but they can be over-written by the user, 
+  and hence they should be avoided for distributed 
+  code.)  
+
+CHANGES FROM VERSION 1.3 ARE AS FOLLOWS
+
+  The function decluster could produce incorrect
+  answers if the data contained non-unique values.
+  This has been fixed. The maintainer thanks 
+  Diethelm Wuertz for reporting this.
+
+  The function plot.gev produced plots with incorrect 
+  residuals (uniform rather than exponential) when 
+  used with the Gumbel model. This has been fixed.
+  The maintainer thanks Rico Brandenburg for reporting 
+  this.
+
+CHANGES FROM VERSION 1.2 ARE AS FOLLOWS
+
+  The "pot" class has been renamed the "potd" class
+  to avoid conflict with the class of the same name
+  in the R package evd.
+
+CHANGES FROM VERSION 1.1 ARE AS FOLLOWS
+
+  The plotting points definition for the probability
+  weighted moments method of function gpd has been
+  altered for consistency with quoted source. The
+  maintainer thanks Michelangelo Puliga for reporting
+  this.
+ 
+  The emplot function labelled the axes incorrectly
+  when alog = "y". The maintainer thanks Martin Hanek
+  for reporting this.
+
+CHANGES FROM VERSION 1.0 ARE AS FOLLOWS
+
+  The mailing address of the maintainer has changed.
+
+  Two codoc mismatches on default arguments fixed.
+

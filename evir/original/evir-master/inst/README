@@ -1,0 +1,55 @@
+The evir package is an R port of Alexander McNeil's S library     
+EVIS. The file RCHANGES documents the main changes from the S 
+version. As usual, please direct all queries and bug reports 
+to the Maintainer given in the DESCRIPTION file.
+
+The functions within the package may be divided into the 
+following groups:
+
+Exploratory Data Analysis; these functions provide a useful 
+prelude to any further analysis.
+  emplot  exindex  hill  meplot  qplot  records
+
+Block Maxima; These functions implement the most classical 
+form of EVT analysis.
+  gev  gumbel  plot.gev  rlevel.gev
+
+Peaks Over Thresholds; Most users will find these the most 
+useful functions.
+  gpd  gpd.q  gpd.sfall  plot.gpd  quant  riskmeasures 
+  shape  tailplot
+
+Bivariate Peaks Over Thresholds; These functions implement 
+a simple form of bivariate EVT.
+  gpdbiv  interpret.gpdbiv  plot.gpdbiv
+
+Peaks Over Thresholds with Point Processes; Expert users with 
+a deep understanding of the theory might try these functions.
+  plot.pot  pot
+
+GEV and GPD Distributions; These functions perform simple 
+calculations of densities, probabilities and quantiles, and 
+carry out random generation for the generalized extreme value 
+and generalized Pareto distributions.
+  dgev  dgpd  pgev  pgpd  qgev  qgpd  rgev  rgpd 
+
+Internal; These functions are fully documented, but are 
+primarily constructed to be called by other functions.
+  findthresh  decluster
+
+The following datasets are also included in the package.
+  bmw  danish  nidd.annual  nidd.thresh  siemens  spto87  
+  sp.raw
+
+The following four demonstrations, based on a document by 
+Alexander McNeil, are included in the package. They can be 
+run using the function demo.
+
+  pot.danish       POT Analysis of the Danish Fire Data
+  minima.sp        Annual Minima of S&P Daily Return Data
+  pot.bmw          POT Analysis of BMW Return Data
+  bvpot            Bivariate POT Analysis of BMW and Siemens
+
+
+
+

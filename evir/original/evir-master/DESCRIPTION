@@ -1,0 +1,17 @@
+Package: evir
+Version: 1.7-4
+Date: 2016-09-23
+Title: Extreme Values in R
+Authors@R: c(person("Bernhard", "Pfaff", email =
+        "bernhard@pfaffikus.de", role = c("aut", "cre")),
+        person("Alexander", "McNeil", email = "mcneil@math.ethz.ch",
+        role = "aut", comment = "S original (EVIS)"), person("Alec",
+        "Stephenson", email = "alec_stephenson@hotmail.com", role =
+        "trl", comment = "R port of EVIS"))
+Depends: stats
+Description: Functions for extreme value theory, which may be divided
+        into the following groups; exploratory data analysis, block
+        maxima, peaks over thresholds (univariate and bivariate), point
+        processes, gev/gpd distributions.
+License: GPL (>= 2)
+Maintainer: Bernhard Pfaff <bernhard@pfaffikus.de>

@@ -1,0 +1,13 @@
+# Export all names
+exportPattern(".")
+# setting S3-methods (plot)
+S3method(plot, gev)
+S3method(plot, gpd)
+S3method(plot, gpdbiv)
+S3method(plot, potd)
+# Import all packages listed as Imports or Depends
+import("stats")
+# Import selected functions from graphics and utils
+importFrom("graphics", "abline", "axis", "box", "contour", "lines",
+           "mtext", "par", "plot", "points", "title")
+importFrom("utils", "menu")

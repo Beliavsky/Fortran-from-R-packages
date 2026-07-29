@@ -1,0 +1,67 @@
+The evir package is an R port of Alexander McNeil's S library     
+EVIS. This file documents the main changes from the current 
+S version. 
+
+
+User-level Changes
+
+1. There are no irregular time series objects in R; appropriate
+   alterations have therefore been made, in particular, to the
+   functions gev, gumbel, exindex, pot and plot.pot.
+
+2. An extra argument has been added to the functions gpd.q and 
+   gpd.sfall to avoid side effects. The functions plot.gpd,
+   tailplot and plot.pot invisibly return an object which 
+   should be passed to the extra argument (see the help files
+   for details).
+
+3. The argument ... has been included in many functions, mainly
+   for control of the optimization function optim, but also for
+   graphics parameters or for generic/method consistency.
+
+4. A table is returned invisibly in the functions quant and 
+   shape, rather than having a logical formal argument `table'.
+
+5. In the functions decluster the formal argument `gap' has been
+   changed to `run'. Furthermore, the `run' argument in decluster
+   and pot represents a number of observations/days (see the help
+   file for details).
+
+
+Internal Changes
+
+1. The first formal argument of plot.gev, plot.gpd and 
+   plot.gpdbiv is now `x', for generic/method consistency.
+
+2. When nllh is infinite 1e+06 is returned, rather than NA.
+
+3. The R function match.arg is being used within hill, gpd 
+   and gpd.q, for added bullet proofing with alternate 
+   character arguments. 
+
+4. The function hess is no longer needed, as the hessian 
+   matrix is returned by the optimization function optim.
+
+
+Bug Fixes (Code)
+
+1. Moment estimators used as starting values in the functions 
+   gev and gumbel have been corrected. 
+
+
+Bug Fixes (Documentation)
+
+1. Documented example for gpdbiv does not work; the offending
+   code `interpret.gpdbiv(out)' has been altered.  
+
+2. Documentation link to hillplot in documentation files shape,
+   exindex and findthresh has been corrected to hill.  
+
+3. Documentation for hill corrected; omitted ci.p argument and
+   correctly documented ci argument.
+
+4. Formal arguments for dgpd, pgpd and emplot are now consistent 
+   with documentation.
+
+
+
