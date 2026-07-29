@@ -1,0 +1,41 @@
+Package: ghyp
+Type: Package
+Version: 1.6.5
+Date: 2024-08-13
+Title: Generalized Hyperbolic Distribution and Its Special Cases
+Author: Marc Weibel [aut, cre],
+  David Luethi [aut],
+  Henriette-Elise Breymann [aut]
+Authors@R: c(person(given = "Marc",
+                    family = "Weibel",
+                    role = c("aut", "cre"),
+                    email = "marc.weibel@quantsulting.ch"),
+             person(given = "David",
+                    family = "Luethi",
+                    role = "aut"),
+             person(given = "Henriette-Elise",
+                    family = "Breymann",
+                    role = "aut"))
+Maintainer: Marc Weibel <marc.weibel@quantsulting.ch>
+LazyData: no
+Depends: R(>= 2.7), methods, numDeriv, graphics, stats, MASS
+Description: Detailed functionality for working
+        with the univariate and multivariate Generalized Hyperbolic
+        distribution and its special cases (Hyperbolic (hyp), Normal
+        Inverse Gaussian (NIG), Variance Gamma (VG), skewed Student-t
+        and Gaussian distribution). Especially, it contains fitting
+        procedures, an AIC-based model selection routine, and functions
+        for the computation of density, quantile, probability, random
+        variates, expected shortfall and some portfolio optimization
+        and plotting routines as well as the likelihood ratio test. In
+        addition, it contains the Generalized Inverse Gaussian
+        distribution. See Chapter 3 of A. J. McNeil, R. Frey, and P. Embrechts. 
+        Quantitative risk management: Concepts, techniques and tools. 
+        Princeton University Press, Princeton (2005).
+License: GPL (>= 2)
+Encoding: UTF-8
+Repository: CRAN
+NeedsCompilation: yes
+RoxygenNote: 7.1.0
+Packaged: 2024-08-26 12:15:58 UTC; marc
+Date/Publication: 2024-08-26 12:50:07 UTC
