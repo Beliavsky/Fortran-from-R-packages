@@ -1,0 +1,23 @@
+name = "fer"
+version = "0.94.1"
+license = "GPL-2.0-or-later"
+author = "Jaehyuk Choi; Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "Jaehyuk Choi"
+description = "Modern Fortran implementation of financial engineering option-pricing formulas from FE-R"
+categories = ["finance", "option-pricing", "numerical-methods"]
+keywords = ["black-scholes", "bachelier", "cev", "sabr", "spread-options"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
