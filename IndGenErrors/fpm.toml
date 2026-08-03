@@ -1,0 +1,18 @@
+name = "indgenerrors"
+version = "0.1.6"
+license = "GPL-3.0-only"
+author = "Kilani Ghoudi, Bouchra R. Nasri, Bruno N. Remillard, Pierre Duchesne; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Original authors and contributors"
+description = "Tests of independence between innovations of generalized-error models"
+categories = ["statistics", "time-series"]
+keywords = ["independence", "innovations", "cramer-von-mises", "cross-correlation"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
