@@ -1,0 +1,21 @@
+name = "mixtools"
+version = "2.0.0"
+license = "GPL-2.0-or-later"
+author = "Derek Young, Tatiana Benaglia, Didier Chauveau, David Hunter, Kedai Cheng, and contributors; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational routines in the R package mixtools"
+keywords = ["statistics", "mixture-models", "em", "regression", "semiparametric"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
