@@ -1,0 +1,984 @@
+#####################################################
+# this file defines how to configure qsld to plot
+#####################################################
+#
+# the key is symbol-period
+#
+# by default, start.date is 1950-01-01, end.date is 2015-12-31
+# this is defined in ecd.data.arr API default
+# you can override it
+#
+# default:
+#   ts.on = days, drop = 0, mu.add = 0, breaks = 200
+#
+spx-1d:
+  symbol: spx
+  period: 1d
+  ts.on:  days
+  lag:    1
+  drop:   1
+  t:      1/252
+  nu0:    6.92
+  theta:  1.17
+  convo:  2
+  beta.a: -1.31 # annualized beta
+  mu.add: 0
+  breaks: 200
+
+spx-2d:
+  symbol: spx
+  period: 2d
+  ts.on:  days
+  lag:    2
+  drop:   1
+  t:      2/252
+  nu0:    9.0
+  theta:  0.96
+  convo:  2
+  beta.a: -1.72
+  mu.add: 0
+  breaks: 200
+
+spx-3d:
+  symbol: spx
+  period: 3d
+  ts.on:  days
+  lag:    3
+  drop:   2
+  t:      3/252
+  nu0:    8.9
+  theta:  0.91
+  convo:  3
+  beta.a: -1.65
+  mu.add: 0
+  breaks: 200
+
+spx-4d:
+  symbol: spx
+  period: 4d
+  ts.on:  days
+  lag:    4
+  drop:   2
+  t:      4/252
+  nu0:    9.4
+  theta:  0.86
+  convo:  3
+  beta.a: -1.6
+  mu.add: 0
+  breaks: 200
+
+spx-5d:
+  symbol: spx
+  period: 5d
+  ts.on:  days
+  lag:    5
+  drop:   2
+  t:      5/252
+  nu0:    9.2
+  theta:  0.84
+  convo:  3
+  beta.a: -2.02
+  mu.add: 0
+  breaks: 200
+
+spx-2w:
+  symbol: spx
+  period: 2w
+  ts.on:  days
+  lag:    10
+  drop:   1
+  t:      2/52
+  nu0:    9.5
+  theta:  0.8
+  convo:  3
+  beta.a: -2.4
+  mu.add: 0
+  breaks: 200
+
+spx-3w:
+  symbol: spx
+  period: 3w
+  ts.on:  days
+  lag:    15
+  drop:   1
+  t:      3/52
+  nu0:    9.9
+  theta:  0.78
+  convo:  3
+  beta.a: -1.73
+  mu.add: 0
+  breaks: 200
+
+spx-1m:
+  symbol: spx
+  period: 1m
+  ts.on:  days
+  lag:    21
+  drop:   0
+  t:      1/12
+  nu0:    9.37
+  theta:  0.81
+  convo:  3
+  beta.a: -1.69
+  mu.add: 0
+  breaks: 100
+
+spx-6w:
+  symbol: spx
+  period: 6w
+  ts.on:  days
+  lag:    31
+  drop:   0
+  t:      6/52
+  nu0:    9.7
+  theta:  0.81
+  convo:  4
+  beta.a: -1.73
+  mu.add: 0
+  breaks: 100
+
+spx-2m:
+  symbol: spx
+  period: 2m
+  ts.on:  days
+  lag:    42
+  drop:   0
+  t:      2/12
+  nu0:    9.8
+  theta:  0.73
+  convo:  4
+  beta.a: -1.48
+  mu.add: 0
+  breaks: 100
+
+spx-3m:
+  symbol: spx
+  period: 3m
+  ts.on:  days
+  lag:    63
+  drop:   0
+  t:      3/12
+  nu0:    9.54
+  theta:  0.75
+  convo:  4
+  beta.a: -1.06
+  mu.add: 0
+  breaks: 50
+
+spx-4m:
+  symbol: spx
+  period: 4m
+  ts.on:  days
+  lag:    83
+  drop:   0
+  t:      4/12
+  nu0:    9.04
+  theta:  0.77
+  convo:  5
+  beta.a: -0.80
+  mu.add: 0
+  breaks: 50
+
+spx-5m:
+  symbol: spx
+  period: 5m
+  ts.on:  days
+  lag:    104
+  drop:   0
+  t:      5/12
+  nu0:    7.64
+  theta:  1.01
+  convo:  5
+  beta.a: -0.69
+  mu.add: 0
+  breaks: 50
+
+spx-6m:
+  symbol: spx
+  period: 6m
+  ts.on:  days
+  lag:    125
+  drop:   0
+  t:      6/12
+  nu0:    7.04
+  theta:  1.16
+  convo:  5
+  beta.a: -0.53
+  mu.add: 0
+  breaks: 50
+
+spx-7m:
+  symbol: spx
+  period: 7m
+  ts.on:  days
+  lag:    146
+  drop:   0
+  t:      7/12
+  nu0:    7.66
+  theta:  1.11
+  convo:  5
+  beta.a: -0.40
+  mu.add: 0
+  breaks: 50
+
+spx-8m:
+  symbol: spx
+  period: 8m
+  ts.on:  days
+  lag:    167
+  drop:   0
+  t:      8/12
+  nu0:    7.77
+  theta:  1.09
+  convo:  6
+  beta.a: -0.30
+  mu.add: 0
+  breaks: 50
+
+spx-9m:
+  symbol: spx
+  period: 9m
+  ts.on:  days
+  lag:    188
+  drop:   0
+  t:      0.75
+  nu0:    8.3
+  theta:  0.97
+  convo:  6
+  beta.a: -0.36
+  mu.add: 0
+  breaks: 50
+
+spx-10m:
+  symbol: spx
+  period: 10m
+  ts.on:  days
+  lag:    208
+  drop:   0
+  t:      10/12
+  nu0:    8.04
+  theta:  1.02
+  convo:  6
+  beta.a: -0.39
+  mu.add: 0
+  breaks: 50
+
+spx-11m:
+  symbol: spx
+  period: 11m
+  ts.on:  days
+  lag:    229
+  drop:   0
+  t:      11/12
+  nu0:    7.54
+  theta:  1.06
+  convo:  7
+  beta.a: -0.36
+  mu.add: 0
+  breaks: 40
+
+spx-12m:
+  symbol: spx
+  period: 12m
+  ts.on:  days
+  lag:    252
+  drop:   0
+  t:      1
+  nu0:    9.85
+  theta:  0.76
+  convo:  7
+  beta.a: -0.69
+  mu.add: 0
+  breaks: 40
+
+spx-13m:
+  symbol: spx
+  period: 13m
+  ts.on:  days
+  lag:    271
+  drop:   0
+  t:      13/12
+  nu0:    9.5
+  theta:  0.82
+  convo:  7
+  beta.a: -0.57
+  mu.add: 0
+  breaks: 40
+
+spx-14m:
+  symbol: spx
+  period: 14m
+  ts.on:  days
+  lag:    292
+  drop:   0
+  t:      14/12
+  nu0:    9.63
+  theta:  0.82
+  convo:  7
+  beta.a: -0.59
+  mu.add: 0
+  breaks: 40
+
+#############################################################
+
+dji-1d:
+  symbol: dji
+  period: 1d
+  ts.on:  days
+  lag:    1
+  drop:   1
+  t:      1/252
+  nu0:    6.92
+  theta:  1.21
+  convo:  2
+  beta.a: -1.11 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-2d:
+  symbol: dji
+  period: 2d
+  ts.on:  days
+  lag:    2
+  drop:   1
+  t:      2/252
+  nu0:    8.92
+  theta:  1.01
+  convo:  3
+  beta.a: -1.61 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-3d:
+  symbol: dji
+  period: 3d
+  ts.on:  days
+  lag:    3
+  drop:   1
+  t:      3/252
+  nu0:    8.92
+  theta:  1.01
+  convo:  3
+  beta.a: -1.61 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-1w:
+  symbol: dji
+  period: 1w
+  ts.on:  days
+  lag:    5
+  drop:   2 # one more drop for skewness
+  t:      1/52
+  nu0:    8.52
+  theta:  1.11
+  convo:  3
+  beta.a: -1.51 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-1m:
+  symbol: dji
+  period: 1m
+  ts.on:  days
+  lag:    21
+  drop:   7
+  t:      1/12
+  nu0:    8.72
+  theta:  1.01
+  convo:  4
+  beta.a: -1.31 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-6w:
+  symbol: dji
+  period: 6w
+  ts.on:  days
+  lag:    31
+  drop:   7
+  t:      6/52
+  nu0:    8.72
+  theta:  1.01
+  convo:  4
+  beta.a: -1.31 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-2m:
+  symbol: dji
+  period: 2m
+  ts.on:  days
+  lag:    42
+  drop:   7
+  t:      2/12
+  nu0:    8.72
+  theta:  1.01
+  convo:  4
+  beta.a: -1.31 # annualized beta
+  mu.add: 0
+  breaks: 200
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-3m:
+  symbol: dji
+  period: 3m
+  ts.on:  days
+  lag:    62
+  drop:   0
+  t:      1/4
+  nu0:    9.52
+  theta:  0.91
+  convo:  5
+  beta.a: -0.91 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-4m:
+  symbol: dji
+  period: 4m
+  ts.on:  days
+  lag:    83
+  drop:   0
+  t:      4/12
+  nu0:    9.52
+  theta:  0.91
+  convo:  6
+  beta.a: -0.91 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-5m:
+  symbol: dji
+  period: 5m
+  ts.on:  days
+  lag:    104
+  drop:   0
+  t:      5/12
+  nu0:    9.52
+  theta:  0.91
+  convo:  6
+  beta.a: -0.91 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-6m:
+  symbol: dji
+  period: 6m
+  ts.on:  days
+  lag:    125
+  drop:   0
+  t:      1/2
+  nu0:    8.92
+  theta:  1.01
+  convo:  6
+  beta.a: -0.41 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-7m:
+  symbol: dji
+  period: 7m
+  ts.on:  days
+  lag:    146
+  drop:   0
+  t:      7/12
+  nu0:    8.92
+  theta:  1.01
+  convo:  7
+  beta.a: -0.41 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-8m:
+  symbol: dji
+  period: 8m
+  ts.on:  days
+  lag:    167
+  drop:   0
+  t:      8/12
+  nu0:    9.62
+  theta:  1.01
+  convo:  8
+  beta.a: -0.34 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-9m:
+  symbol: dji
+  period: 9m
+  ts.on:  days
+  lag:    187
+  drop:   0
+  t:      3/4
+  nu0:    9.62
+  theta:  1.01
+  convo:  8
+  beta.a: -0.34 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-10m:
+  symbol: dji
+  period: 10m
+  ts.on:  days
+  lag:    208
+  drop:   0
+  t:      10/12
+  nu0:    9.62
+  theta:  1.01
+  convo:  8
+  beta.a: -0.34 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-11m:
+  symbol: dji
+  period: 11m
+  ts.on:  days
+  lag:    229
+  drop:   0
+  t:      11/12
+  nu0:    9.62
+  theta:  1.01
+  convo:  9
+  beta.a: -0.34 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-12m:
+  symbol: dji
+  period: 12m
+  ts.on:  days
+  lag:    252
+  drop:   0
+  t:      1
+  nu0:    9.62
+  theta:  0.95
+  convo:  10
+  beta.a: -0.26 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-13m:
+  symbol: dji
+  period: 13m
+  ts.on:  days
+  lag:    271
+  drop:   0
+  t:      13/12
+  nu0:    9.62
+  theta:  0.95
+  convo:  11
+  beta.a: -0.26 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+dji-14m:
+  symbol: dji
+  period: 14m
+  ts.on:  days
+  lag:    292
+  drop:   0
+  t:      14/12
+  nu0:    9.62
+  theta:  0.95
+  convo:  11
+  beta.a: -0.26 # annualized beta
+  mu.add: 0
+  breaks: 100
+  start.date: 1928-10-01
+  end.date: 2015-12-31
+
+#############################################################
+
+gold-1d:
+  symbol: gold
+  period: 1d
+  ts.on:  days
+  lag:    1
+  drop:   2
+  t:      1/252
+  nu0:    4.82
+  theta:  2.21
+  convo:  2
+  beta.a: 0.25 # annualized beta
+  mu.add: 0
+  breaks: 200
+
+gold-2d:
+  symbol: gold
+  period: 2d
+  ts.on:  days
+  lag:    2
+  drop:   2
+  t:      2/252
+  nu0:    4.80
+  theta:  2.16
+  convo:  2
+  beta.a: 1.15 # annualized beta
+  mu.add: 0
+  breaks: 200
+
+gold-3d:
+  symbol: gold
+  period: 3d
+  ts.on:  days
+  lag:    3
+  drop:   2
+  t:      3/252
+  nu0:    5.70
+  theta:  2.06
+  convo:  2
+  beta.a: 1.15 # annualized beta
+  mu.add: 0
+  breaks: 200
+
+gold-4d:
+  symbol: gold
+  period: 4d
+  ts.on:  days
+  lag:    4
+  drop:   2
+  t:      4/252
+  nu0:    7.80
+  theta:  1.76
+  convo:  2
+  beta.a: 0.65 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-5d:
+  symbol: gold
+  period: 5d
+  ts.on:  days
+  lag:    5
+  drop:   2
+  t:      5/252
+  nu0:    7.70
+  theta:  1.76
+  convo:  2
+  beta.a: 0.77 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-2w:
+  symbol: gold
+  period: 2w
+  ts.on:  days
+  lag:    10
+  drop:   2
+  t:      2/52
+  nu0:    6.70
+  theta:  1.91
+  convo:  3
+  beta.a: 0.75 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-3w:
+  symbol: gold
+  period: 3w
+  ts.on:  days
+  lag:    15
+  drop:   1
+  t:      3/52
+  nu0:    6.91
+  theta:  1.91
+  convo:  3
+  beta.a: 0.91 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-1m:
+  symbol: gold
+  period: 1m
+  ts.on:  days
+  lag:    21
+  drop:   0
+  t:      1/12
+  nu0:    7.12
+  theta:  1.91
+  convo:  3
+  beta.a: 0.89 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-6w:
+  symbol: gold
+  period: 6w
+  ts.on:  days
+  lag:    31
+  drop:   0
+  t:      6/52
+  nu0:    7.56
+  theta:  1.95
+  convo:  3
+  beta.a: 0.89 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-2m:
+  symbol: gold
+  period: 2m
+  ts.on:  days
+  lag:    42
+  drop:   0
+  t:      2/12
+  nu0:    7.16
+  theta:  1.94
+  convo:  3
+  beta.a: 0.82 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-3m:
+  symbol: gold
+  period: 3m
+  ts.on:  days
+  lag:    63
+  drop:   0
+  t:      1/4
+  nu0:    6.71
+  theta:  2.04
+  convo:  4
+  beta.a: 0.69 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-4m:
+  symbol: gold
+  period: 4m
+  ts.on:  days
+  lag:    83
+  drop:   0
+  t:      4/12
+  nu0:    7.11
+  theta:  1.94
+  convo:  4
+  beta.a: 0.69 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-5m:
+  symbol: gold
+  period: 5m
+  ts.on:  days
+  lag:    104
+  drop:   0
+  t:      5/12
+  nu0:    7.81
+  theta:  1.78
+  convo:  4
+  beta.a: 0.59 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-6m:
+  symbol: gold
+  period: 6m
+  ts.on:  days
+  lag:    125
+  drop:   0
+  t:      2/4
+  nu0:    8.61
+  theta:  1.84
+  convo:  4
+  beta.a: 0.61 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-7m:
+  symbol: gold
+  period: 7m
+  ts.on:  days
+  lag:    146
+  drop:   0
+  t:      7/12
+  nu0:    9.01
+  theta:  1.74
+  convo:  5
+  beta.a: 0.51 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+gold-8m:
+  symbol: gold
+  period: 8m
+  ts.on:  days
+  lag:    167
+  drop:   0
+  t:      8/12
+  nu0:    9.01
+  theta:  1.74
+  convo:  5
+  beta.a: 0.41 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-9m:
+  symbol: gold
+  period: 9m
+  ts.on:  days
+  lag:    188
+  drop:   0
+  t:      3/4
+  nu0:    8.91
+  theta:  1.74
+  convo:  5
+  beta.a: 0.31 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-10m:
+  symbol: gold
+  period: 10m
+  ts.on:  days
+  lag:    208
+  drop:   0
+  t:      10/12
+  nu0:    9.41
+  theta:  1.84
+  convo:  5
+  beta.a: 0.31 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-11m:
+  symbol: gold
+  period: 11m
+  ts.on:  days
+  lag:    229
+  drop:   0
+  t:      11/12
+  nu0:    10.51
+  theta:  1.69
+  convo:  6
+  beta.a: 0.34 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-12m:
+  symbol: gold
+  period: 12m
+  ts.on:  days
+  lag:    252
+  drop:   0
+  t:      1
+  nu0:    11.51
+  theta:  1.54
+  convo:  6
+  beta.a: 0.39 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-13m:
+  symbol: gold
+  period: 13m
+  ts.on:  days
+  lag:    271
+  drop:   0
+  t:      13/12
+  nu0:    11.51
+  theta:  1.63
+  convo:  6
+  beta.a: 0.37 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+gold-14m:
+  symbol: gold
+  period: 14m
+  ts.on:  days
+  lag:    292
+  drop:   0
+  t:      14/12
+  nu0:    11.91
+  theta:  1.70
+  convo:  6
+  beta.a: 0.39 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+#############################################################
+
+wti-1d:
+  symbol: wti
+  period: 1d
+  ts.on:  days
+  lag:    1
+  drop:   1
+  t:      1/252
+  nu0:    16.22
+  theta:  3.42
+  convo:  3
+  beta.a: -0.98 # annualized beta
+  mu.add: 0
+  breaks: 100
+
+wti-1m:
+  symbol: wti
+  period: 1m
+  ts.on:  days
+  lag:    21
+  drop:   0
+  t:      1/12
+  nu0:    18.52
+  theta:  2.75
+  convo:  10
+  beta.a: -0.35 # annualized beta
+  mu.add: 0
+  breaks: 80
+
+#############################################################
+
+r10y-1d:
+  symbol: r10y
+  period: 1d
+  ts.on:  days
+  lag:    1
+  drop:   0
+  t:      1/252
+  nu0:    2.22
+  theta:  2.17
+  convo:  3
+  beta.a: -1.21 # annualized beta
+  mu.add: 0
+  breaks: 150
+
+#############################################################

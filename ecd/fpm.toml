@@ -1,0 +1,19 @@
+name = "ecd"
+version = "0.9.2"
+license = "Artistic-2.0"
+author = "Stephen H-T. Lihn; Fortran port by OpenAI"
+maintainer = "OpenAI"
+description = "Modern Fortran translation of computational algorithms from the R package ecd"
+categories = ["finance", "probability", "statistics"]
+keywords = ["elliptic-lambda", "stable-lambda", "option-pricing", "cusp-distribution"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

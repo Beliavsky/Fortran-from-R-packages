@@ -1,0 +1,103 @@
+Package: ecd
+Type: Package
+Title: Elliptic Lambda Distribution and Option Pricing Model
+Version: 0.9.2.4
+Date: 2022-05-10
+Authors@R: person(given = c("Stephen", "H-T."), family = "Lihn",
+                  email = "stevelihn@gmail.com", role = c("aut", "cre"))
+Author: Stephen H-T. Lihn [aut, cre]
+Maintainer: Stephen H-T. Lihn <stevelihn@gmail.com>
+Description: Elliptic lambda distribution and lambda option pricing model
+    have been evolved into a framework of
+    stable-law inspired distributions,
+    such as the extended stable lambda distribution for asset return,
+    stable count distribution for volatility,
+    and Lihn-Laplace process as a leptokurtic extension of Wiener process.
+    This package contains functions for the computation of
+    density, probability, quantile, random variable, fitting procedures,
+    option prices, volatility smile. It also comes with sample financial data,
+    and plotting routines.
+URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3046732
+Depends: R (>= 3.5.1)
+Imports: stats, utils, Rmpfr (>= 0.6-0), gsl, polynom, xts, zoo,
+        optimx, moments, stabledist, parallel, graphics, ggplot2,
+        gridExtra, xtable, methods, yaml, RSQLite, digest
+Suggests: knitr, testthat, roxygen2, shape
+License: Artistic-2.0
+Encoding: latin1
+Collate: 'ecd-adj-gamma-method.R' 'ecd-asymp-stats-method.R'
+        'ecd-ccdf-method.R' 'ecd-cdf-method.R'
+        'ecd-numericMpfr-class.R' 'ecdq-class.R' 'ecd-package.R'
+        'ecd-class.R' 'ecd-constructor.R' 'ecd-cubic-method.R'
+        'ecd-cusp-a2r-method.R' 'ecd-cusp-constructor.R'
+        'ecd-cusp-std-moment-method.R' 'ecd-data-config-internal.R'
+        'ecd-data-method.R' 'ecd-data-stats-method.R'
+        'ecd-df2ts-method.R' 'ecd-diff-method.R' 'ecd-discr-generic.R'
+        'ecd-distribution-method.R' 'ecld-class.R'
+        'ecd-ecldOrEcd-class.R' 'ecd-ellipticity-generic.R'
+        'ecd-erfq-method.R' 'ecd-estimate-const-method.R'
+        'ecd-fit-data-method.R' 'ecd-fit-ts-conf-method.R'
+        'ecd-has-quantile-method.R' 'ecd-imgf-method.R'
+        'ecd-integrate-method.R' 'ecd-integrate-pdf-generic.R'
+        'ecd-is-numericMpfr-internal.R' 'ecd-jinv-generic.R'
+        'ecd-lag-method.R' 'ecd-manage-hist-tails-method.R'
+        'ecd-max-kurtosis-method.R' 'ecd-model-internal.R'
+        'ecd-moment-generic.R' 'ecd-mp2f-method.R' 'ecd-mpfr-method.R'
+        'ecd-mpfr-qagi-method.R' 'ecd-mpnum-method.R'
+        'ecd-ogf-method.R' 'ecd-pdf-method.R' 'ecd-plot-2x2-generic.R'
+        'ecd-polar-constructor.R' 'ecd-quantilize-generic.R'
+        'ecd-rational-method.R' 'ecd-read-csv-by-symbol-method.R'
+        'ecd-read-symbol-conf-method.R' 'ecd-sd-method.R'
+        'ecd-setup-const-method.R' 'ecd-solve-cusp-asym-method.R'
+        'ecd-solve-generic.R' 'ecd-solve-sym-generic.R'
+        'ecd-solve-trig-generic.R' 'ecd-standardfit-method.R'
+        'ecd-stats-method.R' 'ecd-toString-method.R'
+        'ecd-ts-lag-stats-method.R' 'ecd-uniroot-method.R'
+        'ecd-y-slope-generic.R' 'ecd-y0-isomorphic-method.R'
+        'ecdattr-class.R' 'ecdattr-constructor.R'
+        'ecdattr-enrich-method.R' 'ecdattr-pairs-method.R'
+        'ecdattr-pairs-polar-method.R' 'ecdb-class.R'
+        'ecdb-bootstrap-generic.R' 'ecdb-constructor.R'
+        'ecdb-dbSendQuery-method.R' 'ecdb-ecdattr-generic.R'
+        'ecdb-helpers-internal.R' 'ecdb-history-generic.R'
+        'ecdb-protectiveCommit-method.R' 'ecdb-read-generic.R'
+        'ecdb-summary-generic.R' 'ecdb-write-generic.R'
+        'ecdq-constructor.R' 'ecld-cdf-method.R' 'ecld-const-method.R'
+        'ecld-constructor.R' 'ecld-fixed-point-RN0-method.R'
+        'ecld-gamma-method.R' 'ecld-imgf-method.R' 'ecld-imnt-method.R'
+        'ecld-ivol-ogf-star-method.R' 'ecld-mgf-term-method.R'
+        'ecld-moment-method.R' 'ecld-mpnum-method.R'
+        'ecld-mu-D-method.R' 'ecld-ogf-method.R'
+        'ecld-ogf-star-method.R' 'ecld-op-Q-method.R'
+        'ecld-op-V-method.R' 'ecld-pdf-method.R'
+        'ecld-quartic-RN0-method.R' 'ecld-sd-method.R'
+        'ecld-sged-method.R' 'ecld-solve-method.R'
+        'ecld-y-slope-method.R' 'ecld.quartic-Qp-method.R'
+        'ecld.quartic_Qp_atm_attr.R'
+        'ecop-bs-implied-volatility-method.R'
+        'ecop-bs-option-price-method.R' 'ecop-opt-class.R'
+        'ecop-class.R' 'ecop-constructor.R'
+        'ecop-find-fixed-point-lambda-by-atm-skew-method.R'
+        'ecop-find-fixed-point-sd-by-lambda-method.R'
+        'ecop-get-ld-triple-method.R' 'ecop-polyfit-option-method.R'
+        'ecop-read-csv-by-symbol.R'
+        'ecop-term-master-calculator-method.R'
+        'ecop-term-plot-3x3-method.R' 'ecop-vix-plot-3x3-method.R'
+        'lamp-class.R' 'lamp-constructor.R'
+        'lamp-generate-tau-method.R' 'lamp-k2mnt-method.R'
+        'lamp-laplace-distribution-method.R' 'lamp-plot-sim4-method.R'
+        'lamp-qsl-analytic-method.R' 'lamp-qsl-fit-config-method.R'
+        'lamp-qsl-fit-plot-method.R' 'lamp-sd-factor-method.R'
+        'lamp-simulate-iter-method.R' 'lamp-simulate1-method.R'
+        'lamp-stable-cnt-distribution-method.R'
+        'lamp-stable-lambda-dist-method.R'
+        'lamp-stable-rnd-walk-method.R'
+        'lamp-stdlap-distribution-method.R' 'levy-dlambda-method.R'
+        'levy-domain-coloring-method.R'
+        'levy-dskewed-distribution-method.R' 'qsld-fit-method.R'
+        'sld-class.R' 'sld-constructor.R' 'sld-sd-method.R'
+RoxygenNote: 7.1.2
+NeedsCompilation: no
+Packaged: 2022-05-09 20:07:42 UTC; stephenlihn
+Repository: CRAN
+Date/Publication: 2022-05-09 21:10:02 UTC

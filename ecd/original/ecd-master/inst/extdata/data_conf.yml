@@ -1,0 +1,87 @@
+# this file defines how to read time series data
+################################################
+#
+# the key is the symbol
+#
+dji:
+    cols: 10
+    col_in: Adjusted
+    date_format: "%m/%d/%Y"
+    test_date: "19350103"
+    test_val: 105.14
+
+#############################################################    
+gold:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19720301"
+    test_val: 47.8
+
+r10y:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19620301"
+    test_val: 3.98
+
+chf:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "20080505"
+    test_val: 1.0539
+
+vix:
+    cols: 7
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19900110"
+    test_val: 22.44
+
+vvix:
+    cols: 7
+    col_in: Close
+    date_format: "%Y-%m-%d"
+    test_date: "20070110"
+    test_val: 93.779999
+
+wti:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19860106"
+    test_val: 26.53
+
+spx:
+    cols: 7
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19500501"
+    test_val: 18.22
+
+vxv:
+    cols: 7
+    col_in: Close
+    date_format: "%Y-%m-%d"
+    test_date: "20060725"
+    test_val: 14.61
+
+xiv:
+    cols: 7
+    col_in: Close
+    date_format: "%Y-%m-%d"
+    test_date: "20140303"
+    test_val: 29.43
+
+#############################################################
+# CBOE market data
+#    
+# spxoption2 only has a few days of data
+spxoption2:
+    source: CBOE
+    cols: 201506
+    col_in: LAST
+    date_format: "%Y%m%d"
+    test_date: NA
+    test_val: NA
