@@ -1,0 +1,19 @@
+name = "portfolioanalytics-fortran"
+version = "2.1.2"
+license = "GPL-3.0-only"
+author = "PortfolioAnalytics contributors; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright (c) 2004-2026 PortfolioAnalytics contributors"
+description = "Modern Fortran computational port of PortfolioAnalytics"
+keywords = ["portfolio", "optimization", "risk", "finance", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
