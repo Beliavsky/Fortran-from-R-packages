@@ -1,0 +1,21 @@
+name = "fincal"
+version = "0.6.3"
+license = "GPL-2.0-or-later"
+author = "Felix Yanhui Fan; modern Fortran translation generated from FinCal 0.6.3"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational routines in the R package FinCal"
+keywords = ["finance", "time-value-of-money", "interest-rates", "accounting", "portfolio"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
