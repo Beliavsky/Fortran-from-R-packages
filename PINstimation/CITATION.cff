@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite the original PINstimation package and the relevant model papers when using this translation."
+title: "PINstimation modern Fortran translation"
+version: "0.2.0"
+license: GPL-3.0-or-later
+type: software
+repository-code: "https://github.com/monty-se/PINstimation"
+authors:
+  - family-names: Ghachem
+    given-names: Montasser
+  - family-names: Ersan
+    given-names: Oguz
