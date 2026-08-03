@@ -1,0 +1,17 @@
+name = "fastcluster"
+version = "1.3.0"
+license = "BSD-2-Clause"
+author = "Daniel Muellner, Google Inc., and Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "2011 Daniel Muellner; later changes Google Inc."
+description = "Modern Fortran hierarchical agglomerative clustering"
+categories = ["scientific", "statistics"]
+keywords = ["clustering", "hierarchical-clustering", "dendrogram"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
