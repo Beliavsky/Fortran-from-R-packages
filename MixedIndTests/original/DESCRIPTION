@@ -1,0 +1,24 @@
+Package: MixedIndTests
+Type: Package
+Title: Tests of Randomness and Tests of Independence
+Version: 1.2.0
+Authors@R: c( person(c("Bouchra","R."), "Nasri", role = c("aut", "cre","cph"), email = "bouchra.nasri@umontreal.ca"),
+        person(c("Bruno","N"), "Remillard", role = c("aut"),email = "bruno.remillard@hec.ca"),
+        person(c("Johanna","G"), "Neslehova", role = c("aut"),email = "johanna.neslehova@mcgill.ca"),
+        person(c("Christian"), "Genest", role = c("aut"),email = "christian.genest@mcgill.ca"))
+Description: Functions for testing randomness for a univariate time series with arbitrary distribution  (discrete, continuous, mixture of both types) and for testing  independence between random variables with arbitrary distributions. The test statistics are based on the multilinear empirical copula and multipliers are used to compute P-values. The test of independence between random variables appeared in  Genest, Nešlehová, Rémillard & Murphy (2019) and the test of randomness appeared in Nasri (2022).
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0), doParallel, parallel, foreach, stats, copula
+Imports: ggplot2,survey
+RoxygenNote: 7.2.3
+NeedsCompilation: yes
+Packaged: 2024-02-13 12:43:42 UTC; Utilisateur
+Author: Bouchra R. Nasri [aut, cre, cph],
+  Bruno N Remillard [aut],
+  Johanna G Neslehova [aut],
+  Christian Genest [aut]
+Maintainer: Bouchra R. Nasri <bouchra.nasri@umontreal.ca>
+Repository: CRAN
+Date/Publication: 2024-02-14 00:04:09 UTC

@@ -1,0 +1,16 @@
+name = "MixedIndTests-fortran"
+version = "1.2.0"
+license = "GPL-3.0-only"
+author = "Bouchra R. Nasri, Bruno N. Remillard, Johanna G. Neslehova, Christian Genest; Fortran translation"
+maintainer = "Fortran translation maintainers"
+description = "Tests of independence and randomness for arbitrary discrete, continuous, and mixed data"
+keywords = ["independence", "randomness", "empirical-copula", "multiplier-bootstrap", "time-series"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
