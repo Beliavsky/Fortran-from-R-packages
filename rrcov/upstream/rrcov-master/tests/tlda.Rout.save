@@ -1,0 +1,1968 @@
+
+R Under development (unstable) (2023-03-23 r84036 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## VT::15.09.2013 - this will render the output independent
+> ##  from the version of the package
+> suppressPackageStartupMessages(library(rrcov))
+> library(MASS)
+> 
+> ## VT::14.01.2020
+> ##  On some platforms minor differences are shown - use
+>         ## IGNORE_RDIFF_BEGIN
+>         ## IGNORE_RDIFF_END
+> 
+> dodata <- function(method) {
++ 
++     options(digits = 5)
++     set.seed(101) # <<-- sub-sampling algorithm now based on R's RNG and seed
++ 
++     tmp <- sys.call()
++     cat("\nCall: ", deparse(substitute(tmp)),"\n")
++     cat("===================================================\n")
++ 
++     cat("\nData: ", "hemophilia\n")
++     data(hemophilia)
++     show(rlda <- Linda(as.factor(gr)~., data=hemophilia, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "anorexia\n")
++     data(anorexia)
++     show(rlda <- Linda(Treat~., data=anorexia, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "Pima\n")
++     data(Pima.tr)
++     show(rlda <- Linda(type~., data=Pima.tr, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "Forest soils\n")
++     data(soil)
++     soil1983 <- soil[soil$D == 0, -2]       # only 1983, remove column D (always 0)
++ 
++     ## This will not work within the function, of course
++     ##  - comment it out
++     ## IGNORE_RDIFF_BEGIN
++     rlda <- Linda(F~., data=soil1983, method=method)
++     ##  show(rlda)
++     ## IGNORE_RDIFF_END
++     show(predict(rlda))
++ 
++     cat("\nData: ", "Raven and Miller diabetes data\n")
++     data(diabetes)
++     show(rlda <- Linda(group~insulin+glucose+sspg, data=diabetes, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "iris\n")
++     data(iris)
++     if(method != "mcdA")
++     {
++         show(rlda <- Linda(Species~., data=iris, method=method, l1med=TRUE))
++         show(predict(rlda))
++     }
++ 
++     cat("\nData: ", "crabs\n")
++     data(crabs)
++     show(rlda <- Linda(sp~., data=crabs, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "fish\n")
++     data(fish)
++     fish <- fish[-14,]      # remove observation #14 containing missing value
++ 
++     # The height and width are calculated as percentages
++     #   of the third length variable
++     fish[,5] <- fish[,5]*fish[,4]/100
++     fish[,6] <- fish[,6]*fish[,4]/100
++ 
++     ## There is one class with only 6 observations (p=6). Normally
++     ##  Linda will fail, therefore use l1med=TRUE.
++     ##  This works only for methods mcdB and mcdC
++ 
++     table(fish$Species)
++     if(method != "mcdA")
++     {
++         ## IGNORE_RDIFF_BEGIN
++         rlda <- Linda(Species~., data=fish, method=method, l1med=TRUE)
++         ## show(rlda)
++         ## IGNORE_RDIFF_END
++         show(predict(rlda))
++     }
++ 
++     cat("\nData: ", "pottery\n")
++     data(pottery)
++     show(rlda <- Linda(origin~., data=pottery, method=method))
++     show(predict(rlda))
++ 
++     cat("\nData: ", "olitos\n")
++     data(olitos)
++     if(method != "mcdA")
++     {
++         ## IGNORE_RDIFF_BEGIN
++         rlda <- Linda(grp~., data=olitos, method=method, l1med=TRUE)
++         ## show(rlda)
++         ## IGNORE_RDIFF_END
++         show(predict(rlda))
++     }
++ 
++     cat("===================================================\n")
++ }
+> 
+> 
+> ## -- now do it:
+> dodata(method="mcdA")
+
+Call:  dodata(method = "mcdA") 
+===================================================
+
+Data:  hemophilia
+Call:
+Linda(as.factor(gr) ~ ., data = hemophilia, method = method)
+
+Prior Probabilities of Groups:
+carrier  normal 
+    0.6     0.4 
+
+Group means:
+        AHFactivity AHFantigen
+carrier    -0.30795 -0.0059911
+normal     -0.12920 -0.0603000
+
+Within-groups Covariance Matrix:
+            AHFactivity AHFantigen
+AHFactivity    0.018036   0.011853
+AHFantigen     0.011853   0.019185
+
+Linear Coeficients:
+        AHFactivity AHFantigen
+carrier    -28.4029    17.2368
+normal      -8.5834     2.1602
+
+Constants:
+carrier  normal 
+-4.8325 -1.4056 
+                          
+Apparent error rate 0.1333
+
+Classification table 
+         Predicted
+Actual    carrier normal
+  carrier      39      6
+  normal        4     26
+
+Confusion matrix 
+         Predicted
+Actual    carrier normal
+  carrier   0.867  0.133
+  normal    0.133  0.867
+
+Data:  anorexia
+Call:
+Linda(Treat ~ ., data = anorexia, method = method)
+
+Prior Probabilities of Groups:
+    CBT    Cont      FT 
+0.40278 0.36111 0.23611 
+
+Group means:
+      Prewt Postwt
+CBT  82.633 82.950
+Cont 81.558 81.108
+FT   84.331 94.762
+
+Within-groups Covariance Matrix:
+         Prewt  Postwt
+Prewt  26.9291  3.3862
+Postwt  3.3862 18.2368
+
+Linear Coeficients:
+      Prewt Postwt
+CBT  2.5563 4.0738
+Cont 2.5284 3.9780
+FT   2.5374 4.7250
+
+Constants:
+    CBT    Cont      FT 
+-275.49 -265.45 -332.31 
+                          
+Apparent error rate 0.3889
+
+Classification table 
+      Predicted
+Actual CBT Cont FT
+  CBT   16    5  8
+  Cont  11   15  0
+  FT     0    4 13
+
+Confusion matrix 
+      Predicted
+Actual   CBT  Cont    FT
+  CBT  0.552 0.172 0.276
+  Cont 0.423 0.577 0.000
+  FT   0.000 0.235 0.765
+
+Data:  Pima
+Call:
+Linda(type ~ ., data = Pima.tr, method = method)
+
+Prior Probabilities of Groups:
+  No  Yes 
+0.66 0.34 
+
+Group means:
+     npreg    glu     bp  skin    bmi     ped    age
+No  1.8602 107.69 67.344 25.29 30.642 0.40777 24.667
+Yes 5.3167 145.85 74.283 31.80 34.095 0.49533 37.883
+
+Within-groups Covariance Matrix:
+         npreg       glu         bp      skin      bmi       ped       age
+npreg  8.51105  -5.61029   4.756672   1.52732  0.82066 -0.010070 12.382693
+glu   -5.61029 656.11894  49.855724  16.67486 23.07833 -0.352475 17.724967
+bp     4.75667  49.85572 119.426757  29.64563 12.90698 -0.049538 21.287178
+skin   1.52732  16.67486  29.645632 113.19900 44.15972 -0.157594  6.741105
+bmi    0.82066  23.07833  12.906985  44.15972 35.54164  0.038640  1.481520
+ped   -0.01007  -0.35247  -0.049538  -0.15759  0.03864  0.062664 -0.069636
+age   12.38269  17.72497  21.287178   6.74110  1.48152 -0.069636 64.887154
+
+Linear Coeficients:
+       npreg      glu      bp     skin    bmi    ped     age
+No  -0.45855 0.092789 0.45848 -0.30675 1.0075 6.2670 0.30749
+Yes -0.22400 0.150013 0.44787 -0.26148 1.0015 8.2935 0.45187
+
+Constants:
+     No     Yes 
+-37.050 -51.586 
+                        
+Apparent error rate 0.22
+
+Classification table 
+      Predicted
+Actual  No Yes
+   No  107  25
+   Yes  19  49
+
+Confusion matrix 
+      Predicted
+Actual    No   Yes
+   No  0.811 0.189
+   Yes 0.279 0.721
+
+Data:  Forest soils
+                          
+Apparent error rate 0.3103
+
+Classification table 
+      Predicted
+Actual  1  2  3
+     1  7  2  2
+     2  3 13  7
+     3  1  3 20
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3
+     1 0.636 0.182 0.182
+     2 0.130 0.565 0.304
+     3 0.042 0.125 0.833
+
+Data:  Raven and Miller diabetes data
+Call:
+Linda(group ~ insulin + glucose + sspg, data = diabetes, method = method)
+
+Prior Probabilities of Groups:
+  normal chemical    overt 
+ 0.52414  0.24828  0.22759 
+
+Group means:
+         insulin glucose    sspg
+normal   163.939   345.8  99.076
+chemical 299.448   476.9 223.621
+overt     95.958  1026.4 343.000
+
+Within-groups Covariance Matrix:
+        insulin glucose   sspg
+insulin  7582.0 -1263.1 1095.8
+glucose -1263.1 18952.4 4919.3
+sspg     1095.8  4919.3 3351.2
+
+Linear Coeficients:
+          insulin  glucose      sspg
+normal   0.027694 0.023859 -0.014514
+chemical 0.040288 0.022532  0.020479
+overt    0.017144 0.048768  0.025158
+
+Constants:
+  normal chemical    overt 
+ -6.3223 -15.0879 -31.6445 
+                          
+Apparent error rate 0.1862
+
+Classification table 
+          Predicted
+Actual     normal chemical overt
+  normal       69        7     0
+  chemical     13       23     0
+  overt         2        5    26
+
+Confusion matrix 
+          Predicted
+Actual     normal chemical overt
+  normal    0.908    0.092 0.000
+  chemical  0.361    0.639 0.000
+  overt     0.061    0.152 0.788
+
+Data:  iris
+
+Data:  crabs
+Call:
+Linda(sp ~ ., data = crabs, method = method)
+
+Prior Probabilities of Groups:
+  B   O 
+0.5 0.5 
+
+Group means:
+     sexM  index     FL     RW     CL     CW     BD
+B 0.34722 27.333 14.211 12.253 30.397 35.117 12.765
+O 0.56627 25.554 17.131 13.405 34.247 38.155 15.525
+
+Within-groups Covariance Matrix:
+          sexM     index       FL       RW       CL       CW       BD
+sexM   0.26391   0.76754  0.18606 -0.33763  0.65944  0.59857  0.28932
+index  0.76754 191.38080 38.42685 26.32923 82.43953 91.89091 38.13688
+FL     0.18606  38.42685  8.50147  5.68789 18.13749 20.30739  8.30920
+RW    -0.33763  26.32923  5.68789  4.95782 11.90225 13.61117  5.45814
+CL     0.65944  82.43953 18.13749 11.90225 39.60115 44.10886 18.09504
+CW     0.59857  91.89091 20.30739 13.61117 44.10886 49.42616 20.17554
+BD     0.28932  38.13688  8.30920  5.45814 18.09504 20.17554  8.39525
+
+Linear Coeficients:
+    sexM   index     FL     RW     CL       CW       BD
+B 29.104 -2.4938 10.809 15.613 0.8320  -4.2978 -0.46788
+O 42.470 -3.9361 26.427 22.857 2.8582 -17.1526 12.31048
+
+Constants:
+       B        O 
+ -78.317 -159.259 
+                     
+Apparent error rate 0
+
+Classification table 
+      Predicted
+Actual   B   O
+     B 100   0
+     O   0 100
+
+Confusion matrix 
+      Predicted
+Actual B O
+     B 1 0
+     O 0 1
+
+Data:  fish
+
+Data:  pottery
+Call:
+Linda(origin ~ ., data = pottery, method = method)
+
+Prior Probabilities of Groups:
+   Attic Eritrean 
+ 0.48148  0.51852 
+
+Group means:
+            SI    AL   FE   MG   CA    TI
+Attic    55.36 13.73 9.82 5.45 6.03 0.863
+Eritrean 52.52 16.23 9.13 3.09 6.26 0.814
+
+Within-groups Covariance Matrix:
+           SI       AL        FE        MG        CA         TI
+SI 13.5941404 2.986675 -0.651132  0.173577 -0.350984 -0.0051996
+AL  2.9866747 1.622412  0.485167  0.712400  0.077443  0.0133306
+FE -0.6511317 0.485167  1.065427 -0.403601 -1.936552  0.0576472
+MG  0.1735766 0.712400 -0.403601  2.814948  3.262786 -0.0427129
+CA -0.3509837 0.077443 -1.936552  3.262786  7.720320 -0.1454065
+TI -0.0051996 0.013331  0.057647 -0.042713 -0.145406  0.0044093
+
+Linear Coeficients:
+             SI      AL     FE       MG     CA       TI
+Attic    63.235 -196.99 312.92  7.28960 57.082 -1272.23
+Eritrean 41.554 -123.49 201.47 -0.95431 43.616  -597.91
+
+Constants:
+   Attic Eritrean 
+-1578.14  -901.13 
+                          
+Apparent error rate 0.1111
+
+Classification table 
+          Predicted
+Actual     Attic Eritrean
+  Attic       12        1
+  Eritrean     2       12
+
+Confusion matrix 
+          Predicted
+Actual     Attic Eritrean
+  Attic    0.923    0.077
+  Eritrean 0.143    0.857
+
+Data:  olitos
+===================================================
+> dodata(method="mcdB")
+
+Call:  dodata(method = "mcdB") 
+===================================================
+
+Data:  hemophilia
+Call:
+Linda(as.factor(gr) ~ ., data = hemophilia, method = method)
+
+Prior Probabilities of Groups:
+carrier  normal 
+    0.6     0.4 
+
+Group means:
+        AHFactivity AHFantigen
+carrier    -0.31456  -0.014775
+normal     -0.13582  -0.069084
+
+Within-groups Covariance Matrix:
+            AHFactivity AHFantigen
+AHFactivity   0.0125319  0.0086509
+AHFantigen    0.0086509  0.0182424
+
+Linear Coeficients:
+        AHFactivity AHFantigen
+carrier     -36.486    16.4923
+normal      -12.226     2.0107
+
+Constants:
+carrier  normal 
+-6.1276 -1.6771 
+                        
+Apparent error rate 0.16
+
+Classification table 
+         Predicted
+Actual    carrier normal
+  carrier      38      7
+  normal        5     25
+
+Confusion matrix 
+         Predicted
+Actual    carrier normal
+  carrier   0.844  0.156
+  normal    0.167  0.833
+
+Data:  anorexia
+Call:
+Linda(Treat ~ ., data = anorexia, method = method)
+
+Prior Probabilities of Groups:
+    CBT    Cont      FT 
+0.40278 0.36111 0.23611 
+
+Group means:
+      Prewt Postwt
+CBT  83.254 82.381
+Cont 82.178 80.539
+FT   84.951 94.193
+
+Within-groups Covariance Matrix:
+         Prewt  Postwt
+Prewt  19.1751  8.8546
+Postwt  8.8546 25.2326
+
+Linear Coeficients:
+      Prewt Postwt
+CBT  3.3822 2.0780
+Cont 3.3555 2.0144
+FT   3.2299 2.5996
+
+Constants:
+    CBT    Cont      FT 
+-227.29 -220.01 -261.06 
+                          
+Apparent error rate 0.4444
+
+Classification table 
+      Predicted
+Actual CBT Cont FT
+  CBT   16    5  8
+  Cont  12   11  3
+  FT     0    4 13
+
+Confusion matrix 
+      Predicted
+Actual   CBT  Cont    FT
+  CBT  0.552 0.172 0.276
+  Cont 0.462 0.423 0.115
+  FT   0.000 0.235 0.765
+
+Data:  Pima
+Call:
+Linda(type ~ ., data = Pima.tr, method = method)
+
+Prior Probabilities of Groups:
+  No  Yes 
+0.66 0.34 
+
+Group means:
+     npreg    glu     bp   skin    bmi     ped    age
+No  2.0767 109.45 67.790 26.158 30.930 0.41455 24.695
+Yes 5.5938 145.40 74.748 33.754 34.501 0.49898 37.821
+
+Within-groups Covariance Matrix:
+          npreg       glu        bp     skin      bmi       ped       age
+npreg  6.601330   9.54054   7.33480   3.5803  1.66539 -0.019992 10.661763
+glu    9.540535 573.03642  60.57124  28.3698 30.28444 -0.436611 28.318034
+bp     7.334803  60.57124 112.03792  27.7566 13.54085 -0.040510 24.692240
+skin   3.580339  28.36976  27.75661 112.0036 47.22411  0.100399 13.408195
+bmi    1.665393  30.28444  13.54085  47.2241 38.37753  0.175891  6.640765
+ped   -0.019992  -0.43661  -0.04051   0.1004  0.17589  0.062551 -0.070673
+age   10.661763  28.31803  24.69224  13.4082  6.64077 -0.070673 40.492363
+
+Linear Coeficients:
+      npreg     glu      bp     skin     bmi    ped     age
+No  -1.3073 0.10851 0.48404 -0.30638 0.86002 5.9796 0.55388
+Yes -1.3136 0.16260 0.44480 -0.25518 0.79826 8.1199 0.86269
+
+Constants:
+     No     Yes 
+-38.774 -53.654 
+                        
+Apparent error rate 0.25
+
+Classification table 
+      Predicted
+Actual  No Yes
+   No  104  28
+   Yes  22  46
+
+Confusion matrix 
+      Predicted
+Actual    No   Yes
+   No  0.788 0.212
+   Yes 0.324 0.676
+
+Data:  Forest soils
+                          
+Apparent error rate 0.3448
+
+Classification table 
+      Predicted
+Actual  1  2  3
+     1  4  3  4
+     2  2 14  7
+     3  2  2 20
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3
+     1 0.364 0.273 0.364
+     2 0.087 0.609 0.304
+     3 0.083 0.083 0.833
+
+Data:  Raven and Miller diabetes data
+Call:
+Linda(group ~ insulin + glucose + sspg, data = diabetes, method = method)
+
+Prior Probabilities of Groups:
+  normal chemical    overt 
+ 0.52414  0.24828  0.22759 
+
+Group means:
+         insulin glucose    sspg
+normal   152.405  346.55  99.387
+chemical 288.244  478.80 226.226
+overt     84.754 1028.28 345.605
+
+Within-groups Covariance Matrix:
+        insulin glucose    sspg
+insulin 5061.46  289.69 2071.71
+glucose  289.69 1983.07  385.31
+sspg    2071.71  385.31 3000.17
+
+Linear Coeficients:
+           insulin glucose       sspg
+normal    0.021952 0.17236 -0.0041671
+chemical  0.034852 0.23217  0.0215200
+overt    -0.045700 0.50940  0.0813292
+
+Constants:
+  normal chemical    overt 
+ -31.976  -64.433 -275.502 
+                          
+Apparent error rate 0.0966
+
+Classification table 
+          Predicted
+Actual     normal chemical overt
+  normal       73        3     0
+  chemical      4       32     0
+  overt         0        7    26
+
+Confusion matrix 
+          Predicted
+Actual     normal chemical overt
+  normal    0.961    0.039 0.000
+  chemical  0.111    0.889 0.000
+  overt     0.000    0.212 0.788
+
+Data:  iris
+Call:
+Linda(Species ~ ., data = iris, method = method, l1med = TRUE)
+
+Prior Probabilities of Groups:
+    setosa versicolor  virginica 
+   0.33333    0.33333    0.33333 
+
+Group means:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           4.9834      3.4153       1.4532     0.22474
+versicolor       5.8947      2.8149       4.2263     1.35024
+virginica        6.5255      3.0017       5.4485     2.06756
+
+Within-groups Covariance Matrix:
+             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length     0.201176    0.084299     0.102984    0.037019
+Sepal.Width      0.084299    0.108394     0.050253    0.031757
+Petal.Length     0.102984    0.050253     0.120215    0.045016
+Petal.Width      0.037019    0.031757     0.045016    0.032825
+
+Linear Coeficients:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           22.536   27.422168      -3.6855    -40.0445
+versicolor       17.559    6.374082      24.1965    -18.0178
+virginica        16.488    0.015576      29.9586      3.2926
+
+Constants:
+    setosa versicolor  virginica 
+   -96.901   -100.790   -139.937 
+                          
+Apparent error rate 0.0267
+
+Classification table 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa         50          0         0
+  versicolor      0         48         2
+  virginica       0          2        48
+
+Confusion matrix 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa          1       0.00      0.00
+  versicolor      0       0.96      0.04
+  virginica       0       0.04      0.96
+
+Data:  crabs
+Call:
+Linda(sp ~ ., data = crabs, method = method)
+
+Prior Probabilities of Groups:
+  B   O 
+0.5 0.5 
+
+Group means:
+     sexM  index     FL     RW     CL     CW     BD
+B 0.41060 25.420 13.947 11.922 29.783 34.404 12.470
+O 0.60279 23.202 16.782 13.086 33.401 37.230 15.131
+
+Within-groups Covariance Matrix:
+          sexM     index       FL       RW       CL        CW       BD
+sexM   0.27470   0.24656  0.12787 -0.34713  0.48937   0.41525  0.20253
+index  0.24656 204.06823 42.17347 28.25816 89.28109 100.21077 40.74069
+FL     0.12787  42.17347  9.45366  6.24808 19.97936  22.49310  9.03804
+RW    -0.34713  28.25816  6.24808  5.12921 13.01576  14.90535  5.89729
+CL     0.48937  89.28109 19.97936 13.01576 43.06030  48.30814 19.44568
+CW     0.41525 100.21077 22.49310 14.90535 48.30814  54.45265 21.82356
+BD     0.20253  40.74069  9.03804  5.89729 19.44568  21.82356  8.89498
+
+Linear Coeficients:
+    sexM   index      FL      RW     CL       CW       BD
+B 12.295 -2.3199  7.2512  9.4085 2.2846  -2.6196 -0.42557
+O 13.138 -3.7530 21.1374 11.5680 5.0125 -13.9120 12.61928
+
+Constants:
+       B        O 
+ -66.688 -134.375 
+                     
+Apparent error rate 0
+
+Classification table 
+      Predicted
+Actual   B   O
+     B 100   0
+     O   0 100
+
+Confusion matrix 
+      Predicted
+Actual B O
+     B 1 0
+     O 0 1
+
+Data:  fish
+                          
+Apparent error rate 0.0949
+
+Classification table 
+      Predicted
+Actual  1  2  3  4  5  6  7
+     1 34  0  0  0  0  0  0
+     2  0  6  0  0  0  0  0
+     3  0  0 20  0  0  0  0
+     4  0  0  0 11  0  0  0
+     5  0  0  0  0 13  0  1
+     6  0  0  0  0  0 17  0
+     7  0 13  0  0  1  0 42
+
+Confusion matrix 
+      Predicted
+Actual 1     2 3 4     5 6     7
+     1 1 0.000 0 0 0.000 0 0.000
+     2 0 1.000 0 0 0.000 0 0.000
+     3 0 0.000 1 0 0.000 0 0.000
+     4 0 0.000 0 1 0.000 0 0.000
+     5 0 0.000 0 0 0.929 0 0.071
+     6 0 0.000 0 0 0.000 1 0.000
+     7 0 0.232 0 0 0.018 0 0.750
+
+Data:  pottery
+Call:
+Linda(origin ~ ., data = pottery, method = method)
+
+Prior Probabilities of Groups:
+   Attic Eritrean 
+ 0.48148  0.51852 
+
+Group means:
+             SI     AL      FE     MG     CA      TI
+Attic    55.362 13.847 10.0065 5.3141 5.5371 0.87124
+Eritrean 52.522 16.347  9.3165 2.9541 5.7671 0.82224
+
+Within-groups Covariance Matrix:
+          SI        AL        FE        MG        CA         TI
+SI  9.708953 2.3634831 -0.112005  0.514666 -0.591122  0.0253885
+AL  2.363483 0.8510105  0.044491  0.485132  0.241384  0.0023349
+FE -0.112005 0.0444910  0.247768 -0.263894 -0.503218  0.0163218
+MG  0.514666 0.4851316 -0.263894  1.608899  1.516228 -0.0292787
+CA -0.591122 0.2413842 -0.503218  1.516228  2.455516 -0.0531548
+TI  0.025389 0.0023349  0.016322 -0.029279 -0.053155  0.0017412
+
+Linear Coeficients:
+              SI      AL     FE      MG     CA      TI
+Attic    112.705 -368.69 530.54  7.5837 149.60 -927.45
+Eritrean  77.198 -244.65 366.95 -3.7987 116.88 -260.83
+
+Constants:
+   Attic Eritrean 
+ -3252.6  -1961.9 
+                          
+Apparent error rate 0.1111
+
+Classification table 
+          Predicted
+Actual     Attic Eritrean
+  Attic       12        1
+  Eritrean     2       12
+
+Confusion matrix 
+          Predicted
+Actual     Attic Eritrean
+  Attic    0.923    0.077
+  Eritrean 0.143    0.857
+
+Data:  olitos
+                        
+Apparent error rate 0.15
+
+Classification table 
+      Predicted
+Actual  1  2  3  4
+     1 44  1  4  1
+     2  2 23  0  0
+     3  6  1 26  1
+     4  1  1  0  9
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3     4
+     1 0.880 0.020 0.080 0.020
+     2 0.080 0.920 0.000 0.000
+     3 0.176 0.029 0.765 0.029
+     4 0.091 0.091 0.000 0.818
+===================================================
+> dodata(method="mcdC")
+
+Call:  dodata(method = "mcdC") 
+===================================================
+
+Data:  hemophilia
+Call:
+Linda(as.factor(gr) ~ ., data = hemophilia, method = method)
+
+Prior Probabilities of Groups:
+carrier  normal 
+    0.6     0.4 
+
+Group means:
+        AHFactivity AHFantigen
+carrier    -0.32583  -0.011545
+normal     -0.12783  -0.071377
+
+Within-groups Covariance Matrix:
+            AHFactivity AHFantigen
+AHFactivity   0.0120964  0.0075536
+AHFantigen    0.0075536  0.0164883
+
+Linear Coeficients:
+        AHFactivity AHFantigen
+carrier     -37.117   16.30377
+normal      -11.015    0.71742
+
+Constants:
+carrier  normal 
+-6.4636 -1.5947 
+                        
+Apparent error rate 0.16
+
+Classification table 
+         Predicted
+Actual    carrier normal
+  carrier      38      7
+  normal        5     25
+
+Confusion matrix 
+         Predicted
+Actual    carrier normal
+  carrier   0.844  0.156
+  normal    0.167  0.833
+
+Data:  anorexia
+Call:
+Linda(Treat ~ ., data = anorexia, method = method)
+
+Prior Probabilities of Groups:
+    CBT    Cont      FT 
+0.40278 0.36111 0.23611 
+
+Group means:
+      Prewt Postwt
+CBT  82.477 82.073
+Cont 82.039 80.835
+FT   85.242 94.750
+
+Within-groups Covariance Matrix:
+         Prewt  Postwt
+Prewt  19.6589  8.3891
+Postwt  8.3891 22.8805
+
+Linear Coeficients:
+      Prewt Postwt
+CBT  3.1590 2.4288
+Cont 3.1599 2.3743
+FT   3.0454 3.0245
+
+Constants:
+    CBT    Cont      FT 
+-230.85 -226.60 -274.53 
+                          
+Apparent error rate 0.4583
+
+Classification table 
+      Predicted
+Actual CBT Cont FT
+  CBT   16    5  8
+  Cont  14   10  2
+  FT     0    4 13
+
+Confusion matrix 
+      Predicted
+Actual   CBT  Cont    FT
+  CBT  0.552 0.172 0.276
+  Cont 0.538 0.385 0.077
+  FT   0.000 0.235 0.765
+
+Data:  Pima
+Call:
+Linda(type ~ ., data = Pima.tr, method = method)
+
+Prior Probabilities of Groups:
+  No  Yes 
+0.66 0.34 
+
+Group means:
+     npreg    glu     bp   skin    bmi     ped    age
+No  2.3056 110.63 67.991 26.444 31.010 0.41653 25.806
+Yes 5.0444 142.58 74.267 33.067 34.309 0.49422 35.156
+
+Within-groups Covariance Matrix:
+          npreg       glu         bp       skin      bmi       ped       age
+npreg  6.164422   8.43753   6.879286   3.252980  1.54269 -0.020158  9.543745
+glu    8.437528 542.79578  57.156929  26.218837 28.63494 -0.421819 23.809124
+bp     6.879286  57.15693 106.687356  26.315526 12.86691 -0.039577 22.992973
+skin   3.252980  26.21884  26.315526 106.552759 44.95420  0.094311 12.005740
+bmi    1.542689  28.63494  12.866911  44.954202 36.56262  0.167258  6.112925
+ped   -0.020158  -0.42182  -0.039577   0.094311  0.16726  0.059609 -0.072712
+age    9.543745  23.80912  22.992973  12.005740  6.11292 -0.072712 35.594886
+
+Linear Coeficients:
+      npreg     glu      bp     skin     bmi    ped     age
+No  -1.4165 0.11776 0.49336 -0.31564 0.88761 6.5013 0.67462
+Yes -1.3784 0.17062 0.46662 -0.26771 0.83745 8.5204 0.90557
+
+Constants:
+     No     Yes 
+-41.716 -55.056 
+                         
+Apparent error rate 0.235
+
+Classification table 
+      Predicted
+Actual  No Yes
+   No  107  25
+   Yes  22  46
+
+Confusion matrix 
+      Predicted
+Actual    No   Yes
+   No  0.811 0.189
+   Yes 0.324 0.676
+
+Data:  Forest soils
+                          
+Apparent error rate 0.3276
+
+Classification table 
+      Predicted
+Actual  1  2  3
+     1  5  2  4
+     2  2 13  8
+     3  1  2 21
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3
+     1 0.455 0.182 0.364
+     2 0.087 0.565 0.348
+     3 0.042 0.083 0.875
+
+Data:  Raven and Miller diabetes data
+Call:
+Linda(group ~ insulin + glucose + sspg, data = diabetes, method = method)
+
+Prior Probabilities of Groups:
+  normal chemical    overt 
+ 0.52414  0.24828  0.22759 
+
+Group means:
+         insulin glucose   sspg
+normal    167.31  348.69 106.44
+chemical  247.18  478.18 213.36
+overt     101.83  932.92 322.42
+
+Within-groups Covariance Matrix:
+        insulin glucose    sspg
+insulin 4070.84  118.89 1701.54
+glucose  118.89 2195.95  426.95
+sspg    1701.54  426.95 2664.49
+
+Linear Coeficients:
+           insulin glucose      sspg
+normal    0.041471 0.15888 -0.011992
+chemical  0.048103 0.21216  0.015359
+overt    -0.013579 0.41323  0.063462
+
+Constants:
+  normal chemical    overt 
+ -31.177  -59.703 -203.775 
+                          
+Apparent error rate 0.0828
+
+Classification table 
+          Predicted
+Actual     normal chemical overt
+  normal       72        4     0
+  chemical      2       34     0
+  overt         0        6    27
+
+Confusion matrix 
+          Predicted
+Actual     normal chemical overt
+  normal    0.947    0.053 0.000
+  chemical  0.056    0.944 0.000
+  overt     0.000    0.182 0.818
+
+Data:  iris
+Call:
+Linda(Species ~ ., data = iris, method = method, l1med = TRUE)
+
+Prior Probabilities of Groups:
+    setosa versicolor  virginica 
+   0.33333    0.33333    0.33333 
+
+Group means:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           5.0163      3.4510       1.4653      0.2449
+versicolor       5.9435      2.7891       4.2543      1.3239
+virginica        6.3867      3.0033       5.3767      2.0700
+
+Within-groups Covariance Matrix:
+             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length     0.186186    0.082478     0.094998    0.035445
+Sepal.Width      0.082478    0.100137     0.049723    0.030678
+Petal.Length     0.094998    0.049723     0.113105    0.043078
+Petal.Width      0.035445    0.030678     0.043078    0.030885
+
+Linear Coeficients:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           23.678     30.2896      -3.1124    -44.9900
+versicolor       20.342      4.6372      27.3265    -23.2006
+virginica        18.377     -2.0004      31.4235      4.0906
+
+Constants:
+    setosa versicolor  virginica 
+   -104.96    -110.79    -145.49 
+                          
+Apparent error rate 0.0333
+
+Classification table 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa         50          0         0
+  versicolor      0         48         2
+  virginica       0          3        47
+
+Confusion matrix 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa          1       0.00      0.00
+  versicolor      0       0.96      0.04
+  virginica       0       0.06      0.94
+
+Data:  crabs
+Call:
+Linda(sp ~ ., data = crabs, method = method)
+
+Prior Probabilities of Groups:
+  B   O 
+0.5 0.5 
+
+Group means:
+     sexM  index     FL     RW     CL     CW     BD
+B 0.50000 23.956 13.790 11.649 29.390 33.934 12.274
+O 0.51087 24.478 16.903 13.330 33.707 37.595 15.276
+
+Within-groups Covariance Matrix:
+          sexM     index       FL       RW       CL       CW       BD
+sexM   0.25272   0.39179  0.14054 -0.30017  0.51191  0.45114  0.21708
+index  0.39179 192.47099 39.97343 26.56698 84.63152 94.99987 38.67917
+FL     0.14054  39.97343  8.97950  5.91408 18.98672 21.38046  8.60313
+RW    -0.30017  26.56698  5.91408  4.81389 12.31798 14.10613  5.58933
+CL     0.51191  84.63152 18.98672 12.31798 40.94109 45.94330 18.52367
+CW     0.45114  94.99987 21.38046 14.10613 45.94330 51.80106 20.79704
+BD     0.21708  38.67917  8.60313  5.58933 18.52367 20.79704  8.49355
+
+Linear Coeficients:
+    sexM   index     FL      RW     CL       CW       BD
+B 13.993 -2.5515  9.152  9.9187 2.2321  -2.9774 -0.66797
+O 14.362 -4.0280 23.369 12.1556 5.3672 -14.9236 12.94057
+
+Constants:
+       B        O 
+ -72.687 -142.365 
+                     
+Apparent error rate 0
+
+Classification table 
+      Predicted
+Actual   B   O
+     B 100   0
+     O   0 100
+
+Confusion matrix 
+      Predicted
+Actual B O
+     B 1 0
+     O 0 1
+
+Data:  fish
+                          
+Apparent error rate 0.0316
+
+Classification table 
+      Predicted
+Actual  1  2  3  4  5  6  7
+     1 34  0  0  0  0  0  0
+     2  0  5  0  0  1  0  0
+     3  0  0 20  0  0  0  0
+     4  0  0  0 11  0  0  0
+     5  0  0  0  0 13  0  1
+     6  0  0  0  0  0 17  0
+     7  0  0  0  0  3  0 53
+
+Confusion matrix 
+      Predicted
+Actual 1     2 3 4     5 6     7
+     1 1 0.000 0 0 0.000 0 0.000
+     2 0 0.833 0 0 0.167 0 0.000
+     3 0 0.000 1 0 0.000 0 0.000
+     4 0 0.000 0 1 0.000 0 0.000
+     5 0 0.000 0 0 0.929 0 0.071
+     6 0 0.000 0 0 0.000 1 0.000
+     7 0 0.000 0 0 0.054 0 0.946
+
+Data:  pottery
+Call:
+Linda(origin ~ ., data = pottery, method = method)
+
+Prior Probabilities of Groups:
+   Attic Eritrean 
+ 0.48148  0.51852 
+
+Group means:
+             SI     AL      FE     MG     CA      TI
+Attic    55.450 13.738 10.0000 5.0750 5.0750 0.87375
+Eritrean 52.444 16.444  9.3222 3.1667 6.1778 0.82000
+
+Within-groups Covariance Matrix:
+          SI        AL        FE        MG        CA         TI
+SI  6.565481 1.6098148 -0.075259  0.369556 -0.359407  0.0169667
+AL  1.609815 0.5640648  0.029407  0.302056  0.112426  0.0018583
+FE -0.075259 0.0294074  0.167704 -0.180222 -0.343704  0.0110667
+MG  0.369556 0.3020556 -0.180222  1.031667  0.915222 -0.0192167
+CA -0.359407 0.1124259 -0.343704  0.915222  1.447370 -0.0348167
+TI  0.016967 0.0018583  0.011067 -0.019217 -0.034817  0.0011725
+
+Linear Coeficients:
+             SI      AL     FE       MG     CA       TI
+Attic    190.17 -622.48 922.21   1.5045 293.30 -990.323
+Eritrean 135.34 -431.40 666.59 -14.3288 237.68  -44.025
+
+Constants:
+   Attic Eritrean 
+ -5924.2  -3802.9 
+                          
+Apparent error rate 0.1111
+
+Classification table 
+          Predicted
+Actual     Attic Eritrean
+  Attic       12        1
+  Eritrean     2       12
+
+Confusion matrix 
+          Predicted
+Actual     Attic Eritrean
+  Attic    0.923    0.077
+  Eritrean 0.143    0.857
+
+Data:  olitos
+                          
+Apparent error rate 0.1667
+
+Classification table 
+      Predicted
+Actual  1  2  3  4
+     1 44  1  2  3
+     2  2 22  0  1
+     3  5  2 25  2
+     4  1  1  0  9
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3     4
+     1 0.880 0.020 0.040 0.060
+     2 0.080 0.880 0.000 0.040
+     3 0.147 0.059 0.735 0.059
+     4 0.091 0.091 0.000 0.818
+===================================================
+> dodata(method="mrcd")
+
+Call:  dodata(method = "mrcd") 
+===================================================
+
+Data:  hemophilia
+Call:
+Linda(as.factor(gr) ~ ., data = hemophilia, method = method)
+
+Prior Probabilities of Groups:
+carrier  normal 
+    0.6     0.4 
+
+Group means:
+        AHFactivity AHFantigen
+carrier    -0.34048  -0.055943
+normal     -0.13566  -0.081191
+
+Within-groups Covariance Matrix:
+            AHFactivity AHFantigen
+AHFactivity   0.0133676  0.0088055
+AHFantigen    0.0088055  0.0221225
+
+Linear Coeficients:
+        AHFactivity AHFantigen
+carrier     -32.264   10.31334
+normal      -10.478    0.50044
+
+Constants:
+carrier  normal 
+-5.7149 -1.6067 
+                        
+Apparent error rate 0.16
+
+Classification table 
+         Predicted
+Actual    carrier normal
+  carrier      38      7
+  normal        5     25
+
+Confusion matrix 
+         Predicted
+Actual    carrier normal
+  carrier   0.844  0.156
+  normal    0.167  0.833
+
+Data:  anorexia
+Call:
+Linda(Treat ~ ., data = anorexia, method = method)
+
+Prior Probabilities of Groups:
+    CBT    Cont      FT 
+0.40278 0.36111 0.23611 
+
+Group means:
+      Prewt Postwt
+CBT  83.114 84.009
+Cont 80.327 80.125
+FT   85.161 94.371
+
+Within-groups Covariance Matrix:
+        Prewt Postwt
+Prewt  22.498 11.860
+Postwt 11.860 20.426
+
+Linear Coeficients:
+      Prewt Postwt
+CBT  2.1994 2.8357
+Cont 2.1653 2.6654
+FT   1.9451 3.4907
+
+Constants:
+    CBT    Cont      FT 
+-211.42 -194.77 -248.97 
+                          
+Apparent error rate 0.3889
+
+Classification table 
+      Predicted
+Actual CBT Cont FT
+  CBT   15    6  8
+  Cont   6   16  4
+  FT     0    4 13
+
+Confusion matrix 
+      Predicted
+Actual   CBT  Cont    FT
+  CBT  0.517 0.207 0.276
+  Cont 0.231 0.615 0.154
+  FT   0.000 0.235 0.765
+
+Data:  Pima
+Call:
+Linda(type ~ ., data = Pima.tr, method = method)
+
+Prior Probabilities of Groups:
+  No  Yes 
+0.66 0.34 
+
+Group means:
+     npreg    glu     bp   skin    bmi     ped    age
+No  1.9925 108.32 66.240 24.856 30.310 0.37382 24.747
+Yes 5.8855 145.88 75.715 32.541 33.915 0.39281 38.857
+
+Within-groups Covariance Matrix:
+         npreg      glu         bp      skin       bmi       ped     age
+npreg 4.090330   7.9547   3.818380   3.35899  2.470242  0.032557  9.5929
+glu   7.954730 770.4187  76.377665  53.32216 54.100400 -1.139087 28.5677
+bp    3.818380  76.3777 108.201622  42.61184 18.574983 -0.089151 20.3558
+skin  3.358992  53.3222  42.611844 146.81170 65.210794 -0.277335 15.0162
+bmi   2.470242  54.1004  18.574983  65.21079 52.871847  0.062145  9.0741
+ped   0.032557  -1.1391  -0.089151  -0.27733  0.062145  0.063490  0.1762
+age   9.592948  28.5677  20.355803  15.01616  9.074109  0.176201 53.5163
+
+Linear Coeficients:
+       npreg      glu      bp     skin     bmi    ped     age
+No  -1.30832 0.065773 0.54772 -0.32738 0.70207 5.2556 0.40900
+Yes -0.76566 0.106435 0.55777 -0.28044 0.61709 5.9199 0.54892
+
+Constants:
+     No     Yes 
+-33.429 -45.434 
+                        
+Apparent error rate 0.28
+
+Classification table 
+      Predicted
+Actual  No Yes
+   No  105  27
+   Yes  29  39
+
+Confusion matrix 
+      Predicted
+Actual    No   Yes
+   No  0.795 0.205
+   Yes 0.426 0.574
+
+Data:  Forest soils
+                          
+Apparent error rate 0.3448
+
+Classification table 
+      Predicted
+Actual  1  2  3
+     1  7  2  2
+     2  4 14  5
+     3  3  4 17
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3
+     1 0.636 0.182 0.182
+     2 0.174 0.609 0.217
+     3 0.125 0.167 0.708
+
+Data:  Raven and Miller diabetes data
+Call:
+Linda(group ~ insulin + glucose + sspg, data = diabetes, method = method)
+
+Prior Probabilities of Groups:
+  normal chemical    overt 
+ 0.52414  0.24828  0.22759 
+
+Group means:
+         insulin glucose    sspg
+normal   154.014  346.07  91.606
+chemical 248.841  451.10 221.936
+overt     89.766 1064.16 335.100
+
+Within-groups Covariance Matrix:
+        insulin glucose    sspg
+insulin  4948.1 1007.61 1471.12
+glucose  1007.6 2597.38  358.57
+sspg     1471.1  358.57 3180.04
+
+Linear Coeficients:
+             insulin glucose     sspg
+normal    0.00027839 0.13121 0.013882
+chemical  0.00148074 0.16615 0.050371
+overt    -0.10102404 0.43466 0.103100
+
+Constants:
+  normal chemical    overt 
+ -24.008  -44.642 -245.497 
+                          
+Apparent error rate 0.0966
+
+Classification table 
+          Predicted
+Actual     normal chemical overt
+  normal       71        5     0
+  chemical      2       34     0
+  overt         0        7    26
+
+Confusion matrix 
+          Predicted
+Actual     normal chemical overt
+  normal    0.934    0.066 0.000
+  chemical  0.056    0.944 0.000
+  overt     0.000    0.212 0.788
+
+Data:  iris
+Call:
+Linda(Species ~ ., data = iris, method = method, l1med = TRUE)
+
+Prior Probabilities of Groups:
+    setosa versicolor  virginica 
+   0.33333    0.33333    0.33333 
+
+Group means:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           4.9755      3.3826       1.4608     0.22053
+versicolor       5.8868      2.7823       4.2339     1.34603
+virginica        6.5176      2.9691       5.4560     2.06335
+
+Within-groups Covariance Matrix:
+             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length     0.238417    0.136325     0.086377    0.036955
+Sepal.Width      0.136325    0.148452     0.067500    0.034804
+Petal.Length     0.086377    0.067500     0.100934    0.035968
+Petal.Width      0.036955    0.034804     0.035968    0.023856
+
+Linear Coeficients:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           17.106      15.693       7.8806     -52.031
+versicolor       21.744     -15.813      38.0139     -11.505
+virginica        23.032     -26.567      43.6391      23.777
+
+Constants:
+    setosa versicolor  virginica 
+   -70.214   -115.832   -180.294 
+                        
+Apparent error rate 0.02
+
+Classification table 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa         50          0         0
+  versicolor      0         49         1
+  virginica       0          2        48
+
+Confusion matrix 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa          1       0.00      0.00
+  versicolor      0       0.98      0.02
+  virginica       0       0.04      0.96
+
+Data:  crabs
+Call:
+Linda(sp ~ ., data = crabs, method = method)
+
+Prior Probabilities of Groups:
+  B   O 
+0.5 0.5 
+
+Group means:
+  sexM index     FL     RW     CL     CW     BD
+B    0  25.5 13.270 12.138 28.102 32.624 11.816
+O    1  25.5 16.626 12.262 33.688 37.188 15.324
+
+Within-groups Covariance Matrix:
+            sexM   index      FL      RW      CL      CW     BD
+sexM  1.5255e-07   0.000  0.0000  0.0000   0.000   0.000  0.000
+index 0.0000e+00 337.501 62.8107 46.5073 137.713 154.451 63.514
+FL    0.0000e+00  62.811 15.3164  9.8612  29.911  33.479 13.805
+RW    0.0000e+00  46.507  9.8612  8.6949  21.878  24.604 10.092
+CL    0.0000e+00 137.713 29.9112 21.8779  73.888  73.891 30.486
+CW    0.0000e+00 154.451 33.4788 24.6038  73.891  92.801 34.122
+BD    0.0000e+00  63.514 13.8053 10.0923  30.486  34.122 15.854
+
+Linear Coeficients:
+     sexM    index      FL     RW      CL      CW       BD
+B       0 -0.64890 0.95529 2.7299 0.20747 0.28549 -0.23815
+O 6555120 -0.83294 1.67920 1.8896 0.32330 0.23479  0.51136
+
+Constants:
+          B           O 
+-2.1491e+01 -3.2776e+06 
+                       
+Apparent error rate 0.5
+
+Classification table 
+      Predicted
+Actual  B  O
+     B 50 50
+     O 50 50
+
+Confusion matrix 
+      Predicted
+Actual   B   O
+     B 0.5 0.5
+     O 0.5 0.5
+
+Data:  fish
+                          
+Apparent error rate 0.2532
+
+Classification table 
+      Predicted
+Actual  1  2  3  4  5  6  7
+     1 33  0  0  1  0  0  0
+     2  0  3  0  0  0  0  3
+     3  0  2  5  0  0  0 13
+     4  0  0  0 11  0  0  0
+     5  0  0  0  0 14  0  0
+     6  0  0  0  0  0 17  0
+     7  0 19  0  0  2  0 35
+
+Confusion matrix 
+      Predicted
+Actual     1     2    3     4     5 6     7
+     1 0.971 0.000 0.00 0.029 0.000 0 0.000
+     2 0.000 0.500 0.00 0.000 0.000 0 0.500
+     3 0.000 0.100 0.25 0.000 0.000 0 0.650
+     4 0.000 0.000 0.00 1.000 0.000 0 0.000
+     5 0.000 0.000 0.00 0.000 1.000 0 0.000
+     6 0.000 0.000 0.00 0.000 0.000 1 0.000
+     7 0.000 0.339 0.00 0.000 0.036 0 0.625
+
+Data:  pottery
+Call:
+Linda(origin ~ ., data = pottery, method = method)
+
+Prior Probabilities of Groups:
+   Attic Eritrean 
+ 0.48148  0.51852 
+
+Group means:
+             SI     AL     FE     MG     CA      TI
+Attic    55.872 13.986 10.113 5.0235 4.7316 0.88531
+Eritrean 52.487 16.286  9.499 2.4520 5.3745 0.83959
+
+Within-groups Covariance Matrix:
+          SI         AL          FE        MG         CA          TI
+SI 12.795913  3.2987125 -0.35496855 0.9399999 -0.0143514  0.01132392
+AL  3.298713  1.0829436 -0.03394751 0.2838724  0.0501000  0.00117721
+FE -0.354969 -0.0339475  0.08078156 0.0341568 -0.0457411  0.00043177
+MG  0.940000  0.2838724  0.03415675 0.4350013  0.1417876  0.00396576
+CA -0.014351  0.0501000 -0.04574114 0.1417876  0.4196628 -0.00104893
+TI  0.011324  0.0011772  0.00043177 0.0039658 -0.0010489  0.00026205
+
+Linear Coeficients:
+             SI      AL     FE      MG     CA     TI
+Attic    36.451 -63.784 352.90 -124.07 110.08 3826.6
+Eritrean 29.763 -41.039 325.12 -128.32 107.36 3938.1
+
+Constants:
+   Attic Eritrean 
+ -4000.1  -3776.1 
+                          
+Apparent error rate 0.1111
+
+Classification table 
+          Predicted
+Actual     Attic Eritrean
+  Attic       12        1
+  Eritrean     2       12
+
+Confusion matrix 
+          Predicted
+Actual     Attic Eritrean
+  Attic    0.923    0.077
+  Eritrean 0.143    0.857
+
+Data:  olitos
+                         
+Apparent error rate 0.125
+
+Classification table 
+      Predicted
+Actual  1  2  3  4
+     1 44  2  3  1
+     2  1 23  1  0
+     3  4  1 27  2
+     4  0  0  0 11
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3     4
+     1 0.880 0.040 0.060 0.020
+     2 0.040 0.920 0.040 0.000
+     3 0.118 0.029 0.794 0.059
+     4 0.000 0.000 0.000 1.000
+===================================================
+> dodata(method="ogk")
+
+Call:  dodata(method = "ogk") 
+===================================================
+
+Data:  hemophilia
+Call:
+Linda(as.factor(gr) ~ ., data = hemophilia, method = method)
+
+Prior Probabilities of Groups:
+carrier  normal 
+    0.6     0.4 
+
+Group means:
+        AHFactivity  AHFantigen
+carrier    -0.29043 -0.00052902
+normal     -0.12463 -0.06715037
+
+Within-groups Covariance Matrix:
+            AHFactivity AHFantigen
+AHFactivity    0.015688   0.010544
+AHFantigen     0.010544   0.016633
+
+Linear Coeficients:
+        AHFactivity AHFantigen
+carrier    -32.2203    20.3935
+normal      -9.1149     1.7409
+
+Constants:
+carrier  normal 
+-5.1843 -1.4259 
+                          
+Apparent error rate 0.1467
+
+Classification table 
+         Predicted
+Actual    carrier normal
+  carrier      38      7
+  normal        4     26
+
+Confusion matrix 
+         Predicted
+Actual    carrier normal
+  carrier   0.844  0.156
+  normal    0.133  0.867
+
+Data:  anorexia
+Call:
+Linda(Treat ~ ., data = anorexia, method = method)
+
+Prior Probabilities of Groups:
+    CBT    Cont      FT 
+0.40278 0.36111 0.23611 
+
+Group means:
+      Prewt Postwt
+CBT  82.634 82.060
+Cont 81.605 80.459
+FT   85.157 93.822
+
+Within-groups Covariance Matrix:
+         Prewt  Postwt
+Prewt  15.8294  4.4663
+Postwt  4.4663 19.6356
+
+Linear Coeficients:
+      Prewt Postwt
+CBT  4.3183 3.1970
+Cont 4.2734 3.1256
+FT   4.3080 3.7983
+
+Constants:
+    CBT    Cont      FT 
+-310.50 -301.12 -363.05 
+                          
+Apparent error rate 0.4583
+
+Classification table 
+      Predicted
+Actual CBT Cont FT
+  CBT   15    5  9
+  Cont  14   11  1
+  FT     0    4 13
+
+Confusion matrix 
+      Predicted
+Actual   CBT  Cont    FT
+  CBT  0.517 0.172 0.310
+  Cont 0.538 0.423 0.038
+  FT   0.000 0.235 0.765
+
+Data:  Pima
+Call:
+Linda(type ~ ., data = Pima.tr, method = method)
+
+Prior Probabilities of Groups:
+  No  Yes 
+0.66 0.34 
+
+Group means:
+     npreg    glu     bp   skin    bmi     ped    age
+No  2.4175 109.93 67.332 26.324 30.344 0.38740 26.267
+Yes 5.1853 142.29 75.194 33.151 34.878 0.47977 37.626
+
+Within-groups Covariance Matrix:
+          npreg       glu        bp     skin      bmi       ped      age
+npreg  7.218576   7.52457   6.96595  4.86613  0.45567 -0.054245 14.42648
+glu    7.524571 517.38370  58.53812 31.57321 22.68396 -0.200222 22.88780
+bp     6.965950  58.53812 101.50317 27.86784 10.89215 -0.152784 25.41819
+skin   4.866127  31.57321  27.86784 95.16949 37.45066 -0.117375 14.60676
+bmi    0.455675  22.68396  10.89215 37.45066 30.89491  0.043400  4.05584
+ped   -0.054245  -0.20022  -0.15278 -0.11737  0.04340  0.051268 -0.18131
+age   14.426479  22.88780  25.41819 14.60676  4.05584 -0.181311 57.89570
+
+Linear Coeficients:
+       npreg     glu      bp     skin    bmi     ped     age
+No  -0.99043 0.12339 0.54101 -0.35335 1.0721  8.4945 0.45482
+Yes -1.01369 0.17577 0.53898 -0.35554 1.1563 11.0474 0.63966
+
+Constants:
+     No     Yes 
+-43.449 -60.176 
+                        
+Apparent error rate 0.23
+
+Classification table 
+      Predicted
+Actual  No Yes
+   No  108  24
+   Yes  22  46
+
+Confusion matrix 
+      Predicted
+Actual    No   Yes
+   No  0.818 0.182
+   Yes 0.324 0.676
+
+Data:  Forest soils
+                          
+Apparent error rate 0.3621
+
+Classification table 
+      Predicted
+Actual  1  2  3
+     1  7  3  1
+     2  4 13  6
+     3  3  4 17
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3
+     1 0.636 0.273 0.091
+     2 0.174 0.565 0.261
+     3 0.125 0.167 0.708
+
+Data:  Raven and Miller diabetes data
+Call:
+Linda(group ~ insulin + glucose + sspg, data = diabetes, method = method)
+
+Prior Probabilities of Groups:
+  normal chemical    overt 
+ 0.52414  0.24828  0.22759 
+
+Group means:
+         insulin glucose    sspg
+normal   159.540  344.06  99.486
+chemical 252.992  478.16 219.442
+overt     79.635 1094.96 338.517
+
+Within-groups Covariance Matrix:
+         insulin  glucose    sspg
+insulin 3844.877   67.238 1456.55
+glucose   67.238 2228.396  324.21
+sspg    1456.548  324.205 2181.73
+
+Linear Coeficients:
+           insulin glucose       sspg
+normal    0.040407 0.15379 -0.0042303
+chemical  0.047858 0.20764  0.0377766
+overt    -0.026158 0.47736  0.1016873
+
+Constants:
+  normal chemical    overt 
+ -30.115  -61.233 -278.996 
+                          
+Apparent error rate 0.0966
+
+Classification table 
+          Predicted
+Actual     normal chemical overt
+  normal       71        5     0
+  chemical      2       34     0
+  overt         0        7    26
+
+Confusion matrix 
+          Predicted
+Actual     normal chemical overt
+  normal    0.934    0.066 0.000
+  chemical  0.056    0.944 0.000
+  overt     0.000    0.212 0.788
+
+Data:  iris
+Call:
+Linda(Species ~ ., data = iris, method = method, l1med = TRUE)
+
+Prior Probabilities of Groups:
+    setosa versicolor  virginica 
+   0.33333    0.33333    0.33333 
+
+Group means:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           4.9654      3.3913       1.4507     0.21639
+versicolor       5.8767      2.7909       4.2238     1.34189
+virginica        6.5075      2.9777       5.4459     2.05921
+
+Within-groups Covariance Matrix:
+             Sepal.Length Sepal.Width Petal.Length Petal.Width
+Sepal.Length     0.180280    0.068876     0.101512    0.036096
+Sepal.Width      0.068876    0.079556     0.047722    0.029409
+Petal.Length     0.101512    0.047722     0.111492    0.038658
+Petal.Width      0.036096    0.029409     0.038658    0.029965
+
+Linear Coeficients:
+           Sepal.Length Sepal.Width Petal.Length Petal.Width
+setosa           28.582     46.5236      -13.859    -54.9877
+versicolor       19.837     11.9601       20.865    -17.7704
+virginica        16.999      1.9046       29.808      7.9189
+
+Constants:
+    setosa versicolor  virginica 
+   -134.94    -108.22    -148.56 
+                          
+Apparent error rate 0.0133
+
+Classification table 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa         50          0         0
+  versicolor      0         49         1
+  virginica       0          1        49
+
+Confusion matrix 
+            Predicted
+Actual       setosa versicolor virginica
+  setosa          1       0.00      0.00
+  versicolor      0       0.98      0.02
+  virginica       0       0.02      0.98
+
+Data:  crabs
+Call:
+Linda(sp ~ ., data = crabs, method = method)
+
+Prior Probabilities of Groups:
+  B   O 
+0.5 0.5 
+
+Group means:
+     sexM  index     FL     RW     CL     CW     BD
+B 0.48948 24.060 13.801 11.738 29.491 34.062 12.329
+O 0.56236 24.043 16.825 13.158 33.574 37.418 15.223
+
+Within-groups Covariance Matrix:
+          sexM     index       FL       RW       CL       CW       BD
+sexM   0.24961   0.50421  0.16645 -0.28574  0.54159  0.48449  0.22563
+index  0.50421 186.86616 38.46284 25.26749 82.29121 92.11253 37.67723
+FL     0.16645  38.46284  8.58830  5.56769 18.33015 20.58235  8.32030
+RW    -0.28574  25.26749  5.56769  4.52038 11.70881 13.37643  5.32779
+CL     0.54159  82.29121 18.33015 11.70881 39.78186 44.52112 18.01179
+CW     0.48449  92.11253 20.58235 13.37643 44.52112 50.06150 20.16852
+BD     0.22563  37.67723  8.32030  5.32779 18.01179 20.16852  8.25884
+
+Linear Coeficients:
+    sexM   index      FL     RW     CL       CW       BD
+B 16.497 -2.5896  8.3966 11.518 1.7536  -2.5325 -0.67361
+O 17.010 -4.0452 23.5400 13.702 4.7871 -14.8264 13.04556
+
+Constants:
+       B        O 
+ -77.695 -147.287 
+                     
+Apparent error rate 0
+
+Classification table 
+      Predicted
+Actual   B   O
+     B 100   0
+     O   0 100
+
+Confusion matrix 
+      Predicted
+Actual B O
+     B 1 0
+     O 0 1
+
+Data:  fish
+                          
+Apparent error rate 0.0063
+
+Classification table 
+      Predicted
+Actual  1  2  3  4  5  6  7
+     1 34  0  0  0  0  0  0
+     2  0  6  0  0  0  0  0
+     3  0  0 20  0  0  0  0
+     4  0  0  0 11  0  0  0
+     5  0  0  0  0 14  0  0
+     6  0  0  0  0  0 17  0
+     7  0  0  0  0  1  0 55
+
+Confusion matrix 
+      Predicted
+Actual 1 2 3 4     5 6     7
+     1 1 0 0 0 0.000 0 0.000
+     2 0 1 0 0 0.000 0 0.000
+     3 0 0 1 0 0.000 0 0.000
+     4 0 0 0 1 0.000 0 0.000
+     5 0 0 0 0 1.000 0 0.000
+     6 0 0 0 0 0.000 1 0.000
+     7 0 0 0 0 0.018 0 0.982
+
+Data:  pottery
+Call:
+Linda(origin ~ ., data = pottery, method = method)
+
+Prior Probabilities of Groups:
+   Attic Eritrean 
+ 0.48148  0.51852 
+
+Group means:
+             SI     AL      FE     MG     CA      TI
+Attic    55.381 14.088 10.1316 4.9588 4.7684 0.88444
+Eritrean 53.559 16.251  9.1145 2.6213 5.8980 0.82501
+
+Within-groups Covariance Matrix:
+          SI         AL        FE         MG       CA          TI
+SI  7.878378  1.9064112 -0.545403  0.4167407 -0.11589  0.01850748
+AL  1.906411  0.6678763 -0.037744  0.1120891 -0.10733  0.00805556
+FE -0.545403 -0.0377438  0.213914 -0.0192356 -0.23121  0.00582800
+MG  0.416741  0.1120891 -0.019236  0.2336721  0.17284 -0.00183128
+CA -0.115888 -0.1073297 -0.231213  0.1728385  0.71388 -0.01895968
+TI  0.018507  0.0080556  0.005828 -0.0018313 -0.01896  0.00081815
+
+Linear Coeficients:
+             SI       AL     FE      MG     CA     TI
+Attic    57.784 -107.297 319.31 -152.94 241.66 3813.6
+Eritrean 52.523  -86.545 306.58 -165.71 242.36 3734.1
+
+Constants:
+   Attic Eritrean 
+   -4346    -4139 
+                          
+Apparent error rate 0.1111
+
+Classification table 
+          Predicted
+Actual     Attic Eritrean
+  Attic       12        1
+  Eritrean     2       12
+
+Confusion matrix 
+          Predicted
+Actual     Attic Eritrean
+  Attic    0.923    0.077
+  Eritrean 0.143    0.857
+
+Data:  olitos
+                       
+Apparent error rate 0.1
+
+Classification table 
+      Predicted
+Actual  1  2  3  4
+     1 45  2  2  1
+     2  0 25  0  0
+     3  4  1 27  2
+     4  0  0  0 11
+
+Confusion matrix 
+      Predicted
+Actual     1     2     3     4
+     1 0.900 0.040 0.040 0.020
+     2 0.000 1.000 0.000 0.000
+     3 0.118 0.029 0.794 0.059
+     4 0.000 0.000 0.000 1.000
+===================================================
+> #dodata(method="fsa")
+> 
+> proc.time()
+   user  system elapsed 
+   6.78    1.20    8.89 

@@ -1,0 +1,13 @@
+citHeader("To cite the package 'rrcov' in publications use:")
+
+bibentry(bibtype = "Article",
+         title = "An Object-Oriented Framework for Robust Multivariate Analysis",
+         journal = "Journal of Statistical Software",
+         author = c(person(given = "Valentin", family = "Todorov"),
+                    person(given = "Peter", family = "Filzmoser")),
+         year = "2009",
+         volume = "32",
+         number = "3",
+         pages = "1--47",
+         doi = "10.18637/jss.v032.i03"
+         )

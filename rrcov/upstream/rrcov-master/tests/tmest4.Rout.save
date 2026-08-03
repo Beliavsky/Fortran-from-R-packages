@@ -1,0 +1,382 @@
+
+R Under development (unstable) (2013-08-17 r63608) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## VT::15.09.2013 - this will render the output independent
+> ##  from the version of the package
+> suppressPackageStartupMessages(library(rrcov))
+> 
+> library(MASS)
+> dodata <- function(nrep = 1, time = FALSE, full = TRUE) {
++     domest <- function(x, xname, nrep = 1) {
++         n <- dim(x)[1]
++         p <- dim(x)[2]
++         mm <- CovMest(x)
++         crit <- log(mm@crit)
++ ##        c1 <- mm@psi@c1
++ ##        M <- mm$psi@M
++ 
++         xres <- sprintf("%3d %3d %12.6f\n", dim(x)[1], dim(x)[2], crit)
++         lpad <- lname-nchar(xname)
++         cat(pad.right(xname,lpad), xres)
++ 
++         dist <- getDistance(mm)
++         quantiel <- qchisq(0.975, p)
++         ibad <- which(dist >= quantiel)
++         names(ibad) <- NULL
++         nbad <- length(ibad)
++         cat("Outliers: ",nbad,"\n")
++         if(nbad > 0)
++             print(ibad)
++         cat("-------------\n")
++         show(mm)
++         cat("--------------------------------------------------------\n")
++     }
++ 
++     options(digits = 5)
++     set.seed(101) # <<-- sub-sampling algorithm now based on R's RNG and seed
++ 
++     lname <- 20
++ 
++     data(heart)
++     data(starsCYG)
++     data(phosphor)
++     data(stackloss)
++     data(coleman)
++     data(salinity)
++     data(wood)
++     data(hbk)
++ 
++     data(Animals, package = "MASS")
++     brain <- Animals[c(1:24, 26:25, 27:28),]
++     data(milk)
++     data(bushfire)
++ 
++     tmp <- sys.call()
++     cat("\nCall: ", deparse(substitute(tmp)),"\n")
++ 
++     cat("Data Set               n   p       c1        M     LOG(det)       Time\n")
++     cat("======================================================================\n")
++     domest(heart[, 1:2], data(heart), nrep)
++     domest(starsCYG, data(starsCYG), nrep)
++     domest(data.matrix(subset(phosphor, select = -plant)), data(phosphor), nrep)
++     domest(stack.x, data(stackloss), nrep)
++     domest(data.matrix(subset(coleman, select = -Y)), data(coleman), nrep)
++     domest(data.matrix(subset(salinity, select = -Y)), data(salinity), nrep)
++     domest(data.matrix(subset(wood, select = -y)), data(wood), nrep)
++     domest(data.matrix(subset(hbk,  select = -Y)), data(hbk), nrep)
++ 
++ 
++     domest(brain, "Animals", nrep)
++     domest(milk, data(milk), nrep)
++     domest(bushfire, data(bushfire), nrep)
++     cat("======================================================================\n")
++ }
+> 
+> #   generate contaminated data using the function gendata with different
+> #   number of outliers and check if the M-estimate breaks - i.e. the
+> #   largest eigenvalue is larger than e.g. 5.
+> #   For n=50 and p=10 and d=5 the M-estimate can break for number of
+> #   outliers grater than 20.
+> dogen <- function(){
++     eig <- vector("numeric",26)
++     for(i in 0:25) {
++         gg <- gendata(eps=i)
++         mm <- CovMest(gg$x, t0=gg$tgood, S0=gg$sgood, arp=0.001)
++         eig[i+1] <- ev <- getEvals(mm)[1]
++         # cat(i, ev, "\n")
++ 
++         stopifnot(ev < 5 || i > 20)
++     }
++     # plot(0:25, eig, type="l", xlab="Number of outliers", ylab="Largest Eigenvalue")
++ }
+> 
+> #
+> # generate data 50x10 as multivariate normal N(0,I) and add
+> # eps % outliers by adding d=5.0 to each component.
+> #   - if eps <0 and eps <=0.5, the number of outliers is eps*n
+> #   - if eps >= 1, it is the number of outliers
+> # - use the center and cov of the good data as good start
+> # - use the center and the cov of all data as a bad start
+> #   If using a good  start, the M-estimate must iterate to
+> #   the good solution: the largest eigenvalue is less then e.g. 5
+> #
+> gendata <- function(n=50, p=10, eps=0, d=5.0){
++ 
++     if(eps < 0 || eps > 0.5 && eps < 1.0 || eps > 0.5*n)
++         stop("eps is out of range")
++ 
++     library(MASS)
++ 
++     x <- mvrnorm(n, rep(0,p), diag(p))
++     bad <- vector("numeric")
++     nbad = if(eps < 1) eps*n else eps
++     if(nbad > 0){
++         bad <- sample(n, nbad)
++         x[bad,] <- x[bad,] + d
++     }
++     cov1 <- cov.wt(x)
++     cov2 <- if(nbad <= 0) cov1 else cov.wt(x[-bad,])
++ 
++     list(x=x, bad=sort(bad), tgood=cov2$center, sgood=cov2$cov, tbad=cov1$center, sbad=cov1$cov)
++ }
+> 
+> pad.right <- function(z, pads)
++ {
++     ## Pads spaces to right of text
++     padding <- paste(rep(" ", pads), collapse = "")
++     paste(z, padding, sep = "")
++ }
+> 
+> 
+> ## -- now do it:
+> dodata()
+
+Call:  dodata() 
+Data Set               n   p       c1        M     LOG(det)       Time
+======================================================================
+heart                 12   2     7.160341
+Outliers:  3 
+[1]  2  6 12
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+height  weight  
+  34.9    27.0  
+
+Robust Estimate of Covariance: 
+        height  weight
+height  102     155   
+weight  155     250   
+--------------------------------------------------------
+starsCYG              47   2    -5.994588
+Outliers:  7 
+[1]  7  9 11 14 20 30 34
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+   log.Te  log.light  
+     4.42       4.95  
+
+Robust Estimate of Covariance: 
+           log.Te  log.light
+log.Te     0.0169  0.0587   
+log.light  0.0587  0.3523   
+--------------------------------------------------------
+phosphor              18   2     8.867522
+Outliers:  3 
+[1]  1  6 10
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+  inorg  organic  
+   15.4     39.1  
+
+Robust Estimate of Covariance: 
+         inorg  organic
+inorg    169    213    
+organic  213    308    
+--------------------------------------------------------
+stackloss             21   3     7.241400
+Outliers:  9 
+[1]  1  2  3 15 16 17 18 19 21
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+  Air.Flow  Water.Temp  Acid.Conc.  
+      59.5        20.8        87.3  
+
+Robust Estimate of Covariance: 
+            Air.Flow  Water.Temp  Acid.Conc.
+Air.Flow     9.34      8.69        8.52     
+Water.Temp   8.69     13.72        9.13     
+Acid.Conc.   8.52      9.13       34.54     
+--------------------------------------------------------
+coleman               20   5     2.574752
+Outliers:  7 
+[1]  2  6  9 10 12 13 15
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+  salaryP   fatherWc    sstatus  teacherSc  motherLev  
+     2.82      48.44       5.30      25.19       6.51  
+
+Robust Estimate of Covariance: 
+           salaryP   fatherWc  sstatus   teacherSc  motherLev
+salaryP      0.2850    0.1045    1.7585    0.3074     0.0355 
+fatherWc     0.1045  824.8305  260.7062    3.7507    17.7959 
+sstatus      1.7585  260.7062  105.6135    4.1140     5.7714 
+teacherSc    0.3074    3.7507    4.1140    0.6753     0.1563 
+motherLev    0.0355   17.7959    5.7714    0.1563     0.4147 
+--------------------------------------------------------
+salinity              28   3     3.875096
+Outliers:  9 
+[1]  3  5 10 11 15 16 17 23 24
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+   X1     X2     X3  
+10.02   3.21  22.36  
+
+Robust Estimate of Covariance: 
+    X1      X2      X3    
+X1  15.353   1.990  -5.075
+X2   1.990   5.210  -0.769
+X3  -5.075  -0.769   2.314
+--------------------------------------------------------
+wood                  20   5   -35.156305
+Outliers:  7 
+[1]  4  6  7  8 11 16 19
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+   x1     x2     x3     x4     x5  
+0.587  0.122  0.531  0.538  0.892  
+
+Robust Estimate of Covariance: 
+    x1         x2         x3         x4         x5       
+x1   6.45e-03   1.21e-03   2.03e-03  -3.77e-04  -1.05e-03
+x2   1.21e-03   3.12e-04   8.16e-04  -3.34e-05   1.52e-05
+x3   2.03e-03   8.16e-04   4.27e-03  -5.60e-04   2.27e-04
+x4  -3.77e-04  -3.34e-05  -5.60e-04   1.83e-03   1.18e-03
+x5  -1.05e-03   1.52e-05   2.27e-04   1.18e-03   1.78e-03
+--------------------------------------------------------
+hbk                   75   3     1.432485
+Outliers:  14 
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+  X1    X2    X3  
+1.54  1.78  1.69  
+
+Robust Estimate of Covariance: 
+    X1      X2      X3    
+X1  1.6485  0.0739  0.1709
+X2  0.0739  1.6780  0.2049
+X3  0.1709  0.2049  1.5584
+--------------------------------------------------------
+Animals               28   2    18.194822
+Outliers:  10 
+ [1]  2  6  7  9 12 14 15 16 25 28
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+ body  brain  
+ 18.7   64.9  
+
+Robust Estimate of Covariance: 
+       body   brain
+body    4993   8466
+brain   8466  30335
+--------------------------------------------------------
+milk                  86   8   -25.041802
+Outliers:  20 
+ [1]  1  2  3 11 12 13 14 15 16 17 18 20 27 41 44 47 70 74 75 77
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+    X1      X2      X3      X4      X5      X6      X7      X8  
+  1.03   35.88   33.04   26.11   25.09   25.02  123.12   14.39  
+
+Robust Estimate of Covariance: 
+    X1        X2        X3        X4        X5        X6        X7      
+X1  4.89e-07  9.64e-05  1.83e-04  1.76e-04  1.57e-04  1.48e-04  6.53e-04
+X2  9.64e-05  2.05e+00  3.38e-01  2.37e-01  1.70e-01  2.71e-01  1.91e+00
+X3  1.83e-04  3.38e-01  1.16e+00  8.56e-01  8.48e-01  8.31e-01  8.85e-01
+X4  1.76e-04  2.37e-01  8.56e-01  6.83e-01  6.55e-01  6.40e-01  6.91e-01
+X5  1.57e-04  1.70e-01  8.48e-01  6.55e-01  6.93e-01  6.52e-01  6.90e-01
+X6  1.48e-04  2.71e-01  8.31e-01  6.40e-01  6.52e-01  6.61e-01  6.95e-01
+X7  6.53e-04  1.91e+00  8.85e-01  6.91e-01  6.90e-01  6.95e-01  4.40e+00
+X8  5.56e-06  2.60e-01  1.98e-01  1.29e-01  1.12e-01  1.19e-01  4.12e-01
+    X8      
+X1  5.56e-06
+X2  2.60e-01
+X3  1.98e-01
+X4  1.29e-01
+X5  1.12e-01
+X6  1.19e-01
+X7  4.12e-01
+X8  1.65e-01
+--------------------------------------------------------
+bushfire              38   5    23.457490
+Outliers:  15 
+ [1]  7  8  9 10 11 29 30 31 32 33 34 35 36 37 38
+-------------
+
+Call:
+CovMest(x = x)
+-> Method:  M-Estimates 
+
+Robust Estimate of Location: 
+ V1   V2   V3   V4   V5  
+107  147  263  215  277  
+
+Robust Estimate of Covariance: 
+    V1     V2     V3     V4     V5   
+V1    775    560  -4179   -925   -759
+V2    560    478  -2494   -510   -431
+V3  -4179  -2494  27433   6441   5196
+V4   -925   -510   6441   1607   1276
+V5   -759   -431   5196   1276   1020
+--------------------------------------------------------
+======================================================================
+> dogen()
+> #cat('Time elapsed: ', proc.time(),'\n') # for ``statistical reasons''
+> 
+> proc.time()
+   user  system elapsed 
+   0.68    0.10    0.79 

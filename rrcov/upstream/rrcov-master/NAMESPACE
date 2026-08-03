@@ -1,0 +1,202 @@
+useDynLib(rrcov, .registration=TRUE)
+importFrom(stats4, plot, summary)
+importFrom(methods, show)
+importFrom("methods", "slot", "slotNames")
+importFrom("methods", "is", "new")
+importFrom(lattice, xyplot, panel.xyplot, panel.abline, ltext)
+importFrom(mvtnorm, rmvnorm)
+importFrom("grDevices", "dev.interactive", "palette", "dev.flush", "dev.hold")
+importFrom("graphics", "abline", "arrows", "axis", "box", "hist",
+         "legend", "lines", "pairs", "par", "points", "rect",
+         "strwidth", "text", "title", "barplot")
+importFrom("stats", ".getXlevels", "cor", "cov", "cov.wt", "cov2cor", "IQR",
+         "dchisq", "density", "dnorm", "ecdf", "mad", "mahalanobis",
+         "median", "model.matrix", "model.response", "na.fail",
+         "pchisq", "pf", "pgamma", "pnorm", "princomp", "qchisq",
+         "qf", "qnorm", "quantile", "rnorm", "runif", "sd", "terms",
+         "uniroot", "var", "setNames")
+importFrom("utils", "combn")
+import(robustbase, pcaPP)
+
+export(CovClassic,
+       Cov,
+       CovRobust,
+       CovMcd,
+       CovMrcd,
+       CovMrcd,
+       CovMest,
+       CovOgk,
+       CovMve,
+       CovSest,
+       CovSde,
+       CovMMest,
+       CovControlMcd,
+       CovControlMrcd,
+       CovControlMest,
+       CovControlOgk,
+       CovControlMve,
+       CovControlSest,
+       CovControlSde,
+       CovControlMMest,
+       covMest,
+       T2.test,
+       Wilks.test,
+       PcaClassic,
+       PcaHubert,
+       PcaLocantore,
+       PcaCov,
+       PcaProj,
+       PcaGrid,
+       LdaClassic,
+       Linda,
+       LdaPP,
+       QdaClassic,
+       QdaCov,
+       pca.scoreplot,
+       pca.distances,
+       myscreeplot,
+       mtxconfusion,
+       sqrtm,
+       vecnorm,
+       getEllipse
+)
+
+##S3 generics
+S3method(T2.test, default)
+S3method(T2.test, formula)
+
+S3method(Wilks.test, default)
+S3method(Wilks.test, formula)
+S3method(Wilks.test, data.frame)
+S3method(Wilks.test, matrix)
+
+S3method(PcaClassic, default)
+S3method(PcaClassic, formula)
+S3method(PcaHubert, default)
+S3method(PcaHubert, formula)
+S3method(PcaLocantore, default)
+S3method(PcaLocantore, formula)
+S3method(PcaCov, default)
+S3method(PcaCov, formula)
+S3method(PcaProj, default)
+S3method(PcaProj, formula)
+S3method(PcaGrid, default)
+S3method(PcaGrid, formula)
+
+S3method(LdaClassic, default)
+S3method(LdaClassic, formula)
+S3method(Linda, default)
+S3method(Linda, formula)
+S3method(LdaPP, default)
+S3method(LdaPP, formula)
+
+S3method(QdaClassic, default)
+S3method(QdaClassic, formula)
+S3method(QdaCov, default)
+S3method(QdaCov, formula)
+
+## S4 generics
+export(isClassic,
+       getCenter,
+       getScale,
+       getCov,
+       getCorr,
+       getData,
+       getDistance,
+       getEvals,
+       getMeth,
+       getDet,
+       getShape,
+       getFlag,
+       restimate,
+       getQuan,
+       getLoadings,
+       getEigenvalues,
+       getSdev,
+       getScores,
+       getPrcomp,
+       scorePlot,
+       getRaw,
+       isSingular
+)
+
+exportClasses(Cov,
+              CovClassic,
+              CovRobust,
+              CovMcd,
+              CovMest,
+              CovOgk,
+              CovMve,
+              CovSest,
+              CovSde,
+              CovMMest,
+              CovControl,
+              CovControlMcd,
+              CovControlMrcd,
+              CovControlMest,
+              CovControlOgk,
+              CovControlMve,
+              CovControlSest,
+              CovControlSde,
+              CovControlMMest,
+              SummaryCov,
+              SummaryCovRobust,
+              Pca,
+              PcaClassic,
+              PcaRobust,
+              PcaHubert,
+              PcaLocantore,
+              PcaCov,
+              PcaProj,
+              PcaGrid,
+              SummaryPca,
+              Lda,
+              LdaClassic,
+              LdaRobust,
+              Linda,
+              LdaPP,
+              PredictLda,
+              SummaryLda,
+              Qda,
+              QdaClassic,
+              QdaRobust,
+              QdaCov,
+              PredictQda,
+              SummaryQda,
+              Ulist,
+              Uvector,
+              Utable,
+              Umatrix,
+              Ufunction
+)
+
+exportMethods(isClassic,
+              getCenter,
+              getScale,
+              getCov,
+              getCorr,
+              getData,
+              getDistance,
+              getEvals,
+              getMeth,
+              getDet,
+              getFlag,
+              getShape,
+              plot,
+              show,
+              summary,
+              restimate,
+              getQuan,
+              getLoadings,
+              getEigenvalues,
+              getSdev,
+              getScores,
+              getPrcomp,
+              predict,
+              screeplot,
+              biplot,
+              scorePlot,
+              getRaw,
+              isSingular,
+              names
+)

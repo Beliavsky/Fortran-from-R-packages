@@ -1,0 +1,542 @@
+
+R Under development (unstable) (2013-08-17 r63608) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## Test for singularity
+> doexact <- function(){
++     exact <-function(){
++         n1 <- 45
++         p <- 2
++         x1 <- matrix(rnorm(p*n1),nrow=n1, ncol=p)
++         x1[,p] <- x1[,p] + 3
++ ##       library(MASS)
++ ##       x1 <- mvrnorm(n=n1, mu=c(0,3), Sigma=diag(1,nrow=p))
++ 
++         n2 <- 55
++         m1 <- 0
++         m2 <- 3
++         x2 <- cbind(rnorm(n2),rep(m2,n2))
++         x<-rbind(x1,x2)
++         colnames(x) <- c("X1","X2")
++         x
++     }
++     print(CovSde(exact()))
++ }
+> 
+> dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE){
++ 
++     domcd <- function(x, xname, nrep=1){
++         n <- dim(x)[1]
++         p <- dim(x)[2]
++ 
++         mcd<-CovSde(x)
++ 
++         if(time){
++            xtime <- system.time(dorep(x, nrep))[1]/nrep
++            xres <- sprintf("%3d %3d %3d\n", dim(x)[1], dim(x)[2], xtime)
++         }
++         else{
++             xres <- sprintf("%3d %3d\n", dim(x)[1], dim(x)[2])
++         }
++         lpad<-lname-nchar(xname)
++         cat(pad.right(xname,lpad), xres)
++ 
++         if(!short){
++ 
++             ibad <- which(mcd@wt==0)
++             names(ibad) <- NULL
++             nbad <- length(ibad)
++             cat("Outliers: ",nbad,"\n")
++             if(nbad > 0)
++                 print(ibad)
++             if(full){
++                 cat("-------------\n")
++                 show(mcd)
++             }
++             cat("--------------------------------------------------------\n")
++         }
++     }
++ 
++     options(digits = 5)
++     set.seed(101) # <<-- sub-sampling algorithm now based on R's RNG and seed
++ 
++     lname <- 20
++ 
++     ## VT::15.09.2013 - this will render the output independent
++     ##  from the version of the package
++     suppressPackageStartupMessages(library(rrcov))
++ 
++     data(heart)
++     data(starsCYG)
++     data(phosphor)
++     data(stackloss)
++     data(coleman)
++     data(salinity)
++     data(wood)
++ 
++     data(hbk)
++ 
++     data(Animals, package = "MASS")
++     brain <- Animals[c(1:24, 26:25, 27:28),]
++     data(milk)
++     data(bushfire)
++ 
++     tmp <- sys.call()
++     cat("\nCall: ", deparse(substitute(tmp)),"\n")
++ 
++     cat("Data Set               n   p  Half LOG(obj)        Time\n")
++     cat("========================================================\n")
++     domcd(heart[, 1:2], data(heart), nrep)
++     domcd(starsCYG, data(starsCYG), nrep)
++     domcd(data.matrix(subset(phosphor, select = -plant)), data(phosphor), nrep)
++     domcd(stack.x, data(stackloss), nrep)
++     domcd(data.matrix(subset(coleman, select = -Y)), data(coleman), nrep)
++     domcd(data.matrix(subset(salinity, select = -Y)), data(salinity), nrep)
++     domcd(data.matrix(subset(wood, select = -y)), data(wood), nrep)
++     domcd(data.matrix(subset(hbk,  select = -Y)),data(hbk), nrep)
++ 
++     domcd(brain, "Animals", nrep)
++     domcd(milk, data(milk), nrep)
++     domcd(bushfire, data(bushfire), nrep)
++     ## VT::19.07.2010: test the univariate SDE
++     for(i in 1:ncol(bushfire))
++         domcd(bushfire[i], data(bushfire), nrep)
++     cat("========================================================\n")
++ }
+> 
+> dogen <- function(nrep=1, eps=0.49){
++ 
++     library(MASS)
++     domcd <- function(x, nrep=1){
++         gc()
++         xtime <- system.time(dorep(x, nrep))[1]/nrep
++         cat(sprintf("%6d %3d %10.2f\n", dim(x)[1], dim(x)[2], xtime))
++         xtime
++     }
++ 
++     set.seed(1234)
++ 
++     ## VT::15.09.2013 - this will render the output independent
++     ##  from the version of the package
++     suppressPackageStartupMessages(library(rrcov))
++ 
++     ap <- c(2, 5, 10, 20, 30)
++     an <- c(100, 500, 1000, 10000, 50000)
++ 
++     tottime <- 0
++     cat("     n   p       Time\n")
++     cat("=====================\n")
++     for(i in 1:length(an)) {
++         for(j in 1:length(ap)) {
++             n <- an[i]
++             p <- ap[j]
++             if(5*p <= n){
++                 xx <- gendata(n, p, eps)
++                 X <- xx$X
++                 tottime <- tottime + domcd(X, nrep)
++             }
++         }
++     }
++ 
++     cat("=====================\n")
++     cat("Total time: ", tottime*nrep, "\n")
++ }
+> 
+> docheck <- function(n, p, eps){
++     xx <- gendata(n,p,eps)
++     mcd <- CovSde(xx$X)
++     check(mcd, xx$xind)
++ }
+> 
+> check <- function(mcd, xind){
++ ##  check if mcd is robust w.r.t xind, i.e. check how many of xind
++ ##  did not get zero weight
++     mymatch <- xind %in% which(mcd@wt == 0)
++     length(xind) - length(which(mymatch))
++ }
+> 
+> dorep <- function(x, nrep=1){
++ 
++     for(i in 1:nrep)
++         CovSde(x)
++ }
+> 
+> #### gendata() ####
+> # Generates a location contaminated multivariate
+> # normal sample of n observations in p dimensions
+> #    (1-eps)*Np(0,Ip) + eps*Np(m,Ip)
+> # where
+> #    m = (b,b,...,b)
+> # Defaults: eps=0 and b=10
+> #
+> gendata <- function(n,p,eps=0,b=10){
++ 
++     if(missing(n) || missing(p))
++         stop("Please specify (n,p)")
++     if(eps < 0 || eps >= 0.5)
++         stop(message="eps must be in [0,0.5)")
++     X <- mvrnorm(n,rep(0,p),diag(1,nrow=p,ncol=p))
++     nbad <- as.integer(eps * n)
++     if(nbad > 0){
++         Xbad <- mvrnorm(nbad,rep(b,p),diag(1,nrow=p,ncol=p))
++         xind <- sample(n,nbad)
++         X[xind,] <- Xbad
++     }
++     list(X=X, xind=xind)
++ }
+> 
+> pad.right <- function(z, pads)
++ {
++ ### Pads spaces to right of text
++     padding <- paste(rep(" ", pads), collapse = "")
++     paste(z, padding, sep = "")
++ }
+> 
+> whatis<-function(x){
++     if(is.data.frame(x))
++         cat("Type: data.frame\n")
++     else if(is.matrix(x))
++         cat("Type: matrix\n")
++     else if(is.vector(x))
++         cat("Type: vector\n")
++     else
++         cat("Type: don't know\n")
++ }
+> 
+> ## VT::15.09.2013 - this will render the output independent
+> ##  from the version of the package
+> suppressPackageStartupMessages(library(rrcov))
+> 
+> dodata()
+
+Call:  dodata() 
+Data Set               n   p  Half LOG(obj)        Time
+========================================================
+heart                 12   2
+Outliers:  5 
+[1]  2  6  8 10 12
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+height  weight  
+  39.8    35.7  
+
+Robust Estimate of Covariance: 
+        height  weight
+height   38.2    77.1 
+weight   77.1   188.1 
+--------------------------------------------------------
+starsCYG              47   2
+Outliers:  7 
+[1]  7  9 11 14 20 30 34
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+   log.Te  log.light  
+     4.42       4.96  
+
+Robust Estimate of Covariance: 
+           log.Te  log.light
+log.Te     0.0163  0.0522   
+log.light  0.0522  0.3243   
+--------------------------------------------------------
+phosphor              18   2
+Outliers:  2 
+[1] 1 6
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+  inorg  organic  
+   13.3     39.7  
+
+Robust Estimate of Covariance: 
+         inorg  organic
+inorg    133    134    
+organic  134    204    
+--------------------------------------------------------
+stackloss             21   3
+Outliers:  6 
+[1]  1  2  3 15 17 21
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+  Air.Flow  Water.Temp  Acid.Conc.  
+      57.8        20.7        86.4  
+
+Robust Estimate of Covariance: 
+            Air.Flow  Water.Temp  Acid.Conc.
+Air.Flow    39.7      15.6        25.0      
+Water.Temp  15.6      13.0        11.9      
+Acid.Conc.  25.0      11.9        40.3      
+--------------------------------------------------------
+coleman               20   5
+Outliers:  8 
+[1]  1  2  6 10 11 12 15 18
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+  salaryP   fatherWc    sstatus  teacherSc  motherLev  
+     2.78      58.64       9.09      25.37       6.69  
+
+Robust Estimate of Covariance: 
+           salaryP    fatherWc   sstatus    teacherSc  motherLev
+salaryP       0.2556    -1.0144     0.6599     0.2673     0.0339
+fatherWc     -1.0144  1615.9192   382.7846    -4.8287    36.0227
+sstatus       0.6599   382.7846   108.1781    -0.7904     9.1027
+teacherSc     0.2673    -4.8287    -0.7904     0.9346    -0.0239
+motherLev     0.0339    36.0227     9.1027    -0.0239     0.9155
+--------------------------------------------------------
+salinity              28   3
+Outliers:  9 
+[1]  3  4  5  9 11 16 19 23 24
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+   X1     X2     X3  
+10.84   3.35  22.48  
+
+Robust Estimate of Covariance: 
+    X1     X2     X3   
+X1  10.75  -1.62  -2.05
+X2  -1.62   4.21  -1.43
+X3  -2.05  -1.43   2.63
+--------------------------------------------------------
+wood                  20   5
+Outliers:  11 
+ [1]  4  6  7  8  9 10 12 13 16 19 20
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+   x1     x2     x3     x4     x5  
+0.573  0.119  0.517  0.549  0.904  
+
+Robust Estimate of Covariance: 
+    x1         x2         x3         x4         x5       
+x1   0.025185   0.004279  -0.001262  -0.000382  -0.001907
+x2   0.004279   0.001011   0.000197  -0.000117   0.000247
+x3  -0.001262   0.000197   0.003042   0.002034   0.001773
+x4  -0.000382  -0.000117   0.002034   0.007943   0.001137
+x5  -0.001907   0.000247   0.001773   0.001137   0.005392
+--------------------------------------------------------
+hbk                   75   3
+Outliers:  15 
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 53
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+  X1    X2    X3  
+1.59  1.79  1.67  
+
+Robust Estimate of Covariance: 
+    X1      X2      X3    
+X1  1.6354  0.0793  0.2284
+X2  0.0793  1.6461  0.3186
+X3  0.2284  0.3186  1.5673
+--------------------------------------------------------
+Animals               28   2
+Outliers:  13 
+ [1]  2  6  7  8  9 12 13 14 15 16 24 25 28
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ body  brain  
+ 18.7   64.9  
+
+Robust Estimate of Covariance: 
+       body   brain
+body    4702   7973
+brain   7973  28571
+--------------------------------------------------------
+milk                  86   8
+Outliers:  21 
+ [1]  1  2  3  6 11 12 13 14 15 16 17 18 20 27 41 44 47 70 74 75 77
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+    X1      X2      X3      X4      X5      X6      X7      X8  
+  1.03   35.90   33.04   26.11   25.10   25.02  123.06   14.37  
+
+Robust Estimate of Covariance: 
+    X1        X2        X3        X4        X5        X6        X7      
+X1  4.73e-07  6.57e-05  1.79e-04  1.71e-04  1.62e-04  1.42e-04  6.85e-04
+X2  6.57e-05  1.57e+00  1.36e-01  9.28e-02  4.18e-02  1.30e-01  1.58e+00
+X3  1.79e-04  1.36e-01  1.12e+00  8.20e-01  8.27e-01  8.00e-01  6.66e-01
+X4  1.71e-04  9.28e-02  8.20e-01  6.57e-01  6.41e-01  6.18e-01  5.47e-01
+X5  1.62e-04  4.18e-02  8.27e-01  6.41e-01  6.93e-01  6.44e-01  5.71e-01
+X6  1.42e-04  1.30e-01  8.00e-01  6.18e-01  6.44e-01  6.44e-01  5.55e-01
+X7  6.85e-04  1.58e+00  6.66e-01  5.47e-01  5.71e-01  5.55e-01  4.17e+00
+X8  1.40e-05  2.33e-01  1.74e-01  1.06e-01  9.44e-02  9.86e-02  3.54e-01
+    X8      
+X1  1.40e-05
+X2  2.33e-01
+X3  1.74e-01
+X4  1.06e-01
+X5  9.44e-02
+X6  9.86e-02
+X7  3.54e-01
+X8  1.57e-01
+--------------------------------------------------------
+bushfire              38   5
+Outliers:  23 
+ [1]  1  5  6  7  8  9 10 11 12 13 15 16 28 29 30 31 32 33 34 35 36 37 38
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ V1   V2   V3   V4   V5  
+105  148  287  223  283  
+
+Robust Estimate of Covariance: 
+    V1      V2      V3      V4      V5    
+V1    1964    1712  -10230   -2504   -2066
+V2    1712    1526   -8732   -2145   -1763
+V3  -10230   -8732   56327   13803   11472
+V4   -2504   -2145   13803    3509    2894
+V5   -2066   -1763   11472    2894    2404
+--------------------------------------------------------
+bushfire              38   1
+Outliers:  2 
+[1] 13 30
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+  V1  
+98.5  
+
+Robust Estimate of Covariance: 
+    V1 
+V1  431
+--------------------------------------------------------
+bushfire              38   1
+Outliers:  6 
+[1] 33 34 35 36 37 38
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ V2  
+141  
+
+Robust Estimate of Covariance: 
+    V2 
+V2  528
+--------------------------------------------------------
+bushfire              38   1
+Outliers:  0 
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ V3  
+238  
+
+Robust Estimate of Covariance: 
+    V3   
+V3  37148
+--------------------------------------------------------
+bushfire              38   1
+Outliers:  9 
+[1]  8  9 32 33 34 35 36 37 38
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ V4  
+210  
+
+Robust Estimate of Covariance: 
+    V4  
+V4  2543
+--------------------------------------------------------
+bushfire              38   1
+Outliers:  9 
+[1]  8  9 32 33 34 35 36 37 38
+-------------
+
+Call:
+CovSde(x = x)
+-> Method:  Stahel-Donoho estimator 
+
+Robust Estimate of Location: 
+ V5  
+273  
+
+Robust Estimate of Covariance: 
+    V5  
+V5  1575
+--------------------------------------------------------
+========================================================
+> ##doexact()
+> 
+> proc.time()
+   user  system elapsed 
+   0.45    0.10    0.54 
