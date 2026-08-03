@@ -1,0 +1,7 @@
+build/
+build_*/
+*.o
+*.mod
+*.smod
+*.a
+*.exe
