@@ -1,0 +1,17 @@
+name = "intrinsicfrp"
+version = "2.1.0"
+license = "GPL-3.0-or-later"
+author = "Alberto Quaini; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (c) intrinsicFRP contributors"
+description = "Factor-model asset-pricing estimators and tests in modern Fortran"
+keywords = ["asset-pricing", "factor-models", "hac", "risk-premia", "fortran"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[install]
+library = true
