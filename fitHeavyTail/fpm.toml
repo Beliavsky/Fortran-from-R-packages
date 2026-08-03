@@ -1,0 +1,21 @@
+name = "fitheavytail"
+version = "0.2.0"
+license = "GPL-3.0-only"
+author = "Daniel P. Palomar, Rui Zhou, Xiwen Wang, Frederic Pascal, and Esa Ollila; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational routines in the R package fitHeavyTail"
+keywords = ["statistics", "heavy-tails", "student-t", "covariance", "robust-estimation"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
