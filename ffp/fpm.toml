@@ -1,0 +1,33 @@
+name = "ffp-fortran"
+version = "0.2.3"
+license = "MIT"
+author = "Bernardo Reckziegel; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (c) 2022 Bernardo Reckziegel"
+description = "Modern Fortran implementation of Fully Flexible Probabilities"
+categories = ["finance", "statistics", "optimization"]
+keywords = ["entropy-pooling", "flexible-probabilities", "risk", "portfolio"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[install]
+library = true
+
+[[executable]]
+name = "ffp_demo"
+source-dir = "app"
+main = "main.f90"
+
+[[example]]
+name = "mean_view"
+source-dir = "example"
+main = "mean_view.f90"
+
+[[test]]
+name = "ffp_tests"
+source-dir = "test"
+main = "test_ffp.f90"
