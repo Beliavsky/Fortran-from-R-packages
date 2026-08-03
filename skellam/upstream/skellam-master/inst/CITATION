@@ -1,0 +1,15 @@
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+  title   = "Densities and Sampling for the Skellam Distribution",
+  author  = c(
+  	person("Jerry W","Lewis"), 
+  	person("Patrick E","Brown"),
+  	person("Michail","Tsagris")),
+  year    = year,
+  note=note,
+  url = "https://r-forge.r-project.org/projects/healthqueues/"
+)
+

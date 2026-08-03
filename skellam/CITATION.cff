@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: skellam-fortran
+message: Please cite the original skellam package and this Fortran translation.
+type: software
+version: 0.2.4
+license: GPL-2.0-or-later
+authors:
+  - family-names: Lewis
+    given-names: Jerry W.
+  - family-names: Brown
+    given-names: Patrick E.
+  - family-names: Tsagris
+    given-names: Michail
+  - family-names: Ghachem
+    given-names: Montasser
+repository-code: https://github.com/monty-se/skellam

@@ -1,0 +1,22 @@
+Package: skellam
+Version: 0.2.4
+Date: 2025-04-05
+Title: Densities and Sampling for the Skellam Distribution
+Authors@R: c(person(given = c("Jerry", "W."),family = "Lewis", role = "aut", email = "Jerry.Lewis@biogen.com"),
+             person(given = c("Patrick", "E."), family = "Brown", role = "aut", email = "patrick.brown@utoronto.ca"),
+             person(given = "Michail", family = "Tsagris", role = "aut", email = "mtsagris@yahoo.gr"),
+             person(given = "Montasser", family = "Ghachem", role = "cre", email = "mg@pinstimation.com"))
+Description: Functions for the Skellam distribution, including: density
+    (pmf), cdf, quantiles and regression.
+URL: https://github.com/monty-se/skellam
+License: GPL (>= 2)
+Imports: stats
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Enhances: VGAM
+BuildVignettes: true
+Packaged: 2025-04-05 12:32:33 UTC; Montasser
+Repository: CRAN

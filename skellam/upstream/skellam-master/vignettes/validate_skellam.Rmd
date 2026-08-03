@@ -1,0 +1,166 @@
+---
+title: "The Skellam Distribution"
+
+date: "`r Sys.Date()`"
+author: "Patrick E. Brown"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Skellam Distribution}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview
+
+This vignette is intended to validate the outputs of the **skellam** package. Specifically, we verify that the following functions:
+
+- **rskellam**: Random variate generation from the Skellam distribution.
+- **dskellam**: Evaluation of the Skellam probability mass function.
+- **qskellam**: Calculation of quantiles for the Skellam distribution.
+
+yield results consistent with the distribution of the difference between two independent Poisson random variables. Two sets of parameters are examined:
+
+- **Low Lambda Scenario**: $\lambda_1 = 1.5$ and $\lambda_2 = 0.5$.
+- **Large Lambda Scenario**: $\lambda_1 = 12$ and $\lambda_2 = 8$.
+
+```{r loading, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE}
+library(skellam)
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Theoretical Background
+
+Consider two independent random variables:
+
+$$
+X \sim \mathrm{Poisson}(\lambda_1)
+$$
+
+and
+
+$$
+Y \sim \mathrm{Poisson}(\lambda_2)
+$$
+
+Then the difference between these two variables is given by:
+
+$$
+Z = X - Y
+$$
+
+It can be shown that \( Z \) follows a Skellam distribution with parameters \( \lambda_1 \) and \( \lambda_2 \):
+
+$$
+Z \sim \mathrm{Skellam}(\lambda_1, \lambda_2)
+$$
+
+## Small Poisson Parameters
+
+In this section, we use a small value for the Poisson parameters. We simulate two Poisson processes, compute their difference, and then compare that result with data generated directly from the Skellam distribution.
+
+### Setting Parameters
+
+```{r variables, message=FALSE}
+N <- 5000
+lambda1 <- 1.5
+lambda2 <- 0.5
+```
+
+### Simulating the Distributions
+
+```{r distribution, message=FALSE}
+X <- rpois(N, lambda1)
+Y <- rpois(N, lambda2)
+XminusY <- X - Y
+Z <- rskellam(N, lambda1, lambda2)
+```
+
+###  Density Comparison
+
+The first check compares the empirical density (obtained from the difference of two Poisson samples) with both the directly simulated Skellam data and the theoretical density computed via `dskellam`.
+
+```{r figure1, message=FALSE, fig.width=6, fig.height=4, out.width="100%"}
+# Your plot code here
+# Density comparison
+plot(table(XminusY), xlab = "X - Y", ylab = "", type = "p", pch = 1)
+points(table(Z), col = "red", type = "p", pch = 3, cex = 2)
+xseq <- seq(floor(par("usr")[1]), ceiling(par("usr")[2]))
+points(xseq, N * dskellam(xseq, lambda1, lambda2), col = "blue",
+       pch = 4, cex = 3)
+legend("topright", pch = c(1, 3, 4), col = c("black", "red", "blue"),
+       legend = c("rpois-rpois", "rskellam", "dskellam"))
+```
+
+
+### Quantile Comparison
+
+Next, we verify that the quantiles computed from the simulated Skellam data agree with those obtained via the `qskellam` function.
+
+```{r qZ, message=FALSE, fig.width=6, fig.height=4, out.width="100%"}
+# Quantile comparison
+Sprob <- seq(0, 1, by = 1/100)
+qZ <- quantile(Z, prob = Sprob)
+plot(qZ, qskellam(Sprob, lambda1, lambda2))
+abline(0, 1, col = "#FF000040")
+```
+
+
+## Large Poisson Parameters
+
+Now we repeat the above checks using a scenario with larger Poisson parameters. This serves to ensure that the functions perform correctly across a wider range of parameter values.
+
+### Updating Parameters
+
+```{r variables2, message=FALSE}
+lambda1 <- 12
+lambda2 <- 8
+
+X <- rpois(N, lambda1)
+Y <- rpois(N, lambda2)
+XminusY <- X - Y
+Z <- rskellam(N, lambda1, lambda2)
+```
+
+### Density Comparison
+
+```{r density2, message=FALSE, fig.width=6, fig.height=4, out.width="100%"}
+# Density comparison
+plot(table(XminusY), xlab = "X - Y", ylab = "", type = "p", pch = 1)
+points(table(Z), col = "red", type = "p", pch = 3, cex = 2)
+xseq <- seq(floor(par("usr")[1]), ceiling(par("usr")[2]))
+points(xseq, N * dskellam(xseq, lambda1, lambda2), col = "blue",
+       pch = 4, cex = 3)
+legend("topright", pch = c(1, 3, 4), col = c("black", "red", "blue"),
+       legend = c("rpois-rpois", "rskellam", "dskellam"))
+```
+
+### Quantile Comparison
+
+```{r qZ2, message=FALSE, fig.width=6, fig.height=4, out.width="100%"}
+# Quantile comparison
+Sprob <- seq(0, 1, by = 1/100)
+qZ <- quantile(Z, prob = Sprob)
+plot(qZ, qskellam(Sprob, lambda1, lambda2))
+abline(0, 1, col = "#FF000040")
+```
+
+## Conclusion
+
+This vignette has demonstrated that the functions provided in the **skellam** package produce outputs consistent with the theoretical behavior of the difference between two independent Poisson random variables. Both for low and large values of the Poisson parameters, the following are confirmed:
+
+- The density of the difference of two Poisson distributions matches that of the Skellam distribution.
+- The empirical quantiles of the simulated Skellam data are in line with the theoretical quantiles computed by `qskellam`.
+
+These checks validate that the `rskellam`, `dskellam`, and `qskellam` functions perform as expected, providing users with a reliable toolset for working with the Skellam distribution.
+
+
+## Getting help
+
+If you encounter a clear bug, please file an issue with a minimal
+reproducible example on
+[GitHub](https://github.com/monty-se/skellam/issues).

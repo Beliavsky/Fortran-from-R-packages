@@ -1,0 +1,22 @@
+name = "skellam-fortran"
+version = "0.2.4"
+license = "GPL-2.0-or-later"
+author = "Jerry W. Lewis, Patrick E. Brown, Michail Tsagris, Montasser Ghachem; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright upstream authors and Fortran translation contributors"
+description = "Modern Fortran implementation of the Skellam distribution, estimation, and regression"
+keywords = ["statistics", "distribution", "skellam", "poisson", "regression", "maximum-likelihood"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[[executable]]
+name = "demo_skellam"
+source-dir = "app"
+main = "demo_skellam.f90"
