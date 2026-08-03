@@ -1,0 +1,6 @@
+exportPattern("^[[:alpha:]]+")
+import("xts")
+importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new", "grid", "rug", "text", "title")
+importFrom("utils", "data", "download.file","head","read.csv", "read.delim","tail")
+importFrom("stats", "fitted", "pnorm", "resid", "vcov","as.ts", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "embed")
+#export("JFE")
