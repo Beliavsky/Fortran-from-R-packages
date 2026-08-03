@@ -1,0 +1,23 @@
+Package: CLA
+Version: 0.96-3
+Date: 2024-07-29
+Title: Critical Line Algorithm in Pure R
+Authors@R: c(person("Yanhao", "Shi", role = "aut", email = "syhelena@163.com"),
+             person("Martin", "Maechler", role = c("aut", "cre"),
+                    email = "maechler@stat.math.ethz.ch", comment = c(ORCID = "0000-0002-8685-9910")))
+Depends: R (>= 3.6.0)
+Imports: stats, grDevices, graphics, utils
+Suggests: fGarch, FRAPO, Matrix, sfsmisc
+Description: Implements 'Markowitz' Critical Line Algorithm ('CLA') for classical
+  mean-variance portfolio optimization, see Markowitz (1952) <doi:10.2307/2975974>.
+  Care has been taken for correctness in light of previous buggy implementations.
+License: GPL (>= 3) | file LICENSE
+Encoding: UTF-8
+URL: https://gitlab.math.ethz.ch/maechler/CLA/
+NeedsCompilation: no
+Packaged: 2024-07-29 14:20:32 UTC; maechler
+Author: Yanhao Shi [aut],
+  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>)
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Repository: CRAN
+Date/Publication: 2024-07-29 15:50:09 UTC

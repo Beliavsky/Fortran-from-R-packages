@@ -1,0 +1,26 @@
+##-*- org -*-->  Emacs .. [Tab] key + [Org] menu; C-c C-o to follow links
+
+* *Before* next CRAN release
+** DONE OpenBLAS, ATLAS, etc: must fix file:tests/SP500-ex.R at least: use
+  R=/usr/bin/R R-pkg-check CLA # Fedora's R pkg using OpenBLAS
+  R=R-3.5.1_MS R-pkg-check CLA # (RMO using MKL)
+  R=R-ATLAS    R-pkg-check CLA # using ATLAS
+ 	see files ./CLA_ATLAS.out ./CLA_MKL.out ./CLA_OpenBLAS.out
+* ASAP (but possibly later than CRAN release)
+** TODO *DONE partly* check arguments  e.g., lB <= uB, sum upper Bounds >= 1
+** TODO References --> (mostly done): Make Master thesis web-available (from SfS ETHZ) ?
+*** DONE 1) References from the thesis, including the "buried" python-paper with *WRONG* algo
+*** TODO 2) Master thesis: I'd like the thesis to be on our web page
+** TODO Improve plot() method, using hyperbolic interpolation see  R/CLA.R  man/plot.CLA.Rd
+** TODO plot(): new arg --> show #{assets} (or  n - #{assets} ); on axis 4, but optionally also as new lines()
+** TODO + summary(): show (mu, sigma, #{assets}) for all turning points or *some* t.pts only
+** DONE CLA() should return a (S3) class, "CLA" w/ print() and plot() methods
+** DONE findMu() and findSig() regression check examples *before* much changing: tests/findSigMu-ex.R
+** DONE A. Norring's Masters thesis has small 10-asset example (from Markowitz & Todd).
+   We should add that as a minimally small data set to use in examples,
+   e.g. plot().   His thesis is in ~/Betreute-Arbeiten/YanhaoShi/Previous_Work/
+
+** DONE Fixed Bug: did not get the "border case" lambda=0, e.g. for 10a example,
+   where others (incl A.Norring) *do* return that.
+* With more time, also, e.g., for a short R Journal paper
+** SparseMatrix plot of the weights

@@ -1,0 +1,23 @@
+
+## NOT importing fGarch here -- only depending on using muSigmaGarch()
+
+importFrom("stats",
+           cor, predict, uniroot)
+
+importFrom("grDevices", adjustcolor)
+
+importFrom("graphics", plot)# including the plot.default() method
+
+importFrom("utils", str)# for 'CLA(*, trace >= 2)'
+
+## not yet on CRAN : importFrom("sfsmisc", funEnv)
+
+## -------------- CLA  Exports -----------------------
+export(CLA
+       , MS
+       , findSig, findMu
+       , muSigmaGarch
+       )
+
+S3method(print, CLA)
+S3method(plot, CLA)
