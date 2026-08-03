@@ -1,0 +1,1154 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 1.15.1\n"
+"Report-Msgid-Bugs-To: bugs.r-project.org\n"
+"POT-Creation-Date: 2021-01-30 22:00\n"
+"PO-Revision-Date: 2014-03-27 17:34+0100\n"
+"Last-Translator: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
+"Language-Team: Łukasz Daniel <lukasz.daniel@gmail.com>\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Generator: Poedit 1.5.4\n"
+
+# cluster/R/agnes.R: 10
+# stop("invalid clustering method")
+msgid "invalid clustering method"
+msgstr "niepoprawna metoda grupowania"
+
+# cluster/R/agnes.R: 11
+# stop("ambiguous clustering method")
+msgid "ambiguous clustering method"
+msgstr "niejednoznaczna metoda grupowania"
+
+# cluster/R/agnes.R: 22
+# stop("'par.method' must be of length 1, 3, or 4")
+msgid "'par.method' must be of length 1, 3, or 4"
+msgstr "'par.method' musi być długości 1, 3, lub 4"
+
+# cluster/R/agnes.R: 28
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/diana.R: 11
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/pam.R: 13
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/fanny.R: 12
+# stop("NA values in the dissimilarity matrix not allowed.")
+msgid "NA-values in the dissimilarity matrix not allowed."
+msgstr "wartości NA w macierzy różnic nie są dozwolone."
+
+# cluster/R/agnes.R: 35
+# stop(gettextf("%s is not and cannot be converted to class \"dissimilarity\"", dataname))
+# cluster/R/diana.R: 18
+# stop(gettextf("%s is not and cannot be converted to class \"dissimilarity\"", dataname))
+# cluster/R/pam.R: 20
+# stop(gettextf("%s is not and cannot be converted to class \"dissimilarity\"", dataname))
+# cluster/R/fanny.R: 19
+# stop(gettextf("%s is not and cannot be converted to class \"dissimilarity\"", dataname))
+msgid "'x' is not and cannot be converted to class \"dissimilarity\""
+msgstr ""
+"argument 'x' nie jest i nie może być przekształcony na obiekt klasy "
+"\"dissimilarity\""
+
+# cluster/R/agnes.R: 53
+# stop(gettextf("%s is not a numeric dataframe or matrix.", dataname))
+# cluster/R/clara.R: 15
+# stop(gettextf("%s is not a numeric dataframe or matrix.", dataname))
+# cluster/R/diana.R: 36
+# stop(gettextf("%s is not a numeric dataframe or matrix.", dataname))
+# cluster/R/pam.R: 40
+# stop(gettextf("%s is not a numeric dataframe or matrix.", dataname))
+# cluster/R/fanny.R: 37
+# stop(gettextf("%s is not a numeric dataframe or matrix.", dataname))
+msgid "x is not a numeric dataframe or matrix."
+msgstr "argument 'x' nie jest ramką liczbową ani też macierzą"
+
+# cluster/R/agnes.R: 68
+# stop("need at least 2 objects to cluster")
+msgid "need at least 2 objects to cluster"
+msgstr "potrzeba co najmniej 2 obiektów do grupowania"
+
+# cluster/R/agnes.R: 92
+# stop("No clustering performed, NA values in the dissimilarity matrix.", "\n", sep = "" )
+# cluster/R/fanny.R: 120
+# stop("No clustering performed, NA values in the dissimilarity matrix.")
+msgid "No clustering performed, NA-values in the dissimilarity matrix."
+msgstr "Nie wykonano grupowania, wartości NA w macierzy różnic."
+
+# cluster/R/clara.R: 13
+# stop(gettextf("%s is a \"dist\" object, but should be a data matrix or frame", dataname))
+msgid "'x' is a \"dist\" object, but should be a data matrix or frame"
+msgstr "'x' jest obiektem klasy \"dist\", ale powinien być macierzą lub ramką"
+
+# cluster/R/clara.R: 18
+# stop("The number of cluster should be at least 1 and at most n-1." )
+msgid "The number of cluster should be at least 1 and at most n-1."
+msgstr "Liczba grup powinna wynosić conajmniej 1 oraz co najwyżej n-1."
+
+# cluster/R/clara.R: 20
+# stop(gettextf("'sampsize' should be at least %d = max(2, 1+ number of clusters)", max(2,k+1)), domain = "R-cluster")
+msgid "'sampsize' should be at least %d = max(2, 1+ number of clusters)"
+msgstr "'sampsize' powinien być co najmniej %d = max(2, 1+ liczba grup)"
+
+# cluster/R/clara.R: 22
+# stop(gettextf("'sampsize' = %d should not be larger than the number of objects, %d", sampsize, n), domain = "R-cluster")
+msgid "'sampsize' = %d should not be larger than the number of objects, %d"
+msgstr "'sampsize' = %d nie powinien być większy niż liczba obiektów, %d"
+
+# cluster/R/clara.R: 24
+# stop("'samples' should be at least 1")
+msgid "'samples' should be at least 1"
+msgstr "'samples' powinno wynosić przynajmniej 1"
+
+# cluster/R/clara.R: 32
+# stop("when 'medoids.x' is FALSE, 'keep.data' must be too")
+msgid "when 'medoids.x' is FALSE, 'keep.data' must be too"
+msgstr "kiedy 'medoids.x' jest FALSE, 'keep.data' musi być również FALSE"
+
+msgid ""
+"Distance computations with NAs: using correct instead of pre-2016 wrong "
+"formula.\n"
+"Use  'correct.d=FALSE'  to get previous results or set 'correct.d=TRUE' "
+"explicitly\n"
+"to suppress this warning."
+msgstr ""
+
+# cluster/R/coef.R: 10
+# stop("invalid 'twins' object")
+#, fuzzy
+msgid "invalid 'correct.d'"
+msgstr "niepoprawny obiekt 'twins'"
+
+# cluster/R/clara.R: 96
+# stop("Each of the random samples contains objects between which no distance can be computed.")
+msgid ""
+"Each of the random samples contains objects between which no distance can be "
+"computed."
+msgstr ""
+"Każda z losowych próbek zawiera obiekty pomiędzy którymi żadna odległość nie "
+"może być obliczona."
+
+# cluster/R/clara.R: 98
+# stop(gettextf("For each of the %d samples, at least one object was found which could not be assigned to a cluster (because of missing values).", samples))
+msgid ""
+"For each of the %d samples, at least one object was found which could not be "
+"assigned to a cluster (because of missing values)."
+msgstr ""
+"Dla każdej z %d próbek, co najmniej jeden obiekt został znaleziony, który "
+"nie mógł być przypisany do grupy (z uwagi na brakujące wartości)."
+
+# cluster/R/clara.R: 100
+# stop(gettextf("invalid 'jstop' from .C(cl_clara,.): %s", res$jstop))
+msgid "invalid 'jstop' from .C(cl_clara,.):"
+msgstr "niepoprawny 'jstop' z '.C(cl_clara,.)':"
+
+# cluster/R/clusGap.R: 20
+# stop("'B' has to be a positive integer")
+msgid "'B' has to be a positive integer"
+msgstr "'B' musi być dodatnią liczbą całkowitą"
+
+#, fuzzy
+msgid "invalid 'spaceH0':"
+msgstr "niepoprawny typ"
+
+msgid "index has to be a function or a list of function"
+msgstr ""
+
+# cluster/R/coef.R: 10
+# stop("invalid 'twins' object")
+msgid "invalid 'twins' object"
+msgstr "niepoprawny obiekt 'twins'"
+
+# cluster/R/daisy.R: 8
+# stop(gettextf("%s is not a dataframe or a numeric matrix.", dataname))
+msgid "x is not a dataframe or a numeric matrix."
+msgstr "argument 'x' nie jest ramką danych ani też macierzą liczbową"
+
+# cluster/R/daisy.R: 15
+# stop(gettextf("invalid %s; must be named list", sQuote("type")))
+msgid "invalid %s; must be named list"
+msgstr "niepoprawne %s; musi być nazwaną listą"
+
+# cluster/R/daisy.R: 21
+# stop(gettextf("%s has invalid column names", paste0("type$", nt)))
+msgid "%s has invalid column names"
+msgstr "%s posiada niepoprawne nazwy kolumn"
+
+# cluster/R/daisy.R: 25
+# stop(gettextf("%s must be in 1:ncol(x)", paste0("type$", nt)))
+msgid "%s must be in 1:ncol(x)"
+msgstr "%s musi być w przedziale 1:ncol(x)"
+
+# cluster/R/daisy.R: 27
+# stop(gettextf("%s must contain column names or numbers", paste0("type$", nt)))
+msgid "%s must contain column names or numbers"
+msgstr "%s musi zawierać nazwy kolumn lub liczby"
+
+# cluster/R/daisy.R: 38
+# stop("at least one binary variable has more than 2 levels.")
+msgid "at least one binary variable has more than 2 levels."
+msgstr "przynajmniej jedna zmienna binarna posiada więcej niż 2 poziomy."
+
+# cluster/R/daisy.R: 40
+# warning("at least one binary variable has not 2 different levels.")
+msgid "at least one binary variable has not 2 different levels."
+msgstr "przynajmniej jedna zmienna binarna nie posiada 2 różnych poziomów."
+
+# cluster/R/daisy.R: 48
+# stop("at least one binary variable has values not in {0,1,NA}")
+msgid "at least one binary variable has values not in {0,1,NA}"
+msgstr "przynajmniej jedna zmienna binarna posiada wartości poza {0, 1, NA}"
+
+# cluster/R/daisy.R: 71
+# warning(gettextf("binary variable(s) %s treated as interval scaled", pColl(which(tI)[iBin])))
+msgid "binary variable(s) %s treated as interval scaled"
+msgstr "zmienne binarne %s traktowane jako interwał zostały przeskalowane"
+
+# cluster/R/daisy.R: 92
+# warning(gettextf("%s has constant columns %s; these are standardized to 0", sQuote("x"), pColl(which(sx == 0))))
+msgid "%s has constant columns %s; these are standardized to 0"
+msgstr "%s posiada stałe kolumny %s; zostały one ustandaryzowane do zera"
+
+# cluster/R/daisy.R: 102
+# warning("with mixed variables, metric \"gower\" is used automatically")
+msgid "with mixed variables, metric \"gower\" is used automatically"
+msgstr "z mieszanymi zmiennymi, metryka 'gower' jest używana automatycznie"
+
+# cluster/R/daisy.R: 117
+# stop("'weights' must be of length p (or 1)")
+msgid "'weights' must be of length p (or 1)"
+msgstr "'weights' musi być o długości 'p' (lub 1)"
+
+# cluster/R/daisy.R: 125
+# stop(gettextf("invalid type %s for column numbers %s", type2[ina], pColl(which(is.na))))
+msgid "invalid type %s for column numbers %s"
+msgstr "niepoprawny typ %s dla liczb kolumn %s"
+
+# cluster/R/agnes.R: 28
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/diana.R: 11
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/pam.R: 13
+# stop("NA values in the dissimilarity matrix not allowed.")
+# cluster/R/fanny.R: 12
+# stop("NA values in the dissimilarity matrix not allowed.")
+msgid "NA values in the dissimilarity matrix not allowed."
+msgstr "wartości NA w macierzy różnic nie są dozwolone."
+
+# cluster/R/diana.R: 76
+# stop("No clustering performed, NA's in dissimilarity matrix.\n")
+msgid "No clustering performed, NA's in dissimilarity matrix."
+msgstr "Nie wykonano grupowania, wartości NA w macierzy różnic"
+
+# cluster/R/ellipsoidhull.R: 14
+# stop("'x' must be numeric  n x p matrix")
+msgid "'x' must be numeric  n x p matrix"
+msgstr "'x' musi być liczbową macierzą n x p"
+
+# cluster/R/ellipsoidhull.R: 16
+# warning("omitting NAs")
+msgid "omitting NAs"
+msgstr "pomijanie wartości NA"
+
+# cluster/R/ellipsoidhull.R: 20
+# stop("no points without missing values")
+msgid "no points without missing values"
+msgstr "brak punktów bez brakujących wartości"
+
+# cluster/R/ellipsoidhull.R: 39
+# stop("computed some negative or all 0 probabilities")
+msgid "computed some negative or all 0 probabilities"
+msgstr ""
+"niektóre wyliczone prawdopodobieństwa są ujemne lub wszystkie są zerami"
+
+# cluster/R/fanny.R: 107
+# warning(gettextf(
+#             "FANNY algorithm has not converged in 'maxit' = %d iterations",
+#                         maxit))
+msgid "algorithm possibly not converged in %d iterations"
+msgstr "algorytm prawdopodobnie nie uzbieżnił się w %d iteracjach"
+
+# cluster/R/ellipsoidhull.R: 92
+# stop("'A' must be p x p  cov-matrix defining an ellipsoid")
+msgid "'A' must be p x p  cov-matrix defining an ellipsoid"
+msgstr "'A' musi być macierzą kowariancji p x p określającą elipsoidę"
+
+# cluster/R/ellipsoidhull.R: 106
+# stop("ellipsoidPoints() not yet implemented for p >= 3 dim.")
+msgid "ellipsoidPoints() not yet implemented for p >= 3 dim."
+msgstr ""
+"'ellipsoidPoints()' nie została jeszcze zaimplementowana dla p >= 3 wymiary."
+
+# cluster/R/fanny.R: 55
+# stop("'k' (number of clusters) must be in {1,2, .., n/2 -1}")
+msgid "'k' (number of clusters) must be in {1,2, .., n/2 -1}"
+msgstr "'k' (liczba grup) musi mieścić się w przedziale {1,2, .., n/2 -1}"
+
+# cluster/R/fanny.R: 58
+# stop("'memb.exp' must be a finite number > 1")
+msgid "'memb.exp' must be a finite number > 1"
+msgstr "'memb.exp' musi być skończoną liczbą > 1"
+
+# cluster/R/fanny.R: 60
+# stop("'maxit' must be non-negative integer")
+msgid "'maxit' must be non-negative integer"
+msgstr "'maxit' musi być nieujemną liczbą całkowitą"
+
+# cluster/R/fanny.R: 69
+# stop("'iniMem.p' must be a nonnegative n * k matrix with rowSums == 1")
+msgid "'iniMem.p' must be a nonnegative n * k matrix with rowSums == 1"
+msgstr "'iniMem.p' musi być nieujemną maceirzą n x k z rowSums == 1"
+
+# cluster/R/fanny.R: 107
+# warning(gettextf(
+#             "FANNY algorithm has not converged in 'maxit' = %d iterations",
+#                         maxit))
+msgid "FANNY algorithm has not converged in 'maxit' = %d iterations"
+msgstr "algorytm FANNY nie uzbieżnił się w 'maxit' = %d iteracjach"
+
+# cluster/R/fanny.R: 144
+# warning("the memberships are all very close to 1/k. Maybe decrease 'memb.exp' ?")
+msgid "the memberships are all very close to 1/k. Maybe decrease 'memb.exp' ?"
+msgstr "przynależności są bardzo bliskie 1/k. Może zmniejszyć 'memb.exp'?"
+
+# cluster/R/fanny.R: 241
+# stop("'m', a membership matrix, must be nonnegative with rowSums == 1")
+msgid "'m', a membership matrix, must be nonnegative with rowSums == 1"
+msgstr "macierz przynależności 'm' musi być nieujemna z rowSums == 1"
+
+# cluster/R/internal.R: 18
+# stop("'n' argument must be >= 2")
+# cluster/R/internal.R: 26
+# stop("'n' argument must be >= 2")
+msgid "'n' must be >= 2"
+msgstr "argument 'n' musi być >= 2"
+
+# cluster/R/mona.R: 6
+# stop("'x' must be a matrix or data frame.")
+msgid "x must be a matrix or data frame."
+msgstr "argument 'x' musi być macierzą lub ramką danych."
+
+# cluster/R/mona.R: 10
+# stop("All variables must be binary (factor with 2 levels).")
+#, fuzzy
+msgid ""
+"All variables must be binary (e.g., a factor with 2 levels, both present)."
+msgstr "Wszystkie zmienne muszą być binarne (czynnik z dwoma poziomami)"
+
+msgid "mona() needs at least p >= 2 variables (in current implementation)"
+msgstr ""
+
+# cluster/R/mona.R: 40
+# stop("No clustering performed, an object was found with all values missing.")
+msgid "No clustering performed, an object was found with all values missing."
+msgstr ""
+"Nie wykonano grupowania, znaleziono obiekt któremu brakowało wszystkich "
+"wartości."
+
+# cluster/R/mona.R: 40
+# stop("No clustering performed, an object was found with all values missing.")
+msgid ""
+"No clustering performed, found variable with more than half values missing."
+msgstr ""
+"Nie wykonano grupowania, znaleziono obiekt któremu brakowało wszystkich "
+"wartości."
+
+# cluster/R/mona.R: 44
+# stop("No clustering performed, a variable was found with all non missing values identical.")
+msgid ""
+"No clustering performed, a variable was found with all non missing values "
+"identical."
+msgstr ""
+"Nie wykonano grupowania, znaleziono zmienną z identycznymi niebrakującymi "
+"wartościami."
+
+# cluster/R/mona.R: 46
+# stop("No clustering performed, all variables have at least one missing value.")
+msgid "No clustering performed, all variables have at least one missing value."
+msgstr ""
+"Nie wykonano grupowania, wszystkie zmienne mają co najmniej jedną brakującą "
+"wartość."
+
+msgid "Cannot keep data when 'x' is a dissimilarity!"
+msgstr ""
+
+msgid "have %d observations, but not more than %d are allowed"
+msgstr ""
+
+# cluster/R/pam.R: 56
+# stop("Number of clusters 'k' must be in {1,2, .., n-1}; hence n >= 2")
+msgid "Number of clusters 'k' must be in {1,2, .., n-1}; hence n >= 2"
+msgstr ""
+"Liczba grup 'k' musi zawierać się w zbiorze {1,2, .., n-1}; tak więc n >= 2"
+
+msgid "Set either 'variant' or 'pamonce', but not both"
+msgstr ""
+
+# cluster/R/pam.R: 64
+# stop(gettextf("'medoids' must be NULL or vector of %d distinct indices in {1,2, .., n}, n=%d", k, n))
+msgid ""
+"'medoids' must be NULL or vector of %d distinct indices in {1,2, .., n}, n=%d"
+msgstr ""
+"argument 'medoids' musi być wartością NULL lub wektorem %d różnych indeksów "
+"w {1,2, .., n}, n=%d"
+
+# cluster/R/pam.R: 109
+# stop("No clustering performed, NAs in the computed dissimilarity matrix.")
+msgid "No clustering performed, NAs in the computed dissimilarity matrix."
+msgstr "Nie wykonano grupowania, wyliczono wartości NA w macierzy różnic."
+
+# cluster/R/pam.R: 116
+# stop("error from .C(cl_pam, *): invalid medID's")
+msgid "error from .C(cl_pam, *): invalid medID's"
+msgstr "błąd w '.C(cl_pam, *)': niepoprawne 'medID'"
+
+# cluster/R/plotpart.R: 70
+# stop("NA values are not allowed in dist-like 'x'.")
+msgid "NA-values are not allowed in dist-like 'x'."
+msgstr "wartości NA nie są dozwolone w 'x' typu odległości."
+
+# cluster/R/plotpart.R: 79
+# stop("Distances must be result of dist or a square matrix.")
+msgid "Distances must be result of dist or a square matrix."
+msgstr "Odległości muszą być wynikiem 'dist' lub macierzy kwadratowej."
+
+# cluster/R/plotpart.R: 81
+# stop("the square matrix is not symmetric.")
+msgid "the square matrix is not symmetric."
+msgstr "macierz kwadratowa nie jest symetryczna."
+
+# cluster/R/plotpart.R: 94
+# warning(">>>>> funny case in clusplot.default() -- please report!\n")
+msgid ">>>>> funny case in clusplot.default() -- please report!"
+msgstr ""
+">>>>> zabawny przypadek w 'clusplot.default()' -- proszę zgłosić raport!"
+
+# cluster/R/plotpart.R: 116
+# stop("'x' is not a data matrix")
+msgid "x is not a data matrix"
+msgstr "argument 'x' nie jest macierzą danych"
+
+# cluster/R/plotpart.R: 120
+# stop("one or more objects contain only missing values")
+msgid "one or more objects contain only missing values"
+msgstr "jeden lub więcej obiektów zawierają jedynie wartości brakujące"
+
+# cluster/R/plotpart.R: 122
+# stop("one or more variables contain only missing values")
+msgid "one or more variables contain only missing values"
+msgstr "jeden lub więcej zmiennych zawiera jedynie wartości brakujące"
+
+# cluster/R/plotpart.R: 125
+# message("Missing values were displaced by the median of the corresponding variable(s)")
+msgid ""
+"Missing values were displaced by the median of the corresponding variable(s)"
+msgstr ""
+"Brakujące wartości zostały zastąpione przez medianę odpowiednich zmiennych"
+
+# cluster/R/plotpart.R: 164
+# stop("'x' is not numeric")
+msgid "x is not numeric"
+msgstr "argument 'x' nie jest liczbą"
+
+# cluster/R/plotpart.R: 174
+# stop("The clustering vector is of incorrect length")
+msgid "The clustering vector is of incorrect length"
+msgstr "Wektor grupujący posiada niepoprawną długość"
+
+# cluster/R/plotpart.R: 177
+# stop("NA values are not allowed in clustering vector")
+msgid "NA-values are not allowed in clustering vector"
+msgstr "wartości NA są niedozwolone w wektorze grupującym"
+
+# cluster/R/plotpart.R: 303
+# warning("Error in Fortran routine for the spanning ellipsoid,\n rank problem??")
+#, fuzzy
+msgid ""
+"Error in C routine for the spanning ellipsoid,\n"
+" rank problem??"
+msgstr ""
+"Błąd w procedurze Fortran dla elipsoidy obejmującej,\n"
+" problem rang?"
+
+# cluster/R/plotpart.R: 353
+# stop("'col.clus' argument should have length 4 when color is TRUE")
+msgid "'col.clus' should have length 4 when color is TRUE"
+msgstr ""
+"argument 'col.clus' powinien mieć długość 4, gdy 'color' ma wartość TRUE"
+
+# cluster/R/plotpart.R: 508
+# stop(gettextf("no diss nor data found, nor the original argument of %s", deparse(x$call)))
+msgid "no diss nor data found, nor the original argument of %s"
+msgstr "nie znaleziono różnic ani danych, ani oryginalnego argumentu %s"
+
+# cluster/R/plotpart.R: 514
+# stop("no diss nor data found for 'clusplot()' function")
+msgid "no diss nor data found for clusplot()'"
+msgstr "nie znaleziono różnic ani danych dla funkcji 'clusplot()'"
+
+# cluster/R/silhouette.R: 7
+# stop("invalid partition object")
+msgid "invalid partition object"
+msgstr "niepoprawny obiekt podziału"
+
+# cluster/R/silhouette.R: 21
+# stop("full silhouette is only available for results of 'clara(*, keep.data = TRUE)'")
+msgid ""
+"full silhouette is only available for results of 'clara(*, keep.data = TRUE)'"
+msgstr ""
+"pełna sylwetka jest dostępna jedynie dla wyników 'clara(*, keep.data = TRUE)'"
+
+msgid "specified both 'full' and 'subset'; will use 'subset'"
+msgstr ""
+
+msgid "'full' must be FALSE, TRUE, or a number in [0, 1]"
+msgstr ""
+
+# cluster/R/silhouette.R: 35
+# stop("'x' must only have integer codes")
+# cluster/R/silhouette.R: 82
+# stop("'x' must only have integer codes")
+msgid "'x' must only have integer codes"
+msgstr "'x' musi posiadać tylko kody będące liczbami całkowitymi"
+
+# cluster/R/silhouette.R: 42
+# stop("Need either a dissimilarity 'dist' or diss.matrix 'dmatrix'")
+# cluster/R/silhouette.R: 94
+# stop("Need either a dissimilarity 'dist' or diss.matrix 'dmatrix'")
+msgid "Need either a dissimilarity 'dist' or diss.matrix 'dmatrix'"
+msgstr "Potrzeba albo różnic 'dist' lub diss.matrix 'dmatrix'"
+
+# cluster/R/silhouette.R: 44
+# stop("'dmatrix' is not a dissimilarity matrix compatible to 'x'")
+# cluster/R/silhouette.R: 96
+# stop("'dmatrix' is not a dissimilarity matrix compatible to 'x'")
+msgid "'dmatrix' is not a dissimilarity matrix compatible to 'x'"
+msgstr "'dmatrix' nie jest macierzą różnic kompatybilną z 'x'"
+
+# cluster/R/silhouette.R: 48
+# stop("clustering 'x' and dissimilarity 'dist' are incompatible")
+# cluster/R/silhouette.R: 100
+# stop("clustering 'x' and dissimilarity 'dist' are incompatible")
+msgid "clustering 'x' and dissimilarity 'dist' are incompatible"
+msgstr "grupowane 'x' oraz różnice 'dist' nie są kompatybilne"
+
+# cluster/R/silhouette.R: 134
+# stop("invalid silhouette structure")
+msgid "invalid silhouette structure"
+msgstr "niepoprana struktura 'silhouette'"
+
+# cluster/R/silhouette.R: 158
+# stop("invalid 'silhouette' object")
+msgid "invalid 'silhouette' object"
+msgstr "niepoprawny obiekt 'silhouette'"
+
+# cluster/R/silhouette.R: 210
+# stop("No valid silhouette information (#{clusters} =? 1)")
+msgid "No valid silhouette information (#{clusters} =? 1)"
+msgstr "Brak poprawnej informacji o sylwetce (czy liczba grup =? 1)"
+
+# cluster/R/clara.R: 91
+# stop(sprintf(ngettext(nNA, "Observation %s has *only* NAs --> omit it for clustering", "Observations %s have *only* NAs --> omit them for clustering!", domain = "R-cluster"), pasteC(i)), domain = NA)
+msgid "Observation %s has *only* NAs --> omit it for clustering"
+msgid_plural "Observations %s have *only* NAs --> omit them for clustering!"
+msgstr[0] ""
+"Obserwacja %s posiada *tylko* wartości NA --> pomijanie jej w grupowaniu"
+msgstr[1] ""
+"Obserwacje %s posiadają *tylko* wartości NA --> pomijanie ich w grupowaniu"
+msgstr[2] ""
+"Obserwacje %s posiadają *tylko* wartości NA --> pomijanie ich w grupowaniu"
+
+# cluster/R/clara.R: 93
+# stop(sprintf(ngettext(nNA, "%d observation (%s) has *only* NAs --> omit them for clustering!", "%d observations (%s ...) have *only* NAs --> omit them for clustering!", domain = "R-cluster"), nNA, pasteC(i[1:12])), domain = NA)
+msgid "%d observation (%s) has *only* NAs --> omit them for clustering!"
+msgid_plural ""
+"%d observations (%s ...) have *only* NAs --> omit them for clustering!"
+msgstr[0] ""
+"%d obserwacja (%s) posiada *tylko* wartości NA --> pomijanie jej w grupowaniu"
+msgstr[1] ""
+"%d obserwacje (%s ...) posiadają *tylko* wartości NA --> pomijanie ich w "
+"grupowaniu"
+msgstr[2] ""
+"%d obserwacji (%s ...) posiadają *tylko* wartości NA --> pomijanie ich w "
+"grupowaniu"
+
+# cluster/R/daisy.R: 76
+# warning(sprintf(ngettext(sum(ilog),
+# 				 "setting 'logical' variable %s to type 'asymm'",
+# 				 "setting 'logical' variables %s to type 'asymm'", domain = "R-cluster"),
+# 			pColl(which(ilog))), domain = NA)
+msgid "setting 'logical' variable %s to type 'asymm'"
+msgid_plural "setting 'logical' variables %s to type 'asymm'"
+msgstr[0] "ustawianie zmiennej 'logical' %s na tym 'asymm'"
+msgstr[1] "ustawianie zmiennych 'logical' %s na tym 'asymm'"
+msgstr[2] "ustawianie zmiennych 'logical' %s na tym 'asymm'"
+
+#~ msgid "NAdiss"
+#~ msgstr "NAdiss"
+
+#~ msgid "non.diss"
+#~ msgstr "non.diss"
+
+#~ msgid "no distance can be computed."
+#~ msgstr "żadna odległość nie może zostać obliczona."
+
+#~ msgid "For each of the"
+#~ msgstr "Dla każdej z"
+
+#~ msgid ""
+#~ "samples, at least one object was found which\n"
+#~ " could not"
+#~ msgstr "próbek, co najmniej jeden obiekt został znaleziony, który nie mógł"
+
+#~ msgid "be assigned to a cluster (because of missing values)."
+#~ msgstr "być przypisany do grupy (z powodu brakujących wartości)."
+
+#~ msgid "invalid"
+#~ msgstr "niepoprawny argument"
+
+#~ msgid "type"
+#~ msgstr "type"
+
+#~ msgid "type$"
+#~ msgstr "type$"
+
+#~ msgid "binary variable(s)"
+#~ msgstr "zmienne binarne"
+
+#~ msgid "x"
+#~ msgstr "x"
+
+#~ msgid "has constant columns"
+#~ msgstr "posiada stałe kolumny"
+
+# cluster/R/ellipsoidhull.R: 42
+# warning(gettextf("algorithm possibly not converged in %d iterations", maxit))
+#~ msgid "possibly not converged in"
+#~ msgstr "algorytm prawdopodobnie nie uzbieżnił się w"
+
+# cluster/man/plot.mona.Rd: 9
+# gettext("Separation step", domain = "R-cluster")
+# cluster/R/plothier.R: 199
+# gettext("Separation step", domain = "R-cluster")
+#~ msgid "iterations"
+#~ msgstr "iteracjach"
+
+# cluster/R/pam.R: 64
+# stop(gettextf("'medoids' must be NULL or vector of %d distinct indices in {1,2, .., n}, n=%d", k, n))
+#~ msgid "'medoids' must be NULL or vector of"
+#~ msgstr "'medoids' musi być wartością NULL lub wektorem"
+
+#~ msgid "rank problem??"
+#~ msgstr "problem rang?"
+
+#~ msgid "'clara(*, keep.data = TRUE)'"
+#~ msgstr "'clara(*, keep.data = TRUE)'"
+
+# cluster/R/agnes.R: 135
+# gettext("Call: ", domain = "R-cluster")
+# cluster/R/clara.R: 141
+# gettext("Call: ", domain = "R-cluster")
+#~ msgid "Call:"
+#~ msgstr "Wywołanie:"
+
+# cluster/R/agnes.R: 136
+# gettext("Agglomerative coefficient: ", domain = "R-cluster")
+# cluster/R/agnes.R: 149
+# gettext("Agglomerative coefficient: ", domain = "R-cluster")
+#~ msgid "Agglomerative coefficient:"
+#~ msgstr "Współczynnik aglomeracyjny:"
+
+# cluster/R/agnes.R: 137
+# gettext("Order of objects:", domain = "R-cluster")
+# cluster/R/agnes.R: 150
+# gettext("Order of objects:", domain = "R-cluster")
+# cluster/R/mona.R: 75
+# gettext("Order of objects:", domain = "R-cluster")
+# cluster/R/diana.R: 115
+# gettext("Order of objects:", domain = "R-cluster")
+# cluster/R/diana.R: 136
+# gettext("Order of objects:", domain = "R-cluster")
+#~ msgid "Order of objects:"
+#~ msgstr "Kolejność (rząd) obiektów:"
+
+# cluster/R/agnes.R: 140
+# gettext("Height (summary):", domain = "R-cluster")
+#~ msgid "Height (summary):"
+#~ msgstr "Wysokość (podsumowanie):"
+
+# cluster/R/agnes.R: 141
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/agnes.R: 158
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/mona.R: 82
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/clara.R: 147
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/clara.R: 179
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/diana.R: 122
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/diana.R: 143
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/pam.R: 183
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/pam.R: 213
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/fanny.R: 189
+# gettext("Available components:", domain = "R-cluster")
+# cluster/R/fanny.R: 214
+# gettext("Available components:", domain = "R-cluster")
+#~ msgid "Available components:"
+#~ msgstr "Dostępne komponenty:"
+
+# cluster/R/agnes.R: 148
+# gettext("Object of class 'agnes' from call:", domain = "R-cluster")
+#~ msgid "Object of class 'agnes' from call:"
+#~ msgstr "Obiekt klasy \"agnes\" z wywołania:"
+
+# cluster/R/agnes.R: 153
+# gettext("Merge:", domain = "R-cluster")
+# cluster/R/diana.R: 113
+# gettext("Merge:", domain = "R-cluster")
+# cluster/R/diana.R: 135
+# gettext("Merge:", domain = "R-cluster")
+#~ msgid "Merge:"
+#~ msgstr "Złączenie:"
+
+# cluster/R/agnes.R: 154
+# gettext("Height:", domain = "R-cluster")
+# cluster/R/diana.R: 118
+# gettext("Height:", domain = "R-cluster")
+# cluster/R/diana.R: 138
+# gettext("Height:", domain = "R-cluster")
+#~ msgid "Height:"
+#~ msgstr "Wysokość:"
+
+# cluster/R/clara.R: 48
+# gettextf("calling .C(cl_clara, ..., DUP = %s):", doDUP, domain = "R-cluster")
+#~ msgid "calling .C(cl_clara, ..., DUP = %s):"
+#~ msgstr "wywoływanie .C(cl_clara, ..., DUP = %s):"
+
+# cluster/R/clara.R: 142
+# gettext("Medoids:", domain = "R-cluster")
+# cluster/R/clara.R: 160
+# gettext("Medoids:", domain = "R-cluster")
+# cluster/R/pam.R: 175
+# gettext("Medoids:", domain = "R-cluster")
+#~ msgid "Medoids:"
+#~ msgstr "Medoidy:"
+
+# cluster/R/clara.R: 143
+# gettext("Objective function:", domain = "R-cluster")
+# cluster/R/clara.R: 161
+# gettext("Objective function:", domain = "R-cluster")
+# cluster/R/pam.R: 177
+# gettext("Objective function:", domain = "R-cluster")
+#~ msgid "Objective function:"
+#~ msgstr "Funkcja celu:"
+
+# cluster/R/clara.R: 144
+# gettext("Clustering vector:", domain = "R-cluster")
+# cluster/R/clara.R: 171
+# gettext("Clustering vector:", domain = "R-cluster")
+# cluster/R/pam.R: 176
+# gettext("Clustering vector:", domain = "R-cluster")
+#~ msgid "Clustering vector:"
+#~ msgstr "Wektor grupujący:"
+
+# cluster/R/clara.R: 145
+# gettext("Cluster sizes:", domain = "R-cluster")
+#~ msgid "Cluster sizes:"
+#~ msgstr "Rozmiary grup:"
+
+# cluster/R/clara.R: 146
+# gettext("Best sample:", domain = "R-cluster")
+# cluster/R/clara.R: 170
+# gettext("Best sample:", domain = "R-cluster")
+#~ msgid "Best sample:"
+#~ msgstr "Najlepsza próbka:"
+
+# cluster/R/clara.R: 159
+# gettext("Object of class 'clara' from call:", domain = "R-cluster")
+#~ msgid "Object of class 'clara' from call:"
+#~ msgstr "Obiekt klasy \"clara\" z wywołania:"
+
+# cluster/R/clara.R: 162
+# gettext("Numerical information per cluster:", domain = "R-cluster")
+# cluster/R/pam.R: 197
+# gettext("Numerical information per cluster:", domain = "R-cluster")
+#~ msgid "Numerical information per cluster:"
+#~ msgstr "Numeryczna informacja na grupę:"
+
+# cluster/R/clara.R: 165
+# gettext("Average silhouette width per cluster:", domain = "R-cluster")
+# cluster/R/pam.R: 205
+# gettext("Average silhouette width per cluster:", domain = "R-cluster")
+# cluster/R/fanny.R: 206
+# gettext("Average silhouette width per cluster:", domain = "R-cluster")
+#~ msgid "Average silhouette width per cluster:"
+#~ msgstr "Przeciętna szerokość sylwetki na grupę:"
+
+# cluster/R/clara.R: 167
+# gettext("Average silhouette width of best sample: ", domain = "R-cluster")
+#~ msgid "Average silhouette width of best sample:"
+#~ msgstr "Przeciętna szerokość sylwetki dla najlepszej próbki:"
+
+# cluster/R/clara.R: 173
+# gettext("Silhouette plot information for best sample:", domain = "R-cluster")
+#~ msgid "Silhouette plot information for best sample:"
+#~ msgstr "Informacja o wykresie sylwetki dla najlepszej próbki:"
+
+# cluster/R/clusGap.R: 33
+# gettextf("Clustering k = 1,2,..., K.max (= %d): .. ", K.max, domain = "R-cluster")
+#~ msgid "Clustering k = 1,2,..., K.max (= %d): .."
+#~ msgstr "Grupowanie k = 1,2,..., K.max (= %d): .."
+
+# cluster/R/clusGap.R: 36
+# gettext("done", domain = "R-cluster")
+#~ msgid "done"
+#~ msgstr "wykonano"
+
+# cluster/R/clusGap.R: 46
+# gettextf("Bootstrapping, b = 1,2,..., B (= %d)  [one \".\" per sample]:", B, domain = "R-cluster")
+#~ msgid "Bootstrapping, b = 1,2,..., B (= %d)  [one \".\" per sample]:"
+#~ msgstr "Bootstrapowanie, b = 1,2,..., B (= %d)  [jeden \".\" na próbkę]:"
+
+# cluster/R/clusGap.R: 127
+# gettext("Clustering Gap statistic [\"clusGap\"].", domain = "R-cluster")
+#~ msgid "Clustering Gap statistic [\"clusGap\"]."
+#~ msgstr "Statystyka przerwy grupowania [\"clusGap\"]."
+
+# cluster/R/clusGap.R: 128
+# gettextf("B=%d simulated reference sets, k = 1..%d", x$B, K, domain = "R-cluster")
+#~ msgid "B=%d simulated reference sets, k = 1..%d"
+#~ msgstr "B=%d symulowane zbiory referencyjne, k = 1..%d"
+
+# cluster/R/clusGap.R: 132
+# gettextf(" --> Number of clusters (method '%s', SE.factor=%g): %d", method, SE.factor, nc, domain = "R-cluster")
+#~ msgid "--> Number of clusters (method '%s', SE.factor=%g): %d"
+#~ msgstr "--> Liczba grup (metoda '%s', SE.factor=%g): %d"
+
+# cluster/R/clusGap.R: 134
+# gettextf(" --> Number of clusters (method '%s'): %d", method, nc, domain = "R-cluster")
+#~ msgid "--> Number of clusters (method '%s'): %d"
+#~ msgstr "--> Liczba grup (metoda '%s'): %d"
+
+# cluster/R/daisy.R: 157
+# gettext("NA values in the dissimilarity matrix!")
+#~ msgid "NA values in the dissimilarity matrix!"
+#~ msgstr "Wartości NA w macierzy odmienności!"
+
+# cluster/R/daisy.R: 171
+# gettext("Dissimilarities:", domain = "R-cluster")
+#~ msgid "Dissimilarities:"
+#~ msgstr "Odmienności:"
+
+# cluster/R/daisy.R: 178
+# gettext("Warning: ", domain = "R-cluster")
+# cluster/R/daisy.R: 208
+# gettext("Warning: ", domain = "R-cluster")
+#~ msgid "Warning:"
+#~ msgstr "Ostrzeżenie:"
+
+# cluster/R/daisy.R: 179
+# gettext("Metric: ", domain = "R-cluster")
+# cluster/R/daisy.R: 202
+# gettext("Metric: ", domain = "R-cluster")
+#~ msgid "Metric:"
+#~ msgstr "Metryka:"
+
+# cluster/R/daisy.R: 181
+# gettextf("Types = %s", paste(aT, collapse = ", "), domain = "R-cluster")
+# cluster/R/daisy.R: 204
+# gettextf("Types = %s", paste(aT, collapse = ", "), domain = "R-cluster")
+#~ msgid "Types = %s"
+#~ msgstr "Typy = %s"
+
+# cluster/R/daisy.R: 183
+# gettext("Number of objects:", domain = "R-cluster")
+# cluster/R/daisy.R: 206
+# gettext("Number of objects:", domain = "R-cluster")
+#~ msgid "Number of objects:"
+#~ msgstr "Liczba obiektów:"
+
+# cluster/R/diana.R: 120
+# gettext("Divisive coefficient:", domain = "R-cluster")
+# cluster/R/diana.R: 139
+# gettext("Divisive coefficient:", domain = "R-cluster")
+#~ msgid "Divisive coefficient:"
+#~ msgstr "Współczynnik podziału:"
+
+# cluster/R/ellipsoidhull.R: 37
+# gettext("Error in Fortran routine computing the spanning ellipsoid. Probably collinear data", domain = "R-cluster")
+#~ msgid ""
+#~ "Error in Fortran routine computing the spanning ellipsoid. Probably "
+#~ "collinear data"
+#~ msgstr ""
+#~ "Błąd w procedurze Fortran dla elipsoidy obejmującej, prawdopodobnie "
+#~ "współliniowe dane"
+
+#~ msgid ""
+#~ "ellipsoid in %d dimensions:\n"
+#~ " center = (%s); squared ave.radius d^2 = %s\n"
+#~ " and shape matrix ="
+#~ msgstr ""
+#~ "elipsoida w %d wymiarach:\n"
+#~ " centrum = (%s); kwadrat przeciętnego promienia d^2 = %s\n"
+#~ " oraz macierz kształtu ="
+
+# cluster/R/ellipsoidhull.R: 69
+# gettextf("  ellipsoid's area = %s", format(volume(x), digits=digits), domain = "R-cluster")
+#~ msgid "ellipsoid's area = %s"
+#~ msgstr "powierzchnia elipsoidy = %s"
+
+# cluster/R/ellipsoidhull.R: 70
+# gettextf("  ellipsoid's volume = %s", format(volume(x), digits=digits), domain = "R-cluster")
+#~ msgid "ellipsoid's volume = %s"
+#~ msgstr "objętość elipsoidy = %s"
+
+# cluster/R/ellipsoidhull.R: 73
+# gettext("** Warning: ** the algorithm did not terminate reliably!\n  most probably because of collinear data", domain = "R-cluster")
+#~ msgid ""
+#~ "** Warning: ** the algorithm did not terminate reliably!\n"
+#~ "  most probably because of collinear data"
+#~ msgstr ""
+#~ "** Ostrzeżenie: ** algorytm nie zakończył się w sposób wiarygodny!\n"
+#~ " prawdopodobnie z powodu wspóliniowych danych"
+
+# cluster/R/ellipsoidhull.R: 75
+# gettext("** Warning: ** the algorithm did not terminate reliably!\n  (in the available number of iterations)", domain = "R-cluster")
+#~ msgid ""
+#~ "** Warning: ** the algorithm did not terminate reliably!\n"
+#~ "  (in the available number of iterations)"
+#~ msgstr ""
+#~ "** Ostrzeżenie: ** algorytm nie zakończył się w sposób wiarygodny!\n"
+#~ " (w dostępnej liczbie iteracji)"
+
+# cluster/R/fanny.R: 172
+# gettext("Fuzzy Clustering object of class 'fanny': ", domain = "R-cluster")
+#~ msgid "Fuzzy Clustering object of class 'fanny':"
+#~ msgstr "Obiekt rozmytego grupowania klasy \"fanny\":"
+
+# cluster/R/fanny.R: 179
+# gettext("Membership coefficients (in percent, rounded):", domain = "R-cluster")
+#~ msgid "Membership coefficients (in percent, rounded):"
+#~ msgstr "Współczynnik członkostwa (w procentach, zaokrąglony):"
+
+# cluster/R/fanny.R: 180
+# gettext("Fuzzyness coefficients:", domain = "R-cluster")
+#~ msgid "Fuzzyness coefficients:"
+#~ msgstr "Współczynniki rozmycia:"
+
+# cluster/R/fanny.R: 181
+# gettext("Closest hard clustering:", domain = "R-cluster")
+#~ msgid "Closest hard clustering:"
+#~ msgstr "Najbliższe twarde grupowanie:"
+
+# cluster/R/fanny.R: 183
+# gettextf("k_crisp (= %d) < k !!", x$k.crisp, domain = "R-cluster")
+#~ msgid "k_crisp (= %d) < k !!"
+#~ msgstr "k_crisp (= %d) < k !!"
+
+# cluster/R/pam.R: 203
+# gettext("Silhouette plot information:", domain = "R-cluster")
+# cluster/R/fanny.R: 204
+# gettext("Silhouette plot information:", domain = "R-cluster")
+#~ msgid "Silhouette plot information:"
+#~ msgstr "Informacje o wykresie sylwetek:"
+
+# cluster/R/pam.R: 207
+# gettext("Average silhouette width of total data set:", domain = "R-cluster")
+# cluster/R/fanny.R: 208
+# gettext("Average silhouette width of total data set:", domain = "R-cluster")
+#~ msgid "Average silhouette width of total data set:"
+#~ msgstr "Przeciętna szerokość sylwetki pełnego zbioru danych:"
+
+# cluster/R/mona.R: 42
+# stop("No clustering performed, a variable was found with at least 50 percent missing values.")
+#~ msgid ""
+#~ "No clustering performed, a variable was found with at least 50 percent "
+#~ "missing values."
+#~ msgstr ""
+#~ "Nie wykonano grupowania, znaleziono zmienną z co najmniej 50 procent "
+#~ "brakujących wartości."
+
+# cluster/R/mona.R: 73
+# gettext("Revised data:", domain = "R-cluster")
+#~ msgid "Revised data:"
+#~ msgstr "Przeglądnięte dane:"
+
+# cluster/R/mona.R: 78
+# gettext("Variable used:", domain = "R-cluster")
+#~ msgid "Variable used:"
+#~ msgstr "Użyte zmienne:"
+
+# cluster/R/mona.R: 80
+# gettext("Separation step:", domain = "R-cluster")
+#~ msgid "Separation step:"
+#~ msgstr "Krok separacji:"
+
+# cluster/R/pam.R: 198
+# gettext("Isolated clusters:", domain = "R-cluster")
+#~ msgid "Isolated clusters:"
+#~ msgstr "Izolowane grupy:"
+
+#~ msgid "L-clusters:"
+#~ msgstr "L-grupy:"
+
+# cluster/R/pam.R: 200
+# gettext(" L*-clusters: ", domain = "R-cluster")
+#~ msgid "L*-clusters:"
+#~ msgstr "L*-grupy:"
+
+# cluster/R/plothier.R: 6
+# gettextf("Dendrogram of %s", paste(deparse(x$call), collapse = ""), domain = "R-cluster")
+# cluster/R/plothier.R: 98
+# gettextf("Dendrogram of %s", cl, domain = "R-cluster")
+# cluster/R/plothier.R: 153
+# gettextf("Dendrogram of %s", cl, domain = "R-cluster")
+#~ msgid "Dendrogram of %s"
+#~ msgstr "Dendrogram %s"
+
+# cluster/man/pltree.twins.Rd: 11
+# gettext("Height", domain = "R-cluster")
+# cluster/man/bannerplot.Rd: 11
+# gettext("Height", domain = "R-cluster")
+# cluster/R/plothier.R: 7
+# gettext("Height", domain = "R-cluster")
+# cluster/R/plothier.R: 24
+# gettext("Height", domain = "R-cluster")
+#~ msgid "Height"
+#~ msgstr "Wysokość"
+
+# cluster/R/plothier.R: 91
+# gettextf("Agglomerative Coefficient = %s", round(x$ac, digits = 2), domain = "R-cluster")
+#~ msgid "Agglomerative Coefficient = %s"
+#~ msgstr "Współczynnik aglomeracyjny = %s"
+
+# cluster/R/plothier.R: 97
+# gettextf("Banner of %s", cl, domain = "R-cluster")
+# cluster/R/plothier.R: 152
+# gettextf("Banner of %s", cl, domain = "R-cluster")
+# cluster/R/plothier.R: 198
+# gettextf("Banner of %s", deparse(x$call), domain = "R-cluster")
+#~ msgid "Banner of %s"
+#~ msgstr "Baner %s"
+
+# cluster/R/plothier.R: 113
+# gettext("Make a plot selection (or 0 to exit):", domain = "R-cluster")
+# cluster/R/plothier.R: 168
+# gettext("Make a plot selection (or 0 to exit):", domain = "R-cluster")
+# cluster/R/plotpart.R: 26
+# gettext("Make a plot selection (or 0 to exit):", domain = "R-cluster")
+#~ msgid "Make a plot selection (or 0 to exit):"
+#~ msgstr "Wybierz wykres (lub 0 aby wyjść):"
+
+# cluster/R/plothier.R: 146
+# gettextf("Divisive Coefficient = %s", round(x$dc, digits = 2), domain = "R-cluster")
+#~ msgid "Divisive Coefficient = %s"
+#~ msgstr "Współczynnik podziału = %s"
+
+# cluster/R/plotpart.R: 154
+# gettextf("CLUSPLOT(%s)", deparse(substitute(x)))
+#~ msgid "CLUSPLOT(%s)"
+#~ msgstr "CLUSPLOT(%s)"
+
+# cluster/R/plotpart.R: 155
+# gettextf("These two components explain %s percent of the point variability.", round(100 * var.dec, digits = 2))
+#~ msgid "These two components explain %s percent of the point variability."
+#~ msgstr "Te dwa komponenty wyjaśniają %s procent zmienności punktu."
+
+# cluster/man/clusplot.default.Rd: 23
+# gettext("Component 1", domain = "R-cluster")
+# cluster/R/plotpart.R: 156
+# gettext("Component 1", domain = "R-cluster")
+#~ msgid "Component 1"
+#~ msgstr "Komponent 1"
+
+#~ msgid "Component 2"
+#~ msgstr "Komponent 2"
+
+# cluster/R/plotpart.R: 198
+# gettextf("cluster %d  has only one observation ..", i, domain = "R-cluster")
+#~ msgid "cluster %d  has only one observation .."
+#~ msgstr "grupa %d ma tylko jedną obserwację .."
+
+# cluster/R/plotpart.R: 286
+# gettext("span & rank2 : calling \"spannel\" ..", domain = "R-cluster")
+#~ msgid "span & rank2 : calling \"spannel\" .."
+#~ msgstr "span & rank2 : wywoływanie \"spannel\" .."
+
+# cluster/R/silhouette.R: 178
+# gettextf("Silhouette of %d units in %d clusters from %s:", sum(csiz), k, deparse(x$call), domain = "R-cluster")
+# cluster/R/silhouette.R: 181
+# gettextf("Silhouette of %d units in %d clusters from %s:", sum(csiz), k, deparse(x$call), domain = "R-cluster")
+#~ msgid "Silhouette of %d units in %d clusters from %s:"
+#~ msgstr "Sylwetka %d jednostek w %d klastrach z %s:"
+
+# cluster/R/silhouette.R: 179
+# gettextf("Cluster sizes, ids = (%s), and average silhouette widths:", paste(x$codes, collapse=", "), domain = "R-cluster")
+# cluster/R/silhouette.R: 186
+# gettextf("Cluster sizes, ids = (%s), and average silhouette widths:", paste(x$codes, collapse=", "), domain = "R-cluster")
+#~ msgid "Cluster sizes, ids = (%s), and average silhouette widths:"
+#~ msgstr "Rozmiary grup, ids = (%s), oraz przeciętne szerokości sylwetek:"
+
+# cluster/R/silhouette.R: 182
+# gettextf("Cluster sizes and average silhouette widths:", domain = "R-cluster")
+# cluster/R/silhouette.R: 189
+# gettext("Cluster sizes and average silhouette widths:", domain = "R-cluster")
+#~ msgid "Cluster sizes and average silhouette widths:"
+#~ msgstr "Rozmiary grup oraz przeciętne szerokości sylwetek:"
+
+# cluster/R/silhouette.R: 185
+# gettextf("Silhouette of %d units in %d clusters:", sum(csiz), k, domain = "R-cluster")
+# cluster/R/silhouette.R: 188
+# gettextf("Silhouette of %d units in %d clusters:", sum(csiz), k, domain = "R-cluster")
+#~ msgid "Silhouette of %d units in %d clusters:"
+#~ msgstr "Sylwetka %d jednostek w %d klastrach:"
+
+# cluster/R/silhouette.R: 194
+# gettext("Individual silhouette widths:", domain = "R-cluster")
+#~ msgid "Individual silhouette widths:"
+#~ msgstr "Indywidualne szerokości sylwetki:"
+
+# cluster/R/silhouette.R: 220
+# gettext("Silhouette plot", domain = "R-cluster")
+#~ msgid "Silhouette plot"
+#~ msgstr "Wykres sylwetki"
+
+# cluster/R/silhouette.R: 224
+# gettextf("Silhouette plot of %s", sub("^FF","", deparse(cll)), domain = "R-cluster")
+#~ msgid "Silhouette plot of %s"
+#~ msgstr "Wykres sylwetki %s"
+
+# cluster/R/silhouette.R: 230
+# gettext("Average silhouette width:", domain = "R-cluster")
+#~ msgid "Average silhouette width:"
+#~ msgstr "Przeciętna szerokość sylwetki:"
+
+# cluster/R/daisy.R: 200
+# sprintf(ngettext(x$n, "%d dissimilarity, summarized:", "%d dissimilarities, summarized:", domain = "R-cluster"), x$n)
+#~ msgid "%d dissimilarity, summarized:"
+#~ msgid_plural "%d dissimilarities, summarized:"
+#~ msgstr[0] "%d odmienność, podsumowanie:"
+#~ msgstr[1] "%d odmienności, podsumowanie:"
+#~ msgstr[2] "%d odmienności, podsumowanie:"
+
+#~ msgid ""
+#~ "%d observations (%s ...)\n"
+#~ "\thave *only* NAs --> na.omit() them for clustering!"
+#~ msgstr ""
+#~ "%d obserwacji (%s ...)\n"
+#~ "\tmają *tylko* wartości NA --> pomijanie ich w grupowaniu"
+
+#~ msgid "hence, area = %s"
+#~ msgstr "tak więc powierzchnia = %s"
+
+#, fuzzy
+#~ msgid "R-cluster"
+#~ msgstr "L-grupy:"

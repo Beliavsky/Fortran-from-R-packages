@@ -1,0 +1,56 @@
+# # Translation of src/library/Recommended/cluster/po/cluster.pot to German
+# # Copyright (C) 2013 The R Foundation
+# # This file is distributed under the same license as the R package.
+# # Detlef Steuer <detlef.steuer@hsu-hh.de>, 2013-2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 2.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-30 22:00+0100\n"
+"PO-Revision-Date: 2015-02-02 12:30+0100\n"
+"Last-Translator: Detlef Steuer <steuer@hsu-hh.de>\n"
+"Language-Team: R Core <r-core@r-project.org>\n"
+"Language: DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+
+#: clara.c:101
+#, c-format
+msgid "C level clara(): random k=%d > n **\n"
+msgstr "C Level clara(): random k=%d > n **\n"
+
+#: clara.c:312
+#, c-format
+msgid ""
+"clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+msgstr ""
+"clara()'s C Level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) ergab 'toomany_NA'"
+
+#: clara.c:348 clara.c:353
+#, c-format
+msgid "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+msgstr "C Level dysta2(): nsel[%s= %d] = %d ist außerhalb von 0..n, n=%d"
+
+#: pam.c:161
+msgid "Invalid 'medoids'"
+msgstr "unzulässige 'medoids'"
+
+#: pam.c:1011
+#, c-format
+msgid "pam(): Bug in C level cstat(), k=%d: ntt=0"
+msgstr "pam(): Bug in C Level cstat(), k=%d: ntt=0"
+
+#: twins.c:153
+#, c-format
+msgid ""
+"agnes(method=%d, par.method=*) lead to invalid merge; step %d, D(.,.)=%g"
+msgstr ""
+"agnes(method=%d, par.method=*) führte zu unzulässigem Zusammenfassen;\n"
+"Schritt %d, D(.,.)=%g"
+
+#: twins.c:260
+#, c-format
+msgid "invalid method (code %d)"
+msgstr "unzulässige Methode (Kode %d)"

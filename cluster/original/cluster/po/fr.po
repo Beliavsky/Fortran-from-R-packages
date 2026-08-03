@@ -1,0 +1,52 @@
+# Translation of src/library/Recommended/cluster/po/cluster.pot to French
+# Copyright (C) 2013 The R Foundation
+# This file is distributed under the same license as the R package.
+# Philippe.Grosjean@umons.ac.be, 2014-2021
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 2.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-30 22:00+0100\n"
+"PO-Revision-Date: 2021-02-11 10:56+0100\n"
+"Last-Translator: Philippe Grosjean <phgrosjean@sciviews.org>\n"
+"Language-Team: R Core <r-core@r-project.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: clara.c:101
+#, c-format
+msgid "C level clara(): random k=%d > n **\n"
+msgstr "Code C de clara(): random k=%d > n **\n"
+
+#: clara.c:312
+#, c-format
+msgid "clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+msgstr "code C de clara(), dysta2(nsam=%d, p=%d, nbest=%d, n=%d) a donné 'toomany_NA'"
+
+#: clara.c:348 clara.c:353
+#, c-format
+msgid "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+msgstr "Code C de dysta2(): nsel[%s= %d] = %d est en dehors de la plage 0..n, n=%d"
+
+#: pam.c:161
+msgid "Invalid 'medoids'"
+msgstr "Les 'medoids' sont incorrects"
+
+#: pam.c:1011
+#, c-format
+msgid "pam(): Bug in C level cstat(), k=%d: ntt=0"
+msgstr "pam() : Bogue dans le code C de cstat(), k=%d: ntt=0"
+
+#: twins.c:153
+#, c-format
+msgid "agnes(method=%d, par.method=*) lead to invalid merge; step %d, D(.,.)=%g"
+msgstr "agnes(method=%d, par.method=*) conduit à une fusion incorrecte ; étape %d, D(.,.)=%g"
+
+#: twins.c:260
+#, c-format
+msgid "invalid method (code %d)"
+msgstr "méthode incorrecte (code %d)"

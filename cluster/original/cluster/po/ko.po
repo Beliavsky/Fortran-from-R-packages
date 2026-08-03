@@ -1,0 +1,60 @@
+# Korean translations for cluster package.
+# Recommended/cluster/po/ko.po
+# Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+# 
+# This file is distributed under the same license as the R cluster package.
+# Chel Hee Lee <chl948@mail.usask.ca>, 2013-2015.
+# Reviewing process is completed (15-JAN-2015)
+# QC: PASS
+# Freezing on 06-FEB-2015 for R-3.1.3
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 1.15.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-30 22:00+0100\n"
+"PO-Revision-Date: 2015-02-06 21:56-0600\n"
+"Last-Translator:Chel Hee Lee  <chl948@mail.usask.ca>\n"
+"Language-Team: Chel Hee Lee  <chl948@mail.usask.ca>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: clara.c:101
+#, c-format
+msgid "C level clara(): random k=%d > n **\n"
+msgstr "C level clara(): random k=%d > n **\n"
+
+#: clara.c:312
+#, c-format
+msgid ""
+"clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+msgstr ""
+"clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+
+#: clara.c:348 clara.c:353
+#, c-format
+msgid "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+msgstr "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+
+#: pam.c:161
+msgid "Invalid 'medoids'"
+msgstr ""
+
+#: pam.c:1011
+#, c-format
+msgid "pam(): Bug in C level cstat(), k=%d: ntt=0"
+msgstr "pam(): Bug in C level cstat(), k=%d: ntt=0"
+
+#: twins.c:153
+#, c-format
+msgid ""
+"agnes(method=%d, par.method=*) lead to invalid merge; step %d, D(.,.)=%g"
+msgstr ""
+
+#: twins.c:260
+#, c-format
+msgid "invalid method (code %d)"
+msgstr "메소드가 올바르지 않습니다 (code %d)."

@@ -1,0 +1,59 @@
+# R Italian translation                                                                    
+# Copyright (C) The R Foundation
+# This file is distributed under the same license as the R package.
+# Daniele Medri <dmedri@gmail.com>, 2005-2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 2.0.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-30 22:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Daniele Medri <dmedri@gmail.com>\n"
+"Language-Team: Italian https://github.com/dmedri/R-italian-lang\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#: clara.c:101
+#, c-format
+msgid "C level clara(): random k=%d > n **\n"
+msgstr "Funzione clara() a livello C: random k=%d > n **\n"
+
+#: clara.c:312
+#, c-format
+msgid ""
+"clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+msgstr ""
+"clara() a livello C: dysta2(nsam=%d, p=%d, nbest=%d, n=%d) ha riportato "
+"'toomany_NA'"
+
+#: clara.c:348 clara.c:353
+#, c-format
+msgid "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+msgstr ""
+"Funzione dysta2() a livello C: nsel[%s= %d] = %d è al di fuori di 0..n, n=%d"
+
+#: pam.c:161
+msgid "Invalid 'medoids'"
+msgstr "'medoids' non valido"
+
+#: pam.c:1011
+#, c-format
+msgid "pam(): Bug in C level cstat(), k=%d: ntt=0"
+msgstr "pam(): Bug a livello C di cstat(), k=%d: ntt=0"
+
+#: twins.c:153
+#, c-format
+msgid ""
+"agnes(method=%d, par.method=*) lead to invalid merge; step %d, D(.,.)=%g"
+msgstr ""
+"agnes(method=%d, par.method=*) porta ad una unione non valida %d, D(.,.)=%g"
+
+#: twins.c:260
+#, c-format
+msgid "invalid method (code %d)"
+msgstr "metodo non valido (codice %d)"

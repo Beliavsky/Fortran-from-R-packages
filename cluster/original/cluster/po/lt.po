@@ -1,0 +1,59 @@
+# Lithuanian translations for cluster package.
+# Copyright (C) 2020--2021 The R Foundation
+# This file is distributed under the same license as the cluster package.
+# Gabrielė Stupurienė <gabriele.stupuriene@mif.vu.lt>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 2.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-30 22:00+0100\n"
+"PO-Revision-Date: 2021-02-12 11:04+0200\n"
+"Last-Translator: Gabrielė Stupurienė <gabriele.stupuriene@mif.vu.lt>\n"
+"Language-Team: none\n"
+"Language: LT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && (n%100<11 || n%100>19) ? 0 : n"
+"%10>=2 && n%10<=9 && (n%100<11 || n%100>19) ? 1 : 2);\n"
+
+#: clara.c:101
+#, c-format
+msgid "C level clara(): random k=%d > n **\n"
+msgstr "C lygio clara(): atsitiktinis k=%d > n **\n"
+
+#: clara.c:312
+#, c-format
+msgid ""
+"clara()'s C level dysta2(nsam=%d, p=%d, nbest=%d, n=%d) gave 'toomany_NA'"
+msgstr ""
+"clara() C lygio dysta2(nsam=%d, p=%d, nbest=%d, n=%d) davė 'toomany_NA'"
+
+#: clara.c:348 clara.c:353
+#, c-format
+msgid "C level dysta2(): nsel[%s= %d] = %d is outside 0..n, n=%d"
+msgstr "C lygio dysta2(): nsel[%s= %d] = %d yra už 0..n, n=%d"
+
+#: pam.c:161
+msgid "Invalid 'medoids'"
+msgstr "Neleistinas 'medoids'"
+
+#: pam.c:1011
+#, c-format
+msgid "pam(): Bug in C level cstat(), k=%d: ntt=0"
+msgstr "pam(): Klaida C lygio cstat(), k = %d: ntt = 0"
+
+#: twins.c:153
+#, c-format
+msgid ""
+"agnes(method=%d, par.method=*) lead to invalid merge; step %d, D(.,.)=%g"
+msgstr ""
+"agnes(method=%d, par.method=*) sukelia neleistiną suliejimą; žingsnis %d, "
+"D(.,.) =%g"
+
+#: twins.c:260
+#, c-format
+msgid "invalid method (code %d)"
+msgstr "neleistinas metodas (kodas %d)"

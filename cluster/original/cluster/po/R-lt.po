@@ -1,0 +1,355 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 2.1.1\n"
+"POT-Creation-Date: 2021-01-30 22:00\n"
+"PO-Revision-Date: 2021-05-05 10:17+0200\n"
+"Last-Translator: Gabrielė Stupurienė <gabriele.stupuriene@mif.vu.lt>\n"
+"Language-Team: none\n"
+"Language: LT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && (n%100<11 || n%100>19) ? 0 : n"
+"%10>=2 && n%10<=9 && (n%100<11 || n%100>19) ? 1 : 2);\n"
+
+msgid "invalid clustering method"
+msgstr "neleistinas grupavimo metodas"
+
+msgid "ambiguous clustering method"
+msgstr "neaiškus klasterizavimo metodas"
+
+msgid "'par.method' must be of length 1, 3, or 4"
+msgstr "'par.method' turi būti 1, 3 arba 4 ilgio"
+
+msgid "NA-values in the dissimilarity matrix not allowed."
+msgstr "NA reikšmės skirtumo matricoje neleidžiamos."
+
+msgid "'x' is not and cannot be converted to class \"dissimilarity\""
+msgstr "'x' nėra ir negali būti konvertuojamas į klasę \"dissimilarity\""
+
+msgid "x is not a numeric dataframe or matrix."
+msgstr "x nėra skaitinė duomenų sistema ar matrica."
+
+msgid "need at least 2 objects to cluster"
+msgstr "reikia bent 2 objektų į klasterį"
+
+msgid "No clustering performed, NA-values in the dissimilarity matrix."
+msgstr "Nebuvo atliktas grupavimas, NA reikšmės skirtumo matricoje."
+
+msgid "'x' is a \"dist\" object, but should be a data matrix or frame"
+msgstr ""
+"'x' yra \"dist\" objektas, bet turėtų būti duomenų matrica arba sistema"
+
+msgid "The number of cluster should be at least 1 and at most n-1."
+msgstr ""
+"Klasterio skaičius turi būti ne mažesnis kaip 1 ir ne daugiau kaip n-1."
+
+msgid "'sampsize' should be at least %d = max(2, 1+ number of clusters)"
+msgstr "'sampsize' turi būti bent %d = max(2, 1+ klasterių skaičius)"
+
+msgid "'sampsize' = %d should not be larger than the number of objects, %d"
+msgstr "'sampsize' = %d neturėtų būti didesnis už objektų skaičių, %d"
+
+msgid "'samples' should be at least 1"
+msgstr "'samples' turėtų būti ne mažesni kaip 1"
+
+msgid "when 'medoids.x' is FALSE, 'keep.data' must be too"
+msgstr "kai 'medoids.x' yra FALSE, 'keep.data' turi būti taip pat"
+
+msgid ""
+"Distance computations with NAs: using correct instead of pre-2016 wrong "
+"formula.\n"
+"Use  'correct.d=FALSE'  to get previous results or set 'correct.d=TRUE' "
+"explicitly\n"
+"to suppress this warning."
+msgstr ""
+"Atstumo skaičiavimai su NA: naudojant teisingą, o ne iki 2016 m. neteisingą "
+"formulę.\n"
+"Naudokite 'correct.d=FALSE', kad gautumėte ankstesnius rezultatus, arba "
+"aiškiai nustatykite 'correct.d=TRUE', kad\n"
+" slėpti šį įspėjimą."
+
+msgid "invalid 'correct.d'"
+msgstr "neleistinas 'correct.d'"
+
+msgid ""
+"Each of the random samples contains objects between which no distance can be "
+"computed."
+msgstr ""
+"Kiekviename atsitiktinių pavyzdžių sudėtyje yra objektų, tarp kurių negalima "
+"apskaičiuoti atstumo."
+
+msgid ""
+"For each of the %d samples, at least one object was found which could not be "
+"assigned to a cluster (because of missing values)."
+msgstr ""
+"Kiekvienam iš %d pavyzdžių buvo rastas bent vienas objektas, kurio nepavyko "
+"priskirti klasteriui (dėl trūkstamų reikšmių)."
+
+msgid "invalid 'jstop' from .C(cl_clara,.):"
+msgstr "negaliojantis 'jstop' iš .C(cl_clara,.):"
+
+msgid "'B' has to be a positive integer"
+msgstr "'B' turi būti teigiamas skaičius"
+
+msgid "invalid 'spaceH0':"
+msgstr "neleistinas 'spaceH0':"
+
+msgid "index has to be a function or a list of function"
+msgstr "indeksas turi būti funkcija arba funkcijų sąrašas"
+
+msgid "invalid 'twins' object"
+msgstr "neleistinas 'twins' objektas"
+
+msgid "x is not a dataframe or a numeric matrix."
+msgstr "x nėra duomenų sistema arba skaitinė matrica."
+
+msgid "invalid %s; must be named list"
+msgstr "negaliojantys %s; turi būti įvardytas sąrašas"
+
+msgid "%s has invalid column names"
+msgstr "%s turi neleistinus stulpelių pavadinimus"
+
+msgid "%s must be in 1:ncol(x)"
+msgstr "%s turi būti 1:ncol(x)"
+
+msgid "%s must contain column names or numbers"
+msgstr "%s turi būti stulpelių pavadinimai arba skaičiai"
+
+msgid "at least one binary variable has more than 2 levels."
+msgstr "bent vienas dvejetainis kintamasis turi daugiau nei 2 lygius."
+
+msgid "at least one binary variable has not 2 different levels."
+msgstr "bent vienas dvejetainis kintamasis neturi 2 skirtingų lygių."
+
+msgid "at least one binary variable has values not in {0,1,NA}"
+msgstr "bent vieno dvejetainio kintamojo reikšmės nėra {0,1,NA}"
+
+msgid "binary variable(s) %s treated as interval scaled"
+msgstr ""
+"dvejetainis kintamasis (-ieji) %s traktuojamas (-i) kaip intervalo mastelis"
+
+msgid "%s has constant columns %s; these are standardized to 0"
+msgstr "%s turi pastovius stulpelius %s; jie standartizuojami į 0"
+
+msgid "with mixed variables, metric \"gower\" is used automatically"
+msgstr "su mišriais kintamaisiais, metrika \"gower\" naudojama automatiškai"
+
+msgid "'weights' must be of length p (or 1)"
+msgstr "'weights' ilgis turi būti p (arba 1)"
+
+msgid "invalid type %s for column numbers %s"
+msgstr "neleistinas tipas %s stulpelių numeriams %s"
+
+msgid "NA values in the dissimilarity matrix not allowed."
+msgstr "NA reikšmės skirtumo matricoje neleidžiamos."
+
+msgid "No clustering performed, NA's in dissimilarity matrix."
+msgstr "Nebuvo atliktas grupavimas, NA skirtumo matricoje."
+
+msgid "'x' must be numeric  n x p matrix"
+msgstr "'x' turi būti skaitinė [n x p] matrica"
+
+msgid "omitting NAs"
+msgstr "praleidžiami NA"
+
+msgid "no points without missing values"
+msgstr "nėra taškų be trūkstamų reikšmių"
+
+msgid "computed some negative or all 0 probabilities"
+msgstr "apskaičiavo kai kurias neigiamas arba visas 0 tikimybes"
+
+msgid "algorithm possibly not converged in %d iterations"
+msgstr "algoritmas galbūt nekonvergavo %d iteracijose"
+
+msgid "'A' must be p x p  cov-matrix defining an ellipsoid"
+msgstr "'A' turi būti [p x p] kovariacijos matrica, apibrėžianti elipsoidą"
+
+msgid "ellipsoidPoints() not yet implemented for p >= 3 dim."
+msgstr "ellipsoidPoints() dar neįgyvendintas p > = 3 dim."
+
+msgid "'k' (number of clusters) must be in {1,2, .., n/2 -1}"
+msgstr "'k' (klasterių skaičius) turi būti {1,2, .., n/2 -1}"
+
+msgid "'memb.exp' must be a finite number > 1"
+msgstr "'memb.exp' turi būti baigtinis skaičius > 1"
+
+msgid "'maxit' must be non-negative integer"
+msgstr "'maxit' turi būti ne neigiamas sveikasis skaičius"
+
+msgid "'iniMem.p' must be a nonnegative n * k matrix with rowSums == 1"
+msgstr "'iniMem.p' turi būti ne neigiama [n * k] matrica su rowSums == 1"
+
+msgid "FANNY algorithm has not converged in 'maxit' = %d iterations"
+msgstr "FANNY algoritmas nekonvergavo 'maxit' = %d iteracijose"
+
+msgid "the memberships are all very close to 1/k. Maybe decrease 'memb.exp' ?"
+msgstr "visos priklausomybės yra labai artimos 1/k. Gal sumažinti 'memb.exp' ?"
+
+msgid "'m', a membership matrix, must be nonnegative with rowSums == 1"
+msgstr "'m', priklausomybių matrica, turi būti neneigiama su rowSums == 1"
+
+msgid "'n' must be >= 2"
+msgstr "'n' turi būti >= 2"
+
+msgid "x must be a matrix or data frame."
+msgstr "x turi būti matrica arba duomenų sistema."
+
+msgid ""
+"All variables must be binary (e.g., a factor with 2 levels, both present)."
+msgstr ""
+"Visi kintamieji turi būti dvejetainiai (pvz., koeficientas su 2 lygiais)."
+
+msgid "mona() needs at least p >= 2 variables (in current implementation)"
+msgstr "mona() reikia bent p > = 2 kintamųjų (dabartiniame įgyvendinime)"
+
+msgid "No clustering performed, an object was found with all values missing."
+msgstr ""
+"Grupavimas nebuvo atliktas, rastas objektas su visomis trūkstamomis "
+"reikšmėmis."
+
+msgid ""
+"No clustering performed, found variable with more than half values missing."
+msgstr ""
+"Nebuvo atliktas grupavimas, rastas kintamasis, kuriame trūksta daugiau nei "
+"pusės reikšmių."
+
+msgid ""
+"No clustering performed, a variable was found with all non missing values "
+"identical."
+msgstr ""
+"Grupavimas neatliktas, rastas kintamasis su visomis identiškomis "
+"netrūkstamomis reikšmėmis."
+
+msgid "No clustering performed, all variables have at least one missing value."
+msgstr ""
+"Grupavimas nebuvo atliktas, visi kintamieji turi bent vieną trūkstamą "
+"reikšmę."
+
+msgid "Cannot keep data when 'x' is a dissimilarity!"
+msgstr "Negalima saugoti duomenų, kai 'x' yra skirtumas!"
+
+msgid "have %d observations, but not more than %d are allowed"
+msgstr "turi %d pastabų, tačiau leidžiama ne daugiau kaip %d"
+
+msgid "Number of clusters 'k' must be in {1,2, .., n-1}; hence n >= 2"
+msgstr "Klasterių skaičius 'k' turi būti {1,2, .., n-1}; taigi n >= 2"
+
+msgid "Set either 'variant' or 'pamonce', but not both"
+msgstr "Nustatykite 'variant' arba 'pamonce', bet ne abu"
+
+msgid ""
+"'medoids' must be NULL or vector of %d distinct indices in {1,2, .., n}, n=%d"
+msgstr "'medoids' turi būti NULL arba %d indeksai { 1,2, .., n}, n=%d"
+
+msgid "No clustering performed, NAs in the computed dissimilarity matrix."
+msgstr "Nebuvo atliktas grupavimas, NA apskaičiuotoje skirtumo matricoje."
+
+msgid "error from .C(cl_pam, *): invalid medID's"
+msgstr "klaida iš . C(cl_pam, *): negaliojantis medID"
+
+msgid "NA-values are not allowed in dist-like 'x'."
+msgstr "NA reikšmės neleidžiamos dist kaip 'x'."
+
+msgid "Distances must be result of dist or a square matrix."
+msgstr "Atstumai turi būti dist rezultatas arba kvadratinė matrica."
+
+msgid "the square matrix is not symmetric."
+msgstr "kvadratinė matrica nėra simetriška."
+
+msgid ">>>>> funny case in clusplot.default() -- please report!"
+msgstr ">>>>> keistas atvejis clusplot.default() - prašome pranešti!"
+
+msgid "x is not a data matrix"
+msgstr "x nėra duomenų matrica"
+
+msgid "one or more objects contain only missing values"
+msgstr "viename ar daugiau objektų yra tik trūkstamos reikšmės"
+
+msgid "one or more variables contain only missing values"
+msgstr "viename ar daugiau kintamųjų yra tik trūkstamos reikšmės"
+
+msgid ""
+"Missing values were displaced by the median of the corresponding variable(s)"
+msgstr ""
+"Trūkstamos reikšmės buvo perkeltos iš atitinkamo (-ų) kintamojo (-ų) medianos"
+
+msgid "x is not numeric"
+msgstr "x nėra skaitinis"
+
+msgid "The clustering vector is of incorrect length"
+msgstr "Grupavimo vektorius yra netinkamo ilgio"
+
+msgid "NA-values are not allowed in clustering vector"
+msgstr "NA reikšmės neleidžiamos grupavimo vektoriuje"
+
+msgid ""
+"Error in C routine for the spanning ellipsoid,\n"
+" rank problem??"
+msgstr ""
+"Aprėpiančio elipsoido, esančio C programoje klaida,\n"
+" rango problema??"
+
+msgid "'col.clus' should have length 4 when color is TRUE"
+msgstr "'col.clus' turi būti ilgis 4, kai spalva yra TRUE"
+
+msgid "no diss nor data found, nor the original argument of %s"
+msgstr "nerasta nei diss, nei duomenų, nei pradinio %s argumento"
+
+msgid "no diss nor data found for clusplot()'"
+msgstr "nerasta jokių diss ir clusplot()' duomenų"
+
+msgid "invalid partition object"
+msgstr "neleistinas skaidinio objektas"
+
+msgid ""
+"full silhouette is only available for results of 'clara(*, keep.data = TRUE)'"
+msgstr ""
+"visas siluetas prieinamas tik 'clara(*, keep.data = TRUE)' rezultatams."
+
+msgid "specified both 'full' and 'subset'; will use 'subset'"
+msgstr "nurodyti abu 'full' ir 'subset'; bus naudojamas 'subset'"
+
+msgid "'full' must be FALSE, TRUE, or a number in [0, 1]"
+msgstr "'full' turi būti FALSE, TRUE arba skaičius [0, 1]"
+
+msgid "'x' must only have integer codes"
+msgstr "'x' turi turėti tik sveikuosius kodus"
+
+msgid "Need either a dissimilarity 'dist' or diss.matrix 'dmatrix'"
+msgstr "Reikia arba skirtumo 'dist' arba diss.matrix 'dmatrix'"
+
+msgid "'dmatrix' is not a dissimilarity matrix compatible to 'x'"
+msgstr "'dmatrix' nėra skirtumų matrica, suderinama su 'x'"
+
+msgid "clustering 'x' and dissimilarity 'dist' are incompatible"
+msgstr "grupavimas 'x' ir skirtumas 'dist' yra nesuderinami"
+
+msgid "invalid silhouette structure"
+msgstr "netinkama silueto struktūra"
+
+msgid "invalid 'silhouette' object"
+msgstr "neleistinas 'silhouette' objektas"
+
+msgid "No valid silhouette information (#{clusters} =? 1)"
+msgstr "Nėra galiojančios silueto informacijos (#{clusters} =? 1)"
+
+msgid "Observation %s has *only* NAs --> omit it for clustering"
+msgid_plural "Observations %s have *only* NAs --> omit them for clustering!"
+msgstr[0] "Stebėjimas %s turi * tik * NA -- > praleisti jį grupavimui"
+msgstr[1] "Stebėjimai %s turi * tik * NA -- > praleisti jį grupavimui!"
+msgstr[2] "Stebėjimų %s turi * tik * NA -- > praleisti jį grupavimui!"
+
+msgid "%d observation (%s) has *only* NAs --> omit them for clustering!"
+msgid_plural ""
+"%d observations (%s ...) have *only* NAs --> omit them for clustering!"
+msgstr[0] "%d stebėjimas (%s) turi * tik * NA -- > praleisti juos grupavimui!"
+msgstr[1] "%d stebėjimai (%s) turi * tik * NA -- > praleisti juos grupavimui!"
+msgstr[2] "%d stebėjimų (%s) turi * tik * NA -- > praleisti juos grupavimui!"
+
+msgid "setting 'logical' variable %s to type 'asymm'"
+msgid_plural "setting 'logical' variables %s to type 'asymm'"
+msgstr[0] "'logical' kintamojo %s nustatymas į tipą 'asymm'"
+msgstr[1] "'logical' kintamųjų %s nustatymas į tipą 'asymm'"
+msgstr[2] "'logical' kintamųjų %s nustatymas į tipą 'asymm'"

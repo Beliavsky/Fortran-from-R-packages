@@ -1,0 +1,18 @@
+name = "cluster-fortran"
+version = "2.1.8"
+license = "GPL-2.0-or-later"
+author = "cluster contributors; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "See original cluster package and NOTICE.md"
+description = "Modern Fortran translation of the computational core of R cluster"
+categories = ["clustering", "statistics"]
+keywords = ["pam", "clara", "fanny", "agnes", "diana", "mona", "silhouette"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

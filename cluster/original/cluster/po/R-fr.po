@@ -1,0 +1,376 @@
+# Translation of src/library/Recommended/cluster/po/R-cluster.pot to German
+# Copyright (C) 2013 The R Foundation
+# This file is distributed under the same license as the R package.
+# Philippe.Grosjean@umons.ac.be, 2014-2021
+msgid ""
+msgstr ""
+"Project-Id-Version: cluster 1.14.5\n"
+"POT-Creation-Date: 2021-01-30 22:00\n"
+"PO-Revision-Date: 2021-04-12 18:49+0200\n"
+"Last-Translator: Philippe Grosjean <phgrosjean@sciviews.org>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "invalid clustering method"
+msgstr "méthode d'agrégation incorrecte"
+
+msgid "ambiguous clustering method"
+msgstr "méthode d'agrégation ambigüe"
+
+msgid "'par.method' must be of length 1, 3, or 4"
+msgstr "'par.method' doit être de longueur 1, 3 ou 4"
+
+msgid "NA-values in the dissimilarity matrix not allowed."
+msgstr "Les valeurs manquantes (NA) ne sont pas autorisées dans la matrice de dissimilarité."
+
+msgid "'x' is not and cannot be converted to class \"dissimilarity\""
+msgstr "'x' n'est pas et ne peux pas être converti en un objet de classe \"dissimilarity\""
+
+msgid "x is not a numeric dataframe or matrix."
+msgstr "x n'est pas un tableau de données (data frame) ou une matrice numérique."
+
+msgid "need at least 2 objects to cluster"
+msgstr "au moins deux objets sont nécessaires pour effectuer une agrégation"
+
+msgid "No clustering performed, NA-values in the dissimilarity matrix."
+msgstr "Aucune agrégation n'est réalisée, présence de NAs dans la matrice de dissimilarité."
+
+msgid "'x' is a \"dist\" object, but should be a data matrix or frame"
+msgstr "'x' est un objet \"dist\", mais il faut une matrice ou un tableau de données"
+
+msgid "The number of cluster should be at least 1 and at most n-1."
+msgstr "Le nombre de groupes doit être entre 1 et n-1 compris."
+
+msgid "'sampsize' should be at least %d = max(2, 1+ number of clusters)"
+msgstr "'sampsize' doit être au minimum %d = max(2, 1+ nombre de groupes)"
+
+msgid "'sampsize' = %d should not be larger than the number of objects, %d"
+msgstr "'sampsize' = %d ne peut être plus grand que le nombre d'objets, %d"
+
+msgid "'samples' should be at least 1"
+msgstr "'samples' doit valoir au moins 1"
+
+msgid "when 'medoids.x' is FALSE, 'keep.data' must be too"
+msgstr "lorsque 'medoids.x' est FALSE, 'keep.data' doit l'être aussi"
+
+msgid ""
+"Distance computations with NAs: using correct instead of pre-2016 wrong formula.\n"
+"Use  'correct.d=FALSE'  to get previous results or set 'correct.d=TRUE' explicitly\n"
+"to suppress this warning."
+msgstr ""
+"Calcul de distances avec NAs : utilisation de la formule corrigée à la place de celle d’avant 2016 qui était erronnée.\n"
+"Utilisez 'correct.d=FALSE' pour obtenir les résultats d'avant, ou indiquez 'correct.d=TRUE' de manière explicite\n"
+"pour éliminer cet avis."
+
+msgid "invalid 'correct.d'"
+msgstr "'correct.d' incorrect"
+
+msgid "Each of the random samples contains objects between which no distance can be computed."
+msgstr "Chacun des échantillons aléatoires contient des objets entre lesquels aucune distance ne peut être calculée."
+
+msgid "For each of the %d samples, at least one object was found which could not be assigned to a cluster (because of missing values)."
+msgstr "Dans chacun des %d échantillons, au moins un objet ne peut être assigné à un groupe (parce qu'il contient des valeurs manquantes)"
+
+msgid "invalid 'jstop' from .C(cl_clara,.):"
+msgstr "'jstop' incorrect obtenu de .C(cl_clara,.) :"
+
+msgid "'B' has to be a positive integer"
+msgstr "'B' doit être un entier positif"
+
+msgid "invalid 'spaceH0':"
+msgstr "'spaceH0' incorrect :"
+
+msgid "index has to be a function or a list of function"
+msgstr "index doit être une fonction ou une liste de fonctions"
+
+msgid "invalid 'twins' object"
+msgstr "objet 'twins' incorrect"
+
+msgid "x is not a dataframe or a numeric matrix."
+msgstr "x n'est pas un tableau de données (data frame) ni une matrice numérique."
+
+msgid "invalid %s; must be named list"
+msgstr "%s incorrect ; doit être une liste nommée"
+
+msgid "%s has invalid column names"
+msgstr "%s a des noms de colonnes incorrects"
+
+msgid "%s must be in 1:ncol(x)"
+msgstr "%s doit être compris dans 1:ncol(x)"
+
+msgid "%s must contain column names or numbers"
+msgstr "%s doit contenir des noms de colonnes ou des nombres"
+
+msgid "at least one binary variable has more than 2 levels."
+msgstr "une des variables binaires au moins a plus de deux niveaux."
+
+msgid "at least one binary variable has not 2 different levels."
+msgstr "une des variables binaires au moins n'a pas deux niveaux."
+
+msgid "at least one binary variable has values not in {0,1,NA}"
+msgstr "une des variables binaires au moins a des valeurs autres que {0,1,NA}"
+
+msgid "binary variable(s) %s treated as interval scaled"
+msgstr "la ou les variables binaires %s sont traitées comme des intervalles standardisés"
+
+msgid "%s has constant columns %s; these are standardized to 0"
+msgstr "%s a des colonnes constantes %s ; elles sont standardisées à 0"
+
+msgid "with mixed variables, metric \"gower\" is used automatically"
+msgstr "avec des variables mélangées, la métrique \"gower\" est utilisée automatiquement"
+
+msgid "'weights' must be of length p (or 1)"
+msgstr "'weights' doit être de longueur p (ou 1)"
+
+msgid "invalid type %s for column numbers %s"
+msgstr "type invalide %s pour les numéros de colonnes %s"
+
+msgid "NA values in the dissimilarity matrix not allowed."
+msgstr "Les valeurs manquantes (NA) ne sont pas admises dans la matrice de dissimilarité."
+
+msgid "No clustering performed, NA's in dissimilarity matrix."
+msgstr "Aucune agrégation n'est réalisée, NAs dans la matrice de dissimilarité."
+
+msgid "'x' must be numeric  n x p matrix"
+msgstr "'x' doit être une matrice numérique n x p"
+
+msgid "omitting NAs"
+msgstr "valeurs NAs ignorées"
+
+msgid "no points without missing values"
+msgstr "aucun point sans valeurs manquantes"
+
+msgid "computed some negative or all 0 probabilities"
+msgstr "des probabilités négatives ou toutes égales à zéro ont été calculées"
+
+msgid "algorithm possibly not converged in %d iterations"
+msgstr "l'algorithme n'a vraisemblablement pas convergé en %d itérations"
+
+msgid "'A' must be p x p  cov-matrix defining an ellipsoid"
+msgstr "'A doit être une matrice de covariance p x p définissant un ellipsoïde"
+
+msgid "ellipsoidPoints() not yet implemented for p >= 3 dim."
+msgstr "ellipsoidPoints() pas encore implémenté pour p >= 3 dim."
+
+msgid "'k' (number of clusters) must be in {1,2, .., n/2 -1}"
+msgstr "'k' (nombre de groupes) doit être {1,2,…, n/2 -1}"
+
+msgid "'memb.exp' must be a finite number > 1"
+msgstr "'memb.exp' doit être un nombre fini > 1"
+
+msgid "'maxit' must be non-negative integer"
+msgstr "'maxit' doit être un entier non négatif"
+
+msgid "'iniMem.p' must be a nonnegative n * k matrix with rowSums == 1"
+msgstr "'iniMem.p' doit être une matrice n * k non négative avec rowSums == 1"
+
+msgid "FANNY algorithm has not converged in 'maxit' = %d iterations"
+msgstr "L’algorithme FANNY n'a pas convergé en 'maxit' = %d itérations"
+
+msgid "the memberships are all very close to 1/k. Maybe decrease 'memb.exp' ?"
+msgstr "les appartenances sont toutes très proches de 1/k. Essayez en diminuant 'memb.exp' ?"
+
+msgid "'m', a membership matrix, must be nonnegative with rowSums == 1"
+msgstr "'m', une matrice d'appartenance, doit être non négative avec rowSums == 1"
+
+msgid "'n' must be >= 2"
+msgstr "'n' doit être >= 2"
+
+msgid "x must be a matrix or data frame."
+msgstr "x doit être une matrice ou un tableau de données (data frame)."
+
+msgid "All variables must be binary (e.g., a factor with 2 levels, both present)."
+msgstr "Toutes les variables doivent être booléennes (c'est-à-dire, des variables facteur à 2 niveaux présents)."
+
+msgid "mona() needs at least p >= 2 variables (in current implementation)"
+msgstr "mona() a besoin d'au moins p >= 2 variables (dans l'implémentation actuelle)"
+
+msgid "No clustering performed, an object was found with all values missing."
+msgstr "Aucune agrégation n'a été effectuée, un objet a toutes ses valeurs manquantes."
+
+msgid "No clustering performed, found variable with more than half values missing."
+msgstr "Aucune agrégation n'a été effectuée, une variable a plus de la moitié de ses valeurs manquantes."
+
+msgid "No clustering performed, a variable was found with all non missing values identical."
+msgstr "Aucune agrégation n'a été effectuée, une variable a toutes ses valeurs non manquantes identiques."
+
+msgid "No clustering performed, all variables have at least one missing value."
+msgstr "Aucune agrégation n'a été effectuée, toutes les variables ont au moins une valeur manquante."
+
+msgid "Cannot keep data when 'x' is a dissimilarity!"
+msgstr "Impossible de conserver les données lorsque 'x' est un objet dissimilarity !"
+
+msgid "have %d observations, but not more than %d are allowed"
+msgstr "il y a %d observations, mais pas plus de %d sont acceptées"
+
+msgid "Number of clusters 'k' must be in {1,2, .., n-1}; hence n >= 2"
+msgstr "Le nombre de groupes 'k' doit être dans {1,2, …, n-1} ; où n >= 2"
+
+msgid "Set either 'variant' or 'pamonce', but not both"
+msgstr "Spécifiez soit 'variant’, soit 'pamonce’, mais pas les deux en même temps"
+
+msgid "'medoids' must be NULL or vector of %d distinct indices in {1,2, .., n}, n=%d"
+msgstr "'medoids' doit être NULL ou un vecteur de %d valeurs d'indices distincts dans {1, 2, …, n}, n=%d"
+
+msgid "No clustering performed, NAs in the computed dissimilarity matrix."
+msgstr "Aucune agrégation n'a été effectuée, NAs dans la matrice de dissimilarité calculée."
+
+msgid "error from .C(cl_pam, *): invalid medID's"
+msgstr "erreur depuis .C(cl_pam, *) : medIDs incorrects"
+
+msgid "NA-values are not allowed in dist-like 'x'."
+msgstr "Les valeurs manquantes NA ne sont pas autorisées dans 'x' de type dist."
+
+msgid "Distances must be result of dist or a square matrix."
+msgstr "Les distances doivent résulter d'un objet dist ou d'une matrice carrée."
+
+msgid "the square matrix is not symmetric."
+msgstr "la matrice carrée n'est pas symétrique."
+
+msgid ">>>>> funny case in clusplot.default() -- please report!"
+msgstr ">>>>> cas pathologique dans clusplot.default() -- veuillez envoyer un rapport de bogue !"
+
+msgid "x is not a data matrix"
+msgstr "x n'est pas une matrice de données"
+
+msgid "one or more objects contain only missing values"
+msgstr "un ou plusieurs objets ne contiennent que des valeurs manquantes"
+
+msgid "one or more variables contain only missing values"
+msgstr "une ou plusieurs variables ne contiennent que des valeurs manquantes"
+
+msgid "Missing values were displaced by the median of the corresponding variable(s)"
+msgstr "Les valeurs manquantes ont été remplacées par la médiane de la ou des variables correspondantes"
+
+msgid "x is not numeric"
+msgstr "x n'est pas numérique"
+
+msgid "The clustering vector is of incorrect length"
+msgstr "Le vecteur d'agrégation est de longueur incorrecte"
+
+msgid "NA-values are not allowed in clustering vector"
+msgstr "Les valeurs manquantes NA ne sont pas autorisées dans le vecteur d'agrégation"
+
+msgid ""
+"Error in C routine for the spanning ellipsoid,\n"
+" rank problem??"
+msgstr ""
+"Erreur dans la routine C pour obtenir l'ellipsoïde de dispersion,\n"
+" problème de rang ??"
+
+msgid "'col.clus' should have length 4 when color is TRUE"
+msgstr "'col.clus' doit avoir une longueur de 4 lorsque color est TRUE"
+
+msgid "no diss nor data found, nor the original argument of %s"
+msgstr "pas de diss ni de données trouvées, ni même l'argument original de %s"
+
+msgid "no diss nor data found for clusplot()'"
+msgstr "pas de diss ni de données trouvées pour clusplot()'"
+
+msgid "invalid partition object"
+msgstr "objet de partitionnement incorrect"
+
+msgid "full silhouette is only available for results of 'clara(*, keep.data = TRUE)'"
+msgstr "la silhouette complète n'est disponible que pour les résultats de 'clara(*, keep.data = TRUE)'"
+
+msgid "specified both 'full' and 'subset'; will use 'subset'"
+msgstr "'full' et 'subset' tous deux spécifiés ; utilisation de 'subset’"
+
+msgid "'full' must be FALSE, TRUE, or a number in [0, 1]"
+msgstr "'full' doit être parmi FALSE, TRUE, ou un nombre de l’intervalle [0, 1]"
+
+msgid "'x' must only have integer codes"
+msgstr "'x' ne doit avoir que des codes entiers"
+
+msgid "Need either a dissimilarity 'dist' or diss.matrix 'dmatrix'"
+msgstr "Il faut soit un objet 'dist' de dissimilarité ou une matrice de dissimilarité 'dmatrix'"
+
+msgid "'dmatrix' is not a dissimilarity matrix compatible to 'x'"
+msgstr "'dmatrix' n'est pas une matrice de dissimilarité compatible avec 'x'"
+
+msgid "clustering 'x' and dissimilarity 'dist' are incompatible"
+msgstr "l'agrégation 'x' et la matrice de dissimilarité 'dist' sont incompatibles"
+
+msgid "invalid silhouette structure"
+msgstr "structure de silhouette incorrecte"
+
+msgid "invalid 'silhouette' object"
+msgstr "objet 'silhouette' incorrect"
+
+msgid "No valid silhouette information (#{clusters} =? 1)"
+msgstr "Aucune valeur de silhouette n'est correcte (#{groupes} =? 1)"
+
+msgid "Observation %s has *only* NAs --> omit it for clustering"
+msgid_plural "Observations %s have *only* NAs --> omit them for clustering!"
+msgstr[0] "L'observation %s n'a *que* des NAs --> ignorée pour le regroupement"
+msgstr[1] "Les observations %s n'ont *que* des NAs --> ignorées pour le regroupement!"
+
+msgid "%d observation (%s) has *only* NAs --> omit them for clustering!"
+msgid_plural "%d observations (%s ...) have *only* NAs --> omit them for clustering!"
+msgstr[0] "%d observation (%s) n'a *que* des NAs --> ignorée pour le regroupement!"
+msgstr[1] "%d observations (%s) n'ont *que* des NAs --> ignorées pour le regroupement!"
+
+msgid "setting 'logical' variable %s to type 'asymm'"
+msgid_plural "setting 'logical' variables %s to type 'asymm'"
+msgstr[0] "la variable 'logical' %s est transformée en type 'asymm'"
+msgstr[1] "les variables 'logical' %s sont transformées en type 'asymm'"
+
+#~ msgid "NAdiss"
+#~ msgstr "NAdiss"
+
+#~ msgid "non.diss"
+#~ msgstr "non.diss"
+
+#~ msgid "no distance can be computed."
+#~ msgstr "aucune distance n'a été calculée."
+
+#~ msgid "For each of the"
+#~ msgstr "Pour chacun des"
+
+#~ msgid ""
+#~ "samples, at least one object was found which\n"
+#~ " could not"
+#~ msgstr ""
+#~ "échantillons, au moins un objet a été trouvé qui\n"
+#~ " ne peut"
+
+#~ msgid "be assigned to a cluster (because of missing values)."
+#~ msgstr "être assigné à un groupe (à cause de valeurs manquantes)."
+
+#~ msgid "invalid"
+#~ msgstr "incorrect"
+
+#~ msgid "type"
+#~ msgstr "type"
+
+#~ msgid "type$"
+#~ msgstr "type$"
+
+#~ msgid "binary variable(s)"
+#~ msgstr "variable(s) binaire(s)"
+
+#~ msgid "x"
+#~ msgstr "x"
+
+#~ msgid "has constant columns"
+#~ msgstr "a des colonnes constantes"
+
+#~ msgid "possibly not converged in"
+#~ msgstr "probablement pas de convergence en"
+
+#~ msgid "iterations"
+#~ msgstr "itérations"
+
+#~ msgid "'medoids' must be NULL or vector of"
+#~ msgstr "'medoids' doit être NULL ou un vecteur de"
+
+#~ msgid "rank problem??"
+#~ msgstr "problème de rang ??"
+
+#~ msgid "'clara(*, keep.data = TRUE)'"
+#~ msgstr "'clara(*, keep.data = TRUE)'"
