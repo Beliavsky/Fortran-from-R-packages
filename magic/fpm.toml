@@ -1,0 +1,25 @@
+name = "magic"
+version = "1.6.1"
+license = "GPL-2.0-only"
+author = "Robin K. S. Hankin; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Magic squares, magic hypercubes, Latin squares, and arbitrary-rank integer-array operations"
+categories = ["mathematics", "combinatorics"]
+keywords = ["magic-square", "hypercube", "latin-square", "array", "hadamard"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[install]
+library = true

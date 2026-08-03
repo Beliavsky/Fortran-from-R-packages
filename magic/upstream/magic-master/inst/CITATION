@@ -1,0 +1,16 @@
+citHeader("To cite the magic package in publications use:")
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Recreational mathematics with R: introducing the 'magic' package",
+  author   = person("Robin K. S. Hankin"),
+  journal  = "R News",
+  year     = "2005",
+  volume   = "5",
+  number   = "1",
+  pages    = "48-51",
+  textVersion =
+  paste("Hankin, R. K. S. (2005).",
+        "Recreational mathematics with R: introducing the 'magic' package",
+        "R News, volume 5, number 1, pages 48-51")
+)
