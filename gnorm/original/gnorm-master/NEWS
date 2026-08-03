@@ -1,0 +1,12 @@
+gnorm 1.0.2
+--------------------------------------------------------------------------------
+The previous version of the function was not memory efficient, the new one is simpler.
+
+gnorm 1.0.1
+--------------------------------------------------------------------------------
+The functions now work properly with vectors and handle cases with non-positive alpha and beta correctly.
+
+gnorm 1.0.0
+--------------------------------------------------------------------------------
+
+Initial release

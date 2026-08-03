@@ -1,0 +1,16 @@
+Package: gnorm
+Version: 1.0.2
+Date: 2020-07-08
+Title: Generalized Normal/Exponential Power Distribution
+Author: Maryclare Griffin
+Maintainer: Maryclare Griffin <maryclaregriffin@gmail.com>
+Suggests: knitr, rmarkdown
+Description: Functions for obtaining generalized normal/exponential power distribution probabilities, quantiles, densities and random deviates. The generalized normal/exponential power distribution was introduced by Subbotin (1923) and rediscovered by Nadarajah (2005). The parametrization given by Nadarajah (2005) <doi:10.1080/02664760500079464> is used.
+License: GPL (>=2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+Type: Package
+URL: http://github.com/maryclare/gnorm
+

@@ -1,0 +1,20 @@
+name = "gnorm"
+version = "1.0.2"
+license = "GPL-2.0-or-later"
+author = "Maryclare Griffin; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Generalized normal (exponential power) distribution"
+categories = ["statistics", "probability"]
+keywords = ["generalized-normal", "exponential-power", "distribution", "random-number-generation"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
