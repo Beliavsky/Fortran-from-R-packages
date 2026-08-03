@@ -1,0 +1,17 @@
+name = "R-fixedincome-fortran"
+version = "0.0.5"
+license = "MIT"
+author = "Wilson Freitas; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "2014-2022 Wilson Freitas"
+description = "Modern Fortran fixed-income rates, curves, interpolation, and Nelson-Siegel models"
+keywords = ["fixed-income", "yield-curve", "spot-rate", "forward-rate", "nelson-siegel", "interpolation"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
