@@ -1,0 +1,20 @@
+name = "jumptest"
+version = "1.1.0"
+license = "MIT"
+author = "Kaiqiao Li, Pei Fen Kuan, Kan He, Lizhou Nie, Wei Zhu; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Stochastic-volatility simulation and nonparametric financial jump tests"
+categories = ["finance", "statistics", "simulation"]
+keywords = ["jump-detection", "stochastic-volatility", "high-frequency", "p-value-pooling"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
