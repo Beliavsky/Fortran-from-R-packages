@@ -1,0 +1,31 @@
+Package: REN
+Type: Package
+Title: Regularization Ensemble for Robust Portfolio Optimization
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Hardik", family = "Dixit", role = "aut"),
+    person(given = "Shijia", family = "Wang", role = "aut"),
+    person(given = "Bonsoo", family = "Koo", role = c("aut", "cre"), email = "bonsoo.koo@monash.edu"),
+    person(given = "Cash", family = "Looi", role = "aut"),
+    person(given = "Hong", family = "Wang", role = "aut"))
+Maintainer: Bonsoo Koo <bonsoo.koo@monash.edu>
+Description: Portfolio optimization is achieved through a combination of regularization techniques and ensemble methods that are designed to generate stable out-of-sample return predictions, particularly in the presence of strong correlations among assets. The package includes functions for data preparation, parallel processing, and portfolio analysis using methods such as Mean-Variance, James-Stein, LASSO, Ridge Regression, and Equal Weighting. It also provides visualization tools and performance metrics, such as the Sharpe ratio, volatility, and maximum drawdown, to assess the results.
+License: AGPL (>= 3)
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Imports: lubridate, glmnet, quadprog, doParallel, Matrix, tictoc,
+        corpcor, ggplot2, reshape2, foreach, stats, parallel
+Suggests: knitr, rmarkdown, KernSmooth, cluster, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Depends: R (>= 2.10)
+LazyData: true
+NeedsCompilation: no
+Packaged: 2024-10-07 10:20:09 UTC; yez1
+Author: Hardik Dixit [aut],
+  Shijia Wang [aut],
+  Bonsoo Koo [aut, cre],
+  Cash Looi [aut],
+  Hong Wang [aut]
+Repository: CRAN
+Date/Publication: 2024-10-10 16:30:05 UTC
