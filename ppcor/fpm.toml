@@ -1,0 +1,19 @@
+name = "ppcor"
+version = "1.1.0"
+license = "GPL-2.0-only"
+author = "Seongho Kim; Fortran translation"
+maintainer = "Fortran translation contributors"
+copyright = "2015 Seongho Kim"
+description = "Partial and semi-partial correlations in modern Fortran"
+keywords = ["statistics", "correlation", "partial-correlation", "spearman", "kendall"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
