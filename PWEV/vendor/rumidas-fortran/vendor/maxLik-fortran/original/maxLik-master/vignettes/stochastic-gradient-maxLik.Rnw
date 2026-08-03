@@ -1,0 +1,761 @@
+\documentclass{article}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\usepackage{xspace}
+
+\newcommand{\elemProd}{\ensuremath{\odot}}  % elementwise product of matrices
+\newcommand*{\mat}[1]{\mathsf{#1}}
+\newcommand{\maxlik}{\texttt{maxLik}\xspace}
+\newcommand*{\transpose}{^{\mkern-1.5mu\mathsf{T}}}
+%\newcommand{\transpose}{\intercal}
+\renewcommand*{\vec}[1]{\boldsymbol{#1}}
+
+% \VignetteIndexEntry{SGA introduction: the basic usage of maxSGA}
+
+\begin{document}
+<<foo,include=FALSE,echo=FALSE>>=
+options(keep.source = TRUE, width = 60,
+        try.outFile=stdout()  # make try to produce error messages
+        )
+foo <- packageDescription("maxLik")
+@
+
+\title{Stochastic Gradient Ascent in maxLik}
+\author{Ott Toomet}
+\maketitle
+
+\section{\texttt{maxLik} and Stochastic Gradient Ascent}
+
+\texttt{maxLik} is a package, primarily intended for Maximum
+Likelihood and related estimations.  It includes several optimizers
+and associated tools for a typical Maximum Likelihood workflow.
+
+However, as predictive modeling and complex (deep) models have gained
+popularity in the recend decade, \texttt{maxLik} also includes a few
+popular algorithms for stochastic gradient ascent, the mirror image
+for the more widely known stochastic gradient descent.  This vignette
+gives a brief overview of these methods, and their usage in
+\texttt{maxLik}. 
+
+
+\section{Stochastic Gradient Ascent}
+\label{sec:stochastic-gradient-ascent}
+
+In machine learning literature, it is more common to describe the
+optimization problems as minimization and hence to talk about
+gradient descent.  As \texttt{maxLik} is primarily focused on
+maximizing likelihood, it implements the maximization version
+of the method, stochastic gradient ascent (SGA).
+
+The basic method is simple and intuitive, it is essentially just a
+careful climb in the
+gradient's direction.  Given and objective function
+$f(\vec{\theta})$, and the initial parameter vector
+$\vec{\theta}_{0}$, the algorithm will compute the gradient
+$\vec{g}(\vec{\theta}_{0}) = \nabla_{\vec{\theta}}
+f(\vec{\theta})\big|_{\vec{\theta} = \vec{\theta}_{0}}$, and update
+the parameter vector as $\vec{\theta}_{1} = \vec{\theta}_{0} + \rho
+\vec{g}(\vec{\theta}_{0})$.  Here $\rho$, the \emph{learning rate}, is
+a small positive constant to ensure we do not overshoot the optimum.
+Depending on the task it is typically of order $0.1 \dots 0.001$.
+In common tasks, the objective function $f(\vec{\theta})$ depends on
+data, ``predictors'' $\mat{X}$ and ``outcome'' $\vec{y}$
+in an additive form $f(\vec{\theta}; \mat{X}, \vec{y}) =
+\sum_{i} f(\vec{\theta}; \vec{x}_{i}, y_{i})$ where $i$ denotes
+``observations'', typically arranged as the rows of the design matrix
+$\mat{X}$.  Observations are often considered to be independent of each other.
+
+The overview above does not specify how to compute the gradient
+$\vec{g}(\vec{\theta}_{0})$ in a sense of which observations $i$
+to include.  A natural approach is to include the complete data and compute
+\begin{equation}
+  \label{eq:full-batch-gradient}
+  \vec{g}_{N}(\vec{\theta}_{0}) = 
+  \frac{1}{N}\sum_{i=1}^{N}
+  \nabla_{\vec{\theta}}
+  f(\vec{\theta}; \vec{x}_{i})\big|_{\vec{\theta} = \vec{\theta}_{0}}.
+\end{equation}
+In SGA context, this approach is called ``full batch'' and it has a number of
+advantages.  In particular, it is deterministic (given data
+$\mat{X}$ and $\vec{y}$), and computing of the sum can be done in
+parallel.
+However, there are also
+a number of reasons why full-batch approach may not be desirable
+\citep[see][]{bottou2018SIAM}:
+\begin{itemize}
+\item Data over
+  different observations is often more or less redundant.  If we use all the
+  observations to compute the update then we spend a substantial effort on
+  redundant calculations.
+\item Full-batch gradient is deterministic and hence there is no
+  stochastic noise.  While
+  advantageous in the latter steps of optimization, the noise helps
+  the optimizer to avoid local optima and overcome flat areas in the
+  objective function early in the process.  
+\item SGA achieves much more rapid initial convergence compared to the
+  full batch method (although full-batch methods may achieve better
+  final result).
+\item Cost of
+  computing the full-batch gradient grows with the sample size but
+  that of minibatch gradient does not grow.  
+\item It is empirically known that large-batch optimization tend to
+  find sharp optima \citep[see][]{keskar+2016ArXiv} that do not generalize well to validation
+  data.  Small batch approach leads to a better validation performance. 
+\end{itemize}
+
+In contrast, SGA is an approach
+where the gradient is computed on just a
+single observation as
+\begin{equation}
+  \label{eq:stochastic-gradient}
+  \vec{g}_{1}(\vec{\theta}_{0}) = 
+  \nabla_{\vec{\theta}}
+  f(\vec{\theta}; \vec{x}_{i}, y_{i})\big|_{\vec{\theta} = \vec{\theta}_{0}}
+\end{equation}
+where $i$ is chosen randomly.  In applications, all the observations
+are usually walked through in a random order, to ensure that each
+observation is included once, and only once, in an \emph{epoch}.
+Epoch is a
+full walk-through of the data, and in many ways similar to iteration
+in a full-batch approach.
+
+As SGA only accesses a single observation at time, it suffers from
+other kind of performance issues.  In particular,
+one cannot parallelize the gradient function
+\eqref{eq:stochastic-gradient}, operating on individual data vectors
+may be inefficient compared to larger matrices, and while we gain in
+terms of gradient computation speed, we lose by running the optimizer
+for many more loops.
+
+\emph{Minibatch} approach offers a balance between the full-batch and
+SGA.  In case of minibatch, we compute gradient not on individual
+observations but on \emph{batches}
+\begin{equation}
+  \label{eq:minibatch-gradient}
+  \vec{g}_{m}(\vec{\theta}_{0}) = 
+  \frac{1}{|\mathcal{B}|}\sum_{i\in\mathcal{B}}
+  \nabla_{\vec{\theta}}
+  f(\vec{\theta}; \vec{x}_{i}, y_{i})\big|_{\vec{\theta} = \vec{\theta}_{0}}
+\end{equation}
+where $\mathcal{B}$ is the batch, a set of observations that
+are included in the gradient computation.  Normally the full data is
+partitioned into a series of minibatches and
+walked through sequentially in one epoch.
+
+
+\section{SGA in \texttt{maxLik} package}
+\label{sec:sga-in-maxlik}
+
+\maxlik implements two different optimizers: \texttt{maxSGA} for
+simple SGA (including momentum), and \texttt{maxAdam} for the Adaptive
+Moments method \citep[see][p. 301]{goodfellow+2016DL}.  The usage of
+both
+methods
+mostly follows that of the package's main workhorse, \texttt{maxNR} \citep[see][]{henningsen+toomet2011},
+but their API has some important differences due to the different
+nature of SGA.
+
+The basic usage of the maxSGA is as follows:
+<<eval=FALSE>>=
+maxSGA(fn, grad, start, nObs, control)
+@ 
+where \texttt{fn} is the objective function, \texttt{grad} is the
+gradient function, \texttt{nObs} is number of observations, and
+\texttt{control} is a list of control parameters.  From the user's
+perspective, \texttt{grad} is typically the most important (and the
+most complex) argument.
+
+Next, we describe the API and explain the differences
+between the \texttt{maxSGA} API and \texttt{maxNR} API, and thereafter give a few
+toy examples that demonstrate how to use \texttt{maxSGA} in practice.
+
+
+\subsection{The objective function}
+
+Unlike in \texttt{maxNR} and the related optimizers, SGA does not directly need the
+objective function \texttt{fn}.  The function can still be provided (and
+perhaps will in most cases), but one can run the optimizer without
+it.
+If provided, the function can be used for printing the
+value at each epoch (by setting a suitable \texttt{printLevel} control
+option), and for stopping
+through
+\emph{patience} stopping condition.  If \texttt{fn} is not provided, do not forget to
+add the argument name for the gradient, \texttt{grad=}, as otherwise the gradient will be
+treated as the objective function with unexpected results!
+
+If provided, the function should accept two (or more) arguments: the
+first must be the numeric parameter vector, and another one, named
+\texttt{index}, is the list of indices in the current minibatch.
+
+As the function is not needed by the optimizer itself, it is up to the
+user to decide what it does.  An obvious option is to compute the
+objective function value on the same minibatch as used for the
+gradient computation.  But one can also opt for something else, for
+instance to compute the value on the validation data instead (and
+ignore the provided \emph{index}).  The latter may be a useful option
+if one wants to employ the patience-based stopping criteria.
+
+
+\subsection{Gradient function}
+\label{sec:gradient-function}
+
+Gradient is the work-horse of the SGA methods.  Although \maxlik can
+also compute numeric gradient using the finite difference method (this
+will be automatically done if the objective function is provided but the gradient
+isn't),
+this
+is not advisable, and may be very slow in high-dimensional problems.
+\texttt{maxLik} uses the numerator layout, i.e.
+the gradient should be a $1\times K$ matrix where columns correspond
+to the components of the
+parameter vector $\vec{\theta}$.  For compatibility with other
+optimizers in \texttt{maxLik} it also accepts a observation-wise
+matrix where rows correspond to the individual observations and
+columns to the parameter vector components.
+
+The requirements for the gradient function arguments are the same as
+for \texttt{fn}: the first formal argument must be the parameter
+vector, and it must
+also have an argument \texttt{index}, a numeric index for the
+observations to be included in the minibatch.
+
+
+\subsection{Stopping Conditions}
+\label{sec:stopping-conditions}
+
+\texttt{maxSGA} uses three stopping criteria:
+\begin{itemize}
+\item Number of epochs (control option \texttt{iterlim}):
+  number of times all data is iterated through
+  using the minibatches.
+\item Gradient norm.  However, in case
+  of stochastic approach one cannot expect the gradient at optimum to
+  be close to zero, and hence the corresponding criterion (control
+  option \texttt{gradtol}) is set to zero by default.  If interested,
+  one may make it positive.
+\item Patience.
+  Normally, each new iteration has better (higher)
+  value of the objective function.  However, in certain
+  situations
+  this may not be the case.  In such cases the algorithm does not stop
+  immediately, but continues up to \emph{patience} more epochs.  It also returns
+  the best parameters, not necessarily the last parameters.
+
+  Patience can be controlled with the options \texttt{SG\_patience} and
+  \texttt{SG\_patienceStep}.  The former controls the patience
+  itself--how many times the algorithm is allowed to produce an
+  inferior result (default value
+  \texttt{NULL} means patience criterion is not used).  The latter controls how often the patience
+  criterion is checked.  If computing the objective function is
+  costly, it may be useful to increase the patience step and decrease
+  the patience.
+\end{itemize}
+
+
+\subsection{Optimizers}
+\label{sec:optimizers}
+
+\texttt{maxLik} currently implements two optimizers: \emph{SGA}, the
+stock gradient ascent (including momentum), and \emph{Adam}.  Here we
+give some insight into the momentum, and into the Adam method,
+the basic gradient-only based optimization technique was
+explained in Section~\ref{sec:stochastic-gradient-ascent}.
+
+It is easy and intuitive to extend the SGA method with momentum.  As
+implemented in \texttt{maxSGA}, the momentum $\mu$ ($0 < \mu < 1$)
+is incorporated
+into the the gradient update as
+\begin{equation}
+  \label{eq:gradient-update-momentum}
+  \vec{\theta}_{t+1} =
+  \vec{\theta}_{t} + \vec{v}_{t}
+  \quad\text{where}\quad
+  \vec{v}_{t} = \mu \vec{v}_{t-1} + \rho \vec{g}(\vec{\theta}_{t}).
+\end{equation}
+See \citet[p. 288]{goodfellow+2016DL}.  
+The algorithm takes the initial ``velocity'' $\vec{v}_{0} = \vec{0}$.
+It is easy to see that $\mu=0$ is equivalent to no-momentum case, and
+if $\vec{g}(\vec{\theta})$ is constant, $\vec{v}_{t} \to \rho
+\vec{g}(\vec{\theta})/(1 - \mu)$.  So the movement speeds up in a
+region with stable gradient.  As a downside, it is also easier overshoot a
+maximum.  But this behavior makes
+momentum-equipped SGA less prone of getting stuck in a local optimum.
+Momentum can be set by the control option \texttt{SG\_momentum}, the
+default value is 0.
+
+Adaptive Moments method, usually referred to as
+\emph{Adam}, \citep[p. 301]{goodfellow+2016DL} adapts the learning rate by
+variance of the gradient--if gradient components are unstable, it
+slows down, and if they are stable, it speeds up.  The adaptation is
+proportional to the weighted average of the gradient divided by the
+square root of the weighted average of the gradient squared, all
+operations done component-wise.  In this way a stable gradient
+component (where
+moving average is similar to the gradient value) will have higher
+speed than a fluctuating gradient (where the components frequently
+shift the sign and the average is much smaller).  More specifically,
+the algorithm is as follows:
+\begin{enumerate}
+\item Initialize the first and second moment averages $\vec{s} = \vec{0}$
+  and $\vec{r} = \vec{0}$.
+\item Compute the gradient $\vec{g}_{t} = \vec{g}(\vec{\theta}_{t})$.
+\item Update the average first moment: $\vec{s}_{t+1} =
+  \mu_{1} \vec{s}_{t} + (1 - \mu_{1}) \vec{g}_{t}$.  $\mu_{1}$ is the
+  decay parameter, the larger it is, the longer memory does the method
+  have.  It can be adjusted with the control parameter
+  \texttt{Adam\_momentum1}, the default value is 0.9.
+\item Update the average second moment: $\vec{r}_{t+1} =
+  \mu_{2} \vec{r}_{t} + (1 - \mu_{2}) \vec{g}_{t} \elemProd \vec{g}_{t}$
+  where $\elemProd$ denotes element-wise multiplication.  The control
+  parameter for the $\mu_{2}$ is \texttt{Adam\_momentum2}, the default
+  value is 0.999.
+\item As the algorithm starts with the averages $\vec{s}_{0} =
+  \vec{r}_{0}= 0$,
+  we also correct the resulting bias: $\hat{\vec{s}} = \vec{s}/(1 -
+  \mu_{1}^{t})$ and $\hat{\vec{r}} = \vec{r}/(1 - \mu_{2}^{t})$.
+\item Finally, update the estimate: $\vec{\theta}_{t+1} =
+  \vec{\theta}_{t} + \rho \hat{\vec{s}}/(\delta +
+  \sqrt{\hat{\vec{r}}})$ where division and square root are done
+  element-wise and $\delta=10^{-8}$ takes care of numerical stabilization.
+\end{enumerate}
+
+Adam optimizer can be used with \texttt{maxAdam}.
+
+
+\subsection{Controlling Optimizers}
+\label{sec:control-options}
+
+Both \texttt{maxSGA} and \texttt{maxAdam} are designed to be similar to
+\texttt{maxNR}, and mostly expect similar arguments.
+In particular, both functions expect the objective function \texttt{fn},
+gradient \texttt{grad} and
+Hessian function \texttt{hess}, and the initial
+parameter start values \texttt{start}.  As these optimizers
+only need gradient, one can leave out both \texttt{fn} and
+\texttt{hess}.  The Hessian is mainly included for compatibility
+reasons and only used to compute the final Hessian, if
+requested by the user.  As SGA methods are typically used in contexts
+where Hessian is not needed, by
+default the algorithms do not return Hessian matrix and hence do not
+use the \texttt{hess} function even if provided.  Check out the
+argument \texttt{finalHessian} if interested.
+
+An important SGA-specific control options is \texttt{SG\_batchSize}.
+This determines the batch size, or \texttt{NULL} for the full-batch
+approach. 
+
+Finally, unlike the traditional optimizers, stochastic optimizers need
+to know the size of data (argument \texttt{nObs}) in order to
+calculate the batches.
+
+
+\section{Example usage: Linear regression}
+\label{sec:example-usage-cases}
+
+\subsection{Setting Up}
+\label{sec:setting-up}
+
+We demonstrate the usage of \texttt{maxSGA} and \texttt{maxAdam} to
+solve a linear regression (OLS) problem.  Although OLS is not a task
+where one commonly relies on stochastic optimization, it is a simple and
+easy-to understand model.  We use
+the Boston housing data, a popular dataset where one traditionally attempts to
+predict the median house price across 500 neighborhoods using a
+number of neighborhood descriptors, such as mean house size, age, and proximity to
+Charles river.  All variables in the dataset are numeric, and there
+are no missing values.  The data is provided in \emph{MASS} package.
+
+First, we create the design matrix $\mat{X}$ and extract the house
+price $y$:
+<<>>=
+i <- which(names(MASS::Boston) == "medv")
+X <- as.matrix(MASS::Boston[,-i])
+X <- cbind("const"=1, X)  # add constant
+y <- MASS::Boston[,i]
+@
+Although the model and data are simple, it is not an easy task for
+stock gradient ascent.  The problem lies in different scaling of
+variables, the means are
+<<>>=
+colMeans(X)
+@
+One can see that \emph{chas} has an average value
+\Sexpr{round(mean(X[,"chas"]), 3)} while that of \emph{tax} is
+\Sexpr{round(mean(X[,"tax"]), 3)}.
+
+This leads to extremely elongated contours of the loss function:
+<<echo=FALSE>>=
+eigenvals <- eigen(crossprod(X))$values
+@ 
+One can see that the ratio of the largest and the smallest eigenvalue is
+$\mat{X}^{\transpose} \mat{X} =
+\Sexpr{round(eigenvals[1]/eigenvals[14], -5)}$.  Solely gradient-based
+methods, such as SGA,
+have trouble working in the
+resulting narrow valleys.
+
+For reference, let's also compute the analytic solution to this
+linear regression model (reminder: $\hat{\vec{\beta}} = (\mat{X}^{\transpose}\,\mat{X})^{-1}\,\mat{X}^{\transpose}\,\vec{y}$):
+<<>>=
+betaX <- solve(crossprod(X)) %*% crossprod(X, y)
+betaX <- drop(betaX)  # matrix to vector
+betaX
+@ 
+
+Next, we provide the gradient function.  As a reminder, OLS gradient
+in numerator layout can be expressed as
+\begin{equation}
+  \label{eq:ols-gradient}
+  \vec{g}_{m}(\vec{\theta}) =
+  -\frac{2}{|\mathcal{B}|}
+  \sum_{i\in\mathcal{B}}
+  \left(y_{i} - \vec{x}_{i}^{\transpose} \cdot
+    \vec{\theta} \right) \vec{x}_{i}^{\transpose}
+  =
+  -\frac{2}{|\mathcal{B}|}
+  \left(y_{\mathcal{B}} -
+    \mat{X}_{\mathcal{B}} \cdot \vec{\theta} \right)^{\transpose}
+  \mat{X}_{\mathcal{B}}
+\end{equation}
+where $y_{\mathcal{B}}$ and $\mat{X}_{\mathcal{B}}$ denote the
+elements of the outcome vector and the slice of the design matrix that
+correspond to the minibatch $\mathcal{B}$.  We choose to divide the
+value by batch size $|\mathcal{B}|$ in order to have gradient values
+of roughly similar size, independent of the batch size.
+We implement it as:
+<<>>=
+gradloss <- function(theta, index)  {
+   e <- y[index] - X[index,,drop=FALSE] %*% theta
+   g <- t(e) %*% X[index,,drop=FALSE]
+   2*g/length(index)
+}
+@
+The \texttt{gradloss} function has two arguments: \texttt{theta} is the
+parameter vector, and \texttt{index} tells which observations belong
+to the current minibatch.  The actual argument will be an integer vector, and hence
+we can use \texttt{length(index)} to find the size of the minibatch.
+Finally, we return the negative of~\eqref{eq:ols-gradient} as
+\texttt{maxSGA} performs maximization, not minimization.
+
+First, we demonstrate how the models works without the objective
+function.  We have to supply the gradient function, initial parameter
+values (we use random normals below),
+and also \texttt{nObs}, number of observations to select the
+batches from.  The latter is needed as the optimizer itself does not
+have access to data but still has to partition it into batches.
+Finally, we may also provide various control parameters, such as
+number of iterations, stopping conditions, and batch size.  We start
+with only specifying the iteration limit, the only stopping condition
+we use here:
+<<gradonly, quiet=FALSE>>=
+library(maxLik)
+set.seed(3)
+start <- setNames(rnorm(ncol(X), sd=0.1), colnames(X))
+                           # add names for better reference
+res <- try(maxSGA(grad=gradloss,
+           start=start,
+           nObs=nrow(X),
+           control=list(iterlim=1000)
+           )
+    )
+@
+This run was a failure.  We encountered a run-away growth of the
+gradient because the default learning
+rate $\rho=0.1$ is too big for such strongly curved objective
+function.  But before we repeat the exercise with a smaller learning
+rate, let's incorporate gradient clipping.  Gradient clipping, performed with
+\texttt{SG\_clip} control option, caps the $L_{2}$-norm of
+the gradient while keeping it's direction.  We clip
+the squared norm at 10,000, i.e. the gradient norm cannot exceed
+100: 
+<<>>=
+res <- maxSGA(grad=gradloss,
+              start=start,
+              nObs=nrow(X),
+              control=list(iterlim=1000,
+                           SG_clip=1e4)  # limit ||g|| <= 100
+              )
+summary(res)
+@
+This time the gradient did not explode and we were able to get a
+result.  But the estimates are rather far from the analytic solution
+shown above, e.g. the constant estimate
+\Sexpr{round(coef(res)[1], 3)} is very different from the
+corresponding analytic value \Sexpr{round(betaX[1], 3)}.  Let's
+analyze what is happening inside the optimizer.  We can ask for both
+the parameter values and the objective function value to be stored
+for each epoch.  But before we can store its value, in
+this case mean squared error (MSE),
+we have to supply an objective function to maxSGA.  We compute MSE on the same minibatch as
+<<>>=
+loss <- function(theta, index) {
+   e <- y[index] - X[index,] %*% theta
+   -crossprod(e)/length(index)
+}
+@ 
+Now we can store the values with the control options
+\texttt{storeParameters} and \texttt{storeValues}.  The corresponding
+numbers can be retrieved with \texttt{storedParameters} and
+\texttt{storedValues} methods.  For \texttt{iterlim=R}, the
+former returns a $(R+1) \times K$
+matrix, one row for each epoch and one column for each parameter
+component, and the latter returns a numeric vector of length $R+1$
+where $R$ is the number of epochs.  The first value in both cases is
+the initial value, so we have $R+1$ values in total.  Let's
+retrieve the values and plot both.  We decrease the learning rate
+to $0.001$ using the \texttt{SG\_learningRate} control.  Note that although we
+maximize negative loss, we plot positive loss.
+\setkeys{Gin}{width=\textwidth, height=80mm}
+<<fig=TRUE, height=4>>=
+res <- maxSGA(loss, gradloss,
+              start=start,
+              nObs=nrow(X),
+              control=list(iterlim=1000,
+                           # will misbehave with larger numbers
+                           SG_clip=1e4,
+                           SG_learningRate=0.001,
+                           storeParameters=TRUE,
+                           storeValues=TRUE
+                           )  
+              )
+par <- storedParameters(res)
+val <- storedValues(res)
+par(mfrow=c(1,2))
+plot(par[,1], par[,2], type="b", pch=".",
+     xlab=names(start)[1], ylab=names(start)[2], main="Parameters")
+## add some arrows to see which way the parameters move
+iB <- c(40, nrow(par)/2, nrow(par))
+iA <- iB - 10
+arrows(par[iA,1], par[iA,2], par[iB,1], par[iB,2], length=0.1)
+##
+plot(seq(length=length(val))-1, -val, type="l",
+     xlab="epoch", ylab="MSE", main="Loss",
+     log="y")
+@
+We can see how the parameters (the first and the second components,
+``const'' and ``crim'' in this figure) evolve
+through the iterations while the loss is rapidly falling.  One can see
+an initial jump where the loss is falling very fast, followed but
+subsequent slow movement.  It is possible the initial jump be limited by
+gradient clipping.
+
+
+\subsection{Training and Validation Sets}
+\label{sec:training-validation}
+
+However, as we did not specify the batch size, \texttt{maxSGA} will
+automatically pick the full batch (equivalent to control option
+\texttt{SG\_batchSize = NULL}).  So there was nothing stochastic in
+what we did above.  Let us pick a small batch size--a single observation at time.  However, as smaller batch sizes
+introduce more noise to the gradient, we also make the learning rate
+smaller and choose \texttt{SG\_learningRate = 1e-5}.
+
+But now the existing loss function, calculated just at the single
+observation, carries little meaning.  Instead, we split the data into
+training and validation sets and feed batches of training data to
+gradient descent while
+calculating the loss on the complete validation set.  This can be
+achieved with small modifications in the \texttt{gradloss} and
+\texttt{loss} function.  But as the first step, we split the data:
+<<>>=
+i <- sample(nrow(X), 0.8*nrow(X))  # training indices, 80% of data
+Xt <- X[i,]  # training data
+yt <- y[i]
+Xv <- X[-i,]  # validation data
+yv <- y[-i]
+@ 
+Thereafter we modify \texttt{gradloss} to only use the batches of
+training data while \texttt{loss} will use the complete validation data and
+just ignore \texttt{index}:
+<<>>=
+gradloss <- function(theta, index)  {
+   e <- yt[index] - Xt[index,,drop=FALSE] %*% theta
+   g <- -2*t(e) %*% Xt[index,,drop=FALSE]
+   -g/length(index)
+}
+loss <- function(theta, index) {
+   e <- yv - Xv %*% theta
+   -crossprod(e)/length(yv)
+}
+@
+Note that because the optimizer only uses training data, the \texttt{nObs} argument
+now must equal to the size of training data in this case.
+
+Another thing to discuss is the computation speed.  \texttt{maxLik} implements SGA in
+a fairly complex loop that does printing, storing, and complex
+function calls, computes stopping conditions and does many other
+checks.  Hence a smaller batch size
+leads to many more such auxiliary computations per epoch and the
+algorithm gets considerably slower.  This is less of a problem for
+complex objective functions or larger batch sizes, but for linear
+regression, the slow-down is very large.  For demonstration purposes we lower the number of
+epochs from 1000 to 100.
+
+How do the convergence properties
+look now with the updated approach?
+<<batch1, fig=TRUE, height=4>>=
+res <- maxSGA(loss, gradloss,
+              start=start,
+              nObs=nrow(Xt),  # note: only training data now
+              control=list(iterlim=100,
+                           SG_batchSize=1,
+                           SG_learningRate=1e-5,
+                           SG_clip=1e4,
+                           storeParameters=TRUE,
+                           storeValues=TRUE
+                           )  
+              )
+par <- storedParameters(res)
+val <- storedValues(res)
+par(mfrow=c(1,2))
+plot(par[,1], par[,2], type="b", pch=".",
+     xlab=names(start)[1], ylab=names(start)[2], main="Parameters")
+iB <- c(40, nrow(par)/2, nrow(par))
+iA <- iB - 1
+arrows(par[iA,1], par[iA,2], par[iB,1], par[iB,2], length=0.1)
+plot(seq(length=length(val))-1, -val, type="l",
+     xlab="epoch", ylab="MSE", main="Loss",
+     log="y")
+@
+We can see the parameters evolving and loss decreasing over epochs.
+The convergence seems to be smooth and not ruptured by gradient
+clipping. 
+
+Next, we try to improve the convergence by introducing momentum.
+We add momentum $\mu = 0.95$ to the gradient and decrease the
+learning rate down to $1\cdot10^{-6}$:
+
+<<momentum, fig=TRUE, height=4>>=
+res <- maxSGA(loss, gradloss,
+              start=start,
+              nObs=nrow(Xt),
+              control=list(iterlim=100,
+                           SG_batchSize=1,
+                           SG_learningRate=1e-6,
+                           SG_clip=1e4,
+                           SGA_momentum = 0.99,
+                           storeParameters=TRUE,
+                           storeValues=TRUE
+                           )  
+              )
+par <- storedParameters(res)
+val <- storedValues(res)
+par(mfrow=c(1,2))
+plot(par[,1], par[,2], type="b", pch=".",
+     xlab=names(start)[1], ylab=names(start)[2], main="Parameters")
+iB <- c(40, nrow(par)/2, nrow(par))
+iA <- iB - 1
+arrows(par[iA,1], par[iA,2], par[iB,1], par[iB,2], length=0.1)
+plot(seq(length=length(val))-1, -val, type="l",
+     xlab="epoch", ylab="MSE", main="Loss",
+     log="y")
+@
+We achieved a lower loss but we are still far from the correct solution.  
+
+As the next step, we use Adam optimizer.  Adam has two momentum
+parameters but we leave those untouched at the initial values.  
+\texttt{SGA\_momentum} is not used, so we remove that argument.
+<<Adam, fig=TRUE, height=4>>=
+res <- maxAdam(loss, gradloss,
+              start=start,
+              nObs=nrow(Xt),
+              control=list(iterlim=100,
+                           SG_batchSize=1,
+                           SG_learningRate=1e-6,
+                           SG_clip=1e4,
+                           storeParameters=TRUE,
+                           storeValues=TRUE
+                           )  
+              )
+par <- storedParameters(res)
+val <- storedValues(res)
+par(mfrow=c(1,2))
+plot(par[,1], par[,2], type="b", pch=".",
+     xlab=names(start)[1], ylab=names(start)[2], main="Parameters")
+iB <- c(40, nrow(par)/2, nrow(par))
+iA <- iB - 1
+arrows(par[iA,1], par[iA,2], par[iB,1], par[iB,2], length=0.1)
+plot(seq(length=length(val))-1, -val, type="l",
+     xlab="epoch", ylab="MSE", main="Loss",
+     log="y")
+@
+As visible from the figure, Adam was marching toward the solution
+without any stability issues.
+
+\subsection{Sequence of Batch Sizes }
+\label{sec:sequence-batch-sizes}
+
+The OLS' loss function is globally convex and hence there is no danger
+to get stuck in a local maximum.  However, when the objective function
+is more complex, the noise that is generated by the stochastic sampling helps
+the algorithm to leave local maxima.  A suggested strategy is to
+increase the batch size over time to achieve good exploratory
+properties early in the process and stable convergence later
+\citep[see][for more information]{smith+2018arXiv}.  This approach is
+in some ways similar to Simulated Annealing.
+
+Here we introduce such an approach by using batch sizes $B=1$, $B=10$
+and $B=100$ in succession.  We also introduce patience stopping
+condition.  If the objective function value is worse than the best
+value so far for more than \emph{patience} times then the algorithm stops.
+Here we use patience value 5.  We also
+store the loss values from all the batch sizes into a single vector
+\texttt{val}.  If the algorithm stops early, some of the stored values are
+left uninitialized (\texttt{NA}-s), hence we use \texttt{na.omit}
+to include only the actual values in the final
+\texttt{val}-vector.
+We allow the algorithm to run for 200 epochs, but as we now have
+introduced early stopping through patience, the actual number of
+epochs may be less than that.
+
+\setkeys{Gin}{width=\textwidth, height=110mm}
+<<SANN, fig=TRUE, heigh=6, width=7>>=
+val <- NULL
+# loop over batch sizes
+for(B in c(1,10,100)) {
+   res <- maxAdam(loss, gradloss,
+                  start=start,
+                  nObs=nrow(Xt),
+                  control=list(iterlim=200,
+                               SG_batchSize=1,
+                               SG_learningRate=1e-6,
+                               SG_clip=1e4,
+                               SG_patience=5,
+                           # worse value allowed only 5 times
+                               storeValues=TRUE
+                               )  
+                  )
+   cat("Batch size", B, ",", nIter(res),
+       "epochs, function value", maxValue(res), "\n")
+   val <- c(val, na.omit(storedValues(res)))
+   start <- coef(res)
+}
+plot(seq(length=length(val))-1, -val, type="l",
+     xlab="epoch", ylab="MSE", main="Loss",
+     log="y")
+summary(res)
+@ 
+
+Two first batch sizes run through all 200
+epochs, but the last run stopped early after 7 epochs only.
+The figure shows that Adam works well for approximately 170 epochs,
+thereafter the steady pace becomes uneven.  It may be advantageous to
+slow down the movement further. 
+
+As explained above, this dataset is not an easy task for methods that are
+solely gradient-based, and so we did not achieve a result that is
+close to the analytic solution.
+But our task here is to demonstrate the usage of
+the package, not to solve a linear regression exercise.
+We believe every \emph{R}-savy user can adapt the
+method to their needs.
+
+\bibliographystyle{apecon}
+\bibliography{maxlik}
+
+\end{document}

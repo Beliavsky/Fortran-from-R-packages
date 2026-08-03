@@ -1,0 +1,25 @@
+Package: PWEV
+Type: Package
+Title: PSO Based Weighted Ensemble Algorithm for Volatility Modelling
+Version: 0.1.0
+Authors@R: c(person("Mr. Ankit Kumar", "Singh", role = "aut", email = "ankitsinghvns32@gmail.com"),
+            person("Dr. Ranjit Kumar", "Paul", role = c("aut","cre"), email = "ranjitstat@gmail.com"),
+            person("Dr. Amrit Kumar", "Paul", role = "aut"),
+            person("Dr. Md", "Yeasin", role = "aut"),
+            person("Ms. Anita", "Sarkar", role = "aut")
+            )
+Author: Mr. Ankit Kumar Singh [aut],
+  Dr. Ranjit Kumar Paul [aut, cre],
+  Dr. Amrit Kumar Paul [aut],
+  Dr. Md Yeasin [aut],
+  Ms. Anita Sarkar [aut]
+Maintainer: Dr. Ranjit Kumar Paul <ranjitstat@gmail.com>
+Description: Price volatility refers to the degree of variation in series over a certain period of time. This volatility is especially noticeable in agricultural commodities, adding uncertainty for farmers, traders, and others in the agricultural supply chain. Commonly and popularly used four volatility models viz, GARCH, Glosten Jagannatan Runkle-GARCH (GJR-GARCH) model, exponentially weighted moving average (EWMA) model and Multiplicative Error Model (MEM) are selected and implemented. PWAVE, weighted ensemble model based on particle swarm optimization (PSO) is proposed to combine the forecast obtained from all the candidate models. This package has been developed using algorithm of Paul et al. <doi:10.1007/s40009-023-01218-x> and Yeasin and Paul (2024) <doi:10.1007/s11227-023-05542-3>.
+License: GPL-3
+Encoding: UTF-8
+Imports: stats, xts, rumidas, rugarch, WeightedEnsemble, Metrics, zoo
+RoxygenNote: 7.2.1
+NeedsCompilation: no
+Packaged: 2024-04-16 07:44:01 UTC; YEASIN
+Repository: CRAN
+Date/Publication: 2024-04-16 15:00:02 UTC

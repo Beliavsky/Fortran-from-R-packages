@@ -1,0 +1,29 @@
+name = "pwev"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Ankit Kumar Singh, Ranjit Kumar Paul, Amrit Kumar Paul, Md Yeasin, Anita Sarkar; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of the R package PWEV"
+categories = ["statistics", "time-series", "finance", "optimization"]
+keywords = ["GARCH", "MEM", "volatility", "ensemble", "particle-swarm"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+rumidas = { path = "vendor/rumidas-fortran" }
+rugarch_fortran = { path = "vendor/rugarch-modern-fortran" }
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[install]
+library = true
