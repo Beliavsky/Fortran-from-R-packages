@@ -1,0 +1,20 @@
+name = "nloptr-fortran"
+version = "2.2.1"
+license = "LGPL-3.0-or-later"
+author = "nloptr contributors; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright nloptr and NLopt contributors"
+description = "Modern Fortran optimization interface inspired by nloptr"
+categories = ["optimization", "numerical"]
+keywords = ["nonlinear optimization", "constraints", "lbfgs", "nelder-mead"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
