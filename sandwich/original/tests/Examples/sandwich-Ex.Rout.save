@@ -1,0 +1,1095 @@
+
+R version 4.4.1 (2024-06-14) -- "Race for Your Life"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "sandwich"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('sandwich')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("InstInnovation")
+> ### * InstInnovation
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: InstInnovation
+> ### Title: Innovation and Institutional Ownership
+> ### Aliases: InstInnovation
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> ## Poisson models from Table I in Aghion et al. (2013)
+> 
+> ## load data set
+> data("InstInnovation", package = "sandwich")
+> 
+> ## log-scale variable
+> InstInnovation$lograndd <- log(InstInnovation$randd)
+> InstInnovation$lograndd[InstInnovation$lograndd == -Inf] <- 0
+> 
+> ## regression formulas
+> f1 <- cites ~ institutions + log(capital/employment) + log(sales) + industry + year
+> f2 <- cites ~ institutions + log(capital/employment) + log(sales) +
++   industry + year + lograndd + drandd
+> f3 <- cites ~ institutions + log(capital/employment) + log(sales) +
++   industry + year + lograndd + drandd + dprecites + log(precites)
+> 
+> ## Poisson models
+> tab_I_3_pois <- glm(f1, data = InstInnovation, family = poisson)
+> tab_I_4_pois <- glm(f2, data = InstInnovation, family = poisson)
+> tab_I_5_pois <- glm(f3, data = InstInnovation, family = poisson)
+> 
+> ## one-way clustered covariances
+> vCL_I_3 <- vcovCL(tab_I_3_pois, cluster = ~ company)
+> vCL_I_4 <- vcovCL(tab_I_4_pois, cluster = ~ company)
+> vCL_I_5 <- vcovCL(tab_I_5_pois, cluster = ~ company)
+> 
+> ## replication of columns 3 to 5 from Table I in Aghion et al. (2013)
+> cbind(coef(tab_I_3_pois), sqrt(diag(vCL_I_3)))[2:4, ]
+                               [,1]        [,2]
+institutions            0.009687237 0.002406388
+log(capital/employment) 0.482883549 0.135953255
+log(sales)              0.820317600 0.041523405
+> cbind(coef(tab_I_4_pois), sqrt(diag(vCL_I_4)))[c(2:4, 148), ]
+                               [,1]        [,2]
+institutions            0.008460789 0.002242345
+log(capital/employment) 0.346008637 0.165274677
+log(sales)              0.349190437 0.117219737
+lograndd                0.492667825 0.140473107
+> cbind(coef(tab_I_5_pois), sqrt(diag(vCL_I_5)))[c(2:4, 148), ]
+                               [,1]        [,2]
+institutions            0.007381543 0.002443707
+log(capital/employment) 0.440056227 0.131984715
+log(sales)              0.183853108 0.063364163
+lograndd                0.008971905 0.107406681
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Investment")
+> ### * Investment
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Investment
+> ### Title: US Investment Data
+> ### Aliases: Investment
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> ## Willam H. Greene, Econometric Analysis, 2nd Ed.
+> ## Chapter 15
+> ## load data set, p. 411, Table 15.1
+> data(Investment)
+> 
+> ## fit linear model, p. 412, Table 15.2
+> fm <- lm(RealInv ~ RealGNP + RealInt, data = Investment)
+> summary(fm)
+
+Call:
+lm(formula = RealInv ~ RealGNP + RealInt, data = Investment)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-34.987  -6.638   0.180  10.408  26.288 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -12.53360   24.91527  -0.503    0.622    
+RealGNP       0.16914    0.02057   8.224 3.87e-07 ***
+RealInt      -1.00144    2.36875  -0.423    0.678    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 17.21 on 16 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.8141,	Adjusted R-squared:  0.7908 
+F-statistic: 35.03 on 2 and 16 DF,  p-value: 1.429e-06
+
+> 
+> ## visualize residuals, p. 412, Figure 15.1
+> plot(ts(residuals(fm), start = 1964),
++   type = "b", pch = 19, ylim = c(-35, 35), ylab = "Residuals")
+> sigma <- sqrt(sum(residuals(fm)^2)/fm$df.residual) ## maybe used df = 26 instead of 16 ??
+> abline(h = c(-2, 0, 2) * sigma, lty = 2)
+> 
+> if(require(lmtest)) {
++ ## Newey-West covariances, Example 15.3
++ coeftest(fm, vcov = NeweyWest(fm, lag = 4))
++ ## Note, that the following is equivalent:
++ coeftest(fm, vcov = kernHAC(fm, kernel = "Bartlett", bw = 5, prewhite = FALSE, adjust = FALSE))
++ 
++ ## Durbin-Watson test, p. 424, Example 15.4
++ dwtest(fm)
++ 
++ ## Breusch-Godfrey test, p. 427, Example 15.6
++ bgtest(fm, order = 4)
++ }
+Loading required package: lmtest
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+
+	Breusch-Godfrey test for serial correlation of order up to 4
+
+data:  fm
+LM test = 12.07, df = 4, p-value = 0.01684
+
+> 
+> ## visualize fitted series
+> plot(Investment[, "RealInv"], type = "b", pch = 19, ylab = "Real investment")
+> lines(ts(fitted(fm), start = 1964), col = 4)
+> 
+> 
+> ## 3-d visualization of fitted model
+> if(require(scatterplot3d)) {
++ s3d <- scatterplot3d(Investment[,c(5,7,6)],
++   type = "b", angle = 65, scale.y = 1, pch = 16)
++ s3d$plane3d(fm, lty.box = "solid", col = 4)
++ }
+Loading required package: scatterplot3d
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:scatterplot3d’, ‘package:lmtest’, ‘package:zoo’
+
+> nameEx("NeweyWest")
+> ### * NeweyWest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: NeweyWest
+> ### Title: Newey-West HAC Covariance Matrix Estimation
+> ### Aliases: bwNeweyWest NeweyWest
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> ## fit investment equation
+> data(Investment)
+> fm <- lm(RealInv ~ RealGNP + RealInt, data = Investment)
+> 
+> ## Newey & West (1994) compute this type of estimator
+> NeweyWest(fm)
+            (Intercept)       RealGNP     RealInt
+(Intercept) 594.1004817 -0.5617817294 36.04992496
+RealGNP      -0.5617817  0.0005563172 -0.04815937
+RealInt      36.0499250 -0.0481593694 13.24912546
+> 
+> ## The Newey & West (1987) estimator requires specification
+> ## of the lag and suppression of prewhitening
+> NeweyWest(fm, lag = 4, prewhite = FALSE)
+            (Intercept)       RealGNP      RealInt
+(Intercept) 359.4170681 -0.3115505035 -4.089319305
+RealGNP      -0.3115505  0.0002805888 -0.005355931
+RealInt      -4.0893193 -0.0053559312 11.171472998
+> 
+> ## bwNeweyWest() can also be passed to kernHAC(), e.g.
+> ## for the quadratic spectral kernel
+> kernHAC(fm, bw = bwNeweyWest)
+            (Intercept)       RealGNP     RealInt
+(Intercept)  794.986166 -0.7562570101 48.19485118
+RealGNP       -0.756257  0.0007537517 -0.06485461
+RealInt       48.194851 -0.0648546058 17.58798679
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PublicSchools")
+> ### * PublicSchools
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PublicSchools
+> ### Title: US Expenditures for Public Schools
+> ### Aliases: PublicSchools
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> ## Willam H. Greene, Econometric Analysis, 2nd Ed.
+> ## Chapter 14
+> ## load data set, p. 385, Table 14.1
+> data("PublicSchools", package = "sandwich")
+> 
+> ## omit NA in Wisconsin and scale income
+> ps <- na.omit(PublicSchools)
+> ps$Income <- ps$Income * 0.0001
+> 
+> ## fit quadratic regression, p. 385, Table 14.2
+> fmq <- lm(Expenditure ~ Income + I(Income^2), data = ps)
+> summary(fmq)
+
+Call:
+lm(formula = Expenditure ~ Income + I(Income^2), data = ps)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-160.709  -36.896   -4.551   37.290  109.729 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept)    832.9      327.3   2.545  0.01428 * 
+Income       -1834.2      829.0  -2.213  0.03182 * 
+I(Income^2)   1587.0      519.1   3.057  0.00368 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 56.68 on 47 degrees of freedom
+Multiple R-squared:  0.6553,	Adjusted R-squared:  0.6407 
+F-statistic: 44.68 on 2 and 47 DF,  p-value: 1.345e-11
+
+> 
+> ## compare standard and HC0 standard errors
+> ## p. 391, Table 14.3
+> coef(fmq)
+(Intercept)      Income I(Income^2) 
+   832.9144  -1834.2029   1587.0423 
+> sqrt(diag(vcovHC(fmq, type = "const")))
+(Intercept)      Income I(Income^2) 
+   327.2925    828.9855    519.0768 
+> sqrt(diag(vcovHC(fmq, type = "HC0")))
+(Intercept)      Income I(Income^2) 
+   460.8917   1243.0430    829.9927 
+> 
+> 
+> if(require(lmtest)) {
++ ## compare t ratio
++ coeftest(fmq, vcov = vcovHC(fmq, type = "HC0"))
++ 
++ ## White test, p. 393, Example 14.5
++ wt <- lm(residuals(fmq)^2 ~ poly(Income, 4), data = ps)
++ wt.stat <- summary(wt)$r.squared * nrow(ps)
++ c(wt.stat, pchisq(wt.stat, df = 3, lower = FALSE))
++ 
++ ## Bresch-Pagan test, p. 395, Example 14.7
++ bptest(fmq, studentize = FALSE)
++ bptest(fmq)
++ 
++ ## Francisco Cribari-Neto, Asymptotic Inference, CSDA 45
++ ## quasi z-tests, p. 229, Table 8
++ ## with Alaska
++ coeftest(fmq, df = Inf)[3,4]
++ coeftest(fmq, df = Inf, vcov = vcovHC(fmq, type = "HC0"))[3,4]
++ coeftest(fmq, df = Inf, vcov = vcovHC(fmq, type = "HC3"))[3,4]
++ coeftest(fmq, df = Inf, vcov = vcovHC(fmq, type = "HC4"))[3,4]
++ ## without Alaska (observation 2)
++ fmq1 <- lm(Expenditure ~ Income + I(Income^2), data = ps[-2,])
++ coeftest(fmq1, df = Inf)[3,4]
++ coeftest(fmq1, df = Inf, vcov = vcovHC(fmq1, type = "HC0"))[3,4]
++ coeftest(fmq1, df = Inf, vcov = vcovHC(fmq1, type = "HC3"))[3,4]
++ coeftest(fmq1, df = Inf, vcov = vcovHC(fmq1, type = "HC4"))[3,4]
++ }
+Loading required package: lmtest
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+[1] 0.8923303
+> 
+> ## visualization, p. 230, Figure 1
+> plot(Expenditure ~ Income, data = ps,
++   xlab = "per capita income",
++   ylab = "per capita spending on public schools")
+> inc <- seq(0.5, 1.2, by = 0.001)
+> lines(inc, predict(fmq, data.frame(Income = inc)), col = 4)
+> fml <- lm(Expenditure ~ Income, data = ps)
+> abline(fml)
+> text(ps[2,2], ps[2,1], rownames(ps)[2], pos = 2)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:lmtest’, ‘package:zoo’
+
+> nameEx("bread")
+> ### * bread
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: bread
+> ### Title: Bread for Sandwiches
+> ### Aliases: bread bread.default bread.lm bread.mlm bread.survreg
+> ###   bread.coxph bread.gam bread.nls bread.rlm bread.hurdle bread.zeroinfl
+> ###   bread.mlogit bread.polr bread.clm
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> ## linear regression
+> x <- sin(1:10)
+> y <- rnorm(10)
+> fm <- lm(y ~ x)
+> 
+> ## bread: n * (x'x)^{-1}
+> bread(fm)
+            (Intercept)          x
+(Intercept)   1.0414689 -0.2938577
+x            -0.2938577  2.0823419
+> solve(crossprod(cbind(1, x))) * 10
+                      x
+   1.0414689 -0.2938577
+x -0.2938577  2.0823419
+> 
+> 
+> 
+> cleanEx()
+> nameEx("estfun")
+> ### * estfun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: estfun
+> ### Title: Extract Empirical Estimating Functions
+> ### Aliases: estfun estfun.lm estfun.glm estfun.mlm estfun.rlm estfun.polr
+> ###   estfun.clm estfun.survreg estfun.coxph estfun.nls estfun.hurdle
+> ###   estfun.zeroinfl estfun.mlogit
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> ## linear regression
+> x <- 1:9
+> y <- sin(1:9/5)
+> m <- lm(y ~ x)
+> 
+> ## estimating function: (y - x'beta) * x
+> estfun(m)
+  (Intercept)           x
+1 -0.13577304 -0.13577304
+2 -0.04481531 -0.08963062
+3  0.03061755  0.09185265
+4  0.08353989  0.33415956
+5  0.10786351  0.53931755
+6  0.09864034  0.59184202
+7  0.05225971  0.36581794
+8 -0.03340770 -0.26726157
+9 -0.15892494 -1.43032449
+> residuals(m) * cbind(1, x)
+                            x
+ [1,] -0.13577304 -0.13577304
+ [2,] -0.04481531 -0.08963062
+ [3,]  0.03061755  0.09185265
+ [4,]  0.08353989  0.33415956
+ [5,]  0.10786351  0.53931755
+ [6,]  0.09864034  0.59184202
+ [7,]  0.05225971  0.36581794
+ [8,] -0.03340770 -0.26726157
+ [9,] -0.15892494 -1.43032449
+> 
+> 
+> 
+> cleanEx()
+> nameEx("isoacf")
+> ### * isoacf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: isoacf
+> ### Title: Isotonic Autocorrelation Function
+> ### Aliases: isoacf pava.blocks
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> set.seed(1)
+> x <- filter(rnorm(100), 0.9, "recursive")
+> isoacf(x)
+  [1]  1.00000000  0.75620784  0.52668286  0.31877074  0.17874234  0.10451987
+  [7]  0.07597397  0.07597397  0.07054562  0.03324149 -0.02266489 -0.02266489
+ [13] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [19] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [25] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [31] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [37] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [43] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [49] -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489 -0.02266489
+ [55] -0.03242424 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610
+ [61] -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610
+ [67] -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610
+ [73] -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610
+ [79] -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610
+ [85] -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03500610 -0.03924011
+ [91] -0.03924011 -0.03924011 -0.03924011 -0.03924011 -0.03924011 -0.03924011
+ [97] -0.03924011 -0.03924011 -0.03924011 -0.03924011
+> acf(x, plot = FALSE)$acf
+, , 1
+
+             [,1]
+ [1,]  1.00000000
+ [2,]  0.75620784
+ [3,]  0.52668286
+ [4,]  0.31877074
+ [5,]  0.17874234
+ [6,]  0.10451987
+ [7,]  0.06774750
+ [8,]  0.08420043
+ [9,]  0.07054562
+[10,]  0.03324149
+[11,] -0.02547696
+[12,] -0.08386780
+[13,] -0.12702588
+[14,] -0.15733924
+[15,] -0.22570274
+[16,] -0.27858103
+[17,] -0.32634007
+[18,] -0.31457877
+[19,] -0.32132555
+[20,] -0.32323138
+[21,] -0.28412580
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("kweights")
+> ### * kweights
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: kweights
+> ### Title: Kernel Weights
+> ### Aliases: kweights
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> curve(kweights(x, kernel = "Quadratic", normalize = TRUE),
++       from = 0, to = 3.2, xlab = "x", ylab = "k(x)")
+> curve(kweights(x, kernel = "Bartlett", normalize = TRUE),
++       from = 0, to = 3.2, col = 2, add = TRUE)
+> curve(kweights(x, kernel = "Parzen", normalize = TRUE),
++       from = 0, to = 3.2, col = 3, add = TRUE)
+> curve(kweights(x, kernel = "Tukey", normalize = TRUE),
++       from = 0, to = 3.2, col = 4, add = TRUE)
+> curve(kweights(x, kernel = "Truncated", normalize = TRUE),
++       from = 0, to = 3.2, col = 5, add = TRUE)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("lrvar")
+> ### * lrvar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: lrvar
+> ### Title: Long-Run Variance of the Mean
+> ### Aliases: lrvar
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> suppressWarnings(RNGversion("3.5.0"))
+> set.seed(1)
+> ## iid series (with variance of mean 1/n)
+> ## and Andrews kernel HAC (with prewhitening)
+> x <- rnorm(100)
+> lrvar(x)
+[1] 0.007958048
+> 
+> ## analogous multivariate case with Newey-West estimator (without prewhitening)
+> y <- matrix(rnorm(200), ncol = 2)
+> lrvar(y, type = "Newey-West", prewhite = FALSE)
+             [,1]         [,2]
+[1,] 0.0097884718 0.0005978738
+[2,] 0.0005978738 0.0073428222
+> 
+> ## AR(1) series with autocorrelation 0.9
+> z <- filter(rnorm(100), 0.9, method = "recursive")
+> lrvar(z)
+[1] 0.4385546
+> 
+> 
+> 
+> cleanEx()
+> nameEx("meat")
+> ### * meat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: meat
+> ### Title: A Simple Meat Matrix Estimator
+> ### Aliases: meat
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> x <- sin(1:10)
+> y <- rnorm(10)
+> fm <- lm(y ~ x)
+> 
+> meat(fm)
+            (Intercept)           x
+(Intercept)  0.54308202 -0.06199868
+x           -0.06199868  0.21823310
+> meatHC(fm, type = "HC")
+            (Intercept)           x
+(Intercept)  0.54308202 -0.06199868
+x           -0.06199868  0.21823310
+> meatHAC(fm)
+            (Intercept)          x
+(Intercept)  0.32259620 0.08446047
+x            0.08446047 0.37529225
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sandwich")
+> ### * sandwich
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sandwich
+> ### Title: Making Sandwiches with Bread and Meat
+> ### Aliases: sandwich
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> x <- sin(1:10)
+> y <- rnorm(10)
+> fm <- lm(y ~ x)
+> 
+> sandwich(fm)
+            (Intercept)           x
+(Intercept)  0.06458514 -0.04395562
+x           -0.04395562  0.10690628
+> vcovHC(fm, type = "HC")
+            (Intercept)           x
+(Intercept)  0.06458514 -0.04395562
+x           -0.04395562  0.10690628
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovBS")
+> ### * vcovBS
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovBS
+> ### Title: (Clustered) Bootstrap Covariance Matrix Estimation
+> ### Aliases: vcovBS vcovBS.default vcovBS.lm vcovBS.glm .vcovBSenv
+> ### Keywords: regression bootstrap
+> 
+> ### ** Examples
+> 
+> ## Petersen's data
+> data("PetersenCL", package = "sandwich")
+> m <- lm(y ~ x, data = PetersenCL)
+> 
+> ## comparison of different standard errors
+> suppressWarnings(RNGversion("3.5.0"))
+> set.seed(1)
+> cbind(
++   "classical" = sqrt(diag(vcov(m))),
++   "HC-cluster" = sqrt(diag(vcovCL(m, cluster = ~ firm))),
++   "BS-cluster" = sqrt(diag(vcovBS(m, cluster = ~ firm))),
++   "FW-cluster" = sqrt(diag(vcovBS(m, cluster = ~ firm, type = "fractional")))
++ )
+             classical HC-cluster BS-cluster FW-cluster
+(Intercept) 0.02835932 0.06701270 0.07067533 0.06596187
+x           0.02858329 0.05059573 0.04878784 0.04965168
+> 
+> ## two-way wild cluster bootstrap with Mammen distribution
+> vcovBS(m, cluster = ~ firm + year, type = "wild-mammen")
+            (Intercept)           x
+(Intercept) 0.004135069 0.000364327
+x           0.000364327 0.002659964
+> 
+> ## jackknife estimator coincides with HC3 (aka CV3)
+> all.equal(
++   vcovBS(m, cluster = ~ firm, type = "jackknife"),
++   vcovCL(m, cluster = ~ firm, type = "HC3", cadjust = FALSE),
++   tolerance = 1e-7
++ )
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovCL")
+> ### * vcovCL
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovCL
+> ### Title: Clustered Covariance Matrix Estimation
+> ### Aliases: vcovCL meatCL
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> ## Petersen's data
+> data("PetersenCL", package = "sandwich")
+> m <- lm(y ~ x, data = PetersenCL)
+> 
+> ## clustered covariances
+> ## one-way
+> vcovCL(m, cluster = ~ firm)
+              (Intercept)             x
+(Intercept)  4.490702e-03 -6.473517e-05
+x           -6.473517e-05  2.559927e-03
+> vcovCL(m, cluster = PetersenCL$firm) ## same
+              (Intercept)             x
+(Intercept)  4.490702e-03 -6.473517e-05
+x           -6.473517e-05  2.559927e-03
+> ## one-way with HC2
+> vcovCL(m, cluster = ~ firm, type = "HC2")
+              (Intercept)             x
+(Intercept)  4.494487e-03 -6.592912e-05
+x           -6.592912e-05  2.568236e-03
+> ## two-way
+> vcovCL(m, cluster = ~ firm + year)
+              (Intercept)             x
+(Intercept)  4.233313e-03 -2.845344e-05
+x           -2.845344e-05  2.868462e-03
+> vcovCL(m, cluster = PetersenCL[, c("firm", "year")]) ## same
+              (Intercept)             x
+(Intercept)  4.233313e-03 -2.845344e-05
+x           -2.845344e-05  2.868462e-03
+> 
+> ## comparison with cross-section sandwiches
+> ## HC0
+> all.equal(sandwich(m), vcovCL(m, type = "HC0", cadjust = FALSE))
+[1] TRUE
+> ## HC2
+> all.equal(vcovHC(m, type = "HC2"), vcovCL(m, type = "HC2"))
+[1] TRUE
+> ## HC3
+> all.equal(vcovHC(m, type = "HC3"), vcovCL(m, type = "HC3"))
+[1] TRUE
+> 
+> ## Innovation data
+> data("InstInnovation", package = "sandwich")
+> 
+> ## replication of one-way clustered standard errors for model 3, Table I
+> ## and model 1, Table II in Berger et al. (2017), see ?InstInnovation
+> 
+> ## count regression formula
+> f1 <- cites ~ institutions + log(capital/employment) + log(sales) + industry + year
+> 
+> ## model 3, Table I: Poisson model
+> ## one-way clustered standard errors
+> tab_I_3_pois <- glm(f1, data = InstInnovation, family = poisson)
+> vcov_pois <- vcovCL(tab_I_3_pois, InstInnovation$company)
+> sqrt(diag(vcov_pois))[2:4]
+           institutions log(capital/employment)              log(sales) 
+            0.002406388             0.135953255             0.041523405 
+> 
+> ## coefficient tables
+> if(require("lmtest")) {
++ coeftest(tab_I_3_pois, vcov = vcov_pois)[2:4, ]
++ }
+Loading required package: lmtest
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+                           Estimate  Std. Error   z value     Pr(>|z|)
+institutions            0.009687237 0.002406388  4.025634 5.682195e-05
+log(capital/employment) 0.482883549 0.135953255  3.551835 3.825545e-04
+log(sales)              0.820317600 0.041523405 19.755548 7.187199e-87
+> 
+> ## Not run: 
+> ##D ## model 1, Table II: negative binomial hurdle model
+> ##D ## (requires "pscl" or alternatively "countreg" from R-Forge)
+> ##D library("pscl")
+> ##D library("lmtest")
+> ##D tab_II_3_hurdle <- hurdle(f1, data = InstInnovation, dist = "negbin")
+> ##D #  dist = "negbin", zero.dist = "negbin", separate = FALSE)
+> ##D vcov_hurdle <- vcovCL(tab_II_3_hurdle, InstInnovation$company)
+> ##D sqrt(diag(vcov_hurdle))[c(2:4, 149:151)]
+> ##D coeftest(tab_II_3_hurdle, vcov = vcov_hurdle)[c(2:4, 149:151), ]
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:lmtest’, ‘package:zoo’
+
+> nameEx("vcovHAC")
+> ### * vcovHAC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovHAC
+> ### Title: Heteroscedasticity and Autocorrelation Consistent (HAC)
+> ###   Covariance Matrix Estimation
+> ### Aliases: vcovHAC vcovHAC.default meatHAC
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> x <- sin(1:100)
+> y <- 1 + x + rnorm(100)
+> fm <- lm(y ~ x)
+> vcovHAC(fm)
+             (Intercept)            x
+(Intercept)  0.008125428 -0.002043239
+x           -0.002043239  0.018939164
+> vcov(fm)
+             (Intercept)            x
+(Intercept) 8.124921e-03 2.055475e-05
+x           2.055475e-05 1.616308e-02
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovHC")
+> ### * vcovHC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovHC
+> ### Title: Heteroscedasticity-Consistent Covariance Matrix Estimation
+> ### Aliases: vcovHC vcovHC.default vcovHC.mlm meatHC
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> ## generate linear regression relationship
+> ## with homoscedastic variances
+> x <- sin(1:100)
+> y <- 1 + x + rnorm(100)
+> ## model fit and HC3 covariance
+> fm <- lm(y ~ x)
+> vcovHC(fm)
+             (Intercept)            x
+(Intercept)  0.008318070 -0.002037159
+x           -0.002037159  0.019772693
+> ## usual covariance matrix
+> vcovHC(fm, type = "const")
+             (Intercept)            x
+(Intercept) 8.124921e-03 2.055475e-05
+x           2.055475e-05 1.616308e-02
+> vcov(fm)
+             (Intercept)            x
+(Intercept) 8.124921e-03 2.055475e-05
+x           2.055475e-05 1.616308e-02
+> 
+> sigma2 <- sum(residuals(lm(y ~ x))^2)/98
+> sigma2 * solve(crossprod(cbind(1, x)))
+                          x
+  8.124921e-03 2.055475e-05
+x 2.055475e-05 1.616308e-02
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovJK")
+> ### * vcovJK
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovJK
+> ### Title: (Clustered) Jackknife Covariance Matrix Estimation
+> ### Aliases: vcovJK vcovJK.default
+> ### Keywords: regression bootstrap
+> 
+> ### ** Examples
+> 
+> ## cross-section data
+> data("PublicSchools", package = "sandwich")
+> m1 <- lm(Expenditure ~ poly(Income, 2), data = PublicSchools)
+> vcovJK(m1, center = "estimate")
+                 (Intercept) poly(Income, 2)1 poly(Income, 2)2
+(Intercept)         97.84092         1055.131         1370.855
+poly(Income, 2)1  1055.13101        25053.095        31336.158
+poly(Income, 2)2  1370.85525        31336.158        46955.800
+> vcovHC(m1, type = "HC3") * (nobs(m1) - 1)/nobs(m1)
+                 (Intercept) poly(Income, 2)1 poly(Income, 2)2
+(Intercept)         97.84092         1055.131         1370.855
+poly(Income, 2)1  1055.13101        25053.095        31336.158
+poly(Income, 2)2  1370.85525        31336.158        46955.800
+> 
+> ## clustered data
+> data("PetersenCL", package = "sandwich")
+> m2 <- lm(y ~ x, data = PetersenCL)
+> 
+> ## jackknife estimator coincides with HC3 (aka CV3)
+> vcovJK(m2, cluster = ~ firm, center = "estimate")
+              (Intercept)             x
+(Intercept)  4.499186e-03 -6.714627e-05
+x           -6.714627e-05  2.577098e-03
+> vcovCL(m2, cluster = ~ firm, type = "HC3", cadjust = FALSE)
+              (Intercept)             x
+(Intercept)  4.499186e-03 -6.714627e-05
+x           -6.714627e-05  2.577098e-03
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovOPG")
+> ### * vcovOPG
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovOPG
+> ### Title: Outer-Product-of-Gradients Covariance Matrix Estimation
+> ### Aliases: vcovOPG
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> ## generate poisson regression relationship
+> x <- sin(1:100)
+> y <- rpois(100, exp(1 + x))
+> ## compute usual covariance matrix of coefficient estimates
+> fm <- glm(y ~ x, family = poisson)
+> vcov(fm)
+             (Intercept)            x
+(Intercept)  0.004526581 -0.003679570
+x           -0.003679570  0.008110051
+> vcovOPG(fm)
+             (Intercept)            x
+(Intercept)  0.005183615 -0.003086646
+x           -0.003086646  0.009584083
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovPC")
+> ### * vcovPC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovPC
+> ### Title: Panel-Corrected Covariance Matrix Estimation
+> ### Aliases: vcovPC meatPC
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> ## Petersen's data
+> data("PetersenCL", package = "sandwich")
+> m <- lm(y ~ x, data = PetersenCL)
+> 
+> ## Beck and Katz (1995) standard errors
+> ## balanced panel
+> sqrt(diag(vcovPC(m, cluster = ~ firm + year)))
+(Intercept)           x 
+ 0.02220064  0.02527598 
+> 
+> ## unbalanced panel
+> PU <- subset(PetersenCL, !(firm == 1 & year == 10))
+> pu_lm <- lm(y ~ x, data = PU)
+> sqrt(diag(vcovPC(pu_lm, cluster = ~ firm + year, pairwise = TRUE)))
+(Intercept)           x 
+ 0.02206979  0.02533772 
+> sqrt(diag(vcovPC(pu_lm, cluster = ~ firm + year, pairwise = FALSE)))
+(Intercept)           x 
+ 0.02260277  0.02524119 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vcovPL")
+> ### * vcovPL
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vcovPL
+> ### Title: Clustered Covariance Matrix Estimation for Panel Data
+> ### Aliases: vcovPL meatPL
+> ### Keywords: regression
+> 
+> ### ** Examples
+> 
+> ## Petersen's data
+> data("PetersenCL", package = "sandwich")
+> m <- lm(y ~ x, data = PetersenCL)
+> 
+> ## Driscoll and Kraay standard errors
+> ## lag length set to: T - 1 (maximum lag length)
+> ## as proposed by Petersen (2009)
+> sqrt(diag(vcovPL(m, cluster = ~ firm + year, lag = "max", adjust = FALSE)))
+(Intercept)           x 
+ 0.01618977  0.01426121 
+> 
+> ## lag length set to: floor(4 * (T / 100)^(2/9))
+> ## rule of thumb proposed by Hoechle (2007) based on Newey & West (1994)
+> sqrt(diag(vcovPL(m, cluster = ~ firm + year, lag = "NW1994")))
+(Intercept)           x 
+ 0.02289115  0.02441980 
+> 
+> ## lag length set to: floor(T^(1/4))
+> ## rule of thumb based on Newey & West (1987)
+> sqrt(diag(vcovPL(m, cluster = ~ firm + year, lag = "NW1987")))
+(Intercept)           x 
+ 0.02436219  0.02816896 
+> 
+> ## the following specifications of cluster/order.by are equivalent
+> vcovPL(m, cluster = ~ firm + year)
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> vcovPL(m, cluster = PetersenCL[, c("firm", "year")])
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> vcovPL(m, cluster = ~ firm, order.by = ~ year)
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> vcovPL(m, cluster = PetersenCL$firm, order.by = PetersenCL$year)
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> 
+> ## these are also the same when observations within each
+> ## cluster are already ordered
+> vcovPL(m, cluster = ~ firm)
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> vcovPL(m, cluster = PetersenCL$firm)
+             (Intercept)            x
+(Intercept) 5.935164e-04 2.222292e-05
+x           2.222292e-05 7.934905e-04
+> 
+> 
+> 
+> cleanEx()
+> nameEx("weightsAndrews")
+> ### * weightsAndrews
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: weightsAndrews
+> ### Title: Kernel-based HAC Covariance Matrix Estimation
+> ### Aliases: weightsAndrews bwAndrews kernHAC
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> curve(kweights(x, kernel = "Quadratic", normalize = TRUE),
++       from = 0, to = 3.2, xlab = "x", ylab = "k(x)")
+> curve(kweights(x, kernel = "Bartlett", normalize = TRUE),
++       from = 0, to = 3.2, col = 2, add = TRUE)
+> curve(kweights(x, kernel = "Parzen", normalize = TRUE),
++       from = 0, to = 3.2, col = 3, add = TRUE)
+> curve(kweights(x, kernel = "Tukey", normalize = TRUE),
++       from = 0, to = 3.2, col = 4, add = TRUE)
+> curve(kweights(x, kernel = "Truncated", normalize = TRUE),
++       from = 0, to = 3.2, col = 5, add = TRUE)
+> 
+> ## fit investment equation
+> data(Investment)
+> fm <- lm(RealInv ~ RealGNP + RealInt, data = Investment)
+> 
+> ## compute quadratic spectral kernel HAC estimator
+> kernHAC(fm)
+            (Intercept)       RealGNP     RealInt
+(Intercept) 788.6120652 -0.7502080996 49.78912814
+RealGNP      -0.7502081  0.0007483977 -0.06641343
+RealInt      49.7891281 -0.0664134303 17.71735491
+> kernHAC(fm, verbose = TRUE)
+
+Bandwidth chosen: 1.744749 
+            (Intercept)       RealGNP     RealInt
+(Intercept) 788.6120652 -0.7502080996 49.78912814
+RealGNP      -0.7502081  0.0007483977 -0.06641343
+RealInt      49.7891281 -0.0664134303 17.71735491
+> 
+> ## use Parzen kernel instead, VAR(2) prewhitening, no finite sample
+> ## adjustment and Newey & West (1994) bandwidth selection
+> kernHAC(fm, kernel = "Parzen", prewhite = 2, adjust = FALSE,
++   bw = bwNeweyWest, verbose = TRUE)
+
+Bandwidth chosen: 2.814444 
+            (Intercept)       RealGNP      RealInt
+(Intercept) 608.3101258 -0.5089107386 -64.93690203
+RealGNP      -0.5089107  0.0004340803   0.04689293
+RealInt     -64.9369020  0.0468929322  15.58251456
+> 
+> ## compare with estimate under assumption of spheric errors
+> vcov(fm)
+            (Intercept)       RealGNP     RealInt
+(Intercept) 620.7706170 -0.5038304429  8.47475285
+RealGNP      -0.5038304  0.0004229789 -0.01145679
+RealInt       8.4747529 -0.0114567949  5.61097245
+> 
+> 
+> 
+> cleanEx()
+> nameEx("weightsLumley")
+> ### * weightsLumley
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: weightsLumley
+> ### Title: Weighted Empirical Adaptive Variance Estimation
+> ### Aliases: weightsLumley weave
+> ### Keywords: regression ts
+> 
+> ### ** Examples
+> 
+> x <- sin(1:100)
+> y <- 1 + x + rnorm(100)
+> fm <- lm(y ~ x)
+> weave(fm)
+             (Intercept)            x
+(Intercept)  0.007957440 -0.001936926
+x           -0.001936926  0.018775226
+> vcov(fm)
+             (Intercept)            x
+(Intercept) 8.124921e-03 2.055475e-05
+x           2.055475e-05 1.616308e-02
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  6.065 0.316 6.395 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

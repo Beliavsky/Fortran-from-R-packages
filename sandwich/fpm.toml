@@ -1,0 +1,25 @@
+name = "sandwich"
+version = "3.1.2"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Achim Zeileis; Thomas Lumley; sandwich contributors; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of the R package sandwich"
+categories = ["statistics", "econometrics"]
+keywords = ["robust-covariance", "sandwich", "HAC", "clustered-standard-errors", "panel-data"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[install]
+library = true
