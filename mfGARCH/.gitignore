@@ -1,0 +1,7 @@
+build/
+*.o
+*.mod
+*.smod
+*.exe
+*.out
+mfgarch_simulation.csv
