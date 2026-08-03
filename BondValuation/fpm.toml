@@ -1,0 +1,17 @@
+name = "bondvaluation"
+version = "0.1.1"
+license = "GPL-3.0-only"
+author = "Wadim Djatschenko; Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "Copyright (c) Wadim Djatschenko"
+description = "Fixed-coupon bond valuation with odd coupon periods and sixteen day-count conventions"
+categories = ["finance", "fixed-income", "numerical"]
+keywords = ["bond", "yield", "duration", "day-count", "fortran"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
