@@ -1,0 +1,624 @@
+---
+title: "QuantBondCurves"
+author: "Camilo Díaz"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{QuantBondCurves}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(ggplot2)
+```
+
+```{r setup}
+library(QuantBondCurves)
+```
+
+The 'QuantBondCurves' package offers a range of functions for valuing various asset types and generating financial curves. It covers fixed-coupon assets, floating notes and swaps, with varying payment frequencies. The package also enables the calibration of spot, instantaneous forward and basis curves, making it a powerful tool for accurate and flexible bond valuation and curve generation. The valuation and calibration techniques presented here are consistent with industry standards and incorporates author's own calculations.
+    
+## Coupon Dates
+The `coupon.dates()` function allows the user to calculate the coupon payment dates of a given asset, based on its payment frequency. In most cases, this process is straightforward. However, certain scenarios require careful attention to detail. For the former cases, the `coupon.dates` function starts from `maturity` and crawls back using the annual payment frequency `freq`, until `analysis.date` is reached:
+
+```{r}
+coupon.dates(maturity = "2029-10-01", analysis.date = "2027-08-01", freq = 1, convention = "F")
+```
+
+As can be seen, the output is comprised of two vectors. Vector **\$dates** represents the dates on which coupon payments are due and **\$effective.dates** adjust each date if it falls on a non-business day. This adjustment is done according to input `convention`, which offers the most commonly used conventions in the industry. Please refer to the help viewer for details.
+
+The `maturity` input can either be expressed as a date or as a numeric value in years. An example demonstrating the latter case is provided below:
+
+```{r}
+coupon.dates(maturity = 2, analysis.date = "2023-03-01", freq = 1)
+```
+
+For this example, maturity as a date is calculated from trade date (i.e., going forward two years from "2023-03-01"). In this case, since `trade.date` input is not introduced, function assumes `analysis.date` is `trade.date`.
+
+As evidenced in the previous examples, for straightforward cases, `trade.date` of the asset is not required.   
+On the other hand, non trivial cases require both `trade.date` and `maturity` as input. An example is with financial assets that possess a distinct coupon period, characterized by a different length compared to the remaining periods. Below we present an example for a bond with a long first coupon:
+
+```{r}
+coupon.dates(maturity = "2025-02-28", analysis.date = "2023-09-29", 
+             asset.type = "Fixed Income", freq = 4,
+             trade.date = "2023-09-29", coupon.schedule = "LF")
+```
+
+In this example, `coupon.schedule` is provided to establish where the "outlier" coupon period has to be introduced; see more in the help viewer.
+
+Another detail about this function is the relationship between `asset.type` and `freq`. The input `asset.type` is only required if the asset type is linked to LIBOR (`asset.type %in% c("LIBOR","LIBORSwaps")`), as in these cases the actual `trade.date` is two business days after the introduced `trade.date`. Otherwise, the information in `asset.type` is only used if `freq` input is not provided.
+
+## Coupons
+
+The `coupons()` function calculates the cash flows for the remaining life of an asset, following a date payment structure, a given face value and a specified coupon rate. 
+
+Just like `coupon.dates()`, most cases of coupon calculation are straightforward. Once payment dates are known, only an additional crawl back is required in order to establish the length of the upcoming coupon period.
+For cases when the crawl back process is inadequate (e.g., long first coupon bond), the `coupons()` function offers the same solution of introducing `trade.date` of the asset:
+
+```{r}
+coupons(maturity = 4.08, analysis.date = "2021-02-28", coupon.rate = 0.03,
+        asset.type = "IBR", daycount = "ACT/360", trade.date = "2020-02-29",
+        coupon.schedule = "LF")
+```
+
+For this function, `asset.type` is always required. For `asset.type` in (**"LIBOR", "IBR", "LIBORSwaps","UVRSwaps", "IBRSwaps"**) `freq` is assumed depending on the asset, if left blank. For asset.type in **("FixedIncome","CCS")** `freq` is never assumed and must be introduced. Ultimately, when dealing with assets of type **"TES"**, the coupon period is uniformly set to 1 year, meaning that the value specified for the `daycount` input is disregarded. The remaining inputs are identical to those on the `coupon.dates()` function.
+
+## Discount Factors
+
+The `discount.factors()` function allows the user to calculate the discount factors of a given asset. Effective payment dates (`dates`) are required as input of the function, those can be obtained from the **\$effective.dates** vector with the `coupon.dates()` function.
+
+Only for `discount.factors()`, the parameter `freq` represents the compounding frequency to be used for calculating the discrete discount factors (e.g., `freq = 2` refers to semi-annual compounded discount rates). For any other function in the 'QuantBondCurves' package, `freq` represents the annual frequency of coupon payments. Discrete compounded discount rates option can be set with `rate.type = 1`; alternatively, the user can choose to work with continuously compounded rates (`rate.type = 0`).
+
+Here is an example for calculating discount factors with monthly compounded discount rates:
+```{r}
+discount.factors(dates = c("2020-09-10", "2020-12-10", "2021-03-10"),
+                 rates = c(0.01, 0.015, 0.017), analysis.date = "2010-09-01",
+                 rate.type = 1, freq = 12)
+```
+
+## Bond Valuation
+
+The `valuation.bonds()` function allows the user to value bonds, fixed income securities, floating notes, spread income assets or fixed legs of swaps. The input `coupon.rate` can either receive a unique number or a vector whose length matches the length of coupon payments. A unique number should be used to value fixed income assets, fixed legs of interest rate swaps or floating notes with the method of using the floating rate observed on the previous coupon date, common in several jurisdictions: 
+
+```{r}
+valuation.bonds(maturity = "2026-06-01", coupon.rate = 0.06, rates = 0.08,
+                principal = 1000, analysis.date= "2023-06-01")
+```
+
+On the other hand, `coupon.rate` as a vector can be used to value floating notes with a forward rate for each coupon payment: 
+
+```{r}
+valuation.bonds(maturity = "2026-01-05", coupon.rate = c(0.04,0.043,0.05,0.052),
+                rates = c(0.06,0.061,0.063,0.067), principal = 1000,
+                analysis.date = "2025-01-05", asset.type = "IBR", freq = 4)
+```
+
+## Bonds price to rate
+
+The `bond.price2rate()` function is a useful tool that can be used to calculate the internal rate of return (IRR) of a bond, after `price` as input is introduced:
+
+```{r}
+bond.price2rate(maturity = "2023-01-03", analysis.date = "2021-01-03",
+                price = 0.98, coupon.rate = 0.04, principal = 1,
+                asset.type = "IBR", freq = 4, daycount = "ACT/365")
+```
+
+## Bond Sensitivity
+The `sens.bonds()` function allows the user to calculate the sensitivity of a given bond to interest rates, either by inserting in the `price` input a bond price (`input = price`) or an IRR (`input = rate`). The output represents the percentage change in the price of the bond resulting from a 1 basis point movement in interest rates. Here is an example for the former case:
+
+```{r}
+sens.bonds(input = "price", price = 1.02, maturity = "2023-01-03",
+           analysis.date = "2020-01-03", coupon.rate = 0.04,
+           principal = 1, asset.type = "FixedIncome", freq = 1, 
+           rate.type = 1, daycount = "ACT/365", dirty = 1)
+```
+
+For the latter case (`input = rate`), `price` can either receive a unique IRR or a rates vector that corresponds to every coupon date:
+
+```{r}
+sens.bonds(input = "rate", price = c(0.04,0.05), maturity = "2025-02-05",
+           analysis.date = "2024-06-12", coupon.rate = 0.03, 
+           principal = 1, asset.type = "FixedIncome", freq = 2,
+           rate.type = 0)
+```
+
+
+## Weighted Average Life 
+The `average.life()` function calculates the weighted average life of a given bond. Similar to `sens.bonds()`, `price` input can either receive a bond price (`input = price`) or an IRR (`input = rate`). Below we denote an example for the latter: 
+
+```{r}
+average.life(input = c("rate"), price = c(0.043,0.05), maturity = "2023-01-03", 
+             analysis.date = "2021-01-03", coupon.rate = 0.04, principal = 1,
+             asset.type = "FixedIncome", freq = 1, rate.type = 0)
+```
+
+## Curve Calibration
+
+The `curve.calibration()` function calibrates and returns either a zero coupon bond or an instantaneous forward curve. The calibration process is determined by parameters such as `npieces`, `obj`, `Weights`, `nsimul`, `piece.term`, and `approximation`. Meanwhile, input data is determined by `yield.curve`, `market.assets`, `noSpots`, and `freq`. Finally, the `nodes` parameter specifies which terms (in years) are output of the calibrated curve.
+
+Delving into input data, `yield.curve` is a vector with the IRR's of the financial assets, with `names(yield.curve)` containing the maturity for each rate as numeric in years. If `noSpots = 3`, the first three arguments of `yield.curve` will be established as spot. The `market.assets` input is a matrix whose first column is the coupon rate of each asset and the second column contains the maturities of each asset as dates. For cases when the IRR's of the assets are the same as the coupon rate (e.g., IBR curve), the `market.assets` input can be left blank. Additionally, for cases where `market.assets` and `yield.curve` are required, maturity info can be left blank either in `names(yield.curve)` or in the second column of `market.assets`. Moreover, `freq` parameter can be provided as either a single value that applies to all input assets, or as a vector in which each element corresponds to a specific asset.
+
+Regarding calibration inputs, `npieces` determines if the calibration is done via a bootstrapping method or by minimization of the residual sum of squares (RSS).
+If `npieces = NULL` (its default), then the bootstrapping method will output a number of curve segments equal to the number of financial assets that have been input. Below is an example for an instantaneous forward curve with bootstrapping method for `asset.type = TES`:
+
+```{r, results='hide', message=FALSE}
+# The `yield.curve` input is created for the IRR's of the market assets.
+yield.curve <- c(0.1233,0.1280,0.131,0.1315,0.132,0.1322,0.1325,0.1323,0.1321,0.132)
+# The output terms desired are established.
+nodes <- seq(0,10, by = 0.001)
+# Since for TES, IRR's and coupon rates differ, `market.assets` input is required.
+# Below it is constructed.
+market.assets       <- matrix(NA,nrow = 10,ncol = 2)
+market.assets[1,2]  <- "2020-01-03"
+market.assets[2,2]  <- "2021-01-03"
+market.assets[3,2]  <- "2022-01-03"
+market.assets[4,2]  <- "2023-01-03"
+market.assets[5,2]  <- "2024-01-03"
+market.assets[6,2]  <- "2025-01-03"
+market.assets[7,2]  <- "2026-01-03"
+market.assets[8,2]  <- "2027-01-03"
+market.assets[9,2]  <- "2028-01-03"
+market.assets[10,2] <- "2029-01-03"
+
+market.assets[1,1]  <- 0.1233
+market.assets[2,1]  <- 0.1280
+market.assets[3,1]  <- 0.131
+market.assets[4,1]  <- 0.1315
+market.assets[5,1]  <- 0.132
+market.assets[6,1]  <- 0.1322
+market.assets[7,1]  <- 0.1325
+market.assets[8,1]  <- 0.1323
+market.assets[9,1]  <- 0.1321
+market.assets[10,1] <- 0.132
+# Calibration
+curve.calibration(yield.curve = yield.curve, market.assets = market.assets,
+                  analysis.date = "2019-01-03" , asset.type = "TES", freq = 1,
+                  daycount = "ACT/365", fwd = 1, nodes = nodes, approximation = "constant")
+```
+\
+Below, two results are presented. The first plot illustrates the results of the previous example, while the second plot showcases the same example but with a spot calibration. (**fwd = 0**):
+
+\ 
+\
+```{r, echo = FALSE, message=FALSE , fig.width = 7.2, fig.height = 5, results = 'hide',fig.align='center', warning=FALSE}
+
+yield.curve <- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325, 0.1320)
+names(yield.curve) <- c(0,0.08,0.25,0.5,1,2,3,5,7,10)
+nodes <- seq(0,10, by = 0.001)
+y1 <- curve.calibration(yield.curve = yield.curve, asset.type = "IBRSwaps",
+                        analysis.date = "2019-01-03" , nodes = nodes, 
+                        daycount = "ACT/365", freq = 4, fwd = 0, approximation = "constant")
+x <- as.numeric(names(y1))
+y2 <- curve.calibration(yield.curve = yield.curve, asset.type = "IBRSwaps",
+                       analysis.date = "2019-01-03" , nodes = nodes, 
+                       daycount = "ACT/365", freq = 4, fwd = 1, approximation = "constant")
+
+df <- data.frame(x = x, y1 = y1, y2 = y2)
+
+# Plot
+ggplot(df, aes(x)) +
+  geom_line(aes(y = y1, color = "Spot"), size = 1.5) +
+  geom_line(aes(y = y2, color = "Forward"), size = 1.5) +
+  scale_color_manual(values = c("red", "blue"), 
+                     name = "", 
+                     labels = c("Forward", "Spot")) +
+  labs(x = "term", y = "rate", title = "Bootstrapping Curve Calibration") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.size = unit(1, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.box = "vertical", 
+    legend.box.background = element_rect(color = "black", size = 1.2)
+  )
+```
+
+\
+\
+Alternatively, if the bootstrapping method is not chosen, a curve with a number of pieces specified will be optimized in order to minimize a residual sum of squares (e.g, `npieces = 4`). This residual can be chosen with `obj`, either by defining residual as the difference between the market swap price and the estimated swap price with the calibrated curve (`obj = "Price"`) or by defining the residual as the difference between the market IRR of the financial asset and the estimated IRR with the calibrated curve. After the residual is defined, the objective function to minimize is defined as the dot product of `Weights` vector and squared residuals. By default, each financial asset is assigned equiprobable weights. 
+
+A problem that arises in the optimization process is that the objective function isn't differentiable  with respect to the terms of the curve segments. To address this problem, the `nsimul` parameter can be used to establish the number of simulations to be performed for possible configurations of terms for each curve segment. These simulations are used as initial entries in the optimization process, which can improve the chances of finding an optimal solution. It is suggested to not use more than 20 simulations (`nsimul` = 20) for instantaneous forward curve due to computational cost, unless time is not an issue. 
+
+Alternatively, the user can define a unique term vector for every piece with `piece.term`. The `piece.term` parameter in the yield curve construction represents the time to maturity, in years, for a particular curve segment. It specifies the distance in years from the `analysis.date` to the term where the segment ends.
+
+Finally, either using bootstrapping method or (RSS), the user can define if the curve to calibrate is linear piecewise (`approximation = "linear"`) or constant piecewise (`approximation = "constant"`). Below is an example for a spot curve calibration using a predefined `piece.term` instead of optimizing terms with `nsimul`:
+
+```{r, results='hide'}
+yield.curve <- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325, 0.1320)
+names(yield.curve) <- c(0,0.08,0.25,0.5,1,2,3,5,7,10)
+nodes <- seq(0,10, by = 0.001)
+# Calibration
+curve.calibration (yield.curve = yield.curve, market.assets = NULL, 
+                   analysis.date = "2019-01-03", asset.type = "IBRSwaps",
+                   freq = 4, npieces = 2, fwd = 0, obj = "Rates",
+                   piece.term = 3, nodes = nodes, approximation = "linear")
+```
+\
+Below, the result for the previous example and its equivalent with instantaneous forward calibration is plotted:
+\
+\
+
+```{r, echo = FALSE, message=FALSE , fig.width = 7.2, fig.height = 5, results = 'hide',fig.align='center', warning=FALSE}
+yield.curve <- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325, 0.1320)
+names(yield.curve) <- c(0,0.08,0.25,0.5,1,2,3,5,7,10)
+nodes <- seq(0,10, by = 0.001)
+y1 <- curve.calibration (market.assets = NULL, yield.curve = yield.curve, asset.type = "IBRSwaps",
+                         analysis.date = "2019-01-03" , nodes = nodes, fwd = 0,
+                         freq = 4, approximation = "linear",
+                         npieces = 2, piece.term = 3, obj = "Rates")
+x <- as.numeric(names(y1))
+y2 <- curve.calibration (market.assets = NULL, yield.curve = yield.curve, asset.type = "IBRSwaps",
+                        analysis.date = "2019-01-03" , nodes = nodes, fwd = 1,
+                        freq = 4, approximation = "linear",
+                        npieces = 6, piece.term = c(0.44,3.75,6.76,8.79,9.60), obj = "Rates")
+
+df <- data.frame(x = x, y1 = y1, y2 = y2)
+
+
+ggplot(df, aes(x)) +
+  geom_line(aes(y = y1, color = "Spot"), size = 1.5) +
+  geom_line(aes(y = y2, color = "Forward"), size = 1.5) +
+  scale_color_manual(values = c("red", "blue"), 
+                     name = "", 
+                     labels = c("Forward", "Spot")) +
+  labs(x = "term", y = "rate", title = "RSS Curve Calibration") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.size = unit(1, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.box = "vertical", 
+    legend.box.background = element_rect(color = "black", size = 1.2)
+  )
+```
+\
+An important detail for `npieces` is that for `fwd = 0`, `npieces` represents the amount of segments besides all immutable spot segments. Therefore, for the previous example, since for `asset.type = "IBRSwaps"` the default amount of `noSpots` is 4, the actual amount of `npieces` of the curve will be 6 (`noSpots`+`npieces`). When `fwd = 1`, `npieces` does represent the total amount of segments for the calibrated curve. For instance, in the aforementioned plot, two curves consisting of six pieces were plotted, but with different values of `npieces`: `npieces` was set to 2 for `fwd = 0`, whereas it was set to 6 for `fwd = 1`.
+
+Finally, is it important to note that `piece.term` should not include the last piece term, since it is assumed that the last term coincides with the last maturity introduced in `yield.curve` or `market.assets`. Therefore, the `piece.term` vector must always have a length equal to **`npieces` - 1**.
+
+## Curve Calculation
+
+The `curve.calculation()` function performs `curve.calibration()` function for multiple analysis dates. The main difference is that the `series` input will replace `yield.curve`. The `series` parameter represents a matrix in which every column is a `yield.curve` vector and `names(series)` contains the maturity for each rate as numeric in years. Additionally, the `rownames(series)` vector must contain each analysis date desired.
+On the other hand, `market.assets` is a matrix just like in `curve.calibration()`, but now it must contain every single asset of the `series` matrix.
+
+An additional feature of `curve.calculation()` is that it allows the user to merge a `previous.curve` matrix with the output matrix of calibrated curves. 
+Below is an example where the `market.assets` input is required and `previous.curve` for analysis dates **"2014-01-01"** and **"2015-01-01"** is constant. In this case, since for these two dates curve is already input, the calibration only takes place on **"2016-01-01"** and **"2017-01-01"**:
+
+```{r}
+# `previous.curve` input
+previous.curve <- matrix(0.04,nrow = 2,ncol = 8)
+rownames(previous.curve) <- c("2014-01-01","2015-01-01")
+colnames(previous.curve) <- c(0, 0.25, 0.5, 1:5)
+# `serie` input
+serie <- matrix(NA,nrow = 4,ncol = 6)
+rownames(serie) <- c("2014-01-01","2015-01-01","2016-01-01","2017-01-01")
+colnames(serie) <- c(0, 0.08333, 0.25, 0.5, 1, 2)
+serie[1,1] <- 0.04
+serie[1,2] <- 0.05
+serie[1,3] <- 0.06
+serie[1,4] <- 0.065
+serie[1,5] <- 0.07
+serie[1,6] <- 0.075
+serie[2,1] <- 0.03
+serie[2,2] <- 0.04
+serie[2,3] <- 0.05
+serie[2,4] <- 0.063
+serie[2,5] <- 0.074
+serie[2,6] <- 0.08
+serie[3,1] <- 0.06
+serie[3,2] <- 0.065
+serie[3,3] <- 0.07
+serie[3,4] <- 0.08
+serie[3,5] <- 0.084
+serie[3,6] <- 0.09
+serie[4,1] <- 0.02
+serie[4,2] <- 0.03
+serie[4,3] <- 0.04
+serie[4,4] <- 0.042
+serie[4,5] <- 0.045
+serie[4,6] <- 0.05
+# `market.assets` input
+market.assets <- matrix(NA,nrow = 10,ncol = 2)
+market.assets[1,1]  <- 0.04
+market.assets[2,1]  <- 0.05
+market.assets[3,1]  <- 0.06
+market.assets[4,1]  <- 0.07
+market.assets[5,1]  <- 0.08
+market.assets[6,1]  <- 0.09
+market.assets[7,1]  <- 0.06
+market.assets[8,1]  <- 0.07
+market.assets[9,1]  <- 0.075
+market.assets[10,1] <- 0.07
+market.assets[1,2]  <- "2016-01-01"
+market.assets[2,2]  <- "2016-02-01"
+market.assets[3,2]  <- "2016-04-01"
+market.assets[4,2]  <- "2016-07-01"
+market.assets[5,2]  <- "2017-01-01"
+market.assets[6,2]  <- "2017-02-01"
+market.assets[7,2]  <- "2017-04-01"
+market.assets[8,2]  <- "2017-07-01"
+market.assets[9,2]  <- "2018-01-01"
+market.assets[10,2] <- "2019-01-01"
+# Calculation
+curve.calculation(serie = serie, market.assets = market.assets, noSpots = 1,  
+                  previous.curve = previous.curve, asset.type = "TES",
+                  freq = 1, rate.type = 1, fwd = 0,
+                  nodes = c(0, 0.25, 0.5, 1:5), approximation = "linear")
+```
+
+## Spot to Forward
+
+The `spot2forward()` function allows the user to transform a spot curve into a forward instantaneous curve. Every node introduced in the `spot` input is transformed into a forward node. The maturity of each rate must be introduced in `names(spot)`, as numeric in years (counting from `analysis.date`). Finally, `approximation` refers to the approximation of the initial spot curve. Therefore, when transforming a spot piecewise linear curve into an instantaneous forward curve, it is necessary to define `approximation = "linear"`.
+Below is an example:
+
+```{r, results = 'hide'}
+# Inputs for calibration of spot curve
+yield.curve <- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) <- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes <- seq(0,10,0.001)
+# Calibration
+spot <- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                           analysis.date = "2019-01-03" , asset.type = "IBRSwaps",
+                           freq = 4, rate.type = 0, fwd = 0, npieces = NULL, 
+                           nodes = nodes, approximation = "linear")
+# Spot to Forward
+dates <- names(spot)
+spot2forward(dates, spot, approximation = "linear")
+```
+
+```{r, echo = FALSE, message=FALSE , fig.width = 7.2, fig.height = 5, results = 'hide', fig.align='center',warning=FALSE}
+yield.curve <- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) <- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes <- seq(0,10,0.001)
+# Calibration
+y1 <- curve.calibration (market.assets = NULL, yield.curve = yield.curve, asset.type = "IBRSwaps",
+                         analysis.date = "2019-01-03" , nodes = nodes,
+                         fwd = 0, freq = 4, approximation = "linear", 
+                         npieces = NULL, rate.type = 0, obj = "Price")
+# Spot to Forward
+dates <- as.numeric(names(y1))
+y2 <- spot2forward(dates, y1, approximation = "linear")
+x  <- as.numeric(names(y1))
+
+df <- data.frame(x = x, y1 = y1, y2 = y2)
+
+# Create the plot with ggplot2
+ggplot(df, aes(x)) +
+  geom_line(aes(y = y1, color = "Spot"), size = 1.5) +
+  geom_line(aes(y = y2, color = "Forward"), size = 1.5) +
+  scale_color_manual(values = c("red", "blue"), 
+                     name = "", 
+                     labels = c("Forward", "Spot")) +
+  labs(x = "term", y = "rate", title = "Spot to Forward") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.size = unit(1, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.box = "vertical", 
+    legend.box.background = element_rect(color = "black", size = 1.2)
+  )
+```
+
+## Forward to Spot
+
+The `fwd2spot()` function allows the user to transform a forward instantaneous curve into a spot curve. Every node introduced in `fwd` input is transformed into a spot node. Maturity of each rate as numeric in years must be introduced in `names(fwd)`. Just like `spot2forward()`, `approximation` refers to the approximation of the initial input forward curve. Below is an example:
+
+```{r, results = 'hide'}
+# Inputs for calibration of forward curve
+yield.curve <- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) <- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes <- seq(0,10,0.001)
+# Calibration
+fwd <- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                          analysis.date = "2019-01-03", asset.type = "LIBORSwaps",
+                          freq = 4, rate.type = 0, daycount = "ACT/365", 
+                          npieces = NULL, fwd = 1, nodes = nodes, 
+                          approximation = "linear")
+# Forward to Spot
+dates <- names(fwd)
+fwd2spot(dates, fwd, approximation = "linear")
+```
+
+```{r, echo = FALSE, message=FALSE , fig.width = 7.2, fig.height = 5, results = 'hide', fig.align='center',warning=FALSE}
+yield.curve <- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) <- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes <- seq(0,10,0.001)
+# Calibration
+y2 <- curve.calibration (market.assets = NULL, yield.curve = yield.curve, asset.type = "LIBORSwaps",
+                          analysis.date = "2019-01-03" , nodes = nodes,fwd = 1,
+                          daycount = "ACT/365", npieces = NULL,rate.type = 0,
+                          approximation = "linear", freq = 4 , obj = "Rates")
+# Forward to Spot
+dates <- as.numeric(names(y2))
+y1 <- fwd2spot(dates, y2, approximation = "linear")
+x  <- as.numeric(names(y1))
+
+df <- data.frame(x = x, y1 = y1, y2 = y2)
+
+# Create the plot with ggplot2
+ggplot(df, aes(x)) +
+  geom_line(aes(y = y1, color = "Spot"), size = 1.5) +
+  geom_line(aes(y = y2, color = "Forward"), size = 1.5) +
+  scale_color_manual(values = c("red", "blue"), 
+                     name = "", 
+                     labels = c("Forward", "Spot")) +
+  labs(x = "term", y = "rate", title = "Forward to Spot") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.size = unit(1, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.box = "vertical", 
+    legend.box.background = element_rect(color = "black", size = 1.2)
+  )
+```
+
+## Basis curve
+
+The `basis.curve()` function calibrates a "discount basis rate" curve according to data of cross currency swaps. It follows a similar structure with the same features as `curve.calibration()`. The main difference is that the data input is `swaps`, a matrix that contains relevant information for every Cross Currency Swap (CCS). In detail, each row represents a swap and the columns represent, respectively: maturity, legs, coupon rate of local leg, coupon rate of foreign leg, spread of local leg, spread of variable leg, principal of local leg and principal of variable leg. Columns in `swaps` can be placed in any order, but every column must be labeled with the following labels: `colnames(swaps) <- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")`.
+
+Basis curve can be calibrated with any type of Cross Currency Swap, either fixed local leg vs. fixed foreign leg (`Legs = FF`), fixed local leg vs. variable foreign leg (`Legs = FV`), variable local leg vs. a fixed foreign leg (`Legs = VF`) or variable local leg vs. variable foreign leg (`Legs = VV`).
+
+Additionally, there is a new parameter: `ex.rate`. It represents the exchange rate between the two currencies involved in the CCS on `analysis.date`. In the next example, both new inputs are created:
+
+```{r}
+ex.rate <- 4814
+swaps <- rbind(c("2024-03-01", "FF", 0.07 , 0.0325, NA   , NA    , 2000 * ex.rate, 2000),
+               c("2025-03-01", "VV", NA   , NA    , 0.015, 0.0175, 2000 * ex.rate, 2000),
+               c("2026-03-01", "FF", 0.075, 0.03  , NA   ,  NA   , 5000000, 5000000 / ex.rate),
+               c("2027-03-01", "VV", NA   , NA    , 0.01 , 0.015 , 5000000, 5000000 / ex.rate),
+               c("2028-03-01", "FF", 0.08 ,0.035  , NA   , NA    , 3000000, 3000000 / ex.rate),
+               c("2029-03-01", "VV", NA   , NA    , 0.01 , 0.0125, 3000000, 3000000 / ex.rate))
+colnames(swaps) <- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")
+```
+
+Below, an example of piecewise linear basis curve calibration using the RSS method is performed. Additionally, the constant calibration alternative is added to the plot: 
+
+```{r, results='hide'}
+# Inputs for calibration of spot curve
+yield.curve <- c(0.015,0.0175, 0.0225, 0.0275, 0.0325, 0.0375,0.04,0.0425,0.045,0.0475,0.05)
+names(yield.curve) <- c(0.5,1,2,3,4,5,6,7,8,9,10)
+nodes <- seq(0,10,0.001)
+# Calibration of local spot curve
+rates <- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                           analysis.date = "2019-01-03" , asset.type = "IBRSwaps", 
+                           freq = 4, rate.type = 0, fwd = 0, npieces = NULL, 
+                           obj = "Price", nodes = nodes, approximation = "linear")
+# Calibration of Basis Curve
+nodes <- seq(0,10,0.001)
+basis.curve(swaps = swaps, ex.rate = 4814, analysis.date = "2023-03-01", 
+            rates = rates, rates2 = rates / 4, freq = c(2,2,2,2,1,1),
+            rate.type = 1, npieces = 4, obj = "Price", Weights = NULL, 
+            nsimul = 10, nodes = nodes, approximation = "linear")
+```
+
+```{r, echo = FALSE, message=FALSE , fig.width = 7.2, fig.height = 5, results = 'hide', fig.align='center', warning = FALSE}
+ex.rate <- 4814
+swaps <- rbind(c("2024-03-01", "VV", NA   , NA , 0.015  , 0.015    , 2000 * ex.rate, 2000),
+               c("2025-03-01", "VV", NA   , NA , 0.0175 , 0.0175, 2000 * ex.rate, 2000),
+               c("2026-03-01", "VV", NA   , NA , 0.015   , 0.02   , 5000000, 5000000 / ex.rate),
+               c("2027-03-01", "VV", NA   , NA , 0.0125 , 0.0225 , 5000000, 5000000 / ex.rate),
+               c("2028-03-01", "VV", NA   , NA , 0.0150 , 0.025    , 3000000, 3000000 / ex.rate),
+               c("2029-03-01", "VV", NA   , NA , 0.02   , 0.0275, 3000000, 3000000 / ex.rate))
+colnames(swaps) <- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")
+
+yield.curve <- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325)
+names(yield.curve) <- c(0,0.08,0.25,0.5,1,2,3,5,6)
+nodes <- seq(0, 10, by = 0.001)
+rates <- curve.calibration (market.assets = NULL, yield.curve = yield.curve, asset.type = "IBRSwaps",
+                            analysis.date = "2023-03-01" , nodes = nodes,
+                            daycount = "ACT/365", fwd = 0, freq = 4,
+                            approximation = "constant", npieces = NULL, nsimul = nsimul, 
+                            rate.type = 0, obj = "Rates")
+
+nodes <- seq(0, 6, by = 0.001)
+y1 <- basis.curve(swaps, analysis.date = "2023-03-01", freq = c(2,2,2,2,1,1),
+                  rate.type = 1, ex.rate = 4814, rates = rates, nodes = nodes,
+                  rates2 = rates / 4, npieces = NULL,
+                  Weights = NULL, nsimul = 1, obj = "Price", approximation = "linear")
+y2 <- basis.curve(swaps, analysis.date = "2023-03-01", freq = c(2,2,2,2,1,1),
+                  rate.type = 1, ex.rate = 4814, rates = rates, nodes = nodes,
+                  rates2 = rates / 4, npieces = NULL,
+                  Weights = NULL, nsimul = 1, obj = "Price", approximation = "constant")
+x <- as.numeric(names(y1))
+df <- data.frame(x = x, y1 = y1, y2= y2)
+ggplot(df, aes(x)) +
+  geom_line(aes(y = y1, color = "Linear"), linewidth = 1.5) +
+  geom_line(aes(y = y2, color = "Constant"), linewidth = 1.5) +
+  scale_color_manual(values = c("blue", "red"), name = "") +
+  labs(x = "term", y = "rate", title = "Piecewise Linear Basis Curves") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.size = unit(1, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.box = "vertical", 
+    legend.box.background = element_rect(color = "black", size = 1.2)
+  )
+
+```
+
+## Swaps Valuation
+
+The `valuation.swaps()` function offers the possibility of valuing an Interest Rate Swap (IRS) or a Cross Currency Swap (CCS). For the former case, `coupon.rate` input is used to value the fixed leg, `spread` is an optional input for the variable leg and `rates` vector is used for discounting the cashflows.
+If `analysis.date` doesn't belong to a coupon date, `float.rate` must be introduced and represents the variable rate observed on the previous coupon date.
+
+In the next example, the `analysis.date` is inside the coupon dates. Therefore, even if `float.rate` is introduced, its effect on output is null since the function automatically establishes that `float.rate` is equivalent to the first entry of `rates` input:
+
+```{r}
+valuation.swaps(maturity = "2026-07-01", analysis.date = "2023-01-01",
+                asset.type = "IBRSwaps", freq = 4, coupon.rate = 0.04, 
+                rates = rep(0.04,14), float.rate = 500)
+```
+
+For cases where `analysis.date` doesn't belong to a coupon date, the `float.rate` input is necessary to value the upcoming coupon of variable leg: 
+
+```{r}
+valuation.swaps(maturity = "2026-07-01", analysis.date = "2023-02-01",
+                asset.type = "IBRSwaps", freq = 4, coupon.rate = 0.04,
+                rates = rep(0.04,14), float.rate = 0.042)
+```
+
+In the context of Cross Currency Swaps (CCS), `coupon.rate` is used for valuation of local fixed legs.
+The `spread` parameter represents the spread for the local variable leg, while `rates` are the discount rates for the local leg. The `float.rate` parameter denotes the variable local rate observed on the previous coupon date and just like in the IRS case, it is only required if local leg is variable and `analysis.date` doesn't belong to a coupon date. In parallel, `coupon.rate2`,  `spread2`, `rates2` and `float.rate2` represent the same attributes but for foreign legs.
+
+`rates2` input is only necessary if the foreign leg is a variable leg, in order to transform the variable into a fixed foreign leg. After which, `basis.rates` input is used as the discount foreign rates to value the fixed foreign leg.
+For `rates`, `rates2` and `basis.rates`, `curve.calculation()` and `basis.curve()` can be used. These three inputs can either be a vector with a rate for every coupon date, or a curve that contains nodes with, at least, three decimals:
+
+```{r, results = 'hide'}
+# Curve Calibration for `rates` input
+ yield.curve <- c(0.103,0.1034,0.1092, 0.1161, 0.1233, 0.1280, 0.1310, 0.1320, 0.1325)
+ names(yield.curve) <- c(0,0.08,0.25,0.5,1,2,3,5,6)
+ nodes <- seq(0, 10, by = 0.001) # Our curve has nodes with three decimals.
+ rates <- curve.calibration (yield.curve = yield.curve, market.assets = NULL,
+                             analysis.date = "2023-03-01", asset.type = "IBRSwaps",
+                             freq = 4, rate.type = 0, daycount = "ACT/365", fwd = 0, 
+                             npieces = NULL, obj = "Rates", nsimul = nsimul, 
+                             nodes = nodes,  approximation = "constant")
+```
+
+```{r, results='hide'}
+# Curve Calibration for `basis.rates` input
+nodes  <- seq(0, 10, by = 0.001)
+rates2 <- rates/4 # It is assumed foreign curve is proportional to local spot curve.
+# Swaps input for calibration
+ex.rate <- 4814
+swaps <- rbind(c("2024-03-01", "FF", 0.07 , 0.0325, NA   , NA    , 2000 * ex.rate, 2000),
+               c("2025-03-01", "VV", NA   , NA    , 0.015, 0.0175, 2000 * ex.rate, 2000),
+               c("2026-03-01", "FF", 0.075, 0.03  , NA   ,  NA   , 5000000, 5000000 / ex.rate),
+               c("2027-03-01", "VV", NA   , NA    , 0.01 , 0.015 , 5000000, 5000000 / ex.rate),
+               c("2028-03-01", "FF", 0.08 ,0.035  , NA   , NA    , 3000000, 3000000 / ex.rate),
+               c("2029-03-01", "VV", NA   , NA    , 0.01 , 0.0125, 3000000, 3000000 / ex.rate))
+colnames(swaps) <- c("Mat"  ,"Legs", "C1" , "C2", "spread1", "spread2", "prin1", "prin2")
+# Calibration
+basis.rates <- basis.curve(swaps, ex.rate = 4814, analysis.date = "2023-03-01",
+                           rates = rates, rates2 = rates2, freq = c(2,2,2,2,1,1), 
+                           rate.type = 1, npieces = NULL, obj = "Price", 
+                           Weights = NULL, nodes = nodes, approximation = "linear")
+```
+
+Below, an example of a CCS with two variable legs is shown; hence, all three input curves (`rates, rates2, basis.rates`) are required: 
+```{r}
+# Valuation
+valuation.swaps (maturity = "2024-03-01", analysis.date = "2023-03-01", asset.type = "CCS",
+                 freq = 2, coupon.rate = NA, rates = rates, float.rate = NULL, spread = 0.015,
+                 principal = 2000 * ex.rate, Legs = "VV", ex.rate = ex.rate, 
+                 basis.rates = basis.rates, coupon.rate2 = NA, rates2 = rates2, 
+                 float.rate2 = NULL, spread2 = 0.0175, principal2 = 2000, rate.type = 0, 
+                 daycount = "ACT/365", loc = "BOG")
+```

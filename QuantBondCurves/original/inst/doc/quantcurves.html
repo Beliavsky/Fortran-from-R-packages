@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Camilo Díaz" />
+
+
+<title>QuantBondCurves</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">QuantBondCurves</h1>
+<h4 class="author">Camilo Díaz</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(QuantBondCurves)</span></code></pre></div>
+<p>The ‘QuantBondCurves’ package offers a range of functions for valuing
+various asset types and generating financial curves. It covers
+fixed-coupon assets, floating notes and swaps, with varying payment
+frequencies. The package also enables the calibration of spot,
+instantaneous forward and basis curves, making it a powerful tool for
+accurate and flexible bond valuation and curve generation. The valuation
+and calibration techniques presented here are consistent with industry
+standards and incorporates author’s own calculations.</p>
+<div id="coupon-dates" class="section level2">
+<h2>Coupon Dates</h2>
+<p>The <code>coupon.dates()</code> function allows the user to calculate
+the coupon payment dates of a given asset, based on its payment
+frequency. In most cases, this process is straightforward. However,
+certain scenarios require careful attention to detail. For the former
+cases, the <code>coupon.dates</code> function starts from
+<code>maturity</code> and crawls back using the annual payment frequency
+<code>freq</code>, until <code>analysis.date</code> is reached:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">coupon.dates</span>(<span class="at">maturity =</span> <span class="st">&quot;2029-10-01&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2027-08-01&quot;</span>, <span class="at">freq =</span> <span class="dv">1</span>, <span class="at">convention =</span> <span class="st">&quot;F&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; $dates</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2027-10-01&quot; &quot;2028-10-01&quot; &quot;2029-10-01&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; $effective.dates</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2027-10-01&quot; &quot;2028-10-02&quot; &quot;2029-10-01&quot;</span></span></code></pre></div>
+<p>As can be seen, the output is comprised of two vectors. Vector
+<strong>$dates</strong> represents the dates on which coupon payments
+are due and <strong>$effective.dates</strong> adjust each date if it
+falls on a non-business day. This adjustment is done according to input
+<code>convention</code>, which offers the most commonly used conventions
+in the industry. Please refer to the help viewer for details.</p>
+<p>The <code>maturity</code> input can either be expressed as a date or
+as a numeric value in years. An example demonstrating the latter case is
+provided below:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">coupon.dates</span>(<span class="at">maturity =</span> <span class="dv">2</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-03-01&quot;</span>, <span class="at">freq =</span> <span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; $dates</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-03-01&quot; &quot;2025-03-01&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; $effective.dates</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-03-01&quot; &quot;2025-03-03&quot;</span></span></code></pre></div>
+<p>For this example, maturity as a date is calculated from trade date
+(i.e., going forward two years from “2023-03-01”). In this case, since
+<code>trade.date</code> input is not introduced, function assumes
+<code>analysis.date</code> is <code>trade.date</code>.</p>
+<p>As evidenced in the previous examples, for straightforward cases,
+<code>trade.date</code> of the asset is not required.<br />
+On the other hand, non trivial cases require both
+<code>trade.date</code> and <code>maturity</code> as input. An example
+is with financial assets that possess a distinct coupon period,
+characterized by a different length compared to the remaining periods.
+Below we present an example for a bond with a long first coupon:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">coupon.dates</span>(<span class="at">maturity =</span> <span class="st">&quot;2025-02-28&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-09-29&quot;</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>             <span class="at">asset.type =</span> <span class="st">&quot;Fixed Income&quot;</span>, <span class="at">freq =</span> <span class="dv">4</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>             <span class="at">trade.date =</span> <span class="st">&quot;2023-09-29&quot;</span>, <span class="at">coupon.schedule =</span> <span class="st">&quot;LF&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; $dates</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-02-29&quot; &quot;2024-05-29&quot; &quot;2024-08-29&quot; &quot;2024-11-29&quot; &quot;2025-02-28&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; $effective.dates</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-02-29&quot; &quot;2024-05-29&quot; &quot;2024-08-29&quot; &quot;2024-11-29&quot; &quot;2025-02-28&quot;</span></span></code></pre></div>
+<p>In this example, <code>coupon.schedule</code> is provided to
+establish where the “outlier” coupon period has to be introduced; see
+more in the help viewer.</p>
+<p>Another detail about this function is the relationship between
+<code>asset.type</code> and <code>freq</code>. The input
+<code>asset.type</code> is only required if the asset type is linked to
+LIBOR (<code>asset.type %in% c(&quot;LIBOR&quot;,&quot;LIBORSwaps&quot;)</code>), as in
+these cases the actual <code>trade.date</code> is two business days
+after the introduced <code>trade.date</code>. Otherwise, the information
+in <code>asset.type</code> is only used if <code>freq</code> input is
+not provided.</p>
+</div>
+<div id="coupons" class="section level2">
+<h2>Coupons</h2>
+<p>The <code>coupons()</code> function calculates the cash flows for the
+remaining life of an asset, following a date payment structure, a given
+face value and a specified coupon rate.</p>
+<p>Just like <code>coupon.dates()</code>, most cases of coupon
+calculation are straightforward. Once payment dates are known, only an
+additional crawl back is required in order to establish the length of
+the upcoming coupon period. For cases when the crawl back process is
+inadequate (e.g., long first coupon bond), the <code>coupons()</code>
+function offers the same solution of introducing <code>trade.date</code>
+of the asset:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">coupons</span>(<span class="at">maturity =</span> <span class="fl">4.08</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2021-02-28&quot;</span>, <span class="at">coupon.rate =</span> <span class="fl">0.03</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>        <span class="at">asset.type =</span> <span class="st">&quot;IBR&quot;</span>, <span class="at">daycount =</span> <span class="st">&quot;ACT/360&quot;</span>, <span class="at">trade.date =</span> <span class="st">&quot;2020-02-29&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>        <span class="at">coupon.schedule =</span> <span class="st">&quot;LF&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;  [1] 0.007500000 0.007666667 0.007666667 0.007583333 0.007500000 0.007666667</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  [7] 0.007666667 0.007583333 0.007500000 0.007666667 0.007666667 0.007583333</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; [13] 1.007583333</span></span></code></pre></div>
+<p>For this function, <code>asset.type</code> is always required. For
+<code>asset.type</code> in (<strong>“LIBOR”, “IBR”,
+“LIBORSwaps”,“UVRSwaps”, “IBRSwaps”</strong>) <code>freq</code> is
+assumed depending on the asset, if left blank. For asset.type in
+<strong>(“FixedIncome”,“CCS”)</strong> <code>freq</code> is never
+assumed and must be introduced. Ultimately, when dealing with assets of
+type <strong>“TES”</strong>, the coupon period is uniformly set to 1
+year, meaning that the value specified for the <code>daycount</code>
+input is disregarded. The remaining inputs are identical to those on the
+<code>coupon.dates()</code> function.</p>
+</div>
+<div id="discount-factors" class="section level2">
+<h2>Discount Factors</h2>
+<p>The <code>discount.factors()</code> function allows the user to
+calculate the discount factors of a given asset. Effective payment dates
+(<code>dates</code>) are required as input of the function, those can be
+obtained from the <strong>$effective.dates</strong> vector with the
+<code>coupon.dates()</code> function.</p>
+<p>Only for <code>discount.factors()</code>, the parameter
+<code>freq</code> represents the compounding frequency to be used for
+calculating the discrete discount factors (e.g., <code>freq = 2</code>
+refers to semi-annual compounded discount rates). For any other function
+in the ‘QuantBondCurves’ package, <code>freq</code> represents the
+annual frequency of coupon payments. Discrete compounded discount rates
+option can be set with <code>rate.type = 1</code>; alternatively, the
+user can choose to work with continuously compounded rates
+(<code>rate.type = 0</code>).</p>
+<p>Here is an example for calculating discount factors with monthly
+compounded discount rates:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">discount.factors</span>(<span class="at">dates =</span> <span class="fu">c</span>(<span class="st">&quot;2020-09-10&quot;</span>, <span class="st">&quot;2020-12-10&quot;</span>, <span class="st">&quot;2021-03-10&quot;</span>),</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                 <span class="at">rates =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.015</span>, <span class="fl">0.017</span>), <span class="at">analysis.date =</span> <span class="st">&quot;2010-09-01&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                 <span class="at">rate.type =</span> <span class="dv">1</span>, <span class="at">freq =</span> <span class="dv">12</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.9046521 0.8572606 0.8363377</span></span></code></pre></div>
+</div>
+<div id="bond-valuation" class="section level2">
+<h2>Bond Valuation</h2>
+<p>The <code>valuation.bonds()</code> function allows the user to value
+bonds, fixed income securities, floating notes, spread income assets or
+fixed legs of swaps. The input <code>coupon.rate</code> can either
+receive a unique number or a vector whose length matches the length of
+coupon payments. A unique number should be used to value fixed income
+assets, fixed legs of interest rate swaps or floating notes with the
+method of using the floating rate observed on the previous coupon date,
+common in several jurisdictions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">valuation.bonds</span>(<span class="at">maturity =</span> <span class="st">&quot;2026-06-01&quot;</span>, <span class="at">coupon.rate =</span> <span class="fl">0.06</span>, <span class="at">rates =</span> <span class="fl">0.08</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                <span class="at">principal =</span> <span class="dv">1000</span>, <span class="at">analysis.date=</span> <span class="st">&quot;2023-06-01&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] 948.4012</span></span></code></pre></div>
+<p>On the other hand, <code>coupon.rate</code> as a vector can be used
+to value floating notes with a forward rate for each coupon payment:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">valuation.bonds</span>(<span class="at">maturity =</span> <span class="st">&quot;2026-01-05&quot;</span>, <span class="at">coupon.rate =</span> <span class="fu">c</span>(<span class="fl">0.04</span>,<span class="fl">0.043</span>,<span class="fl">0.05</span>,<span class="fl">0.052</span>),</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                <span class="at">rates =</span> <span class="fu">c</span>(<span class="fl">0.06</span>,<span class="fl">0.061</span>,<span class="fl">0.063</span>,<span class="fl">0.067</span>), <span class="at">principal =</span> <span class="dv">1000</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                <span class="at">analysis.date =</span> <span class="st">&quot;2025-01-05&quot;</span>, <span class="at">asset.type =</span> <span class="st">&quot;IBR&quot;</span>, <span class="at">freq =</span> <span class="dv">4</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; [1] 981.6549</span></span></code></pre></div>
+</div>
+<div id="bonds-price-to-rate" class="section level2">
+<h2>Bonds price to rate</h2>
+<p>The <code>bond.price2rate()</code> function is a useful tool that can
+be used to calculate the internal rate of return (IRR) of a bond, after
+<code>price</code> as input is introduced:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">bond.price2rate</span>(<span class="at">maturity =</span> <span class="st">&quot;2023-01-03&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2021-01-03&quot;</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                <span class="at">price =</span> <span class="fl">0.98</span>, <span class="at">coupon.rate =</span> <span class="fl">0.04</span>, <span class="at">principal =</span> <span class="dv">1</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                <span class="at">asset.type =</span> <span class="st">&quot;IBR&quot;</span>, <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.05153815</span></span></code></pre></div>
+</div>
+<div id="bond-sensitivity" class="section level2">
+<h2>Bond Sensitivity</h2>
+<p>The <code>sens.bonds()</code> function allows the user to calculate
+the sensitivity of a given bond to interest rates, either by inserting
+in the <code>price</code> input a bond price
+(<code>input = price</code>) or an IRR (<code>input = rate</code>). The
+output represents the percentage change in the price of the bond
+resulting from a 1 basis point movement in interest rates. Here is an
+example for the former case:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">sens.bonds</span>(<span class="at">input =</span> <span class="st">&quot;price&quot;</span>, <span class="at">price =</span> <span class="fl">1.02</span>, <span class="at">maturity =</span> <span class="st">&quot;2023-01-03&quot;</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>           <span class="at">analysis.date =</span> <span class="st">&quot;2020-01-03&quot;</span>, <span class="at">coupon.rate =</span> <span class="fl">0.04</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>           <span class="at">principal =</span> <span class="dv">1</span>, <span class="at">asset.type =</span> <span class="st">&quot;FixedIncome&quot;</span>, <span class="at">freq =</span> <span class="dv">1</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>           <span class="at">rate.type =</span> <span class="dv">1</span>, <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>, <span class="at">dirty =</span> <span class="dv">1</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; [1] 2.796038</span></span></code></pre></div>
+<p>For the latter case (<code>input = rate</code>), <code>price</code>
+can either receive a unique IRR or a rates vector that corresponds to
+every coupon date:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">sens.bonds</span>(<span class="at">input =</span> <span class="st">&quot;rate&quot;</span>, <span class="at">price =</span> <span class="fu">c</span>(<span class="fl">0.04</span>,<span class="fl">0.05</span>), <span class="at">maturity =</span> <span class="st">&quot;2025-02-05&quot;</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>           <span class="at">analysis.date =</span> <span class="st">&quot;2024-06-12&quot;</span>, <span class="at">coupon.rate =</span> <span class="fl">0.03</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>           <span class="at">principal =</span> <span class="dv">1</span>, <span class="at">asset.type =</span> <span class="st">&quot;FixedIncome&quot;</span>, <span class="at">freq =</span> <span class="dv">2</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">rate.type =</span> <span class="dv">0</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.6445436</span></span></code></pre></div>
+</div>
+<div id="weighted-average-life" class="section level2">
+<h2>Weighted Average Life</h2>
+<p>The <code>average.life()</code> function calculates the weighted
+average life of a given bond. Similar to <code>sens.bonds()</code>,
+<code>price</code> input can either receive a bond price
+(<code>input = price</code>) or an IRR (<code>input = rate</code>).
+Below we denote an example for the latter:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">average.life</span>(<span class="at">input =</span> <span class="fu">c</span>(<span class="st">&quot;rate&quot;</span>), <span class="at">price =</span> <span class="fu">c</span>(<span class="fl">0.043</span>,<span class="fl">0.05</span>), <span class="at">maturity =</span> <span class="st">&quot;2023-01-03&quot;</span>, </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>             <span class="at">analysis.date =</span> <span class="st">&quot;2021-01-03&quot;</span>, <span class="at">coupon.rate =</span> <span class="fl">0.04</span>, <span class="at">principal =</span> <span class="dv">1</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>             <span class="at">asset.type =</span> <span class="st">&quot;FixedIncome&quot;</span>, <span class="at">freq =</span> <span class="dv">1</span>, <span class="at">rate.type =</span> <span class="dv">0</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; [1] 1.960876</span></span></code></pre></div>
+</div>
+<div id="curve-calibration" class="section level2">
+<h2>Curve Calibration</h2>
+<p>The <code>curve.calibration()</code> function calibrates and returns
+either a zero coupon bond or an instantaneous forward curve. The
+calibration process is determined by parameters such as
+<code>npieces</code>, <code>obj</code>, <code>Weights</code>,
+<code>nsimul</code>, <code>piece.term</code>, and
+<code>approximation</code>. Meanwhile, input data is determined by
+<code>yield.curve</code>, <code>market.assets</code>,
+<code>noSpots</code>, and <code>freq</code>. Finally, the
+<code>nodes</code> parameter specifies which terms (in years) are output
+of the calibrated curve.</p>
+<p>Delving into input data, <code>yield.curve</code> is a vector with
+the IRR’s of the financial assets, with <code>names(yield.curve)</code>
+containing the maturity for each rate as numeric in years. If
+<code>noSpots = 3</code>, the first three arguments of
+<code>yield.curve</code> will be established as spot. The
+<code>market.assets</code> input is a matrix whose first column is the
+coupon rate of each asset and the second column contains the maturities
+of each asset as dates. For cases when the IRR’s of the assets are the
+same as the coupon rate (e.g., IBR curve), the
+<code>market.assets</code> input can be left blank. Additionally, for
+cases where <code>market.assets</code> and <code>yield.curve</code> are
+required, maturity info can be left blank either in
+<code>names(yield.curve)</code> or in the second column of
+<code>market.assets</code>. Moreover, <code>freq</code> parameter can be
+provided as either a single value that applies to all input assets, or
+as a vector in which each element corresponds to a specific asset.</p>
+<p>Regarding calibration inputs, <code>npieces</code> determines if the
+calibration is done via a bootstrapping method or by minimization of the
+residual sum of squares (RSS). If <code>npieces = NULL</code> (its
+default), then the bootstrapping method will output a number of curve
+segments equal to the number of financial assets that have been input.
+Below is an example for an instantaneous forward curve with
+bootstrapping method for <code>asset.type = TES</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># The `yield.curve` input is created for the IRR&#39;s of the market assets.</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1233</span>,<span class="fl">0.1280</span>,<span class="fl">0.131</span>,<span class="fl">0.1315</span>,<span class="fl">0.132</span>,<span class="fl">0.1322</span>,<span class="fl">0.1325</span>,<span class="fl">0.1323</span>,<span class="fl">0.1321</span>,<span class="fl">0.132</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># The output terms desired are established.</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># Since for TES, IRR&#39;s and coupon rates differ, `market.assets` input is required.</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co"># Below it is constructed.</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>market.assets       <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow =</span> <span class="dv">10</span>,<span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>market.assets[<span class="dv">1</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2020-01-03&quot;</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>market.assets[<span class="dv">2</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2021-01-03&quot;</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>market.assets[<span class="dv">3</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2022-01-03&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>market.assets[<span class="dv">4</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2023-01-03&quot;</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>market.assets[<span class="dv">5</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2024-01-03&quot;</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>market.assets[<span class="dv">6</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2025-01-03&quot;</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>market.assets[<span class="dv">7</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2026-01-03&quot;</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>market.assets[<span class="dv">8</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2027-01-03&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>market.assets[<span class="dv">9</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2028-01-03&quot;</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>market.assets[<span class="dv">10</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;2029-01-03&quot;</span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>market.assets[<span class="dv">1</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1233</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>market.assets[<span class="dv">2</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1280</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>market.assets[<span class="dv">3</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.131</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>market.assets[<span class="dv">4</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1315</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>market.assets[<span class="dv">5</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.132</span></span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a>market.assets[<span class="dv">6</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1322</span></span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a>market.assets[<span class="dv">7</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1325</span></span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a>market.assets[<span class="dv">8</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1323</span></span>
+<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a>market.assets[<span class="dv">9</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.1321</span></span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>market.assets[<span class="dv">10</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.132</span></span>
+<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a><span class="co"># Calibration</span></span>
+<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a><span class="fu">curve.calibration</span>(<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> market.assets,</span>
+<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a>                  <span class="at">analysis.date =</span> <span class="st">&quot;2019-01-03&quot;</span> , <span class="at">asset.type =</span> <span class="st">&quot;TES&quot;</span>, <span class="at">freq =</span> <span class="dv">1</span>,</span>
+<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a>                  <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>, <span class="at">fwd =</span> <span class="dv">1</span>, <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;constant&quot;</span>)</span></code></pre></div>
+<p><br />
+Below, two results are presented. The first plot illustrates the results
+of the previous example, while the second plot showcases the same
+example but with a spot calibration. (<strong>fwd = 0</strong>):</p>
+<p> <br />
+<img role="img" src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><br />
+<br />
+Alternatively, if the bootstrapping method is not chosen, a curve with a
+number of pieces specified will be optimized in order to minimize a
+residual sum of squares (e.g, <code>npieces = 4</code>). This residual
+can be chosen with <code>obj</code>, either by defining residual as the
+difference between the market swap price and the estimated swap price
+with the calibrated curve (<code>obj = &quot;Price&quot;</code>) or by defining
+the residual as the difference between the market IRR of the financial
+asset and the estimated IRR with the calibrated curve. After the
+residual is defined, the objective function to minimize is defined as
+the dot product of <code>Weights</code> vector and squared residuals. By
+default, each financial asset is assigned equiprobable weights.</p>
+<p>A problem that arises in the optimization process is that the
+objective function isn’t differentiable with respect to the terms of the
+curve segments. To address this problem, the <code>nsimul</code>
+parameter can be used to establish the number of simulations to be
+performed for possible configurations of terms for each curve segment.
+These simulations are used as initial entries in the optimization
+process, which can improve the chances of finding an optimal solution.
+It is suggested to not use more than 20 simulations (<code>nsimul</code>
+= 20) for instantaneous forward curve due to computational cost, unless
+time is not an issue.</p>
+<p>Alternatively, the user can define a unique term vector for every
+piece with <code>piece.term</code>. The <code>piece.term</code>
+parameter in the yield curve construction represents the time to
+maturity, in years, for a particular curve segment. It specifies the
+distance in years from the <code>analysis.date</code> to the term where
+the segment ends.</p>
+<p>Finally, either using bootstrapping method or (RSS), the user can
+define if the curve to calibrate is linear piecewise
+(<code>approximation = &quot;linear&quot;</code>) or constant piecewise
+(<code>approximation = &quot;constant&quot;</code>). Below is an example for a
+spot curve calibration using a predefined <code>piece.term</code>
+instead of optimizing terms with <code>nsimul</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.103</span>,<span class="fl">0.1034</span>,<span class="fl">0.1092</span>, <span class="fl">0.1161</span>, <span class="fl">0.1233</span>, <span class="fl">0.1280</span>, <span class="fl">0.1310</span>, <span class="fl">0.1320</span>, <span class="fl">0.1325</span>, <span class="fl">0.1320</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">names</span>(yield.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.08</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">10</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co"># Calibration</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">curve.calibration</span> (<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> <span class="cn">NULL</span>, </span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>                   <span class="at">analysis.date =</span> <span class="st">&quot;2019-01-03&quot;</span>, <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>                   <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">npieces =</span> <span class="dv">2</span>, <span class="at">fwd =</span> <span class="dv">0</span>, <span class="at">obj =</span> <span class="st">&quot;Rates&quot;</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>                   <span class="at">piece.term =</span> <span class="dv">3</span>, <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span></code></pre></div>
+<p><br />
+Below, the result for the previous example and its equivalent with
+instantaneous forward calibration is plotted:<br />
+<br />
+</p>
+<p><img role="img" src="data:image/png;base64,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" style="display: block; margin: auto;" /><br />
+An important detail for <code>npieces</code> is that for
+<code>fwd = 0</code>, <code>npieces</code> represents the amount of
+segments besides all immutable spot segments. Therefore, for the
+previous example, since for <code>asset.type = &quot;IBRSwaps&quot;</code> the
+default amount of <code>noSpots</code> is 4, the actual amount of
+<code>npieces</code> of the curve will be 6
+(<code>noSpots</code>+<code>npieces</code>). When <code>fwd = 1</code>,
+<code>npieces</code> does represent the total amount of segments for the
+calibrated curve. For instance, in the aforementioned plot, two curves
+consisting of six pieces were plotted, but with different values of
+<code>npieces</code>: <code>npieces</code> was set to 2 for
+<code>fwd = 0</code>, whereas it was set to 6 for
+<code>fwd = 1</code>.</p>
+<p>Finally, is it important to note that <code>piece.term</code> should
+not include the last piece term, since it is assumed that the last term
+coincides with the last maturity introduced in <code>yield.curve</code>
+or <code>market.assets</code>. Therefore, the <code>piece.term</code>
+vector must always have a length equal to <strong><code>npieces</code> -
+1</strong>.</p>
+</div>
+<div id="curve-calculation" class="section level2">
+<h2>Curve Calculation</h2>
+<p>The <code>curve.calculation()</code> function performs
+<code>curve.calibration()</code> function for multiple analysis dates.
+The main difference is that the <code>series</code> input will replace
+<code>yield.curve</code>. The <code>series</code> parameter represents a
+matrix in which every column is a <code>yield.curve</code> vector and
+<code>names(series)</code> contains the maturity for each rate as
+numeric in years. Additionally, the <code>rownames(series)</code> vector
+must contain each analysis date desired. On the other hand,
+<code>market.assets</code> is a matrix just like in
+<code>curve.calibration()</code>, but now it must contain every single
+asset of the <code>series</code> matrix.</p>
+<p>An additional feature of <code>curve.calculation()</code> is that it
+allows the user to merge a <code>previous.curve</code> matrix with the
+output matrix of calibrated curves. Below is an example where the
+<code>market.assets</code> input is required and
+<code>previous.curve</code> for analysis dates
+<strong>“2014-01-01”</strong> and <strong>“2015-01-01”</strong> is
+constant. In this case, since for these two dates curve is already
+input, the calibration only takes place on <strong>“2016-01-01”</strong>
+and <strong>“2017-01-01”</strong>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># `previous.curve` input</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>previous.curve <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fl">0.04</span>,<span class="at">nrow =</span> <span class="dv">2</span>,<span class="at">ncol =</span> <span class="dv">8</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">rownames</span>(previous.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2014-01-01&quot;</span>,<span class="st">&quot;2015-01-01&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">colnames</span>(previous.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co"># `serie` input</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>serie <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow =</span> <span class="dv">4</span>,<span class="at">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">rownames</span>(serie) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2014-01-01&quot;</span>,<span class="st">&quot;2015-01-01&quot;</span>,<span class="st">&quot;2016-01-01&quot;</span>,<span class="st">&quot;2017-01-01&quot;</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="fu">colnames</span>(serie) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.08333</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.04</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fl">0.065</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fl">0.07</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>serie[<span class="dv">1</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fl">0.075</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.04</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fl">0.063</span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fl">0.074</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>serie[<span class="dv">2</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fl">0.08</span></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.065</span></span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fl">0.07</span></span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fl">0.08</span></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fl">0.084</span></span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>serie[<span class="dv">3</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fl">0.04</span></span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fl">0.042</span></span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fl">0.045</span></span>
+<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>serie[<span class="dv">4</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a><span class="co"># `market.assets` input</span></span>
+<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a>market.assets <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow =</span> <span class="dv">10</span>,<span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a>market.assets[<span class="dv">1</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.04</span></span>
+<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a>market.assets[<span class="dv">2</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb15-37"><a href="#cb15-37" tabindex="-1"></a>market.assets[<span class="dv">3</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
+<span id="cb15-38"><a href="#cb15-38" tabindex="-1"></a>market.assets[<span class="dv">4</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.07</span></span>
+<span id="cb15-39"><a href="#cb15-39" tabindex="-1"></a>market.assets[<span class="dv">5</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.08</span></span>
+<span id="cb15-40"><a href="#cb15-40" tabindex="-1"></a>market.assets[<span class="dv">6</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
+<span id="cb15-41"><a href="#cb15-41" tabindex="-1"></a>market.assets[<span class="dv">7</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
+<span id="cb15-42"><a href="#cb15-42" tabindex="-1"></a>market.assets[<span class="dv">8</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.07</span></span>
+<span id="cb15-43"><a href="#cb15-43" tabindex="-1"></a>market.assets[<span class="dv">9</span>,<span class="dv">1</span>]  <span class="ot">&lt;-</span> <span class="fl">0.075</span></span>
+<span id="cb15-44"><a href="#cb15-44" tabindex="-1"></a>market.assets[<span class="dv">10</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.07</span></span>
+<span id="cb15-45"><a href="#cb15-45" tabindex="-1"></a>market.assets[<span class="dv">1</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2016-01-01&quot;</span></span>
+<span id="cb15-46"><a href="#cb15-46" tabindex="-1"></a>market.assets[<span class="dv">2</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2016-02-01&quot;</span></span>
+<span id="cb15-47"><a href="#cb15-47" tabindex="-1"></a>market.assets[<span class="dv">3</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2016-04-01&quot;</span></span>
+<span id="cb15-48"><a href="#cb15-48" tabindex="-1"></a>market.assets[<span class="dv">4</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2016-07-01&quot;</span></span>
+<span id="cb15-49"><a href="#cb15-49" tabindex="-1"></a>market.assets[<span class="dv">5</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2017-01-01&quot;</span></span>
+<span id="cb15-50"><a href="#cb15-50" tabindex="-1"></a>market.assets[<span class="dv">6</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2017-02-01&quot;</span></span>
+<span id="cb15-51"><a href="#cb15-51" tabindex="-1"></a>market.assets[<span class="dv">7</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2017-04-01&quot;</span></span>
+<span id="cb15-52"><a href="#cb15-52" tabindex="-1"></a>market.assets[<span class="dv">8</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2017-07-01&quot;</span></span>
+<span id="cb15-53"><a href="#cb15-53" tabindex="-1"></a>market.assets[<span class="dv">9</span>,<span class="dv">2</span>]  <span class="ot">&lt;-</span> <span class="st">&quot;2018-01-01&quot;</span></span>
+<span id="cb15-54"><a href="#cb15-54" tabindex="-1"></a>market.assets[<span class="dv">10</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;2019-01-01&quot;</span></span>
+<span id="cb15-55"><a href="#cb15-55" tabindex="-1"></a><span class="co"># Calculation</span></span>
+<span id="cb15-56"><a href="#cb15-56" tabindex="-1"></a><span class="fu">curve.calculation</span>(<span class="at">serie =</span> serie, <span class="at">market.assets =</span> market.assets, <span class="at">noSpots =</span> <span class="dv">1</span>,  </span>
+<span id="cb15-57"><a href="#cb15-57" tabindex="-1"></a>                  <span class="at">previous.curve =</span> previous.curve, <span class="at">asset.type =</span> <span class="st">&quot;TES&quot;</span>,</span>
+<span id="cb15-58"><a href="#cb15-58" tabindex="-1"></a>                  <span class="at">freq =</span> <span class="dv">1</span>, <span class="at">rate.type =</span> <span class="dv">1</span>, <span class="at">fwd =</span> <span class="dv">0</span>,</span>
+<span id="cb15-59"><a href="#cb15-59" tabindex="-1"></a>                  <span class="at">nodes =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span>
+<span id="cb15-60"><a href="#cb15-60" tabindex="-1"></a><span class="co">#&gt;               0       0.25       0.5          1          2          3</span></span>
+<span id="cb15-61"><a href="#cb15-61" tabindex="-1"></a><span class="co">#&gt; 2014-01-01 0.04 0.04000000 0.0400000 0.04000000 0.04000000 0.04000000</span></span>
+<span id="cb15-62"><a href="#cb15-62" tabindex="-1"></a><span class="co">#&gt; 2015-01-01 0.04 0.04000000 0.0400000 0.04000000 0.04000000 0.04000000</span></span>
+<span id="cb15-63"><a href="#cb15-63" tabindex="-1"></a><span class="co">#&gt; 2016-01-01 0.06 0.06983019 0.0797851 0.08397703 0.09021406 0.09023113</span></span>
+<span id="cb15-64"><a href="#cb15-64" tabindex="-1"></a><span class="co">#&gt; 2017-01-01 0.02 0.04093220 0.0427312 0.04512698 0.05024461 0.05024461</span></span>
+<span id="cb15-65"><a href="#cb15-65" tabindex="-1"></a><span class="co">#&gt;                     4          5</span></span>
+<span id="cb15-66"><a href="#cb15-66" tabindex="-1"></a><span class="co">#&gt; 2014-01-01 0.04000000 0.04000000</span></span>
+<span id="cb15-67"><a href="#cb15-67" tabindex="-1"></a><span class="co">#&gt; 2015-01-01 0.04000000 0.04000000</span></span>
+<span id="cb15-68"><a href="#cb15-68" tabindex="-1"></a><span class="co">#&gt; 2016-01-01 0.09023113 0.09023113</span></span>
+<span id="cb15-69"><a href="#cb15-69" tabindex="-1"></a><span class="co">#&gt; 2017-01-01 0.05024461 0.05024461</span></span></code></pre></div>
+</div>
+<div id="spot-to-forward" class="section level2">
+<h2>Spot to Forward</h2>
+<p>The <code>spot2forward()</code> function allows the user to transform
+a spot curve into a forward instantaneous curve. Every node introduced
+in the <code>spot</code> input is transformed into a forward node. The
+maturity of each rate must be introduced in <code>names(spot)</code>, as
+numeric in years (counting from <code>analysis.date</code>). Finally,
+<code>approximation</code> refers to the approximation of the initial
+spot curve. Therefore, when transforming a spot piecewise linear curve
+into an instantaneous forward curve, it is necessary to define
+<code>approximation = &quot;linear&quot;</code>. Below is an example:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Inputs for calibration of spot curve</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.015</span>,<span class="fl">0.0175</span>, <span class="fl">0.0225</span>, <span class="fl">0.0275</span>, <span class="fl">0.0325</span>, <span class="fl">0.0375</span>,<span class="fl">0.04</span>,<span class="fl">0.0425</span>,<span class="fl">0.045</span>,<span class="fl">0.0475</span>,<span class="fl">0.05</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">names</span>(yield.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.001</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># Calibration</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>spot <span class="ot">&lt;-</span> <span class="fu">curve.calibration</span> (<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>                           <span class="at">analysis.date =</span> <span class="st">&quot;2019-01-03&quot;</span> , <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>                           <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">rate.type =</span> <span class="dv">0</span>, <span class="at">fwd =</span> <span class="dv">0</span>, <span class="at">npieces =</span> <span class="cn">NULL</span>, </span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>                           <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co"># Spot to Forward</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">names</span>(spot)</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="fu">spot2forward</span>(dates, spot, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArMAAAHgCAMAAACByxXtAAABL1BMVEUAAAAAADoAAGYAAP8AOjoAOmYAOpAAZrYzMzM6AAA6ADo6AGY6OgA6OpA6ZmY6ZpA6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmOgBmOjpmOmZmZgBmZmZmkJBmkLZmkNtmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtuq+SOTU2OTW6OTY6Obk2ObquOyP+QOgCQZjqQZmaQkDqQkGaQkLaQtpCQtraQttuQ2/+rbk2rbm6rbo6rjk2ryKur5OSr5P+2ZgC2Zjq2kDq2kGa2tpC2ttu225C229u22/+2/7a2/9u2///Ijk3I///bkDrbtmbbtpDb27bb29vb2//b/7bb///kq27k///r6+v/AAD/tmb/yI7/25D/27b/5Kv//7b//8j//9v//+T///+bT8VvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAd3UlEQVR4nO2dC3vcNnqFR1ZiRU6aXSlxlPTeyEktO63Udpuuvb1ITXe3aR1Ntm0se2RFN/7/31CClxmSAMEPIEh+H3jO89imhzpzQPAVBgRAziKBIFlaTF0ACHIUmIWkCcxC0gRmIWkCs5A0gVlImsAsJE1gFpKm+TF79x8fLRbv/cXrlt1Xf/JK29poucj1QN9FSD7Z8XBBTc2O2buTnLqHLdAu1zguDWCCWQaaHbOXi4ffJ8nPJ4tD8/4OZr1gLQRmw2h2zC63Xqh/bg520j97l7uL97P///zFYvH+93krvKdeKLeKHaW7wmy5J0VxudjaVQ33UjkyNH9MOyBbf1nsfPB98mMa9J9gNohmx+xljqTSzcHHuymYCuJLtZFuacyWOwpLhdn1nruT93YXD79TP3O2SKm82t0r+xCHxc7X2f/f/wLMhtDsmE3+fbH18T/9n9q6OVjsvL77LuUsBfRL1UqmbWW9b1DZkb+27s5u9qRbe4rUQ/WG6Z5LhX7atKYvZe+8p5K2fq36I2A2hObHbPI/f5e2kFtfKpIyFM8evFJ0qa20rawzW9mRv7ZmdrMnBfRV3tm4evTtoxfJWfau//vbv9/NfhvUTtX0JqUF6qkZMpvq7g9/nDZ/CrMk6+GqRjLVpYHZ9Y71a7k2e+5OcvQfvr588F8Hh2kvWe3N2FbMqp2X2RUfrsHCaJ7MJhlLYZlNt852UiyLTsLH//i7nw7A7BCaG7NFfyDrEeTb6tOb3jeoMLvpG2RvebX7VyfpxdfD79ao5/1ZtTPvGxS/I1BPzY3Z9NL+F2p86sdd1c4ufqlfg23GCLIxgcY12JrZ6jVYtvfu5L20M3u59VE2dLDzWo2FlTvTa7AvlQPMhtDsmE1BXRSDVDcH7+0Wc1qbIa3lohwMW5LHunKil+qd0rc/rE62lR0HjHWF0+yYzdcbbKnGNv2sTsH7RTZhcFVOHdx8sdjJG9V866p1TuFqPaeQM3upmtG7k4zvbL7h12n/o9z5hy8W7/83+rNBND9mN0L/UqbALCRNYBaSJjALSdOcmYVkCsxC0gRmIWkCs5A0gVlImsAsJE3ezH4AzUohoespf2bNL7/1fLvYfWIK2uIDs/PziSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+YgoJZsmL3iSkomCUrdp+Ugq7ALFmx+4QUdJXKuAPMzs8noqCrFZh1UOw+CQVNcQWzDordx7+gq5WlmQWzM/SxL2hJLK7ByIrdx72g60YWzJIVu493QSv9AjBLVuw+1gWt9mTBLFmx+zgXtHbxBWbJit3Ht6CN8QIwS1bsPrYFbY5wgVmyYvdxLag2KAtmyYrdx7OghnkEMEtW7D6WBTXNfIFZsmL3MSyoebIWzJIVu49fQVvWF4BZsmL3sSto24oYMEtW7D5mBW1fxAVmyYrdx6uglmWHYJas2H2sCmpbKQtmyYrdx6ig9sXdspm9fbb/+E116/rJ/qfn5V4wyzuw1WclVjiz9y+Pk4vPKlu3z0+Ti4JiMMs9sM3XgaxsZm+/OU+uvz7fbF0/fZNt5gKzvAPNPnu/wJIng9kM0bRpXW9t2tnsi/neQuK0Wr1VxHo4ZTD77nHJbLm16eAmaGe5Bxp83Y1se54MZrV29vqr0+Tdp+gbyAjUfRRihTOr9Wc3Da8SmOUdqPloyMpm9v7l0XrcINtCO9vDN3VBSf0CS54MZovuq2pqi47su/39T8pmFswyD6z7qMRKZ9YuMMs7sOajIwtm6YrdN2lBHZAFs3TF7pue2X55YHZ+vgkL6tDItueB2fn5pma2bx6YnZ9vYmZ754HZ+fnAbDiB2XF8YDacwOw4PjAbTmB2HN9kBXUbNQCzDordN1VBbd9F45IHZufnm6ag5JUxnXlgdn6+SQrqTiyYdVDsvgkK6tHItueB2fn5xi+oH7Jglq7YfaMH+hELZh0Uu2/kQM9Gtj0PzM7PN26gN7Fg1kGx+8YM9G9k2/PA7Px8Iwb2QhbM0hW7b7TAktjAeWB2fr6xAteNLJjVBWY5Bm66BWBWF5jlF1jtyYJZXWCWXWDt2gvM6gKzzAIbwwVgVheY5RXYHOECs7rALKtAbUwWzOoCs4wCDdMIYFYXmOUTaLqBBszqArNcAs1ztWBWF5hlEtiyugDM6gKzLAJbF8SAWV1glkNg+xouMKsLzDIItKw6BLO6wOzkgdaFsmBWF5idOtC+tBvM6gKz0wZ23Y0AZnWB2UkDO2+gAbO6wOyUgd23fIFZXWB20sDOuxTBrC4wO2Eg4b5aMKsLzE4YSLgVHMzqArMTBoJZL4HZCQPBrJfA7HSBlMfEgFldYHaqwO5xrrB5meJg9i00icpnG42rOJg1vyyl3ZPaznbOfwXOKwVm5+cLFEhGFswaBGbHD6QTC2ZNArOjB7ogC2YNArMjBzoRC2ZNArPjBjoiC2YNArNjBroSC2ZNArMjBrojC2YNArOjBXoQC2ZNArNjBXohC2YNArPjGP2IBbMmgdlRjL7IglmDwOwIRm9iwaxJYHZ4Yw9kwaxBYHZoYx9iwaxJYHZgYz9kwaxBYHZYY0kskwMEs/PzORo3jSyTAwSz8/O5GStf6sHkAMGsXJ9v99IlsNaTZVIxYFasb4zr+Pq1F5OKAbNSfSOMPTWHC5hUDJiV6hueWW2Ei0nFgFmhvsHH+A1jskwqBszK9A0+L2WaRmBSMWBWpG/ouVTz+zOpGDAr0bcamNmWt2dSMWBWom8cZt19vnluPjAr0JcTNRyzbb8PTCoGzMrzFUQNy6yPzzfP0QdmxflWYJaPwCxF6w/uwZht7SkzqRgwK823JmogZi1Xd0wqBswK822AGoZZ24gEk4oBs7J8FZ6GYNY+hsakYsCsKN9qWGY7hn2ZVAyYleSrDcoGZ7ZzooJJxYBZSb4aUoGZLacpLO/JpGLArCBfHamwzFJmg5lUDJiV42swFZJZ2voFJhUDZsX4mlQFZJaGLJeKAbNifE2qgjFLJJZNxYBZKT4Nq1DMkpHlUjFgVohPxyoMs3Ri2VQMmJXhM4AVhFkXZLlUDJgV4TOBFYBZJ2LZVAyYFeEzkdWfWUdkuVQMmJXgM5LVl1lXYtlUjBBmb5/tP35T3bp/uf/Jabk3dmbNaPVk1h1ZLhUjg9n7l8fJxWfVrR+Ok3cFxdEz28JWL2Y9iGVTMTKYvf3mPLn++nyzpf7ZKG5m2+6w7cOsF7JcKkYGs9dP3yS3z083W9dP/6XoG3yg9DZmZXC1vN7jHb3dk0sGs6obkDNbbF0/Oc7wzRV1O9vaHnq3s36NbMKmYmQwa2hnyxeUYma2nS5PZr2JZVMxMpjV+7N/OxNmLXx5gbfqgSyXipHB7P3Lo/W4wVE5bjCLvoGFLx/y+hDLpmJkMFuMyqqmthifTf/5dD10EC+zNsDc2evVyCZsKkYIs3ZFy6wVMGf41sTyOUAvH5hl7LM3io7MVtpYNgfo5wOzfH0dn+NuzFa7BVwO0NNXP92LaVSmex5a1My223yYtQd2iYmvdrq9oemnElowW1PX1ZITs7U2m8kB+vrALFdf5wW+M7Mdgd1i4gOzTH3dg1IuzK7AbFiBWV2EcVQHZldgNrDArC7C0D+ZWW0mgcMB9vCBWZY+ymwVlVl98ovBAfbxgVmOPtIEK41Z03Tt9AfYywdmWfk2T50Pw+zK+IBOgRVTFZjl5MvpIn5dHbH7YPgxeRVTE5jl5CuYpX/qd/6A8YfkVUxNYJaRLyeMiGwns63IyquYusAsH99qI4rN/nO2d5JWMQ2BWTa+VUBm7W8krGKaArNsfI7I2pjteB9hFdMUmOXic0W2ndnO95FVMZrALBOfM7KtzHa/jaiK0QVmefhcO7NJG7OUN5FUMQaBWR6+kjM6smZmSdxLqhiDwCwLn0v7WspgIbbUgirGJDDLweeDrM7sijohIadijAKzDHzEBQYNNT307rCYijG/DGYZ+Lya2QazLhdwYirG/HIIZs+KW74PnVyXWy/K2Jkz64dsnVmnMQcpFTMksw9fe7jAbCFPZKvMOo6SCakYMEuXNGZdB3alVIw7syurqj9ZYfYy7SLsJcnN579abH20o/5/mO8/y/sOaseDV8lysdj6FZjN5IvsmllXYoVUzPb2OMwqRG8OdtI/6UtL9Wexk9yd7CVnKb/LFNJsR3KWYnu5ALNK3shWF4g7vgf/itnONAazis7sQ//mYC//8D/7s4evrx69uPk85fNqVwG9l2+kLjCbUG/9arWK/s6kNm2vZd4fhNly2CCHMf375kD1Aw4Obz7/9sNXl2mrmmTdBsVsuiN/Af1ZJX9kPVbVlGJdMdvb/szStW5nc2YVqwdZS7p39Uc/ff4i6xcsFg9+v1swuwSzpTLi+ly7eTHPt2K2a8SOMW5Qb2fTDu13O8nZL0+KBvhqF+1sQzlxPZl1dzKtmO1mEzsGs5X+bAbvh3+6lyzfe/Qip/Sy7BvkaC/B7KoXs/59YY4VowHb7gs7PrsZN8g7CSmWl4t0b97ELvaKHcvsdTBbMNdnztfP6Bs4mM9E7FhzCuX4bIZmNqZ1tavaXjUg++KsbIAxPpupbCbHLie3ijED2+7ju0Ym5fpwSZthk8ns+pN91sy2AtvuY8vs2cOfDg7vTnYobyCS2RWYtQLb7uPKbDFgVoztdkgusyPmBTAG9nUQC2YdNIqvcs0/S2Y7gW3P48psslR9g2yqt1sCma0OU82PWQqw7Xlsmc2GIBYkZAUyu5ozszRg2/P4MusgocyOmBfGGMJHbGJteVyZLQZyI+3P1iew5sOsC7DteWB2Al9jznUmzDoC257Hk9nl+qtwaeOzb2UpX801K9WA3e73XjyZXbezNAlrZ5tLW+JvZ10bWHseV2adJItZbTVW5My69wk68tgye7Wb9Q3i68/qKwhjZrYg1QPY9jyuzN6d7N2dHBJ7CPKYHTEvoNHV59/CWvO4MqtoPdtLLkkLuyQxa1inHSezfYFtz+PM7HInvrEu060FETLbGCYIm8eVWfVEhBRY2gJaOcwab4eJjdntZhM7F2azJ3ls7r+xShizI+aFNZJ8hj7BXJh1kRhmzTcdRsSsuRM7E2bvTiKcU2i5TzYWZluvumbCbIzzYG33dkfBrG2YYCbMJsTbFzNJYnbEvODGVp921TVoHldmbw4Wsc2DtT5BQzizHcAGz2PLrJNEMNv+0BfJzHYDGzZPCcyO5LM8qEgssyRgA+YVArMj+SzP1hLKLH1yliOzWeezped52X39PwdmbY+Dk8gsHdgweVWFYDb70oTKc7urooxZzYBZ6xMMxTFbkEoDNkBeQ+3MbltV/cmz7AYY83OKwKyS/YsWZTHr1MIGyNMVgNkKrFePvt0tHkqQPyFRrdzuHGidAbPWB8UKYtYD2F55RoVoZy/XdxqmiB7mXYX6k2jtip7ZjmcbS2G2nYBh8oZkNmtNs0uw4mGzD183nvhtV+zMdj2OWwSz3sB65ll8oca67k7UusH8qfMpqo1vVrALzIbNC2/sA6xPnt0XcHz27MGrq0dq7GDN7PobbOyKnNnObz1gzmxPYJ3zOn0BmM35zFGtM4t2NqF8AxhnZvsD65ZH8QVgthw3uEzb2aw/e4b+bFVymW0Cy6RCw8wpqOGsy2xoK/tGmtq4QffjOKNmlvB9SDyZNbSwLCo05Nytmga72v3z3ez7w9ffYJOczXx8lvAVXgyZNXcJWFRo6DUyZdfWTWA2YF4AY2sflkWFgtnBfdKYtV10sahQMDu4TxSzHaMELCoU62cH98lhtntQi0WFgtnBfUKYJY3DsqhQMDu4TwKz1IkDFhUKZgf3sWfWYaaLRYWC2cF9vJl1ALZHIJjVBWa9jG7A9ggEs7rArLvRGdgegWBWF5h1NPoA2yMQzOpizCwB2ZHLue0JrHcgmDWJL7OEVV2jlnNNqjuwfoFD+MDskD7LA48GybOrRwvrFziQD8wO6KMhO045+/LqHDicD8wO57M/iSN8XrsawE5dMT19YHY4H62VHbycegs7dcX09IHZwXxUZActp7FLwIQ9Xx+YHcpHRna4crb1YZmw5+urMzuVinjPQ2PJLPH6K1heU7ZBAibs+frqp3tSZKNi1gHZAcrZMarFhD1fX8vpnkQWZm+f7T9+U9+6f3lc7uXHrAuyocvZPW/AhD1fnwxmFZ8Xn9W3Lva5Mzti3lqkeQMm7Pn6ZDB7+815cv31eXXr+q//hi+zTsiGKyd13oAJe74+GcxeP32T3D4/rWzd/+bf8r7BB0pveSlDduzQOrBjp48pGcy+e1wyW25dHPHtzzp1ZgPkJULvN/D1yWBWa2fTf9gy64ps3zxSFzZk4NQ+Gcxq/dmLfaWjYjcrZp2R7ZXXPUgQOJCBTwaz9y+P1uMGR5URhEKcmHVH1j/PvYXtGcjDJ4PZYlRWNbXcx2fdkfXN8+O1RyAXnxBm7WLErAeynnm+wHoHsvGB2aA+H2S98vyB9Qxk5AOzIX0enVm/PG9cfQM5+cBsQJ8fsu55PZpYv0BePjAbzueJrGveemTLt5xc2PP1gdlgPl9kHfM2jSyYnV4xMDt0XrVbAGanl2xmvZF1yav1ZMHs9BLNrD+y9LzGtReYnV6SmfXuzNLztBFZMDu9BDPbB1linj7ABWanl1xmc2SHzDNNe4HZ6SWW2eIhRwPmGWcRwOz0ksts3jEYLK9l3gvMTi+pzJZ92aHy2qZqwez0Esrs+vJrmLz2xQVgdnrJZHY1KLO2JYdgdnqJZLYyyjVAnnUFF5idXhKZrQ7MBs/rWNcNZqeXQGZrj/IOnde1TBbMTi+JzFanv8LmdS/sBrPTSx6z9RnboHmEexHA7PQSx2xjkUHAPNLdM2B2ekljtrkwJlhex7VX3zwu7Pn6wKy3T1vLFSqPRiyY5SBZzOrLD8PkERvZHnlc2PP1gVlPn+EL64LkkYkFsxwki1l9kXeAPAdiwSwHSWLWdF9C/zwnZMEsAwli1ngrTd88N2LBLAfJYdZ8+1fPPFdkwSwDiWG25Y7FXnnOxIJZDpLCbNtNtn3yPJAFswwkitmgeT7EglkOEsJs65MMvPP8kAWzDCSD2fanb3jmeRILZjlIBLOWJ8b45XkjC2YZSAKztocc+eT5EwtmOUgAs9bncnnk9UEWzDIQf2btj5JzzutFLJjlICHMevjMKpEdGwUu7Pn6wKyDr+OBnW55m0YWzLr5wCzd1/WMWae8Sr8AzLr5wCzZ1/lcZIe8Wk8WzLr5wCzV1/0ob3pe/eILzLr5wCzRR3j6PDmvMVwAZt18YJbmo3xhAjFPG+ECs26+OJh9O7jyL0wIoXKAC/JVHMyaXw746036WhpKnmkaAe2smw/MUnwkZCl5xpkvMOvmA7MEH6UzS8lrmasFs24+MNvtIyLbmde2vADMuvnAbKePimxHXvuCGDDr5gOzXT7DQ45IvoYsa7jArJsPzHb5qK2sNc+66hDMuvnAbIePjqwlz75QFsy6+cCs3eeAbGte19JuMOvmA7NWH/n6y5LXeTcCmHXzgVmbzwlZcx7h/hkw6+YDsxafG7LGPMotX2DWzQdmLT43ZA15tJsUwaybD8y2+xyR1fIUrJS7asGsmw/MtvpckW3kbdMaWc3nmzeCkYkPzLb5HDuzzTwysWDW1QdmW3zuyFbz6I1sAmZdfWDW7PNAdpPnRCyYdfWBWaPPB9l1nhuxYNbVB2aNPh9kizzHRjYBs64+MGvyeSGb5bkTC2ZdfWDW4PNDNnnrRSyYdfWBWV1enVmV54csmHX0gVlNvsh6EgtmXX1gtilPZL2JBbOuPjDbUE9kfSLBrJsPzDbkhWyPRjYBs64+MFuXD7L9iAWzrj4wW1P+KDkny4ZYJqeUXyCY1RWM2ZU7s5VGlskp5RcIZnWFYra4/nLw1boFTE4pv0AwqysQs+WQAdnX6MgyOaX8AsGsrjDMrke5qL7mpReTU8ovEMzqCsgs3aePFjA5pfwCwayuIMxuRrkoPtP4FpNTyi8QzOoKwWxlYJbgM47IMjml/ALBrK4AzK5cmG2ZRGBySvkFglld/ZmtrTLo8G3njy2Y/nndYHZ6TcdsfWGM1WeZqGVySvkFglldfZnNHuVN89mWFjA5pfwCwayu3syuiMzaV8MwOaX8AsGsrp7MNtdytfm61m8xOaX8AsGsrn7MassPW3ydKw6ZnFJ+gWBWVy9m9RsTjD7CIlkmp5RfIJjV1YdZw700Bh9pWTeTU8ovEMzq6sGs6fYvzUe8EYHJKeUXCGZ19WW2w0e9d4bJKeUXCGZ1+TNrvP2r7qMSy+aU8gucJ7O3z/Yfv6luXT/Z3z8u93oza75jseqjE8vmlPILnCWz9y+Pk4vPKlu3z0+T669Oi92+zLY8y6DicyCWzSnlFzhLZm+/OU+uvz7fbL1TAP9QNrSezLY9fmPtc2lkCXlcfGIKKprZ66dvsqa1ulX884HSWx8VN9m2ak2s17tDg0kGs+8el6Rutu5fHpW7vdrZ9occ5T63NrY7j49PTEFja2dvn62R7cFsq8+xW0DI4+MTU1DRzGr92eT6yfFmtw+zloccSXn2MZidXrZxg6P1uEG2VUPWh1nbc7n8iGVzSvkFzpLZYlRWNbD51sW+kv+4ge2Jnb7Icjml/ALnyaxdzsxakPUmls0p5RcIZnW5MtuObA9i2ZxSfoFgVpcjs93I+hWDySnlFwhmdfkwa3i9VyNryePmE1NQMFuqBdkNsUxOzWA+MQUFs4XMyFbbWCanZjCfmIKC2VzmzmytW8Dk1AzmE1NQMFvIgGyjI8vk1AzmE1NQMJvJ0Mpql15MTs1gPjEFBbOZ2pG1+yiS4hNTUDCbqcmsaXyLyakZzCemoGA2U51Z84gsk1MzmE9MQcFsphqzLXMITE7NYD4xBQWzmSrMtk57MTk1g/nEFBTMZloza5moZXJqBvOJKSiYzVQwa11awOTUDOYTU1Awmyln1r4ahsmpGcwnpqBgNpNitmv9FpNTM5hPTEHBbKYKs61vx+TUDOYTU9AZMrtqUdcaWSanZjCfmIKC2RqztrdjcmoG84kpKJjNl8dkzNrfjsmpGcwnpqBgdsNth5icmsF8Ygo6Q2aZVDE7n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKSiYJSt2n5iCglmyYveJKWjUzEKzUkjoesqb2RaNfWyx58V/gO4Cs7zz4j9Ad4FZ3nnxH6C7QjMLQUMLzELSBGYhaQKzkDSBWUiaQjF7+2z/8ZvG1pC6frK/f5xtXezv7396PnTeJmWc41N5xRGOcoDXX5+PfxI9FYjZ+5fHycVn9a0hdfv8NLn+6lRt/nA8dFgtZZzjy/Qux2aMA3ynfivGPom+CsTs7Tfn+a9qZWtIvVMVmp3M+9+cDpyV1FLGOb4s6flpPXo4/fDJv6aHNPZJ9FUgZq+fvinqeLM1tPKU9FOs7CUMmbVOGe/4ioZunANUhE5xEn0UiFn1MZYf5GZrYN2/PFL/qB7C8E3RJmW04ytDRjrAlNkJTqKXxLazt8+ONv8ZsU87WhP0rnoRNPgBzrCdHb0rdP2kehZHZHa0rt4PR9X/jMHszPqz6oO6vOQ8GuGSc4Osao7u/3nwa751yjjHV7n0GucAFaFjn0RfhR2fzX5bxxjaK4YvVV66+cnwn2J5ymjHV3ZnRzvAyvjsiAfpJ8yDQdIEZiFpArOQNIFZSJrALCRNYBaSJjDbpZ+/n7oEUF1gtkNXj15MXQSoLjDbITDLTmDWrqvdxWIvuTtZLB68Sq4+/IfFg98/+la9pnYcTl26eQrMdki1s3cnO0myfPj6andHUfzwdbJcqL9SjKHxBWY7pJi9VHDeHBxe7R4qZtd/odswicBshxSYy0WmvQzSxl/Q6AKzHcqYTTsC5TaYnVxgtkNZ32DrxXobzE4uMNuhtBubXoOlDW0KLphlITDbpbPFTjbWlba1YJaFwCwkTWAWkiYwC0kTmIWkCcxC0gRmIWkCs5A0gVlImsAsJE1gFpKm/wdYy5kvLYclKAAAAABJRU5ErkJggg==" style="display: block; margin: auto;" /></p>
+</div>
+<div id="forward-to-spot" class="section level2">
+<h2>Forward to Spot</h2>
+<p>The <code>fwd2spot()</code> function allows the user to transform a
+forward instantaneous curve into a spot curve. Every node introduced in
+<code>fwd</code> input is transformed into a spot node. Maturity of each
+rate as numeric in years must be introduced in <code>names(fwd)</code>.
+Just like <code>spot2forward()</code>, <code>approximation</code> refers
+to the approximation of the initial input forward curve. Below is an
+example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Inputs for calibration of forward curve</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.015</span>,<span class="fl">0.0175</span>, <span class="fl">0.0225</span>, <span class="fl">0.0275</span>, <span class="fl">0.0325</span>, <span class="fl">0.0375</span>,<span class="fl">0.04</span>,<span class="fl">0.0425</span>,<span class="fl">0.045</span>,<span class="fl">0.0475</span>,<span class="fl">0.05</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">names</span>(yield.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.001</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># Calibration</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>fwd <span class="ot">&lt;-</span> <span class="fu">curve.calibration</span> (<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> <span class="cn">NULL</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>                          <span class="at">analysis.date =</span> <span class="st">&quot;2019-01-03&quot;</span>, <span class="at">asset.type =</span> <span class="st">&quot;LIBORSwaps&quot;</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>                          <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">rate.type =</span> <span class="dv">0</span>, <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>                          <span class="at">npieces =</span> <span class="cn">NULL</span>, <span class="at">fwd =</span> <span class="dv">1</span>, <span class="at">nodes =</span> nodes, </span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>                          <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co"># Forward to Spot</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">names</span>(fwd)</span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="fu">fwd2spot</span>(dates, fwd, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="basis-curve" class="section level2">
+<h2>Basis curve</h2>
+<p>The <code>basis.curve()</code> function calibrates a “discount basis
+rate” curve according to data of cross currency swaps. It follows a
+similar structure with the same features as
+<code>curve.calibration()</code>. The main difference is that the data
+input is <code>swaps</code>, a matrix that contains relevant information
+for every Cross Currency Swap (CCS). In detail, each row represents a
+swap and the columns represent, respectively: maturity, legs, coupon
+rate of local leg, coupon rate of foreign leg, spread of local leg,
+spread of variable leg, principal of local leg and principal of variable
+leg. Columns in <code>swaps</code> can be placed in any order, but every
+column must be labeled with the following labels:
+<code>colnames(swaps) &lt;- c(&quot;Mat&quot;  ,&quot;Legs&quot;, &quot;C1&quot; , &quot;C2&quot;, &quot;spread1&quot;, &quot;spread2&quot;, &quot;prin1&quot;, &quot;prin2&quot;)</code>.</p>
+<p>Basis curve can be calibrated with any type of Cross Currency Swap,
+either fixed local leg vs. fixed foreign leg (<code>Legs = FF</code>),
+fixed local leg vs. variable foreign leg (<code>Legs = FV</code>),
+variable local leg vs. a fixed foreign leg (<code>Legs = VF</code>) or
+variable local leg vs. variable foreign leg
+(<code>Legs = VV</code>).</p>
+<p>Additionally, there is a new parameter: <code>ex.rate</code>. It
+represents the exchange rate between the two currencies involved in the
+CCS on <code>analysis.date</code>. In the next example, both new inputs
+are created:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>ex.rate <span class="ot">&lt;-</span> <span class="dv">4814</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>swaps <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">&quot;2024-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.07</span> , <span class="fl">0.0325</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="dv">2000</span> <span class="sc">*</span> ex.rate, <span class="dv">2000</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2025-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.015</span>, <span class="fl">0.0175</span>, <span class="dv">2000</span> <span class="sc">*</span> ex.rate, <span class="dv">2000</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2026-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.075</span>, <span class="fl">0.03</span>  , <span class="cn">NA</span>   ,  <span class="cn">NA</span>   , <span class="dv">5000000</span>, <span class="dv">5000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2027-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.01</span> , <span class="fl">0.015</span> , <span class="dv">5000000</span>, <span class="dv">5000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2028-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.08</span> ,<span class="fl">0.035</span>  , <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="dv">3000000</span>, <span class="dv">3000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2029-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.01</span> , <span class="fl">0.0125</span>, <span class="dv">3000000</span>, <span class="dv">3000000</span> <span class="sc">/</span> ex.rate))</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="fu">colnames</span>(swaps) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mat&quot;</span>  ,<span class="st">&quot;Legs&quot;</span>, <span class="st">&quot;C1&quot;</span> , <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;spread1&quot;</span>, <span class="st">&quot;spread2&quot;</span>, <span class="st">&quot;prin1&quot;</span>, <span class="st">&quot;prin2&quot;</span>)</span></code></pre></div>
+<p>Below, an example of piecewise linear basis curve calibration using
+the RSS method is performed. Additionally, the constant calibration
+alternative is added to the plot:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Inputs for calibration of spot curve</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.015</span>,<span class="fl">0.0175</span>, <span class="fl">0.0225</span>, <span class="fl">0.0275</span>, <span class="fl">0.0325</span>, <span class="fl">0.0375</span>,<span class="fl">0.04</span>,<span class="fl">0.0425</span>,<span class="fl">0.045</span>,<span class="fl">0.0475</span>,<span class="fl">0.05</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">names</span>(yield.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.001</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co"># Calibration of local spot curve</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>rates <span class="ot">&lt;-</span> <span class="fu">curve.calibration</span> (<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> <span class="cn">NULL</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>                           <span class="at">analysis.date =</span> <span class="st">&quot;2019-01-03&quot;</span> , <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>, </span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>                           <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">rate.type =</span> <span class="dv">0</span>, <span class="at">fwd =</span> <span class="dv">0</span>, <span class="at">npieces =</span> <span class="cn">NULL</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>                           <span class="at">obj =</span> <span class="st">&quot;Price&quot;</span>, <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co"># Calibration of Basis Curve</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.001</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="fu">basis.curve</span>(<span class="at">swaps =</span> swaps, <span class="at">ex.rate =</span> <span class="dv">4814</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-03-01&quot;</span>, </span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>            <span class="at">rates =</span> rates, <span class="at">rates2 =</span> rates <span class="sc">/</span> <span class="dv">4</span>, <span class="at">freq =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>            <span class="at">rate.type =</span> <span class="dv">1</span>, <span class="at">npieces =</span> <span class="dv">4</span>, <span class="at">obj =</span> <span class="st">&quot;Price&quot;</span>, <span class="at">Weights =</span> <span class="cn">NULL</span>, </span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>            <span class="at">nsimul =</span> <span class="dv">10</span>, <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="swaps-valuation" class="section level2">
+<h2>Swaps Valuation</h2>
+<p>The <code>valuation.swaps()</code> function offers the possibility of
+valuing an Interest Rate Swap (IRS) or a Cross Currency Swap (CCS). For
+the former case, <code>coupon.rate</code> input is used to value the
+fixed leg, <code>spread</code> is an optional input for the variable leg
+and <code>rates</code> vector is used for discounting the cashflows. If
+<code>analysis.date</code> doesn’t belong to a coupon date,
+<code>float.rate</code> must be introduced and represents the variable
+rate observed on the previous coupon date.</p>
+<p>In the next example, the <code>analysis.date</code> is inside the
+coupon dates. Therefore, even if <code>float.rate</code> is introduced,
+its effect on output is null since the function automatically
+establishes that <code>float.rate</code> is equivalent to the first
+entry of <code>rates</code> input:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">valuation.swaps</span>(<span class="at">maturity =</span> <span class="st">&quot;2026-07-01&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-01-01&quot;</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>                <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>, <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">coupon.rate =</span> <span class="fl">0.04</span>, </span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>                <span class="at">rates =</span> <span class="fu">rep</span>(<span class="fl">0.04</span>,<span class="dv">14</span>), <span class="at">float.rate =</span> <span class="dv">500</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#&gt; [1] -0.001966146</span></span></code></pre></div>
+<p>For cases where <code>analysis.date</code> doesn’t belong to a coupon
+date, the <code>float.rate</code> input is necessary to value the
+upcoming coupon of variable leg:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">valuation.swaps</span>(<span class="at">maturity =</span> <span class="st">&quot;2026-07-01&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-02-01&quot;</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>                <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>, <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">coupon.rate =</span> <span class="fl">0.04</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>                <span class="at">rates =</span> <span class="fu">rep</span>(<span class="fl">0.04</span>,<span class="dv">14</span>), <span class="at">float.rate =</span> <span class="fl">0.042</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt; [1] -0.001482435</span></span></code></pre></div>
+<p>In the context of Cross Currency Swaps (CCS),
+<code>coupon.rate</code> is used for valuation of local fixed legs. The
+<code>spread</code> parameter represents the spread for the local
+variable leg, while <code>rates</code> are the discount rates for the
+local leg. The <code>float.rate</code> parameter denotes the variable
+local rate observed on the previous coupon date and just like in the IRS
+case, it is only required if local leg is variable and
+<code>analysis.date</code> doesn’t belong to a coupon date. In parallel,
+<code>coupon.rate2</code>, <code>spread2</code>, <code>rates2</code> and
+<code>float.rate2</code> represent the same attributes but for foreign
+legs.</p>
+<p><code>rates2</code> input is only necessary if the foreign leg is a
+variable leg, in order to transform the variable into a fixed foreign
+leg. After which, <code>basis.rates</code> input is used as the discount
+foreign rates to value the fixed foreign leg. For <code>rates</code>,
+<code>rates2</code> and <code>basis.rates</code>,
+<code>curve.calculation()</code> and <code>basis.curve()</code> can be
+used. These three inputs can either be a vector with a rate for every
+coupon date, or a curve that contains nodes with, at least, three
+decimals:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Curve Calibration for `rates` input</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a> yield.curve <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.103</span>,<span class="fl">0.1034</span>,<span class="fl">0.1092</span>, <span class="fl">0.1161</span>, <span class="fl">0.1233</span>, <span class="fl">0.1280</span>, <span class="fl">0.1310</span>, <span class="fl">0.1320</span>, <span class="fl">0.1325</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a> <span class="fu">names</span>(yield.curve) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.08</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a> nodes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.001</span>) <span class="co"># Our curve has nodes with three decimals.</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a> rates <span class="ot">&lt;-</span> <span class="fu">curve.calibration</span> (<span class="at">yield.curve =</span> yield.curve, <span class="at">market.assets =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>                             <span class="at">analysis.date =</span> <span class="st">&quot;2023-03-01&quot;</span>, <span class="at">asset.type =</span> <span class="st">&quot;IBRSwaps&quot;</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>                             <span class="at">freq =</span> <span class="dv">4</span>, <span class="at">rate.type =</span> <span class="dv">0</span>, <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>, <span class="at">fwd =</span> <span class="dv">0</span>, </span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>                             <span class="at">npieces =</span> <span class="cn">NULL</span>, <span class="at">obj =</span> <span class="st">&quot;Rates&quot;</span>, <span class="at">nsimul =</span> nsimul, </span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>                             <span class="at">nodes =</span> nodes,  <span class="at">approximation =</span> <span class="st">&quot;constant&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Curve Calibration for `basis.rates` input</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nodes  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>rates2 <span class="ot">&lt;-</span> rates<span class="sc">/</span><span class="dv">4</span> <span class="co"># It is assumed foreign curve is proportional to local spot curve.</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co"># Swaps input for calibration</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>ex.rate <span class="ot">&lt;-</span> <span class="dv">4814</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>swaps <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">&quot;2024-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.07</span> , <span class="fl">0.0325</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="dv">2000</span> <span class="sc">*</span> ex.rate, <span class="dv">2000</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2025-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.015</span>, <span class="fl">0.0175</span>, <span class="dv">2000</span> <span class="sc">*</span> ex.rate, <span class="dv">2000</span>),</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2026-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.075</span>, <span class="fl">0.03</span>  , <span class="cn">NA</span>   ,  <span class="cn">NA</span>   , <span class="dv">5000000</span>, <span class="dv">5000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2027-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.01</span> , <span class="fl">0.015</span> , <span class="dv">5000000</span>, <span class="dv">5000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2028-03-01&quot;</span>, <span class="st">&quot;FF&quot;</span>, <span class="fl">0.08</span> ,<span class="fl">0.035</span>  , <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="dv">3000000</span>, <span class="dv">3000000</span> <span class="sc">/</span> ex.rate),</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>               <span class="fu">c</span>(<span class="st">&quot;2029-03-01&quot;</span>, <span class="st">&quot;VV&quot;</span>, <span class="cn">NA</span>   , <span class="cn">NA</span>    , <span class="fl">0.01</span> , <span class="fl">0.0125</span>, <span class="dv">3000000</span>, <span class="dv">3000000</span> <span class="sc">/</span> ex.rate))</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="fu">colnames</span>(swaps) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mat&quot;</span>  ,<span class="st">&quot;Legs&quot;</span>, <span class="st">&quot;C1&quot;</span> , <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;spread1&quot;</span>, <span class="st">&quot;spread2&quot;</span>, <span class="st">&quot;prin1&quot;</span>, <span class="st">&quot;prin2&quot;</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="co"># Calibration</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>basis.rates <span class="ot">&lt;-</span> <span class="fu">basis.curve</span>(swaps, <span class="at">ex.rate =</span> <span class="dv">4814</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-03-01&quot;</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>                           <span class="at">rates =</span> rates, <span class="at">rates2 =</span> rates2, <span class="at">freq =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>), </span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>                           <span class="at">rate.type =</span> <span class="dv">1</span>, <span class="at">npieces =</span> <span class="cn">NULL</span>, <span class="at">obj =</span> <span class="st">&quot;Price&quot;</span>, </span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>                           <span class="at">Weights =</span> <span class="cn">NULL</span>, <span class="at">nodes =</span> nodes, <span class="at">approximation =</span> <span class="st">&quot;linear&quot;</span>)</span></code></pre></div>
+<p>Below, an example of a CCS with two variable legs is shown; hence,
+all three input curves (<code>rates, rates2, basis.rates</code>) are
+required:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Valuation</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">valuation.swaps</span> (<span class="at">maturity =</span> <span class="st">&quot;2024-03-01&quot;</span>, <span class="at">analysis.date =</span> <span class="st">&quot;2023-03-01&quot;</span>, <span class="at">asset.type =</span> <span class="st">&quot;CCS&quot;</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>                 <span class="at">freq =</span> <span class="dv">2</span>, <span class="at">coupon.rate =</span> <span class="cn">NA</span>, <span class="at">rates =</span> rates, <span class="at">float.rate =</span> <span class="cn">NULL</span>, <span class="at">spread =</span> <span class="fl">0.015</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>                 <span class="at">principal =</span> <span class="dv">2000</span> <span class="sc">*</span> ex.rate, <span class="at">Legs =</span> <span class="st">&quot;VV&quot;</span>, <span class="at">ex.rate =</span> ex.rate, </span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>                 <span class="at">basis.rates =</span> basis.rates, <span class="at">coupon.rate2 =</span> <span class="cn">NA</span>, <span class="at">rates2 =</span> rates2, </span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>                 <span class="at">float.rate2 =</span> <span class="cn">NULL</span>, <span class="at">spread2 =</span> <span class="fl">0.0175</span>, <span class="at">principal2 =</span> <span class="dv">2000</span>, <span class="at">rate.type =</span> <span class="dv">0</span>, </span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>                 <span class="at">daycount =</span> <span class="st">&quot;ACT/365&quot;</span>, <span class="at">loc =</span> <span class="st">&quot;BOG&quot;</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="co">#&gt; [1] 442310.2</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

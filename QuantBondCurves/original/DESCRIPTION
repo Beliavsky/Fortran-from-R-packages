@@ -1,0 +1,35 @@
+Package: QuantBondCurves
+Type: Package
+Title: Calculates Bond Values and Interest Rate Curves for Finance
+Version: 0.3.3
+Authors@R: c(
+    person("Camilo", "Díaz", email = "kamodiaz@gmail.com", role = c("aut", "cre", "com")),
+    person("Andrés", "Galeano", email = "andres.galeano@quantil.com.co", role = "aut"), 
+    person("Julián", "Rojas", email = "julian.rojas@quantil.com.co", role = "aut"), 
+    person("Quantil S.A.S", role = c("aut", "cph"))
+    )
+Maintainer: Camilo Díaz <kamodiaz@gmail.com>
+Description: Values different types of assets and calibrates discount curves 
+    for quantitative financial analysis. It covers fixed coupon assets, 
+    floating note assets, interest and cross currency swaps with different 
+    payment frequencies. Enables the calibration of spot, instantaneous forward 
+    and basis curves, making it a powerful tool for accurate and flexible bond 
+    valuation and curve generation. The valuation and calibration techniques 
+    presented here are consistent with industry standards and incorporates 
+    author's own calculations. Tuckman, B., Serrat, A. (2022, ISBN: 978-1-119-83555-4).
+License: GPL (>= 3)
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+Imports: lubridate, quantdates, Rsolnp
+Depends: R (>= 3.5.0)
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown, ggplot2
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2026-06-08 20:54:10 UTC; kamod
+Author: Camilo Díaz [aut, cre, com],
+  Andrés Galeano [aut],
+  Julián Rojas [aut],
+  Quantil S.A.S [aut, cph]
+Repository: CRAN
+Date/Publication: 2026-07-05 08:30:17 UTC

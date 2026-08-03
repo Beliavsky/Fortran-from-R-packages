@@ -1,0 +1,17 @@
+name = "QuantBondCurves-fortran"
+version = "0.3.3"
+license = "GPL-3.0-or-later"
+author = "Camilo Diaz, Andres Galeano, Julian Rojas, Quantil S.A.S.; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "QuantBondCurves authors and contributors"
+description = "Bond valuation, swap valuation, spot/forward curves, and constrained curve calibration"
+keywords = ["fixed-income", "bonds", "yield-curves", "swaps", "calibration"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
