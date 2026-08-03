@@ -1,0 +1,22 @@
+import(stats)
+importFrom(ICS, ics, ics.components)
+importFrom(mvtnorm, rmvnorm)
+importFrom(utils, data)
+
+export(rank.ctest,rank.ictest,HotellingsT2,spatial.median,
+spatial.sign,HP1.shape,HR.Mest, duembgen.shape,
+tyler.shape,ind.ictest,ind.ctest, pair.prod, pair.sum, pair.diff,
+duembgen.shape.wt, symm.huber, symm.huber.wt, hl.loc, vdw.loc, HP.loc.test)
+
+S3method(HotellingsT2,default)
+S3method(HotellingsT2,formula)
+
+S3method(rank.ctest,default)
+S3method(rank.ctest,formula)
+S3method(rank.ctest,ics)
+
+S3method(rank.ictest,default)
+S3method(rank.ictest,ics)
+
+useDynLib(ICSNP, .registration = TRUE)
+
