@@ -1,0 +1,13 @@
+#ifndef UTILS_H
+#define UTILS_H
+// [[Rcpp::depends(RcppEigen)]]
+#include <RcppEigen.h>
+
+using namespace Eigen;
+using namespace std;
+
+MatrixXd blockDiagCpp(const std::vector<MatrixXd>&);
+std::vector<double> metrics(const MatrixXd&, const MatrixXd&, const double);
+MatrixXd pairwise_matrix_rownorm2(const MatrixXd&);
+VectorXd upper_view_vec(const MatrixXd&);
+#endif

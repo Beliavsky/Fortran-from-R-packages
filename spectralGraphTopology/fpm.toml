@@ -1,0 +1,21 @@
+name = "spectralgraphtopology"
+version = "0.2.3"
+license = "GPL-3.0-only"
+author = "Ze Vinicius and Daniel P. Palomar; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational routines in spectralGraphTopology"
+keywords = ["graphs", "laplacian", "spectral", "optimization", "clustering"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

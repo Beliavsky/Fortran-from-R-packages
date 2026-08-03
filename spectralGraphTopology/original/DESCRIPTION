@@ -1,0 +1,62 @@
+Package: spectralGraphTopology
+Title: Learning Graphs from Data via Spectral Constraints
+Version: 0.2.3
+Date: 2022-03-12
+Description: In the era of big data and hyperconnectivity, learning
+    high-dimensional structures such as graphs from data has become a prominent
+    task in machine learning and has found applications in many fields such as
+    finance, health care, and networks. 'spectralGraphTopology' is an open source,
+    documented, and well-tested R package for learning graphs from data. It
+    provides implementations of state of the art algorithms such as Combinatorial
+    Graph Laplacian Learning (CGL), Spectral Graph Learning (SGL), Graph Estimation
+    based on Majorization-Minimization (GLE-MM), and Graph Estimation based on
+    Alternating Direction Method of Multipliers (GLE-ADMM). In addition, graph
+    learning has been widely employed for clustering, where specific algorithms
+    are available in the literature. To this end, we provide an implementation of
+    the Constrained Laplacian Rank (CLR) algorithm.
+Authors@R: c(
+  person("Ze", "Vinicius", role = c("cre", "aut"), email = "jvmirca@gmail.com"),
+  person(c("Daniel", "P."), "Palomar", role = "aut", email = "daniel.p.palomar@gmail.com")
+  )
+Maintainer: Ze Vinicius <jvmirca@gmail.com>
+URL: https://github.com/dppalomar/spectralGraphTopology,
+     https://mirca.github.io/spectralGraphTopology/,
+     https://www.danielppalomar.com
+BugReports: https://github.com/dppalomar/spectralGraphTopology/issues
+Depends:
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+LinkingTo:
+    Rcpp,
+    RcppArmadillo,
+    RcppEigen
+Imports:
+    CVXR,
+    Rcpp (>= 0.11.0),
+    MASS,
+    Matrix,
+    progress,
+    rlist
+RoxygenNote: 7.1.1
+Suggests:
+    bookdown,
+    knitr,
+    prettydoc,
+    rmarkdown,
+    R.rsp,
+    testthat,
+    patrick,
+    corrplot,
+    igraph,
+    kernlab,
+    pals,
+    clusterSim,
+    viridis,
+    quadprog,
+    matrixcalc
+VignetteBuilder:
+    CVXR,
+    knitr,
+    rmarkdown,
+    R.rsp
