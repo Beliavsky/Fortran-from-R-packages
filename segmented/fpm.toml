@@ -1,0 +1,21 @@
+name = "segmented"
+version = "2.2.1"
+license = "GPL-2.0-or-later"
+author = "Vito M. R. Muggeo and contributors; modern Fortran computational port"
+maintainer = "Vivek Rao"
+description = "Modern Fortran implementation of segmented and stepmented regression models"
+keywords = ["segmented-regression", "changepoint", "mixed-effects", "breakpoint"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
