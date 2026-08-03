@@ -1,0 +1,27 @@
+Package: invgamstochvol
+Title: Obtains the Log Likelihood for an Inverse Gamma Stochastic
+        Volatility Model
+Version: 1.0.0
+Authors@R: c(person("Leon", "Gonzalez", role = c("aut", "cph"),
+                     email = "rlg@grips.ac.jp"),
+              person("Blessings", "Majoni", role = c("aut", "cre"),
+              email = "bmayjay@gmail.com" , comment =c(ORCID= "0009-0006-1793-1241")))
+Maintainer: Blessings Majoni <bmayjay@gmail.com>
+Description: Computes the log likelihood for an inverse gamma stochastic volatility model using a closed form expression of the likelihood. The details of the computation of this closed form expression are given in Gonzalez and Majoni (2023) <http://rcea.org/RePEc/pdf/wp23-11.pdf> .  
+    The closed form expression is obtained for a stationary inverse gamma stochastic volatility model by marginalising out the volatility. This allows the user to obtain the maximum likelihood estimator for this non linear non Gaussian state space model. In addition, the user can obtain the estimates of the smoothed volatility using the exact smoothing distributions.
+License: MIT + file LICENSE
+Imports: Rcpp (>= 1.0.10)
+LinkingTo: Rcpp, RcppArmadillo
+Depends: R (>= 2.10)
+Suggests: knitr, rmarkdown, spelling
+LazyData: true
+NeedsCompilation: yes
+Encoding: UTF-8
+VignetteBuilder: knitr, rmarkdown
+RoxygenNote: 7.2.3
+Language: en-US
+Packaged: 2023-08-18 06:56:39 UTC; bmayj
+Author: Leon Gonzalez [aut, cph],
+  Blessings Majoni [aut, cre] (<https://orcid.org/0009-0006-1793-1241>)
+Repository: CRAN
+Date/Publication: 2023-08-18 08:32:42 UTC

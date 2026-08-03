@@ -1,0 +1,188 @@
+---
+title: "A Tutorial for invgamstochvol package"
+author:
+- Blessings Majoni^[National Graduate Institute for Policy Studies, phd20303@grips.ac.jp]
+- Roberto Leon Gonzalez^[National Graduate Institute for Policy Studies, rlg@grips.ac.jp]
+output: 
+  html_document:
+    number_sections: yes
+  pdf_document: default
+thanks: "This research was supported in part with\nGrant-in-Aid for Scientific Research(Kakenhi Project)
+  \nfrom
+  the Japan Society for the Promotion of Sciences.\n"
+linkcolor: red
+citecolor: green
+urlcolor: blue
+fontsize: 11pt
+keywords: invgamstochvol
+abstract: This vignette is a tutorial for a R package `invgamstochvol`. The main function `lik_clo` computes the log likelihood for an inverse gamma stochastic volatility model using a closed form expression of the likelihood. The closed form expression is obtained for the log likelihood of a stationary inverse gamma stochastic volatility  model by marginalising out the volatilities. This allows the user to obtain the maximum likelihood estimator for this non linear non Gaussian state space models. In addition,  we can obtain the smoothed estimates of the volatility using draws from the exact posterior distribution of the inverse volatility by calling the function  `DrawK0`. Lastly one can  evaluate the 2F1 hypergeometric function using `ourgeo`. The computation of this closed form expression details are given in Leon-Gonzalez, R., & Majoni, B. (2023). Exact Likelihood for Inverse Gamma Stochastic Volatility Models (No. 23-11). We first provide an overview of the package, and then a quick tutorial.
+vignette: >
+  %\VignetteIndexEntry{A Tutorial for invgamstochvol package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+### Introduction
+
+The closed form expression is obtained for the log likelihood of a stationary inverse gamma stochastic volatility model by marginalising out the volatilities. This allows the user to obtain the maximum likelihood estimator for this non linear non Gaussian state space model. Further, the package can provide the smoothed estimates of the volatility by averaging draws from the exact posterior distribution of the inverse volatilities.
+
+### Installation
+
+```{r eval=TRUE}
+#install.packages("invgamstochvol")
+```
+
+### Usage
+
+```{r eval=TRUE}
+library(invgamstochvol)
+```
+
+### Example using simulated data
+
+The data set that we use for this example has 150 observations. Ydep are the observed data, rho represents the parameter for the persistence of the volatility, p is the number of lags and Xdep are the regressors.
+
+```{r eval=TRUE}
+##simulate data
+n=150
+dat<-data.frame(Ydep=runif(n,0.3,1.4))
+Ydep <- as.matrix(dat, -1,ncol=ncol(dat))
+littlerho=0.95
+r0=1
+rho=diag(r0)*littlerho
+p=4
+n=4.1
+T=nrow(Ydep)
+Xdep <- Ydep[p:(T-1),]
+if (p>1){
+  for(lagi in 2:p){
+    Xdep <- cbind(Xdep, Ydep[(p-lagi+1):(T-lagi),])
+  }
+}
+T=nrow(Ydep)
+Ydep <- as.matrix(Ydep[(p+1):T,])
+T=nrow(Ydep)
+unos <- rep(1,T)
+Xdep <- cbind(unos, Xdep)
+```
+
+### Obtain the residuals
+
+The matrix of residuals from OLS can be obtained as follows.
+
+```{r eval=TRUE}
+## obtain residuals
+bOLS <- solve(t(Xdep) %*% Xdep) %*% t(Xdep) %*% Ydep
+Res= Ydep- Xdep %*% bOLS
+Res=Res[1:T,1]
+b2=solve(t(Res) %*% Res/T) %*% (1-rho %*% rho)/(n-2)
+Res=as.matrix(Res,ncol=1)
+```
+
+### Obtain the likelihood
+
+The function lik_clo returns a list of 7 items. List item number 1, is the sum of the log likelihood, while the rest are constants that are useful to obtain the smoothed estimates of the volatility.
+
+```{r eval=TRUE}
+## obtain the log likelihood
+LL1=lik_clo(Res,b2,n,rho)
+LL1[1]
+```
+
+### Example using real data
+
+To obtain likelihood, the same approach as highlighted in the example using simulated data above applies. After obtaining the likelihood, we show how the smoothed estimates of volatility can be obtained.
+
+```{r eval = TRUE}
+##Example using US data 
+data1 <- US_Inf_Data
+Ydep <- as.matrix(data1)
+littlerho=0.95
+r0=1
+rho=diag(r0)*littlerho
+p=4
+n=4.1
+T=nrow(Ydep)
+Xdep <- Ydep[p:(T-1),]
+if (p>1){
+  for(lagi in 2:p){
+    Xdep <- cbind(Xdep, Ydep[(p-lagi+1):(T-lagi),])
+  }
+}
+T=nrow(Ydep)
+Ydep <- as.matrix(Ydep[(p+1):T,])
+T=nrow(Ydep)
+unos <- rep(1,T)
+Xdep <- cbind(unos, Xdep)
+```
+
+```{r eval=TRUE}
+## obtain residuals
+bOLS <- solve(t(Xdep) %*% Xdep) %*% t(Xdep) %*% Ydep
+Res= Ydep- Xdep %*% bOLS
+Res=Res[1:T,1]
+b2=solve(t(Res) %*% Res/T) %*% (1-rho %*% rho)/(n-2)
+Res=as.matrix(Res,ncol=1)
+```
+
+```{r eval=TRUE}
+##obtain the log likelihood 
+LL1=lik_clo(Res,b2,n,rho)
+LL1[1]
+```
+
+### Obtain smoothed estimates of volatility.
+
+First, save the constants obtained from evaluating the function `lik_clo` as follows:
+
+```{r eval=TRUE}
+deg=200
+niter=200
+AllSt=matrix(unlist(LL1[3]), ncol=1)
+allctil=matrix(unlist(LL1[4]),nrow=T, ncol=(deg+1))
+donde=(niter>deg)*niter+(deg>=niter)*deg 
+alogfac=matrix(unlist(LL1[5]),nrow=(deg+1),ncol=(donde+1))
+alogfac2=matrix(unlist(LL1[6]), ncol=1)
+alfac=matrix(unlist(LL1[7]), ncol=1)
+```
+
+### Obtain the smoothed estimates of the volatility
+
+repli is the number of replications. Then by averaging draws from the exact posterior distribution of the inverse volatilities, the smoothed estimates of the volatility can be obtained.
+
+```{r eval=TRUE}
+milaK=0
+repli=5
+keep0=matrix(0,nrow=repli, ncol=1)
+for (jj in 1:repli)
+{
+  laK=DrawK0(AllSt,allctil,alogfac, alogfac2, alfac, n, rho, b2,nproc2=2)
+  
+  milaK=milaK+1/laK*(1/repli)
+  keep0[jj]=mean(1/laK)/b2
+}
+ccc=1/b2
+fefo=as.vector(milaK)*ccc
+```
+
+```{r eval=TRUE}
+##obtain moving average of squared residuals
+mRes=matrix(0,nrow=T,ncol=1)
+Res2=Res*Res
+bandi=5
+for (iter in 1:T)
+{  low=(iter-bandi)*(iter>bandi)+1*(iter<=bandi)
+   up=(iter+bandi)*(iter<=(T-bandi))+T*(iter>(T-bandi))
+  mRes[iter]=mean(Res2[low:up])
+}
+
+##plot the results
+plot(fefo,type="l", col = "red", xlab="Time",ylab="Volatility Means")
+lines(mRes, type="l", col = "blue")
+legend("topright", legend = c("Stochastic Volatility", "Squared Residuals"),
+       col = c("red", "blue"), lty = 1, cex = 0.8)
+
+
+##usage of ourgeo to evaluate a 2F1 hypergeometric function
+ourgeo(1.5,1.9,1.2,0.7)
+```
