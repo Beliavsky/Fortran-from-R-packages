@@ -1,0 +1,1872 @@
+2026-07-15  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version, Date): 3.1-170.
+
+2026-04-24  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* DESCRIPTION (Suggests): remove SASmixed (archived).
+	* inst/scripts/ch02.R: embed data(PBIB).
+
+2026-03-27  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-169
+
+	* R/gnls.R: fix error message for missing start values
+	when no "selfStart" model is used.
+
+	* tests/gls.R: change gnls() start values for compatibility
+	with OpenBLAS on aarch64.
+
+2026-02-06  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* tests/anova.gls.R: increase tolerance.
+
+2025-03-31 Brian Ripley
+
+	* DESCRIPTION: Version is 3.1-168
+	* Update German translations
+
+2025-01-27  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): 3.1-167 (released)
+
+2024-08-22  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/corStruct.R (print.summary.corNatural):
+	failed from wrong coef() method.
+
+2024-08-21  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* src/nlmefit.c (mixed_fcn): guard against non-finite results
+	of 'internal_loglik', potentially causing infinite looping in
+	'optif9'; reported for simulate.lme() in PR#17955 and PR#18433.
+	* tests/predict.lme.R: add corresponding regression test.
+
+2024-08-16  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* tests/corFactor.R, tests/corMatrix.R:	rename and add test of
+	spatial correlation with groups.
+
+	* src/corStruct.c (corStruct_recalc): fix iterating over 'Xy' to
+	be compatible with spatial correlation structures, avoiding memory
+	errors from nlme() (PR#18192) and gnls() (PR#17227).
+	Thanks to Laurens Bogaardt for the useful reproducible example and to
+	Mikko Korpela, Benjamin Tyner, and Ivan Krylov for initial debugging.
+	* tests/nlme.R: add corresponding regression test.
+
+2024-08-13  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): 3.1-166 (released)
+
+2024-08-12  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/corStruct.R (Initialize.corARMA): catch unsupported values of
+	'p' and 'q' (PR#18777, thanks to Liming Li).
+	* tests/corStruct.R: added, with regression test.
+
+2024-06-18  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* tests/deviance.R, tests/nlme.R, tests/updateLme.R:
+	use 'MASS' conditionally.
+
+2024-06-16  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* man/pairs.compareFits.Rd:
+	* man/pairs.lmList.Rd:
+	* man/pairs.lme.Rd:
+	* man/plot.ACF.Rd:
+	* man/plot.Variogram.Rd:
+	* man/plot.augPred.Rd:
+	* man/plot.gls.Rd:
+	* man/plot.lmList.Rd:
+	* man/plot.lme.Rd:
+	* man/plot.nfnGroupedData.Rd:
+	Add package anchors for links to targets from package 'lattice'.
+
+2024-06-05  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* DESCRIPTION (Depends): update to real minimum R version (R >= 3.6.0).
+
+	* po, inst/po: update (installed) translations
+
+	* man/simulate.lme.Rd, man/summary.lme.Rd: drop unneeded \donttest.
+
+2024-04-29  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/nlme.R (nlme.nlsList): fix scoping issue for nlsList() and
+	self-starting nlme() calls with a preconstructed formula.
+
+2024-04-28  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/corStruct.R (corARMA): corARMA() no longer returns the
+	dysfunctional/undocumented corIdent() structure, with a clear
+	error message when neither 'p' nor 'q' are set > 0 (PR#17988).
+
+2024-04-23  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/VarCov.R (getVarCov.lme, getVarCov.gls): support
+	'individual[s]' with only one observation (PR#16806).
+	* tests/getVarCov.R: add corresponding regression tests.
+
+2024-04-17  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/lme.R (predict.lme): use formula() instead of
+	re-evaluating the call (with the wrong scope), similar to PR#15892.
+
+	* R/nlme.R (nlme.formula): nlme() finally works with fixed
+	variance weights (PR#17712), thanks to the pointers by Bill
+	Denney, Benjamin Tyner, and Ben Bolker.
+	* tests/varFixed.R: added, based on BD's example.
+
+	* R/varFunc.R (varIdent): warn about misguided varIdent(~1|g)
+
+2023-12-08  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* tests/augPred_lab.R: manually do Hmisc  label(.) <- ..
+	* DESCRIPTION (Version): 3.1-165; no longer suggesting 'Hmisc'.
+
+2023-11-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/nlmefit.c: 2 x format 'int': s/%ld/%d/
+	* DESCRIPTION (Version): 3.1-164
+
+2023-07-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/nlme.R (nlme.formula, formula.nlme):
+	* R/gnls.R (gnls, formula.gnls): store 'model' argument as 'formula'
+	==> trivial formula() methods, fixing PR#18559 by Ben Bolker.
+
+2023-04-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* tests/sigma-fixed-etc.R (nlme): loosen tol for sM4$tTable[,"Std.Error"]
+	* DESCRIPTION (Version): 3.1-163
+
+2023-01-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-162 (to be released)
+
+	* R/corStruct.R (corIdent, *.corIdent): deprecated corIdent() and
+	some of the "corIdent" methods.
+	* man/nlme-deprecated.Rd: deprecation
+
+2023-01-26  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* src/matrix.h: fix return value in C declaration of Fortran
+	subroutine 'RS'.  (PR#18438 by Lionel Henry.)
+
+2023-01-23  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/groupedData.R (nfGroupedData, nmGroupedData):
+	fix deprecation logic to give a warning when not called
+	internally.
+
+	* R/groupedData.R (balancedGrouped): suppress spurious warning
+	from testing for numeric row names.
+
+2022-11-17  Martin Maechler <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-161 (released)
+
+	* R/pdMat.R (str.pdMat): new method, fixing error for
+	   un-initialized, and misleading e.g., in `pdDiag` case.
+
+2022-10-10  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-160 (released)
+
+2022-08-24  Brian Ripley
+
+	* src/nlmefit.c: Fix for -Wstrict-prototypes.
+
+2022-07-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-159
+
+	* R/gnls.R (gnls): 'if (deparse(params[[nm]][[3]]) != "1")' fails
+	for long formulas (R-help list, thanks to Bill Dunlap, Jul 24)
+
+2022-07-05  Brian Ripley
+
+	* man/{gls,lme}: document the prohibition on  (rather than
+	ignoring of) offset() terms.
+
+2022-06-13  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-158 (released)
+	* R/lme.R (formula.lme): get the formula from the terms instead of
+	re-evaluating the call (with the wrong scope), fixing PR#15892.
+	* tests/scoping.R: add corresponding regression test.
+	* R/nlsList.R: use inherits() instead of comparing class to string.
+
+2022-03-25  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-157 (released)
+
+2022-03-24  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/nlme.R (nlme.formula):
+	* R/gnls.R (gnls): revert check for offset() terms in non-linear
+	models (avoid symbolic interpretation of arithmetic expressions).
+	* R/lme.R (formula.lme): defer fix for scoping issue to give more
+	time to update reverse dependencies
+
+2022-03-22  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-156 (unreleased)
+
+2022-03-18  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/gls.R: keep "terms" from gls() for use in predict.gls(),
+	fixing PR#18283.
+	* R/zzMethods.R, NAMESPACE: drop formula-based terms.gls().
+	* tests/gls.R: add corresponding regression test.
+
+	* R/gls.R (formula.gls):
+	* R/lme.R (formula.lme): get the formula from the terms instead of
+	re-evaluating the call (with the wrong scope), fixing PR#15892.
+	* tests/scoping.R: add corresponding regression test.
+
+2022-03-17  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/lme.R (lme.formula):
+	* R/nlme.R (nlme.formula):
+	* R/gls.R (gls):
+	* R/gnls.R (gnls): stop() at offset() terms, fixing PR#17880.
+	(They were previously ignored.)
+
+2022-03-08  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	Improve handling of factor variables in predict() methods.
+
+	* R/gls.R (predict.gls):
+	* R/gnls.R (predict.gnls):
+	* R/lme.R (predict.lme):
+	* R/nlme.R (predict.nlme):
+	call model.frame() with 'xlev' to make sure factor levels are
+	compatible with the employed contrasts (fixing PR#17226),
+	including to warn for numeric 'newdata' for factor variables,
+	and to support character input (cf. PR#18312).
+	* tests/gls.R:
+	* tests/nlme2.R:
+	* tests/predict.lme.R: add corresponding regression tests.
+
+	* R/gnls.R (gnls): always return contrast _matrices_ not just names
+	of contrast functions. Needed for the above fix and for
+	consistency with the other modelling functions in nlme.
+
+2022-03-05  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* inst/CITATION: use citation(auto=meta) and add NLME book.
+
+	* DESCRIPTION (Depends): finally require R >= 3.5.0.
+	* R/lmList.R: drop old warnErrList() code, part of utils >= 3.5.0.
+
+	* man/reStruct.Rd: late doc update for the pdClass default changed
+	2000-07-07 (PR#17740).
+
+2022-03-04  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/lme.R (predict.lme): fix predictions for character-type newdata.
+	The example in ch04.R produced wrong results with R >= 4.0.0 (PR#18312).
+	* tests/predict.lme: add corresponding regression test.
+
+	* R/newFunc.R (asOneFormula, getCovariateFormula, getResponseFormula):
+	* R/newMethods.R (getGroupsFormula.default):
+	fix environment of created formula (was local envir, now .GlobalEnv),
+	in line with stats::asOneSidedFormula() in R 4.2.0.
+
+	* inst/scripts/ch06.R: increase maxiter for nlsList() of Soybean data
+	to only fail for a single plot, consistent with the book (p. 289).
+
+2022-03-03  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	Setup extra tests conditional on nlme:::doExtras()
+
+	* DESCRIPTION: add SASmixed to Suggests (used in code from NLME book)
+	* inst/scripts: arrange for cleaner Rdiff() (drop proc.time(), tag
+	platform-dependent output via ## IGNORE_RDIFF_*, reduce digits in tests)
+	* tests/extras: added, including test scripts to run the full code
+	from the installed book chapters (with reference output)
+	* tests/nlme-stall.R: moved to extras
+
+2022-03-02  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/lmList.R (coef.lmList, summary.lmList): fix finding unique
+	coefficient names when the set of estimated coefficients varies
+	between subgroups (PR#16542); based on a patch by Ben Bolker.
+	* tests/lmList.R: add corresponding regression test
+
+2022-02-28  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	Clean up license information
+
+	* DESCRIPTION (Authors@R): "R Core Team" rather than "R-core"
+	* DESCRIPTION (License): dropped redundant "| file LICENCE"
+	* LICENCE: removed (copy of GPL-2)
+	* LICENSE.note: created from README
+	* README: removed
+
+2022-02-26  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/VarCov.R (getVarCov.lme):
+	* R/corStruct.R (Variogram.corSpatial):
+	* R/lmList.R (predict.lmList):
+	* R/lme.R (plot.ranef.lme): fix partial matching issues.
+
+2022-02-25  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	Fix more scoping issues (detected by sourcing the installed
+	chapter scripts in a local environment)
+
+	* R/simulate.R (simulate.lme): evaluate constructed calls in the
+	parent frame.
+	* R/lme.R (augPred.lme): look for data in the parent frame.
+	* R/gls.R (augPred.gls): (ditto)
+
+2022-02-23  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/simulate.R (simulate.lme): fix `useGen = TRUE` branch.
+
+2022-01-13  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-155 (released)
+	* src: Use R_Calloc, R_Free.
+
+2021-11-02  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/nlme.R (nlme.nlsList, nlme.formula): fix more scoping issues
+	with self-starting models by evaluating calls in the parent frame.
+	* R/nlsList.R (nlsList.selfStart): (ditto)
+	* tests/scoping.R: add corresponding regression tests.
+
+2021-10-21  Sebastian Meyer  <Sebastian.Meyer@R-project.org>
+
+	* R/gnls.R (gnls), tests/scoping.R: fix evaluation environment of
+	the internal `nls` call used for self-starting models (PR#18157).
+
+	* R/nlme.R (nlme.formula), tests/nlme.R: fix "unused argument" error
+	when explicitly specifying `groups` in a self-starting model.
+
+2021-09-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-154 (unreleased)
+
+	* R/gls.R (print.intervals.gls): do not print `attr(., "label")` twice;
+	ditto in R/lme.R, PR#18196, with thanks to Johannes Ranke.
+
+2021-09-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/groupedData.R ("[.groupedData"): change the default of `drop` to
+	to FALSE for the case of `x[j]`, fixing PR#18177.
+
+	* R/lme.R (print.summary.lme): change partial match to
+	`x$coefficients`, PR#18184.
+
+	* DESCRIPTION: Release 3.1-154
+
+2021-08-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/zzMethods.R (.onLoad), R/VarCorr.R: remove code used only
+	if(getRversion() < "3.3"); from Sebastian Meyer.
+
+2021-03-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/varFunc.R (print.varFunc): use full 'unconstrained' argument
+	name, fixing PR#17767, thanks to Sebastian Meyer.
+
+	* DESCRIPTION (Version, Date): 3.1-153 (*not* yet for release)
+
+2021-02-12 Brian Ripley
+
+	* po: update fr translations.
+
+2020-02-03  Brian Ripley
+
+	* DESCRIPTION (Version, Date): 3.1-152 for 4.0.4.
+
+2020-12-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* nlme/man/Remifentanil.Rd: change 2 URLs to 'moved to' locations.
+
+2020-12-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/corStruct.R (print.corCompSymm, print.summary.corCompSymm): new,
+	thanks to patch in PR#17990 by Sebastian Meyer; also fixing typo
+	("Uninitialized").
+
+2020-10-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-151
+	* R/varFunc.R (varConstProp): constructor and methods, from
+	PR#17954 by Johannes Ranke.
+
+2020-10-02  Brian Ripley
+
+	* DESCRIPTION (Version, Date): Prepare to release 3.1-150.
+
+2020-09-24  Peter Dalgaard
+
+        * R/VarCov.R tests/getVarCov.R: Patch set from Sebastian Meyer
+          to fix group order issues PR#16744
+        * tests/corFactor.R: missed commit from patch for PR#16110
+        * INDEX: removed as it was out of date and autobuilt anyway
+
+2020-08-21  Brian Ripley
+
+	* R/pdMat.R: use parent.frame not sys.parent for data= args
+	* DESCRIPTION (Version, Date): Prepare to release 3.1-149.
+
+2020-08-20 Peter Dalgaard
+
+	* NAMESPACE, R/corStruct.R, man/corFactor.corStruct.Rd,
+	  man/corMatrix.corStruct.Rd, tests/corFactor.R: Applied patch set
+	  from Sebastian Meyer to fix misnamed
+	  corFactor.compSymm -> corFactor.corCompSymm PR#16110
+
+2020-07-20 Deepayan Sarkar
+
+	* R/lme.R: Applied patch from Johannes Ranke to fix PR#17761
+
+	* DESCRIPTION: update version / date (unreleased)
+
+2020-05-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Contact, MailingList): R-help (*not* R-core)
+
+2020-04-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-148 (not yet released)
+
+	* man/nlsList.Rd: fix stopifnot(.) check in examples.
+
+2020-03-03  Brian Ripley
+
+	* src/nlmefit.c: clean up code.
+
+2020-03-03  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-147 (released)
+
+	* po: update, including updated German translations from Detlef Steuer
+
+2020-03-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-146 (unreleased)
+
+	* man/Remifentanil.Rd: more information incl references.
+
+2020-03-03  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-145 (released)
+
+	* src/nlmefit.c: avoid clang-UBSAN warning.
+
+2020-02-06
+
+	* DESCRIPTION (Version): 3.1-144 (released)
+
+2020-02-02  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* man/gnls.Rd: Drop docs for argument not in usage.
+
+2019-12-10  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-143 (released)
+
+	* tests/augPred_lab.R: change yet another 'plucked from air' tolerance.
+
+2019-11-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-142 (released)
+
+	* R/nlme.R: use vapply and is.matrix.
+	* man/pairs.compareFits.Rd: change example.
+
+2019-09-26  Brian Ripley
+
+	* src/nlmefit.c: suppress warning from clang trunk.
+
+2019-08-01  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): 3.1-141 (released)
+
+2019-07-27  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* R/lme.R:
+	* tests/nlme2.R:
+	Robustify against using stringsAsFactors = FALSE by default.
+
+2019-05-10  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-140 (released)
+
+2019-05-01  Brian Ripley
+
+	* src/init.c: correct declaration of fit_nlme
+
+2019-04-10  Brian Ripley
+
+	* src/nlmefit.c: remove clang warning.
+
+2019-04-08  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-139 (released)
+
+2019-04-08  Brian Ripley
+
+	* R/groupedData.R: *GroupedData are exported, so use :: not :::
+
+2019-04-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* Release 3.1-138.
+
+2019-04-02  Brian Ripley
+
+	* Start preparing to release 3.1-138 for R 3.6.0
+
+2019-04-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* po/{R-de,de}.po: updated
+
+2019-01-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/lme.R (lme.formula, lmeControl): new option
+	'allow.n.lt.q=FALSE' by default now triggers error
+	"fewer observations than random effects in all level <Q> groups".
+
+	* src/nlmefit.c (finite_diff_Hess): prevent integer overflow (and
+	later seg.fault) for large 'nTot' (already for npar >= 305).
+
+2018-08-04  Martin Mächler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 3.1-138 (unreleased)
+
+	* R/groupedData.R: deprecate the *undocumented* functions
+	nmGroupedData() and nfGroupedData() in favor of their wrapper
+	groupedData() (to allow subsequent code simplification).
+
+2018-08-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/lmList.R (plot.intervals.lmList, ..), tests/lmList.R: make
+	'xlab', 'ylab', 'strip' regular arguments (instead of wrongly
+	trying to use them from `...`).
+	* R/lme.R (plot.ranef.lme, ..): (ditto)
+
+2018-05-08  Brian Ripley
+
+	* tests/sigma-fixed-etc.R: increase tolerance for ATLAS run.
+
+2018-04-07  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-137 for release with R 3.5.0
+
+	* po/*/.pot: updated
+
+	* po/{R-de,de}.po: updated
+
+2018-03-09  Brian Ripley
+
+	* DESCRIPTION: Update Date, release for R-devel.
+
+	* tests/nlme-stall.R: Add comments.
+
+2018-02-27  Martin Mächler  <maechler@stat.math.ethz.ch>
+
+	* R/nlme.R, man/nlmeControl.Rd: nlmeControl() gets new
+	`msWarnNoConv` option. When it is true, as by default, nlme() now
+	warns about non convergence in the LME step of the 'alternating
+	algorithm'.  Applies e.g. also to the nlme-stall.R example.
+
+2018-02-27  Brian Ripley
+
+	* DESCRIPTION: Update Date. (Still unreleased.)
+	Relax R (>= 3.5.0) to 3.4.0 so it can be released generally once
+	3.5.0 is out.
+
+	* src/init.c, src/nlmefit.h: Remove broken utilities added on
+	2018-01-31.
+
+	* src/pythag.c: New file, contents moved from init.c.
+
+	* tests/nlme-stall.R: New regression test, optional.
+
+	* tests/sigma-fixed-etc.R: Changed tolerance after win-builder
+	run, change t7.fix.REML.lme to use optim() (as done for LME, and
+	Solaris has false convergence with nlminb()).  Drop all uses of
+	platform-dependent tolerances.
+
+2018-02-26  Brian Ripley
+
+	* src/init.c, src/rs.f: The 2018-01-31 change is broken (passes
+	pointers as doubles).  Try a simpler approach, to replace PYTHAG
+	in rs.f by a wrapped call to the C99 function hypot().
+
+2018-02-16  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-131.1, for R 3.4.4.
+	(and 3.1-131) are available at
+	https://svn.r-project.org/R-packages/branches/R-3-4-branch/nlme
+
+	* tests/deparse.R: comment on failure with macOS's Accelerate.
+
+2018-01-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/nlmefit.h, src/init.c (risnan, risfinite, ..): utilities to
+	check for NaN, NA, Inf etc from Fortran.  [Since removed.]
+
+	* src/rs.f (PYTHAG): prevent infinite loop checking for finite arg.
+	as reported in https://stat.ethz.ch/pipermail/r-devel/2018-January/075459.html .
+
+	* src/nlme.c (nlme_iterate): add R_CheckUserInterrupt()
+
+2018-01-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/lmList.R (warnErrList): bug fix.
+	Added to the 'utils' package for R-devel, keep here for R <= 3.4.x.
+
+2018-02-16  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-135.5 (released for R-devel only)
+
+2018-01-23, 2018-02-16 Brian Ripley
+
+	* tests/predict.lme.R: increase tolerance.
+
+2018-01-01  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-135 (released for R-devel only)
+	* tests/anova.gls.R: increase tolerance.
+
+2017-12-24  Brian Ripley
+
+	* tests/anova.gls.R: increase tolerance.
+
+2017-12-01  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-134, R >= 3.5.0
+	* R/VarCorr.R: correct breakage in r7326 (2017-03-07)
+	  (broke packages joineR and lme4).
+
+2017-11-28  Brian Ripley
+
+	* DESCRIPTION (Version): 3.1-133 (released for R-devel but withdrawn)
+	* tests/coef.Rout.save: update for R-pre-3.5.0 changes to str()
+
+2017-09-18  Martin Maechler
+
+	* tests/nlme2.R: 'tweak and investigate platform dependent results'
+
+2017-03-07  Martin Maechler
+
+	* nlme/R/VarCorr.R, nlme/man/VarCorr.Rd: see below.
+	* 'correct default for VarCorr.lme() to what it has really been.'
+	* 'Fix print.*()'.
+	* 'Cosmetic (not changing any results)'
+
+2017-02-27  Martin Maechler
+
+	* nlme/R/gnls.R, nlme/man/glsControl.Rd, nlme/man/gnlsControl.Rd,
+	  nlme/man/lmeControl.R:  'cosmetic'
+
+2017-02-22  Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-132 (unreleased)
+	* R/gnls.R, src/gnls.c: 'small cosmetic related to getting closer
+	to the root cause of PR#17227'
+
+2017-02-11 Brian Ripley
+
+	* src/nlmefit.c: gcc -Wconversion pointed out misuse of long
+	constants '0L' and  '1L'.
+
+2017-02-06  Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-131, tweaked test tolerance to also
+	pass openblas 0.2.18, in
+	* tests/sigma-fixed-etc.R example 6
+
+2017-01-23  Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-130
+	* NAMESPACE, R/zzmethods.R, tests/deviance.R: workaround design
+	error in 3.1-129 re deviance.
+
+2017-01-17  Martin Maechler
+
+	* R/groupedData.R (groupedData): must prepend 'nlme::' for call,
+	fixing PR #17211.
+
+2016-12-12  Martin Maechler
+
+	* R/lme.R (Variogram.lme): fix PR #17192, with thanks to
+	Sebastian Meyer.
+
+2016-07-11 Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-129
+	* NAMESPACE, R/zzMethods.R (confint, sigma, deviance) methods (the
+	last giving an error).
+
+2016-05-04 Martin Maechler
+
+	* R/lme.R, etc (lmeControl): 'sigma = 0' is now allowed (and
+	equivalent to 'sigma = NULL'); this fixes mgcv::gamm()'s use of
+	the equivalent of 'do.call(lmeControl, lmeControl())'.
+
+2016-04-26 Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-128
+	* R/lme.R (qqnorm.lme): fixed bug introduced in v 3.1-127
+	* R/lme.R, R/nlme.R, etc: "fixed sigma" now computes 'apVar'
+	correctly; thanks to patches from Siem Heisterkamp
+	* R/lme.R, R/gls.R: coef(summary(.)) now also works for "gls", "lme".
+	* R/gls.R (anova.gls): fixed a very long standing bug in the F
+	statistics for the ML case, thanks to Siem H.
+
+2016-03-21 Martin Maechler
+
+	* R/nlme.R (getParsNlme): wish of PR#16614 : now predict REs as NA
+	for non-existing levels instead of signalling error.
+	* R/*.R: cosmetics: More vapply(); quote(.) instead of as.name(),
+	passing '...' down in print() methods, etc.
+
+2016-03-16 Martin Maechler
+
+	* DESCRIPTION (Version): 3.1-127
+	* R/lmList.R, R/nlsList.R: same kind of error catching -> warning
+	* */*.R: speedup cosmetics:  seq_along; vapply(); lengths();
+	lapply(a, `[[`, i).  Less  eval(parse(text = ....))
+
+2016-03-12 Martin Maechler
+
+	* DESCRIPTION: version 3.1-126
+	* R/nlme.R (predict.nlme): fix bug PR#16715; +cosmetic; also in
+	* R/lmList.R, R/nlsList.R: better error catching -> warning()
+
+2016-02-27 Brian Ripley
+
+	* DESCRIPTION: version 3.1-125; released
+	* tests/coef.Rout.save: update for R 3.3.x
+
+2016-02-13 Brian Ripley
+
+	* src/*.[ch]: remove use of S.h, clean up.
+	* src/nls.c: Unused in R, so remove.
+
+2016-01-25 Brian Ripley
+
+	* src/*.c: include directly headers included via R.h.
+
+2016-01-19 Martin Maechler
+
+	* DESCRIPTION: version 3.1-124, and released
+
+2016-01-19 Brian Ripley
+
+	* src/{corStruct,gnls,nlme,nlmefit,nls}.c: Avoid clang warnings on
+	implicit conversions.
+
+2016-01-18 Martin Maechler
+
+	* nlme/man/lmeControl.Rd, R/lme.R, etc: in lmeControl() etc,
+	currently 'apVar' to FALSE when sigma is fixed, and document that
+	somewhat.
+
+2016-01-11  Martin Maechler
+
+	* R/VarCorr.R, man/VarCorr.Rd: add optional '...' and remove 'rdig'
+	from the argument list of the generic (for other methods).
+
+2015-11-25 Bert van Willigen --- with modifications by MM
+	* DESCRIPTION: version 3.1-123 (released 2016-01-17)
+	* man/*Control.Rd: Fixed "sigma" (residual error) added.
+	* R/gls.R, R/gnls.R, R/lme.R, R/nlme.R, R/reStruct.R: Fixed sigma added.
+	* src/init.c, src/nlme.c, src/nlmefit.?:
+	* tests/example_[1-9]_wequantify.R: 9 files added.
+	* README: Credentials added.
+
+2015-08-18 Luke Tierney
+	* DESCRIPTION: version 3.1-122
+	* src/nlmefit.c: Added PROTECT/UNPROTECT calls.
+
+2015-06-29  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-121
+
+	* NAMESPACE: tweak imports.
+
+2015-02-20  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-120
+
+2015-02-07  Brian Ripley
+
+	* man/bdf.Rd: change markup for a dead URL
+
+2015-01-29  Brian Ripley
+
+	* po/*.de.po: updates.
+
+2015-01-23  Brian Ripley
+
+	* NAMESPACE: register lme method for simulate()
+
+2015-01-10  Martin Maechler
+
+	* remove non-useful legacy "code":  q(); emacs "Mode: S" etc
+
+2015-01-09  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-119
+
+	* man/bdf.Rd: update URL.
+
+2014-10-20  Brian Ripley
+
+	* R/*.R: remove unused assignments.
+
+2014-10-07  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-118
+
+2014-09-30 Brian Ripley
+
+	* R/nlme.R: nlme with self-starting model incorrectly required 'start'.
+
+	* tests/nlme2.R: regression test for above.
+
+	* R/*, src/* correct copyright information.
+
+
+2014-03-31  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-117
+
+	* po/R-fr.po: update.
+
+2014-03-28  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-116
+
+	* R/{lme,newMethods,nlsList}.R: modify messages.
+	* po/{R-pl,pl}.po: update.
+
+2014-03-19  Brian Ripley
+
+	* tests/missing.{R,Rout.save}: reduce 'digits' for cleaner results
+	on platforms without extended-precision hardware.
+
+	* po/R-de.po: Update from Detlef Steuer.
+
+2014-03-09  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-115
+
+	* R/{gls,gnls,lme,nmle}.R, man/{lmeScale,*Control}.Rd:
+	remove msScale and nlmStepMax arguments which were used for nlm(),
+	where that is not longer used.
+
+2014-03-08  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-114
+
+	* R/new-methods.R: labeling from fitted() was sometimes wrong as
+	the 'groups' component lost row names. (PR#15678)
+
+	* tests/fitted.R: add regression test.
+
+	* R/lme.R: clean up
+
+	* man/{lmeControl,lmeScale}.Rd: update..
+
+2013-11-17  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-113
+
+	* src/{matrix,nlOptimizer}.h: typos in guard names (clang 3.4)
+
+2013-10-21  Martin Maechler
+
+	* R/gls.R, man/gls-internal.Rd: remove redundant parentheses.
+
+2013-10-03  Brian Ripley
+
+	* man/{gls,lme}.Rd: add links, warn on no-covariate formulae.
+
+2013-09-30, 2013-10-02  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-112
+
+	* R/gls.R, man/glsControl.Rd, man/Initialize.glsStruct.Rd.
+	Remove 'qrTol', which was unused and set to the non-existent
+	.Machine$single.eps, that is to NULL.
+
+	* NAMESPACE, man/gls-internal.Rd: export glsApVar and glsEstimate
+	for use in package rms.
+
+	* R/gls.R, lme.R: more use of integer constants.
+
+	* man/*.Rd: classes in quotes, more links, remove CVS lines.
+
+	* R/lme.R, R/newFunc.R, tests/predict.lme.R:
+	fix asOneFormula and predict.lme for y ~ 0.
+	(see https://stat.ethz.ch/pipermail/r-devel/2013-September/067600.html)
+
+	* R/lme.R: Several of the return components were incorrect for a
+	model of the form fixed = resp ~ 0.
+
+2013-08-17  Brian Ripley
+
+	* add start on ko translations.
+
+2013-08-15  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-111
+	* R/lmList.R: Adjust to cope with failed fits and fits with
+	fewer coefficients returned by lm().  (Contributed by Ruth Ripley.)
+
+2013-07-02  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-110,
+	* R/{gls,gnls,lme}.R: Replace as.name() calls by quote(stats::nls) etc.
+	* inst/LICENCE: remove.
+
+2013-03-21  Brian Ripley
+
+	* inst/CITATION: modernize.
+
+2013-03-11  Brian Ripley
+
+	* LICENCE: remove (it was not a licence file).
+
+2013-01-26  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-109,
+	depends on R (>= 3.0.0).
+
+2013-01-26  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-108,
+	depends on R (< 3.0.0) and has chol.f and rs.f in .Rbuildignore.
+
+2013-01-23  Brian Ripley
+
+	* man/[n]lme.Rd: add a note about the need to scale the response.
+	* man/lmeControl.Rd: correct description of 'msTol' argument.
+	* man/[n]lmeControl.Rd: correct description of 'opt' argument (it is
+	a character string).
+	* man/*.Rd: s/Jose/José/
+	* R/[n]lme.R, man/[n]lmeControl.Rd: allow '...' for further
+	control arguments to be based though to nlminb() and optim().
+
+
+2013-01-13  Brian Ripley
+
+	* DESCRIPTION: add accent on JCP's first name (and declare
+	UTF-8 encoding). Add EISPACK authors.
+	* src/rs.f: minimal version of eigen.f containing just RS and
+	ancillaries (replacing eigen.f).
+
+2013-01-12  Brian Ripley
+
+	* DESCRIPTION: version is 3.1-107
+	* src/{chol,eigen}.f: port files from R (where they are
+	  deprecated/defunct).
+
+2012-12-06  Kurt Hornik
+
+	* DESCRIPTION: version is 3.1-106, add roles to Authors@R.
+
+2012-11-28  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* NAMESPACE: import selectively from lattice and stats.
+
+2012-09-24  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-105
+	* R: improve messages for translation.
+
+2012-09-01  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* po: add Polish translations.
+
+2012-08-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* src/init.c: force use of registered symbols in R >= 2.16.0
+
+2012-05-23  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-104
+	* src/gnls.c, src/nlme.c, src/nlmefit.[ch]:
+	type mismatches shown by clang's -Wconversion
+
+2012-04-25  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* src/nlmefit.c: type mismatch shown by clang's -Wconversion
+
+2012-03-29  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* src/nlOptimizer.c: increase PROTECTion (reported by Andrew Runnalls).
+
+2012-02-15  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* inst/CITATION: protect against TRE bug in UTF-8 locales.
+
+2012-01-14  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-103
+
+2011-12-25  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: needs Suggests: MASS for data(package=)
+
+2011-07-19  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-102
+	* R/newMethods.R: getData.nls (aka getData.lme) used the na.action
+	of the call on the whole data and not on the model frame: should
+	have used the na.action component of the result.
+	* tests/{lme.R,lme.Rout.save,ss2.rda}: test for above.
+	* man/simulate.lme: document as method.
+
+2011-07-11  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* COPYING: rename to GPL-2
+	* LICENCE, inst/LICENCE: adjust wording accordingly
+
+2011-05-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/newFunc.R: name arguments to lapply() when ... is present.
+
+2011-05-06  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-101
+
+2011-04-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+2011-04-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/augPred.Rd, R/groupedData.R, R/gls.R, R/lme.R, R/simulate.R
+	Changes he failed to document.
+
+2011-03-26  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* src/{nlmefit,pdMat}.c: remove unused variables detected by
+	-Wunused-but-set-variable
+
+2011-03-11  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* Release 3.1-100 for R 2.13.0
+
+	* NAMESPACE: no longer re-export BIC
+
+	* man/BIC.Rd: removed.
+
+2011-02-23  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-100, require R >= 2.13
+
+	* man/BIC.Rd: make a stub referring to stats::BIC()
+
+	* Everywhere: remove obsolete email addresses of former authors
+
+2011-02-23  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: version is 3.1-99 (unreleased, used for R-devel),
+	remove email addresses of former authors (and JCP has moved).
+
+	* R/{new,zz}Methods.R:
+	Put all BIC() methods in one place, as the default method.
+
+	* man/BIC.Rd: remove aliases to methods (not all of which actually
+	existed)
+
+	* man/BIC.logLik.Rd: merge into BIC.Rd
+
+	* tests/lme.Rout.save: update for R 2.13.0.
+
+	* NAMESPACE, R/newMethods.R: prepare for migration of BIC() to stats.
+
+	* R/{gls,gnls,lme}.R, NAMESPACE: add nobs() methods.
+
+2011-02-10  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-98
+
+2011-02-04  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* data/{MathAchieve,bdf}.rda: resave with xz compression.
+	* DESCRIPTION: depend on R (>= 2.10).
+
+2010-10-01  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-97
+
+2010-09-22  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/residuals.gls.Rd: incorrect default, see
+	https://stat.ethz.ch/pipermail/r-devel/2010-September/058487.html
+
+2009-12-22  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/ACF.gls.Rd: has \seealso to itself: seems ACF.lme was meant.
+
+2009-12-18  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: add BugReports field.
+
+2009-10-12,16  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-96
+	* po/R-de.po, po/de.po: update
+
+2009-09-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version, Date): 3.1-95
+	* R/nlme.R (nonlinModel): use unname() instead of clearNames()
+
+2009-09-02  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-94
+	* man/*.Rd: remove unnecessarily anchored links, including several
+	incorrect ones.
+
+2009-08-16  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-93
+	* R/lmList.R, tests/lmList.R: bug fix for predict.lmList (PR#13788)
+	* R/gls.R, tests/anova.gls.R: bug fix for anova.gls (PR#13567)
+
+2009-05-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/gnls.R, R/corStruct.Rd: minor message wording changes from
+	Debian 'bug' report.
+	* R/R-de.po: add
+
+	[ Missing entries for 3.1-9[12] which were concerned with German
+	translations. ]
+
+2009-01-16  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/*.Rd: expand tabs
+
+2008-12-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/summary.pdMat.Rd: avoid embedded newlines in \code strings.
+
+2008-12-27  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-90
+	* R/gls.R: call dist correctly (PR#13418)
+
+2008-12-19  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/*.Rd: clean up some reference formats and misuse of $...$.
+
+2008-12-11  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/*.Rd: spelling
+	* src/nlOptimizer.c: missing PROTECT
+
+2008-06-07  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-89
+	* R/lme.R: fitted.lme() always dropped, when it should drop for
+	one column but not for one row.
+	* tests/lme.R, lme.Rout.save: add regression test for
+	single-row predictions.
+
+2008-04-10  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/zzMethods.R: add .onUnload() to unload the DLL.
+
+2008-03-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-88
+
+2008-02-19  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/logLik.lme.Rd, man/logLik.gnls.Rd: correct description of
+	'REML' argument.
+
+2008-02-19  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* inst/CITATION: add file (essentially what citation() would
+	produce, without the warning).
+
+2008-02-18  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-87
+	* R/gnls.R, tests/gls.R: fix for PR#10364, missing row names
+	on predict.gnls.
+
+2008-02-11  Duncan Murdoch <murdoch@stats.uwo.ca>
+
+	* R/*.R: Return invisible(x) from numerous print methods.
+
+2007-12-30  Douglas Bates <bates@stat.wisc.edu>
+
+	* [r4884] man/plot.nffGroupedData.Rd: Correct malformed link reported
+	  by Yihui Xie <xieyihui@gmail.com>. Remove reference to nonexistent
+	  URL.
+	* [r4885] Initialize.reStruct.Rd, collapse.groupedData.Rd,
+	  fitted.lmeStruct.Rd, lme.Rd, lme.groupedData.Rd, lme.lmList.Rd,
+	  logLik.reStruct.Rd, nlme.nlsList.Rd, plot.nfnGroupedData.Rd,
+	  plot.nmGroupedData.Rd, recalc.reStruct.Rd, residuals.lme.Rd,
+	  residuals.lmeStruct.Rd: Remove reference to nonexistent URL
+
+2007-10-04  Kurt Hornik
+
+	* DESCRIPTION (Version, Date): 3.1-86
+
+2007-10-04  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/corStruct.R: check for uninitialized corARMA structures.
+
+2007-09-17  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-85
+	Also, use approved form of GPL (>=2).
+	* R/varFunc.R: fix for PR#9831.
+	* tests/coef.R: test for the above.
+	* tests/lme.Rout.save: update format for R >= 2.6.0.
+	* man/corRatio.Rd: wrong formula, reported to R-devel by
+	Ben Bolker on 2007-09-03.
+
+2007-07-26  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-84
+	* LICENCE, inst/LICENCE: clarify this is licensed under GPL >= 2.
+	* README, R/*.R, src/*.[ch]: Update source for GPL.
+	* man/*.Rd: add header with licence conditions
+
+2007-07-02  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/varFunc.R: varIdent did not look at its 'fixed' arg, PR#9765
+	* tests/varIndent.R: test for the above.
+
+2007-06-13  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/VarCov.R: correct getVarCov.gls, PR#9752
+
+2007-06-13  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-83
+	Also, update authors and email addresses where known.
+	* R/lme.R: called quantile on potentially missing values.
+	* tests/missing.{R,Rout.save}: test summary methods
+
+2007-06-12  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-82
+	Also, R >= 2.4.0 because of seq_along.
+	* tests/lme.Rout.save: back to 2.5.1 layout.
+
+2007-05-29  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/{gls,lme,pdMat}.R: qualify uses of nchar() by 'type'.
+	* R/lme.R: layout of over-long error message.
+	* tests/lme.Rout.save: update for above and for 2.6.0 layout.
+	* R/{gls,gnls,lme,nlme}.R: copy row names to fitted values and
+	residuals.
+	* R/{gls,gnls,lme}.R: support naresid and napredict.
+	* man/{residuals,fitted}.lme.Rd: document this.
+	* tests/missing.{R,Rout.save}: tests of missing-value support.
+
+2007-05-20,24  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/*.R: partial matching issues, switch to seq_along.
+
+2007-05-15  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-81
+	* NAMESPACE, R/zzMethods.R: migrate vcov methods from stats to here.
+
+2007-05-04  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* man/{Extracr.pdMat,getdata.*,summary.varFunc}.Rd: remove
+	surplus }.
+
+2007-03-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-80
+	* R/nlme.R (contrMat): Allow for expressions in 'fixed'.
+	* tests/contrMat.R: regression test for above.
+	* R/gls.R: bug fix for the case of y ~ 0.
+	* tests/gls.R: regression test for above.
+	* R/{lme,lmList,newMethods}.R: patch for lattice 0.15-x.
+
+2007-01-30  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Title): Capitalize for consistency.
+
+2006-12-29  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION (Version, Date): 3.1-79
+
+	* R/corStruct.R, R/pdMat.R, R/reStruct.R, man/corStruct.Rd,
+	man/pdMat.Rd, man/reStruct.Rd: add '...' argument to as.matrix()
+	methods. (Needed for 2.5.0, but works in earier versions.)
+
+2006-12-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* DESCRIPTION (Version, Date): 3.1-78
+
+2006-12-06  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/nlme.R (contrMat): Ensure that the contrasts component is a
+	list of matrices by expanding function names if necessary.
+
+2006-11-29  Douglas Bates  <bates@stat.wisc.edu>
+
+	* DESCRIPTION: Prepare for new version.
+	* R/newMethods.R (getData.nls): getData.nls for R's nls objects
+	* inst/scripts/ch*.R: update Pinheiro and Bates (2000) scripts
+
+2006-11-29  Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/reStruct.R: fix PR#9262, multiple-line deparse.
+	* R/gls.R, groupedData.R, lme.R, lmList.R, newMethods,R, nlme.R:
+	more deparse width issues.
+
+2006-09-28  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/nlme.R (getParsNlme): backed out change that caused failure
+	reported by Christian Ritz.
+
+2006-09-18  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/VarCorr.R (VarCorr): Clean up problems in this file and
+	several others detected by codetools.
+
+2006-09-11  Douglas Bates  <bates@R-project.org>
+
+	* R/nlme.R (getParsNlme): '[[' not '[' in case start$fixed is a list
+	* R/gls.R,gnls.R,newMethods.R,nlme.R,pdMat,Rsimulate.R: fix
+	problems exposed by codetools.
+
+2006-07-31  Douglas Bates  <Douglas.Bates@R-project.org>
+
+	* man/ranef.lme.Rd: Modified the description of the `standard'
+	argument to more clearly describe its effect.
+
+2006-07-24  Douglas Bates  <Douglas.Bates@R-project.org>
+
+	* R/lme.R: Patch by Andrew Robinson <A.Robinson@ms.unimelb.edu.au>
+	and Berwin Turlach <berwin@maths.uwa.edu.au> to set maximum number
+	of function calls in nlminb.
+
+2006-07-03  Douglas Bates  <Douglas.Bates@R-project.org>
+
+	* DESCRIPTION: Version is 3.1-75
+
+	* man/{many files}: Documentation changes contributed by Spencer
+	Graves <spencer.graves@pdf.com>.  Most of the changes add Pinheiro
+	and Bates (2000) as a reference or add additional \seealso{}
+	entries.  Some examples from Pinheiro and Bates (2000) have also
+	been added.
+
+	* R/nlme.R: reformat the code, typo.
+
+2006-07-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/lme.R (lme.formula): when control()$returnObject is TRUE, only
+	warn instead of stop() in the case of non-convergence.
+	* tests/lme.R: test the above
+	* tests/lme.Rout.save:
+
+2006-06-02 Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: Version is 3.1-74
+
+2006-05-31 Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/lme.R: Keep terms and optional model frame in lme.formula.
+	Use terms for prediction (get safe prediction that way).
+	Add keep.data argument to lme and methods.
+	* man/lme*.Rd: update for keep.data argument.
+	* R/newMethods.R: make use of saved data in getData methods.
+	* tests/getData.R, tests/predict.lme.R: new tests.
+
+2006-05-24 Brian Ripley <Brian.Ripley@R-project.org>
+
+	* R/gls.R, man/comparePred.Rd:	'minimum' and 'maximum' were
+	evaluated on a formula in the comparePred methods.  Instead,
+	evaluate 'primary' in the 'data' used to fit object1, and document
+	what is done.  (Reported by Mark Difford.)
+
+2006-05-22 Brian Ripley <Brian.Ripley@R-project.org>
+
+	* DESCRIPTION: Version is 3.1-73
+
+2006-05-21 Brian Ripley <Brian.Ripley@R-project.org>
+
+	* LICENCE, inst/LICENCE: add and install a licence file.
+
+2006-05-18 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* R/groupedData.R: adjust method of as.data.frame.
+	* R/newFunc.R: fix bug in gsummary with objects that have
+	classes, e.g. Hmisc labels.  (Reported by Mark Difford, in a
+	private followup to
+	https://stat.ethz.ch/pipermail/r-help/2006-May/094549.html.)
+	* tests/augPred_lab.R: tests for the above fix.
+
+2006-05-12 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* R/gls.R, R/gnls.R, R/nlme.R: missing data=data in terms calls,
+	needed to resolve '.' on rhs of formulae.
+
+	* DESCRIPTION: Version is 3.1-72
+
+2006-03-29 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* R/newMethods.R: as.list() did not work on symbols in R.
+
+2006-03-14 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* R/lme.R, man/Variogram.Rd: make example work (na.omit in
+	the wrong place).
+
+2006-03-10 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* DESCRIPTION: Version is 3.1-71
+
+2006-02-17 Brian Ripley	 <Brian.Ripley@r-project.org>
+
+	* R/nlsList.R: need to allow for multi-line deparse.
+	* tests/deparse.R: add regression test
+
+2006-01-05  Brian Ripley  <Brian.Ripley@r-project.org>
+
+	* DESCRIPTION: Version is 3.1-70
+	* src/init.c, src/Makevars: make use of gcc4 visibility where supported
+	* inst/mlbook/ch0[45].R: remove unnecessary use of data()
+	* inst/scripts/ch0[58].R: all allowed versions of R have nlminb
+	* R/gls.R: element 'optimMethod' in the return value for
+	glsControl was unnamed.
+	* R/{gls,ngls,lme,nlme}.R, man/{gls,ngls,lme,nlme}Control.Rd:
+	let the user (rather than the version of R) choose the optimizer
+	to be used.
+
+2006-01-05  Brian Ripley  <Brian.Ripley@r-project.org>
+
+	* src/init.c: missing registration for ARMA_constCoef
+	* inst/scripts/ch02.R: correct argument names in simulate.lme call
+
+2005-12-31  Brian Ripley  <Brian.Ripley@r-project.org>
+
+	* DESCRIPTION: Version is 3.1-69, require 2.3.0.
+	* NAMESPACE: use registration.
+	* R/*.R: use registered symbols.
+
+2005-12-31  Brian Ripley  <Brian.Ripley@r-project.org>
+
+	* DESCRIPTION: Version is 3.1-68.
+	* src/init.c: new file to register symbols
+	* R/corStruct.R: corrected one use of PACKAGE="base"
+	* R/lmList.R: remove attempted use of 'frame = 1'
+
+2005-12-09  Deepayan Sarkar  <deepayan@stat.wisc.edu>
+
+	* R/newMethods.R, R/groupedData.R: fix for problem described in
+	https://stat.ethz.ch/pipermail/r-help/2005-December/082890.html
+	(superpose.line/symbol components were being truncated to length
+	of an arbitrary component).
+
+
+2005-12-09  Brian Ripley  <Brian.Ripley@r-project.org>
+
+	* DESCRIPTION: Version is 3.1-67.
+	* R/gls.R: Replace do.call by eval.parent on massaged call.
+	* po/fr.R, po/R-fr.R, inst/po: add French translation by
+	Philippe Grosjean and automated en@quot translation.
+
+2005-08-25  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/gls.R: Added option "optimMethod" to gls, gnls, and lme.
+
+2005-08-24  Douglas Bates  <bates@wisc.edu>
+
+	* R/lme.R (print.intervals.lme): Replace calls to print.matrix by
+	print(as.matrix()).
+
+2005-07-25  Douglas Bates  <bates@bates1-home>
+
+	* inst/scripts/ch08.R: Cleaned up examples in ch04, ch06, ch08.
+
+	* src/matrix.h: Include R_Ext/Linpack.h in addition to R_Ext/Applic.h
+
+2005-07-19  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/gnls.R: Added definition of convIter when using nlminb or when
+	using optim.  Reindented this and other R source files.
+
+2005-07-12  Douglas Bates  <bates@bates1-home>
+
+	* inst/scripts/ch01.R: Clean up and check these scripts
+
+	* src/nlmefit.c (gls_loglik): re-write contributed by ?? (I
+	accidentally deleted the email message).
+
+	* R/lme.R (lme.formula): Use nlminb if available.
+
+
+2005-06-08  Douglas Bates  <bates@bates1-home>
+
+	* R/lme.R (predict.lme): Fixed bug when using a name for a formula
+	in original fit. (Reported by Arne.Mueller@sanofi-aventis.com)
+
+2005-05-20  Douglas Bates  <bates@bates1-home>
+
+	* man/contr.SAS.Rd: Removed
+
+2005-04-04  Douglas Bates  <bates@bates1-home>
+
+	* R/newFunc.R: Removed contr.SAS definition as it has been revised
+	and moved into the stats package for R-2.1.0
+
+2005-03-02  Douglas Bates  <bates@bates1-home>
+
+	* src/nlmefit.c (gls_loglik): Replaced rnkm1 by p.
+
+	* po/,inst/po/: Added localization support.
+
+2004-11-04  Douglas Bates  <bates@bates1-home>
+
+	* src/nlmefit.c (dimFree): Fix memory leak reported by Brian Ripley.
+
+2004-11-03  Douglas Bates  <bates@bates1-home>
+
+	* man/varWeights.Rd: Remove all calls to data()
+
+	* man/corExp.Rd: Remove all references to the mva package
+
+2004-08-10  Douglas Bates  <bates@bates1-home>
+
+	* man/pairs.compareFits.Rd: fix syntax errors (new check available
+	in R CMD check)
+
+2004-01-14  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/getCovariate.varFunc.Rd: Syntax correction from Kurt.
+
+2003-12-16  Douglas Bates  <bates@stat.wisc.edu>
+
+	* install.R: Create stored image
+
+2003-08-29  Douglas Bates  <bates@stat.wisc.edu>
+
+	* tests/lme.Rout.save (Coefficients): Now consistent with
+	i386-linux result.
+
+	* src/base.h: Replace R_ext/Mathlib.h by Rmath.h
+
+2003-08-09  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/Covariate.varFunc.Rd, man/Matrix.pdMat.Rd, man/Matrix.reStruct.Rd, man/Names.pdMat.Rd, man/Names.reStruct.Rd, man/coef.corStruct.Rd, man/coef.modelStruct.Rd, man/coef.pdMat.Rd, man/coef.reStruct.Rd, man/coef.varFunc.Rd, man/getData.lmList.Rd, man/gnls.Rd:
+	Use \method for replacement method documentation as per Rd changes
+
+	* R/lme.R:
+	Changed check for intercept-like column in getFixDF (PR#2418)
+
+2003-06-12  Douglas Bates  <bates@stat.wisc.edu>
+
+	* DESCRIPTION: New release
+
+	* man/ranef.lmList.Rd, man/nlme.Rd: Overdocumented arguments
+
+2003-06-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/MathAchSchool.Rd, man/MathAchieve.Rd, ChangeLog, DESCRIPTION, R/groupedData.R, inst/scripts/ch03.R, inst/scripts/ch04.R:
+	Release 3.1-42
+
+	* inst/scripts/ch01.R: Protecting power in formula
+
+2003-06-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/groupedData.R: Fixed bug in groupedData constructor when outer
+	is not missing.
+
+2003-05-16  Douglas Bates  <bates@stat.wisc.edu>
+
+	* src/nlmefit.c (internal_EM): Fix by Peter Dalgaard for compound
+	symmetry EM calculations (PR#2985)
+
+2003-05-05  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lmList.R (update.lmList): Changed this and several other
+	update methods.
+
+	* R/groupedData.R: Use eval instead of do.call (Dieter Menne)
+
+2003-04-17  Douglas Bates  <bates@stat.wisc.edu>
+
+	* NAMESPACE: contributed by Brian Ripley
+
+	* man/print.corStruct.Rd: Removed this and many other redundant
+	documentation files for S3 methods.
+
+	* R/<many files> Remove redundant GPL notices.
+
+2003-03-25  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/nlme.R (nonlinModel): Moved definition from AAA.R to here
+
+	* man/summary.nlsList.Rd: Remove references to summary.nls
+
+	* R/newMethods.R: Remove vestigial definitions of AIC.lm
+
+	* R/zzMethods.R: Remove references to AIC.lm
+
+2003-02-08  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R (lme.formula): Removed hessian=TRUE in calls to optim as
+	suggested by Brian Ripley.
+
+2003-01-30  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R:
+	Incorporate change from Brian Ripley in response to Dieter Menne
+
+	* man/lme.lmList.Rd, man/lme.groupedData.Rd, man/lme.Rd:
+	Documentation of the contrasts argument added (Greg Warnes).
+
+2003-01-30  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R (lme.formula): Incorporate Greg Warnes' changes for
+	the contrasts argument.
+
+	* R/nlsList.R: Correct check for is.null(class(FUN))
+
+2002-12-27  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/newFunc.R (gsummary): Fix comparison in check for varying
+	columns (PR#1775 - bug report with fix provided by Dieter Menne.
+
+2002-12-11  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R (print.lme): Removed one more as.vector()
+
+	* R/varFunc.R (print.summary.varFixed): changed	 instances of
+	deparse(as.vector(x)) to deparse(x) here and in many other places.
+
+2002-09-10  Saikat DebRoy
+
+	* nlsList.R (nlsList.formula): Use "try" instead of "restart".
+
+2002-08-09  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/groupedData.R: Fixed creation of grouped data from a formula
+	only
+
+	* R/newGenerics.R: Renamed the initialize generic and all methods
+	and calls to Initialize so as not to conflict with the methods
+	package.
+
+2002-07-23  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R (update.lme): Fix formula handling in update methods
+	(Brian Ripley).
+
+2002-04-20  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/nlme.R: Bug fix by SDR - convergence criterion was being
+	calculated incorrectly.
+
+2002-04-04  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/getVarCov.Rd: Added an example of the type="marginal"
+	Corrected misplaced brace.
+
+	* R/VarCov.R (getVarCov.lme): Added the getVarCov functions
+	contributed by Mary Lindstrom <lindstro@biostat.wisc.edu>
+
+2002-03-27  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R (anova.lme): Change strvar != "NA" to !is.na(strvar)
+
+2002-03-05  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/ACF.gls.Rd: Changed Jose's email address on this and all the
+	other man pages.
+
+	* R/varFunc.R: Incorporate fix from Thomas Lumley and from Setzer
+	Woodrow for the logic where ifelse(length(el) == 1, is used
+	instead of if(length(el) == 1)
+
+	* R/pdMat.R: Change all vestigial instances of T and F to TRUE and
+	FALSE.
+
+2001-12-18  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/corStruct.R: Finally resolved the print.summary.corSymm
+	controversy so it prints and it prints the correct value.
+
+2001-12-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R: unclassed the logLik component of an lme summary before
+	trying to put it into a data frame for printing.
+
+2001-12-01  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/zzMethods.R: Removed the .Alias calls.
+
+2001-10-30  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/pairs.lme.Rd: Modified many documentation files to pass the
+	codoc checks.
+
+2001-10-23  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/ACF.lme.Rd: Modified many, many method definitions and
+	documentation files to get them to pass the R-1.4.0 (in
+	development) package checking process.
+
+2001-10-08  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lmList.R: Fixed definition of logLik.lmList to work with R
+	(but it is still rather ugly).
+
+	* R/varFunc.R: Changed definition of logLik.varComb to return a
+	logLik object.
+
+2001-10-05  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lmList.R: Fixed selection of id[subscripts] in the panel
+	function of pairs.lmList (and several other functions) so it does
+	not produce a warning from evaluating is.na(NULL).
+
+2001-09-17  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/nlme.R: Incorporated a change from
+	Setzer.Woodrow@epamail.epa.gov for using nested grouping factors
+	in nlme.
+
+2001-06-20  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/varFunc.R: Changes in calling sequences and in documentation
+	so the package passes codoc() checks.  These affect many files in
+	both the R and the man directory.  No changes of substance.
+
+2001-05-29  Martin Maechler <maechler@stat.math.ethz.ch>
+
+	* R/zzMethods.R: Use .Alias()
+
+	* R/newGenerics.R:  Generic AIC()
+	* R/newMethods.R:   logLik.lm()	  moved to "base R"
+	* man/AIC.Rd,
+	* man/AIC.logLik.Rd: AIC.logLik() and AIC.lm() as well
+	* man/logLik.lm.Rd:
+
+2001-03-28  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/simulate.R: Modified simulate.lme for default pdMat class of
+	pdLogChol.
+
+2001-02-24  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/newFunc.R: Removed the old fake xyplot function.  The new work
+	by Murrell and Sarkar will make this superfluous.
+
+	* man/MEestimate.Rd: Added manual pages for MEEM, MEdecomp,
+	MEestimate.
+
+	* R/newMethods.R: Revised assignments in plotting methods to be
+	compatible with the Murrell/Sarkar preliminary trellis package.
+
+	* src/nlmefit.c (internal_decomp): Corrected an error reported by
+	Kathryn Chaloner where Srows >= ZXrows.
+
+2001-01-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* DESCRIPTION (Maintainer): Added Maintainer entry to
+	DESCRIPTION.
+
+2000-12-09  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R: (Variogram.lme) Coerced n.pairs to numeric and
+	corrected calls to dist.
+
+2000-12-08  Douglas Bates  <bates@stat.wisc.edu>
+
+	* R/lme.R: Changed all calls to dist in lme.R, gls.R and
+	corStruct.R to use the argument "method" rather than "metric".
+
+	* R/pdMat.R: Replaced calls to .Fortran("dbksl", ...) with calls
+	to the R function solve() for R-1.2.0 where the S_compat.c file
+	has been removed.
+
+	* inst/scripts/ch01.R: Added the chapter scripts from
+	"Mixed-Effects Models in S and S-PLUS" to the inst directory.
+
+	* man/formula.nlme.Rd: Modified the examples in this and many
+	other .Rd files to use the Loblolly data and the SSasymp
+	self-starting function.	 There were many occasions where the
+	Soybean data was being fit to a default formulation of an nlme
+	model just to get things like a formula.  This fit of the Soybean
+	data is difficult and time consuming and not very illuminating.
+
+2000-11-30  Douglas Bates  <bates@stat.wisc.edu>
+
+	* src/matrix.c: Removed dependency on S_compat.h by replacing
+	calls to dqrdca with the equivalent call to dqrdc2.
+
+2000-07-24  Saikat DebRoy
+
+	* Changed various uses of do.call to eval.  The reason for doing
+	this is to allow calls to the function calling eval from within
+	another function.  It's the old scoping problem again.
+
+2000-07-07  Saikat DebRoy
+
+	* src/nlme.c, src/nlmefit.c: Added mixed_grad in calls to optif9.
+
+	* src/nlmefit.c : Added handling of pdLogChol objects (pdClass =
+	4) in various functions.
+
+	* src/nlmefit.c (mixed_grad): New function giving analytic
+	gradient for mixed-effects log-likelihood.
+
+	* R/nlme.R (nlme.formula): Added updating of the pdFactor in the
+	PNLS step.
+
+	* R/reStruct.R: Made pdLogChol the default representation for
+	reStruct objects.
+
+	* src/pdMat.c (logChol_pd): new function.
+
+	* R/pdMat.R: Added back the pdLogChol class and associated
+	methods.
+
+
+2000-07-03  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/corFactor.corStruct.Rd: Added an alias for
+	corFactor.corNatural
+
+	* src/nlmefit.c (internal_loglik): Changed the return value on
+	error from R_NegInf to -DOUBLE_XMAX so the optif[09] optimizers
+	will work properly.
+
+	* src/corStruct.c (corStruct_factList): Provided a correct call to
+	the R version of F77_CALL(chol) here and everywhere else in this
+	source file.
+
+	* R/zzz.R: Removed the deprecated call to provide
+
+2000-03-17  Douglas Bates  <bates@stat.wisc.edu>
+
+	* added many data sets
+
+	* incorporated patches from Brian Ripley to use optim for the
+	optimization rather than nlm
+
+	* src/nlmefit.c (internal_loglik): Returned R_NegInf instead of
+	generating a error on a singular precision matrix.
+
+	* DESCRIPTION (Depends): Changed Depends to R version 1.0.1
+	because of problem with assigning components of lists.
+
+1999-12-23  Douglas Bates  <bates@stat.wisc.edu>
+
+	* TITLE: Changed the title to nlme
