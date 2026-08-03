@@ -1,0 +1,20 @@
+name = "moments"
+version = "0.14.1"
+license = "GPL-2.0-or-later"
+author = "Lukasz Komsta; Frederick Novomestky; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Moments, cumulants, skewness, kurtosis, and related tests"
+categories = ["statistics"]
+keywords = ["moments", "cumulants", "skewness", "kurtosis", "normality-tests"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
