@@ -1,0 +1,14 @@
+Package: multiAssetOptions
+Type: Package
+Title: Finite Difference Method for Multi-Asset Option Valuation
+Version: 0.1-2
+Date: 2021-04-20
+Author: Michael Eichenberger and Carlo Rosa
+Maintainer: Michael Eichenberger <mike.eichenberger@gmail.com>
+Imports: Matrix, graphics
+Description: Efficient finite difference method for valuing European and American multi-asset options.
+License: GPL-2 | GPL-3
+NeedsCompilation: no
+Packaged: 2021-04-20 14:27:41 UTC; mike
+Repository: CRAN
+Date/Publication: 2021-04-20 14:50:07 UTC

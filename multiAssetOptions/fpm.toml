@@ -1,0 +1,25 @@
+name = "multiassetoptions"
+version = "0.1.2"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Michael Eichenberger and Carlo Rosa; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Finite-difference valuation of European and American multi-asset options"
+categories = ["finance", "numerical-methods"]
+keywords = ["options", "finite-difference", "multi-asset", "American", "Black-Scholes"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[install]
+library = true
