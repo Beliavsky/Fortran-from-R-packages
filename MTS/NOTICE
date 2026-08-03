@@ -1,0 +1,14 @@
+MTS Fortran translation
+=======================
+
+This project is a modern Fortran translation of the computational portions of
+MTS 1.2.1 by Ruey S. Tsay, David Wood, Jon Lachmann, and contributors.
+The original package is distributed under the Artistic License 2.0. The same
+license is retained for this translation. See LICENSE and original/MTS-1.2.1.
+
+Plotting, R S3/list presentation infrastructure, interactive console output,
+R data objects, and Rcpp registration glue are not part of the Fortran API.
+The attached fGarch, fBasics, and mvtnorm translations were inspected for
+project layout and numerical conventions. Their GPL-licensed source is not
+copied or linked into this Artistic-2.0 project; required probability and
+linear-algebra kernels are implemented locally.

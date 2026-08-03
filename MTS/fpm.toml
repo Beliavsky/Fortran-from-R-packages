@@ -1,0 +1,20 @@
+name = "mts-fortran"
+version = "1.2.1"
+license = "Artistic-2.0"
+author = "Ruey S. Tsay, David Wood, Jon Lachmann, and contributors"
+maintainer = "MTS Fortran translation contributors"
+copyright = "Copyright the MTS authors and contributors"
+description = "Modern Fortran translation of the computational core of the R MTS package"
+categories = ["statistics", "time-series", "econometrics", "finance"]
+keywords = ["VAR", "VARMA", "VECM", "DCC", "BEKK", "multivariate-time-series"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
