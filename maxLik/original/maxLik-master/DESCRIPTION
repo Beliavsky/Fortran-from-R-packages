@@ -1,0 +1,31 @@
+Package: maxLik
+Version: 1.5-2.2
+Title: Maximum Likelihood Estimation and Related Tools
+Authors@R: c(person("Ott", "Toomet", role=c("aut", "cre"), email="otoomet@gmail.com"),
+             person("Arne", "Henningsen", role=c("aut"), email="arne.henningsen@gmail.com"),
+             person("Spencer", "Graves", role=c("ctb")),
+             person("Yves", "Croissant", role=c("ctb")),
+             person("David", "Hugh-Jones", role=c("ctb")),
+             person("Luca", "Scrucca", role=c("ctb"))
+	   )
+Depends: R (>= 2.4.0), miscTools (>= 0.6-8), methods
+Imports: sandwich, generics
+Suggests: MASS, clue, dlm, plot3D, tibble, tinytest
+Description: Functions for Maximum Likelihood (ML) estimation, non-linear
+   optimization, and related tools.  It includes a unified way to call
+   different optimizers, and classes and methods to handle the results from
+   the Maximum Likelihood viewpoint.  It also includes a number of convenience
+   tools for testing and developing your own models.
+License: GPL (>= 2)
+ByteCompile: yes
+NeedsCompilation: no
+Packaged: 2025-12-29 15:06:20 UTC; hornik
+Author: Ott Toomet [aut, cre],
+  Arne Henningsen [aut],
+  Spencer Graves [ctb],
+  Yves Croissant [ctb],
+  David Hugh-Jones [ctb],
+  Luca Scrucca [ctb]
+Maintainer: Ott Toomet <otoomet@gmail.com>
+Repository: CRAN
+Date/Publication: 2025-12-29 15:36:12 UTC

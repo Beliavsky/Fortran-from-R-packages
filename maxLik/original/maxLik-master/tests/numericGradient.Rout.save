@@ -1,0 +1,51 @@
+
+R version 3.0.1 (2013-05-16) -- "Good Sport"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### test numeric methods, in particular handling of unequal
+> ### function lengths
+> library(maxLik)
+Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
+> 
+> f <- function(x) {
++    if(x[1] <= 0)
++        return(NA)
++                            # support of x[1] is (0, Inf)
++    return(c(log(x[1]),x[2]))
++ }
+> 
+> ng <- numericGradient(f, c(0.01,1), eps=0.1)
+Warning message:
+In numericGradient(f, c(0.01, 1), eps = 0.1) : Function value at
+-0.04  1.00
+ =
+NA
+(length 1) does not conform with the length at original value 2
+Component 1 set to NA
+> 
+> nh <- try(numericHessian(f, t0=c(0.01,1), eps=0.1))
+There were 13 warnings (use warnings() to see them)
+> 
+> proc.time()
+   user  system elapsed 
+  0.188   0.016   0.192 

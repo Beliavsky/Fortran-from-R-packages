@@ -1,0 +1,81 @@
+% Encoding: UTF-8
+
+@Article{bottou2018SIAM,
+  author    = {Bottou, L. and Curtis, F. and Nocedal, J.},
+  title     = {Optimization Methods for Large-Scale Machine Learning},
+  journal   = {SIAM Review},
+  year      = {2018},
+  volume    = {60},
+  number    = {2},
+  pages     = {223-311},
+  doi       = {10.1137/16M1080173},
+  eprint    = {https://doi.org/10.1137/16M1080173},
+  owner     = {otoomet},
+  review    = {A long review of different optimization methods from ML perspective.
+
+Revolves around SGD and a lot of space is devoted to show how other popular methods are related to SGD. A lot about convergence speed.
+
+Very little about non-smooth objective functions, just l1 norm optimization.},
+  timestamp = {2019.08.06},
+  url       = { 
+ https://doi.org/10.1137/16M1080173
+ 
+},
+}
+
+@Article{keskar+2016ArXiv,
+  author    = {Nitish Shirish Keskar and Dheevatsa Mudigere and Jorge Nocedal and Mikhail Smelyanskiy and Ping Tak Peter Tang},
+  title     = {On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima},
+  journal   = {ArXiv},
+  year      = {2016},
+  volume    = {abs/1609.04836},
+  abstract  = {The stochastic gradient descent (SGD) method and its variants are algorithms of choice for many Deep Learning tasks. These methods operate in a small-batch regime wherein a fraction of the training data, say $32$-$512$ data points, is sampled to compute an approximation to the gradient. It has been observed in practice that when using a larger batch there is a degradation in the quality of the model, as measured by its ability to generalize. We investigate the cause for this generalization drop in the large-batch regime and present numerical evidence that supports the view that large-batch methods tend to converge to sharp minimizers of the training and testing functions - and as is well known, sharp minima lead to poorer generalization. In contrast, small-batch methods consistently converge to flat minimizers, and our experiments support a commonly held view that this is due to the inherent noise in the gradient estimation. We discuss several strategies to attempt to help large-batch methods eliminate this generalization gap},
+  owner     = {siim},
+  review    = {Analyze the sharpness of obtained minima in loss function when using small/large batches for SGD.  Incorporate several mid-size neural networks for image processing, including fully connected and convolutional.
+
+Show both using graphs and computing sharpness that small batches lead to flat minima while large ones to sharp minima.  Speculate it is because the small batches are more noisy, will jump out of the sharp basing but get stuck in flat ones.  Give some evidence that small batch followed by large batch may improve the results.},
+  timestamp = {2020.04.08},
+}
+
+@Book{goodfellow+2016DL,
+  title     = {Deep Learning},
+  publisher = {MIT Press},
+  year      = {2016},
+  author    = {Ian J. Goodfellow and Yoshua Bengio and Aaron Courville},
+  editor    = {Thomas Dietterich},
+  isbn      = {9780262035613},
+  owner     = {siim},
+  timestamp = {2020.06.02},
+}
+
+@Article{henningsen+toomet2011,
+  author      = {Henningsen, Arne and Toomet, Ott},
+  title       = {maxLik: A package for maximum likelihood estimation in R},
+  journal     = {Computational Statistics},
+  year        = {2011},
+  volume      = {26},
+  pages       = {443-458},
+  issn        = {0943-4062},
+  note        = {10.1007/s00180-010-0217-1},
+  affiliation = {Institute of Food and Resource Economics, University of Copenhagen, Rolighedsvej 25, 1958 Frederiksberg C, Denmark},
+  issue       = {3},
+  keyword     = {Computer Science},
+  owner       = {siim},
+  publisher   = {Physica Verlag, An Imprint of Springer-Verlag GmbH},
+  timestamp   = {2020.06.02},
+  url         = {http://dx.doi.org/10.1007/s00180-010-0217-1},
+}
+
+@Article{smith+2018arXiv,
+  author    = {Samuel L. Smith and Pieter-Jan Kindermans and Quoc V. Le},
+  title     = {Don't Decay the Learning Rate, Increase the Batch Size},
+  journal   = {ArXiv},
+  year      = {2018},
+  volume    = {abs/1711.00489},
+  abstract  = {It is common practice to decay the learning rate. Here we show one can usually obtain the same learning curve on both training and test sets by instead increasing the batch size during training. This procedure is successful for stochastic gradient descent (SGD), SGD with momentum, Nesterov momentum, and Adam. It reaches equivalent test accuracies after the same number of training epochs, but with fewer parameter updates, leading to greater parallelism and shorter training times. We can further reduce the number of parameter updates by increasing the learning rate ϵ and scaling the batch size B∝ϵ. Finally, one can increase the momentum coefficient m and scale B∝1/(1−m), although this tends to slightly reduce the test accuracy. Crucially, our techniques allow us to repurpose existing training schedules for large batch training with no hyper-parameter tuning. We train ResNet-50 on ImageNet to 76.1% validation accuracy in under 30 minutes.},
+  owner     = {siim},
+  review    = {Employ Smith and Le (2017) scaling result that noise scale ~ B/n(1-m).  Instead of decreasing the learning rate, they propose to increase the batch size.  Show that this works well, mostly in SGD with momentum framework.},
+  timestamp = {2020.05.04},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
