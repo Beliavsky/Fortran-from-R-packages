@@ -1,0 +1,18 @@
+[package]
+name = "clarabel_fortran_bridge"
+version = "0.11.2"
+edition = "2021"
+rust-version = "1.70"
+license = "Apache-2.0"
+publish = false
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+clarabel = { path = "vendor/clarabel", default-features = false, features = ["sdp"] }
+
+[profile.release]
+panic = "unwind"
+lto = "thin"
+codegen-units = 1

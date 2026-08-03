@@ -1,0 +1,17 @@
+name = "clarabel-fortran"
+version = "0.11.2"
+license = "Apache-2.0"
+author = "Fortran translation contributors; upstream Clarabel authors"
+maintainer = "Fortran translation contributors"
+copyright = "2022-2026 Clarabel authors and contributors"
+description = "Modern Fortran interface to the Clarabel conic interior-point solver"
+categories = ["optimization", "numerical", "conic-programming"]
+keywords = ["clarabel", "lp", "qp", "socp", "sdp", "conic"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+# The Rust backend is loaded at runtime by src/clarabel_dynamic_loader.c.
+# Therefore a normal `fpm build` needs no manually configured -L path.
