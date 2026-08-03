@@ -1,0 +1,20 @@
+name = "esback-fortran"
+version = "0.3.1"
+license = "GPL-3.0-only"
+author = "Sebastian Bayer, Timo Dimitriadis; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright (c) original esback and esreg authors"
+description = "Modern Fortran translation of esback expected-shortfall backtests"
+keywords = ["expected-shortfall", "var", "backtesting", "esr", "risk"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
