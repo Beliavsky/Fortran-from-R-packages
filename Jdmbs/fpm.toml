@@ -1,0 +1,20 @@
+name = "jdmbs"
+version = "1.4.0"
+license = "GPL-2.0-or-later"
+author = "Masashi Okada; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Monte Carlo option pricing for geometric Brownian and jump-diffusion models"
+categories = ["finance", "statistics", "simulation"]
+keywords = ["option-pricing", "monte-carlo", "jump-diffusion", "black-scholes"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

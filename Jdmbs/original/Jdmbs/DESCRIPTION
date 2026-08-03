@@ -1,0 +1,24 @@
+Package: Jdmbs
+Type: Package
+Version: 1.4
+Title: Monte Carlo Option Pricing Algorithms for Jump Diffusion Models
+        with Correlational Companies
+Description: Option is a one of the financial derivatives and its pricing is an important problem in practice. The process of stock prices are represented as Geometric Brownian motion [Black (1973) <doi:10.1086/260062>] or jump diffusion processes [Kou (2002) <doi:10.1287/mnsc.48.8.1086.166>]. In this package, algorithms and visualizations are implemented by Monte Carlo method in order to calculate European option price for three equations by Geometric Brownian motion and jump diffusion processes and furthermore a model that presents jumps among companies affect each other.
+Date: 2020-07-23
+Authors@R: c(
+  person("Masashi", "Okada", role = c("aut", "cre"), email="okadaalgorithm@gmail.com")
+  )
+Author: Masashi Okada [aut, cre]
+Maintainer: Masashi Okada <okadaalgorithm@gmail.com>
+Depends: R (>= 3.6.0)
+License: GPL (>= 2)
+Imports: igraph, graphics, stats, utils, png, ggplot2
+Suggests: R.rsp
+VignetteBuilder: R.rsp
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+NeedsCompilation: no
+Packaged: 2020-07-24 13:03:32 UTC; jirotubuyaki
+Repository: CRAN
+Date/Publication: 2020-07-24 13:22:10 UTC
