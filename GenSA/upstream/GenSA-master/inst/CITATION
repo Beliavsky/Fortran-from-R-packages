@@ -1,0 +1,12 @@
+bibentry(bibtype = "Article",
+         title = paste0("Generalized Simulated Annealing for Efficient Global",
+                        "Optimization: the GenSA Package for R."),
+         author = c(person("Yang", "Xiang", email = "Yang.Xiang@pmi.com"),
+                    person("Sylvain", "Gubian",
+                        email = "Sylvain.Gubian@pmi.com"),
+                    person("Brian", "Suomela"),
+                    person("Julia", "Hoeng")),
+         year = "2013", journal = "The R Journal",
+         volume = "5/1",
+         url = "https://journal.r-project.org"
+        )

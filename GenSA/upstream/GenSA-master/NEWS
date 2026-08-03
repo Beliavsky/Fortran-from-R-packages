@@ -1,0 +1,116 @@
+2025-11-16: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.5
+    - Fix deprecrated use of SET_TYPEOF, replaced with public R API function call
+    - Added missing Encoding: UTF-8 in DESCRIPTION file.
+
+2024-09-21: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.14.1 (non standard versioning from hornik)
+    - Adjustements from hornik for API changes
+
+2024-01-15: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.13
+    - Fix valgrind findings
+    - Fix passed seed for internal RNG
+
+2023-12-05: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.12
+    - src/Engine.cpp: Fix long int warning in Rprintf
+    - Fix reverse depend issue with new check for trace.mat
+
+2023-11-27: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.11
+    - src/GenSA_init.c: Added registration of dynamic symbols.
+    - src/Engine.cpp: Fixed Fedora warnings with Rprintf long int arguments.
+    - src/Engine.cpp: Fixed no-improvement stoping criteria issue.
+
+2023-09-14: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.10
+    - src/Linpack.h: Added C declaration of BLAS routines (which will be removed soon in R core)
+
+2023-07-11: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.9
+    - src/Utils.h: Adjust include order to fix STL/clang17 conflicting issue with R internal includes order
+
+2023-02-09: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version 1.1.8
+    - R/GenSA.R: Roxygen doc, better formatting of the code
+    - src/Utils.h: Fix fedora/clang16 compilation issue fix
+    - src/Caller.cpp: Fix the internal seeding that was not controlled by
+    GenSA R function control argument.
+    - CITATION: Replacing old-style citation with bibentry()
+    - Fix first order dep issue
+
+2018-01-15: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version: 1.1.7
+    - src/*.cpp,*.h: Fixed named vector transmission from C++ to R context
+    - src/*.cpp,*.h: Expose internal seeding of the RG
+    - R/GenSA.R: Fixed trace.mat and trace.fn options
+    - src/*.cpp,*.h: Ensure package is following C++98 standard for Solaris as requested by Brian Ripley
+
+2016-02-09: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version: 1.1.6
+    - R/GenSA.R: Add trace.mat option in control list
+    - src/Engine.cpp: Fix memory leak in smooth search function
+
+2015-03-31: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version: 1.1.5
+    - R/GenSA.R: Specify package name in .Call calls and put function name in quotes
+
+2014-01-13: Sylvain Gubian <DL.RSupport@pmi.com>
+    - Version: 1.1.4
+    - inst/CITATION: Adjust publication date of the article
+
+2012-12-10: Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.1.3
+    - R/GenSA.R: Fix max.call according reviewer suggestion
+    - R/GenSA.R: Replace temp by temperature according reviewer suggestion, add trace.fn argument
+    - man/GenSA.Rd: Replace temp by temperature according reviewer suggestion, add simple.function control param, trace.fn
+
+2012-11-07: Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.1.2
+    - src/Engine.cpp: Fixing starting point generation
+    - src/Engine.cpp: Fixing warnings on windows
+
+2012-10-11: Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.1.1
+    - src/Makevars: Fixing windows compilation issue
+
+2012-10-09: Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.1.0
+    - src/Engine.cpp: Re-annealing feature
+    - src/Engine.h: Re-annealing feature
+    - src/Utils.cpp: Remove calls to non public R API
+    - src/Utils.cpp: Remove calls to non public R API
+    - R/GenSA.R: Adjust the arguments order to be the same as optim
+    - man/GenSA.Rd: Adjust the arguments order to be the same as optim
+
+2012-02-23: Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.0.3
+    - src/Engine.cpp: Reduce memory usage by removing unused matrix
+    - src/Engine.cpp: Fix memory allocation for ls routine
+
+2011-12-13 Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.0.2
+    - man/GenSA.Rd: Fix truncated line in the help.
+
+2011-11-28 Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.0.1
+    - src/Caller.cpp: Fix compilation issue with std::vector
+    - src/Utils.cpp: Fix compilation issue with ddMod function
+    - src/Engine.cpp: Fix compilation warning
+
+2011-11-25 Sylvain Gubian  <DL.RSupport@pmi.com>
+    - Version: 1.0.0
+    - src/Caller.cpp: New file for wrapping the engine to R
+    - src/Caller.h: New file for wrapping the engine to R
+    - src/Engine.cpp: New C++ faster implementation
+    - src/Engine.h: New C++ faster implementation
+    - src/Utils.cpp: New file for util functions
+    - src/Utils.h: New file for util functions
+    - src/Tracer.cpp: New file for recording algorithm behavior
+    - src/Tracer.h: New file for recording algorithm behavior
+
+2011-05-12 Sylvain Gubian  <DL.RSupport@pmi.com>
+    - NEWS: add NEWS file for tracking changes.
+    - inst/CITATION: fix title of the package
+    - DESCRIPTION: add Depends field

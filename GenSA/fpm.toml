@@ -1,0 +1,19 @@
+name = "gensa-fortran"
+version = "1.1.15"
+license = "GPL-2.0-only"
+author = "GenSA authors; modern Fortran translation"
+maintainer = "Modern Fortran translation project"
+copyright = "Copyright (C) GenSA authors and translation contributors"
+description = "Generalized simulated annealing in modern Fortran"
+categories = ["optimization", "scientific"]
+keywords = ["simulated annealing", "global optimization", "Tsallis"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
