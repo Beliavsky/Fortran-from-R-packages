@@ -1,0 +1,33 @@
+Type: Package
+Package: quarks
+Title: Simple Methods for Calculating and Backtesting Value at Risk and
+        Expected Shortfall
+Version: 1.1.6
+Authors@R: 
+    person(given = "Sebastian",
+           family = "Letmathe",
+           role = c("aut", "cre"),
+           email = "sebastian.let@yahoo.com")
+Description: Enables the user to calculate Value at Risk (VaR)
+    and Expected Shortfall (ES) by means of various types of historical
+    simulation. Currently plain-, age-, volatility-weighted- and filtered
+    historical simulation are implemented in this package. Volatility weighting
+    can be carried out via an exponentially weighted moving average model
+    (EWMA) or other GARCH-type models. The performance can be assessed via
+    Traffic Light Test, Coverage Tests and Loss Functions. The methods of the
+    package are described in Gurrola-Perez, P. and Murphy, D. (2015)
+    <https://EconPapers.repec.org/RePEc:boe:boeewp:0525> as well as McNeil, J.,
+    Frey, R., and Embrechts, P. (2015) <https://ideas.repec.org/b/pup/pbooks/10496.html>.
+License: GPL-3
+Depends: R (>= 2.10)
+Imports: dygraphs, ggplot2, graphics, progress, rugarch, shiny,
+        shinyjs, smoots, stats, yfR, xts
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+NeedsCompilation: no
+Packaged: 2026-01-10 12:31:43 UTC; Letmode
+Author: Sebastian Letmathe [aut, cre]
+Maintainer: Sebastian Letmathe <sebastian.let@yahoo.com>
+Repository: CRAN
+Date/Publication: 2026-01-10 12:50:02 UTC

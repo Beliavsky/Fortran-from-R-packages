@@ -1,0 +1,21 @@
+name = "quarks_fortran"
+version = "1.1.6"
+license = "GPL-3.0-only"
+author = "Sebastian Letmathe; independent Fortran translation by OpenAI for Vivek Rao"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of computational routines from the R quarks package"
+categories = ["finance", "statistics", "risk-management"]
+keywords = ["VaR", "expected shortfall", "historical simulation", "backtesting", "GARCH"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rugarch_fortran = { path = "vendor/rugarch-modern-fortran" }
