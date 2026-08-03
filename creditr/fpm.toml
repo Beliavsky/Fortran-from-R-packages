@@ -1,0 +1,20 @@
+name = "creditr-fortran"
+version = "0.6.2"
+license = "GPL-3.0-only AND LicenseRef-ISDA-CDS-Standard-Model"
+author = "creditr authors and Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "See NOTICE.md and original source notices"
+description = "Modern Fortran implementation of creditr and the ISDA CDS Standard Model calculations"
+categories = ["finance", "credit-risk", "fixed-income"]
+keywords = ["CDS", "ISDA", "hazard", "credit", "curve-bootstrap"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

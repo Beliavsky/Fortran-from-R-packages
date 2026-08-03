@@ -1,0 +1,65 @@
+{
+  "@context": "https://raw.githubusercontent.com/mbjones/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+      {
+      "@type": "Person",
+      "email": "yrsong129@gmail.com",
+      "name": "Yanrong Song",
+      "affiliation": "Columbia University"
+    },
+      {
+      "@type": "Person",
+      "email": "zijie.miller.zhu@gmail.com",
+      "name": "Zijie Zhu",
+      "affiliation": "Columbia University"
+    },
+    {
+      "@type": "Person",
+      "email": "david.kane@gmail.com",
+      "name": "David Kane",
+      "affiliation": "Harvard University"
+    },
+    {
+      "@type": "Person",
+      "email": "s.heidi.chen@gmail.com",
+      "name": "Heidi Chen",
+      "affiliation": "Harvard University"
+    },
+    {
+      "@type": "Person",
+      "email": "yuanchu.dang@gmail.com",
+      "name": "Yuanchu Dang",
+      "affiliation": "Columbia University"
+    },
+    {
+      "@type": "Person",
+      "email": "yang.lu2014@gmail.com",
+      "name": "Yang Lu",
+      "affiliation": "Williams College"
+    },
+    {
+      "@type": "Person",
+      "email": "kanishkamalik@gmail.com",
+      "name": "Kanishka Malik",
+      "affiliation": "Williams College"
+    },
+    {
+      "@type": "Person",
+      "email": "sws2@williams.edu",
+      "name": "Skylar Smith",
+      "affiliation": "Williams College"
+
+    }
+
+  ],
+  "codeRepository": "https://github.com/yanrong-stacy-song/creditr",
+  "datePublished": "2025-01-07",
+  "dateModified": "2025-01-07",
+  "dateCreated": "2025-01-07",
+  "description": "Price credit default swaps using 'C' code from the International Swaps and Derivatives Association CDS Standard Model.",
+  "keywords": "credit default swap, pricing, R package",
+  "license": "Apache",
+  "title": "Credit Default Swaps with R",
+  "version": "v0.6.2"
+}
