@@ -1,0 +1,43 @@
+Package: PortfolioTesteR
+Type: Package
+Title: Test Investment Strategies with English-Like Code
+Version: 0.1.4
+Authors@R: 
+    person("Alberto", "Pallotta",
+           email = "pallottaalberto@gmail.com",
+           role = c("aut", "cre"))
+Description: Design, backtest, and analyze portfolio strategies using simple,
+    English-like function chains. Includes technical indicators, flexible stock
+    selection, portfolio construction methods (equal weighting, signal weighting,
+    inverse volatility, hierarchical risk parity), and a compact backtesting
+    engine for portfolio returns, drawdowns, and summary metrics.
+License: MIT + file LICENSE
+URL: https://github.com/AlbertoPallotta/PortfolioTesteR
+BugReports: https://github.com/AlbertoPallotta/PortfolioTesteR/issues
+Depends:
+    R (>= 3.5.0)
+Imports:
+    data.table,
+    graphics,
+    stats,
+    TTR,
+    utils,
+    zoo
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    quantmod,
+    RSQLite,
+    rvest,
+    glmnet,
+    ranger,
+    xgboost,
+    keras,
+    tensorflow
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+ByteCompile: true
+VignetteBuilder: knitr

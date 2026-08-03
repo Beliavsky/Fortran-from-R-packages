@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><title>R: Switch Between Weighting Schemes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>switch_weights</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Switch Between Weighting Schemes</h2>
+
+<h3>Description</h3>
+
+<p>Dynamically switches between two weighting schemes based on a signal.
+Enables tactical allocation changes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>switch_weights(weights_a, weights_b, use_b_condition, partial_blend = 1)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>weights_a</code></td>
+<td>
+<p>Primary weight matrix</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weights_b</code></td>
+<td>
+<p>Alternative weight matrix</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>use_b_condition</code></td>
+<td>
+<p>Logical vector (TRUE = use weights_b)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>partial_blend</code></td>
+<td>
+<p>Blend factor 0-1 (default: 1 = full switch)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Combined weight matrix
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+weights_equal &lt;- weight_equally(selected)
+weights_signal &lt;- weight_by_signal(selected, momentum)
+
+# Create switching signal (example: use SPY momentum as regime indicator)
+spy_momentum &lt;- momentum$SPY
+switch_signal &lt;- as.numeric(spy_momentum &gt; median(spy_momentum, na.rm = TRUE))
+switch_signal[is.na(switch_signal)] &lt;- 0
+
+# Switch between strategies
+final_weights &lt;- switch_weights(weights_equal, weights_signal, switch_signal)
+</code></pre>
+
+
+</div>
+</body></html>

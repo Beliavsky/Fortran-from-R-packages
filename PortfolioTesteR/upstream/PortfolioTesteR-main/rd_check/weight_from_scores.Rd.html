@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><title>R: Map scores to portfolio weights</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>weight_from_scores</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Map scores to portfolio weights</h2>
+
+<h3>Description</h3>
+
+<p>Map scores to portfolio weights
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>weight_from_scores(
+  scores,
+  method = c("softmax", "rank", "linear", "equal"),
+  temperature = 10,
+  floor = 0
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>scores</code></td>
+<td>
+<p>Wide score panel (Date + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p><code>"softmax"</code>, <code>"rank"</code>, <code>"linear"</code>, <code>"equal"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>temperature</code></td>
+<td>
+<p>softmax temperature (higher=flatter).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>floor</code></td>
+<td>
+<p>non-negative number added before normalization.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>weight panel (<code>Date + symbols</code>) with non-negative rows summing to 1
+over active dates.
+</p>
+
+
+</div>
+</body></html>

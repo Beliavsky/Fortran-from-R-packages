@@ -1,0 +1,169 @@
+<!DOCTYPE html><html><head><title>R: Plot Parameter Grid Results (1D/2D/3D and Facets)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>plot.param_grid_result</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Parameter Grid Results (1D/2D/3D and Facets)</h2>
+
+<h3>Description</h3>
+
+<p>Generic plotter for objects returned by <code>run_param_grid()</code>. Supported types:
+</p>
+
+<ul>
+<li><p> &quot;line&quot;: 1D metric vs one parameter.
+</p>
+</li>
+<li><p> &quot;heatmap&quot;: 2D heatmap over two parameters.
+</p>
+</li>
+<li><p> &quot;surface&quot;: 3D surface (persp) over two parameters.
+</p>
+</li>
+<li><p> &quot;slices&quot;: 2D heatmaps faceted by a third parameter.
+</p>
+</li>
+<li><p> &quot;surface_slices&quot;: 3D surfaces faceted by a third parameter.
+</p>
+</li>
+<li><p> &quot;auto&quot;: chosen from the above based on the number of parameters.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>## S3 method for class 'param_grid_result'
+plot(
+  x,
+  y = NULL,
+  type = c("auto", "line", "heatmap", "surface", "slices", "surface_slices"),
+  metric = NULL,
+  params = NULL,
+  fixed = list(),
+  agg = c("mean", "median", "max"),
+  na.rm = TRUE,
+  palette = NULL,
+  zlim = NULL,
+  clip = c(0.02, 0.98),
+  main = NULL,
+  sub = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>x</code></td>
+<td>
+<p>A <code>param_grid_result</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>y</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>type</code></td>
+<td>
+<p>One of &quot;auto&quot;,&quot;line&quot;,&quot;heatmap&quot;,&quot;surface&quot;,&quot;slices&quot;,&quot;surface_slices&quot;.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>metric</code></td>
+<td>
+<p>Column name to plot (defaults to &quot;score&quot; if present).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>params</code></td>
+<td>
+<p>Character vector of parameter columns to use for axes/facets.
+If <code>NULL</code>, uses all parameter columns detected in <code>x$all_results</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fixed</code></td>
+<td>
+<p>Optional named list of parameter values to condition on.
+Rows not matching are dropped before plotting.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>agg</code></td>
+<td>
+<p>Aggregation when multiple rows map to a cell:
+&quot;mean&quot;,&quot;median&quot;, or &quot;max&quot;.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>na.rm</code></td>
+<td>
+<p>Logical; drop NA metric rows before plotting.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>palette</code></td>
+<td>
+<p>Optional color vector used for heatmaps/surfaces.
+Defaults to <code>grDevices::hcl.colors(..., "YlOrRd", rev = TRUE)</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>zlim</code></td>
+<td>
+<p>Optional two-element numeric range for color scaling.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>clip</code></td>
+<td>
+<p>Two quantiles used to winsorize z-limits for stable coloring.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>main, sub, xlab, ylab</code></td>
+<td>
+<p>Base plotting annotations.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>...</code></td>
+<td>
+<p>Additional options depending on <code>type</code>, e.g.:
+<code>legend</code>, <code>label_cells</code>, <code>contour</code>, <code>mark_best</code>,
+<code>theta</code>, <code>phi</code>, <code>shade</code>, <code>expand</code>, <code>ticktype</code>,
+<code>shared_zlim</code>, <code>facet</code>, <code>facet_values</code>, <code>ncol</code>,
+<code>debug</code>, <code>impute_for_surface</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An invisible list describing the plot (kind/params/zlim/etc.).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>run_param_grid()</code>, <code>print.param_grid_result()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  b &lt;- function(prices, params, ...) {
+    weight_equally(filter_top_n(calc_momentum(prices, params$lookback), 10))
+  }
+  opt &lt;- run_param_grid(
+    prices  = sample_prices_weekly,
+    grid    = list(lookback = c(8, 12, 26)),
+    builder = b
+  )
+  plot(opt, type = "line", params = "lookback")
+
+
+</code></pre>
+
+
+</div>
+</body></html>

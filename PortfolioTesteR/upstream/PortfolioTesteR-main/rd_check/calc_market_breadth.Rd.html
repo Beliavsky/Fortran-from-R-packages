@@ -1,0 +1,65 @@
+<!DOCTYPE html><html><head><title>R: Calculate Market Breadth Percentage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>calc_market_breadth</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Market Breadth Percentage</h2>
+
+<h3>Description</h3>
+
+<p>Measures the percentage of stocks meeting a condition (market participation).
+Useful for assessing market health and identifying broad vs narrow moves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calc_market_breadth(condition_df, min_stocks = 10)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>condition_df</code></td>
+<td>
+<p>Data frame with Date column and TRUE/FALSE values</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>min_stocks</code></td>
+<td>
+<p>Minimum stocks required for valid calculation (default: 10)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.table</code> with <code>Date</code> and <code>Breadth_[Sector]</code> columns (0-100 scale)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'># Percent of stocks above 200-day MA
+data("sample_prices_weekly")
+ma200 &lt;- calc_moving_average(sample_prices_weekly, 200)
+above_ma &lt;- filter_above(calc_distance(sample_prices_weekly, ma200), 0)
+breadth &lt;- calc_market_breadth(above_ma)
+</code></pre>
+
+
+</div>
+</body></html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html><html><head><title>R: Plot Walk-Forward Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>plot.wf_optimization_result</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Walk-Forward Results</h2>
+
+<h3>Description</h3>
+
+<p>Visual diagnostics for a <code>wf_optimization_result</code> returned by
+<code>run_walk_forward()</code>. Supported types:
+</p>
+
+<ul>
+<li><p> &quot;parameters&quot;: best parameter values chosen per window.
+</p>
+</li>
+<li><p> &quot;is_oos&quot;: in-sample vs out-of-sample scores by window.
+</p>
+</li>
+<li><p> &quot;equity&quot;: stitched out-of-sample equity curve.
+</p>
+</li>
+<li><p> &quot;drawdown&quot;: drawdown of the stitched OOS curve.
+</p>
+</li>
+<li><p> &quot;windows&quot;: per-window bar/line chart of an OOS metric (see <code>metric</code>).
+</p>
+</li>
+<li><p> &quot;stability&quot;: summary of parameter stability.
+</p>
+</li>
+<li><p> &quot;distributions&quot;: distributions of IS/OOS scores across windows.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>## S3 method for class 'wf_optimization_result'
+plot(
+  x,
+  y = NULL,
+  type = c("parameters", "is_oos", "equity", "drawdown", "windows", "stability",
+    "distributions"),
+  param = NULL,
+  metric = NULL,
+  main = NULL,
+  sub = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>x</code></td>
+<td>
+<p>A <code>wf_optimization_result</code> from <code>run_walk_forward()</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>y</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>type</code></td>
+<td>
+<p>One of &quot;parameters&quot;,&quot;is_oos&quot;,&quot;equity&quot;,&quot;drawdown&quot;,
+&quot;windows&quot;,&quot;stability&quot;,&quot;distributions&quot;.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>param</code></td>
+<td>
+<p>Character vector of parameter names to include for
+&quot;parameters&quot;/&quot;stability&quot;/&quot;distributions&quot;. If <code>NULL</code>, uses all.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>metric</code></td>
+<td>
+<p>Character; column to plot for &quot;is_oos&quot; or &quot;windows&quot;
+(e.g., &quot;OOS_Return&quot; or &quot;OOS_Score&quot;). Ignored for other types.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>main, sub, xlab, ylab</code></td>
+<td>
+<p>Base plotting annotations.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>...</code></td>
+<td>
+<p>Additional plot options (type-specific).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly, a small list describing the plot.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>run_walk_forward()</code>, <code>wf_report()</code>, <code>print.wf_optimization_result()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  b &lt;- function(prices, params, ...) {
+    weight_equally(filter_top_n(calc_momentum(prices, params$lookback),
+                                params$top_n))
+  }
+  wf &lt;- run_walk_forward(
+    prices = sample_prices_weekly,
+    grid   = list(lookback = c(8, 12, 26), top_n = c(5, 10)),
+    builder = b,
+    is_periods = 52, oos_periods = 26, step = 26
+  )
+  plot(wf, type = "parameters")
+  plot(wf, type = "is_oos", metric = "OOS_Score")
+
+
+</code></pre>
+
+
+</div>
+</body></html>

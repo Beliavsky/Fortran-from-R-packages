@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><title>R: Calculate Enhanced Performance Metrics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>calculate_enhanced_metrics</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Enhanced Performance Metrics</h2>
+
+<h3>Description</h3>
+
+<p>Computes comprehensive risk and return metrics from daily data including
+Sharpe, Sortino, Calmar ratios, VaR, CVaR, and tail risk measures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calculate_enhanced_metrics(
+  daily_values,
+  daily_returns,
+  rf_rate = 0,
+  confidence_level = 0.95
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>daily_values</code></td>
+<td>
+<p>Daily portfolio values</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>daily_returns</code></td>
+<td>
+<p>Daily return series</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>rf_rate</code></td>
+<td>
+<p>Risk-free rate</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>confidence_level</code></td>
+<td>
+<p>VaR/CVaR confidence level</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>List of performance metrics
+</p>
+
+
+</div>
+</body></html>

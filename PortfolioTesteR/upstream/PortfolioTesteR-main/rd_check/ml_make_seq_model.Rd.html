@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><title>R: Deterministic sequence model factory (GRU/LSTM/CNN1D with...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_make_seq_model</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Deterministic sequence model factory (GRU/LSTM/CNN1D with linear fallback)</h2>
+
+<h3>Description</h3>
+
+<p>Returns <code>fit/predict</code> closures for sequence models that consume flattened
+tabular inputs (n <code class="reqn">\times</code> (steps <code class="reqn">\times</code> p)) and internally reshape to (n, steps, p).
+If Keras/TensorFlow is unavailable, falls back to a linear baseline so
+examples remain runnable on CPU-only machines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_make_seq_model(
+  type = c("linear", "gru", "lstm", "cnn1d"),
+  steps = 26L,
+  units = 16L,
+  dense = NULL,
+  dropout = 0.1,
+  epochs = 12L,
+  batch_size = 128L,
+  lr = 0.01,
+  patience = 2L,
+  seed = 123L,
+  deterministic = TRUE,
+  pred_batch_size = 256L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>type</code></td>
+<td>
+<p>One of <code>"linear"</code>, <code>"gru"</code>, <code>"lstm"</code>, <code>"cnn1d"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>steps</code></td>
+<td>
+<p>Integer sequence length (e.g., 26 for 6 months of weeks).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>units</code></td>
+<td>
+<p>Hidden units for GRU/LSTM or filters for CNN1D.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>dense</code></td>
+<td>
+<p>Optional integer vector of additional dense layers.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>dropout</code></td>
+<td>
+<p>Dropout rate for recurrent/CNN core.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>epochs, batch_size</code></td>
+<td>
+<p>Training settings.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lr</code></td>
+<td>
+<p>Learning rate.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>patience</code></td>
+<td>
+<p>Early-stopping patience.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>seed</code></td>
+<td>
+<p>Integer seed.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>deterministic</code></td>
+<td>
+<p>Logical; set determinism knobs when TRUE.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>pred_batch_size</code></td>
+<td>
+<p>Fixed batch size used at prediction time.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Determinism knobs: fixed seeds, <code>TF_DETERMINISTIC_OPS=1</code>, no shuffle,
+<code>workers=1</code>, and a fixed <code>pred_batch_size</code> to minimise retracing.
+</p>
+<p>Optional dependencies: <code>keras</code> and <code>tensorflow</code>. When not available,
+the factory returns the linear fallback.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with <code style="white-space: pre;">&#8288;$fit&#8288;</code> and <code style="white-space: pre;">&#8288;$predict&#8288;</code> closures.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+seq_gru &lt;- ml_make_seq_model("gru", steps = 26, units = 16, epochs = 12)
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

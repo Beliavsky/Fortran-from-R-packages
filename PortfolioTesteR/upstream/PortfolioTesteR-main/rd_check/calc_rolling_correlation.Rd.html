@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>R: Rolling correlation of each symbol to a benchmark</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>calc_rolling_correlation</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rolling correlation of each symbol to a benchmark</h2>
+
+<h3>Description</h3>
+
+<p>Computes rolling correlations between each symbol and a benchmark series
+(e.g., <code>SPY</code>) using simple returns over a fixed lookback window.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calc_rolling_correlation(
+  data,
+  benchmark_symbol = "SPY",
+  lookback = 60,
+  min_periods = NULL,
+  method = c("pearson", "spearman")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>data</code></td>
+<td>
+<p>A <code>data.frame</code> or <code>data.table</code> with a <code>Date</code> column and one
+column per symbol containing prices. Must include <code>benchmark_symbol</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>benchmark_symbol</code></td>
+<td>
+<p>Character, the benchmark column name (default <code>"SPY"</code>).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lookback</code></td>
+<td>
+<p>Integer window size (&gt;= 2) for rolling correlations.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>min_periods</code></td>
+<td>
+<p>Minimum number of valid observations within the window
+to compute a correlation. Default is <code>ceiling(lookback * 0.67)</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p>Correlation method, <code>"pearson"</code> (default) or <code>"spearman"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Returns are computed as simple returns <code class="reqn">(P_t - P_{t-1})/P_{t-1}</code>.
+Windows with fewer than <code>min_periods</code> valid pairs are marked <code>NA</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.table</code> with <code>Date</code> and one column per non-benchmark symbol,
+containing rolling correlations. Insufficient data yields <code>NA</code>s.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>calc_momentum()</code>, <code>calc_rolling_volatility()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data(sample_prices_weekly)
+corr &lt;- calc_rolling_correlation(
+  data = sample_prices_weekly,
+  benchmark_symbol = "SPY",
+  lookback = 20
+)
+head(corr)
+
+</code></pre>
+
+
+</div>
+</body></html>

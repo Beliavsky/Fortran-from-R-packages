@@ -1,0 +1,76 @@
+<!DOCTYPE html><html><head><title>R: Reduce multiple panels with a binary operator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_panel_reduce</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reduce multiple panels with a binary operator</h2>
+
+<h3>Description</h3>
+
+<p>Folds a list of panels using <code>ml_panel_op()</code> across a set of named panels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_panel_reduce(features, panels, op = `*`, how = "intersect", fill = NA_real_)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>features</code></td>
+<td>
+<p>List of panels (each a wide data frame with <code>Date</code>).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>panels</code></td>
+<td>
+<p>Character vector of names in <code>features</code> to reduce (length <code class="reqn">\ge</code> 2).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>op</code></td>
+<td>
+<p>Binary function to apply elementwise.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>how</code></td>
+<td>
+<p>Column-set policy passed to <code>ml_panel_op()</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fill</code></td>
+<td>
+<p>Fill value for <code>how="union"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data.frame panel (wide) with the reduced result.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+# product of three panels
+prod_panel &lt;- ml_panel_reduce(X, c("mom12","vol","rsi14"), op = `*`)
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

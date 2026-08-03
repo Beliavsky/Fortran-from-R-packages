@@ -1,0 +1,52 @@
+<!DOCTYPE html><html><head><title>R: Download S&amp;P 500 Sector Mappings from Wikipedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>download_sp500_sectors</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Download S&amp;P 500 Sector Mappings from Wikipedia</h2>
+
+<h3>Description</h3>
+
+<p>Scrapes current S&amp;P 500 constituent list with sector classifications
+from Wikipedia and returns as a data.table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>download_sp500_sectors()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>Data.table with columns: Symbol, Security, Sector, SubIndustry, Industry
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+
+sectors &lt;- download_sp500_sectors()
+head(sectors)
+
+
+</code></pre>
+
+
+</div>
+</body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head><title>R: Rolling fit/predict for tabular features (pooled / per-symbol...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>roll_fit_predict</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rolling fit/predict for tabular features (pooled / per-symbol / per-group)</h2>
+
+<h3>Description</h3>
+
+<p>Rolling fit/predict for tabular features (pooled / per-symbol / per-group)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>roll_fit_predict(
+  features_list,
+  label,
+  fit_fn,
+  predict_fn,
+  is_periods = 156L,
+  oos_periods = 4L,
+  step = 4L,
+  group = c("pooled", "per_symbol", "per_group"),
+  group_map = NULL,
+  na_action = c("omit", "zero")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>features_list</code></td>
+<td>
+<p>list of wide panels (each: <code>Date</code> + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>label</code></td>
+<td>
+<p>wide panel of future returns (same symbol set as features).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fit_fn</code></td>
+<td>
+<p>function <code style="white-space: pre;">&#8288;(X, y) -&gt; model&#8288;</code> trained on in-sample stacked rows.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>predict_fn</code></td>
+<td>
+<p>function <code style="white-space: pre;">&#8288;(model, Xnew) -&gt; numeric&#8288;</code> scores.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>is_periods, oos_periods, step</code></td>
+<td>
+<p>ints; in-sample length, out-of-sample length,
+and step size for the rolling window.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group</code></td>
+<td>
+<p>one of <code>"pooled"</code>, <code>"per_symbol"</code>, <code>"per_group"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group_map</code></td>
+<td>
+<p>optional <code>data.frame(Symbol, Group)</code> if <code>group = "per_group"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>na_action</code></td>
+<td>
+<p><code>"omit"</code> or <code>"zero"</code> for feature NA handling.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>wide panel of scores: <code>Date + symbols</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+data(sample_prices_weekly); data(sample_prices_daily)
+mom &lt;- panel_lag(calc_momentum(sample_prices_weekly, 12), 1)
+vol &lt;- panel_lag(align_to_timeframe(
+  calc_rolling_volatility(sample_prices_daily, 20),
+  sample_prices_weekly$Date, "forward_fill"), 1)
+Y &lt;- make_labels(sample_prices_weekly, horizon = 4, type = "log")
+fit_lm  &lt;- function(X,y){ Xc &lt;- cbind(1,X); list(coef=stats::lm.fit(Xc,y)$coefficients) }
+pred_lm &lt;- function(m,X){ as.numeric(cbind(1,X) %*% m$coef) }
+S &lt;- roll_fit_predict(list(mom=mom, vol=vol), Y, fit_lm, pred_lm, 52, 4, 4)
+head(S)
+
+</code></pre>
+
+
+</div>
+</body></html>

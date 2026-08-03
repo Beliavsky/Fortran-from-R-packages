@@ -1,0 +1,79 @@
+---
+title: "Optimization and Walk-Forward with PortfolioTesteR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Optimization and Walk-Forward with PortfolioTesteR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+knitr::opts_chunk$set(collapse=TRUE, comment="#>", fig.width=7, fig.height=5, dpi=96, cache=FALSE, message=FALSE, warning=FALSE)
+set.seed(1)
+heavy <- identical(Sys.getenv("NOT_CRAN"), "true")
+
+library(PortfolioTesteR)
+data(sample_prices_weekly)
+
+# ---- Grid optimization ----
+builder_opt <- function(prices, params, ...) {
+  sel <- filter_top_n(calc_momentum(prices, params$lookback), params$n_top)
+  weight_equally(sel)
+}
+
+grid_opt <- if (heavy) {
+  list(lookback = seq(6, 26, by = 2), n_top = c(5, 10, 15))
+} else {
+  list(lookback = c(8, 12, 26), n_top = c(5, 10))
+}
+
+opt <- run_param_grid(
+  prices  = sample_prices_weekly,
+  grid    = grid_opt,
+  builder = builder_opt,
+  metric  = NULL,                  # defaults to metric_sharpe()
+  name_prefix = "MOM",
+  verbose = FALSE,
+  light_mode = TRUE,
+  precompute_returns = TRUE
+)
+
+plot(opt, type = "line", params = "lookback")
+
+# ---- Walk-forward ----
+builder_wf <- function(prices, params, ...) {
+  weight_equally(filter_top_n(calc_momentum(prices, params$lookback), params$n_top))
+}
+
+grid_wf <- if (heavy) {
+  list(lookback = c(8, 12, 26, 40), n_top = c(5, 10, 15))
+} else {
+  list(lookback = c(8, 12), n_top = c(5, 10))
+}
+
+wf <- run_walk_forward(
+  prices      = sample_prices_weekly,
+  grid        = grid_wf,
+  builder     = builder_wf,
+  metric      = NULL,              # defaults to metric_sharpe()
+  is_periods  = 52,
+  oos_periods = 26,
+  step        = 26,
+  verbose     = FALSE,
+  light_mode  = TRUE,
+  precompute_all = TRUE,
+  builder_args = list()
+)
+
+plot(wf, type = "parameters")
+plot(wf, type = "is_oos", metric = "OOS_Score")
+plot(wf, type = "equity")
+
+sessionInfo()
+
+
+```
+
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>R: Volatility-Based Portfolio Weighting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>weight_by_volatility</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Volatility-Based Portfolio Weighting</h2>
+
+<h3>Description</h3>
+
+<p>Weights securities based on their volatility characteristics.
+Can prefer low-volatility (defensive) or high-volatility (aggressive) stocks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>weight_by_volatility(
+  selected_df,
+  vol_timeframe_data,
+  strategy_timeframe_data = NULL,
+  lookback_periods = 26,
+  low_vol_preference = TRUE,
+  vol_method = "std",
+  weighting_method = c("rank", "equal", "inverse_variance")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>selected_df</code></td>
+<td>
+<p>Binary selection matrix (1 = selected, 0 = not)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>vol_timeframe_data</code></td>
+<td>
+<p>Price data for volatility calculation (usually daily)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>strategy_timeframe_data</code></td>
+<td>
+<p>Price data matching strategy frequency</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lookback_periods</code></td>
+<td>
+<p>Number of periods for volatility (default: 26)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>low_vol_preference</code></td>
+<td>
+<p>TRUE = lower vol gets higher weight (default: TRUE)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>vol_method</code></td>
+<td>
+<p>&quot;std&quot;, &quot;range&quot;, &quot;mad&quot;, or &quot;abs_return&quot;</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weighting_method</code></td>
+<td>
+<p>&quot;rank&quot;, &quot;equal&quot;, or &quot;inverse_variance&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data.table with volatility-based weights
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+data("sample_prices_daily")
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, 10)
+daily_vol &lt;- calc_rolling_volatility(sample_prices_daily, lookback = 252)
+aligned_vol &lt;- align_to_timeframe(daily_vol, sample_prices_weekly$Date)
+weights &lt;- weight_by_volatility(selected, aligned_vol, low_vol_preference = TRUE)
+</code></pre>
+
+
+</div>
+</body></html>

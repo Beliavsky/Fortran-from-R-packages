@@ -1,0 +1,79 @@
+<!DOCTYPE html><html><head><title>R: Calculate Market Breadth by Sector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>calc_sector_breadth</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Market Breadth by Sector</h2>
+
+<h3>Description</h3>
+
+<p>Measures participation within each sector separately, revealing which sectors
+have broad strength vs concentrated leadership. Optimized using pre-splitting
+for speed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calc_sector_breadth(
+  condition_df,
+  sector_mapping,
+  min_stocks_per_sector = 3,
+  na_sector_action = c("exclude", "separate", "market")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>condition_df</code></td>
+<td>
+<p>Data frame with Date column and TRUE/FALSE values</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>sector_mapping</code></td>
+<td>
+<p>Data frame with <code>Symbol</code> and <code>Sector</code> columns.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>min_stocks_per_sector</code></td>
+<td>
+<p>Minimum stocks for valid sector breadth (default: 3)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>na_sector_action</code></td>
+<td>
+<p>How to handle unmapped stocks: &quot;exclude&quot;, &quot;separate&quot;, or &quot;market&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.table</code> with <code>Date</code> and <code>Breadth_[Sector]</code> columns (0-100 scale)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+data("sample_sp500_sectors")
+ma200 &lt;- calc_moving_average(sample_prices_weekly, 200)
+above_ma &lt;- filter_above(calc_distance(sample_prices_weekly, ma200), 0)
+sector_breadth &lt;- calc_sector_breadth(above_ma, sample_sp500_sectors)
+</code></pre>
+
+
+</div>
+</body></html>

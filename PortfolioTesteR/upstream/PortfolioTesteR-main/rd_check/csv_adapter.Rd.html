@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>R: Load Price Data from CSV File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>csv_adapter</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load Price Data from CSV File</h2>
+
+<h3>Description</h3>
+
+<p>Reads stock price data from CSV files with flexible column naming.
+Automatically standardizes to library format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>csv_adapter(
+  file_path,
+  date_col = "Date",
+  symbol_col = "Symbol",
+  price_col = "Price",
+  frequency = "daily",
+  symbol_order = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>file_path</code></td>
+<td>
+<p>Path to CSV file</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>date_col</code></td>
+<td>
+<p>Name of date column (default: &quot;date&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>symbol_col</code></td>
+<td>
+<p>Name of symbol column (default: &quot;symbol&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>price_col</code></td>
+<td>
+<p>Name of price column (default: &quot;close&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>frequency</code></td>
+<td>
+<p>Target frequency: &quot;daily&quot; or &quot;weekly&quot; (default: &quot;daily&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>symbol_order</code></td>
+<td>
+<p>Optional vector to order symbols</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data.table with Date column and price columns
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'># Create a temporary tidy CSV from included weekly sample data (offline, fast)
+data("sample_prices_weekly")
+PW &lt;- as.data.frame(sample_prices_weekly)
+syms &lt;- setdiff(names(PW), "Date")[1:2]
+
+stk  &lt;- stack(PW[1:10, syms])
+tidy &lt;- data.frame(
+  Date   = rep(PW$Date[1:10], times = length(syms)),
+  Symbol = stk$ind,
+  Price  = stk$values
+)
+
+tmp &lt;- tempfile(fileext = ".csv")
+write.csv(tidy, tmp, row.names = FALSE)
+prices &lt;- csv_adapter(tmp)
+head(prices)
+unlink(tmp)
+</code></pre>
+
+
+</div>
+</body></html>

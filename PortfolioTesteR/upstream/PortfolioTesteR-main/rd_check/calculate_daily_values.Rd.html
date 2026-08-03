@@ -1,0 +1,128 @@
+<!DOCTYPE html><html><head><title>R: Daily equity curve from positions and daily prices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>calculate_daily_values</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Daily equity curve from positions and daily prices</h2>
+
+<h3>Description</h3>
+
+<p>Carries portfolio positions (from a weekly or lower-frequency backtest)
+forward to daily dates, multiplies by daily prices, and combines with cash
+to produce a daily portfolio value series for monitoring and analytics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calculate_daily_values(
+  positions,
+  daily_prices,
+  strategy_dates,
+  initial_capital,
+  cash_values
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>positions</code></td>
+<td>
+<p>A <code>data.frame</code>/<code>data.table</code> of portfolio positions with
+columns <code>Date</code> + symbols. Values should be the backtest's <strong>position
+inventory</strong> per symbol at each rebalance date (typically shares or notional
+units consistent with your backtest's accounting).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>daily_prices</code></td>
+<td>
+<p>A <code>data.frame</code>/<code>data.table</code> of <strong>daily</strong> prices with
+columns <code>Date</code> + the same symbol set present in <code>positions</code> (at least the
+intersection).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>strategy_dates</code></td>
+<td>
+<p>A <code>Date</code> vector of the backtest's decision/rebalance
+calendar (e.g., <code>backtest_result$dates</code>).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>initial_capital</code></td>
+<td>
+<p>Numeric scalar. Starting cash used for days <strong>before</strong>
+the first position exists (typically <code>backtest_result$initial_capital</code>).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cash_values</code></td>
+<td>
+<p>Optional numeric vector of cash balances at the strategy
+dates (e.g., <code>backtest_result$cash</code>). If <code>NULL</code>, leading days are treated
+as all-cash (= <code>initial_capital</code>) and post-rebalance cash defaults to 0.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with components:
+</p>
+
+<ul>
+<li> <p><code>dates</code> Daily dates within the strategy span.
+</p>
+</li>
+<li> <p><code>portfolio_values</code> Daily total portfolio value (positions + cash).
+</p>
+</li>
+<li> <p><code>positions_value</code> Daily mark-to-market of positions only.
+</p>
+</li>
+<li> <p><code>cash</code> Daily carried cash series.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  # Minimal end-to-end example using bundled data and a simple weekly backtest
+  library(PortfolioTesteR)
+  data(sample_prices_weekly); data(sample_prices_daily)
+
+  # Build a tiny strategy: momentum -&gt; top-3 -&gt; equal weights
+  mom &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+  sel &lt;- filter_top_n(mom, n = 3)
+  W   &lt;- weight_equally(sel)
+  bt  &lt;- run_backtest(sample_prices_weekly, W, name = "Demo")
+
+  # Compute daily monitoring values from positions + cash
+  vals &lt;- calculate_daily_values(
+    positions       = bt$positions,
+    daily_prices    = sample_prices_daily,
+    strategy_dates  = bt$dates,
+    initial_capital = bt$initial_capital,
+    cash_values     = bt$cash
+  )
+
+  # Quick sanity checks
+  head(vals$dates)
+  head(vals$portfolio_values)
+
+
+</code></pre>
+
+
+</div>
+</body></html>

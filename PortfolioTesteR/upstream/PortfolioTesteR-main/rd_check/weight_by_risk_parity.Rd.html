@@ -1,0 +1,111 @@
+<!DOCTYPE html><html><head><title>R: Risk Parity Weighting Suite</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>weight_by_risk_parity</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Risk Parity Weighting Suite</h2>
+
+<h3>Description</h3>
+
+<p>Collection of risk-based weighting methods for portfolio construction.
+Each method allocates capital based on risk characteristics rather than
+market capitalization or equal weights.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>weight_by_risk_parity(
+  selected_df,
+  prices_df,
+  method = c("inverse_vol", "equal_risk", "max_div"),
+  lookback_periods = 252,
+  min_periods = 60
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>selected_df</code></td>
+<td>
+<p>Binary selection matrix (data.frame with Date column).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices_df</code></td>
+<td>
+<p>Price data for risk calculations (typically daily).
+Returns are calculated internally from prices.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p>Optimization method for risk parity.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lookback_periods</code></td>
+<td>
+<p>Number of periods for risk estimation (default: 252).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>min_periods</code></td>
+<td>
+<p>Minimum periods required (default: 60).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Methods</strong>
+</p>
+
+<dl>
+<dt><code>inverse_vol</code></dt><dd><p>Weights proportional to 1 / volatility
+(e.g., 1 / sd of returns over <code>lookback_periods</code>). Lower volatility
+stocks receive higher weights.</p>
+</dd>
+<dt><code>equal_risk</code></dt><dd><p>Equal Risk Contribution (ERC): finds weights so
+each position contributes equally to total portfolio risk (iterative optimization).</p>
+</dd>
+<dt><code>max_div</code></dt><dd><p>Maximum Diversification: maximizes the ratio of
+weighted average volatility to portfolio volatility.</p>
+</dd>
+</dl>
+
+<p>The function accepts price data and calculates returns internally,
+ensuring consistency with other library functions. Daily prices are
+recommended for accurate volatility estimation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Weight matrix with the same dates as <code>selected_df</code>; each row sums to 1.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_daily")
+data("sample_prices_weekly")
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+weight_by_risk_parity(selected, sample_prices_daily, method = "inverse_vol")
+weight_by_risk_parity(selected, sample_prices_daily, method = "equal_risk")
+weight_by_risk_parity(selected, sample_prices_daily, method = "max_div")
+</code></pre>
+
+
+</div>
+</body></html>

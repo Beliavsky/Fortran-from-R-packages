@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><title>R: NA-tolerant ensemble blender (row-wise)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_make_ensemble</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>NA-tolerant ensemble blender (row-wise)</h2>
+
+<h3>Description</h3>
+
+<p>Creates an equal- or user-weighted blend of multiple model objects produced
+by <code>ml_make_model()</code>. The returned <code>fit</code> trains each component; <code>predict</code>
+combines component predictions with an NA-safe weighted average.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_make_ensemble(..., weights = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>...</code></td>
+<td>
+<p>Two or more model objects each with <code style="white-space: pre;">&#8288;$fit&#8288;</code>/<code style="white-space: pre;">&#8288;$predict&#8288;</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>Optional numeric vector of blend weights (recycled).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with <code style="white-space: pre;">&#8288;$fit&#8288;</code> and <code style="white-space: pre;">&#8288;$predict&#8288;</code> closures for the ensemble.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+ens &lt;- ml_make_ensemble(ml_make_model("ridge"),
+                        ml_make_model("rf"),
+                        ml_make_model("xgboost"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

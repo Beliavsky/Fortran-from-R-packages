@@ -1,0 +1,86 @@
+<!DOCTYPE html><html><head><title>R: Prepare tabular features (weekly + aligned daily volatility)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_prepare_features</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare tabular features (weekly + aligned daily volatility)</h2>
+
+<h3>Description</h3>
+
+<p>Constructs a minimal, leakage-safe set of tabular features commonly used
+in cross-sectional ML: weekly momentum (12/26/52), RSI(14), distance from
+20-week MA, and daily rolling volatility aligned to weekly dates
+(tokens <code style="white-space: pre;">&#8288;vol{N}d_walign&#8288;</code>, e.g., <code>"vol20d_walign"</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_prepare_features(
+  prices_weekly,
+  prices_daily = NULL,
+  include = c("mom12", "mom26", "mom52", "vol20d_walign", "dist20", "rsi14"),
+  interactions = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>prices_weekly</code></td>
+<td>
+<p>Wide panel with <code>Date</code> and symbol columns (weekly).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices_daily</code></td>
+<td>
+<p>Optional wide panel (daily) if <code>vol*d_walign</code> are included.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>include</code></td>
+<td>
+<p>Character vector of feature tokens to include.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>interactions</code></td>
+<td>
+<p>Optional named list passed to <code>ml_add_interactions()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All outputs are <strong>lagged by one period</strong> to avoid look-ahead in backtests.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list of panels (each a wide data.frame with <code>Date</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+X &lt;- ml_prepare_features(sample_prices_weekly, sample_prices_daily,
+                         include = c("mom12","vol20d_walign","rsi14"))
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

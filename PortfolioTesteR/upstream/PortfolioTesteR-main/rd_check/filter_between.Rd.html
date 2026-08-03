@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><title>R: Filter Stocks Between Two Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>filter_between</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Filter Stocks Between Two Values</h2>
+
+<h3>Description</h3>
+
+<p>Selects stocks with signal values between lower and upper bounds.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>filter_between(signal_df, lower, upper)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>signal_df</code></td>
+<td>
+<p>Data frame with signal values</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lower</code></td>
+<td>
+<p>Lower bound (inclusive)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>upper</code></td>
+<td>
+<p>Upper bound (inclusive)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Binary selection matrix
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+rsi &lt;- calc_rsi(sample_prices_weekly, 14)
+# Select stocks with RSI between 30 and 70
+neutral_rsi &lt;- filter_between(rsi, 30, 70)
+</code></pre>
+
+
+</div>
+</body></html>

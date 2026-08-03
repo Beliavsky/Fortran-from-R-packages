@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><title>R: Print Performance Analysis Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>print.performance_analysis</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print Performance Analysis Results</h2>
+
+<h3>Description</h3>
+
+<p>S3 method for printing performance analysis with key metrics including
+risk-adjusted returns, drawdown statistics, and benchmark comparison.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>## S3 method for class 'performance_analysis'
+print(x, ...)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>x</code></td>
+<td>
+<p>performance_analysis object</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>...</code></td>
+<td>
+<p>Additional arguments (unused)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisible copy of x
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+data("sample_prices_daily")
+syms_all &lt;- intersect(names(sample_prices_weekly)[-1], names(sample_prices_daily)[-1])
+syms &lt;- syms_all[seq_len(min(3L, length(syms_all)))]
+P &lt;- sample_prices_weekly[, c("Date", syms), with = FALSE]
+D &lt;- sample_prices_daily[,  c("Date", syms), with = FALSE]
+mom &lt;- calc_momentum(P, lookback = 12)
+sel &lt;- filter_top_n(mom, n = 3)
+W   &lt;- weight_equally(sel)
+res &lt;- run_backtest(P, W)
+perf &lt;- analyze_performance(res, D, benchmark_symbol = syms[1])
+print(perf)  # or just: perf
+</code></pre>
+
+
+</div>
+</body></html>

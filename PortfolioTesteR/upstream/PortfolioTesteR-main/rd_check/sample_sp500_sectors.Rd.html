@@ -1,0 +1,65 @@
+<!DOCTYPE html><html><head><title>R: S&amp;P 500 Sector Mappings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>sample_sp500_sectors</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>S&amp;P 500 Sector Mappings</h2>
+
+<h3>Description</h3>
+
+<p>Sector classifications for the stock symbols in the sample datasets.
+Note: ETFs (SPY, QQQ, etc.) are not included as they represent
+indices or sectors themselves rather than individual companies.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>data(sample_sp500_sectors)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data.table with 18 rows and 2 columns:
+</p>
+
+<dl>
+<dt>Symbol</dt><dd><p>Character, stock ticker symbol</p>
+</dd>
+<dt>Sector</dt><dd><p>Character, GICS sector classification</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>S&amp;P 500 constituent data
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data(sample_sp500_sectors)
+head(sample_sp500_sectors)
+# Count stocks per sector
+table(sample_sp500_sectors$Sector)
+</code></pre>
+
+
+</div>
+</body></html>

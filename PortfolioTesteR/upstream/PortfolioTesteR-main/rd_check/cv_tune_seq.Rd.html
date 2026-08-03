@@ -1,0 +1,123 @@
+<!DOCTYPE html><html><head><title>R: Purged/embargoed K-fold CV for sequence models (inside IS...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>cv_tune_seq</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Purged/embargoed K-fold CV for sequence models (inside IS window)</h2>
+
+<h3>Description</h3>
+
+<p>Purged/embargoed K-fold CV for sequence models (inside IS window)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>cv_tune_seq(
+  features_list,
+  labels,
+  is_start,
+  is_end,
+  steps_grid = c(12L, 26L, 52L),
+  horizon = 4L,
+  fit_fn,
+  predict_fn,
+  k = 3L,
+  purge = NULL,
+  embargo = NULL,
+  group = c("pooled"),
+  max_train_samples = NULL,
+  max_val_samples = NULL,
+  na_action = c("omit", "zero"),
+  metric = c("spearman", "rmse")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>features_list</code></td>
+<td>
+<p>List of feature panels (Date + symbols) for sequences.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>labels</code></td>
+<td>
+<p>Label panel aligned to features (Date + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>is_start, is_end</code></td>
+<td>
+<p>Inclusive IS window indices (on aligned dates).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>steps_grid</code></td>
+<td>
+<p>Integer vector of candidate sequence lengths.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>horizon</code></td>
+<td>
+<p>Forecast horizon (periods ahead).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fit_fn</code></td>
+<td>
+<p>Function (X, y) -&gt; model for sequences.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>predict_fn</code></td>
+<td>
+<p>Function (model, Xnew) -&gt; numeric scores.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>k</code></td>
+<td>
+<p>Number of CV folds.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>purge</code></td>
+<td>
+<p>Gap (obs) removed between train/val within folds (default uses steps).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>embargo</code></td>
+<td>
+<p>Embargo (obs) after validation to avoid bleed (default uses horizon).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group</code></td>
+<td>
+<p>'pooled', 'per_symbol', or 'per_group'.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_train_samples</code></td>
+<td>
+<p>Optional cap on IS samples per fold.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_val_samples</code></td>
+<td>
+<p>Optional cap on validation samples per fold.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>na_action</code></td>
+<td>
+<p>How to handle NA features ('omit' or 'zero').</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>metric</code></td>
+<td>
+<p>IC metric ('spearman' or 'pearson').</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.table with columns like <code>steps</code>, <code>folds</code>, and CV <code>score</code>.
+</p>
+
+
+</div>
+</body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><title>R: Analyze Backtest Performance with Daily Monitoring</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>analyze_performance</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyze Backtest Performance with Daily Monitoring</h2>
+
+<h3>Description</h3>
+
+<p>Calculates comprehensive performance metrics using daily price data for
+enhanced accuracy. Provides risk-adjusted returns, drawdown analysis,
+and benchmark comparison even when strategy trades at lower frequency.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>analyze_performance(
+  backtest_result,
+  daily_prices,
+  benchmark_symbol = "SPY",
+  rf_rate = 0,
+  confidence_level = 0.95
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>backtest_result</code></td>
+<td>
+<p>Result object from run_backtest()</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>daily_prices</code></td>
+<td>
+<p>Daily price data including all portfolio symbols</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>benchmark_symbol</code></td>
+<td>
+<p>Symbol for benchmark comparison (default: &quot;SPY&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>rf_rate</code></td>
+<td>
+<p>Annual risk-free rate for Sharpe/Sortino (default: 0)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>confidence_level</code></td>
+<td>
+<p>Confidence level for VaR/CVaR (default: 0.95)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>performance_analysis object with metrics and daily tracking
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+data("sample_prices_daily")
+
+# Use overlapping symbols; cap to 3
+syms_all &lt;- intersect(names(sample_prices_weekly)[-1], names(sample_prices_daily)[-1])
+stopifnot(length(syms_all) &gt;= 1)
+syms &lt;- syms_all[seq_len(min(3L, length(syms_all)))]
+
+# Subset weekly (strategy) and daily (monitoring) to the same symbols
+P &lt;- sample_prices_weekly[, c("Date", syms), with = FALSE]
+D &lt;- sample_prices_daily[,  c("Date", syms), with = FALSE]
+
+# Simple end-to-end example
+mom &lt;- calc_momentum(P, lookback = 12)
+sel &lt;- filter_top_n(mom, n = 3)
+W   &lt;- weight_equally(sel)
+res &lt;- run_backtest(P, W)
+
+# Pick a benchmark that is guaranteed to exist in D
+perf &lt;- analyze_performance(res, D, benchmark_symbol = syms[1])
+print(perf)
+summary(perf)
+</code></pre>
+
+
+</div>
+</body></html>

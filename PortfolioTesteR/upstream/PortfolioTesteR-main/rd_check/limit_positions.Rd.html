@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>R: Limit per-date selections to top-K (legacy API)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>limit_positions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Limit per-date selections to top-K (legacy API)</h2>
+
+<h3>Description</h3>
+
+<p>Legacy selector used across examples/vignettes. Works on a WIDE table
+(<code>Date</code> + one column per symbol) and returns a WIDE logical mask with at
+most <code>max_positions</code> TRUE values per row.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>limit_positions(
+  selection_df,
+  max_positions,
+  ranking_signal = NULL,
+  verbose = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>selection_df</code></td>
+<td>
+<p>data.frame/data.table with columns: <code>Date</code>, then one
+column per symbol; logical (preferred) or numeric (non-NA/ &gt;0 means selected).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_positions</code></td>
+<td>
+<p>positive integer, maximum selections to keep per row.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>ranking_signal</code></td>
+<td>
+<p>optional data.frame/data.table, same dims &amp; columns as
+<code>selection_df</code>, numeric scores used to rank within the selected set.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>verbose</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, prints minor diagnostics. Default <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>ranking_signal</code> is supplied, it must have <strong>the same shape</strong> and columns
+as <code>selection_df</code>; the function keeps the top-<code>K</code> (largest) scores among
+the <em>currently selected</em> columns in that row. If <code>ranking_signal</code> is <code>NULL</code>,
+it falls back to the values in <code>selection_df</code> (if numeric), otherwise keeps
+the first <code>K</code> selected symbols in column order (deterministic).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.table</code> with the same columns as <code>selection_df</code>, where symbol
+columns are logical and at most <code>max_positions</code> are TRUE in each row.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  mom12 &lt;- PortfolioTesteR::calc_momentum(sample_prices_weekly, 12)  # WIDE numeric
+  sel10 &lt;- PortfolioTesteR::filter_top_n(mom12, 10)                  # WIDE logical/numeric
+  # Ensure logical mask
+  syms &lt;- setdiff(names(sel10), "Date")
+  sel_mask &lt;- data.table::as.data.table(sel10)
+  sel_mask[, (syms) := lapply(.SD, function(z) as.logical(as.integer(z))), .SDcols = syms]
+
+  # Keep at most 10 per date using momentum as the ranking signal
+  lim &lt;- limit_positions(selection_df = sel_mask, max_positions = 10L,
+                         ranking_signal = mom12, verbose = FALSE)
+  head(lim)
+
+
+</code></pre>
+
+
+</div>
+</body></html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html><html><head><title>R: Hierarchical Risk Parity Weighting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>weight_by_hrp</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Hierarchical Risk Parity Weighting</h2>
+
+<h3>Description</h3>
+
+<p>Calculates portfolio weights using Hierarchical Risk Parity (HRP) methodology.
+HRP combines hierarchical clustering with risk-based allocation to create
+diversified portfolios that don't rely on unstable correlation matrix inversions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>weight_by_hrp(
+  selected_df,
+  prices_df,
+  lookback_periods = 252,
+  cluster_method = "ward.D2",
+  distance_method = "euclidean",
+  min_periods = 60,
+  use_correlation = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>selected_df</code></td>
+<td>
+<p>Binary selection matrix (data.frame with Date column)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices_df</code></td>
+<td>
+<p>Price data for covariance calculation (typically daily)
+Returns are calculated internally from prices</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lookback_periods</code></td>
+<td>
+<p>Number of periods for covariance estimation (default: 252)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cluster_method</code></td>
+<td>
+<p>Clustering linkage method (default: &quot;ward.D2&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>distance_method</code></td>
+<td>
+<p>Distance measure for clustering (default: &quot;euclidean&quot;)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>min_periods</code></td>
+<td>
+<p>Minimum periods required for calculation (default: 60)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>use_correlation</code></td>
+<td>
+<p>If TRUE, cluster on correlation instead of covariance</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The HRP algorithm:
+</p>
+
+<ol>
+<li><p> Calculate returns from input prices
+</p>
+</li>
+<li><p> Compute covariance matrix from returns
+</p>
+</li>
+<li><p> Cluster assets based on distance matrix
+</p>
+</li>
+<li><p> Apply recursive bisection with inverse variance weighting
+</p>
+</li>
+<li><p> Results in naturally diversified portfolio without matrix inversion
+</p>
+</li></ol>
+
+<p>The function accepts price data and calculates returns internally,
+matching the pattern of other library functions like calc_momentum().
+</p>
+
+
+<h3>Value</h3>
+
+<p>Weight matrix with same dates as selected_df
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_daily")
+data("sample_prices_weekly")
+# Create a selection first
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+
+# Using daily prices for risk calculation
+weights &lt;- weight_by_hrp(selected, sample_prices_daily, lookback_periods = 252)
+
+# Using correlation-based clustering
+weights &lt;- weight_by_hrp(selected, sample_prices_daily, use_correlation = TRUE)
+</code></pre>
+
+
+</div>
+</body></html>

@@ -1,0 +1,331 @@
+---
+title: "ML Strategies with PortfolioTesteR (Advanced Getting Started)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ML Strategies with PortfolioTesteR (Advanced Getting Started)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  dpi = 96,
+  message = FALSE,
+  warning = FALSE
+)
+set.seed(1)
+
+# CRAN vs local
+heavy <- identical(Sys.getenv("NOT_CRAN"), "true")  # CRAN sets this to "false"
+
+# Optional backends (Suggests)
+has_xgb <- requireNamespace("xgboost", quietly = TRUE)
+has_rf  <- requireNamespace("ranger",  quietly = TRUE)
+
+# Sequences are OFF by default (CRAN-safe). Opt-in locally with:
+# Sys.setenv(RUN_SEQ = "true")  # or RUN_KERAS_VIGNETTES = "true" (back-compat)
+run_seq <- FALSE
+run_seq_env <- tolower(Sys.getenv("RUN_SEQ", Sys.getenv("RUN_KERAS_VIGNETTES", "false")))
+if (heavy && run_seq_env %in% c("true","1","yes") && requireNamespace("keras", quietly = TRUE)) {
+  # only now ask Keras if it's actually usable (this can spin up TF)
+  run_seq <- isTRUE(try(keras::is_keras_available(), silent = TRUE))
+}
+
+# Base-R helper to sandbox TF Autograph cache per-chunk (no 'withr' usage)
+tf_autograph_scope <- function() {
+  ag_dir <- file.path(tempdir(), paste0("tf_ag_cache_", as.integer(runif(1, 1, 1e9))))
+  dir.create(ag_dir, showWarnings = FALSE, recursive = TRUE)
+  old_ag <- Sys.getenv("TF_AUTOGRAPH_CACHE_DIR", unset = NA_character_)
+  Sys.setenv(TF_AUTOGRAPH_CACHE_DIR = ag_dir)
+  # Ensure cleanup when the chunk completes
+  on.exit({
+    if (!is.na(old_ag)) Sys.setenv("TF_AUTOGRAPH_CACHE_DIR", old_ag) else Sys.unsetenv("TF_AUTOGRAPH_CACHE_DIR")
+    unlink(ag_dir, recursive = TRUE, force = TRUE)
+    unlink(Sys.glob(file.path(tempdir(), "__autograph_generated_file*.py")), force = TRUE)
+    unlink(file.path(tempdir(), "__pycache__"), recursive = TRUE, force = TRUE)
+  }, add = TRUE)
+  invisible(NULL)
+}
+```
+
+# Why ML in *PortfolioTesteR*
+
+PortfolioTesteR lets you test **ML-based stock selection** with the same workflow you already know:
+
+1) **Prepare** lagged, leakage-safe features + future labels  
+2) **Fit -> Predict** on a **rolling IS/OOS schedule**  
+3) **Transform -> Select -> Weight** the scores  
+4) **Backtest** and **inspect diagnostics**
+
+All examples use the bundled weekly/daily datasets; no internet is required.
+
+```{r libs_data}
+suppressPackageStartupMessages(library(PortfolioTesteR))
+suppressPackageStartupMessages(library(data.table))
+
+# Bundled sample data
+data(sample_prices_weekly)
+data(sample_prices_daily)
+
+# Optional peek
+head(sample_prices_weekly[, 1:6])
+```
+
+---
+
+# 1) Baseline ML (pooled): Ridge regression
+
+Simple pooled regression on tabular features. The helpers build lagged features and future labels (4-week horizon).
+
+```{r baseline_pooled}
+# Prepare tabular features and labels
+X <- ml_prepare_features(sample_prices_weekly, sample_prices_daily)
+Y <- make_labels(sample_prices_weekly, horizon = 4L, type = "log")
+
+# Linear/Ridge baseline
+ridge <- ml_make_model("ridge")
+
+set.seed(1)
+res_baseline <- ml_backtest(
+  features_list = X, labels = Y,
+  fit_fn  = ridge$fit,
+  predict_fn = ridge$predict,
+  schedule = list(is = 104L, oos = 4L, step = 4L),  # 2y IS, 1m OOS, monthly step
+  transform = "zscore",                              # IS-only scaling (no leakage)
+  selection = list(top_k = 15L),
+  weighting = list(method = "rank"),
+  prices = sample_prices_weekly,
+  initial_capital = 1e5,
+  name = "Baseline Ridge (pooled)"
+)
+
+print(res_baseline$backtest)
+plot(res_baseline$backtest, type = "performance")
+```
+
+---
+
+# 2) Ensemble: Ridge +  XGBoost
+
+This section is **optional**. It runs only if at least one of `ranger`/`xgboost` is installed.
+
+```{r ensemble, eval=has_rf || has_xgb}
+# Start with ridge (always available)
+models <- list(ml_make_model("ridge"))
+
+# Add RF only if ranger is installed
+if (has_rf) {
+  models <- c(models, list(ml_make_model("rf", num.trees = if (heavy) 400L else 200L, mtry = 3L)))
+}
+
+# Add XGBoost only if xgboost is installed
+if (has_xgb) {
+  models <- c(models, list(
+    ml_make_model(
+      "xgboost",
+      params  = list(objective = "reg:squarederror", max_depth = 4L, eta = 0.07),
+      nrounds = if (heavy) 300L else 150L
+    )
+  ))
+}
+
+# Build the ensemble from whatever is available
+ens <- do.call(ml_make_ensemble, models)
+
+set.seed(2)
+res_ens <- ml_backtest(
+  features_list = X, labels = Y,
+  fit_fn = ens$fit, predict_fn = ens$predict,
+  schedule = list(is = 104L, oos = 4L, step = 4L),
+  transform = "zscore",
+  selection = list(top_k = 15L),
+  weighting = list(method = "rank"),
+  prices = sample_prices_weekly,
+  initial_capital = 1e5,
+  name = "Ensemble (available learners)"
+)
+
+print(res_ens$backtest)
+plot(res_ens$backtest, type = "performance")
+```
+---
+
+# 3) Sector-neutral modelling (tabular XGBoost, per-group)
+
+This section is **optional** and runs only if `xgboost` is installed.
+
+```{r xgb_per_group, eval=has_xgb}
+symbols <- setdiff(names(sample_prices_weekly), "Date")
+gmap    <- demo_sector_map(symbols, n_groups = 4L)  # demo mapping for the sample data
+
+xgb_g <- ml_make_model(
+  "xgboost",
+  params  = list(objective = "reg:squarederror", max_depth = 3L, eta = 0.05),
+  nrounds = if (heavy) 250L else 150L
+)
+
+set.seed(3)
+res_xgb_sect <- ml_backtest(
+  features_list = X, labels = Y,
+  fit_fn = xgb_g$fit, predict_fn = xgb_g$predict,
+  schedule = list(is = 104L, oos = 4L, step = 4L),
+  group = "per_group", group_map = gmap,   # sector-neutral training
+  transform = "zscore",
+  selection = list(top_k = 15L),
+  weighting = list(method = "softmax", temperature = 12),
+  prices = sample_prices_weekly,
+  initial_capital = 1e5,
+  name = "XGBoost (per-sector neutral)"
+)
+
+print(res_xgb_sect$backtest)
+plot(res_xgb_sect$backtest, type = "performance")
+```
+
+---
+
+# 4) Sequence model (GRU, pooled): "returns pyramid"
+
+**Optional** and disabled by default. Enable locally by running `Sys.setenv(RUN_SEQ = "true")` before knitting, and only if your installation supports sequence models.
+
+```{r seq_gru_pooled, eval=run_seq}
+tf_autograph_scope()  # isolate TF Autograph cache to avoid detritus NOTE
+
+# Build a compact 'returns pyramid' of momentum-like sequences (lagged)
+r1  <- panel_lag(calc_momentum(sample_prices_weekly,  1L), 1L)
+r4  <- panel_lag(calc_momentum(sample_prices_weekly,  4L), 1L)
+r12 <- panel_lag(calc_momentum(sample_prices_weekly, 12L), 1L)
+
+features_seq <- list(r1 = r1, r4 = r4, r12 = r12)
+Y_seq <- make_labels(sample_prices_weekly, horizon = 4L, type = "log")
+
+units  <- if (heavy) 32L else 8L
+epochs <- if (heavy) 12L else 4L
+
+seq_gru <- ml_make_seq_model(
+  "gru",
+  steps  = 26L,
+  units  = units,
+  epochs = epochs,
+  seed   = 42L
+)
+
+set.seed(42)
+res_seq_gru <- ml_backtest_seq(
+  features_list   = features_seq,
+  labels          = Y_seq,
+  steps           = 26L,
+  horizon         = 4L,
+  fit_fn          = seq_gru$fit,
+  predict_fn      = seq_gru$predict,
+  schedule        = list(is = 104L, oos = 4L, step = 4L),
+  group           = "pooled",
+  normalize       = "zscore",
+  selection       = list(top_k = 10L),
+  weighting       = list(method = "softmax", temperature = 12),
+  prices          = sample_prices_weekly,
+  initial_capital = 1e5,
+  name            = "Seq-GRU (pooled): returns pyramid (26x3)"
+)
+
+print(res_seq_gru$backtest)
+plot(res_seq_gru$backtest, type = "performance")
+```
+
+---
+
+# 5) Sequence model (GRU, per-group): sector-neutral sequences
+
+**Optional** and disabled by default. Enable with `RUN_SEQ="true"`.
+
+```{r seq_gru_per_group, eval=run_seq}
+tf_autograph_scope()  # isolate TF Autograph cache for this chunk too
+
+symbols <- setdiff(names(sample_prices_weekly), "Date")
+gmap    <- demo_sector_map(symbols, n_groups = 4L)
+
+units_g  <- if (heavy) 32L else 8L
+epochs_g <- if (heavy) 12L else 4L
+
+seq_gru_g <- ml_make_seq_model(
+  "gru",
+  steps  = 26L,
+  units  = units_g,
+  epochs = epochs_g,
+  seed   = 123L
+)
+
+set.seed(123)
+res_seq_gru_g <- ml_backtest_seq(
+  features_list   = features_seq,
+  labels          = Y_seq,
+  steps           = 26L,
+  horizon         = 4L,
+  fit_fn          = seq_gru_g$fit,
+  predict_fn      = seq_gru_g$predict,
+  schedule        = list(is = 104L, oos = 4L, step = 4L),
+  group           = "per_group", group_map = gmap,
+  normalize       = "zscore",
+  selection       = list(top_k = 10L),
+  weighting       = list(method = "softmax", temperature = 12),
+  prices          = sample_prices_weekly,
+  initial_capital = 1e5,
+  name            = "Seq-GRU (per-sector neutral): returns pyramid (26x3)"
+)
+
+print(res_seq_gru_g$backtest)
+plot(res_seq_gru_g$backtest, type = "performance")
+```
+
+---
+
+# 6) Light tuning: Top-K and softmax temperature
+
+Runs only off-CRAN (when `NOT_CRAN=true`).
+
+```{r light_tuning, eval=heavy}
+topk_vals <- c(8L, 10L, 12L, 15L)
+temp_vals <- c(8, 12, 16)
+
+score_tbl <- tune_ml_backtest(
+    features_list = X, labels = Y, prices = sample_prices_weekly,
+    fit_fn = ridge$fit, predict_fn = ridge$predict,
+    schedule = list(is = 104L, oos = 4L, step = 4L),
+    grid = list(
+        top_k = topk_vals,
+        temperature = temp_vals,
+        method = "softmax",
+        transform = "zscore"
+    )
+)
+
+score_tbl[order(-sharpe)][1:10]
+```
+
+---
+
+# Recap & Next Steps
+
+- You saw **pooled** vs **per-group (sector-neutral)** training,  
+- **Tabular** vs **sequence** learners, and  
+- A small **tuning** exercise reusing the same IS/OOS schedule.
+
+**Try next:**  
+1) Replace GRU with LSTM/CNN1D if available (still gated by `RUN_SEQ`).  
+2) Blend tabular and sequence scores (e.g., average ranks) before weighting.  
+3) Add exposure caps or per-sector position limits when selecting Top-K.
+
+```{r tf_cleanup, include=FALSE}
+# Best-effort cleanup of TensorFlow Autograph cache files that can trigger
+# "detritus in the temp directory" NOTE
+try(unlink(Sys.glob(file.path(tempdir(), "__autograph_generated_file*.py")), force = TRUE), silent = TRUE)
+try(unlink(file.path(tempdir(), "__pycache__"), recursive = TRUE, force = TRUE), silent = TRUE)
+```
+
+```{r session}
+sessionInfo()
+```

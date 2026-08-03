@@ -1,0 +1,114 @@
+<!DOCTYPE html><html><head><title>R: Quick grid tuning for tabular pipeline</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>tune_ml_backtest</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Quick grid tuning for tabular pipeline</h2>
+
+<h3>Description</h3>
+
+<p>Quick grid tuning for tabular pipeline
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>tune_ml_backtest(
+  features_list,
+  labels,
+  prices,
+  fit_fn,
+  predict_fn,
+  schedule = list(is = 104L, oos = 4L, step = 4L),
+  grid = list(top_k = c(10L, 15L), temperature = c(8, 12), method = c("softmax", "rank"),
+    transform = c("zscore")),
+  group = "pooled",
+  selection_defaults = list(top_k = 15L, max_per_group = NULL),
+  weighting_defaults = list(method = "softmax", temperature = 12, floor = 0),
+  caps = list(max_per_symbol = 0.08),
+  group_map = NULL,
+  cost_bps = 0,
+  freq = 52
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>features_list</code></td>
+<td>
+<p>List of feature panels.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>labels</code></td>
+<td>
+<p>Label panel.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices</code></td>
+<td>
+<p>Price panel used for backtests (Date + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fit_fn, predict_fn</code></td>
+<td>
+<p>Model fit and predict functions.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>schedule</code></td>
+<td>
+<p>List with elements is, oos, step.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>grid</code></td>
+<td>
+<p>list of vectors: <code>top_k</code>, <code>temperature</code>, <code>method</code>, <code>transform</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group</code></td>
+<td>
+<p>Grouping mode for roll_fit_predict ('pooled'/'per_symbol'/'per_group').</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>selection_defaults</code></td>
+<td>
+<p>Default selection settings (e.g., top_k).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weighting_defaults</code></td>
+<td>
+<p>Default weighting settings (e.g., method, temperature).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>caps</code></td>
+<td>
+<p>Exposure caps (e.g., max_per_symbol/max_per_group).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group_map</code></td>
+<td>
+<p>Optional Symbol-&gt;Group mapping.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cost_bps</code></td>
+<td>
+<p>optional one-way cost in basis points for net performance.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>freq</code></td>
+<td>
+<p>re-annualization frequency (e.g., 52).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.table with metrics per grid row.
+</p>
+
+
+</div>
+</body></html>

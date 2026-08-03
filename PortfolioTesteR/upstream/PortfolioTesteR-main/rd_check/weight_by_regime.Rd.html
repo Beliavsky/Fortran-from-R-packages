@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>R: Regime-Based Adaptive Weighting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>weight_by_regime</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Regime-Based Adaptive Weighting</h2>
+
+<h3>Description</h3>
+
+<p>Applies different weighting methods based on market regime classification.
+Enables adaptive strategies that change allocation approach in different
+market conditions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>weight_by_regime(
+  selected_df,
+  regime,
+  weighting_configs,
+  signal_df = NULL,
+  vol_timeframe_data = NULL,
+  strategy_timeframe_data = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>selected_df</code></td>
+<td>
+<p>Binary selection matrix (1 = selected, 0 = not)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>regime</code></td>
+<td>
+<p>Regime classification (integer values per period)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weighting_configs</code></td>
+<td>
+<p>List with method-specific parameters</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>signal_df</code></td>
+<td>
+<p>Signal values (required for signal/rank methods)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>vol_timeframe_data</code></td>
+<td>
+<p>Volatility data (required for volatility method)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>strategy_timeframe_data</code></td>
+<td>
+<p>Strategy timeframe alignment data</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data.table with regime-adaptive weights
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+# Create selection and signals
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+
+# Create a simple regime (example: based on market trend)
+ma20 &lt;- calc_moving_average(sample_prices_weekly, 20)
+spy_price &lt;- sample_prices_weekly$SPY
+spy_ma &lt;- ma20$SPY
+regime &lt;- ifelse(spy_price &gt; spy_ma, 1, 2)
+
+# Different weights for bull/bear markets
+weighting_configs &lt;- list(
+  "1" = list(method = "equal"),
+  "2" = list(method = "signal")
+)
+weights &lt;- weight_by_regime(selected, regime, weighting_configs,
+                            signal_df = momentum)
+</code></pre>
+
+
+</div>
+</body></html>

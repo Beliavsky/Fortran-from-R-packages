@@ -1,0 +1,10 @@
+* using log directory 'C:/Users/alber/Documents/PortfolioTesteR_library/PortfolioTesteR/..Rcheck'
+* using R version 4.2.1 (2022-06-23 ucrt)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: UTF-8
+* using options '--no-codoc --no-examples --no-tests --no-manual --no-build-vignettes'
+* checking for file './DESCRIPTION' ... ERROR
+Required fields missing or empty:
+  'Author' 'Maintainer'
+* DONE
+Status: 1 ERROR

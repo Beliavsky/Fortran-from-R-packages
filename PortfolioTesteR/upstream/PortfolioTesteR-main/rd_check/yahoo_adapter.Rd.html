@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head><title>R: Download Price Data from Yahoo Finance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>yahoo_adapter</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Download Price Data from Yahoo Finance</h2>
+
+<h3>Description</h3>
+
+<p>Downloads stock price data directly from Yahoo Finance using quantmod.
+No database required - perfect for quick analysis and experimentation.
+Get started with real data in under 5 minutes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>yahoo_adapter(symbols, start_date, end_date, frequency = "daily")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>symbols</code></td>
+<td>
+<p>Character vector of stock symbols</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>start_date</code></td>
+<td>
+<p>Start date in &quot;YYYY-MM-DD&quot; format</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>end_date</code></td>
+<td>
+<p>End date in &quot;YYYY-MM-DD&quot; format</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>frequency</code></td>
+<td>
+<p>&quot;daily&quot; or &quot;weekly&quot; (default: &quot;daily&quot;)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data.table with Date column and one column per symbol
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'># Use included sample data
+data(sample_prices_weekly)
+
+# Build a quick momentum strategy with offline data
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 2)
+weights &lt;- weight_equally(selected)
+result &lt;- run_backtest(sample_prices_weekly, weights, initial_capital = 100000)
+
+
+# Download tech stocks (requires internet, skipped on CRAN)
+if (requireNamespace("quantmod", quietly = TRUE)) {
+  prices &lt;- yahoo_adapter(
+    symbols = c("AAPL", "MSFT", "GOOGL"),
+    start_date = "2023-01-01",
+    end_date = "2023-12-31",
+    frequency = "weekly"
+  )
+  momentum &lt;- calc_momentum(prices, lookback = 12)
+}
+
+</code></pre>
+
+
+</div>
+</body></html>

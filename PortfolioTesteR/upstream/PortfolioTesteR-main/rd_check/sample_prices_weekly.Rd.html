@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><title>R: Sample Weekly Stock Prices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>sample_prices_weekly</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample Weekly Stock Prices</h2>
+
+<h3>Description</h3>
+
+<p>Weekly closing prices for 20 stocks from 2017-2019. Data includes
+major stocks from various sectors and is suitable for demonstrating
+backtesting and technical analysis functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>data(sample_prices_weekly)
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>A data.table with 158 rows and 21 columns:
+</p>
+
+<dl>
+<dt>Date</dt><dd><p>Date object, weekly closing date (typically Friday)</p>
+</dd>
+<dt>AAPL</dt><dd><p>Apple Inc. adjusted closing price</p>
+</dd>
+<dt>AMZN</dt><dd><p>Amazon.com Inc. adjusted closing price</p>
+</dd>
+<dt>BA</dt><dd><p>Boeing Co. adjusted closing price</p>
+</dd>
+<dt>BAC</dt><dd><p>Bank of America Corp. adjusted closing price</p>
+</dd>
+<dt>...</dt><dd><p>Additional stock symbols with adjusted closing prices</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>Yahoo Finance historical data, adjusted for splits and dividends
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data(sample_prices_weekly)
+head(sample_prices_weekly)
+# Calculate momentum
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+</code></pre>
+
+
+</div>
+</body></html>

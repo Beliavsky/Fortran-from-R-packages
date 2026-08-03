@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><title>R: Bucketed label analysis by score rank</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>bucket_returns</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bucketed label analysis by score rank</h2>
+
+<h3>Description</h3>
+
+<p>Bucketed label analysis by score rank
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>bucket_returns(
+  scores,
+  labels,
+  n_buckets = 10L,
+  label_type = c("log", "simple")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>scores</code></td>
+<td>
+<p>Wide score panel (Date + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>labels</code></td>
+<td>
+<p>Wide label panel aligned to scores (Date + symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>n_buckets</code></td>
+<td>
+<p>Number of equal-count buckets.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>label_type</code></td>
+<td>
+<p>Use 'log' or 'simple' label arithmetic.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.table of per-date bucket returns; cumulative series attached
+as <code>attr(result, "cum")</code>.
+</p>
+
+
+</div>
+</body></html>

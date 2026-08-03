@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><title>R: Demo sector (group) map for examples/tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>demo_sector_map</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Demo sector (group) map for examples/tests</h2>
+
+<h3>Description</h3>
+
+<p>Demo sector (group) map for examples/tests
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>demo_sector_map(symbols, n_groups = 2L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>symbols</code></td>
+<td>
+<p>character vector of tickers.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>n_groups</code></td>
+<td>
+<p>integer number of groups to assign (cycled).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data.table with columns <code>Symbol</code> and <code>Group</code> (title-case), for demo use.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'># Minimal usage
+syms &lt;- c("AAPL","MSFT","AMZN","XOM","JPM")
+gdf  &lt;- demo_sector_map(syms, n_groups = 3L)  # columns: Symbol, Group
+print(gdf)
+
+# Use with cap_exposure(): convert to a named vector (names = symbols)
+gmap &lt;- stats::setNames(gdf$Group, gdf$Symbol)
+
+data(sample_prices_weekly)
+mom12 &lt;- calc_momentum(sample_prices_weekly, 12)
+sel10 &lt;- filter_top_n(mom12, 10)
+w_eq  &lt;- weight_equally(sel10)
+
+w_cap &lt;- cap_exposure(
+  weights          = w_eq,
+  max_per_symbol   = 0.10,
+  group_map        = gmap,     # &lt;- named vector, OK for current cap_exposure()
+  max_per_group    = 0.45,
+  renormalize_down = TRUE
+)
+head(w_cap)
+
+</code></pre>
+
+
+</div>
+</body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html><html><head><title>R: Period-level summary statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>analyze_by_period</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Period-level summary statistics</h2>
+
+<h3>Description</h3>
+
+<p>Aggregates portfolio results by calendar period and computes standard statistics
+for each period. Provide at least one of <code>returns</code> or <code>values</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>analyze_by_period(
+  dates,
+  returns = NULL,
+  values = NULL,
+  period = c("monthly", "quarterly", "yearly"),
+  na_rm = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>dates</code></td>
+<td>
+<p>Date vector aligned to <code>returns</code> / <code>values</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>returns</code></td>
+<td>
+<p>Numeric simple returns aligned to <code>dates</code> (optional).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>values</code></td>
+<td>
+<p>Numeric equity values aligned to <code>dates</code> (optional).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>period</code></td>
+<td>
+<p>&quot;monthly&quot;, &quot;quarterly&quot;, or &quot;yearly&quot;.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>na_rm</code></td>
+<td>
+<p>Logical; remove NAs inside per-period aggregations.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.frame with period keys and columns: ret, start_value, end_value, n_obs.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  mom12 &lt;- PortfolioTesteR::calc_momentum(sample_prices_weekly, lookback = 12)
+  sel5  &lt;- PortfolioTesteR::filter_top_n(mom12, n = 5)
+  w_eq  &lt;- PortfolioTesteR::weight_equally(sel5)
+  pr    &lt;- PortfolioTesteR::portfolio_returns(w_eq, sample_prices_weekly)
+  val   &lt;- 1e5 * cumprod(1 + pr$portfolio_return)
+  out   &lt;- analyze_by_period(
+    dates   = pr$Date,
+    returns = pr$portfolio_return,
+    values  = val,
+    period  = "monthly"
+  )
+  head(out)
+
+</code></pre>
+
+
+</div>
+</body></html>

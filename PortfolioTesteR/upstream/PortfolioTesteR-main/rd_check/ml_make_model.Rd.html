@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><title>R: Model factory for tabular cross-sectional learners</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_make_model</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model factory for tabular cross-sectional learners</h2>
+
+<h3>Description</h3>
+
+<p>Returns a pair of closures <code>fit(X,y)</code> / <code>predict(model, X)</code> implementing
+a chosen learner. Implementations are NA-aware and conservative:
+<code>glmnet</code> ridge drops rows with any non-finite input; <code>ranger</code> and <code>xgboost</code>
+keep NA in <code>X</code> as missing; the linear baseline uses <code>lm.fit</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_make_model(
+  type = c("ridge", "rf", "xgboost", "linear"),
+  params = list(),
+  nrounds = 200L,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>type</code></td>
+<td>
+<p>One of <code>"ridge"</code>, <code>"rf"</code>, <code>"xgboost"</code>, <code>"linear"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>params</code></td>
+<td>
+<p>List of model parameters (passed to backend; used by xgboost).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>nrounds</code></td>
+<td>
+<p>Integer boosting rounds (xgboost).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>...</code></td>
+<td>
+<p>Additional arguments forwarded to the backend.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Optional dependencies: <code>glmnet</code> (ridge), <code>ranger</code> (rf), <code>xgboost</code> (xgboost).
+If a backend is not available, use <code>"linear"</code> or install the package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with functions <code>fit</code> and <code>predict</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+ridge &lt;- ml_make_model("ridge")
+m &lt;- ridge$fit(X_is, y_is)
+s &lt;- ridge$predict(m, X_oos)
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

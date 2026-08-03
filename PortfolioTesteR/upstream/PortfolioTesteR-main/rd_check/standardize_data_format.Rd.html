@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><title>R: Standardize Data to Library Format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>standardize_data_format</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Standardize Data to Library Format</h2>
+
+<h3>Description</h3>
+
+<p>Internal function that converts various data formats to standard
+wide format with Date column and symbol columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>standardize_data_format(
+  data,
+  date_col = "date",
+  symbol_col = "symbol",
+  price_col = "price",
+  symbol_order = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>data</code></td>
+<td>
+<p>Input data in long or wide format</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>date_col</code></td>
+<td>
+<p>Name of date column</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>symbol_col</code></td>
+<td>
+<p>Name of symbol column (for long format)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>price_col</code></td>
+<td>
+<p>Name of price column (for long format)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>symbol_order</code></td>
+<td>
+<p>Optional ordering for symbols</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Standardized data.table
+</p>
+
+
+</div>
+</body></html>

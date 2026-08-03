@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><title>R: Combine Multiple Weighting Schemes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>combine_weights</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Combine Multiple Weighting Schemes</h2>
+
+<h3>Description</h3>
+
+<p>Blends multiple weight matrices with specified weights. Useful for
+multi-factor strategies that combine different allocation approaches.
+Optimized using matrix operations for 1000x+ speedup.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>combine_weights(weight_matrices, weights = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>weight_matrices</code></td>
+<td>
+<p>List of weight data frames to combine</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>Numeric vector of weights for each matrix (default: equal)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data.table with blended portfolio weights
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+# Calculate signals
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+volatility &lt;- calc_rolling_volatility(sample_prices_weekly, lookback = 20)
+
+# Combine momentum and low-vol weights
+mom_weights &lt;- weight_by_signal(selected, momentum)
+vol_weights &lt;- weight_by_signal(selected, invert_signal(volatility))
+combined &lt;- combine_weights(list(mom_weights, vol_weights), weights = c(0.7, 0.3))
+</code></pre>
+
+
+</div>
+</body></html>

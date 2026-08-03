@@ -1,0 +1,114 @@
+<!DOCTYPE html><html><head><title>R: Volatility targeting (row-wise) with optional down-only cap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>vol_target</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Volatility targeting (row-wise) with optional down-only cap</h2>
+
+<h3>Description</h3>
+
+<p>Scales each row of a wide weight table (<code>Date + symbols</code>) so the estimated
+annualised portfolio volatility matches a target. Volatility is estimated
+from a rolling covariance of simple asset returns computed from <code>prices</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>vol_target(
+  weights,
+  prices,
+  lookback = 26L,
+  target_annual = 0.12,
+  periods_per_year = 52L,
+  cap = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>data.frame/data.table with columns: <code>Date</code>, then one column per symbol.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices</code></td>
+<td>
+<p>data.frame/data.table of adjusted prices at the same cadence as <code>weights</code>:
+first column <code>Date</code>, remaining columns one per symbol (matching weight symbols).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>lookback</code></td>
+<td>
+<p>Integer window length (in periods) for the rolling covariance. Default 26.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>target_annual</code></td>
+<td>
+<p>Annualised volatility target (e.g., 0.12 for 12%). Must be &gt; 0.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>periods_per_year</code></td>
+<td>
+<p>Number of periods per year used for annualisation (e.g., 52 for weekly).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cap</code></td>
+<td>
+<p>If TRUE (default), scale down only: exposure is reduced when the
+estimated vol exceeds the target, and untouched otherwise. In this down-only mode,
+the function adds/overwrites a <code>CASH</code> column equal to
+<code>1 - rowSums(pmax(scaled_weights, 0))</code> so that symbols + CASH is approximately 1.
+If FALSE, the scaler may be &gt; 1 (leverage allowed) and no <code>CASH</code> is added.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Weights decided at t-1 apply to returns over t.
+</p>
+<p>The covariance at row i is computed from the last <code>lookback</code> rows of simple
+returns up to i (inclusive), estimated on the intersection of symbols present
+in both <code>weights</code> and <code>prices</code>. The row scaler is
+<code>s_i = min(1, target_vol / est_vol_i)</code> when <code>cap = TRUE</code>, and
+<code>s_i = target_vol / est_vol_i</code> when <code>cap = FALSE</code>, with safeguards for zero or
+non-finite variances.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.table</code> with the same <code>Date</code> and symbol columns as <code>weights</code>
+(plus <code>CASH</code> when <code>cap = TRUE</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  mom12 &lt;- PortfolioTesteR::calc_momentum(sample_prices_weekly, 12)
+  sel10 &lt;- PortfolioTesteR::filter_top_n(mom12, 10)
+  w_eq  &lt;- PortfolioTesteR::weight_equally(sel10)
+
+  w_vt  &lt;- vol_target(w_eq, sample_prices_weekly, lookback = 26,
+                      target_annual = 0.12, periods_per_year = 52, cap = TRUE)
+  head(w_vt)
+
+
+</code></pre>
+
+
+</div>
+</body></html>

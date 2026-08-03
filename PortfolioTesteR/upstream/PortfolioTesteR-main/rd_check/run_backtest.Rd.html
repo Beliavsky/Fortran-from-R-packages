@@ -1,0 +1,93 @@
+<!DOCTYPE html><html><head><title>R: Run Portfolio Backtest</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>run_backtest</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Portfolio Backtest</h2>
+
+<h3>Description</h3>
+
+<p>Main backtesting engine that simulates portfolio performance over time.
+Handles position tracking, transaction costs, and performance calculation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_backtest(
+  prices,
+  weights,
+  initial_capital = 1e+05,
+  name = "Strategy",
+  verbose = FALSE,
+  stop_loss = NULL,
+  stop_monitoring_prices = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>prices</code></td>
+<td>
+<p>Price data (data.frame with Date column)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>Weight matrix from weighting functions</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>initial_capital</code></td>
+<td>
+<p>Starting capital (default: 100000)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>name</code></td>
+<td>
+<p>Strategy name for reporting</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>verbose</code></td>
+<td>
+<p>Print progress messages (default: FALSE)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>stop_loss</code></td>
+<td>
+<p>Optional stop loss percentage as decimal</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>stop_monitoring_prices</code></td>
+<td>
+<p>Optional daily prices for stop monitoring</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>backtest_result object with performance metrics
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+weights &lt;- weight_equally(selected)
+result &lt;- run_backtest(sample_prices_weekly, weights)
+</code></pre>
+
+
+</div>
+</body></html>

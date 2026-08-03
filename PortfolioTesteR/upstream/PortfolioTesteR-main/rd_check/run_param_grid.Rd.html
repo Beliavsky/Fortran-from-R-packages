@@ -1,0 +1,104 @@
+<!DOCTYPE html><html><head><title>R: Run Parameter Grid Optimization (safe + ergonomic)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>run_param_grid</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Parameter Grid Optimization (safe + ergonomic)</h2>
+
+<h3>Description</h3>
+
+<p>Run Parameter Grid Optimization (safe + ergonomic)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_param_grid(
+  prices,
+  grid,
+  builder,
+  metric = NULL,
+  name_prefix = "Strategy",
+  verbose = FALSE,
+  light_mode = TRUE,
+  precompute_returns = TRUE,
+  builder_args = list(),
+  n_cores = 1,
+  fixed = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>prices</code></td>
+<td>
+<p>Data frame with Date + symbol columns</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>grid</code></td>
+<td>
+<p>Data frame (each row = a combo) OR a <strong>named list</strong> of vectors</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>builder</code></td>
+<td>
+<p>Function(prices, params, ...) -&gt; weights (Date + symbols)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>metric</code></td>
+<td>
+<p>Scoring function(backtest) -&gt; numeric. Defaults to metric_sharpe.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>name_prefix</code></td>
+<td>
+<p>String prefix for backtest names</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>verbose</code></td>
+<td>
+<p>Logical</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>light_mode</code></td>
+<td>
+<p>Logical: speed-ups in backtest</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>precompute_returns</code></td>
+<td>
+<p>Logical: precompute log-returns once (light_mode only)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>builder_args</code></td>
+<td>
+<p>List of extra args forwarded to builder (e.g., caches)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>n_cores</code></td>
+<td>
+<p>Integer (kept for API compatibility; ignored here)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fixed</code></td>
+<td>
+<p>Optional named list of <strong>constant</strong> parameters merged into every combo.
+If a name appears in both <code>grid</code> and <code>fixed</code>, the <strong>fixed value wins</strong> and that
+column is <strong>pruned from the grid</strong> (fewer duplicate combos; clearer counts).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>param_grid_result
+</p>
+
+
+</div>
+</body></html>

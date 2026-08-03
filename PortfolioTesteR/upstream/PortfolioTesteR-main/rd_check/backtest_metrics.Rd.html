@@ -1,0 +1,66 @@
+<!DOCTYPE html><html><head><title>R: Calculate Comprehensive Backtest Metrics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>backtest_metrics</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Comprehensive Backtest Metrics</h2>
+
+<h3>Description</h3>
+
+<p>Computes performance metrics including Sharpe ratio, maximum drawdown,
+win rate, and other statistics from backtest results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>backtest_metrics(result)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>result</code></td>
+<td>
+<p>Backtest result object from run_backtest()</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>List containing performance metrics
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'># Create a backtest result to use
+data(sample_prices_weekly)
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, n = 10)
+weights &lt;- weight_equally(selected)
+result &lt;- run_backtest(sample_prices_weekly, weights)
+
+# Calculate metrics
+metrics &lt;- backtest_metrics(result)
+print(metrics$sharpe_ratio)
+</code></pre>
+
+
+</div>
+</body></html>

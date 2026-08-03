@@ -1,0 +1,109 @@
+<!DOCTYPE html><html><head><title>R: Walk-forward sweep of tabular configs (window-wise...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>wf_sweep_tabular</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Walk-forward sweep of tabular configs (window-wise distribution of metrics)</h2>
+
+<h3>Description</h3>
+
+<p>Walk-forward sweep of tabular configs (window-wise distribution of metrics)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>wf_sweep_tabular(
+  features_list,
+  labels,
+  prices,
+  fit_fn,
+  predict_fn,
+  schedule = list(is = 104L, oos = 4L, step = 4L),
+  grid = list(top_k = c(10L, 15L), temperature = c(8, 12), method = c("softmax", "rank"),
+    transform = c("zscore")),
+  caps = list(max_per_symbol = 0.08, max_per_group = NULL),
+  group_map = NULL,
+  freq = 52,
+  cost_bps = 0,
+  max_windows = NULL,
+  ic_method = "spearman"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>features_list</code></td>
+<td>
+<p>List of feature panels.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>labels</code></td>
+<td>
+<p>Label panel.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>prices</code></td>
+<td>
+<p>Price panel for backtests.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>fit_fn, predict_fn</code></td>
+<td>
+<p>Model fit and predict functions.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>schedule</code></td>
+<td>
+<p>List with elements is, oos, step.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>grid</code></td>
+<td>
+<p>Named list of parameter vectors to sweep (e.g., top_k, temperature, method, transform).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>caps</code></td>
+<td>
+<p>Exposure caps (e.g., max_per_symbol/max_per_group).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group_map</code></td>
+<td>
+<p>Optional Symbol-&gt;Group mapping for group caps/selection.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>freq</code></td>
+<td>
+<p>Compounding frequency for annualization (e.g., 52 for weekly).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cost_bps</code></td>
+<td>
+<p>One-way trading cost in basis points (applied on rebalance).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_windows</code></td>
+<td>
+<p>optional limit for speed.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>ic_method</code></td>
+<td>
+<p>IC method ('spearman' or 'pearson').</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.table with medians/means across OOS windows.
+</p>
+
+
+</div>
+</body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>R: Benchmark-relative performance statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>analyze_vs_benchmark</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Benchmark-relative performance statistics</h2>
+
+<h3>Description</h3>
+
+<p>Computes standard benchmark-relative metrics (e.g., correlation, beta, alpha, tracking error,
+information ratio) by aligning portfolio returns with benchmark returns derived from prices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>analyze_vs_benchmark(
+  portfolio_returns,
+  benchmark_prices,
+  dates,
+  benchmark_symbol = "SPY"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>portfolio_returns</code></td>
+<td>
+<p>A numeric vector of portfolio simple returns aligned to <code>dates</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>benchmark_prices</code></td>
+<td>
+<p>A data frame (Date + symbols) of adjusted benchmark prices at the
+same cadence as <code>dates</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>dates</code></td>
+<td>
+<p>A vector of <code>Date</code> values used to align <code>portfolio_returns</code>
+with <code>benchmark_prices</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>benchmark_symbol</code></td>
+<td>
+<p>Character scalar giving the column name (symbol) in <code>benchmark_prices</code>
+to use as the benchmark.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list or data frame with benchmark-relative statistics according to the package's
+conventions, including correlation, beta, alpha, tracking error, and information ratio.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>
+  data(sample_prices_weekly)
+  mom12 &lt;- PortfolioTesteR::calc_momentum(sample_prices_weekly, lookback = 12)
+  sel10 &lt;- PortfolioTesteR::filter_top_n(mom12, n = 5)
+  w_eq  &lt;- PortfolioTesteR::weight_equally(sel10)
+  pr    &lt;- PortfolioTesteR::portfolio_returns(w_eq, sample_prices_weekly)
+
+  # Use SPY as the benchmark
+  bench &lt;- sample_prices_weekly[, c("Date", "SPY")]
+  res &lt;- analyze_vs_benchmark(
+    pr$portfolio_return,
+    bench,
+    dates = pr$Date,
+    benchmark_symbol = "SPY"
+  )
+  res
+
+
+</code></pre>
+
+
+</div>
+</body></html>

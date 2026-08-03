@@ -1,0 +1,154 @@
+<!DOCTYPE html><html><head><title>R: Apply post-weight exposure caps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>cap_exposure</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply post-weight exposure caps</h2>
+
+<h3>Description</h3>
+
+<p>Row-wise caps on a wide weights table (<code>Date</code> + symbols):
+</p>
+
+<ol>
+<li><p> per-symbol cap (<code>max_per_symbol</code>)
+</p>
+</li>
+<li><p> optional per-group cap (<code>max_per_group</code>) using <code>group_map</code>
+</p>
+</li></ol>
+
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>cap_exposure(
+  weights,
+  max_per_symbol = NULL,
+  group_map = NULL,
+  max_per_group = NULL,
+  allow_short = FALSE,
+  renormalize = c("none", "down", "both"),
+  renormalize_down = FALSE,
+  renorm = NULL,
+  cash_col = NULL,
+  caps = NULL
+)
+
+cap_exposure(
+  weights,
+  max_per_symbol = NULL,
+  group_map = NULL,
+  max_per_group = NULL,
+  allow_short = FALSE,
+  renormalize = c("none", "down", "both"),
+  renormalize_down = FALSE,
+  renorm = NULL,
+  cash_col = NULL,
+  caps = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>data.frame/data.table: columns <code>Date</code>, then symbols.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_per_symbol</code></td>
+<td>
+<p>numeric scalar or named vector (absolute cap per symbol).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>group_map</code></td>
+<td>
+<p>optional named character vector or data.frame(<code>symbol</code>,<code>group</code>).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>max_per_group</code></td>
+<td>
+<p>optional numeric scalar (per-group gross cap).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>allow_short</code></td>
+<td>
+<p>logical; if <code>FALSE</code> clamp negatives to 0.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>renormalize</code></td>
+<td>
+<p>character: one of <code>"none"</code>, <code>"down"</code>, <code>"both"</code>. Default <code>"none"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>renormalize_down</code></td>
+<td>
+<p>logical; deprecated alias for down-only (kept for compatibility).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>renorm</code></td>
+<td>
+<p>logical; deprecated alias; if <code>TRUE</code> acts like <code>renormalize="both"</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>cash_col</code></td>
+<td>
+<p>optional character; if provided, set to <code>1 - sum(pmax(w,0))</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>caps</code></td>
+<td>
+<p>optional list; alternative to split args (see details above).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Negatives are clamped to 0 unless <code>allow_short = TRUE</code>.
+</p>
+<p>Renormalization options:
+</p>
+
+<ul>
+<li> <p><code>renormalize = "none"</code>: leave gross (sum of positive weights) as is.
+</p>
+</li>
+<li> <p><code>renormalize = "down"</code>: if gross &gt; 1, scale down so gross == 1.
+</p>
+</li>
+<li> <p><code>renormalize = "both"</code>: if 0 &lt; gross != 1, scale so gross == 1.
+</p>
+</li></ul>
+
+<p>The argument <code>renorm</code> (logical) is a deprecated alias;
+<code>TRUE</code> behaves like <code>renormalize = "both"</code>.
+</p>
+<p>The <code>caps</code> list form is supported:
+</p>
+
+<dl>
+<dt>max_per_symbol</dt><dd><p>Maximum absolute weight per symbol (0-1).</p>
+</dd>
+<dt>max_per_group</dt><dd><p>Maximum gross weight per group (0-1).</p>
+</dd>
+<dt>group_map</dt><dd><p>Named character vector mapping <code>symbol -&gt; group</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Value</h3>
+
+<p>data.table of capped (and optionally renormalized) weights.
+</p>
+
+
+</div>
+</body></html>

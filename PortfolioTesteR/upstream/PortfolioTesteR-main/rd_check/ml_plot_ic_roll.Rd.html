@@ -1,0 +1,73 @@
+<!DOCTYPE html><html><head><title>R: Rolling rank-IC plot (rebalance dates; leakage-safe)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>ml_plot_ic_roll</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rolling rank-IC plot (rebalance dates; leakage-safe)</h2>
+
+<h3>Description</h3>
+
+<p>Computes the IC time series via <code>ml_ic_series_on_scores()</code> and plots the
+rolling mean IC over a specified window. Returns the rolling statistics
+invisibly for further inspection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>ml_plot_ic_roll(scores_dt, labels_dt, window = 26L, method = "spearman")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>scores_dt</code></td>
+<td>
+<p>Scores (wide).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>labels_dt</code></td>
+<td>
+<p>Labels (wide).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>window</code></td>
+<td>
+<p>Integer window length (default 26).</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p>Correlation method; <code>"spearman"</code> (default) or <code>"pearson"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>(Invisibly) a data frame with <code>Date</code>, <code>roll_mean</code>, <code>roll_sd</code>, <code>roll_ICIR</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+ris &lt;- ml_plot_ic_roll(res_xgb$scores, Y, window = 8L)
+
+## End(Not run)
+</code></pre>
+
+
+</div>
+</body></html>

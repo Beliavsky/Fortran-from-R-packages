@@ -1,0 +1,61 @@
+<!DOCTYPE html><html><head><title>R: Combine multiple score panels...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>combine_scores</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Combine multiple score panels (mean/weighted/rank-average/trimmed)</h2>
+
+<h3>Description</h3>
+
+<p>Combine multiple score panels (mean/weighted/rank-average/trimmed)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>combine_scores(
+  scores_list,
+  method = c("mean", "weighted", "rank_avg", "trimmed_mean"),
+  weights = NULL,
+  trim = 0.1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>scores_list</code></td>
+<td>
+<p>List of wide score panels to combine.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p>combination method.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>weights</code></td>
+<td>
+<p>Optional numeric weights for method='weighted'.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>trim</code></td>
+<td>
+<p>Trim fraction for method='trimmed_mean'.</p>
+</td></tr>
+</table>
+
+
+</div>
+</body></html>

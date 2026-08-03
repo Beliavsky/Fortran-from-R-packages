@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><title>R: Align Data to Strategy Timeframe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>align_to_timeframe</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Align Data to Strategy Timeframe</h2>
+
+<h3>Description</h3>
+
+<p>Aligns higher-frequency data to match strategy timeframe.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>align_to_timeframe(
+  high_freq_data,
+  low_freq_dates,
+  method = c("forward_fill", "nearest", "interpolate")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>high_freq_data</code></td>
+<td>
+<p>Data frame to align</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>low_freq_dates</code></td>
+<td>
+<p>Date vector from strategy</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>method</code></td>
+<td>
+<p>Alignment method: &quot;forward_fill&quot;, &quot;nearest&quot;, or &quot;interpolate&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Aligned data frame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data("sample_prices_weekly")
+data("sample_prices_daily")
+momentum &lt;- calc_momentum(sample_prices_weekly, lookback = 12)
+selected &lt;- filter_top_n(momentum, 10)
+# Create a stability signal from daily data
+daily_vol &lt;- calc_rolling_volatility(sample_prices_daily, lookback = 20)
+stability_signal &lt;- align_to_timeframe(daily_vol, sample_prices_weekly$Date)
+weights &lt;- weight_by_signal(selected, stability_signal)
+</code></pre>
+
+
+</div>
+</body></html>

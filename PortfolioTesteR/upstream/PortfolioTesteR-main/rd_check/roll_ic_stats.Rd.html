@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><title>R: Rolling IC mean / sd / ICIR</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>roll_ic_stats</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rolling IC mean / sd / ICIR</h2>
+
+<h3>Description</h3>
+
+<p>Rolling IC mean / sd / ICIR
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>roll_ic_stats(ic_dt, window = 26L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>ic_dt</code></td>
+<td>
+<p>output of <code>ic_series()</code>.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>window</code></td>
+<td>
+<p>rolling window length.</p>
+</td></tr>
+</table>
+
+
+</div>
+</body></html>

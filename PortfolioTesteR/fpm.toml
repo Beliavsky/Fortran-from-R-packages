@@ -1,0 +1,20 @@
+name = "PortfolioTesteR"
+version = "0.1.4"
+license = "MIT"
+author = "Alberto Pallotta; Fortran port contributors"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (c) 2025 PortfolioTesteR authors and Fortran port contributors"
+description = "Modern Fortran computational port of PortfolioTesteR"
+categories = ["finance", "portfolio", "backtesting", "machine-learning"]
+keywords = ["portfolio", "technical-indicators", "backtest", "hrp", "walk-forward"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
