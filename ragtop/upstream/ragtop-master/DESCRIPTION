@@ -1,0 +1,34 @@
+Type: Package
+Package: ragtop
+Title: Pricing Equity Derivatives with Extensions of Black-Scholes
+Version: 2.0.0
+Date: 2026-07-08
+Authors@R: 
+    person(c("Brian", "K."), "Boonstra", , "ragtop@boonstra.org", role = c("aut", "cre"))
+Description: Algorithms to price American and European equity options,
+    convertible bonds and a variety of other financial derivatives. It
+    uses an extension of the usual Black-Scholes model in which jump to
+    default may occur at a probability specified by a power-law link
+    between stock price and hazard rate as found in the paper by
+    Takahashi, Kobayashi, and Nakagawa (2001)
+    <doi:10.3905/jfi.2001.319302>.  We use ideas and techniques from
+    Andersen and Buffum (2002) <doi:10.2139/ssrn.355308> and Linetsky
+    (2006) <doi:10.1111/j.1467-9965.2006.00271.x>.
+License: GPL (>= 2)
+Depends: R (>= 3.5)
+Imports: futile.logger (>= 1.4.1), methods (>= 3.2.2), stats, utils
+Suggests: BondValuation, ggplot2, knitr, limSolve (>= 2.0.1),
+        lubridate, MASS, Matrix, R.cache, RColorBrewer, reshape2,
+        rmarkdown, roxygen2, stringr, testthat (>= 3.0.0), treasury
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 8.0.0
+NeedsCompilation: no
+Packaged: 2026-07-08 20:32:52 UTC; brian
+Author: Brian K. Boonstra [aut, cre]
+Maintainer: Brian K. Boonstra <ragtop@boonstra.org>
+Repository: CRAN
+Date/Publication: 2026-07-08 21:40:02 UTC
