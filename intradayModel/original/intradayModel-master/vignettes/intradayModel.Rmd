@@ -1,0 +1,268 @@
+---
+title: "intradayModel: Modeling and Forecasting Financial Intraday Signals"
+author: |
+  | Shengjie Xiu, Yifan Yu, and Daniel P. Palomar
+  | The Hong Kong University of Science and Technology (HKUST)
+date: "2023-05-19"
+output: 
+  cleanrmd::html_document_clean:
+    theme: "bamboo"
+    mathjax: default
+    toc: true
+    toc_depth: 2
+csl: apalike.csl
+bibliography: reference.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Intraday Volume and Volatility: Modeling and Forecasting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteKeyword{State-space Model}
+---
+
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = "center",
+  fig.retina = 2,
+  out.width = "100%",
+  dpi = 96 ,
+  pngquant = "--speed=1"
+)
+knit_hooks$set(pngquant = hook_pngquant)  # brew install pngquant
+```
+
+```{css, echo = FALSE}
+/* ensure cleanrmd is centered */
+body {
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 2rem;
+}
+
+/* math is smaller */
+.math {
+  font-size: small;
+}
+
+/* set reference spacing in cleanrmd */
+.references>div:first-child{ 
+	margin-bottom: 1.6em;
+}
+```
+
+------------------------------------------------------------------------
+
+> Welcome to the `intradayModel` package! This vignette provides an overview of the package's features and how to use them. `intradayModel` uses state-space models to model and forecast financial intraday signal, with a focus on intraday trading volume. Our team is currently working on expanding the package to include more support for intraday volatility.
+
+# Quick start
+
+To get started, we load our package and sample data: the 15-minute intraday trading volume of AAPL from 2019-01-02 to 2019-06-28, covering 124 trading days. We use the first 104 trading days for fitting, and the last 20 days for evaluation of forecasting performance.
+
+```{r, message = FALSE}
+library(intradayModel)
+data(volume_aapl)
+volume_aapl[1:5, 1:5] # print the head of data
+
+volume_aapl_training <- volume_aapl[, 1:104]
+volume_aapl_testing <- volume_aapl[, 105:124]
+```
+
+Next, we fit a univariate state-space model using `fit_volume( )` function. 
+
+```{r}
+model_fit <- fit_volume(volume_aapl_training)
+```
+
+Once the model is fitted, we can analyze the hidden components of any intraday volume based on all its observations. By calling `decompose_volume( )` function with `purpose = "analysis"`, we obtain the smoothed daily, seasonal, and intraday dynamic components. It involves incorporating both past and future observations to refine the state estimates.
+
+```{r, out.width="100%"}
+analysis_result <- decompose_volume(purpose = "analysis", model_fit, volume_aapl_training)
+
+# visualization
+plots <- generate_plots(analysis_result)
+plots$log_components
+```
+
+To see how well our model performs on new data, we call `forecast_volume( )` function to do one-bin-ahead forecast on the testing set.
+
+```{r, out.width="100%"}
+forecast_result <- forecast_volume(model_fit, volume_aapl_testing)
+
+# visualization
+plots <- generate_plots(forecast_result)
+plots$original_and_forecast
+```
+
+Now that you have a quick start on using the package, let's explore the details and dive deeper into its functionalities and features.
+
+&nbsp; 
+
+# Usage of the package
+
+## Preliminary theory
+
+Intraday observations of trading volume are divided into days, indexed by $t\in\{1,\dots,T\}$. Each day is further divided into bins, indexed by $i\in\{1,\dots,I\}$. To refer to a specific observation, we use the index $\tau = I \times (t-1) + i$.
+
+Our package uses a state-space model to extract several components of intraday volume. These components include the daily component, which adjusts the mean level of the time series; the seasonal component, which captures the U-shaped intraday periodic pattern; and the intraday dynamic component, which represents movements within a day.
+
+
+The observed intraday volume can be written in a multiplicative combination of the components [@brownlees2011intra]:
+
+$$
+\large
+\text{intraday volume} = \text{daily} \times \text{seasonal} \times \text{intraday dynamic} \times \text{noise}. \tag{1}
+\small
+$$
+
+Alternatively, by taking the logarithm transform, the intraday volume can be also regarded as an addictive combination of these components:
+
+$$
+\large
+y_{\tau} = \eta_{\tau} + \phi_i + \mu_{t,i} + v_{t,i}. \tag{2}
+\small
+$$
+
+The state-space model proposed by [@chen2016forecasting] is defined on Equation (2) as
+$$
+\large
+\begin{aligned}
+\mathbf{x}_{\tau+1} &= \mathbf{A}_{\tau}\mathbf{x}_{\tau} + \mathbf{w}_{\tau},\\
+y_{\tau} &= \mathbf{C}\mathbf{x}_{\tau} + \phi_{\tau} + v_\tau,
+\end{aligned}
+\tag{3}
+\small
+$$
+where
+
+- $\mathbf{x}_{\tau} = [\eta_{\tau}, \mu_{\tau}]^\top$ is the hidden state vector containing the log daily component and the log intraday dynamic component;
+
+- $\mathbf{A}_{\tau} = \left[\begin{array}{l}a_{\tau}^{\eta}&0\\0&a^{\mu}\end{array} \right]$ is the state transition matrix with $a_{\tau}^{\eta} = \begin{cases}a^{\eta}&\tau = kI, k = 1,2,\dots\\0&\text{otherwise};\end{cases}$
+
+- $\mathbf{C} = [1, 1]$ is the observation matrix;
+
+- $\phi_{\tau}$ is the corresponding element from $\boldsymbol{\phi} = [\phi_1,\dots, \phi_I]^\top$, which is the log seasonal component;
+
+- $\mathbf{w}_{\tau} = \left[\epsilon_{\tau}^{\eta},\epsilon_{\tau}^{\mu}\right]^\top \sim \mathcal{N}(\mathbf{0}, \mathbf{Q}_{\tau})$ represents the i.i.d. Gaussian noise in the state transition, with a time-varying covariance matrix $\mathbf{Q}_{\tau} = \left[\begin{array}{l}(\sigma_\tau^{\eta})^2&0\\0&(\sigma^{\mu})^2\end{array} \right]$ and $\sigma_\tau^{\eta} = \begin{cases}\sigma^{\eta}&\tau = kI, k = 1,2,\dots\\0&\text{otherwise};\end{cases}$
+
+- $v_\tau \sim \mathcal{N}(0, r)$ is the i.i.d. Gaussian noise in the observation;
+
+- $\mathbf{x}_1$ is the initial state at $\tau = 1$, and it follows $\mathcal{N}(\mathbf{x}_0, \mathbf{V}_0)$.
+
+In this model, $\boldsymbol{\Theta} = \{a^{\eta}, a^{\mu}, (\sigma^{\eta})^2, (\sigma^{\mu})^2, r, \boldsymbol{\phi}, \mathbf{x}_0, \mathbf{V}_0 \}$ are treated as parameters.
+
+## Datasets
+
+Two data classes of intraday volume are supported:
+
+- a 2D numeric matrix of size `(n_bin, n_day)`;
+
+- an xts object.
+
+To help you get started, we provide two sample datasets: a matrix-class `volume_aapl` and an xts-class `volume_fdx`. Here, we elaborate on the later one.
+
+```{r, warning=FALSE}
+data(volume_fdx)
+head(volume_fdx)
+tail(volume_fdx)
+```
+
+## Fitting
+
+> **fit_volume**(data, fixed_pars  = NULL, init_pars = NULL, verbose = 0, control = NULL)
+
+To fit a univariate state-space model on intraday volume, you should use `fit_volume( )` function. If you want to fix some parameters to specific values, you can provide a list of values to `fixed_pars`. If you have prior knowledge of the initial values for the unfitted parameters, you can provide it through `init_pars`. Besides, `verbose` controls the level of print, and more control options can be set via `control`. 
+
+The fitting process stops when either the maximum number of iterations is reached or the termination criteria is met $\|\Delta \boldsymbol{\Theta}_i\| \le \text{abstol}$.
+
+The following code shows how to fit the model to the FDX stock.
+
+```{r}
+# set fixed value
+fixed_pars <- list()
+fixed_pars$"x0" <- c(13.33, -0.37)
+
+# set initial value 
+init_pars <- list()
+init_pars$"a_eta" <- 1
+
+volume_fdx_training <- volume_fdx['2019-07-01/2019-11-30']
+model_fit <- fit_volume(volume_fdx_training, verbose = 2, control = list(acceleration = TRUE))
+```
+
+Trading days with missing bins are automatically removed. They are 2019-07-03 (Independence Day) and 2019-11-29 (Thanksgiving Day) which have early close.
+
+## Decomposition
+
+> **decompose_volume**(purpose, model, data, burn_in_days = 0)
+
+`decompose_volume( )` function allows you to decomposes the intraday volume into its daily, seasonal, and intraday dynamic components. 
+
+With `purpose = "analysis"`, it applies Kalman smoothing to estimate the hidden states given all available observations up to a certain point in time. The daily component and intraday dynamic component at time $\tau$ are the smoothed state estimate conditioned on all the data, and denoted by $\mathbb{E}[\mathbf{x}_{\tau}|\{y_{j}\}_{j=1}^{M}]$, where $M$ is the total number of bins in the dataset. Besides, the seasonal component has the value of $\boldsymbol{\phi}$.
+
+
+```{r}
+analysis_result <- decompose_volume(purpose = "analysis", model_fit, volume_fdx_training)
+
+str(analysis_result)
+```
+
+Function `generate_plots( )` visualizes the smooth components and the smoothing performance.
+
+```{r}
+plots <- generate_plots(analysis_result)
+plots$log_components
+plots$original_and_smooth
+```
+
+
+With `purpose = "forecast"`, it applies Kalman forecasting to estimate the one-bin-ahead hidden state based on the available observations, which is mathematically denoted by $\mathbb{E}[\mathbf{x}_{\tau+1}|\{y_{j}\}_{j=1}^{\tau}]$. Details can be found in the next subsection.
+
+This function also helps to evaluate the model performance with the following measures:
+  
+  - Mean absolute error (MAE): $\frac{1}{M}\sum_{\tau=1}^M\lvert\hat{y}_\tau - y_\tau\rvert$.
+
+- Mean absolute percent error (MAPE): $\frac{1}{M}\sum_{\tau=1}^M\frac{\lvert\hat{y}_\tau - y_\tau\rvert}{y_\tau}$.
+
+- Root mean square error (RMSE): $\sqrt{\sum_{\tau=1}^M\frac{\left(\hat{y}_\tau - y_\tau\right)^2}{M}}$.
+
+## Forecasting
+
+> **forecast_volume**(model, data, burn_in_days = 0)
+
+`forecast_volume( )` function is a wrapper of `decompose_volume(purpose = "forecast", ...)`. It forecasts the one-bin-ahead intraday volume on a new dataset. The one-bin-ahead forecast is mathematically denoted by $\hat{y}_{\tau+1} = \mathbb{E}[y_{\tau+1}|\{y_{j}\}_{j=1}^{\tau}]$. 
+
+When encountering a new dataset with different statistical characteristics or from different stocks, the state space model may not initially start in an optimal state. To address this, the first `burn_in_days` days in the data can be utilized to warm up the Kalman filter, allowing it to reach the desired state. These initial days will be discarded after initialization.
+
+
+```{r}
+# use training data for burn-in
+forecast_result <- forecast_volume(model_fit, volume_fdx, burn_in_days = 105) 
+
+str(forecast_result)
+```
+
+Function `generate_plots( )` visualizes the one-bin-ahead forecast components and the forecasting performance.
+
+```{r}
+plots <- generate_plots(forecast_result)
+plots$log_components
+plots$original_and_forecast
+```
+
+
+&nbsp; 
+
+# Next steps
+
+This guide gives an overview of the package's main features. Check the manual for details on each function, including parameters and examples.
+
+The current version only supports univariate state-space models for intraday trading volume. Soon, we'll add models for intraday volatility and their multivariate versions. We hope you find these resources helpful and that our package will continue to be a valuable tool for your work.
+
+&nbsp; 
+
+# References
+
+<div id="refs"></div>

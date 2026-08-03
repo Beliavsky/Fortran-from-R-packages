@@ -1,0 +1,17 @@
+name = "intradaymodel-fortran"
+version = "0.0.1"
+license = "Apache-2.0"
+author = "Shengjie Xiu, Yifan Yu, Daniel P. Palomar; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran implementation of the intradayModel periodic state-space volume model"
+categories = ["finance", "time-series", "state-space"]
+keywords = ["intraday volume", "Kalman filter", "EM", "forecasting"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

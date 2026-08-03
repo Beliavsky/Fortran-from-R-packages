@@ -1,0 +1,35 @@
+Package: intradayModel
+Title: Modeling and Forecasting Financial Intraday Signals
+Version: 0.0.1
+Date: 2023-05-20
+Description: Models, analyzes, and forecasts financial intraday signals. This package
+    currently supports a univariate state-space model for intraday trading volume provided
+    by Chen (2016) <doi:10.2139/ssrn.3101695>.
+Authors@R: c(
+  person("Shengjie", "Xiu", role =  "aut", email = "sxiu@connect.ust.hk"),
+  person("Yifan", "Yu", role =  "aut", email = "yyuco@connect.ust.hk"),
+  person(c("Daniel", "P."), "Palomar", role = c("cre", "aut", "cph"), email = "daniel.p.palomar@gmail.com")
+  )
+Maintainer: Daniel P. Palomar <daniel.p.palomar@gmail.com>
+URL: https://github.com/convexfi/intradayModel,
+        https://www.danielppalomar.com,
+        https://dx.doi.org/10.2139/ssrn.3101695
+BugReports: https://github.com/convexfi/intradayModel/issues
+License: Apache License (== 2.0)
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Depends: R (>= 2.10)
+Imports: ggplot2, magrittr, patchwork, reshape2, scales, xts, zoo,
+        utils
+Suggests: knitr, rmarkdown, R.rsp, testthat (>= 3.0.0), cleanrmd,
+        devtools
+VignetteBuilder: knitr, rmarkdown, R.rsp
+LazyData: true
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2023-05-20 13:51:08 UTC; 12928
+Author: Shengjie Xiu [aut],
+  Yifan Yu [aut],
+  Daniel P. Palomar [cre, aut, cph]
+Repository: CRAN
+Date/Publication: 2023-05-22 08:30:02 UTC

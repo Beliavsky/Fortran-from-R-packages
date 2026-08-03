@@ -1,0 +1,26 @@
+#' intradayModel: Modeling and Forecasting Financial Intraday Signals
+#'
+#' This package uses state-of-the-art state-space models to facilitate the modeling, analyzing and forecasting of 
+#' financial intraday signals. It currently offers a univariate model for intraday trading volume, 
+#' with new features on intraday volatility and multivariate models in development. 
+#' 
+#' @section Functions:
+#' \code{\link{fit_volume}}, 
+#' \code{\link{decompose_volume}}, 
+#' \code{\link{forecast_volume}},
+#' \code{\link{generate_plots}}
+#'
+#' @section Data:
+#' \code{\link{volume_aapl}},
+#' \code{\link{volume_fdx}}
+#'
+#' @section Help:
+#' For a quick help see the README file:
+#' \href{https://github.com/convexfi/intradayModel/blob/master/README.md}{GitHub-README}.
+#'
+#'
+#' @author Shengjie Xiu, Yifan Yu and Daniel P. Palomar
+#'
+#' @docType package
+#' @name intradayModel-package
+NULL
