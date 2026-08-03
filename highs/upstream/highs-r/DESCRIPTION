@@ -1,0 +1,37 @@
+Package: highs
+Type: Package
+Title: 'HiGHS' Optimization Solver
+Version: 1.14.0-2
+Authors@R: c(person("Florian", "Schwendinger", email = "FlorianSchwendinger@gmx.at", role = c("aut", "cre")),
+             person("Balasubramanian", "Narasimhan", role = c("aut"), email = "naras@stat.stanford.edu"),
+             person("Dirk", "Schumacher", role = "aut"),
+             person("Julian", "Hall", role = "cph"),
+             person("Ivet", "Galabova", role = "cph"),
+             person("Leona", "Gottwald", role = "cph"),
+             person("Michael", "Feldmeier", role = "cph"))
+Description: R interface to 'HiGHS', an optimization solver for solving mixed integer
+        optimization problems with quadratic or linear objective and linear constraints.
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.7), checkmate
+Depends: R (>= 4.0.0)
+SystemRequirements: Bash, PkgConfig, CMAKE (>=3.16), C++17
+URL: https://gitlab.com/roigrp/solver/highs
+BugReports: https://gitlab.com/roigrp/solver/highs/-/work_items/issues
+Suggests: tinytest, knitr, rmarkdown, Matrix
+VignetteBuilder: knitr
+Biarch: FALSE
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+NeedsCompilation: yes
+Packaged: 2026-06-07 21:44:09 UTC; f
+Author: Florian Schwendinger [aut, cre],
+  Balasubramanian Narasimhan [aut],
+  Dirk Schumacher [aut],
+  Julian Hall [cph],
+  Ivet Galabova [cph],
+  Leona Gottwald [cph],
+  Michael Feldmeier [cph]
+Maintainer: Florian Schwendinger <FlorianSchwendinger@gmx.at>
+Repository: CRAN
+Date/Publication: 2026-06-08 07:20:02 UTC

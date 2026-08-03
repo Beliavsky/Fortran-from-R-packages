@@ -1,0 +1,214 @@
+---
+title: "Warm-Starting and Sensitivity Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Warm-Starting and Sensitivity Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+When solving a sequence of related optimization problems, warm-starting
+from a previous solution can dramatically reduce solve time. The
+**highs** package supports warm-starting via both basis and solution
+information.
+
+## Basis Warm-Start
+
+The simplex method maintains a *basis* — a partition of variables into
+basic and non-basic sets. Saving and restoring the basis lets the solver
+skip the initial phase of finding a feasible basis.
+
+Basis status values:
+
+| Code | Status | Meaning |
+|------|--------|---------|
+| 0 | Lower | Variable at its lower bound |
+| 1 | Basic | Variable is basic |
+| 2 | Upper | Variable at its upper bound |
+| 3 | Zero | Free variable at zero |
+| 4 | Nonbasic | Non-basic (no bound info) |
+
+### Example: Basis Round-Trip
+
+```{r basis-roundtrip}
+library(highs)
+
+model <- highs_model(
+  L = c(2, 4, 3),
+  lower = 0,
+  A = matrix(c(3, 4, 2, 2, 1, 2, 1, 3, 2), nrow = 3, byrow = TRUE),
+  rhs = c(60, 40, 80),
+  maximum = TRUE
+)
+solver <- hi_new_solver(model)
+
+# Solve the original problem
+hi_solver_run(solver)
+info1 <- hi_solver_info(solver)
+cat("First solve:", info1$simplex_iteration_count, "iterations\n")
+
+# Save the basis
+basis <- hi_solver_get_basis(solver)
+cat("Basis valid:", basis$valid, "\n")
+cat("Column statuses:", basis$col_status, "\n")
+cat("Row statuses:", basis$row_status, "\n")
+```
+
+Now clear the solver state, restore the basis, and re-solve. The solver
+should converge in zero iterations:
+
+```{r basis-restore}
+hi_solver_clear_solver(solver)
+hi_solver_set_basis(solver, basis$col_status, basis$row_status)
+hi_solver_run(solver)
+info2 <- hi_solver_info(solver)
+cat("Warm-start solve:", info2$simplex_iteration_count, "iterations\n")
+cat("Same objective:", info1$objective_function_value == info2$objective_function_value, "\n")
+```
+
+### Iterative Solving with Perturbations
+
+A common use case: solve a problem, modify it slightly, and re-solve
+with the previous basis as a warm-start.
+
+```{r perturbation}
+solver <- hi_new_solver(model)
+hi_solver_run(solver)
+obj_original <- hi_solver_info(solver)$objective_function_value
+cat("Original objective:", obj_original, "\n")
+
+# Save basis before modification
+basis <- hi_solver_get_basis(solver)
+
+# Tighten a constraint: rhs from 60 to 50
+hi_solver_change_constraint_bounds(solver, idx = 0L, lhs = -Inf, rhs = 50)
+
+# Warm-start from the saved basis
+hi_solver_set_basis(solver, basis$col_status, basis$row_status)
+hi_solver_run(solver)
+info <- hi_solver_info(solver)
+cat("After perturbation:", info$objective_function_value,
+    "(", info$simplex_iteration_count, "iterations)\n")
+```
+
+## Solution Warm-Start
+
+For cases where you have a good primal/dual solution but not a basis
+(e.g., from a different solver), you can supply it as a starting point:
+
+```{r solution-warmstart}
+solver <- hi_new_solver(model)
+hi_solver_run(solver)
+sol <- hi_solver_get_solution(solver)
+
+# Clear and warm-start from solution
+hi_solver_clear_solver(solver)
+hi_solver_set_solution(
+  solver,
+  col_value = sol$col_value,
+  row_value = sol$row_value,
+  col_dual  = sol$col_dual,
+  row_dual  = sol$row_dual
+)
+hi_solver_run(solver)
+hi_solver_info(solver)$objective_function_value
+```
+
+### Sparse Solution
+
+When only a few variables have non-zero values, use the sparse
+interface:
+
+```{r sparse-solution}
+solver <- hi_new_solver(model)
+
+# Set only the non-zero entries (0-based column indices)
+hi_solver_set_sparse_solution(solver, index = c(0L, 1L), value = c(5.0, 10.0))
+hi_solver_run(solver)
+hi_solver_get_solution(solver)$col_value
+```
+
+## Clearing the Basis
+
+Use `hi_solver_clear_basis()` to invalidate the current basis. This
+is useful when you want to force presolve to run on the next solve
+(presolve is skipped when a valid basis is present):
+
+```{r clear-basis}
+solver <- hi_new_solver(model)
+hi_solver_run(solver)
+cat("Basis valid after solve:", hi_solver_get_basis(solver)$valid, "\n")
+
+hi_solver_clear_basis(solver)
+cat("Basis valid after clear:", hi_solver_get_basis(solver)$valid, "\n")
+```
+
+## Using the Closure Interface
+
+The `highs_solver()` wrapper exposes warm-start methods directly:
+
+```{r closure}
+hw <- highs_solver(model)
+hw$solve()
+basis <- hw$get_basis()
+cat("Basis valid:", basis$valid, "\n")
+
+# Perturb and warm-start
+hw$cbounds(1, -Inf, 50)
+hw$set_basis(basis$col_status, basis$row_status)
+hw$solve()
+hw$info()$simplex_iteration_count
+```
+
+## Sensitivity Analysis (Ranging)
+
+After solving an LP, ranging analysis shows how much each cost
+coefficient or bound can change before the basis changes:
+
+```{r ranging}
+solver <- hi_new_solver(model)
+hi_solver_run(solver)
+ranging <- hi_solver_get_ranging(solver)
+cat("Ranging valid:", ranging$valid, "\n")
+```
+
+### Cost Ranging
+
+For each column, `col_cost_up` and `col_cost_dn` show how much the
+objective coefficient can increase or decrease:
+
+```{r cost-ranging}
+cost_up <- ranging$col_cost_up
+data.frame(
+  variable = seq_along(cost_up$value),
+  max_increase = cost_up$value,
+  new_objective = cost_up$objective
+)
+```
+
+### Bound Ranging
+
+For each row, `row_bound_up` and `row_bound_dn` show how much the
+constraint bound can change:
+
+```{r bound-ranging}
+bound_up <- ranging$row_bound_up
+data.frame(
+  constraint = seq_along(bound_up$value),
+  max_increase = bound_up$value,
+  new_objective = bound_up$objective
+)
+```
+
+## Presolve
+
+Run presolve independently of solving:
+
+```{r presolve}
+solver <- hi_new_solver(model)
+hi_solver_presolve(solver)
+```

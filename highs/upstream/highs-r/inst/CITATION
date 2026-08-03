@@ -1,0 +1,20 @@
+citation(auto = meta)
+
+
+bibentry(bibtype = "Article",
+  title        = "Parallelizing the dual revised simplex method",
+  author       = c(person(given = "Q.", family = "Huangfu"),
+                   person(given = "J. A. J.", family = "Hall", email = "jajhall@ed.ac.uk")),
+  journal      = "Mathematical Programming Computation",
+  year         = "2018",
+  volume       = "10",
+  number       = "1",
+  pages        = "119--142",
+  doi          = "10.1007/s12532-017-0130-5",
+  textVersion  = paste(
+    "Huangfu, Q., Hall, J.A.J.",
+    "Parallelizing the dual revised simplex method.",
+    "Math. Prog. Comp. 10, 119--142 (2018).",
+    "https://doi.org/10.1007/s12532-017-0130-5"
+  )
+)

@@ -1,0 +1,17 @@
+name = "highs"
+version = "1.14.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation contributors; upstream highs R package authors"
+maintainer = ""
+copyright = "2026"
+description = "Modern Fortran interface to the HiGHS optimization solver"
+keywords = ["optimization", "linear-programming", "mixed-integer", "quadratic-programming"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

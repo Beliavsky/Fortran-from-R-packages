@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm -f src/*.o src/*.so src/*.rds
+rm -f src/Makevars
+rm -rf src/highslib
+rm -rf inst/HiGHS/build

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+echo "Use 'configure'"
+# export R_HIGHS_LIB_DIR=/home/f/lib/highslib
+
+if test -z "${R_HIGHS_LIB_DIR}"; then
+    R_HIGHS_PKG_HOME=`pwd`
+    bash inst/build_highs.sh
+    cd ${R_HIGHS_PKG_HOME}
+    if test -d inst/doc; then
+        rm -rf inst/HiGHS
+    fi
+    R_HIGHS_LIB_DIR=${R_HIGHS_PKG_HOME}/src/highslib
+    
+    # development
+    # rm -rf /home/f/lib/highslib
+    # cp -rf ${R_HIGHS_LIB_DIR} /home/f/lib/
+fi
+
+
+RHIGHS_PKG_LIBS="-L${R_HIGHS_LIB_DIR}/lib"
+if test -d "${R_HIGHS_LIB_DIR}/lib64"; then
+    RHIGHS_PKG_LIBS="${RHIGHS_PKG_LIBS} -L${R_HIGHS_LIB_DIR}/lib64"
+fi
+RHIGHS_PKG_LIBS="${RHIGHS_PKG_LIBS} -lhighs"
+
+sed -e "s|@RHIGHS_LIB_DIR@|$R_HIGHS_LIB_DIR|g" \
+    -e "s|@RHIGHS_PKG_LIBS@|$RHIGHS_PKG_LIBS|g" \
+    src/Makevars.in > src/Makevars
+
+
+if [ -z "$(ls ${R_HIGHS_LIB_DIR} | grep 'include')" ]; then
+    echo "'HiGHS' libraries could not be found!"
+    exit 1
+fi
+
+

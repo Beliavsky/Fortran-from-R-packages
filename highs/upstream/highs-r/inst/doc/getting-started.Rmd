@@ -1,0 +1,125 @@
+---
+title: "Getting Started with highs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with highs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+The **highs** package provides an R interface to
+[HiGHS](https://highs.dev), a high-performance solver for linear
+programming (LP), mixed-integer programming (MIP), and quadratic
+programming (QP) problems.
+
+## Linear Programming
+
+Consider the LP:
+
+$$
+\max \; 2x_1 + 4x_2 + 3x_3
+$$
+subject to
+$$
+3x_1 + 4x_2 + 2x_3 \le 60, \quad
+2x_1 +  x_2 + 2x_3 \le 40, \quad
+ x_1 + 3x_2 + 2x_3 \le 80, \quad
+x_1, x_2, x_3 \ge 0.
+$$
+
+```{r lp}
+library(highs)
+
+L <- c(2, 4, 3)
+A <- matrix(c(3, 4, 2,
+              2, 1, 2,
+              1, 3, 2), nrow = 3, byrow = TRUE)
+rhs <- c(60, 40, 80)
+
+sol <- highs_solve(L = L, lower = 0, A = A, rhs = rhs, maximum = TRUE)
+sol$objective_value
+sol$primal_solution
+```
+
+## Mixed-Integer Programming
+
+Adding integrality constraints makes this a MIP. Use the `types`
+argument with `"I"` for integer, `"C"` for continuous.
+
+```{r milp}
+L <- c(3, 1, 3)
+A <- rbind(c(-1,  2,  1),
+           c( 0,  4, -3),
+           c( 1, -3,  2))
+rhs <- c(4, 2, 3)
+lower <- c(-Inf, 0, 2)
+upper <- c(4, 100, Inf)
+types <- c("I", "C", "I")
+
+sol <- highs_solve(L = L, lower = lower, upper = upper,
+                   A = A, rhs = rhs, types = types, maximum = TRUE)
+sol$objective_value
+sol$primal_solution
+```
+
+## Quadratic Programming
+
+For QP problems, supply the Hessian matrix `Q` in the objective
+$\frac{1}{2} x^T Q x + L^T x$:
+
+```{r qp}
+Q <- matrix(c(8, 2, 2,
+              2, 6, 0,
+              2, 0, 4), nrow = 3)
+L <- c(-14, -6, -12)
+
+sol <- highs_solve(Q = Q, L = L, lower = 0)
+sol$objective_value
+sol$primal_solution
+```
+
+## Solver Options
+
+Control solver behaviour with `highs_control()`:
+
+```{r control}
+sol <- highs_solve(
+  L = c(2, 4, 3), lower = 0,
+  A = matrix(c(3, 4, 2, 2, 1, 2, 1, 3, 2), nrow = 3, byrow = TRUE),
+  rhs = c(60, 40, 80), maximum = TRUE,
+  control = highs_control(
+    threads = 1L,
+    time_limit = 60,
+    log_to_console = FALSE
+  )
+)
+sol$status_message
+```
+
+View all available options:
+
+```{r options, eval = FALSE}
+highs_available_solver_options()
+```
+
+## Sparse Matrix Support
+
+The `A` matrix can be any of the following formats:
+
+- Dense `matrix`
+- `dgCMatrix` or `dgRMatrix` from the **Matrix** package
+- `matrix.csc` or `matrix.csr` from the **SparseM** package
+- `simple_triplet_matrix` from the **slam** package
+
+```{r sparse}
+library(Matrix)
+A_sparse <- Matrix(c(3, 4, 2, 2, 1, 2, 1, 3, 2),
+                   nrow = 3, byrow = TRUE, sparse = TRUE)
+sol <- highs_solve(L = c(2, 4, 3), lower = 0,
+                   A = A_sparse, rhs = c(60, 40, 80), maximum = TRUE)
+sol$objective_value
+```

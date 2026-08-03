@@ -1,0 +1,31 @@
+#!/bin/sh
+
+echo "Use 'configure.win'"
+
+if test -z "${R_HIGHS_LIB_DIR}"; then
+    R_HIGHS_PKG_HOME=`pwd`
+    bash inst/build_highs.sh
+    cd ${R_HIGHS_PKG_HOME}
+    rm -rf inst/HiGHS
+    R_HIGHS_LIB_DIR=${R_HIGHS_PKG_HOME}/src/highslib
+fi
+
+
+# Compose the link flags exactly as ./configure does for Unix: Makevars.in's
+# PKG_LIBS is "@RHIGHS_PKG_LIBS@", so this MUST be substituted too -- otherwise
+# the literal placeholder reaches the linker ("ld: cannot find @RHIGHS_PKG_LIBS@").
+RHIGHS_PKG_LIBS="-L${R_HIGHS_LIB_DIR}/lib"
+if test -d "${R_HIGHS_LIB_DIR}/lib64"; then
+    RHIGHS_PKG_LIBS="${RHIGHS_PKG_LIBS} -L${R_HIGHS_LIB_DIR}/lib64"
+fi
+RHIGHS_PKG_LIBS="${RHIGHS_PKG_LIBS} -lhighs"
+
+sed -e "s|@RHIGHS_LIB_DIR@|$R_HIGHS_LIB_DIR|g" \
+    -e "s|@RHIGHS_PKG_LIBS@|$RHIGHS_PKG_LIBS|g" \
+    src/Makevars.in > src/Makevars.win
+
+
+if [ -z "$(ls ${R_HIGHS_LIB_DIR} | grep 'include')" ]; then
+    echo "'HiGHS' libraries could not be found!"
+    exit 1
+fi
