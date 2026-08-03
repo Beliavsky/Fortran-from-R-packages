@@ -1,0 +1,51 @@
+Package: INFOSET
+Type: Package
+Title: Computing a New Informative Distribution Set of Asset Returns
+Version: 4.1.1
+Authors@R: 
+    c(person("Gloria", "Polinesi", , "g.polinesi@staff.univpm.it", role = c("aut", "cre")),
+    person("Francesca", "Mariani", role = "aut"),
+             person("Maria Cristina", "Recchioni", role = "aut"))
+Author: Gloria Polinesi [aut, cre],
+  Francesca Mariani [aut],
+  Maria Cristina Recchioni [aut]
+Maintainer: Gloria Polinesi <g.polinesi@staff.univpm.it>
+Description: Estimation of the most-left informative set of gross returns 
+             (i.e., the informative set).
+             The procedure to compute the informative set adjusts the method 
+             proposed by 
+             Mariani et al. (2022a) <doi:10.1007/s11205-020-02440-6> 
+             and 
+             Mariani et al. (2022b) <doi:10.1007/s10287-022-00422-2> 
+             to gross returns of financial assets. 
+             This is accomplished through an adaptive algorithm
+             that identifies sub-groups of gross returns in 
+             each iteration by approximating their distribution with a
+             sequence of two-component log-normal mixtures. 
+             These sub-groups emerge when a significant change
+             in the distribution occurs below the median of the 
+             financial returns, with their boundary termed as
+             the “change point" of the mixture. 
+             The process concludes when no further change points are detected.
+             The outcome encompasses parameters of the leftmost mixture 
+             distributions and change points of the
+             analyzed financial time series.
+             The functionalities of the INFOSET package include: (i) modelling asset distribution
+             detecting the parameters which describe left tail behaviour (infoset function), (ii) clustering, (iii) labeling of the financial
+             series for predictive and classification purposes through a Left Risk measure based on the first change point (LR_cp function)
+             (iv) portfolio construction (ptf_construction function).
+             The package also provide a specific function to construct rolling windows of different length size and overlapping time.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Imports: Matrix, colorspace, dendextend, quadprog, mixtools, stats,
+        graphics
+Depends: R (>= 2.10)
+RoxygenNote: 7.3.3
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2026-02-11 15:32:57 UTC; Utente
+Repository: CRAN
+Date/Publication: 2026-02-11 15:50:02 UTC

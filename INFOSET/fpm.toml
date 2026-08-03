@@ -1,0 +1,18 @@
+name = "infoset"
+version = "4.1.1"
+license = "GPL-2.0-or-later"
+author = "Gloria Polinesi, Francesca Mariani, Maria Cristina Recchioni; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright the INFOSET authors and translation contributors"
+description = "Modern Fortran implementation of the computational core of the R INFOSET package"
+categories = ["finance", "statistics", "optimization"]
+keywords = ["portfolio", "mixture", "tail-risk", "quadratic-programming"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
