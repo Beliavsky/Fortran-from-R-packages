@@ -1,0 +1,48 @@
+# this file defines how to read time series data
+################################################
+#
+# the key is the symbol
+#
+dji:
+    cols: 10
+    col_in: Adjusted
+    date_format: "%m/%d/%Y"
+    test_date: "19350103"
+    test_val: 105.14
+
+#############################################################    
+gold:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19720301"
+    test_val: 47.8
+
+r10y:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19620301"
+    test_val: 3.98
+
+vix:
+    cols: 7
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19900110"
+    test_val: 22.44
+
+wti:
+    cols: 2
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19860106"
+    test_val: 26.53
+
+spx:
+    cols: 7
+    col_in: Close
+    date_format: "%m/%d/%Y"
+    test_date: "19500501"
+    test_val: 18.22
+

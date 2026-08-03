@@ -1,0 +1,25 @@
+name = "ldhmm-fortran"
+version = "0.6.1"
+license = "Artistic-2.0"
+author = "Stephen H-T. Lihn; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Lambda-distribution hidden Markov models in modern Fortran"
+categories = ["statistics", "time-series", "hidden-markov-models"]
+keywords = ["HMM", "lambda-distribution", "finance", "forecasting", "MLE"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

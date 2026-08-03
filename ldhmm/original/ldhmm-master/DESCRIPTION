@@ -1,0 +1,51 @@
+Package: ldhmm
+Type: Package
+Title: Hidden Markov Model for Financial Time-Series Based on Lambda
+        Distribution
+Version: 0.6.1
+Date: 2023-12-31
+Authors@R: person(given = c("Stephen", "H-T."), family = "Lihn",
+                  email = "stevelihn@gmail.com", role = c("aut", "cre"))
+Author: Stephen H-T. Lihn [aut, cre]
+Maintainer: Stephen H-T. Lihn <stevelihn@gmail.com>
+Description: Hidden Markov Model (HMM) based on symmetric lambda distribution
+    framework is implemented for the study of return time-series in the financial
+    market. Major features in the S&P500 index, such as regime identification,
+    volatility clustering, and anti-correlation between return and volatility,
+    can be extracted from HMM cleanly. Univariate symmetric lambda distribution
+    is essentially a location-scale family of exponential power distribution.
+    Such distribution is suitable for describing highly leptokurtic time series
+    obtained from the financial market. It provides a theoretically solid foundation
+    to explore such data where the normal distribution is not adequate. The HMM
+    implementation follows closely the book: "Hidden Markov Models for Time Series",
+    by Zucchini, MacDonald, Langrock (2016).
+URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2979516
+        https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3435667
+Depends: R (>= 4.2.0)
+Imports: stats, utils, gnorm, optimx, xts (>= 0.10-0), zoo, moments,
+        parallel, graphics, scales, ggplot2, grid, yaml, methods
+Suggests: knitr, testthat, depmixS4, roxygen2, R.rsp, shape
+License: Artistic-2.0
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Collate: 'ecld-cdf-method.R' 'ecld-class.R' 'ecld-constructor.R'
+        'ecld-pdf-method.R' 'ecld-sd-method.R'
+        'ldhmm-calc_stats_from_obs.R' 'ldhmm-numericOrNull-class.R'
+        'ldhmm-package.R' 'ldhmm-class.R' 'ldhmm-conditional_prob.R'
+        'ldhmm-constructor.R' 'ldhmm-data-config-internal.R'
+        'ldhmm-decode_stats_history.R' 'ldhmm-decoding.R'
+        'ldhmm-df2ts-method.R' 'ldhmm-forecast_prob.R'
+        'ldhmm-forecast_state.R' 'ldhmm-forecast_volatility.R'
+        'ldhmm-fred_data.R' 'ldhmm-gamma_init.R'
+        'ldhmm-get-data-method.R' 'ldhmm-ld_stats.R'
+        'ldhmm-log_forward.R' 'ldhmm-mle.R' 'ldhmm-mllk.R'
+        'ldhmm-n2w.R' 'ldhmm-plot_spx_vix_obs.R'
+        'ldhmm-pseudo_residuals.R' 'ldhmm-read-csv-by-symbol-method.R'
+        'ldhmm-read_sample_object.R' 'ldhmm-simulate_abs_acf.R'
+        'ldhmm-simulate_state_transition.R' 'ldhmm-sma.R'
+        'ldhmm-state_ld.R' 'ldhmm-state_pdf.R' 'ldhmm-ts_abs_acf.R'
+        'ldhmm-ts_log_rtn.R' 'ldhmm-viterbi.R' 'ldhmm-w2n.R'
+NeedsCompilation: no
+Packaged: 2023-12-11 04:53:20 UTC; stephenlihn
+Repository: CRAN
+Date/Publication: 2023-12-11 05:10:02 UTC
