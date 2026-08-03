@@ -1,0 +1,58 @@
+citHeader("To cite 'imputeFin' in publications, please use:")
+
+citEntry(entry = "Manual",
+         title        = "{imputeFin: Imputation of Financial Time Series with Missing Values}",
+         author       = personList(as.person("J. Liu"),
+                                   as.person("D. P. Palomar")),
+         note         = "R package version 0.1.2",
+         year         = "2021",
+         url          = "https://CRAN.R-project.org/package=imputeFin",
+         textVersion  =
+           paste("J. Liu and D. P. Palomar (2021).",
+                 "imputeFin: Imputation of Financial Time Series with Missing Values.",
+                 "R package version 0.1.2.",
+                 "https://CRAN.R-project.org/package=imputeFin")
+)
+
+citEntry(entry = "Article",
+         title        = "Parameter Estimation of Heavy-Tailed AR Model With 
+                         Missing Data Via Stochastic EM",
+         author       = personList(as.person("J. Liu"),
+                                   as.person("S. Kumar"),
+                                   as.person("D. P. Palomar")),
+         journal      = "IEEE Trans. on Signal Processing",
+         volume       = "67",
+         number       = "8",
+         pages        = "2159--2172",
+         year         = "2019",
+         url          = "https://doi.org/10.1109/TSP.2019.2899816",
+         textVersion  =
+           paste("J. Liu, S. Kumar, and D. P. Palomar (2019).",
+                 "Parameter Estimation of Heavy-Tailed AR Model With 
+                         Missing Data Via Stochastic EM.",
+                 "IEEE Trans. on Signal Processing,",
+                 "vol. 67, no. 8, pp. 2159-2172.",
+                 "https://doi.org/10.1109/TSP.2019.2899816")
+)
+
+
+citEntry(entry = "Article",
+         title        = "Student’s t VAR Modeling with Missing Data via 
+                         Stochastic EM and Gibbs Sampling",
+         author       = personList(as.person("R. Zhou"),
+                                   as.person("J. Liu"),
+                                   as.person("S. Kumar"),
+                                   as.person("D. P. Palomar")),
+         journal      = "IEEE Trans. on Signal Processing",
+         volume       = "68",
+         pages        = "6198--6211",
+         year         = "2020",
+         url          = "https://doi.org/10.1109/TSP.2020.3033378",
+         textVersion  =
+           paste("R. Zhou, J. Liu, S. Kumar, and D. P. Palomar (2020).",
+                 "Student’s t VAR Modeling with Missing Data via 
+                         Stochastic EM and Gibbs Sampling.",
+                 "IEEE Trans. on Signal Processing,",
+                 "vol. 68, pp. 6198--6211.",
+                 "https://doi.org/10.1109/TSP.2020.3033378")
+)
