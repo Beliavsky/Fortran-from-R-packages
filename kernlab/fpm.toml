@@ -1,0 +1,17 @@
+name = "kernlab"
+version = "0.9.33"
+license = "GPL-2.0-only"
+author = "Kernlab authors; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran computational translation of kernlab"
+categories = ["machine-learning", "kernels", "statistics"]
+keywords = ["kernel", "svm", "kpca", "clustering", "gaussian-process"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[install]
+library = true
