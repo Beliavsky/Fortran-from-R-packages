@@ -1,0 +1,21 @@
+name = "fints"
+version = "0.4.9"
+license = "GPL-2.0-or-later"
+author = "Original FinTS authors; Fortran port generated from FinTS 0.4-9"
+maintainer = "Vivek Rao"
+description = "Modern Fortran port of the computational routines in the R package FinTS"
+keywords = ["finance", "time-series", "arima", "arch", "pca"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

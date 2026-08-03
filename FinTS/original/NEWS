@@ -1,0 +1,44 @@
+Changes in Version 0.4-9
+
+  o removed package 'distrEx' from 'Suggests'.
+
+  o fixed 'inst/scripts/ch01.R' to not throw error if a package needed for an
+    example is not installed.
+
+
+Changes in Version 0.4-8
+
+  o fixed CRAN NOTEs 'Lost braces in \itemize; meant \describe ?'.
+  
+
+Changes in Version 0.4-7
+
+  o 'FinTS-package.Rd' contained hard coded strings related to old versions of
+    FinTS (now they are computed at build time) and removed the table repeating
+    stuff from file DESCRIPTION.
+    
+  o a number of minor edits and corrections in most Rd files.
+
+
+Changes in Version 0.4-6
+
+  o New maintainer - Georgi N. Boshnakov.
+
+  o The URL in file DESCRIPTION had become inaccessible, the current one is
+    http://faculty.chicagobooth.edu/ruey.tsay/teaching/fts2/.
+
+    However, I (GB) think that this should be the development page of the
+    package, so I changed it to https://r-forge.r-project.org/projects/fints/.
+
+
+Changes in Version 0.3-7
+
+  o Added "See Also: 'file.path'" to the help file for 'package.dir' to make it
+    easier to find.
+
+
+Changes in Version 0.3-6
+
+  o This is the first version to have a complete script for chapter 9.  The
+    previous release had complete scripts for chapters 1-3 and partial scripts
+    for chapters 4, 9, and 11.

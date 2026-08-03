@@ -1,0 +1,31 @@
+Package: FinTS
+Type: Package
+Title: Companion to Tsay (2005) Analysis of Financial Time Series
+Version: 0.4-9
+Authors@R: c( person(given = "Spencer", family = "Graves",
+                     role = c("aut"), 
+                     email = "spencer.graves@effectivedefense.org"),
+              person(given = c("Georgi", "N."), family = "Boshnakov", 
+                     role = c("cre", "ctb"), 
+                     email = "georgi.boshnakov@manchester.ac.uk") )
+Description: R companion to Tsay (2005) Analysis of Financial Time
+   Series, second edition (Wiley).  Includes data sets, functions and
+   script files required to work some of the examples.  Version 0.3-x
+   includes R objects for all data files used in the text and script
+   files to recreate most of the analyses in chapters 1-3 and 9 plus
+   parts of chapters 4 and 11.
+License: GPL (>= 2)
+BugReports: https://r-forge.r-project.org/tracker/?group_id=84&atid=380
+URL: https://geobosh.github.io/FinTSDoc/ (doc),
+        https://r-forge.r-project.org/projects/fints/ (devel)
+Depends: R (>= 2.10), zoo, graphics
+Suggests: moments, tseries, urca, lmtest, sandwich, psych, GPArotation,
+        chron, polynom, e1071
+LazyData: yes
+NeedsCompilation: no
+Packaged: 2024-01-26 16:05:52 UTC; georgi
+Author: Spencer Graves [aut],
+  Georgi N. Boshnakov [cre, ctb]
+Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
+Repository: CRAN
+Date/Publication: 2024-01-26 19:20:02 UTC

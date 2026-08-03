@@ -1,0 +1,76 @@
+#################################
+*Note by Georgi:* The package needs to be build with 
+
+ R CMD build FinTS --resave-data
+
+Otherwise, 'R CMD check' gives warning suggesting to do exactly that.
+Once the package is built with '--resave-data' R inserts a dependency on R (>= 2.10), but
+this shouldn't be a problem.
+#################################
+
+The follow describes how different packages are used.  
+
+
+DEPENDS:  
+
+zoo:  Many data objects are of class 'zoo'.  This is used 
+extensively in 'FinTS'.    
+
+fUtilities:  'skewness' and 'kurtosis' are called from 
+'FinTS.stats'.  The 'fUtilities' skewness and kurtosis 
+functions are generic and try to do more things but contain 
+bugs.  However, 'fUtilities' is required by 'fUnitRoots'.  
+Therefore, it is used for 'skewness' and 'kurtosis' also 
+to reduce 'DEPENDS'.  
+
+chron:  component 'date.time' in 'ibm' used in chapter 5 is of 
+class 'chron'.  
+
+polynom:  'solve.polynomial' is used by 'plotArmaTrueacf' to find 
+complex conjugates.  
+
+fUnitRoots:  Function 'adfTest' is used by 'Unitroot'.  
+
+
+SUGGESTS:  
+
+moments:  Used in 'ch01.R'.  
+
+distEx:  Used in 'ch01.R'.  
+
+tseries:  Used in 'ch02.R'.  
+
+urca:  Used in 'ch02.R'.  
+
+uroot:  Used in 'ch02.R'.  
+
+fCalendar:  'holidaysNYSE' is used in 'scripts\create-ch08.R', 
+'*-ch10.R' and '*-ch11.R'.  
+
+lmtest:  'coeftest' used in 'ch02.R' 
+
+sandwich:  'vcovHC' used in 'ch02.R' 
+
+##################################
+##
+## Previous 'DEPENDS' and 'SUGGESTS' 
+## removed as apparently no longer needed.  
+##
+##################################
+
+PREVIOUS DEPENDS:  
+
+e1071:  Was used for 'skewness' and 'kurtosis' in 'FinTS.stats'.  
+However, these functions are masked by functions of the same 
+names in 'fUtilities', which is required by 'fUnitRoots'.  
+Since 'fUtilities' is loaded anyway, I chanded 'DEPENDS' to 
+use that instead.  I 
+Therefore, it's not clear if this is even needed.  
+
+
+PREVIOUS SUGGESTS:  
+
+logSpline:  At one time, this was used in one of the scripts files.  
+However, I can't find it now, and I may have deleted it.    
+
+##############################

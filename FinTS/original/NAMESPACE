@@ -1,0 +1,12 @@
+import(zoo)
+importFrom(graphics, plot, par)
+importFrom(stats, na.fail)
+importFrom(grDevices, dev.interactive)
+
+S3method(plot, Acf)
+S3method(plot, loadings)
+
+export(Acf, apca, ArchTest, ARIMA, as.yearmon2, AutocorTest,
+       compoundInterest, findConjugates, FinTS.stats,
+       package.dir, plotArmaTrueacf, read.yearmon, runscript,
+       simple2logReturns, url2data)
