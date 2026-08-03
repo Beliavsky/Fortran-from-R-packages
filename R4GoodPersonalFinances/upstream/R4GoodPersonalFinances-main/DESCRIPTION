@@ -1,0 +1,78 @@
+Package: R4GoodPersonalFinances
+Title: Make Optimal Financial Decisions
+Version: 1.2.0.9000
+Authors@R: c(
+    person("Kamil", "Wais", , "kamil.wais@gmail.com", 
+        role = c("aut", "cre", "cph", "fnd"),
+        comment = c(ORCID = "0000-0002-4062-055X")
+        ),
+    person("Olesia", "Wais", , "olesia.wais@gmail.com", 
+        role = "aut",
+        comment = c(ORCID = "0000-0002-8741-8674")
+        )
+  )
+Description: Make optimal decisions for your personal or
+    household finances. Use tools and methods that are selected carefully
+    to align with academic consensus, bridging the gap between theoretical
+    knowledge and practical application. They help you find
+    your own personalized optimal discretionary spending or
+    optimal asset allocation, and prepare you for retirement 
+    or financial independence.
+    The optimal solution to this problems is extremely complex,
+    and we only have a single lifetime to get it right.
+    Fortunately, we now have the user-friendly tools implemented,
+    that integrate life-cycle models 
+    with single-period net-worth mean-variance optimization models. 
+    Those tools can be used by anyone who wants to see 
+    what highly-personalized optimal decisions can look like.
+    For more details see: 
+    Idzorek T., Kaplan P. (2024, ISBN:9781952927379),
+    Haghani V., White J. (2023, ISBN:9781119747918).
+License: MIT + file LICENSE
+URL: https://www.r4good.academy/,
+    https://r4goodacademy.github.io/R4GoodPersonalFinances/,
+    https://github.com/R4GoodAcademy/R4GoodPersonalFinances
+BugReports: https://github.com/R4GoodAcademy/R4GoodPersonalFinances/issues
+Depends: 
+    R (>= 4.1.0)
+Imports: 
+    bsicons,
+    bslib,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    ggtext,
+    gt,
+    glue,
+    PrettyCols,
+    scales,
+    shiny,
+    tidyr,
+    readr,
+    fs,
+    purrr,
+    stringr,
+    nloptr,
+    cli,
+    furrr,
+    future,
+    progressr,
+    lubridate,
+    memoise,
+    cachem,
+    rlang
+Suggests: 
+    spelling,
+    tibble,
+    withr,
+    microbenchmark,
+    testthat (>= 3.0.0),
+    vdiffr
+Config/testthat/edition: 3
+Config/testthat/parallel: true
+Config/testthat/start-first: plot_*, simulate_*
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+LazyData: true
