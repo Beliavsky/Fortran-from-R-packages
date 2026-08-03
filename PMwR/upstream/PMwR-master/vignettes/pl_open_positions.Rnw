@@ -1,0 +1,118 @@
+%% \VignetteIndexEntry{Profit/Loss for Open Positions}
+\documentclass[a4paper,11pt]{article}
+\usepackage[left = 3cm, top = 2cm, bottom = 2cm, right = 4cm]{geometry}
+\usepackage[noae,nogin]{Sweave}
+\usepackage{libertine}
+\usepackage[scaled=0.9]{inconsolata}
+% \usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{amsmath,amstext}
+\usepackage{sfmath}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage[hang]{footmisc}
+\definecolor{grau2}{rgb}{.2,.2,.2}
+\definecolor{grau7}{rgb}{.7,.7,.7}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{frame=single,
+  xleftmargin=0em, formatcom=\color{grau2},rulecolor=\color{grau7}}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=2em}
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+\SweaveOpts{keep.source = TRUE, eps = TRUE}
+
+<<echo=false>>=
+options(continue = "  ", digits = 3, width = 60, useFancyQuotes = FALSE)
+pv <- packageVersion("PMwR")
+pv <- gsub("(.*)[.](.*)", "\\1-\\2", pv)
+@
+
+\begin{document}
+\title{Profit/Loss for Open Positions}
+\author{Enrico Schumann\\\url{mailto:es@enricoschumann.net}}
+
+{\raggedright{\LARGE Profit/Loss for Open Positions}}\hspace*{\fill}
+{\footnotesize Package version \Sexpr{pv}}\medskip
+
+\noindent Enrico Schumann\\
+\noindent \url{mailto:es@enricoschumann.net}\\
+\bigskip
+
+\noindent This vignette shows how the \texttt{vprice}
+argument of function \texttt{pl} can be used.
+
+
+
+\section{How to use \texttt{vprice}}
+
+\subsection*{When timestamp is not used}
+
+If no timestamp information is used, i.e. if
+\texttt{along.timestamp} is \texttt{FALSE},
+\texttt{vprice} is used to value an open position (or,
+if you prefer, to simulate the close of an open
+position).  So for a single asset, it should be vector
+of length one; for $N$~assets, it should be a named
+vector of length~$N$.
+
+\subsection*{When timestamp is used}
+
+If \texttt{along.timestamp} is \texttt{TRUE},
+\texttt{vprice} is used to close the final, open
+position. So for a single asset, it should be vector of
+length one; for $N$~assets, it should be a named vector
+of length~$N$.
+
+If \texttt{along.timestamp} is a vector of timestamps,
+\texttt{vprice} is used to value any open position
+along those timestamps. For a single asset, it should
+then be a vector of prices, with length equal to that
+of \texttt{along.timestamp}.  For $N$~assets, it should
+be a matrix with \texttt{length(along.timestamp)}~rows
+and $N$ named columns.
+
+
+\section{Examples}
+
+
+<<echo=false>>=
+library("PMwR")
+@
+
+
+With a single asset.
+
+<<>>=
+j <- journal(amount = 1, price = 20)
+pl(j)
+pl(j, vprice = 21)
+@ 
+
+<<>>=
+j <- journal(amount = c(1, -1),
+             price = c(102, 109),
+             timestamp = c(2.5, 9))
+pl(j, vprice = 101:110, along.timestamp = 1:10)
+@ 
+
+With several assets.
+
+<<>>=
+j <- journal(amount = c(1, -1, 1),
+             instrument = c("A", "A", "B"),
+             timestamp = c(1, 2, 1),
+             price = c(100, 103, 10))
+
+P <- cbind(A = c(100, 102, 105),
+           B = c( 10,   5,  11))
+
+pl(j, vprice = P,
+   along.timestamp = 1:3)
+pl(j, vprice = P,
+   along.timestamp = 1:3, do.sum = TRUE)
+@ 
+
+
+\end{document}

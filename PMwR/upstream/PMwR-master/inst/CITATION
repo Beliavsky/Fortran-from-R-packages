@@ -1,0 +1,13 @@
+citHeader("To cite PMwR in publications, please use:")
+
+bibentry(bibtype = "Manual",
+         title = "Portfolio Management with {R}",
+         author = person("Enrico", "Schumann", role = c("aut","cre")),
+         year = paste0("2008--", sub("-.*", "", meta$Date)),
+         url  = "https://enricoschumann.net/PMwR/",
+         doi = "10.32614/CRAN.package.PMwR",
+         textVersion =
+             paste("Enrico Schumann.",
+                   "PMwR: Portfolio Management with R.",
+                   "https://enricoschumann.net/PMwR/",
+                   paste0("2008--", sub("-.*", "", meta$Date)), "."))

@@ -1,0 +1,146 @@
+%% \VignetteIndexEntry{Computing Returns}
+\documentclass[a4paper,11pt]{article}
+\usepackage[left = 3cm, top = 2cm, bottom = 2cm, right = 4cm]{geometry}
+\usepackage[noae,nogin]{Sweave}
+\usepackage{libertine}
+\usepackage[scaled=0.9]{inconsolata}
+% \usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{amsmath,amstext}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage[hang,flushmargin]{footmisc}
+\definecolor{grau2}{rgb}{.2,.2,.2}
+\definecolor{grau7}{rgb}{.7,.7,.7}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{frame=single,
+  xleftmargin=0em, formatcom=\color{grau2},rulecolor=\color{grau7}}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=2em}
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+\SweaveOpts{keep.source = TRUE, eps = TRUE}
+
+<<echo=false>>=
+options(continue = "  ", digits = 3, width = 55, useFancyQuotes = FALSE)
+pv <- packageVersion("PMwR")
+pv <- gsub("(.*)[.](.*)", "\\1-\\2", pv)
+@
+
+\begin{document}
+\title{Computing Returns}
+\author{Enrico Schumann\\\url{mailto:es@enricoschumann.net}}
+
+{\raggedright{\LARGE Computing Returns}}\hspace*{\fill}
+{\footnotesize Package version \Sexpr{pv}}\medskip
+
+\noindent Enrico Schumann\\
+\noindent \url{mailto:es@enricoschumann.net}\\
+\bigskip\raggedbottom
+
+<<echo=false>>=
+library("PMwR")
+library("zoo")
+@
+
+\noindent In the simplest case, the function
+\texttt{returns} takes a numeric vector of prices and
+evaluates to a numeric vector of returns.
+<<>>=
+library("PMwR")
+returns(100:105)
+@ 
+
+\noindent The function will recognise when the input
+argument has several columns, i.e. is a matrix or a
+data frame. In such a case, it computes returns for
+each column.
+
+In fact, \texttt{returns} is a generic function, and
+also understands time-series such as zoo objects.  To
+demonstrate this functionality, we use the datasets
+\texttt{DAX} and \texttt{REXP}, which are provided by
+\textsc{pmwr}.  Both are data frames of one column; the
+rownames are the dates.
+
+<<>>=
+library("zoo")
+DAX <- zoo(DAX[[1]], as.Date(row.names(DAX)))
+REXP <- zoo(REXP[[1]], as.Date(row.names(REXP)))
+@ 
+
+
+\noindent Calling returns on a zoo series will result in a
+\texttt{zoo} series.
+<<>>=
+str(DAX)
+@ 
+<<echo=false>>=
+options(width = 70)
+@ 
+
+<<>>=
+head(returns(DAX))
+@
+
+\noindent Matrices work as well: As an example, we
+combine both \texttt{zoo} series into a two-column
+matrix.
+
+<<>>=
+returns(head(cbind(DAX, REXP), 5))
+@ 
+
+\noindent When a calendar timestamp is available,
+\texttt{returns} can also aggregate prices over
+specific holding periods.
+
+<<>>=
+returns(DAX, period = "year")
+returns(DAX, period = "month")
+returns(DAX, period = "2015")
+returns(DAX, period = "annualised")
+@ 
+
+\noindent Again, this also works for matrices.
+<<>>=
+returns(cbind(DAX, REXP), period = "year")
+returns(cbind(DAX, REXP), period = "month")
+@ 
+
+\noindent Despite the way these holding-period returns
+are printed: the result of the function call is a
+numeric vector (the return numbers), with additional
+information added through attributes.  It is thus
+natural to compute with the returns, e.g. to calculate
+means, extremes or similar quantities.
+<<>>=
+range(returns(DAX, period = "month"))
+@ 
+
+\noindent There are methods for \texttt{toLatex} and
+\texttt{toHTML} for monthly returns. For instance, the
+table\medskip
+
+\begin{center}\small
+\begin{tabular}{lrrrrrrrrrrrrr}
+<<results = tex, echo = false>>=
+toLatex(returns(DAX, period = "month"))
+@ 
+\end{tabular}
+\end{center}
+
+\noindent is essentially prepared by the call
+<<eval = false>>=
+toLatex(returns(DAX, period = "month"))
+@ 
+
+\noindent See the vignette source for the tabular header. More
+examples are in the Fin\TeX\ vignette; say
+<<eval = false>>=
+vignette("FinTeX", package = "PMwR")
+@ 
+to open it.
+
+\end{document}

@@ -1,0 +1,736 @@
+v1.2-0  (2025-12-17)
+
+  o fixed: 'rebalance' handles more corner cases; for
+    example, when 'current' and 'target' are not weights,
+    and no notional is specified. Also, the multiplier
+    attribute was not subsetted when 'drop.zero' was
+    specified.
+
+v1.1-0  (2025-10-19)
+
+  o fixed: 'position' with an "along.timestamp" works
+    (again) with character timestamps
+
+  o fixed: 'btest' handles (rare) corner cases with initial
+    position, NAs in prices without position and burnin
+    of 0 correctly
+
+  o fixed: the error message in 'unit_prices' could give
+    the wrong date with multiple cashflows on a single date
+
+  o an 'as.data.frame method' for summaries of NAVseries
+    has been added
+
+  o 'position' can now be used directly on data.frames,
+    as long as they have appropriately-named columns
+    (i.e. "amount", "timestamp", etc.)
+
+  o 'position' supports generics `>`, `>=`, `<`, `<=`, `==`,
+    `|` and `&`; binary operations, such as `+` or `>`, now
+    match timestamps, i.e. can be used for positions with
+    multiple timestamps
+
+  o various minor changes and documentation updates;
+    many tests have been added.  See the ChangeLog for
+    all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v1.0-1  (2024-10-19)
+
+  o change URL to DOI, as requested by CRAN
+
+v1.0-0  (2024-10-19)
+
+  o 'returns': default for 'na.rm' is now FALSE. The
+    warning about missing values, introduced in version
+    v0.19-6, is handled by new argument 'na.warn' (with
+    default FALSE). Note that 'na.rm' had always affected
+    only a limited number of cases of holding-period return
+    computations.
+
+  o when computing portfolio returns, 'returns' no longer
+    ignores argument 'pad' when no rebalancing takes place
+
+  o various minor changes and documentation updates;
+    many tests have been added.  See the ChangeLog for
+    all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.19-6  (2024-09-17)
+
+  o 'unit_prices': rename argument 'initial.shares' to
+    'initial.units', and support its use. The function also
+    gains arguments 'round.price' and 'round.units'.
+
+  o 'returns' now issues a warning when there are NAs in
+    series and argument 'na.rm' is not explicitly set.  This
+    warning will be removed when the default of 'na.rm' is
+    set to FALSE in the not-too-distant future version 1.0.
+
+  o 'pricetable' supports multivariate zoo series
+
+  o various minor changes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.19-5  (2024-07-21)
+
+  o fixed: 'rc' did not compute total contributions correctly
+    when returns were not sorted in time
+
+  o fixed: the zoo method of 'returns' no longer ignores
+    argument 'na.rm'
+
+  o 'is_valid_ISIN' gains an argument 'NA.FALSE', with
+    default FALSE.  With this default, is_valid_ISIN(NA)
+    evaluates to NA, whereas before an NA would evaluate
+    to FALSE.  To retain the old behaviour, set NA.FALSE
+    to TRUE.  The function also no longer emits a (harmless
+    but annoying) warning when the check digit of an invalid
+    ISIN was not a number.
+
+  o 'rc' now supports (or where it did so already, gets
+    documentation for) various computations, notably
+    for linking single-period returns
+
+  o the print methods for summaries of 'NAVseries' have
+    been improved, notably in the multivariate case
+
+  o 'instrument' methods have been added for 'NAVseries'
+
+  o experimental: 'as.NAVseries' now splits a
+    multivariate zoo-series into a list of NAVseries
+
+  o documentation updates
+
+v0.19-4  (2023-12-08)
+
+  o the computations for 'position' are more efficient now
+
+  o documentation updates
+
+v0.19-3  (2023-10-19)
+
+  o documentation updates.  In particular, many help pages
+    now have links to the revelant manual sections.
+    (The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.)
+
+v0.19-2  (2023-09-29)
+
+  o 'split_trades' gains an argument 'drop.zero', for
+    dropping zero-amount trades
+
+  o 'pl': fix a bug in printing in case of an initial
+    position but no trades in journal
+
+  o 'as.journal(<journal>)' now evaluates to <journal>
+    (instead of giving an error)
+
+  o the package now depends on R >= 3.5. R 3.5 was released
+    in 2018.
+
+  o various minor changes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.19-1  (2023-06-05)
+
+  o the package now depends on R >= 3.3. That's because
+    the macro \doi{} is now used in the docs.  R 3.3
+    was released in 2016, so this requirement appears
+    not too unreasonable.
+
+  o functions ".expand" and ".tree" are no longer
+    exported, as they are used internally only
+
+  o the first argument of the (rarely-used) position
+    method of 'journal' (i.e. 'journal.position') is
+    now named 'amount', in alignment with the generic
+
+  o helper function '.pl_stats' is now documented
+
+  o various documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.19-0  (2023-05-31)
+
+  o Version 0.19 is intended be the last one before the
+    release of version 1.0.
+
+  o 'returns' gains an argument 'na.rm', currently with
+    default TRUE, which matches the current behaviour. In a
+    not-too-distant future version, the default will be
+    changed to FALSE.
+
+  o 'returns' supports timestamps of class 'yearqtr' and
+    'yearmon', as provided by the package 'zoo'
+
+  o 'btest': function 'do.rebalance' may now return a
+    logical vector with length equal to the number of
+    assets, indicating which assets to rebalance
+
+  o a transpose method is now defined for holding-period
+    'returns', for the (rare) case that a returns matrix is
+    to be transposed [before, this had required an explicit
+    conversion with as.matrix, and otherwise would have
+    resulted in an error]
+
+  o 'rc' ignores missing prices as along as
+    corresponding weights are zero
+
+  o various minor bug fixes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.18-0  (2022-10-19)
+
+  o 'streaks' gains an argument 'relative', with default
+    TRUE, which is the current behaviour. If FALSE, the
+    function looks at differences instead of relative
+    changes (returns), which is useful, for instance, for
+    interest rates. For an example, see
+    https://enricoschumann.net/notes/streaks-in-equity-returns-and-yield-changes.html
+
+  o 'btest': rebalance arithmetic is performed only for
+    positions with non-zero change also in period 1,
+    i.e. in the rare case when burn-in is 0, which
+    allows NAs in prices. (For periods > 1, this
+    behaviour had been introduced in version 0.10-0.)
+
+  o 'position': if 'when' is not specified, timestamps
+    are now effectively ignored, even if they are NA
+
+  o There is an additional public Git repository at
+    https://git.sr.ht/~enricoschumann/PMwR
+
+  o various minor bug fixes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.17-0  (2021-10-19)
+
+  o the print method for "rebalance" no longer ignores
+    multipliers [note that this never affected the actual
+    computations, only the printing of turnover and
+    transaction values]
+
+  o calling 'returns' with a position/weights now warns if
+    there are missing prices at rebalance times
+
+  o experimental: 'rc' provides alternative methods to
+    compute performance contribution; it also gains
+    rudimentary support for performance attribution
+    (Brinson et al.)
+
+  o various minor bug fixes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.16-1  (2021-09-18)
+
+  o position: fix computing dates from timestamps in
+    certain locales (timezones with large UTC offsets)
+    in case the "when" keyword was used, as in
+        position(J, when = "endofday")
+
+    Thanks go to the CRAN team/Brian Ripley for helping
+    to pinpoint the problem.
+
+v0.16-0  (2021-01-19)
+
+  o returns: computations for rebalanced portfolios are
+    more efficient, and function 'returns' now supports
+    both fixed weights and fixed positions.  When
+    calling 'returns' with 'rebalance.when' and
+    argument 'weights'/'position', the resulting
+    'contributions' no longer ignore argument 'pad'.
+
+  o 'unit_prices' now supports cashflows for different
+    ids/accounts, even on the same timestamp.  An
+    attribute 'transactions' is attached: a data.frame
+    of the transactions, for each id/account.
+    Redundant columns are no longer returned, but they
+    can easily be recovered (see Examples for
+    ?unit_prices).
+
+  o 'div_adjust' supports several payments on the
+    same timestamp
+
+  o various minor bug fixes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.15-1  (2020-10-20)
+
+  o div_adjust: fix handling of dividends that occur on
+    the first timestep
+
+v0.15-0  (2020-10-19)
+
+  o 'valuation': argument 'price.table' has been renamed:
+
+        price.table   =>   vprice
+
+    The function also gains a new argument 'use.names',
+    with default FALSE.  To keep the old behaviour,
+    simply rename the argument.
+
+    If 'use.names' is set to TRUE, column names are
+    matched against instruments. In effect, argument
+    'vprice' in 'valuation' behaves in essentially the
+    same way as argument 'vprice' of function 'pl'.
+    For examples, see ?valuation and
+    https://enricoschumann.net/notes/valuing-positions.html
+
+  o when a subset is taken from a 'pricetable', the
+    result is no longer a pricetable but a numeric
+    matrix.  The behaviour is controlled by a new
+    argument 'as.matrix'. For the old bevahiour, set
+    this argument to FALSE, i.e. say
+
+        p[<....>, <....>, as.matrix = FALSE]
+
+  o the PMwR package now explicitly depends on R version >= 3.2
+
+  o new function 'is_valid_SEDOL'
+
+  o 'pl': it is now checked that custom valuation dates
+    passed via 'along.timestamp' are in ascending order
+    (and they now get sorted if they are not)
+
+  o 'rebalance' now warns about NAs in the 'price' input
+
+  o the summary method for journals is now properly
+    documented
+
+  o various minor bug fixes and documentation updates.
+    See the ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.14-0  (2020-03-11)
+
+  o 'btest': handling of argument 'do.rebalance' has
+    been fixed. It had not worked properly when set to
+    "firstofquarter" or "lastofquarter". Thanks to
+    Lutchmie Narine for reporting.
+
+  o 'btest': 'variations.settings' gains an option
+    'expand.grid'.  If FALSE, 'btest' does not compute
+    combinations of variations. See
+    https://enricoschumann.net/notes/backtest-strategy-on-different-datasets.html
+    for an example.
+
+  o 'streaks': the function now also allows to compute
+    streaks relative to a benchmark
+
+  o 'streaks': default value for 'down' has been
+    changed to '-up'
+
+  o 'journal': the summary method now allows
+    aggregation by timestamp and instrument
+
+  o objects of class 'position' support the unary `!`
+    operator: the result is a logical matrix of the
+    same dimension as the original position
+
+  o 'div_adjust': support several splits on a single
+     timestamp
+
+  o 'returns': the 'weights' argument needs no longer
+     sum to one
+
+  o 'NAVseries': the toLatex method for summaries
+    gains an argument 'include.bm', with default FALSE
+
+  o various minor bug fixes and documentation
+    updates.  See the ChangeLog for all details.
+
+v0.13-0  (2019-10-19)
+
+  o 'btest': fix handling of initial position -- with
+    an initial position specified and burn-in set to
+    zero, the suggested position now equals the
+    initial position (as it does for a burn-in greater
+    than zero)
+
+  o 'NAVseries': fix method, which did not work
+    properly when 'start' or 'end' were not included
+    in 'timestamp'
+
+  o 'NAVseries': add a 'lines' method
+
+  o 'returns': period "total" is now an alias for
+    "itd" (inception to date)
+
+  o 'journal': argument 'reverse', for subsetting, has
+    been renamed to 'invert' ('reverse' still works,
+    but with a warning, and will be removed in the
+    future). Also, for consistency, the argument now
+    applies to numeric and logical subscripts as well.
+
+  o various documentation updates; new features are
+    now described at
+      https://enricoschumann.net/notes/PMwR/
+
+v0.12-0  (2019-08-26)
+
+  o 'returns': fix returns computation for zoo series
+    with a lag different from 1 and no padding (the
+    timestamp of the resulting returns series was wrong)
+
+  o 'returns': returns will now be computed for period
+    "itd" even when no timestamp is provided
+
+  o 'pl' gains a new argument 'footnotes' , with
+    default TRUE. If FALSE, less information is
+    printed for 'pl' objects. Also, open positions no
+    longer produce a warning ("sum(amount) is not
+    zero"), but only a message, which is only shown
+    when 'footnotes' is TRUE.
+
+  o 'pricetable' supports shortcuts for setting up a
+    pricetable with a single timestamp but several
+    instruments. See the Examples at ?pricetable.
+
+  o 'valuation' now warns when there are missing
+    values in 'multiplier', and gains an argument
+    'do.warn' to switch off the warning
+
+  o 'btest' works in more cases with NAs in prices:
+    when 'convert.weights' is TRUE, only non-zero
+    weights are converted. So as long as a strategy
+    does not specify positions in series with
+    missing prices, positions and so on can be
+    computed.
+
+  o experimental: 'btest' now checks the 'dim'
+    attribute of 'prices' (after having them unlisted,
+    in the case of several assets). Only if none is
+    found, 'as.matrix' is called. This allows
+    alternative classes to be used for 'prices', as
+    long as they define subsetting via
+    integers/logicals in the same way as numeric
+    matrices.
+
+  o there is now a textutils::toHTML method for
+    'position'; it currently only supports positions
+    at a single point in time
+
+  o see the ChangeLog for all details
+
+v0.11-1  (2019-06-02)
+
+  o div_adjust: fix handling of dividends for case
+    additive = FALSE
+
+  o rebalance: 'drop.zero' now drops instruments for
+    which 'current' and 'target' are the same, i.e. for
+    which no rebalancing is necessary (before, it would
+    only drop instruments for which both 'current' and
+    'target' are zero)
+
+  o a tutorial on backtesting is available at
+    https://ssrn.com/abstract=3374195
+
+v0.11-0  (2019-04-01)
+
+  o returns: 'weights' may now also be a matrix with as
+    many rows as 'rebalance.when'. Also, rebalancing at
+    the first timestamp is no longer implied (see
+    ChangeLog entry of 2018-11-09 for details).
+
+  o position: new argument 'use.names', which allows to
+    use names/colnames as instrument information. Also,
+    matrix input is now treated specially; see examples at
+    https://enricoschumann.net/notes/computing-positions.html
+
+  o NAVseries: new argument 'drop.NA'. Also, if 'NAV'
+    inherits from 'btest', the function now calls
+    'as.NAVseries.btest'.
+
+  o summary.NAVseries: new argument 'bm' ("benchmark").
+    If set, a 'tracking.error' is computed. The summary
+    method now can handle several NAVseries as inputs,
+    which allows easier comparison of series.
+
+  o as.NAVseries.btest: method gains optional arguments
+    'instrument', 'title' and 'description'
+
+  o plot_trading_hours.R: fix axis-tick positions when
+    'label' is "days"
+
+  o functions 'scaleTrades' and 'splitTrades' have
+    finally been removed (they had not been exported
+    for a long time; see ChangeLog entry of 2017-06-23).
+    Use drop-in replacements 'scale_trades' and
+    'split_trades' instead.
+
+  o split_trades: 'price' may now be missing (in which
+    case NA is used)
+
+  o various documentation updates/fixes; see the
+    ChangeLog for all details.
+
+v0.10-0  (2018-10-19)
+
+  o btest: support automatic computation of
+    variations, both serially and in parallel.  See new
+    arguments 'variations', 'variations.settings'
+    and 'replications'. See some examples at
+    https://enricoschumann.net/notes/parallel-backtests.html
+
+  o new generic function 'streaks' with methods for
+    zoo, NAVseries and numeric vectors
+
+  o new vignette on 'drawdowns and streaks'
+
+  o pl: In several cases in which profit/loss was set
+    to NA, it now defaults (more appropriately) to 0.
+    For instance, with a custom timestamp the
+    realised/unrealised profit/loss before the first
+    trade is now 0, not NA.
+
+  o quote32: the function now also recognises a
+    colon (:) as a separator. The function can now parse
+    more variations; see examples at
+    https://enricoschumann.net/notes/treasury-bond-quotes.html
+
+  o instrument: new replacement method
+    `instrument<-.journal`
+
+  o drawdowns: new method for NAVseries
+
+  o valuation.position method is now exported (though
+    still experimental)
+
+  o pl.btest: fixed passing of additional arguments
+
+  o returns: argument 'period' may also be 'hourly'
+
+  o scale1: argument 'when' may also be 'last'
+
+  o various documentation updates/fixes; see the
+    ChangeLog for all details. The manual at
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+    has also been updated.
+
+v0.9-0  (2018-06-09)
+
+  o summary.NAVseries: argument 'monthly' has been
+    renamed:
+
+        monthly   =>   monthly.vol
+
+  o summary.NAVseries: new argument 'assume.daily',
+    with default FALSE; when TRUE, numeric
+    timestamps are considered daily data, e.g. for
+    annualising returns
+
+  o NAVseries: add a 'window' method
+
+  o NAVseries: summary now includes recovery from
+    drawdown
+
+  o journal: add an 'all.equal' method
+
+  o btest: new argument 'include.timestamp', with
+    default TRUE
+
+  o returns: for portfolio returns, if a timestamp
+    is specified, 'rebalance.when' is matched
+    against this timestamp (e.g., 'rebalance.when'
+    may be specified as Date when the timestamp is
+    of class Date)
+
+v0.8-0  (2018-04-30)
+
+  o drawdowns: new generic function with methods for
+    zoo and numeric vectors
+
+  o plot_trading_hours: improved support for daily
+    series (interval becomes "1 day", etc.)
+
+  o pl: new argument 'do.sum'; if TRUE, P/L across
+    instruments is summed
+
+  o pl: new argument 'pl.only'; if TRUE, return P/L as
+    a numeric vector
+
+  o btest: if a timestamp of class Date or POSIXct is
+    specified, burn-in 'b' may be an actual timestamp
+
+  o rebalance: new argument 'current.weights' with
+    default FALSE; if TRUE, the current portfolio is
+    assumed to be a vector of weights
+
+  o returns: add method for as.data.frame for
+    holding-period returns
+
+  o the manual has been substantially revised. See
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html
+
+v0.7-0  (2018-01-01)
+
+  o scale1: objects that are modified by 'scale1' gain
+    an attribute "scale1_origin", which provides the
+    timestamp at which scaling starts
+
+  o btest: the handling of argument 'lag' has been
+    fixed (the argument had been ignored in some
+    situations)
+
+  o quote32: the function now also recognises a
+    colon (:) as a separator
+
+  o pl: new method for data frames
+
+  o New vignettes: "Computing returns", "Treasury
+    Quotes with 1/32 Fractions" and "Profit/Loss for
+    Open Positions"
+
+v0.6-0  (2017-11-16)
+
+  o btest: two arguments have been renamed
+
+        tradeOnOpen      =>  trade.at.open
+        assignInGlobals  =>  Globals
+
+  o plot_trading_hours: two arguments have been renamed
+
+        excludeWeekends  =>  exclude.weekends
+        do.plotAxis      =>  do.plot.axis
+
+  o Function 'isValidISIN' is no longer available; use
+    the drop-in replacement 'is_valid_ISIN' instead.
+
+  o Byte-compilation is now on by default.
+
+  o New vignette 'FinTeX'.
+
+  o New datasets DAX and REXP.
+
+  o New generic function instrument, also for
+    replacement.
+
+  o NAVseries: new method 'toLatex.summary.NAVseries';
+    see the vignette for examples.
+
+  o pricetable: the function is now a generic, with a
+    default and a zoo method. Methods for pricetable
+    have been added (print, `[`, as.matrix).
+
+  o quote32: the function now recognises both a hyphen
+    (-) or single quote (') as a separator
+
+  o A more-comprehensive list of changes is available
+    in the ChangeLog:
+    https://enricoschumann.net/R/packages/PMwR/ChangeLog
+
+v0.5-0  (2017-06-23)
+
+  o A number of functions have been renamed:
+
+      isValidISIN      => is_valid_ISIN
+      closeOnFirst     => close_on_first
+      plotTradingHours => plot_trading_hours
+      scaleToUnity     => scale_to_unity
+      scaleTrades      => scale_trades
+      splitTrades      => split_trades
+      twExposure       => tw_exposure
+
+    For the time being, the old functions can still be
+    called with
+
+      PMwR:::<old-fun-name>
+
+    but the old names shall be removed in a future
+    version.
+
+  o New 'as.matrix' method for monthly holding-period
+    returns, which places returns into a numeric matrix
+    with years in rows and months in columns. For other
+    holding periods, as.matrix is called on the raw
+    numeric data.
+
+  o returns: argument 'period' may also be 'quarterly'
+    or a single year, such as "2007"
+
+  o btest: 'do.signal' and 'do.rebalance' can also be
+    the string 'lastofquarter' to rebalance on last day
+    of quarter; or 'firstofquarter' to rebalance on
+    first day of quarter
+
+  o A more-comprehensive list of changes is available
+    in the ChangeLog:
+    https://enricoschumann.net/R/packages/PMwR/ChangeLog
+
+v0.4-0  (2017-02-07)
+
+  o New functions 'unit_prices', for computing
+    time-weighted returns, and 'rc', for computing
+    return contributions.
+
+  o New helper functions '.expand' and '.tree', for
+    displaying account hierachies.
+
+  o Various new methods: 'as.data.frame.position',
+    'summary.journal', 'as.zoo.position', 'pl.btest',
+    'toOrg.journal'.
+
+  o Support for (some) arithmetic operations on
+    'position' and 'quote32' objects.
+
+  o Updated manual chapter on computing returns:
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html#computing-returns
+
+  o Updated manual chapter on backtesting:
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html#backtesting
+
+v0.3-4  (2016-06-13)
+
+  o Moved function 'runStats' to a separate package 'runStats'
+    https://enricoschumann.net/R/packages/runStats/ .
+    The PMwR package contains only R code now, so no
+    special tools are required for installing from source.
+
+  o There is a public Git repository at
+    https://github.com/enricoschumann/PMwR
+
+v0.1-96  (2016-03-13)
+
+  o A draft of the manual chapter on computing profit
+    and loss is available:
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html#profit-and-loss
+
+v0.1-90  (2016-02-25)
+
+  o A draft of the manual chapter on scaling series is
+    available:
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html#scaling-series
+
+v0.1-89  (2016-02-19)
+
+  o A draft of the manual chapter on computing returns
+    is available:
+    https://enricoschumann.net/R/packages/PMwR/manual/PMwR.html#computing-returns
+
+v0.1-81  (2015-12-08)
+
+  o The PMwR package provides utilities for backtesting
+    investment and trading strategies, computing
+    profit-and-loss and returns, reporting, and more.
+    The package is still under heavy development.
+    Please see the ChangeLog for updates.

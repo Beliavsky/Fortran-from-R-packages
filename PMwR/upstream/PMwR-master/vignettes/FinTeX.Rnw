@@ -1,0 +1,190 @@
+%% \VignetteIndexEntry{FinTeX}
+\documentclass[a4paper,fontsize=11pt,DIV=12]{scrartcl}
+\usepackage[noae,nogin]{Sweave}
+\usepackage{libertine}
+\usepackage[scaled=0.9]{inconsolata}
+% \usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{amsmath,amstext}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{multicol}
+\usepackage{sparklines}
+\usepackage[hang]{footmisc}
+\definecolor{grau2}{rgb}{.2,.2,.2}
+\definecolor{grau7}{rgb}{.7,.7,.7}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{frame=single,
+  xleftmargin=0em, formatcom=\color{grau2},rulecolor=\color{grau7}}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=2em}
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+\SweaveOpts{keep.source = TRUE, eps = TRUE}
+
+<<echo=false>>=
+options(continue = "  ", digits = 3, width = 80, useFancyQuotes = FALSE)
+pv <- packageVersion("PMwR")
+pv <- gsub("(.*)[.](.*)", "\\1-\\2", pv)
+@
+
+\begin{document}
+\title{Fin\TeX}
+\author{Enrico Schumann\\\url{mailto:es@enricoschumann.net}}
+
+{\raggedright{\huge Fin\kern-0.14ex\TeX}}\hspace*{\fill}
+{\footnotesize Package version \Sexpr{pv}}\medskip
+
+\noindent Enrico Schumann\\
+\noindent \url{mailto:es@enricoschumann.net}\\
+\bigskip
+
+<<echo=false>>=
+library("PMwR")
+library("zoo")
+data("DAX")
+data("REXP")
+DAX  <- zoo(DAX[[1]],  as.Date(row.names(DAX)))
+REXP <- zoo(REXP[[1]], as.Date(row.names(REXP)))
+@
+
+\noindent\textsc{pm}w\textsc{r} provides several
+methods for \texttt{toLatex}.  \vspace{4ex}
+
+
+\noindent\textbf{Monthly returns}
+
+\noindent For a timeseries (e.g. \texttt{zoo} or
+\texttt{xts}), the function \texttt{returns} provides
+monthly returns.
+<<>>=
+returns(DAX, period = "month")
+@
+
+\noindent To have such a table placed into a \LaTeX\
+file, you can put the following snippet into a Sweave
+file.\medskip
+
+\noindent\verb+\begin{tabular}{rrrrrrrrrrrrrr}+
+
+\noindent\verb+<<results=tex,echo=false>>=+
+
+\noindent\verb+toLatex(returns(DAX, period = "month"), ytd = "\\textsc{ytd}")+
+
+\noindent\verb+@+
+
+\noindent\verb+\end{tabular}+
+
+\medskip
+
+\noindent The results will look like this:\medskip
+
+\begin{center}
+\noindent\begin{tabular}{rrrrrrrrrrrrrr}
+<<results=tex,echo=false>>=
+toLatex(returns(DAX, period = "month"), ytd = "\\textsc{ytd}")
+@
+\end{tabular}
+\end{center}
+
+\vspace{4ex}
+
+\noindent\textbf{NAVseries}
+
+\noindent Summaries of NAVseries contain a number of statistics that
+can be placed into \LaTeX\ templates.
+<<returns-dax>>=
+returns(DAX, period = "annualised")
+@
+
+\noindent To do so, call \texttt{toLatex} with a summary of
+one or more NAVseries, and a \texttt{template}.%
+\marginpar{\footnotesize\raggedright%
+  In recent versions of R, you can use raw character
+  constants of the form \texttt{r"(...)"}, which reduces
+  the need for escaping. See \texttt{?Quotes}\,.
+}
+<<>>=
+toLatex(summary(as.NAVseries(DAX,  title = "DAX"),
+                as.NAVseries(REXP, title = "REXP")),
+        template = "%title: %return\\% \\\\")
+@
+\noindent Note that the template was recycled, i.e. it
+was used for both series. We may also pass
+separate templates for each series.
+
+<<>>=
+tmpl <- c("Equities (%title) made %return\\%, with a drawdown of %mdd\\%;",
+          "bonds (%title) returned %return\\%.")
+toLatex(summary(as.NAVseries(DAX,  title = "DAX"),
+                as.NAVseries(REXP, title = "REXP")),
+        template = tmpl)
+@
+
+\noindent The keyword \texttt{\%sparkline} adds a sparkline:
+<<results=tex>>=
+toLatex(summary(as.NAVseries(DAX,  title = "DAX")),
+        template = "The DAX %sparkline made %return\\% during the period.")
+@
+It uses the \LaTeX\ package
+\texttt{sparklines}~(\url{https://ctan.org/pkg/sparklines}).
+
+\noindent Since templates are recycled, we can easily create rows for
+\LaTeX\ tables, such as this one:
+\begin{center}
+\begin{tabular}{llrr}
+& & Return p.a. & Volatility \\
+<<results=tex,echo=false>>=
+toLatex(summary(as.NAVseries(DAX,  title = "DAX"),
+                as.NAVseries(REXP, title = "REXP")),
+        template = "%title & %sparkline & %return & %volatility  \\\\")
+@
+\end{tabular}
+\end{center}
+\medskip
+
+\noindent\ldots which is produced by the following call:
+<<results=hide,eval=false>>=
+toLatex(summary(as.NAVseries(DAX,  title = "DAX"),
+                as.NAVseries(REXP, title = "REXP")),
+        template = "%title & %sparkline & %return & %volatility  \\\\")
+@
+
+When several NAV series are passed to \texttt{toLatex},
+all sparkline plots use the same y-scale.
+<<random-series, echo=false, results=hide>>=
+na <- 50
+no <- 250
+P <- array(rnorm(no*na, sd = 0.01), dim = c(no, na))
+P <- rbind(1, apply(P, 2, function(x) cumprod(x + 1)))
+str(P)
+@
+It is then straightforward to produce tables such as
+the following one, in which we have sorted 50 random
+series by total return. (See the vignette source for the
+exact code, but the key command is
+\texttt{toLatex(do.call(summary, <list of NAVseries>))}).\medskip
+
+\begin{tabular}{rrl@{\hspace{5ex}}rrl@{\hspace{5ex}}rrl}
+  Return & Vol &  & Return & Vol &  & Return & Vol & \\
+<<echo=false,results=tex>>=
+matrixify <- function(s, cols) {
+    s <- as.character(s)
+    nrow <- ceiling(length(s)/cols)
+    s <- c(s, rep("", nrow*cols - length(s)))
+    dim(s) <- c(nrow, cols)
+    s
+}
+
+## make LaTeX table
+Plist <- unname(
+  lapply(split(P, col(P)), function(x) NAVseries(x)))
+s <- toLatex(do.call(summary, Plist),
+             template = "%return & %volatility & %sparkline")
+o <- order(P[nrow(P), ], decreasing = TRUE)
+s <- s[o]
+cat(toLatex(as.data.frame(matrixify(s, 3))))
+@
+\end{tabular}
+\end{document}

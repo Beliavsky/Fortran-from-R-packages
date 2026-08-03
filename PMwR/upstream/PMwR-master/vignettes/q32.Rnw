@@ -1,0 +1,66 @@
+%% \VignetteIndexEntry{Treasury Quotes with 1/32 Fractions}
+\documentclass[a4paper,11pt]{article}
+\usepackage[left = 3cm, top = 2cm, bottom = 2cm, right = 4cm]{geometry}
+\usepackage[noae,nogin]{Sweave}
+\usepackage{libertine}
+\usepackage[scaled=0.9]{inconsolata}
+% \usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{amsmath,amstext}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage[hang]{footmisc}
+\definecolor{grau2}{rgb}{.2,.2,.2}
+\definecolor{grau7}{rgb}{.7,.7,.7}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{frame=single,
+  xleftmargin=0em, formatcom=\color{grau2},rulecolor=\color{grau7}}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=2em}
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+\SweaveOpts{keep.source = TRUE, eps = TRUE}
+
+<<echo=false>>=
+options(continue = "  ", digits = 3, width = 60, useFancyQuotes = FALSE)
+pv <- packageVersion("PMwR")
+pv <- gsub("(.*)[.](.*)", "\\1-\\2", pv)
+@
+
+\begin{document}
+\title{Treasury Quotes with 1/32 Fractions}
+\author{Enrico Schumann\\\url{mailto:es@enricoschumann.net}}
+
+{\raggedright{\LARGE Treasury Quotes with 1/32 Fractions}}\hspace*{\fill}
+{\footnotesize Package version \Sexpr{pv}}\medskip
+
+\noindent Enrico Schumann\\
+\noindent \url{mailto:es@enricoschumann.net}\\
+\bigskip
+
+<<echo=false>>=
+require("PMwR")
+@
+
+\noindent The function \texttt{quote32} has two purposes: it is meant
+for pretty-printing of \textsc{us} treasury bond quotes; and it provides
+a parser for prices quoted in 1/32 fractions.
+\texttt{q32} is a short-hand for \texttt{quote32}.
+
+If price is numeric, it is interpreted as a quote in
+decimal notation and translated into a price quoted in
+fractions of a point.
+<<>>=
+quote32(100 + 17.5/32)
+@ 
+
+If price is character, it is interpreted as a quote in
+fractional notation.
+<<>>=
+q32("100'105") + 1/32
+q32("100'10+") + 1/32
+q32("100'10+") + 0.5/32
+@ 
+
+\end{document}
