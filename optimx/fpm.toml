@@ -1,0 +1,20 @@
+name = "optimx-fortran"
+version = "2025.4.9"
+license = "GPL-2.0-only"
+author = "optimx contributors; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright optimx contributors"
+description = "Modern Fortran optimization toolkit inspired by optimx"
+categories = ["optimization", "numerical"]
+keywords = ["BFGS", "conjugate gradient", "Newton", "multistart", "KKT"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
