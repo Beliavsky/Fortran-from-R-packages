@@ -1,0 +1,20 @@
+name = "glmnet"
+version = "5.0.0"
+license = "GPL-2.0-only"
+author = "Jerome Friedman, Trevor Hastie, Rob Tibshirani, et al.; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Elastic-net regularized generalized linear model paths"
+categories = ["statistics", "regression", "machine-learning"]
+keywords = ["lasso", "elastic-net", "glm", "cox", "coordinate-descent"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
