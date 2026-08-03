@@ -1,0 +1,69 @@
+Package: portvine
+Title: Vine Based (Un)Conditional Portfolio Risk Measure Estimation
+Version: 1.0.3.9000
+Authors@R: 
+    person("Emanuel", "Sommer", , "emanuel_sommer@gmx.de", role = c("cre", "aut"))
+Description: Following Sommer (2022) <https://mediatum.ub.tum.de/1658240>
+    portfolio level risk estimates (e.g. Value at Risk, Expected
+    Shortfall) are estimated by modeling each asset univariately by an
+    ARMA-GARCH model and then their cross dependence via a Vine Copula
+    model in a rolling window fashion. One can even condition on
+    variables/time series at certain quantile levels to stress test the
+    risk measure estimates.
+License: MIT + file LICENSE
+URL: https://github.com/EmanuelSommer/portvine,
+    https://emanuelsommer.github.io/portvine/
+BugReports: https://github.com/EmanuelSommer/portvine/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    checkmate,
+    data.table,
+    dplyr,
+    dtplyr,
+    future.apply,
+    methods,
+    ppcor,
+    Rcpp (>= 0.12.12),
+    rlang,
+    rugarch,
+    rvinecopulib,
+    tidyr
+Suggests: 
+    covr,
+    future,
+    ggplot2,
+    ggtext,
+    knitr,
+    patchwork,
+    rmarkdown,
+    scales,
+    testthat (>= 3.0.0)
+LinkingTo: 
+    BH,
+    kde1d,
+    Rcpp,
+    RcppEigen,
+    RcppThread,
+    rvinecopulib,
+    wdm
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+NeedsCompilation: yes
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Collate: 
+    'RcppExports.R'
+    'default_garch_spec.R'
+    'S4_classes.R'
+    'datadoc_and_rcpp.R'
+    'dvine_ordering.R'
+    'risk_measures.R'
+    'rcondvinecop.R'
+    'estimate_dependence_and_risk.R'
+    'estimate_marginal_models.R'
+    'estimate_risk_roll.R'
+    'utils.R'

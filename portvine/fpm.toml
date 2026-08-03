@@ -1,0 +1,24 @@
+name = "portvine-fortran"
+version = "1.0.3"
+license = "GPL-3.0-only"
+author = "Emanuel Sommer; independent Fortran translation"
+maintainer = "Vivek Rao"
+copyright = "2022-2026"
+description = "Rolling ARMA-GARCH and vine-copula portfolio risk estimation in modern Fortran"
+keywords = ["portfolio-risk", "GARCH", "vine-copula", "VaR", "expected-shortfall"]
+categories = ["finance", "statistics", "time-series"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rugarch_fortran = { path = "vendor/rugarch" }
+rvinecopulib-fortran = { path = "vendor/rvinecopulib" }
