@@ -1,0 +1,17 @@
+name = "greeks"
+version = "1.5.6"
+license = "MIT"
+author = "Anselm Hudde; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright (c) 2023 greeks authors"
+description = "Option Greeks and implied volatility in modern Fortran"
+keywords = ["options", "greeks", "black-scholes", "monte-carlo", "finance"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
