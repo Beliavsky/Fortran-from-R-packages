@@ -1,0 +1,17 @@
+name = "GARCHIto-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Xinyu Song; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "GARCHIto authors and contributors"
+description = "Unified and realized GARCH-Ito volatility estimation"
+keywords = ["garch", "ito", "realized-volatility", "volatility", "finance"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

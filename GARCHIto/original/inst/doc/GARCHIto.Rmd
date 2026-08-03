@@ -1,0 +1,208 @@
+---
+title: "Introduction to the RealizedGARCHIto Package"
+author: "Xinyu Song"
+date: "`r Sys.Date()`"
+bibliography: myReferences.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RealizedGARCHIto}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# 1. Introduction
+
+In modern financial markets, volatility measures the degree of dispersion for assets and plays a crucial role in portfolio allocation, performance evaluation, and risk management. 
+Low-frequency and high-frequency stock data are widely adopted to model the dynamic evolution of daily volatilities, while efforts made for volatility estimation and prediction in the past often employ these two types of data independently. 
+Recent attempts to bridge the gap between these two include the realized GARCH model, the heterogeneous autoregressive (HAR) model, as well as the high-frequency based volatility (HEAVY) model. 
+See @shephard2010realising, @hansen2012realized, @corsi2009simple for more details. 
+
+
+In addition, @kim2016unified introduced the unified GARCH-Ito model by embedding the standard GARCH volatility structure in the instantaneous volatilities of an Ito diffusion process. 
+The unified GARCH-Ito model is a continuous-time process at the high-frequency timescale and when restricted to the low-frequency timescale, retains the standard GARCH structure.
+Moreover, @song2020realized introduced the realized GARCH-Ito model by embedding the realized GARCH model structure in the instantaneous volatilities of a jump-diffusion process. 
+Comparing to the unified GARCH-Ito model, its conditional volatility has integrated volatility and jump variation as innovations, which are high-frequency data-based innovations that are more informative. 
+
+
+The **RealizedGARCHIto** package aims to provide methods for modeling the high-frequency data with unified GARCH-Ito model and realized GARCH-Ito model. 
+It provides methods to estimate model parameters and allows one to estimate and predict conditional volatilities with the two proposed models. 
+It also includes one sample data set that has low-frequency log returns (return) and realized measures such as realized volatility (RV), bi-power realized volatility (BPV) and jump variation (JV) computed and estimated using the CSI 300 index minute data from 2018-01-01 to 2020-06-30. 
+
+# 2. Model Specification
+
+## 2.1 Unified GARCH-Ito Model 
+
+**Definition** The log price $X_t$, $t \in \mathbb{R}_+$ obeys the unified GARCH-Ito model if it satisfies 
+  \begin{equation*}
+  \begin{split}
+  dX_t=& \mu_t dt + \sigma_t dB_t \\
+  \sigma^2_t = & \sigma^2_{[t]} + (t-[t])\lbrace \omega + (\gamma-1) \sigma^2_{[t]} \rbrace + \beta \left(\int_{[t]}^t \sigma_s dB_s \right)^2  
+  \end{split}
+  \end{equation*}
+where $\mu_t$ is a drift, $[t]$ denotes the integer part of $t$ and when $t$ itself is an integer, $[t]=t-1$, $B_t$ is a Brownian motion with respect to a filtration $\mathcal{F}_t$, $\sigma^2_t$ is a volatility process adapted to $\mathcal{F}_t$, $\theta=(\omega,\beta,\gamma)$ are the model parameters. 
+
+**Proposition** The conditional integrated volatility over the low-frequency period $n$ retains the following iterative structure 
+  \begin{equation*}
+  E \left[ \int_{n-1}^n  \sigma^2_t dt \middle| \mathcal{F}_{n-1} \right] = h_n(\theta) = \omega^g + \gamma h_{n-1}(\theta) + \beta^g Z^2_{n-1}
+  \end{equation*}
+where $\tau(\theta)=(\omega^g, \beta^g, \gamma)$ are model parameters in the above low-frequency structure and are functions of the original $\theta$, $Z_{n-1}=X_{n-1}-X_{n-2}$ is the low-frequency log return. 
+Moreover, 
+  \begin{equation*}
+  E[h_n(\theta)]=\frac{\omega^g}{1-\beta^g-\gamma}. 
+  \end{equation*}
+The model parameters can be estimated by maximizing the following quasi-maximum likelihood function: 
+  \begin{equation*}
+  \hat{L}_U(\theta)=-\sum_{i=1}^n \left[ \log (h_i(\theta)) + \frac{RV_i}{h_i(\theta)} \right]
+  \end{equation*}
+where $RV_i$'s are the daily realized volatility estimates. 
+Well-performing realized volatility estimators that can handle the market microstructure noise when frequency of the intraday data is ultra-high include the two-time scale realized volatility estimator, the multi-scale realized volatility estimator, the pre-averaging realized volatility estimator, and the kernel realized volatility estimator. See @ait2009high, @zhang2006efficient, @barndorff2008designing, @jacod2009microstructure, @christensen2010pre for more details. 
+
+
+To maximize $\hat{L}_U(\theta)$, we need to specify $h_1(\theta)$ and we adopt its unconditional expectation such that 
+  \begin{equation*}
+  h_1(\theta)=\frac{\omega^g}{1-\beta^g-\gamma}. 
+  \end{equation*}
+We estimate the model parameter $\theta$ by maximizing $\hat{L}_U(\theta)$ such that 
+  \begin{equation*}
+  \hat{\theta}=\underset{\theta \in \Theta}{\text{argmax}} \hat{L}_U(\theta)
+  \end{equation*}
+and estimate the model parameter $\tau(\theta)$ by $\tau(\hat{\theta})$. 
+
+```{r}
+require(GARCHIto) 
+data("sample_data")  
+model_unified=UnifiedEst(sample_data$BPV, sample_data$return)
+model_unified$coefficients # estimated model parameters 
+```
+
+## 2.2 Realized GARCH-Ito Model 
+
+**Definition** The log price $X_t$, $t \in \mathbb{R}_+$ obeys the realized GARCH-Ito model if it satisfies 
+  \begin{equation*}
+  \begin{split}
+  dX_t=& \mu dt + \sigma_t dB_t + L_t d \Lambda_t \\
+  \sigma^2_t = & \sigma^2_{[t]} + \gamma (t-[t])^2 \lbrace \omega_1 +\sigma^2_{[t]} \rbrace - (t-[t]) \lbrace \omega_2 +\sigma^2_{[t]} \rbrace \\\
+  & \, + \alpha \int_{[t]}^t \sigma^2_s ds + \beta \int_{[t]}^t L^2_s d \Lambda_s + \nu ([t]+1-t) Z^2_t
+  \end{split}
+  \end{equation*}
+where $\mu_t$ is a drift, $[t]$ denotes the integer part of $t$ and when $t$ itself is an integer, $[t]=t-1$, $Z_t=\int_{[t]}^t dW_t$, $B_t$ and $W_t$ are standard Brownian motions with respect to filtration $\mathcal{F}_t$ with $dW_t dB_t= \rho dt$, and $\sigma^2_t$ is a volatility process adapted to $\mathcal{F}_t$. 
+For the jump part, $\Lambda_t$ is the standard Poisson process with constant intensity $\lambda$ and $L_t$ denotes the i.i.d. jump sizes which are independent of the Poisson and continuous diffusion processes. 
+The i.i.d. assumption on jump sizes can be further rewritten as $L^2_t =\omega_L + M_t$ where $M_t$'s are i.i.d. random variables with mean zero and constant variance. 
+
+**Proposition** The conditional integrated volatility over the low-frequency period $n$ retains the following iterative structure 
+  \begin{equation*}
+  E \left[ \int_{n-1}^n  \sigma^2_t dt \middle| \mathcal{F}_{n-1} \right] = h_n(\theta) = \omega^g + \gamma h_{n-1}(\theta) + \alpha^g \int_{n-2}^{n-1} \sigma^2_s ds + \beta^g  \int_{n-2}^{n-1} L^2_t d \Lambda_t
+  \end{equation*}
+where $\tau(\theta)=(\omega^g, \alpha^g, \beta^g, \gamma)$ are model parameters in the above low-frequency structure and are functions of the original $\theta$.
+Moreover, 
+  \begin{equation*}
+  E[h_n(\theta)]=\frac{\omega^g+\beta^g \lambda \omega_L}{1-\alpha^g-\gamma}. 
+  \end{equation*}
+The model parameters can be estimated by maximizing the following quasi-maximum likelihood function: 
+  \begin{equation*}
+  \hat{L}_R(\theta)= - \sum_{i=1}^n \left[ \log (\hat{h}_i(\theta)) + \frac{RV_i}{\hat{h}_i(\theta)} \right]
+  \end{equation*}
+where
+  \begin{equation*}
+  \hat{h}_1(\theta)=\frac{\omega^g+\beta^g \lambda \omega_L}{1-\alpha^g-\gamma}
+  \end{equation*}
+and 
+  \begin{equation*}
+  \hat{h}_i(\theta) = \omega^g + \gamma h_{i-1}(\theta) + \alpha^g RV_{i-1} + \beta^g  JV_{i-1}, \quad i=2,\ldots,n,
+  \end{equation*}
+here $RV_i$'s are the daily realized volatility estimates and $JV_i$'s are the jump variation estimates. 
+**Note**: in this pacakge, we approximate $\lambda \omega_L$ in $\hat{h}_1(\theta)$ by the median of all $JV_i$'s. 
+
+
+
+We estimate the model parameter $\theta$ by maximizing $\hat{L}_R(\theta)$ such that 
+  \begin{equation*}
+  \hat{\theta}=\underset{\theta \in \Theta}{\text{argmax}} \hat{L}_R(\theta)
+  \end{equation*}
+and estimate the model parameter $\tau(\theta)$ by $\tau(\hat{\theta})$. 
+
+```{r}
+# without the consideration of price jumps
+model_realized_NJ=RealizedEst(sample_data$BPV)
+model_realized_NJ$coefficients 
+# with the consideration of price jumps 
+model_realized=RealizedEst(sample_data$BPV, sample_data$JV)
+model_realized$coefficients 
+```
+
+```{r, fig.align='center', fig.height=4, fig.width=7}
+plot(model_unified$sigma, cex=0.5, type="o", ylim=c(0,0.00035),
+     main="estimated conditional volatilities", ylab="", xlab="")
+lines(model_realized_NJ$sigma,cex=0.5,type="o",col="blue",lty=2)
+lines(model_realized$sigma,cex=0.5,type="o",col="red",lty=3, lwd=0.5)
+legend("topleft", cex=0.8,
+       legend=c("Unified GARCH-Ito", "Realized GARCH-Ito No Jump","Realized GARCH-Ito with Jump"),
+       col = c("black", "blue", "red"),
+       lty=c(1,2,3))
+```
+
+# 3. Volatility Forecasting 
+
+The dynamic structure imposed in the unified GARCH-Ito and realized GARCH-Ito model allow us to predict future volatility by estimating the expected conditional integrated volatility, i.e. $E[h_{n+1}(\theta) | \mathcal{F}_n ]$, with $\hat{h}_{n+1}(\hat{\theta})$.
+
+To obtain one-step-ahead estimated value of the conditional volatility, use \$pred. 
+```{r}
+c(model_unified$pred, model_realized_NJ$pred, model_realized$pred) 
+```
+
+To carry out rolling forecast with expanding window, we update the sample size for model construction at each rolling. 
+To evaluate the model performance in volatility forecasting task, we compare $\hat{h}_{n+1}(\hat{\theta})$ with $RV_{n+1}$ and compute the squared prediction error $\left( \hat{h}_{n+1}(\hat{\theta})-RV_{n+1} \right)^2$. 
+
+```{r}
+# conduct out of sample volatility forecasting and compute the mean squared prediction error 
+error_unified=NULL
+error_realized_NJ=NULL
+error_realized=NULL
+for (i in 560:603){
+  sink("file")
+  model1=UnifiedEst(sample_data$BPV[1:i], sample_data$return[1:i])
+  error_unified=c(error_unified, (model1$pred-sample_data$BPV[i+1])^2)
+  model2=RealizedEst(sample_data$BPV[1:i])
+  error_realized_NJ=c(error_realized_NJ, (model2$pred-sample_data$BPV[i+1])^2)
+  model3=RealizedEst(sample_data$BPV[1:i], sample_data$JV[1:i])
+  error_realized=c(error_realized, (model3$pred-sample_data$BPV[i+1])^2)
+  sink()
+}
+
+error=c(mean(error_unified), mean(error_realized_NJ), mean(error_realized))
+names(error)=c("Unified GARCH-Ito", "Realized GARCH-Ito No Jump", "Realized GARCH-Ito with Jump")
+error
+```
+
+# 4. Further Extensions
+
+Besides high- and low-frequency stock data, option data provide one more natural source for the
+more precise forecast of volatilities and have been investigated thoroughly since the seminal work of @black1973pricing. 
+Thus, @song2020realized also discussed how to incorporate additional option data information in parameter estimation.
+Let $NV_i$'s be the estimated volatility values using option data, assume that $NV_i$ and the conditional integrated volatility $h_i(\theta)$ have the following linear relationship: 
+  \begin{equation}
+  \label{eq:option}
+  NV_{i}=b+a \, h_i(\theta)+e_i, \quad i=1,\ldots, n 
+  \end{equation}
+where $b$ and $a$ are the intercept and slope coefficients, respectively. Moreover, $e_i$’s are martingale differences with mean zero and variance $\sigma^2_e$, and they are independent of the price process and the microstructure component.
+
+Let $\phi=(\omega^g, \alpha^g, \beta^g, \gamma, a,b,\sigma^2_e)$, the model parameters can be estimated by maximizing the following quasi-likelihood function, 
+  \begin{equation*}
+  \hat{L}_O(\phi)=-\sum_{i=1}^n \left[ \log (\hat{h}_i(\theta) + \frac{RV_i}{\hat{h}_i(\theta)}) \right] - \sum_{i=1}^n \left[\log(\sigma^2_e) + \frac{(NV_{i}-b-a \hat{h}_i(\theta))^2}{\sigma^2_e} \right]. 
+  \end{equation*}
+  \begin{equation*}
+  \hat{\phi}=\underset{\phi \in \Phi}{\text{argmax}} \hat{L}_O(\phi). 
+  \end{equation*}
+
+The homogeneous variance in the linear model can be generalized to heterogeneous variance such as replacing $\sigma^2_e$ by $\sigma^2_e h_i^\zeta (\theta)$, where $\zeta >0$ is to adjust the level of heteroscedasticity with $\zeta=0$ corresponding to the homogeneous case. One may replace $\sigma^2_e$ by $\sigma^2_e \hat{h}^\zeta_i(\theta)$ in the quasi-likelihood function $\hat{L}_O(\phi)$ and then estimate $\zeta$ jointly with the other parameters. 
+
+```{r, eval=FALSE}
+# without the consideration of price jumps 
+RealizedEst_Option(RV, NV) # homogeneous error 
+RealizedEst_Option(RV, NV, homogeneous=FALSE ) # heterogeneous error
+# with the consideration of price jumps 
+RealizedEst_Option(RV, JV, NV) # homogeneous error 
+RealizedEst_Option(RV, JV, NV, homogeneous=FALSE) # heterogeneous error
+```
+
+# References
