@@ -1,0 +1,18 @@
+name = "lifeinsurer"
+version = "1.0.1"
+license = "GPL-2.0-or-later"
+author = "Reinhold Kainhofer; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright (c) original LifeInsureR author and contributors"
+description = "Modern Fortran implementation of the computational core of LifeInsureR"
+categories = ["actuarial", "finance", "insurance"]
+keywords = ["life-insurance", "annuities", "reserves", "premiums", "profit-participation"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

@@ -1,0 +1,40 @@
+Package: LifeInsureR
+Type: Package
+Version: 1.0.1
+Date: 2025-06-10
+Title: Modelling Traditional Life Insurance Contracts
+Description: R6 classes to model traditional life insurance
+    contracts like annuities, whole life insurances or endowments. Such life
+    insurance contracts provide a guaranteed interest and are not directly linked
+    to the performance of a particular investment vehicle, but they typically
+    provide (discretionary) profit participation. This package provides a framework
+    to model such contracts in a very generic (cash-flow-based) way and includes
+    modelling profit participation schemes, dynamic increases or more general
+    contract layers, as well as contract changes (like sum increases or premium
+    waivers). All relevant quantities like premium decomposition, reserves and 
+    benefits over the whole contract period are calculated and potentially 
+    exported to 'Excel'. Mortality rates are given using the 'MortalityTables' package.
+Authors@R: c(person("Reinhold", "Kainhofer", role=c("aut", "cre", "cph"), email="reinhold@kainhofer.com"))
+Author: Reinhold Kainhofer [aut, cre, cph]
+Maintainer: Reinhold Kainhofer <reinhold@kainhofer.com>
+Encoding: UTF-8
+Imports: R6, MortalityTables, objectProperties, lubridate, openxlsx,
+        dplyr, scales, abind, stringr, methods, rlang, rmarkdown,
+        kableExtra, pander, tidyr
+License: GPL (>= 2)
+RoxygenNote: 7.3.2
+Collate: 'HelperFunctions.R' 'InsuranceParameters.R'
+        'ProfitParticipation_Functions.R' 'ProfitParticipation.R'
+        'InsuranceTarif.R' 'InsuranceContract.R' 'RoundingHelper.R'
+        'contractGrid.R' 'create_LIR_project.R'
+        'exportInsuranceContract_xlsx.R' 'showVmGlgExamples.R'
+        'exportInsuranceContractExample.R'
+Suggests: knitr, magrittr, tibble, testthat, fs, here, purrr
+VignetteBuilder: knitr
+URL: https://gitlab.open-tools.net/R/LifeInsureR,
+        https://github.com/kainhofer/LifeInsureR
+BugReports: https://gitlab.open-tools.net/R/LifeInsureR/-/issues
+NeedsCompilation: no
+Packaged: 2025-06-14 23:30:56 UTC; OpenTools
+Repository: CRAN
+Date/Publication: 2025-06-15 00:00:07 UTC
