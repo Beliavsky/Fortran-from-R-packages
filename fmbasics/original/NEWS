@@ -1,0 +1,50 @@
+# Version 0.3.99
+
+NEW:
+
+- `VolQuotes()` and `VolSurface()` allow you to create volatility surfaces. The latter can be interpolated by a two-dimensional interpolator via `LinearCubicTimeVarInterpolation()` which uses linear interpolation in the maturity dimension (x), cubic splines in the smile dimension (y) for  implied volatility squared (variance, z).
+- Implemented a `VolSurface` method for `interpolate()`.
+
+IMPROVED:
+
+- Rebuilt documentation using newer version of `roxygen2`
+- `ZeroCurve` documentation explicitly describes the various interpolation methods available (#20)
+
+# Version 0.3.0
+
+NEW:
+
+- `interpolate_dfs()`, `interpolate_fwds()` and `interpolate_zeros()` build on the lower level `interpolate()` for `ZeroCurve` objects.
+- `SingleCurrencyMoney()` and `MultiCurrencyMoney()` allows you to create single and multi-currency money objects that are not date dependent
+- `CashFlow()` allows you to create date dependent cash flows
+- Added a vignette to describe pricing objects introduced in v0.2 and in this version.
+
+FIXED:
+
+- `pfc_calendar` field of `IborIndex` and `CashIndex` fields must now inherit from `Calendar` (#8). CashIndex and IborIndex constructors now support this.
+- The names of key indices are no longer prefixed by the associated currency ISO.
+
+REMOVED:
+
+- `fmdata_example()` as only one data file is likely to be used in this package and this is to be used internally for the purposes of `build_zero_curve()`
+
+# Version 0.2.0
+
+Implement `ZeroCurve` and associated interpolation schemes and methods (#1)
+
+- `ZeroCurve()` allows you to create zero curve objects from a set of discount factors and specifying the interpolation scheme to be used
+- Implement a set of lightweight interpolation schemes including `ConstantInterpolation()`, `LinearInterpolation()`, `LogDFInterpolation()` and `CubicInterpolation()`. Their behaviour is determined by the object in which they are stored
+- Implement a set of interpolation checkers `is.[X]Interpolation()`
+- Provide convenience functions that source example market data and allows you to build a zero curve from one such data set (`fmdata_example()` and `build_zero_curve()` respectively.
+
+# Version 0.1.0-99
+
+- Fix title of one of the vignettes
+
+# Version 0.1.0
+
+- Initial version
+- Exposes basic financial market building blocks as classes. These include
+currencies, currency pairs, indices, interest rates and discount factors.
+- Implements methods to create key instances of currency, currency pairs and
+indices for major markets.
