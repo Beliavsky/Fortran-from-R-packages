@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build",
+  "command": "C:\\equation\\bin\\gcc.exe -IC:/fortran/public_domain/r_fpm/osqp-fortran/upstream/osqp-r/src/qdldl_sources/include -IC:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/_deps/qdldl-build/include  -O3 -O3 -O3 -DNDEBUG -o _deps\\qdldl-build\\CMakeFiles\\qdldlobject.dir\\src\\qdldl.c.obj -c C:\\fortran\\public_domain\\r_fpm\\osqp-fortran\\upstream\\osqp-r\\src\\qdldl_sources\\src\\qdldl.c",
+  "file": "C:/fortran/public_domain/r_fpm/osqp-fortran/upstream/osqp-r/src/qdldl_sources/src/qdldl.c",
+  "output": "C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/_deps/qdldl-build/CMakeFiles/qdldlobject.dir/src/qdldl.c.obj"
+}
+]

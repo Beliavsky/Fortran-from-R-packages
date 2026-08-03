@@ -1,0 +1,12 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/cmake_install.cmake",
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/include/cmake_install.cmake",
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/src/cmake_install.cmake",
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/algebra/cmake_install.cmake",
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/algebra/builtin/cmake_install.cmake",
+		"C:/fortran/public_domain/r_fpm/osqp-fortran/backend/osqp-build/_deps/qdldl-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

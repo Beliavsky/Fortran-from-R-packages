@@ -1,0 +1,17 @@
+name = "osqp"
+version = "1.0.0"
+license = "Apache-2.0"
+author = "Fortran translation contributors; upstream OSQP and osqp R package authors"
+maintainer = ""
+copyright = "2026"
+description = "Modern Fortran interface to the OSQP quadratic programming solver"
+keywords = ["optimization", "quadratic-programming", "admm", "sparse"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
