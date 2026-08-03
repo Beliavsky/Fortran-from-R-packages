@@ -1,14 +1,14 @@
 # Fortran from R packages
 
-This repository collects experimental modern Fortran translations and ports of
-computational code in 167 package directories derived from R packages. Each
-subdirectory is an independent
-Fortran Package Manager (fpm) project with its own documentation, tests,
-provenance record, and license.
+This repository collects experimental modern Fortran translations and
+ports by ChatGPT on High mode of computational code in 167 package
+directories derived from R packages. Each subdirectory is an
+independent Fortran Package Manager (fpm) project with its own
+documentation, tests, provenance record, and license.
 
 These projects are unofficial and are not endorsed by the original package
-authors, CRAN, or the R Foundation. They are experimental and incompletely
-validated; independently verify numerical results before relying on them.
+authors, CRAN, or the R Foundation. They have not been validated by a human
+unless the documentation says otherwise.
 
 ## Packages and licenses
 
