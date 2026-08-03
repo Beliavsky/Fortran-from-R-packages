@@ -1,0 +1,20 @@
+name = "metrics"
+version = "0.1.4"
+license = "BSD-3-Clause"
+author = "Ben Hamner, Michael Frasco, Erin LeDell; Fortran port"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright 2018 Ben Hamner"
+description = "Evaluation metrics for machine learning in modern Fortran"
+categories = ["statistics", "machine-learning"]
+keywords = ["metrics", "regression", "classification", "information-retrieval"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

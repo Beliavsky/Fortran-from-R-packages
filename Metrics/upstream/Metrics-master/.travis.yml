@@ -1,0 +1,9 @@
+language: r
+cache: packages
+sudo: false
+latex: false
+warnings_are_errors: true
+r_check_args: --as-cran
+
+after_success:
+    - Rscript -e 'install.packages("covr"); covr::codecov()'
