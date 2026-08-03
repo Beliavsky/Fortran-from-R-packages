@@ -1,0 +1,15 @@
+name = "corpmetrics"
+version = "1.0.0"
+license = "GPL-2.0-or-later"
+author = "Pavlos Pantatosakis; Fortran translation by OpenAI"
+maintainer = "Vivek Rao"
+copyright = "2024 Pavlos Pantatosakis"
+description = "Modern Fortran translation of the computational algorithms in the R package corpmetrics"
+categories = ["finance", "valuation", "fixed-income"]
+keywords = ["corporate-finance", "capm", "ddm", "irr", "loan"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

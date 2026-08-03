@@ -1,0 +1,7 @@
+#useDynLib(fsn, .registration = TRUE)
+
+importFrom("stats", "uniroot","cov","var")
+
+
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")

@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite the original corpmetrics package and this translation."
+title: "corpmetrics-fortran"
+version: "1.0.0"
+license: GPL-2.0-or-later
+authors:
+  - family-names: "Pantatosakis"
+    given-names: "Pavlos"
+    roles: ["original author"]
+  - family-names: "OpenAI"
+    given-names: ""
+    roles: ["Fortran translation"]
