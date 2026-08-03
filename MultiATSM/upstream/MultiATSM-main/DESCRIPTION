@@ -1,0 +1,33 @@
+Package: MultiATSM
+Type: Package
+Title: Multicountry Term Structure of Interest Rates Models
+Version: 1.5.1-2
+Date: 2026-06-18
+Authors@R: 
+    person("Rubens", "Moura", , "rubens.gtmoura@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8105-4729"))
+Description: Package for estimating, analyzing, and forecasting multi-country macro-finance affine term structure models (ATSMs). All setups build on the single-country unspanned macroeconomic risk framework from Joslin, Priebsch, and Singleton (2014, JF) <doi:10.1111/jofi.12131>. Multicountry extensions by Jotikasthira, Le, and Lundblad (2015, JFE) <doi:10.1016/j.jfineco.2014.09.004>, Candelon and Moura (2023, EM) <doi:10.1016/j.econmod.2023.106453>, and Candelon and Moura (2024, JFEC) <doi:10.1093/jjfinec/nbae008> are also available. The package also provides tools for bias correction as in Bauer Rudebusch and Wu (2012, JBES) <doi:10.1080/07350015.2012.693855>, bootstrap analysis, and several graphical/numerical outputs. 
+License: GPL-2 | GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Imports: cowplot, ggplot2, hablar, magic, pracma
+Suggests: 
+    readxl,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    bookdown,
+    kableExtra,
+    magrittr
+Depends: R (>= 4.3.0)
+VignetteBuilder: knitr
+URL: https://github.com/rubensmoura87/MultiATSM, https://rubensmoura87.github.io/MultiATSM/
+BugReports: https://github.com/rubensmoura87/MultiATSM/issues
+NeedsCompilation: no
+Packaged: 2025-01-27 16:59:24 UTC; rmoura
+Author: Rubens Moura [aut, cre] (<https://orcid.org/0000-0001-8105-4729>)
+Maintainer: Rubens Moura <rubens.gtmoura@gmail.com>
+Repository: CRAN
+Date/Publication: 2025-01-27 17:10:01 UTC
+Config/testthat/edition: 3
+LazyData: true

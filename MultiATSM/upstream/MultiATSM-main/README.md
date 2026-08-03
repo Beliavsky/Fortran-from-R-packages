@@ -1,0 +1,89 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/MultiATSM)](https://cran.r-project.org/package=MultiATSM)
+[![R-CMD-check](https://github.com/rubensmoura87/MultiATSM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rubensmoura87/MultiATSM/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/MultiATSM)](https://CRAN.R-project.org/package=MultiATSM)
+
+## Overview
+
+MultiATSM is an R package for estimating, analyzing, and forecasting
+multi-country macro-finance affine term structure models (ATSMs). The
+package implements a variety of models, including JPS, GVAR, and JLL
+frameworks (see complete references below), and provides tools for bias
+correction, bootstrap analysis, and graphical/numerical outputs.
+
+## Features
+
+- Estimation of multi-country ATSMs (JPS, 2014, JLL, 2015, GVAR,
+  2023-2024, and variants)
+- Flexible input structure for macroeconomic and yield data
+- Graphical and numerical outputs for model diagnostics and
+  interpretation
+- Bias correction for a VAR dynamics (BRW, 2012)
+- Bootstrap analysis for confidence intervals
+- Out-of-sample forecasting
+
+## Installation
+
+You can install the development version of MultiATSM from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("rubensmoura87/MultiATSM")
+```
+
+You can also get the official release version from CRAN
+
+``` r
+install.packages("MultiATSM")
+```
+
+## Usage and documentation
+
+- See the package
+  [manual](https://rubensmoura87.github.io/MultiATSM/reference/index.html)
+  and
+  [vignettes](https://rubensmoura87.github.io/MultiATSM/articles/MultiATSM.html)
+  for detailed function documentation and examples.
+- Main functions: `InputsForOpt`, `Bias_Correc_VAR`, `Optimization`,
+  `NumOutputs`, `Bootstrap`, `ForecastYields`, etc.
+
+## More information about `{MultiATSM}`
+
+You can learn more about the underlying models in the paper published in
+the [R Journal](https://journal.r-project.org/articles/RJ-2025-044/).
+
+## References
+
+- Bauer, M. D., Rudebusch, G. D., & Wu, J. C. (2012). Correcting
+  estimation bias in dynamic term structure models. *Journal of Business
+  & Economic Statistics*, 30(3), 454-467.
+
+- Candelon, B., & Moura, R. (2023). Sovereign yield curves and the
+  COVID-19 in emerging markets. *Economic Modelling*, 127, 106453.
+
+- Candelon, B., & Moura, R. (2024). A Multicountry Model of the Term
+  Structures of Interest Rates with a GVAR. *Journal of Financial
+  Econometrics*, 22(5), 1558-1587.
+
+- Joslin, S., Priebsch, M., & Singleton, K. J. (2014). Risk premiums in
+  dynamic term structure models with unspanned macro risks. *The Journal
+  of Finance*, 69(3), 1197-1233.
+
+- Joslin, S., Singleton, K. J., & Zhu, H. (2011). A new perspective on
+  Gaussian dynamic term structure models. *The Review of Financial
+  Studies*, 24(3), 926-970.
+
+- Jotikasthira, C., Le, A., & Lundblad, C. (2015). Why do term
+  structures in different currencies co-move?. *Journal of Financial
+  Economics*, 115(1), 58-83.
+
+- Moura, R (2025). MultiATSM: An R Package for Arbitrage-Free
+  Macrofinance Multicountry Affine Term Structure Models. *The R
+  Journal*, 17(4), 275-304.
+
+- See also the references in the package documentation.

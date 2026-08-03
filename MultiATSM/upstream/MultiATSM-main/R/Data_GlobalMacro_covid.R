@@ -1,0 +1,18 @@
+#' @title Data: Risk Factors - Candelon and Moura (2023, EM)
+#'
+#' @description Global risk factors data used in Candelon and Moura (2023)
+#' @name GlobalMacro_covid
+#' @aliases GlobalMacro_covid
+#' @docType data
+#' @usage data("GlobalMacro_covid")
+#' @format A matrix containing the time series of global risk factors, namely the year-over-year growth rates of U.S. and Chinese output, and the S&P 500 index.
+#' The data have weekly frequency and span the period from March 22, 2020, to September 26, 2021.
+#' @source
+#' \describe{
+#' \item{U.S. output growth:}{ OECD Weekly Tracker index <https://web-archive.oecd.org/sections/weekly-tracker-of-gdp-growth/index.htm>}
+#' \item{China output growth:}{ weekly year-over-year change in the interpolated OECD leading indicator <https://www.oecd.org/en/data/indicators/composite-leading-indicator-cli.html>}
+#' \item{S&P-500:}{ year-over-year variation from the Standard and Poor’s 500 stock market index. Simulated data constructed using FRED series.}
+#' }
+#' @references Candelon, B. and Moura, R. (2023) "Sovereign yield curves and the COVID-19 in emerging markets". (Economic Modelling)
+#' @keywords Global risk factors
+NULL

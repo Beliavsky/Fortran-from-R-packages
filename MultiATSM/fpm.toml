@@ -1,0 +1,18 @@
+name = "multiatsm-fortran"
+version = "1.5.1"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Rubens Moura; Fortran translation generated for the MultiATSM computational core"
+copyright = "Copyright (c) MultiATSM authors and contributors"
+description = "Modern Fortran implementation of computational routines from the R MultiATSM package"
+keywords = ["affine-term-structure", "macro-finance", "var", "gvar", "jll", "yield-curve"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

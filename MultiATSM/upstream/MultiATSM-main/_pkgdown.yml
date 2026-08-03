@@ -1,0 +1,87 @@
+url: https://rubensmoura87.github.io/MultiATSM/
+template:
+  bootstrap: 5
+
+vignettes:
+  rmarkdown: bookdown::html_document2
+
+reference:
+- title: Dataset
+  desc: >
+    Datasets included in the package
+  contents:
+  - MultiATSM_datasets
+  - GlobalMacro
+  - GlobalMacro_covid
+  - DomMacro
+  - DomMacro_covid
+  - TradeFlows
+  - TradeFlows_covid
+  - Yields
+  - Yields_covid
+  - RiskFacFull
+  - GVARFactors
+- title: Data handling
+  desc: >
+   Functions for handling and transforming data
+  contents:
+  - DataForEstimation
+  - DatabasePrep
+  - LoadData
+  - Load_Excel_Data
+  - InputsForOutputs
+  - LabFac
+- title: Estimation of model P-dynamics
+  desc: >
+    Functions for estimating the parameters from the P-dynamics
+  contents:
+  - Bias_Correc_VAR
+  - GVAR
+  - JLL
+  - Transition_Matrix
+  - VAR
+- title: Methods
+  desc: >
+    Available methods for several object classes
+  contents:
+  - autoplot
+  - autoplot.ATSMModelBoot
+  - autoplot.ATSMNumOutputs
+  - plot.ATSMModelForecast
+  - print.ATSMModelInputs
+  - summary.ATSMModelInputs
+  - summary.ATSMModelOutputs
+- title: Graphs
+  desc: >
+    Functions to generate graphical outputs
+  contents:
+  - FEVDandGFEVDgraphs
+  - Fitgraphs
+  - IRFandGIRFgraphs
+  - RiskFactorsGraphs
+  - TPDecompGraph
+- title: Spanned factors-related
+  desc: >
+    Functions related to the computation of spanned factors
+  contents:
+  - Spanned_Factors
+  - pca_weights_one_country
+- title: Optimization-related
+  desc: >
+    Model optimization, numerical outputs, bootstrap and forecasting
+  contents:
+  - Bootstrap
+  - ForecastYields
+  - InputsForOpt
+  - Optimization
+  - NumOutputs
+- title: Pre-loaded outputs
+  desc: >
+    Pre computed outputs
+  contents:
+  - BR_jps_out
+  - InpForOutEx
+  - ParaSetEx
+  - NumOutEx
+  - Out_Example
+  - MultiATSM-package
