@@ -1,0 +1,22 @@
+name = "yieldcurve"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Sergio Salvino Guirreri; Fortran translation by OpenAI"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (c) original YieldCurve contributors"
+description = "Modern Fortran translation of the computational routines in the R YieldCurve package"
+keywords = ["yield-curve", "nelson-siegel", "svensson", "fixed-income"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

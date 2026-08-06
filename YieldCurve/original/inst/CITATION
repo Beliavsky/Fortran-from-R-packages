@@ -1,0 +1,34 @@
+citHeader("To cite the YieldCurve package in publications use:")
+
+citFooter("For BibTex versions of citations use: toBibtex(citation('YieldCurve'))")
+
+citEntry(
+  entry="phdthesis",
+         author = personList(as.person("S.S. Guirreri")),
+	       title = "Simulating the Term Structure of Interest Rates with arbitrary marginals",
+         school = "University of Palermo - Department of Statistics and Mathematics ''S. Vianelli''",
+	       year         = 2010,
+	       address      = "Palermo",
+         textVersion = 
+         paste("Guirreri, S.S. (2010).", 
+               "Simulating the Term Structure of Interest Rates with arbitrary marginals.",
+               "University of Palermo - Department of Statistics and Mathematics ''S. Vianelli''.")
+)
+
+citEntry(
+  entry="Article",
+         author = personList(as.person("A. Consiglio and S.S. Guirreri")),
+	       title = "Simulating the Term Structure of Interest Rates with arbitrary marginals",
+         journal = "International Journal of Risk Assessment and Management",
+         year= 2011,
+         volume = "15",
+         number = "4",
+         month = "September",
+         url = "http://dx.doi.org/10.1504/IJRAM.2011.042670",
+         textVersion =
+         paste("Consiglio A. and Guirreri S.S.",
+               "Simulating the Term Structure of Interest Rates with arbitrary marginals.",
+               "International Journal of Risk Assessment and Management, 15(4), September 2011.")
+
+)
+

@@ -1,0 +1,18 @@
+Package: YieldCurve
+Version: 5.1
+Date: 2022-09-30
+Title: Modelling and Estimation of the Yield Curve
+Author: Sergio Salvino Guirreri
+Maintainer: Sergio Salvino Guirreri <sergioguirreri@gmail.com>
+Depends: R (>= 2.10), xts
+Description: Modelling the yield curve with some parametric models.
+        The models implemented are: 
+		Nelson, C.R., and A.F. Siegel (1987) <doi: 10.1086/296409>, 
+		Diebold, F.X. and Li, C. (2006) <doi: 10.1016/j.jeconom.2005.03.005> 
+		and Svensson, L.E. (1994) <doi: 10.3386/w4871>. 
+		The package also includes the data of the term structure of interest rate of Federal Reserve Bank and European Central Bank.
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2022-10-01 14:14:02 UTC; s.guirreri
+Repository: CRAN
+Date/Publication: 2022-10-02 16:00:02 UTC
