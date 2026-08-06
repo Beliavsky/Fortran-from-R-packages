@@ -1,0 +1,17 @@
+name = "tvmvp"
+version = "0.1.0"
+license = "MIT"
+author = "Erik Lillrank, Yukai Yang, and Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "Copyright 2025 Erik Lillrank and Yukai Yang"
+description = "Modern Fortran translation of the computational routines in the TVMVP R package"
+keywords = ["portfolio", "covariance", "factor-model", "local-pca", "poet"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
