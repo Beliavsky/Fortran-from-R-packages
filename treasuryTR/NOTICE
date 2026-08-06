@@ -1,0 +1,8 @@
+treasuryTR modern Fortran translation
+
+This package translates the computational routines of treasuryTR 0.1.6,
+Copyright (c) 2021 treasuryTR authors, distributed under the MIT License.
+
+The original package source and input archive are retained under provenance/.
+R, xts, tibble, dplyr, quantmod, zoo, and lubridate infrastructure is not
+included in the compiled Fortran library.

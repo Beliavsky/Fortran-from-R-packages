@@ -1,0 +1,24 @@
+Package: treasuryTR
+Type: Package
+Title: Generate Treasury Total Returns from Yield Data
+Version: 0.1.6
+Authors@R: c(person("Martin", "Geissmann", email = "mg@econovo.ch", role = c("aut", "cre")))
+Maintainer: Martin Geissmann <mg@econovo.ch>
+Description: Generate Total Returns (TR) from bond yield data with fixed maturity, e.g. 
+  reported treasury yields. The generated TR series are very close to alternative series 
+  that can be purchased (e.g. CRSP, Bloomberg), suggesting they are a high-quality 
+  alternative for those, see Swinkels (2019) <doi:10.3390/data4030091>.
+URL: https://github.com/mgei/treasuryTR
+Depends: R (>= 3.2.0), quantmod, zoo, dplyr
+Imports: xts(>= 0.9-0), lubridate
+Suggests: PerformanceAnalytics, tidyr, ggplot2, dataseries, knitr,
+        rmarkdown
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2023-04-02 06:36:47 UTC; martin
+Author: Martin Geissmann [aut, cre]
+Repository: CRAN
+Date/Publication: 2023-04-02 14:30:02 UTC
