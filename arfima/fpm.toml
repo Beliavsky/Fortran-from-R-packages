@@ -1,0 +1,21 @@
+name = "arfima-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "OpenAI translation; upstream authors J.Q. Veenstra and A.I. McLeod"
+maintainer = ""
+copyright = "Copyright (c) 2017 Justin Quinn (J.Q.) Veenstra; translation contributors"
+description = "Modern Fortran translation of the computational code in the R arfima package"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = false
+module-naming = false
+
+[install]
+library = true
+
+[[test]]
+name = "arfima-test-suite"
+source-dir = "test/fpm"
+main = "test_suite.f90"
