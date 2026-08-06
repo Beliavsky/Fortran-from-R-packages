@@ -1,0 +1,123 @@
+\name{dtCMatrix-class}
+\title{Triangular, (compressed) sparse column matrices}
+%
+\docType{class}
+\keyword{array}
+\keyword{classes}
+%
+\alias{dtCMatrix-class}
+\alias{dtTMatrix-class}
+%
+\alias{Arith,dtCMatrix,dtCMatrix-method}
+%
+\description{The \code{"dtCMatrix"} class is a class of triangular, sparse
+  matrices in the compressed, column-oriented format.  In this
+  implementation the non-zero elements in the columns are sorted into
+  increasing row order.
+
+  The \code{"dtTMatrix"} class is a class of triangular, sparse matrices
+  in triplet format.
+}
+\section{Objects from the Class}{
+  Objects can be created by calls of the form \code{new("dtCMatrix",
+    ...)} or calls of the form  \code{new("dtTMatrix", ...)},
+  but more typically automatically via \code{\link{Matrix}()}
+  or coercions such as \code{as(x, "triangularMatrix")}.
+}
+\section{Slots}{
+  \describe{
+    \item{\code{uplo}:}{Object of class \code{"character"}. Must be
+      either "U", for upper triangular, and "L", for lower triangular.}
+    \item{\code{diag}:}{Object of class \code{"character"}. Must be
+      either \code{"U"}, for unit triangular (diagonal is all ones), or
+      \code{"N"}; see \code{\linkS4class{triangularMatrix}}.}
+    \item{\code{p}:}{(only present in \code{"dtCMatrix"}:) an
+      \code{\link{integer}} vector for providing pointers, one for each
+      column, see the detailed description in \code{\linkS4class{CsparseMatrix}}.}
+    \item{\code{i}:}{Object of class \code{"integer"} of length nnzero
+      (number of non-zero elements).  These are the row numbers for
+      each non-zero element in the matrix.}
+    \item{\code{j}:}{Object of class \code{"integer"} of length nnzero
+      (number of non-zero elements).  These are the column numbers for
+      each non-zero element in the matrix. (Only present in the
+      \code{dtTMatrix} class.)}
+    \item{\code{x}:}{Object of class \code{"numeric"} - the non-zero
+      elements of the matrix.}
+    \item{\code{Dim},\code{Dimnames}:}{The dimension (a length-2
+      \code{"integer"}) and corresponding names (or \code{NULL}),
+      inherited from the \code{\linkS4class{Matrix}}, see there.}
+  }
+}
+\section{Extends}{
+  Class \code{"dgCMatrix"}, directly.
+  Class \code{"triangularMatrix"}, directly.
+  Class \code{"dMatrix"}, \code{"sparseMatrix"}, and more by class
+  \code{"dgCMatrix"} etc, see the examples.
+}
+\section{Methods}{
+  \describe{
+    \item{solve}{\code{signature(a = "dtCMatrix", b = "....")}:
+      sparse triangular solve (aka \dQuote{backsolve} or
+      \dQuote{forwardsolve}), see \code{\link{solve-methods}}.}
+    \item{t}{\code{signature(x = "dtCMatrix")}: returns the transpose of
+      \code{x}}
+    \item{t}{\code{signature(x = "dtTMatrix")}: returns the transpose of
+      \code{x}}
+  }
+}
+%\references{}
+%\author{}
+%\note{}
+\seealso{
+  Classes \code{\linkS4class{dgCMatrix}}, \code{\linkS4class{dgTMatrix}},
+  \code{\linkS4class{dgeMatrix}}, and \code{\linkS4class{dtrMatrix}}.
+}
+\examples{
+\dontshow{ % for R_DEFAULT_PACKAGES=NULL
+library(utils, pos = "package:base", verbose = FALSE)
+}
+showClass("dtCMatrix")
+showClass("dtTMatrix")
+t1 <- new("dtTMatrix", x= c(3,7), i= 0:1, j=3:2, Dim= as.integer(c(4,4)))
+t1
+## from  0-diagonal to unit-diagonal {low-level step}:
+tu <- t1 ; tu@diag <- "U"
+tu
+(cu <- as(tu, "CsparseMatrix"))
+str(cu)# only two entries in @i and @x
+stopifnot(cu@i == 1:0,
+          all(2 * symmpart(cu) == Diagonal(4) + forceSymmetric(cu)))
+
+t1[1,2:3] <- -1:-2
+diag(t1) <- 10*c(1:2,3:2)
+t1 # still triangular
+(it1 <- solve(t1))
+t1. <- solve(it1)
+all(abs(t1 - t1.) < 10 * .Machine$double.eps)
+
+## 2nd example
+U5 <- new("dtCMatrix", i= c(1L, 0:3), p=c(0L,0L,0:2, 5L), Dim = c(5L, 5L),
+          x = rep(1, 5), diag = "U")
+U5
+(iu <- solve(U5)) # contains one '0'
+validObject(iu2 <- solve(U5, Diagonal(5)))# failed in earlier versions
+
+I5 <- iu  \%*\% U5 # should equal the identity matrix
+i5 <- iu2 \%*\% U5
+m53 <- matrix(1:15, 5,3, dimnames=list(NULL,letters[1:3]))
+asDiag <- function(M) as(drop0(M), "diagonalMatrix")
+stopifnot(
+   all.equal(Diagonal(5), asDiag(I5), tolerance=1e-14) ,
+   all.equal(Diagonal(5), asDiag(i5), tolerance=1e-14) ,
+   identical(list(NULL, dimnames(m53)[[2]]), dimnames(solve(U5, m53)))
+)
+\dontshow{%
+i5. <- I5; colnames(i5.) <- LETTERS[11:15]
+M53 <- as(m53, "denseMatrix")
+stopifnot(
+   identical((dns <- dimnames(solve(i5., M53))),
+             dimnames(solve(as.matrix(i5.), as.matrix(M53)))) ,
+   identical(dns, dimnames(solve(i5., as.matrix(M53))))
+)
+}%dont
+}
