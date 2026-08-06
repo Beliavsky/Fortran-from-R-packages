@@ -1,0 +1,1175 @@
+lme4_specials <- c("us", "diag", "cs", "ar1")
+
+## From Matrix package  isDiagonal(.) :
+all0 <- function(x) !anyNA(x) && all(!x)
+.isDiagonal.sq.matrix <- function(M, n = dim(M)[1L])
+    all0(M[rep_len(c(FALSE, rep.int(TRUE,n)), n^2)])
+
+
+### Utilities for parsing and manipulating mixed-model formulas
+
+## abbreviated parse for long strings: deparse1() pastes w/ collapse instead
+abbrDeparse <- function(x, width=60) {
+    r <- deparse(x, width)
+    if(length(r) > 1) paste(r[1], "...") else r
+}
+
+##' @param bars result of findbars
+barnames <- function(bars) vapply(bars, function(x) deparse1(x[[3]]), "")
+
+makeFac <- function(x,char.only=FALSE) {
+    if (!is.factor(x) && (!char.only || is.character(x))) factor(x) else x
+}
+
+factorize <- function(x,frloc,char.only=FALSE) {
+    ## convert grouping variables to factors as necessary
+    ## TODO: variables that are *not* in the data frame are
+    ##  not converted -- these could still break, e.g. if someone
+    ##  tries to use the : operator
+    ## TODO: some sensible tests for drop.unused.levels
+    ##       (not actually used, but could come in handy)
+    for (i in all.vars(RHSForm(x))) {
+        if (!is.null(curf <- frloc[[i]]))
+            frloc[[i]] <- makeFac(curf,char.only)
+    }
+    return(frloc)
+}
+
+colSort <- function(x) {
+    termlev <- vapply(strsplit(x,":"),length,integer(1))
+    iterms <- split(x,termlev)
+    iterms <- sapply(iterms,sort,simplify=FALSE)
+    ## make sure intercept term is first
+    ilab <- "(Intercept)"
+    if (ilab %in% iterms[[1]]) {
+        iterms[[1]] <- c(ilab,setdiff(iterms[[1]],ilab))
+    }
+    unlist(iterms)
+}
+
+## copied from glmmTMB, replace by upstream utility package?
+## test formula: does it contain a particular element?
+## inForm(z~.,quote(.))
+## inForm(z~y,quote(.))
+## inForm(z~a+b+c,quote(c))
+## inForm(z~a+b+(d+e),quote(c))
+## f <- ~ a + offset(x)
+## f2 <- z ~ a
+## inForm(f,quote(offset))
+## inForm(f2,quote(offset))
+## @export
+## @keywords internal
+inForm <- function(form,value) {
+    if (any(sapply(form,identical,value))) return(TRUE)
+    if (all(sapply(form,length)==1)) return(FALSE)
+    return(any(vapply(form,inForm,value,FUN.VALUE=logical(1))))
+}
+
+## was called "replaceForm" there but replaceTerm is better
+## (decide on camelCase vs snake_case!)
+replaceTerm <- function(term,target,repl) {
+    if (identical(term,target)) return(repl)
+    if (!inForm(term,target)) return(term)
+    if (length(term) == 2) {
+        return(substitute(OP(x),list(OP=replaceTerm(term[[1]],target,repl),
+                                     x=replaceTerm(term[[2]],target,repl))))
+    }
+    return(substitute(OP(x,y),list(OP=replaceTerm(term[[1]],target,repl),
+                                   x=replaceTerm(term[[2]],target,repl),
+                                   y=replaceTerm(term[[3]],target,repl))))
+}
+
+`%i%` <- function(f1, f2, fix.order = TRUE) {
+    if (!is.factor(f1) || !is.factor(f2)) stop("both inputs must be factors")
+    f12 <- paste(f1, f2, sep = ":")
+    ## explicitly specifying levels is faster in any case ...
+    u <- which(!duplicated(f12))
+    if (!fix.order) return(factor(f12, levels = f12[u]))
+    ## deal with order of factor levels
+    levs_rank <- length(levels(f2))*as.numeric(f1[u])+as.numeric(f2[u])
+    return(factor(f12, levels = (f12[u])[order(levs_rank)]))
+}
+
+##' @param x a language object of the form  effect | groupvar
+##' @param frloc model frame
+##' @param drop.unused.levels (logical)
+##' @return list containing grouping factor, sparse model matrix, number of levels, names
+mkBlist <- function(x,frloc, drop.unused.levels=TRUE,
+                    reorder.vars=FALSE) {
+    frloc <- factorize(x,frloc)
+    ## try to evaluate grouping factor within model frame ...
+    ff0 <- replaceTerm(x[[3]], quote(`:`), quote(`%i%`))
+    ff <- try(eval(substitute(makeFac(fac),
+                              list(fac = ff0)),
+                   frloc), silent = TRUE)
+    if (inherits(ff, "try-error")) {
+        stop("couldn't evaluate grouping factor ",
+             deparse1(x[[3]])," within model frame:",
+             "error =",
+             c(ff),
+             " Try adding grouping factor to data ",
+             "frame explicitly if possible",call.=FALSE)
+    }
+    if (all(is.na(ff)))
+        stop("Invalid grouping factor specification, ",
+             deparse1(x[[3]]),call.=FALSE)
+    ## NB: *also* silently drops <NA> levels - and mkReTrms() and hence
+    ##     predict.merMod() have relied on that property  :
+    if (drop.unused.levels) ff <- factor(ff, exclude=NA)
+    nl <- length(levels(ff))
+    ## this section implements eq. 6 of the JSS lmer paper
+    ## model matrix based on LHS of random effect term (X_i)
+    ##    x[[2]] is the LHS (terms) of the a|b formula
+    has.sparse.contrasts <- function(x) {
+      cc <- attr(x, "contrasts")
+      !is.null(cc) && is(cc, "sparseMatrix")
+    }
+    any.sparse.contrasts <- any(vapply(frloc, has.sparse.contrasts, FUN.VALUE = TRUE))
+    mMatrix <- if (!any.sparse.contrasts) model.matrix else sparse.model.matrix
+    mm <- mMatrix(eval(substitute( ~ foo, list(foo = x[[2]]))), frloc)
+    if (reorder.vars) {
+        mm <- mm[colSort(colnames(mm)),]
+    }
+    ## this is J^T (see p. 9 of JSS lmer paper)
+    ## construct indicator matrix for groups by observations
+    ## use fac2sparse() rather than as() to allow *not* dropping
+    ## unused levels where desired
+    sm <- fac2sparse(ff, to = "d",
+                     drop.unused.levels = drop.unused.levels)
+    sm <- KhatriRao(sm, t(mm))
+    dimnames(sm) <- list(
+        rep(levels(ff),each=ncol(mm)),
+        rownames(mm))
+    list(ff = ff, sm = sm, nl = nl, cnms = colnames(mm))
+}
+
+##' Create an lmerResp, glmResp or nlsResp instance
+##'
+##' @title Create an lmerResp, glmResp or nlsResp instance
+##' @param fr a model frame
+##' @param REML logical scalar, value of REML for an lmerResp instance
+##' @param family the optional glm family (glmResp only)
+##' @param nlenv the nonlinear model evaluation environment (nlsResp only)
+##' @param nlmod the nonlinear model function (nlsResp only)
+##' @param ... where to look for response information if \code{fr} is missing.
+##'   Can contain a model response, \code{y}, offset, \code{offset}, and weights,
+##'   \code{weights}.
+##' @return an lmerResp or glmResp or nlsResp instance
+##' @family utilities
+##' @export
+mkRespMod <- function(fr, REML=NULL, family = NULL, nlenv = NULL, nlmod = NULL, ...)
+{
+    if(!missing(fr)) {
+        y <- model.response(fr)
+        offset <- model.offset(fr)
+        weights <- model.weights(fr)
+        N <- n <- nrow(fr)
+        etastart_update <- model.extract(fr, "etastart")
+        mustart_update <- model.extract(fr, "mustart")
+    } else {
+        fr <- list(...)
+        y <- fr$y
+        N <- n <- NROW(y)
+        offset <- fr$offset
+        weights <- fr$weights
+        etastart_update <- fr$etastart
+        mustart_update <- fr$mustart
+    }
+    if(length(dim(y)) == 1L)
+        y <- drop(y) ## avoid problems with 1D arrays and keep names
+
+    if(isGLMM <- !is.null(family))
+        stopifnot(inherits(family, "family"))
+   ## FIXME: may need to add X, or pass it somehow, if we want to use glm.fit
+
+    ## test for non-numeric response here to avoid later
+    ## confusing error messages from deeper machinery
+    if (!is.null(y)) { ## 'y' may be NULL if we're doing simulation
+        if(!(is.numeric(y) ||
+            ((is.binom <- isGLMM && family$family == "binomial") &&
+                (is.factor(y) || is.logical(y))))) {
+            if (is.binom)
+                stop("response must be numeric or factor")
+            else {
+                if (is.logical(y))
+                    y <- as.integer(y)
+                else stop("response must be numeric")
+            }
+        }
+        if(!all(is.finite(y)))
+            stop("NA/NaN/Inf in 'y'") # same msg as from lm.fit()
+    }
+
+    rho <- new.env()
+    rho$y <- if (is.null(y)) numeric(0) else y
+    if (!is.null(REML)) rho$REML <- REML
+    rho$etastart <- etastart_update
+    rho$mustart <- mustart_update
+    rho$start <- attr(fr,"start")
+    if (!is.null(nlenv)) {
+        stopifnot(is.language(nlmod),
+                  is.environment(nlenv),
+                  is.numeric(val <- eval(nlmod, nlenv)),
+                  length(val) == n,
+                  ## FIXME?  Restriction, not present in ole' nlme():
+                  is.matrix(gr <- attr(val, "gradient")),
+                  is.numeric(gr),
+                  nrow(gr) == n,
+                  !is.null(pnames <- colnames(gr)))
+        N <- length(gr)
+        rho$mu <- as.vector(val)
+        rho$sqrtXwt <- as.vector(gr)
+        rho$gam <- ## FIXME more efficient  mget(pnames, envir=nlenv)
+            unname(unlist(lapply(pnames,
+                                 function(nm) get(nm, envir=nlenv))))
+    }
+    rho$offset <- if (!is.null(offset)) {
+        if (length(offset) == 1L) offset <- rep.int(offset, N)
+        else stopifnot(length(offset) == N)
+        unname(offset)
+    } else rep.int(0, N)
+    rho$weights <- if (!is.null(weights)) {
+        stopifnot(length(weights) == n, all(weights >= 0))
+        unname(weights)
+    } else rep.int(1, n)
+
+    if(isGLMM) {
+        ## need weights for initializing evaluation
+        rho$nobs <- n
+        ## allow trivial objects, e.g. for simulation
+        if (length(y)>0) eval(family$initialize, rho)
+        ## ugh. this *is* necessary;
+        ##  family$initialize *ignores* mustart in env, overwrites!
+        ## see ll 180-182 of src/library/stats/R/glm.R
+        ## https://github.com/wch/r-source/search?utf8=%E2%9C%93&q=mukeep
+        if (!is.null(mustart_update)) rho$mustart <- mustart_update
+        ## For Gamma family, replace mustart (= y) with mean(y) to improve PIRLS stability.
+        ## Using mustart = y causes PIRLS divergence for small shape parameters (e.g. shape < 0.2)
+        ## because E[log(y)] <= log(E[y]) (Jensen's inequality): the OLS fit of log(y) ~ X gives
+        ## coefficients implying exp(fitted) <= y (optimizes on wrong target)
+        else if (family$family == "Gamma" && is.null(etastart_update) && length(y) > 0) {
+            rho$mustart[] <- mean(rho$mustart)
+        }
+        ## family$initialize <- NULL     # remove clutter from str output
+        ll <- as.list(rho)
+        ans <- do.call(new, c(list(Class="glmResp", family=family),
+                              ll[setdiff(names(ll), c("m", "nobs", "mustart"))]))
+        if (length(y)>0)
+            ans$updateMu(if (!is.null(es <- etastart_update)) es else                                       family$linkfun(rho$mustart))
+        ans
+    } else if (is.null(nlenv)) ## lmer
+        do.call(lmerResp$new, as.list(rho))
+    else ## nlmer
+        do.call(nlsResp$new,
+                c(list(nlenv=nlenv,
+                       nlmod=substitute(~foo, list(foo=nlmod)),
+                       pnames=pnames), as.list(rho)))
+}
+
+subnms <- function(form, nms) {
+    ## Recursive function applied to individual terms
+    sbnm <- function(term)
+    {
+        if (is.name(term)) {
+            if (any(term == nms)) 0 else term
+        } else switch(length(term),
+               term, ## 1
+           {   ## 2
+               term[[2]] <- sbnm(term[[2]])
+               term
+           },
+           {   ## 3
+               term[[2]] <- sbnm(term[[2]])
+               term[[3]] <- sbnm(term[[3]])
+               term
+           })
+    }
+    sbnm(form)
+}
+
+##' Check for a constant term (a literal 1) in an expression
+##
+##' In the mixed-effects part of a nonlinear model formula, a constant
+##' term is not meaningful because every term must be relative to a
+##' nonlinear model parameter.  This function recursively checks the
+##' expressions in the formula for a a constant, calling stop() if
+##' such a term is encountered.
+##' @title Check for constant terms.
+##' @param expr an expression
+##' @return NULL.  The function is executed for its side effect.
+chck1 <- function(expr) {
+    if ((le <- length(expr)) == 1) {
+        if (is.numeric(expr) && expr == 1)
+            stop("1 is not meaningful in a nonlinear model formula")
+        return()
+    } else
+        for (j in seq_len(le)[-1]) Recall(expr[[j]])
+}
+
+## ---> ../man/nlformula.Rd --- Manipulate a nonlinear model formula
+##' @param mc matched call from the caller, with arguments 'formula','start',...
+##' @return a list with components "respMod", "frame", "X", "reTrms"
+nlformula <- function(mc) {
+  start <- eval(mc$start, parent.frame(2L))
+  if (is.numeric(start)) start <- list(nlpars = start)
+  stopifnot(is.numeric(nlpars <- start$nlpars),
+            lengths(nlpars) == 1L,
+            length(pnames <- names(nlpars)) == length(nlpars),
+            length(form <- as.formula(mc$formula)) == 3L,
+            is(nlform <- eval(form[[2]]), "formula"),
+            pnames %in% all.vars(nlmod <-
+                as.call(nlform[[lnl <- length(nlform)]])))
+
+  ## MM{FIXME}: fortune(106) even twice in here!
+    nlform[[lnl]] <- parse(text= paste(setdiff(all.vars(form), pnames), collapse=' + '))[[1]]
+    nlform <- eval(nlform)
+    environment(nlform) <- environment(form)
+    m <- match(c("data", "subset", "weights", "na.action", "offset"),
+               names(mc), 0)
+    mc <- mc[c(1, m)]
+    mc$drop.unused.levels <- TRUE
+    mc[[1L]] <- quote(stats::model.frame)
+    mc$formula <- nlform
+    fr <- eval(mc, parent.frame(2L))
+    n <- nrow(fr)
+    nlenv <- list2env(fr, parent=parent.frame(2L))
+    lapply(pnames, function(nm) nlenv[[nm]] <- rep.int(nlpars[[nm]], n))
+    respMod <- mkRespMod(fr, nlenv=nlenv, nlmod=nlmod)
+
+    chck1(meform <- form[[3L]])
+    pnameexpr <- parse(text=paste(pnames, collapse='+'))[[1]]
+    formula <- as.formula(substitute(~0 + (pnameexpr) + (meform)),
+                          env = environment(form))
+
+    ## substitute  special(x | f)  with  (x | f)
+    fr.form. <- noSpecials(formula, specials = lme4_specials, delete = FALSE)
+    ## substitute  (x | f)  and  (x || f)  with  (x + f)
+    fr.form <- sub_specials(fr.form., specials = c("|", "||"),
+                            keep_args = c(2L, 2L))
+    environment(fr.form.) <- environment(fr.form) <-
+        environment(formula)
+
+    fixedform <- fr.form.
+    RHSForm(fixedform) <- reformulas::nobars(RHSForm(fixedform))
+    frE <- do.call(rbind, lapply(seq_along(nlpars), function(i) fr)) # rbind s copies of the frame
+    for (nm in pnames) # convert these variables in fr to indicators
+        frE[[nm]] <- as.numeric(rep(nm == pnames, each = n))
+    X <- model.matrix(fixedform, frE)
+    rownames(X) <- NULL
+
+    ## get list of calls whose first argument is a call to '|'
+    ##                x | f  ->      us(x | f)
+    ##     nonspecial(x | f) ->      us(x | f)
+    ##        special(x | f) -> special(x | f)
+    bb1 <- findbars_x(formula, specials = lme4_specials,
+                      default.special = "us", target = "|",
+                      expand_doublevert_method = getDoublevertDefault())
+    bb0 <- lapply(bb1, function(call) {
+        call <- call[[2L]]
+        call[[2L]] <- substitute(0 + (foo), list(foo = call[[2L]]))
+        call
+    })
+    reTrms <- reformulas::mkReTrms(bb0, frE, calc.lambdat = FALSE)
+    bb1 <- bb1[reTrms$ord] # reorder to match mkReTrms internal ordering
+    reTrms <- upReTrms(reTrms, bb1) # local calc.lambdat=TRUE step
+    list(respMod=respMod, frame=fr, X=X, reTrms=reTrms, pnames=pnames)
+} ## {nlformula}
+
+################################################################################
+## Beginning to think about exposing tools to create devcomp lists.
+## Could be useful when extending merMod objects.  Commenting them out
+## however, because R CMD check is complaining:
+## https://github.com/lme4/lme4/commit/8d71e439758999ea8f90eb4752487e189407ef33#commitcomment-8773017
+################################################################################
+##
+## .dims <- function(pp, resp, nAGQ,
+##                   reTrms, n, p, rcl,
+##                   compDev = NULL) {
+##     if(missing(rcl)) rcl <- class(resp)
+##     if(missing(n)) n <- nrow(pp$V)
+##     if(missing(p)) p <- ncol(pp$V)
+##     c(N=nrow(pp$X), n=n, p=p, nmp=n-p,
+##       nth=length(pp$theta), q=nrow(pp$Zt),
+##       nAGQ=rho$nAGQ,
+##       compDev=rho$compDev,
+##       ## 'use scale' in the sense of whether dispersion parameter should
+##       ##  be reported/used (*not* whether theta should be scaled by sigma)
+##       useSc=(rcl != "glmResp" ||
+##              !resp$family$family %in% c("poisson","binomial")),
+##       reTrms=length(reTrms$cnms),
+##       spFe=0L,
+##       REML=if (rcl=="lmerResp") resp$REML else 0L,
+##       GLMM=(rcl=="glmResp"),
+##       NLMM=(rcl=="nlsResp"))
+## }
+##
+## .cmp <- function(pp, resp, dims, fval,
+##                  wrss, sqrLenU, pwrss,
+##                  sigmaML, rcl, fac,
+##                  tolPwrss = NULL,
+##                  trivial.y = FALSE) {
+##     if(missing(rcl)) rcl <- class(resp)
+##     if(missing(fac)) fac <- as.numeric(rcl != "nlsResp")
+##     if(missing(wrss)) wrss <- resp$wrss()
+##     if(missing(sqrLenU)) sqrLenU <- pp$sqrL(fac)
+##     if(missing(pwrss)) pwrss <- wrss + sqrLenU
+##     if(missing(sigmaML)) sigmaML <- pwrss/dims[["n"]]
+##     c(ldL2=pp$ldL2(), ldRX2=pp$ldRX2(), wrss=wrss,
+##       ussq=sqrLenU, pwrss=pwrss,
+##       drsum=if (rcl=="glmResp" && !trivial.y) resp$resDev() else NA,
+##       REML=if (rcl=="lmerResp" && resp$REML != 0L && !trivial.y)
+##       opt$fval else NA,
+##       ## FIXME: construct 'REML deviance' here?
+##       dev=if (rcl=="lmerResp" && resp$REML != 0L || trivial.y) NA else opt$fval,
+##       sigmaML=sqrt(unname(if (!dims[["useSc"]] || trivial.y) NA else sigmaML)),
+##       sigmaREML=sqrt(unname(if (rcl!="lmerResp" || trivial.y) NA else sigmaML*(dims[["n"]]/dims[["nmp"]]))),
+##       tolPwrss=rho$tolPwrss)
+## }
+################################################################################
+
+.minimalOptinfo <- function()
+    list(conv = list(opt = 0L,
+                     lme4 = list(messages = character(0))))
+
+getConv <- function(x) {
+    if (!is.null(x[["conv"]])) {
+        x[["conv"]]
+    } else x[["convergence"]]
+}
+
+getMsg <- function(x) {
+    if (!is.null(x[["msg"]])) {
+        x[["msg"]]
+    } else if (!is.null(x[["message"]])) {
+        x[["message"]]
+    } else ""
+}
+
+.optinfo <- function(opt, lme4conv=NULL)
+    list(optimizer = attr(opt, "optimizer"),
+         control   = attr(opt, "control"),
+         derivs    = attr(opt, "derivs"),
+         conv      = list(opt = getConv(opt), lme4 = lme4conv),
+         feval     = if (is.null(opt$feval)) NA else opt$feval,
+         message   = getMsg(opt),
+         warnings  = attr(opt, "warnings"),
+         val       = opt$par)
+
+##' Potentially needed in more than one place, be sure to keep consistency!
+##' hack (NB families have weird names) from @aosmith16; then corrected
+isNBfamily <- function(familyString)
+    grepl("^Negative ?Binomial", familyString, ignore.case=TRUE)
+normalizeFamilyName <- function(family) { # such as  object@resp$family
+    if(isNBfamily(family$family))
+        family$family <- "negative.binomial"
+    family
+}
+
+##' Is it a family with no scale parameter
+hasNoScale <- function(family)
+    any(substr(family$family, 1L, 12L)
+        == c("poisson", "binomial", "negative.bin", "Negative Bin"))
+
+
+
+##--> ../man/mkMerMod.Rd ---Create a merMod object
+##' @param rho the environment of the objective function
+##' @param opt the value returned by the optimizer
+##' @param reTrms reTrms list from the calling function
+mkMerMod <- function(rho, opt, reTrms, fr, mc, lme4conv=NULL) {
+    if(missing(mc)) mc <- match.call()
+    stopifnot(is.environment(rho),
+              is(pp <- rho$pp, "merPredD"),
+              is(resp <- rho$resp, "lmResp"),
+              is.list(opt), "par" %in% names(opt),
+              c("conv", "fval") %in% substr(names(opt),1,4), ## "conv[ergence]", "fval[ues]"
+              is.list(reTrms), c("flist", "cnms", "Gp", "lower") %in% names(reTrms),
+              length(rcl <- class(resp)) == 1)
+    n    <- nrow(pp$V)
+    p    <- ncol(pp$V)
+    isGLMM <- (rcl == "glmResp")
+    dims <- c(N = nrow(pp$X), n=n, p=p, nmp = n-p, q = nrow(pp$Zt),
+              nth = length(pp$theta),
+              nAGQ= rho$nAGQ,
+              compDev=rho$compDev,
+              ## 'use scale' in the sense of whether dispersion parameter should
+              ##  be reported/used (*not* whether theta should be scaled by sigma)
+              useSc = !(isGLMM && hasNoScale(resp$family)),
+              reTrms=length(reTrms$cnms),
+              spFe= 0L,
+              REML = if (rcl=="lmerResp") resp$REML else 0L,
+              GLMM= isGLMM,
+              NLMM= (rcl=="nlsResp"),
+              npar= length(reTrms$lower))
+    storage.mode(dims) <- "integer"
+    fac     <- as.numeric(rcl != "nlsResp")
+    if (trivial.y <- (length(resp$y)==0)) {
+        ## trivial model
+        sqrLenU <- wrss <- pwrss <- NA
+    } else {
+        sqrLenU <- pp$sqrL(fac)
+        wrss    <- resp$wrss()
+        pwrss   <- wrss + sqrLenU
+    }
+    ## weights <- resp$weights
+    beta    <- pp$beta(fac)
+    sigmaML <- pwrss/n
+    if (rcl != "lmerResp") {
+        pars <- opt$par
+        ## making the assertion that length(pars) > npar iff nAGQ > 0;
+        ## skip when pars=NA (simulate path uses a placeholder opt)
+        ## expected pars: add # fixed pars to # opt pars if nAGQ>0
+        expected_par_length <- dims[["npar"]] + as.numeric(dims[["nAGQ"]]>0L)*dims[["p"]]
+        if (!anyNA(pars) && (length(pars) != expected_par_length)) {
+          stop(sprintf("unexpected parameter vector length: length(pars)=%d, npar=%d, nAGQ=%d; ",
+                       length(pars), dims[["npar"]], dims[["nAGQ"]]),
+               "(expected length(pars)==npar iff nAGQ==0)")
+        }
+        ## For structured covariance models (e.g., ar1), npar = length(reTrms$lower)
+        ## may be less than length(pp$theta), so we use dims[["npar"]] to index correctly.
+        if (dims[["nAGQ"]] > 0L) beta <- pars[-seq_len(dims[["npar"]])]
+    }
+    cmp <- c(ldL2=pp$ldL2(), ldRX2=pp$ldRX2(), wrss=wrss,
+             ussq=sqrLenU, pwrss=pwrss,
+             drsum=if (rcl=="glmResp" && !trivial.y) resp$resDev() else NA,
+             REML=if (rcl=="lmerResp" && resp$REML != 0L && !trivial.y)
+                  opt$fval else NA,
+             ## FIXME: construct 'REML deviance' here?
+             dev=if (rcl=="lmerResp" && resp$REML != 0L || trivial.y) NA else opt$fval,
+             sigmaML=sqrt(unname(if (!dims[["useSc"]] || trivial.y) NA else sigmaML)),
+             sigmaREML=sqrt(unname(if (rcl!="lmerResp" || trivial.y) NA else
+                                   sigmaML*(dims[["n"]]/dims[["nmp"]]))),
+             tolPwrss=rho$tolPwrss)
+    ## TODO:  improve this hack to get something in frame slot (maybe need weights, etc...)
+    if(missing(fr)) fr <- data.frame(resp$y)
+    ans <-
+    new(switch(rcl, lmerResp = "lmerMod", glmResp = "glmerMod", nlsResp = "nlmerMod"),
+        call=mc, frame=fr, flist=reTrms$flist, cnms=reTrms$cnms,
+        Gp=reTrms$Gp, theta=pp$theta, beta=beta,
+        u=if (trivial.y) rep(NA_real_,nrow(pp$Zt)) else pp$u(fac),
+        lower=reTrms$lower, devcomp=list(cmp=cmp, dims=dims),
+        pp=pp, resp=resp,
+        optinfo = .optinfo(opt, lme4conv))
+    attr(ans, "upper") <- reTrms$upper %||% rep(Inf, length(reTrms$lower))
+    attr(ans, "reCovs") <- upReCovs(reTrms$reCovs %||% getReCovs(ans), rho$pp$theta)
+    ans
+}## {mkMerMod}
+
+## generic argument checking
+## 'type': name of calling function ("glmer", "lmer", "nlmer")
+##
+## NB: called from  lFormula() and glFormula()
+checkArgs <- function(type,...) {
+    l... <- list(...)
+    if (isTRUE(l...[["sparseX"]])) warning("sparseX = TRUE has no effect at present",call.=FALSE)
+    ## '...' handling up front, safe-guarding against typos ("familiy") :
+    if(length(l... <- list(...))) {
+        if (!is.null(l...[["family"]])) {  # call glmer if family specified
+            ## we will only get here if 'family' is *not* in the arg list
+            warning("calling lmer with family() is deprecated: please use glmer() instead",call.=FALSE)
+            type <- "glmer"
+        }
+        ## Check for method argument which is no longer used
+        ## (different meanings/hints depending on glmer vs lmer)
+        if (!is.null(l...[["method"]])) {
+            msg <- paste("Argument", sQuote("method"), "is deprecated.")
+            if (type == "lmer")
+                msg <- paste(msg, "Use the REML argument to specify ML or REML estimation.")
+            else if (type == "glmer")
+                msg <- paste(msg, "Use the nAGQ argument to specify Laplace (nAGQ=1) or adaptive",
+                             "Gauss-Hermite quadrature (nAGQ>1).  PQL is no longer available.")
+            warning(msg,call.=FALSE)
+            l... <- l...[names(l...) != "method"]
+        }
+        if(length(l...)) {
+            warning("extra argument(s) ",
+                    paste(sQuote(names(l...)), collapse=", "),
+                    " disregarded",call.=FALSE)
+        }
+    }
+}
+
+## check formula and data: return an environment suitable for evaluating
+##  the formula.
+## (1) if data is specified, return it
+## (2) otherwise, if formula has an environment, use it
+## (3) otherwise [e.g. if formula was passed as a string], try to use parent.frame(2)
+
+## if #3 is true *and* the user is doing something tricky with nested functions,
+## this may fail ...
+
+## try to diagnose missing/bad data
+checkFormulaData <- function(formula, data, checkLHS=TRUE,
+                             checkData=TRUE, debug=FALSE,
+                             calling_env = parent.frame(2L)) {
+    wd <- tryCatch(force(data), error = identity)
+    if (bad.data <- inherits(wd,"error")) {
+        bad.data.msg <- wd$message
+    }
+
+    ## data not found (this *should* only happen with garbage input,
+    ## OR when strings used as formulae -> drop1/update/etc.)
+    ##
+    if (bad.data || debug) {
+        varex <- function(v, env) exists(v, envir=env, inherits=FALSE)
+        allvars <- all.vars(as.formula(formula))
+        allvarex <- function(env, vvec=allvars) all(vapply(vvec, varex, NA, env))
+    }
+    if (bad.data) { ## Choose helpful error message:
+        if (allvarex(environment(formula))) {
+            stop("bad 'data', but variables found in environment of formula: ",
+                 "try specifying 'formula' as a formula rather ",
+                 "than a string in the original model",call.=FALSE)
+        } else {
+            stop("bad 'data': ", bad.data.msg, call. = FALSE)
+        }
+    } else {
+        denv <- ## The data as environment
+            if (is.null(data)) {
+                if (!is.null(ee <- environment(formula))) {
+                    ee ## use environment of formula
+            } else {
+                ## e.g. no environment, e.g. because formula is a character vector
+                ## calling_env defaults to parent.frame(2L), which works when
+                ## [g]lFormula (our old calling environment) was called within
+                ## [g]lmer with env=parent.frame(1L).  When called from inside
+                ## mkFormula, the caller should pass parent_env explicitly so
+                ## that the correct user-level frame is used.
+                calling_env
+            }
+        } else ## data specified
+            list2env(data)
+    }
+    ##
+    ## FIXME: set enclosing environment of denv to environment(formula), or parent.frame(2L) ?
+    if (debug) {
+        cat("Debugging parent frames in checkFormulaData:\n")
+        ## find global environment -- could do this with sys.nframe() ?
+        glEnv <- 1L
+        while (!identical(parent.frame(glEnv),.GlobalEnv)) {
+            glEnv <- glEnv+1L
+        }
+        ## where are vars?
+        for (i in 1:glEnv) {
+            OK <- allvarex(parent.frame(i))
+            cat("vars exist in parent frame ", i)
+            if (i == glEnv) cat(" (global)")
+            cat(" ",OK, "\n")
+        }
+        cat("vars exist in env of formula ", allvarex(denv), "\n")
+    } ## if (debug)
+
+    stopifnot(!checkLHS || length(as.formula(formula,env=denv)) == 3)  ## check for two-sided formula
+    return(denv)
+}
+
+## checkFormulaData <- function(formula,data) {
+##     ee <- environment(formula)
+##     if (is.null(ee)) {
+##         ee <- parent.frame(2)
+##     }
+##     if (missing(data)) data <- ee
+##     stopifnot(length(as.formula(formula,env=as.environment(data))) == 3)
+##     return(data)
+## }
+
+
+##' Not exported; for tests (and examples) that can be slow;
+##' Use   if(lme4:::testLevel() >= 1.) .....  see ../tests/README.md
+testLevel <- function()
+    if(nzchar(s <- Sys.getenv("LME4_TEST_LEVEL")) &&
+       is.finite(s <- as.numeric(s))) s else 1
+
+##' General conditional variance-covariance matrix
+##'
+##' Experimental function for estimating the variance-covariance
+##' matrix of the random effects, conditional on the observed data
+##' and at the (RE)ML estimate of the fixed effects and covariance
+##' parameters.  Applicable for any Lambda matrix, but slower than
+##' other block-by-block methods.
+##' Not exported.
+##'
+##' TODO:
+##' - Write up quick note on theory (e.g. Laplace approximation).
+##' - Test.  Speed? Correctness?
+##' - Do we need to think carefully about the differences
+##'     between REML and ML, beyond just multiplying by a different
+##'     sigma^2 estimate?
+##' - is it better to do this term-by-term as in C++ code?
+##'
+##' @param object \code{merMod} object
+##' @return Sparse covariance matrix
+condVar <- function(object, scaled=TRUE) {
+  Lamt <- getME(object, "Lambdat")
+  L <- getME(object, "L")
+
+  ## never do it this way! fortune("SOOOO")
+  #V <- solve(L, system = "A")
+  #V <- chol2inv(L)
+  #s2*crossprod(Lamt, V) %*% Lamt
+
+  LL <- solve(L, Lamt, system = "A")
+  ## From ?Matrix::solve, The default, '"A"', is to solve Ax = b for x
+  ##   where 'A' is sparse, positive-definite matrix that was
+  ##   factored to produce 'a'.
+
+  cc <- crossprod(Lamt, LL)
+  if (scaled) cc <- sigma(object)^2*cc
+  cc
+}
+
+
+mkMinimalData <- function(formula) {
+    vars <- all.vars(formula)
+    nVars <- length(vars)
+    matr <- matrix(0, 2, nVars)
+    data <- as.data.frame(matr)
+    setNames(data, vars)
+}
+
+##' Make template for mixed model parameters
+mkParsTemplate <- function(formula, data){
+    if(missing(data)) data <- mkMinimalData(formula)
+    mfRanef <- model.frame( reformulas::subbars(formula), data)
+    mmFixef <- model.matrix( reformulas::nobars(formula) , data)
+    reTrms <- reformulas::mkReTrms( reformulas::findbars(formula), mfRanef)
+    cnms <- reTrms$cnms
+    thetaNamesList <- mapply(mkPfun(), names(cnms), cnms)
+    thetaNames <- unlist(thetaNamesList)
+    betaNames <- colnames(mmFixef)
+    list(beta  = setNames(numeric(length( betaNames)),  betaNames),
+         theta = setNames(reTrms$theta, thetaNames),
+         sigma = 1)
+}
+
+##' Make template for mixed model data
+##'
+##' Useful for simulating balanced designs and for
+##' getting started on unbalanced simulations
+##'
+##' @param formula formula
+##' @param data data -- not necessary
+##' @param nGrps number of groups per grouping factor
+##' @param rfunc function for generating covariate data
+##' @param ... additional parameters for rfunc
+mkDataTemplate <- function(formula, data,
+                           nGrps = 2, nPerGrp = 1,
+                           rfunc = NULL, ...){
+    if(missing(data)) data <- mkMinimalData(formula)
+    grpFacNames <- unique(barnames(reformulas::findbars(formula)))
+    varNames <- all.vars(formula)
+    covariateNames <- setdiff(varNames, grpFacNames)
+    nGrpFac <- length(grpFacNames)
+    nCov <- length(covariateNames)
+    grpFac <- gl(nGrps, nPerGrp)
+    grpDat <- expand.grid(replicate(nGrpFac, grpFac, simplify = FALSE))
+    colnames(grpDat) <- grpFacNames
+    nObs <- nrow(grpDat)
+    if(is.null(rfunc)) rfunc <- function(n, ...) rep(0, n)
+    params <- c(list(nObs), list(...))
+    covDat <- as.data.frame(replicate(nCov, do.call(rfunc, params),
+                                      simplify = FALSE))
+    colnames(covDat) <- covariateNames
+    cbind(grpDat, covDat)
+}
+
+##' very flexible and convenient wrt formula,
+##' very unflexible wrt everything else
+##'
+##' starting to get a little too sugary?
+quickSimulate <- function(formula, nGrps, nPerGrp, family = gaussian) {
+    pr <- mkParsTemplate(formula)
+    dt <- mkDataTemplate(formula, nGrps = nGrps, nPerGrp = nPerGrp, rfunc = rnorm)
+    response <- deparse(formula[[2]])
+    dt[[response]] <- simulate(formula, newdata = dt, newparams = pr, family = family)[[1]]
+    return(dt)
+}
+
+#----------------------------------------------------------------------
+# formula parsing sugar
+#----------------------------------------------------------------------
+
+##' these functions pick up where findbars leaves off, in terms of sugar
+##' @param REtrm an element of the result of findbars
+##' @param REtrms the result of findbars
+##' @return \code{reexpr} gives a one-sided formula with the linear
+##' model formula for the raw model matrix. \code{grpfact} gives an
+##' expression with the name of the grouping factor associated with
+##' the raw model matrix. \code{termnms} gives a character vector with
+##' the names of the random effects terms.
+reexpr <- function(REtrm) substitute( ~ foo, list(foo = REtrm[[2]]))
+grpfact <- function(REtrm) substitute(factor(fac), list(fac = REtrm[[3]]))
+termnms <- function(REtrms) vapply(REtrms, deparse1, "")
+
+##' mmList(): list of model matrices
+##' ------    called from getME() & model.matrix(*, "randomListRaw")
+mmList <- function(object, ...) UseMethod("mmList")
+mmList.merMod <- function(object, ...) mmList(formula(object), model.frame(object))
+mmList.formula <- function(object, frame, ...) {
+    bars <- reformulas::findbars(object)
+    mm <- setNames(lapply(bars, function(b) model.matrix(eval(reexpr(b), frame), frame)),
+                   termnms(bars))
+    grp <- lapply(lapply(bars, grpfact), eval, frame)
+    nl <- vapply(grp, nlevels, 1L)
+    if (any(diff(nl) > 0))
+        mm[order(nl, decreasing=TRUE)]
+    else
+        mm
+}
+##' examples  ---FIXME?--- put in tests // or export + 'real examples'
+if(FALSE) {
+    library(lme4)
+    m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+    gm <- glmer(cbind(incidence, size-incidence) ~ period + (1|herd), cbpp, binomial)
+    simForm <- y ~ x + z + (x | f) + (z | g)
+    ## ::: triggers R CMD check NOTE
+    ## simDat <- lme4:::quickSimulate(simForm, 10, 5)
+    simDat <- simDat[simDat$f != "10", ] # unbalancedish design requiring
+                                        # a flip in the order of terms
+    sm <- lmer(simForm, simDat)
+    ## ::: triggers R CMD check NOTE
+    ## lme4:::mmList.merMod(m)
+    ## lme4:::mmList.merMod(gm)
+    ## smmm <- lme4:::mmList.merMod(sm)
+}
+
+nloptwrap <- local({
+    ## define default control values in environment of function ...
+    defaultControl <- list(algorithm="NLOPT_LN_BOBYQA",
+                           xtol_abs=1e-8, ftol_abs=1e-8, maxeval=1e5)
+    ##
+    function(par, fn, lower, upper, control=list(),...) {
+        for (n in names(defaultControl))
+            if (is.null(control[[n]])) control[[n]] <- defaultControl[[n]]
+        res <- nloptr(x0=par, eval_f=fn, lb=lower, ub=upper, opts=control, ...)
+        with(res, list(par   = solution,
+                       fval  = objective,
+                       feval = iterations,
+                       ## ?nloptr: "integer value with the status of the optimization (0 is success)"
+                       ## most status>0 are fine (e.g. 4 "stopped because xtol_rel was reached"
+                       ## but status 5 is "ran out of evaluations"
+                       conv  = if (status<0 || status==5) status else 0,
+                       message = message))
+    }
+})
+
+nlminbwrap <- function(par, fn, lower, upper, control=list(), ...) {
+    if (!is.null(control$maxfun)) {
+        control$eval.max <- control$maxfun
+        control$maxfun <- NULL
+    }
+    res <- nlminb(start = par, fn, gradient = NULL, hessian = NULL,
+                  scale = 1, lower = lower, upper = upper,
+                  control = control, ...)
+    list(par = res$par, fval = res$objective,
+         conv = res$convergence, message = res$message)
+}
+
+glmerLaplaceHandle <- function(pp, resp, nAGQ, tol, maxit, verbose) {
+    .Call(glmerLaplace, pp, resp, nAGQ, tol, as.integer(maxit), verbose)
+}
+
+isFlexLambda <- function() FALSE
+
+
+#' convert a list of matrices (n, pxp blocks) to a  p x p x n  array
+mlist_to_array <- function(m) {
+    p <- nrow(m[[1]])
+    n <- length(m)
+    array(unlist(lapply(m,as.matrix)),dim=c(p,p,n))
+}
+#' @inheritParams bdiag_to_array
+bdiag_to_mlist <- function(m,n) {
+    if (length(n)==1 && n<nrow(m)) {
+        n <- rep(n,nrow(m)%/%n)
+    }
+    mm <- list()
+    k <- 1
+    for (i in seq_along(n)) {
+        mm[[i]] <- m[k:(k+n[i]-1),k:(k+n[i]-1),drop=FALSE]
+        k <- k + n[i]
+    }
+    return(mm)
+}
+##' convert a block-diagonal matrix to a pxpxn array
+##' @param m a block-diagonal matrix (typically sparse)
+##' @param n vector of block sizes (if length-1, will be replicated to be consistent
+##' with the matrix dimensions)
+##' @examples
+##' mm <- Matrix::bdiag(matrix(1:4,2,2),matrix(2:5,2,2),matrix(3:6,2,2))
+##' mm2 <- blkmatrix_to_matrixlist(mm,2)
+##' bdiag_to_array(mm,2)
+##' array_to_bdiag(bdiag_to_array(mm,2))
+bdiag_to_array <- function(m,n) {
+    mlist_to_array(
+        bdiag_to_mlist(m,n))
+}
+array_to_bdiag <- function(a) {
+    stopifnot(length(dim(a))==3,dim(a)[1]==dim(a)[2])
+    p <- dim(a)[1]
+    mlist <- split(a,slice.index(a,3))
+    mlist <- lapply(mlist,matrix,nrow=p,ncol=p)
+    return(.bdiag(mlist))
+}
+
+
+augment.RE <- function(object,rr=ranef(object)) {
+    alist <- arrange.condVar(object,condVar(object))
+    for (i in seq_along(rr)) {
+        attr(rr[[i]],"postVar") <- alist[[i]]
+    }
+    class(rr) <- "ranef.mer"
+    rr
+}
+
+## reorganize condVar matrix into appropriate list of arrays/lists of arrays
+arrange.condVar <- function(object,cv) {
+    rp <- rePos$new(object)
+    trms <- rp$terms      ## mapping between grouping vars and RE terms
+    n <- diff(rp$offsets) ## total number of modes per term
+    cv2 <- bdiag_to_mlist(cv,n)
+    cv3 <- Map(bdiag_to_array,cv2,rp$ncols)
+    names(cv3) <- rp$cnms
+    res <- list()
+    for (i in seq_along(trms)) {
+        tt <- trms[[i]]
+        if (length(tt)==1) {
+            ## keep single-term-per-factor condVar structures
+            ## as naked arrays (not list containing a single array)
+            ## for back-compatibility
+            res[[i]] <- cv3[[tt]]
+        } else {
+            ## list of arrays
+            res[[i]] <- cv3[tt]
+        }
+    }
+    names(res) <- names(rp$flist)
+    return(res)
+}
+
+## generic machinery for setting parallel options
+## uses eval() (as in family()$initialize) to avoid too much list
+initialize.parallel <- expression({
+    if (length(parallel) > 1) parallel <- match.arg(parallel)
+    if (!is.null(cl)) {
+        stopifnot(inherits(cl, "cluster"))
+        parallel <- "snow"
+    } else if (parallel == "multicore") {
+        stopifnot(is.numeric(ncpus), length(ncpus) == 1L, is.finite(ncpus), ncpus >= 1L)
+        if (.Platform$OS.type == "windows" || ncpus == 1L)
+            parallel <- "no"
+    } else if (parallel == "snow") {
+        if (is.null(cl)) {
+            stopifnot(is.numeric(ncpus), length(ncpus) == 1L, is.finite(ncpus), ncpus >= 1L)
+            if (ncpus == 1L)
+                parallel <- "no"
+        }
+    } else if (parallel == "future") {
+        if (!requireNamespace("future.apply", quietly = TRUE)) {
+            stop("parallel = \"future\" requires the 'future.apply' package - please install it")
+        }
+    }
+})
+
+getSingTol <- function() getOption("lme4.singular.tolerance", 1e-4)
+
+lme4_testlevel <- function() if (nzchar(s <- Sys.getenv("LME4_TEST_LEVEL"))) as.numeric(s) else 1
+
+
+# stolen from car package
+# the following unexported function is useful for combining results of parallel computations
+combineLists <- function(..., fmatrix="list", flist="c", fvector="rbind", 
+                         fdf="rbind", recurse=FALSE){
+    # combine lists of the same structure elementwise
+    
+    # ...: a list of lists, or several lists, each of the same structure
+    # fmatrix: name of function to apply to matrix elements
+    # flist: name of function to apply to list elements
+    # fvector: name of function to apply to data frame elements
+    # recurse: process list element recursively
+    
+    frecurse <- function(...){
+        combineLists(..., fmatrix=fmatrix, fvector=fvector, fdf=fdf, 
+                     recurse=TRUE)
+    }
+    
+    if (recurse) flist="frecurse"
+    list.of.lists <- list(...)
+    if (length(list.of.lists) == 1){
+        list.of.lists <- list.of.lists[[1]]
+        list.of.lists[c("fmatrix", "flist", "fvector", "fdf")] <- 
+            c(fmatrix, flist, fvector, fdf)
+        return(do.call("combineLists", list.of.lists))
+    }
+    if (any(!sapply(list.of.lists, is.list))) 
+        stop("arguments are not all lists")
+    len <- sapply(list.of.lists, length)
+    if (any(len[1] != len)) stop("lists are not all of the same length")
+    nms <- lapply(list.of.lists, names)
+    if (any(unlist(lapply(nms, "!=", nms[[1]])))) 
+        stop("lists do not all have elements of the same names")
+    nms <- nms[[1]]
+    result <- vector(len[1], mode="list")
+    names(result) <- nms
+    for(element in nms){
+        element.list <- lapply(list.of.lists, "[[", element)
+#        clss <- sapply(element.list, class)
+        clss <- lapply(element.list, class)
+#        if (any(clss[1] != clss)) stop("list elements named '", element,
+        if (!all(vapply(clss, function(e) all(e == clss[[1L]]), NA)))
+          stop("list elements named '", element, "' are not all of the same class")
+        
+        is.df <- is.data.frame(element.list[[1]])
+        fn <- if (is.matrix(element.list[[1]])) fmatrix 
+        else if (is.list(element.list[[1]]) && !is.df) flist 
+        else if (is.vector(element.list[[1]])) fvector
+        else if (is.df) fdf
+        else stop("list elements named '", element, 
+                  "' are not matrices, lists, vectors, or data frames")
+        result[[element]] <- do.call(fn, element.list)
+    }
+    result
+}
+
+## copied from glmmTMB::check_dots
+checkDots <- function (..., .ignore = NULL, .action = "stop") 
+{
+    L <- list(...)
+    if (length(.ignore) > 0) {
+        L <- L[!names(L) %in% .ignore]
+    }
+    if (length(L) > 0) {
+        FUN <- get(.action)
+        FUN("unknown arguments: ", paste(names(L), collapse = ","))
+    }
+    return(NULL)
+}
+
+## quadratic form from emulator package:
+## quad.tform == x %*% M %*% t(x)
+## quad.tdiag == diag(quad.tform(M, x)
+## rowSums(tcrossprod(Conj(x), M) * x)
+quad.tdiag <- function(M, x) {
+    ## only real-valued, so drop Conj
+    rowSums(tcrossprod(x, M) * x)
+}
+
+##' attempt to modularize vcov scaling; more details in the autoscale vignette
+##' @param vv represents the variance-covariance matrix before modification
+##' @param sc represents the scale vector
+##' @param ce represents the center vector
+scale_vcov <- function(vv, sc, ce) {
+  other_vars <- setdiff(colnames(vv), "(Intercept)")
+  ## 1. Modifying the intercept
+  sig_0sq <- vv["(Intercept)", "(Intercept)"]
+  sig_0isq <- vv["(Intercept)", other_vars]
+  total1 <- -2 *sum((ce/sc) * sig_0isq)
+  small_vv <- as.matrix(vv[other_vars, other_vars])
+  total2 <- crossprod(ce / sc, small_vv %*% (ce / sc))[[1]]
+  vv["(Intercept)", "(Intercept)"] <- sig_0sq + total1 + total2
+  ## 2. Modifying without intercept
+  updated_2 <- (sig_0isq)/sc - (small_vv %*% (ce/sc))/sc
+  vv["(Intercept)", other_vars] <- updated_2
+  vv[other_vars, "(Intercept)"] <- updated_2
+  vv[other_vars, other_vars] <- vv[other_vars, other_vars] * outer(1/sc, 1/sc)
+  vv <- as_dpoMatrix(vv)
+}
+
+##' Used for padding NAs to Cmat accordingly in predict.merMod
+##' @param mat represents the matrix that needs to be modified
+##' @param mat_names represents the names of the new modified matrix
+##' @param insert_after represents the placement before the zeros that need to 
+##' be added
+##' @param n_add represents the number rows/columns that will be padded with zeros
+zero_padding <- function(mat, mat_names, insert_after, n_add = 1) {
+  mat <- as.matrix(mat)
+  old_dim <- nrow(mat)
+  new_dim <- old_dim + n_add
+  m_pad <- matrix(0, new_dim, new_dim)
+  rownames(m_pad) <- mat_names
+  colnames(m_pad) <- mat_names
+  
+  ## Top right corner
+  m_pad[1:insert_after, 1:insert_after] <- mat[1:insert_after, 1:insert_after]
+  
+  ## Top left corner
+  m_pad[1:insert_after, (insert_after + n_add + 1):new_dim] <-
+    mat[1:insert_after, (insert_after + 1):old_dim]
+  
+  ## Bottom right corner
+  m_pad[(insert_after + n_add + 1):new_dim, 1:insert_after] <-
+    mat[(insert_after + 1):old_dim, 1:insert_after]
+  
+  ## Bottom left corner
+  m_pad[(insert_after + n_add + 1):new_dim, (insert_after + n_add + 1):new_dim] <-
+    mat[(insert_after + 1):old_dim, (insert_after + 1):old_dim]
+  
+  m_pad
+}
+
+##' if allow.new.levels = TRUE, then adds 0 padding to Cmat for prediction
+##' @param Cmat represents Cmat that was computed prior to subsetting
+##' @param C_factors represents the factors explicitly shown in Cmat
+##' @param Z_factors represents the factors represented in the Z matrix, which
+##' includes only levels of groups that need to be predicted
+##' @param Cmat_names represents the names of the Cmat matrix
+##' @param cnms same as cnms from object
+pad_Cmat <- function(Cmat, C_factors, Z_factors, Cmat_names, cnms){
+  n_padded = 0
+  for (grp in intersect(names(C_factors), names(Z_factors))) {
+    n_lvl <- length(levels(C_factors[[grp]]))
+    added_levels <- setdiff(levels(Z_factors[[grp]]), 
+                            levels(C_factors[[grp]]))
+    if ((n_add <- length(added_levels)) == 0) next
+    levels(C_factors[[grp]]) <- c(levels(C_factors[[grp]]), added_levels) 
+    
+    ## add names for clarity
+    added_nms <- as.vector(sapply(added_levels, function(lv)
+      paste0(grp, ".", lv, ".", cnms[[grp]])
+    ))
+    ## add padding
+    n_padded <- n_padded + n_lvl * length(cnms[[grp]])
+    n_new <- n_add * length(cnms[[grp]])
+    
+    Cmat_names <- c(Cmat_names[1:n_padded], 
+                    added_nms, 
+                    Cmat_names[(n_padded+1):length(Cmat_names)])
+    ## alter Cmat
+    Cmat <- zero_padding(Cmat, Cmat_names, insert_after = n_padded,
+                         n_add = n_new)
+    n_padded <- n_padded + n_new
+  }
+  list("Cmat" = Cmat, "C_factors" = C_factors, "Cmat_names" = Cmat_names)
+}
+
+
+getDoublevertDefault <- function() {
+  getOption("lme4.doublevert.default", "split")
+}
+
+na.action.merMod <- function(object, ...) {
+  na.action(model.frame(object))
+}
+
+# Temporarily putting this here; should be removed once reformulas is updated.
+#' get grouping variable symbols/names
+#' @param formula a formula
+#' @param return_val return character string or raw symbol?
+#' @examples
+#' form <- Reaction ~ Days + (Days | group / Subject)
+#' get_grpvars(form)
+#' get_grpvars(form, return_val = "symbol")
+get_grpvars <- function(formula, return_val = c("char", "symbol")) {
+  return_val <- match.arg(return_val)
+  ff <- reformulas::findbars_x(formula)
+  ff2 <- lapply(ff, "[[", 2) ## strip parens/special names
+  ff3 <- lapply(ff2, "[[", 3) ## get argument after |
+  if (return_val == "symbol") return(ff3)
+  vapply(ff3, deparse1, FUN.VALUE = "")
+}
+
+as_dpoMatrix <- function(x) {
+  if (packageVersion("Matrix") < "1.8.0") return(as(x, "dpoMatrix"))
+  pd <- as(as(x, "dMatrix"), "posdefMatrix")
+  if (is(pd, "dpoMatrix")) pd else as(pd, "unpackedMatrix")
+}

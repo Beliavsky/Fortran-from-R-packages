@@ -1,0 +1,38 @@
+name = "lme4"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "lme4 authors; modern Fortran port"
+maintainer = "Fortran port maintainers"
+description = "Dense computational core of lme4 with LMM, GLMM, NLMM, custom families, inference, and AGHQ"
+keywords = ["mixed-models", "lmm", "glmm", "nlmm", "laplace", "pirls", "aghq", "bootstrap"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+minqa = { path = "dependencies/minqa" }
+
+[[test]]
+name = "test_lme4"
+source-dir = "test"
+main = "test_lme4.f90"
+
+[[example]]
+name = "lme4_example"
+source-dir = "example"
+main = "lme4_example.f90"
+
+[[example]]
+name = "glmm_extensions_example"
+source-dir = "example"
+main = "glmm_extensions_example.f90"
+
+[[example]]
+name = "advanced_algorithms_example"
+source-dir = "example"
+main = "advanced_algorithms_example.f90"

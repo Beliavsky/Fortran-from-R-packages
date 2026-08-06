@@ -1,0 +1,335 @@
+meth.tab.0 <- cbind(optimizer=
+                      rep(c("bobyqa",
+                            "Nelder_Mead",
+                            "nlminbwrap",
+                            "nmkbw",
+                            "optimx",
+                            "nloptwrap" ),
+                          c(rep(1,5),2)),
+                    method= c(rep("",4), "L-BFGS-B",
+                            "NLOPT_LN_NELDERMEAD", "NLOPT_LN_BOBYQA"))
+
+## ugh: hardcoded list (incomplete?) of allowable *control* options by optimizer
+## could make more of an effort to match max-iterations/evals,
+## (x|f)*(abs|rel) tolerance, ...
+opt.ctrls <- list(bobyqa=c("npt","rhobeg","rhoend","iprint","maxfun"),
+                  Nelder_Mead=c("iprint","maxfun","FtolAbs",
+                                "FtolRel","XtolRel","MinfMax",
+                                "xst","xt","verbose","warnOnly"),
+                  nlminbwrap=c("eval.max","iter.max","trace","abs.tol",
+                               "rel.tol","x.tol","xf.tol","step.min",
+                               "step.max","sing.tol","scale.init",
+                               "diff.g"),
+                  optimx=c("trace","fnscale","parscale","ndeps",
+                          "maxit","abstol","reltol","method"),
+                  nloptwrap=c("minf_max","ftol_rel","ftol_abs",
+                              "xtol_rel", "xtol_abs", "maxeval", "maxtime",
+                              "algorithm"),
+                  nmkbw=c("tol","maxfeval","regsimp","maximize",
+                          "restarts.max","trace"))
+
+## name of 'max function evaluations' for each optimizer
+maxfun_arg <- c(bobyqa = "maxfun",
+                Nelder_Mead = "maxfun",
+                nlminbwrap = "eval.max",
+                optimx = "maxit",
+                nloptwrap = "maxeval",
+                nmkbw = "maxfeval")
+                           
+                
+nmkbw <- function(fn, par, lower, upper, control) {
+    if (length(par)==1) {
+        res <- optim(fn=fn,par=par,lower=lower,upper=100*par,
+                     method="Brent")
+    } else {
+        res <- dfoptim::nmkb(fn=fn,par=par,
+                             lower=lower,upper=upper,control=control)
+    }
+    res$fval <- res$value
+    res
+}
+
+
+##' Attempt to re-fit a [g]lmer model with a range of optimizers.
+##' The default is to use all known optimizers for R that satisfy the
+##' requirements (do not require explicit gradients, allow
+##' box constraints), in three categories; (i) built-in
+##' (minqa::bobyqa, lme4::Nelder_Mead, nlminbwrap), (ii) wrapped via optimx
+##' (most of optimx's optimizers that allow box constraints require
+##' an explicit gradient function to be specified; the two provided
+##' here are really base R functions that can be accessed via optimx,
+##' (iii) wrapped via nloptr; (iv)
+##'
+##' @param object a fitted model
+##' @param meth.tab a matrix (or data.frame) with columns
+##' - method  the name of a specific optimization method to pass to the optimizer
+##'           (leave blank for built-in optimizers)
+##' - optimizer  the \code{optimizer} function to use
+##' @param verbose print progress messages?
+##' @param catch.err catch errors?
+##' @param start_from_mle (logical) initialize the refitting process with starting values from the fitted model?
+##' @return a list of fitted \code{merMod} objects
+##' @seealso slice, slice2D in the bbmle package
+##' @examples
+##' library(lme4)
+##' gm1 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd),
+##'                  data = cbpp, family = binomial)
+##' gm_all <- allFit(gm1, parallel=TRUE)
+##' ss <- summary(gm_all)
+##' ss$fixef               ## extract fixed effects
+##' ss$llik                ## log-likelihoods
+##' ss$sdcor               ## SDs and correlations
+##' ss$theta               ## Cholesky factors
+##' ss$which.OK            ## which fits worked
+
+allFit <- function(object, meth.tab = NULL,
+                   data=NULL,
+                   verbose=TRUE,
+                   show.meth.tab = FALSE,
+                   maxfun = 1e5,
+                   parallel = c("no", "multicore", "snow", "future"),
+                   ncpus = getOption("allFit.ncpus", 1L),
+                   cl = NULL,
+                   catch.errs = TRUE,
+                   start_from_mle = TRUE) {
+
+    if (is.null(meth.tab)) {
+        meth.tab <- meth.tab.0
+    }
+    optvec <- meth.tab.0[,"optimizer"]
+    if (!requireNamespace("dfoptim", quietly = TRUE)) {
+        optvec <- setdiff(optvec, "nmkbw")
+        meth.tab <- meth.tab[meth.tab[,"optimizer"] %in% optvec, ]
+    }
+    if (!requireNamespace("optimx", quietly = TRUE)) {
+        optvec <- setdiff(optvec, "optimx")
+        meth.tab <- meth.tab[meth.tab[,"optimizer"] %in% optvec,]
+    }
+    if (show.meth.tab) {
+        return(meth.tab)
+    }
+    stopifnot(length(dm <- dim(meth.tab)) == 2, dm[1] >= 1, dm[2] >= 2,
+	      is.character(optimizer <- meth.tab[,"optimizer"]),
+	      is.character(method    <- meth.tab[,"method"]))
+
+    parallel <- match.arg(parallel)
+
+    # (parallel, ncpus, cl) -> (parallel)
+    eval(initialize.parallel)
+
+    fit.names <- gsub("\\.$", "", paste(optimizer, method, sep="."))
+    ffun <- local({
+        ## required local vars
+        object
+        verbose
+        fit.names
+        optimizer
+        method
+        maxfun
+        function(..i) {
+            if (verbose) cat(fit.names[..i],": ")
+            ctrl <- getCall(object)$control
+            ## NB:  'ctrl' must become a correct *argument* list for g?lmerControl()
+            ## 'ctrl' as extracted above is an unevaluated language object:
+            ## NULL, a call (typically to g?lmerControl()), or a symbol
+            ## referring to a previously constructed control object (e.g.
+            ## control=cc where cc <- lmerControl(...) was assigned earlier).
+            ## eval() resolves either case to the actual, fully resolved
+            ## (and nested) control object, which we then unpack back into a
+            ## flat argument list (mirrors the lmerControl->glmerControl
+            ## backward-compatibility unpacking kludge in glmer(), lmer.R)
+            if(is.null(ctrl)) {
+                ctrl <- list(optimizer=optimizer[..i])
+            } else {
+                ctrl <- eval(ctrl, envir = environment(formula(object)))
+                ctrl <- c(ctrl[!names(ctrl) %in% c("checkControl","checkConv")],
+                          ctrl$checkControl, ctrl$checkConv)
+                ctrl$optimizer <- optimizer[..i]
+            }
+            ## add method/algorithm to optCtrl as necessary
+            mkOptCtrl <- function(...) {
+                x <- list(...)
+                cc <- ctrl$optCtrl
+                if (is.null(cc)) cc <- list()
+                cc[[maxfun_arg[[optimizer[[..i]]]]]] <- maxfun
+                for (n in names(x)) { ## replace existing values
+                    cc[[n]] <- x[[n]]
+                }
+                cc
+            }
+            sanitize <- function(x,okvals) {
+                if (is.null(x)) return(NULL)
+                if (is.null(okvals)) return(x)
+                x <- x[intersect(names(x),okvals)]
+                ## ?? having names(control) be character(0)
+                ##  screws up nmkbw ... ??
+                if (length(names(x))==0) names(x) <- NULL
+                x
+            }
+            ctrl$optCtrl <- switch(optimizer[..i],
+                                   optimx    = mkOptCtrl(method   = method[..i]),
+                                   nloptwrap = mkOptCtrl(algorithm= method[..i]),
+                                   mkOptCtrl())
+                                       
+            ctrl$optCtrl <- sanitize(ctrl$optCtrl,
+                                     opt.ctrls[[optimizer[..i]]])
+            ctrl <- do.call(if(isGLMM(object)) glmerControl else lmerControl, ctrl)
+            ## need to stick ctrl in formula env so it can be found ...
+            form <- formula(object)
+            env <- environment(form)
+            tmp_env <- new.env(parent = env)
+            # temporarily changing the environment
+            environment(form) <- tmp_env
+            assign("ctrl", ctrl, envir = tmp_env, inherits = FALSE)
+            # Using the MLE as a starting point
+            if (start_from_mle) {
+              if (isGLMM(object)) {
+                pars <- getME(object, c("theta", "fixef"))
+              } else {
+                pars <- getME(object, "theta")
+                if(isNLMM(object)){
+                  warning("results are not guaranteed when using nlmer")
+                }
+              }
+              assign("pars", pars, envir = tmp_env, inherits = FALSE)
+            }
+            
+            fit_call <- if (start_from_mle) {
+              quote(update(object, start = pars, control = ctrl))
+            } else {
+              quote(update(object, control = ctrl))
+            }
+            
+            tt <- system.time(
+              rr <- if (catch.errs) {
+                      tryCatch(eval(fit_call), error = function(e) e)
+                    } else {
+                      eval(fit_call)
+                    }
+            )
+
+            attr(rr, "optCtrl") <- ctrl$optCtrl # contains crucial info here
+            attr(rr, "time") <- tt  # store timing info
+            
+            ## restore original values to environment of the object
+            on.exit({ environment(form) <- env }, add = TRUE)
+            
+            if (verbose) {
+              if (inherits(rr,"error")) {
+                cat("[failed]\n")
+              } else {
+                cat("[OK]\n")
+              }
+            }
+            return(rr)
+        }
+    })
+
+    seq_fit <- seq_along(fit.names)
+    res <- if (parallel == "multicore") {
+         parallel::mclapply(seq_fit, ffun, mc.cores = ncpus)
+    } else if(parallel == "snow") {
+        if (is.null(cl)) {
+            cl <- parallel::makeCluster(ncpus)
+            on.exit(parallel::stopCluster(cl))
+            ## consider exporting data/package ?
+            ## parallel::clusterEvalQ(cl,library("lme4"))
+            ## try to get data and export it?
+            ## parallel::clusterExport(cl,??)
+        }
+        parallel::parLapply(cl, seq_fit, ffun)
+    } else if(parallel == "future") {
+        future.apply::future_lapply(seq_fit, ffun)
+    } else
+        lapply(seq_fit, ffun)
+
+    names(res) <- fit.names
+    structure(res, class = "allFit", fit = object, sessionInfo =  sessionInfo(),
+              data = data # is dropped if NULL
+              )
+}
+
+print.allFit <- function(x, width=80, ...) {
+    cat("original model:\n")
+    f <- attr(x,"fit")
+    ss <- function(x) {
+        if (nchar(x)>width) {
+            strwrap(paste0(substr(x,1,width-3),"..."))
+        } else x
+    }
+    ff <- ss(deparse1(formula(f)))
+    cat(ff,"\n")
+    cat("data: ",deparse(getCall(f)$data),"\n")
+    cat("optimizers (",length(x),"): ",
+        ss(paste(names(x),collapse=", ")),"\n",
+        sep="")
+    which.bad <- vapply(x,FUN=is,"error",FUN.VALUE=logical(1))
+    if ((nbad <- sum(which.bad))>0) {
+        cat(nbad,"optimizer(s) failed\n")
+    }
+    cat("differences in negative log-likelihoods:\n")
+    nllvec <- -vapply(x[!which.bad],logLik,numeric(1))
+    cat("max=",signif(max(nllvec-min(nllvec)),3),
+        "; std dev=",signif(sd(nllvec),3), "\n")
+    ## FIXME: print magnitudes of parameter diffs
+    ## cat("differences in parameters:\n")
+    ## ss <- summary(x)
+    ## allpars <- cbind(ss$fixef, ss$sdcor)
+    ## par_max <-
+    invisible(x)
+}
+
+summary.allFit <- function(object, ...) {
+    afun <- function(x, FUN, ...) {
+        f1 <- FUN(x[[1]], ...)
+        nm <- names(f1)
+        n <- length(f1)
+        res <- vapply(x, FUN, numeric(n), ...)
+        if (!is.null(dim(res))) {
+            res <- t(res)
+        } else {
+            res <- as.matrix(res)
+            colnames(res) <- nm
+        }
+        res
+    }
+    which.OK <- !vapply(object, is, "error", FUN.VALUE=logical(1))
+    objOK <- object[which.OK]
+    msgs <- lapply(objOK, function(x) x@optinfo$conv$lme4$messages)
+    fixef <- afun(objOK, fixef)
+    llik <- vapply(objOK, logLik, numeric(1))
+    times <- afun(objOK, attr, "time")
+    feval <- vapply(objOK, function(x) x@optinfo$feval, numeric(1))
+    vfun <- function(x) as.data.frame(VarCorr(x))[["sdcor"]]
+    sdcor <- afun(objOK, vfun)
+    theta <- afun(objOK, getME, name="theta")
+    vcnms <- getVCNames(objOK[[1]])
+    cnm <- unlist(rbind(vcnms$vcomp, vcnms$ccomp), FALSE, FALSE)
+    if (sigma(objOK[[1]])!=1) cnm <- c(cnm,"sigma")
+    colnames(sdcor) <- unname(cnm)
+    sdcor <- as.data.frame(sdcor)
+    res <- namedList(which.OK, msgs, fixef, llik, sdcor, theta, times, feval)
+    class(res) <- "summary.allFit"
+    res
+}
+
+## should add a print method for summary:
+##  * fixed effects, random effects: summary of differences?
+
+## not yet ...
+plot.allFit <- function(x, abbr=16, ...) {
+    values <- opt <- NULL ## R code check/non-standard evaluation
+     if (! (requireNamespace("ggplot2"))) {
+         stop("ggplot2 package must be installed to plot allFit objects")
+     }
+     aes <- NULL ## code check
+     ss <- summary(x)
+     ff <- stack(as.data.frame(ss$fixef))
+     ff$opt <- rep(rownames(ss$fixef),length.out=nrow(ff))
+     if (!is.null(abbr)) ff$opt <- abbreviate(ff$opt, minlength=abbr)
+     (ggplot2::ggplot(ff, aes(values, opt, colour=opt))
+         + ggplot2::geom_point()
+         + ggplot2::facet_wrap(~ind,scale="free")
+         + ggplot2::theme(legend.position="none")
+     )
+}
