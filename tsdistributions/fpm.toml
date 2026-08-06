@@ -1,0 +1,19 @@
+name = "tsdistributions-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran computational translation of tsdistributions"
+categories = ["statistics", "probability", "time-series"]
+keywords = ["distributions", "skewness", "heavy-tails", "maximum-likelihood", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
