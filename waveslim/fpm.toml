@@ -1,0 +1,19 @@
+name = "waveslim"
+version = "0.1.0"
+license = "BSD-3-Clause"
+author = "Brandon Whitcher; Fortran translation"
+maintainer = "Fortran port maintainers"
+copyright = "1997-2013 Brandon Whitcher"
+description = "Modern Fortran computational port of the R waveslim package"
+keywords = ["wavelets", "dwt", "modwt", "dwpt", "signal-processing", "time-series"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

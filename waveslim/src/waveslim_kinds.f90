@@ -1,0 +1,11 @@
+! SPDX-License-Identifier: BSD-3-Clause
+! Modern Fortran computational translation of waveslim.
+module waveslim_kinds
+  use, intrinsic :: iso_fortran_env, only : real64, int64
+  implicit none
+  private
+  integer, parameter, public :: dp = real64
+  integer, parameter, public :: i8 = int64
+  real(dp), parameter, public :: pi = acos(-1.0_dp)
+  real(dp), parameter, public :: sqrt2 = sqrt(2.0_dp)
+end module waveslim_kinds
