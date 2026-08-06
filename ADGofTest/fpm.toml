@@ -1,0 +1,22 @@
+name = "adgoftest"
+version = "0.1.0"
+license = "GPL"
+author = "Carlos J. Gil Bellosta; Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "Copyright (c) upstream and port contributors"
+description = "Modern Fortran implementation of the ADGofTest Anderson-Darling goodness-of-fit test"
+keywords = ["anderson-darling", "goodness-of-fit", "statistics"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
