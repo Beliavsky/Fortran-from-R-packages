@@ -1,0 +1,15 @@
+RSDC-fortran is a modern Fortran translation of computational routines from
+RSDC 1.7-0 by David Ardia, Benjamin Seguin, and Roosevelt Ymele Nguemo.
+
+The translated package is distributed under GPL-3.0-only, matching the
+upstream RSDC package. The vendored differential-evolution implementation is
+from deoptimr-modern-fortran and remains GPL-2.0-or-later, which is compatible
+with distribution of the combined work under GPL-3.0-only.
+
+The uploaded mvtnorm-fortran package is retained only as an unlinked provenance
+artifact. It is GPL-2.0-only and is therefore not compiled or incorporated into
+this GPL-3.0-only work. RSDC only required multivariate-normal random sampling;
+that small role is implemented independently in src/rsdc_random.f90.
+
+Plotting, R S3 methods, formula/model-frame handling, broom/ggplot adapters,
+and R parallel-process infrastructure are not part of this numerical port.

@@ -1,0 +1,20 @@
+name = "rsdc-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "David Ardia, Benjamin Seguin, Roosevelt Ymele Nguemo; Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "Copyright the RSDC authors and Fortran port contributors"
+description = "Modern Fortran implementation of regime-switching dynamic correlation models"
+categories = ["statistics", "finance", "time-series"]
+keywords = ["regime-switching", "correlation", "hamilton-filter", "portfolio"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

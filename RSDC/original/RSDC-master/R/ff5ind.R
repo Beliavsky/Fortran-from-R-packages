@@ -1,0 +1,53 @@
+#' Five Fama-French industry portfolios with MCCC and VIX (daily)
+#'
+#' Daily value-weighted returns of five Fama-French industry portfolios
+#' (Manufacturing, Energy, High Tech, Health, Utilities) together with the
+#' Media Climate Change Concerns (MCCC) index and the CBOE Volatility Index
+#' (VIX), aligned on U.S. trading days from 2005-01-03 to 2025-06-30 (the
+#' sample end is set by the 2025 MCCC release). This is the empirical data
+#' set of the K = 5 illustration: filter each return series with a
+#' univariate GARCH-type model, standardize the residuals, and use
+#' \code{mccc} and/or \code{log(vix)} (standardized over the estimation
+#' window) as TVTP covariates.
+#'
+#' @format A data frame with 5155 rows and 8 columns:
+#' \describe{
+#'   \item{DATE}{Trading day, from 2005-01-03 to 2025-06-30.}
+#'   \item{Manuf, Enrgy, HiTec, Hlth, Utils}{Daily value-weighted returns of
+#'     the corresponding Fama-French 10-industry portfolios, in percent.}
+#'   \item{mccc}{Media Climate Change Concerns (Aggregate) index. The index
+#'     is published monthly; the value of the month containing \code{DATE}
+#'     is forward-filled across its trading days (the same convention as
+#'     \code{\link{mccc}}). Raw (unstandardized).}
+#'   \item{vix}{CBOE Volatility Index, daily close. Raw level; the
+#'     illustration uses \code{scale(log(vix))}.}
+#' }
+#'
+#' @source Industry portfolios: Kenneth R. French Data Library,
+#'   \emph{10 Industry Portfolios (Daily)},
+#'   \url{https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html};
+#'   industry definitions from \insertCite{fama1997industry;textual}{RSDC};
+#'   data (c) Eugene F. Fama and Kenneth R. French. MCCC: monthly
+#'   \emph{Aggregate} series of the Media Climate Change Concerns workbook
+#'   (2025 release), \url{https://sentometrics-research.com/download/mccc/},
+#'   \insertCite{ardia2023climate;textual}{RSDC}. VIX: Chicago Board Options
+#'   Exchange, via FRED (series \code{VIXCLS}),
+#'   \url{https://fred.stlouisfed.org/series/VIXCLS}.
+#'
+#' @references
+#' \insertRef{fama1997industry}{RSDC}
+#'
+#' \insertRef{ardia2023climate}{RSDC}
+#'
+#' @examples
+#' data("ff5ind")
+#' str(ff5ind)
+#'
+#' # TVTP covariate matrices for the illustration window
+#' X_mccc <- cbind(intercept = 1, MCCC   = as.numeric(scale(ff5ind$mccc)))
+#' X_vix  <- cbind(intercept = 1, logVIX = as.numeric(scale(log(ff5ind$vix))))
+#'
+#' @keywords datasets
+#' @docType data
+#' @usage data(ff5ind)
+"ff5ind"

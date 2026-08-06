@@ -1,0 +1,55 @@
+Subject: Re: CRAN submission RSDC 1.7-0
+
+Dear CRAN team,
+
+Thank you for the pre-test. I believe the Windows NOTE is a false positive,
+and I would be grateful for your guidance.
+
+The note does not report a finding about the package: the check failed to
+start. Its entire content is an R traceback,
+
+    Error in ccE(lines, flags = new_flags, include = include) :
+      'cc' is not on the path
+    Calls: <Anonymous> ... lapply -> FUN -> lapply -> FUN -> getFunsHdr -> ccE
+    Execution halted
+
+and tools:::ccE() begins with
+
+    if (Sys.which("cc") == "") stop("'cc' is not on the path")
+
+so it exited on a missing prerequisite of the r-devel-windows machine before
+inspecting any object file. No diagnostic about RSDC's compiled code was
+produced, and I could not find anything in the package to change in response
+to it.
+
+Evidence that the package is not the cause:
+
+* The Debian flavour of the same submission
+  (r-devel-linux-x86_64-debian-gcc) reported OK on every check, including
+  "checking compiled code".
+* On win-builder R-devel (2026-07-30 r90327 ucrt) the package installs
+  cleanly, and "checking compilation flags in Makevars", "checking for
+  portable use of $(BLAS_LIBS) and $(LAPACK_LIBS)" and "checking pragmas in
+  C/C++ headers and code" all pass.
+* Locally (macOS, R 4.5.2, --as-cran) "checking compiled code" completes and
+  reports OK.
+* src/ contains two C++ files using Rcpp/RcppArmadillo, with no compiler
+  pragmas and no entry points beyond the registered ones. src/Makevars and
+  src/Makevars.win set only
+
+      PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+  as prescribed by Writing R Extensions for packages linking BLAS/LAPACK.
+
+Separately, and unrelated to the note, a further audit since the submission
+turned up several genuine improvements: a spurious optimizer convergence code
+in the documented examples, standard errors being withheld from legitimate
+high-curvature fits, and missing input validation in the portfolio and
+forecasting functions. A corrected tarball is ready.
+
+Would you prefer that I simply resubmit that corrected version through the
+webform, or is there a change you would like me to make in response to the
+Windows note first? I am happy to do either.
+
+With thanks for your work on CRAN,
+David Ardia

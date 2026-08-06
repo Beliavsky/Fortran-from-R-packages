@@ -1,0 +1,197 @@
+---
+title: "Getting started with RSDC"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with RSDC}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 3.4,
+                      message = FALSE, warning = FALSE)
+options(digits = 4)
+```
+
+```{r setup}
+library(RSDC)
+```
+
+This vignette walks through the package API: estimating the three model
+variants, using the standard S3 methods on a fitted object, comparing models with
+`AIC`/`BIC`, forecasting, and simulating. To keep the build fast we use a small
+simulated data set and a reduced optimizer budget via `control`; in real use, keep
+the defaults.
+
+## A fitted object is an `"rsdc_fit"`
+
+```{r data}
+set.seed(1)
+n  <- 300L
+X  <- cbind(intercept = 1, z = as.numeric(scale(seq_len(n))))   # include an intercept
+beta <- rbind(c(1.5, -0.6),     # regime 1 (logistic stay-prob coefficients)
+              c(1.0,  0.2))     # regime 2
+rho  <- rbind(0.2, 0.8)         # K = 2 -> one correlation per regime
+Sig  <- array(c(matrix(c(1, 0.2, 0.2, 1), 2),
+                matrix(c(1, 0.8, 0.8, 1), 2)), dim = c(2, 2, 2))
+sim  <- rsdc_simulate(n = n, X = X, beta = beta, mu = matrix(0, 2, 2),
+                      sigma = Sig, N = 2, seed = 42)
+y <- scale(sim$observations)    # treated as unit-variance standardized residuals
+
+ctrl <- list(itermax = 30, NP = 40, seed = 1)   # small budget for the vignette
+fit <- rsdc_estimate("tvtp", residuals = y, N = 2, X = X, control = ctrl)
+class(fit)
+fit
+```
+
+## Standard methods
+
+`AIC()` / `BIC()` work directly because `logLik()` carries `df` and `nobs`:
+
+```{r methods}
+logLik(fit)
+c(AIC = AIC(fit), BIC = BIC(fit), nobs = nobs(fit))
+coef(fit)
+```
+
+`summary()` reports a coefficient table with standard errors (from the observed
+information at the MLE), and `confint()` gives Wald intervals:
+
+```{r summary}
+summary(fit)
+# Standard errors are unavailable when the optimum sits on the feasible
+# boundary, so guard the interval call rather than assume it succeeds.
+if (!is.null(fit$vcov)) head(confint(fit))
+```
+
+## Model comparison
+
+```{r compare}
+fit_const <- rsdc_estimate("const", residuals = y, control = ctrl)
+fit_noX   <- rsdc_estimate("noX",   residuals = y, N = 2, control = ctrl)
+data.frame(
+  model = c("const", "noX(N=2)", "tvtp(N=2)"),
+  AIC   = c(AIC(fit_const), AIC(fit_noX), AIC(fit)),
+  BIC   = c(BIC(fit_const), BIC(fit_noX), BIC(fit))
+)
+```
+
+## Forecasting and simulation
+
+`predict()` wraps `rsdc_forecast()`; supply the conditional volatilities:
+
+```{r predict}
+sigma_mat <- matrix(1, n, 2, dimnames = list(NULL, c("a", "b")))   # unit vols here
+fc <- predict(fit, residuals = y, sigma_matrix = sigma_mat,
+              value_cols = c("a", "b"), X = X)
+str(fc$predicted_correlations)
+```
+
+`simulate()` draws a new path from the fitted model (here, TVTP given `X`):
+
+```{r simulate}
+sim2 <- simulate(fit, X = X, seed = 7)
+table(sim2$states)
+```
+
+## Genuine out-of-sample forecasts
+
+For a look-ahead-free forecast, set `out_of_sample = TRUE`: the filter is run on the
+first 70% of the sample, its terminal state initializes the held-out run, and the
+out-of-sample correlations are weighted by **filtered** (not smoothed) probabilities
+so no future information leaks in.
+
+```{r oos}
+fc_oos <- predict(fit, residuals = y, sigma_matrix = sigma_mat,
+                  value_cols = c("a", "b"), X = X, out_of_sample = TRUE)
+nrow(fc_oos$predicted_correlations)   # length of the 30% hold-out
+fc_oos$BIC                            # out-of-sample predictive score
+```
+
+## Uncertainty, decoding, multi-step forecasts, and tidy output
+
+The following tools were added in version 1.5-0.
+
+**Multi-start estimation.** `control$n_starts` repeats the global + local search
+from several seeds and keeps the highest-likelihood fit, storing each start's
+log-likelihood. Because `DEoptim` is a *stochastic* global search whose result
+depends on the seed, this is primarily a stability/reproducibility diagnostic
+(do the seeds agree?) rather than a replacement for the global search:
+
+```{r multistart}
+fit_ms <- rsdc_estimate("tvtp", residuals = y, N = 2, X = X,
+                        control = c(ctrl, list(n_starts = 3)))
+fit_ms$start_logliks            # one log-likelihood per start
+```
+
+**Uncertainty bands on the predicted correlation.** `rsdc_corr_bands()` draws
+parameter vectors from the fitted sampling distribution, re-runs the filter for
+each, and returns pointwise quantile bands (one matrix per asset pair, with
+columns `fit`, `lower`, `upper`):
+
+```{r bands}
+# Bands are drawn from the estimated sampling distribution, so they need a
+# covariance; skip gracefully if this quick fit did not produce one.
+if (!is.null(fit$vcov)) {
+  bands <- rsdc_corr_bands(fit, B = 100, seed = 1)
+  head(bands[[1]])
+}
+```
+
+**Most likely regime path (Viterbi).** `rsdc_viterbi()` returns the single most
+likely *joint* regime sequence, complementing the marginal smoothed
+probabilities:
+
+```{r viterbi}
+table(rsdc_viterbi(fit))
+```
+
+**Multi-step-ahead forecasts.** `rsdc_forecast_ahead()` propagates the terminal
+filtered state through the Markov chain to forecast the regime distribution and
+the implied correlations `h` steps ahead (pass `X_future` for the time-varying
+case; here the last covariate row is held constant):
+
+```{r ahead}
+fa <- rsdc_forecast_ahead(fit, horizon = 5)
+fa$predicted_correlations
+```
+
+**Tidy output and plotting.** `rsdc_fit` objects work with the \pkg{broom}
+generics `tidy()` / `glance()` / `augment()` and a \pkg{ggplot2} `autoplot()`
+method:
+
+```{r broom}
+generics::tidy(fit)
+generics::glance(fit)
+```
+
+```{r autoplot, eval = requireNamespace("ggplot2", quietly = TRUE), fig.alt = "Stacked smoothed regime probabilities over time"}
+ggplot2::autoplot(fit)          # stacked smoothed regime probabilities
+```
+
+## More than three regimes
+
+`N >= 4` is supported for `"noX"` and `"tvtp"`:
+
+```{r bign}
+fit4 <- rsdc_estimate("noX", residuals = y, N = 4,
+                      control = list(itermax = 20, NP = 60, seed = 1))
+dim(fit4$transition_matrix)
+```
+
+## Validation: parameter recovery
+
+Because the data above were simulated with known regime correlations
+(`rho = c(0.2, 0.8)`), we can check that the estimator recovers them — the fitted
+`tvtp(N = 2)` correlations should be close to the truth:
+
+```{r recovery}
+rbind(true = c(0.2, 0.8),
+      estimated = sort(as.numeric(fit$correlations)))
+```
+
+A full Monte-Carlo study (five model variants, $M = 100$ replications,
+$T$ up to $2000$, $K$ up to $5$, reporting bias/RMSE and the value of the
+multi-start protocol) ships with the package in
+`inst/simulation/run_mc_recovery_study.R` and can be run from the package
+root with `source(system.file("simulation", "run_mc_recovery_study.R", package = "RSDC"))`.

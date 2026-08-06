@@ -1,0 +1,47 @@
+Package: RSDC
+Title: Regime-Switching Dynamic Correlation Models
+Version: 1.7-0
+Authors@R: c(person("David", "Ardia", role = c("aut", "cre", "cph", "fnd"),
+             email = "david.ardia.ch@gmail.com",
+             comment = c(ORCID = "0000-0003-2823-782X")),
+             person("Benjamin", "Seguin", role = "aut"),
+             person("Roosevelt Ymele", "Nguemo", role = "aut",
+                    comment = c(ORCID = "0009-0003-9399-6256")))
+Description: Estimation, forecasting, simulation, and portfolio construction for 
+    regime-switching models with exogenous variables as in 
+    Pelletier (2006) <doi:10.1016/j.jeconom.2005.01.013>.
+License: GPL-3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/ArdiaD/RSDC
+BugReports: https://github.com/ArdiaD/RSDC/issues
+Imports:
+    Rdpack (>= 2.0),
+    DEoptim,
+    mvtnorm,
+    numDeriv,
+    generics,
+    graphics,
+    parallel,
+    stats,
+    utils,
+    Rcpp
+LinkingTo:
+    Rcpp,
+    RcppArmadillo
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.1.7),
+    quadprog,
+    Rsolnp,
+    ggplot2
+Config/testthat/edition: 3
+RdMacros:
+    Rdpack
+Depends:
+    R (>= 4.0)
+LazyData: true
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

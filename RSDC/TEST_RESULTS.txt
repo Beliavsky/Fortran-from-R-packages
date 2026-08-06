@@ -1,0 +1,47 @@
+RSDC-fortran v0.1.0 validation
+================================
+
+Compiler:
+  GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Checked command:
+  make check
+
+Checked flags:
+  -std=f2018 -Wall -Wextra -Werror -fcheck=all -fbacktrace -O0
+
+Checked results:
+  test_parameters: PASS
+  test_filter: PASS
+  test_simulation_forecast: PASS
+  test_estimation: PASS
+  test_portfolio_inference: PASS
+  test_statistics: PASS
+
+Optimized command:
+  make optimized
+
+Optimized flags:
+  -std=f2018 -Wall -Wextra -Werror -Wno-maybe-uninitialized -O3
+
+Optimized results:
+  test_parameters: PASS
+  test_filter: PASS
+  test_simulation_forecast: PASS
+  test_estimation: PASS
+  test_portfolio_inference: PASS
+  test_statistics: PASS
+
+Demo command:
+  make demo
+
+Demo output:
+  log likelihood:    -576.7897
+  regime correlations:     0.1437    0.9083
+  five-step predicted correlations:
+      0.4915    0.4612    0.4399    0.4247    0.4141
+
+FPM:
+  fpm was not installed in the validation environment. The manifest was
+  audited structurally, and the equivalent ordered module graph was compiled
+  and tested directly with GNU Fortran through the supplied Makefile.

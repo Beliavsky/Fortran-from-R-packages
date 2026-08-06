@@ -1,0 +1,7 @@
+# RcppArmadillo delegates dense linear algebra to the BLAS/LAPACK that R
+# was built with; without this the Windows link fails with undefined
+# references to dgemv_/dgemm_/dsyev_/dgetrf_ etc.
+# No CXX_STD is set on purpose: the C++11 features used here (lambdas) are
+# the default standard from R 4.0.0 on (see Depends), and declaring a
+# standard below C++17 raises an R CMD check NOTE.
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)

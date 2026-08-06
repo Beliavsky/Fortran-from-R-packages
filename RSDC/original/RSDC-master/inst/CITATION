@@ -1,0 +1,12 @@
+citHeader("To cite 'RSDC' in publications use:")
+
+bibentry(bibtype = "Manual",
+  title   = "RSDC: Regime-Switching Dynamic Correlation Models in R",
+  author  = c(person("David", "Ardia"),
+              person("Benjamin", "Seguin"),
+              person("Roosevelt Ymele", "Nguemo")),
+  year   = "2026",
+  organization = "CRAN",
+  textVersion = paste("Ardia, D., Seguin, B., Nguemo, R. Y. (2026).",
+    "RSDC: Regime-Switching Dynamic Correlation Models in R.")
+)

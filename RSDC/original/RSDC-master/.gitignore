@@ -1,0 +1,75 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session data files
+.RData
+.RDataTmp
+.Ruserdata
+
+# R environment
+.Renviron
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# Produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token (httr)
+.httr-oauth
+
+# knitr / R Markdown caches and temporaries
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+
+# Package build / install leftovers
+inst/doc
+/doc/
+/Meta/
+
+# pkgdown site
+docs/
+
+# macOS / editor cruft
+.DS_Store
+
+# Internal working notes (not for publication)
+SESSION_LOG.txt
+
+# Generated reproduction outputs — regenerate with the scripts in inst/.
+# Only generated data/figures are ignored; the .R scripts and the LaTeX
+# report (inst/empirical/results/*.tex) stay tracked.
+inst/simulation/plots/
+inst/simulation/results/
+inst/empirical/results/*.rds
+inst/empirical/results/*.csv
+
+# Compiled objects
+src/*.o
+src/*.so
+src/*.dll
+src/*.dylib
+data-raw/cache_*
+vignettes/RSDC_cache/
+vignettes/RSDC_files/
+vignettes/*.html
+vignettes/RSDC.tex
+vignettes/RSDC.log
+vignettes/RSDC.R
+vignettes/RJwrapper.log
+
+# Local build artifacts (tarballs for CRAN submission)
+dist/
