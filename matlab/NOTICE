@@ -1,0 +1,7 @@
+This work is a modern Fortran translation of computational code from the R
+package "matlab" by P. Roebuck, copyright 2004-2014 MD Anderson Cancer Center.
+
+The upstream and translated code are distributed under the Artistic License
+2.0. See LICENSE, COPYRIGHTS, and upstream/ for details.
+
+Graphics and R-specific runtime/container infrastructure were not translated.
