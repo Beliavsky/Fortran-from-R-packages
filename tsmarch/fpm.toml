@@ -1,0 +1,19 @@
+name = "tsmarch-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "OpenAI translation, based on tsmarch by Alexios Galanos"
+maintainer = "OpenAI"
+copyright = "Copyright upstream authors and translation contributors"
+description = "Modern Fortran translation of the computational core of tsmarch"
+keywords = ["garch", "dcc", "copula", "gogarch", "ica", "finance"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
