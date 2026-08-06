@@ -1,0 +1,17 @@
+name = "spillover"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Jilber Urbina; modern Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "Upstream copyright Jilber Urbina; translation copyright 2026 OpenAI"
+description = "VAR-based generalized and orthogonalized connectedness measures"
+categories = ["finance", "economics", "time-series"]
+keywords = ["spillover", "connectedness", "VAR", "FEVD", "Diebold-Yilmaz"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
