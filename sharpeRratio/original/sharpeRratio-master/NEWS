@@ -1,0 +1,39 @@
+sharpeRratio v1.2 (Release date: 2019-12-02)
+==============
+
+Changes:
+
+* Updated splines to compute the Sharpe ratio from the number of records of the cumulated sample sum. This corrects the bias of the first version of this package and leads to less pessimistic estimates of Sharpe ratio when the tails are heavy. Remaining bias estimate is between -4% and +10%, depending on the value of the tail exponent of the sample distribution.
+
+
+sharpeRratio v1.3 (Release date: 2020-02-12)
+==============
+
+Changes:
+  
+* Further reduction of the bias, whose absolute value is below 1% for a Student tail exponent larger than 2.5.
+
+sharpeRratio v1.4 (Release date: 2020-02-12)
+==============
+
+Changes:
+
+* Very large (and unlikely) Sharpe ratios are now better accounted for.
+* Addition of confidence intervals, based on the permutations of sample values. Use it only if you know the tail exponent of the distribution of sample values.
+
+sharpeRratio v1.4.2 (Release date: 2021-02-23)
+==============
+
+Changes:
+
+* random_shuffle -> shuffle in the C++ code 
+
+
+sharpeRratio v1.4.2 (Release date: 2022-07-05
+==============
+
+Changes:
+
+* version bump without any change
+
+

@@ -1,0 +1,20 @@
+sharpeRratio-fortran is a modern Fortran computational translation of
+sharpeRratio 1.4.3 by Damien Challet.
+
+Upstream package:
+  sharpeRratio: Moment-Free Estimation of Sharpe Ratios
+  Copyright (C) Damien Challet
+  License field: GPL
+
+This translation is distributed under GPL-3.0-only. The complete upstream
+source is retained under original/sharpeRratio-master and its supplied archive
+is retained under provenance/sharpeRratio-master.zip.
+
+The package vendors the supplied ghyp-fortran translation, derived from ghyp
+1.6.5 by Marc Weibel, David Luethi, and Henriette-Elise Breymann. ghyp and its
+Fortran translation are GPL-2.0-or-later. Their notices and license are retained
+under provenance.
+
+The spline calibration coefficients are exact IEEE binary64 values extracted
+from the upstream R serialized data objects a, a_medium, and f. The extraction
+script is retained under provenance/extract_calibration.py.

@@ -1,0 +1,20 @@
+name = "sharperratio"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Damien Challet; modern Fortran translation"
+maintainer = "Fortran project maintainers"
+copyright = "Copyright (C) sharpeRratio and ghyp authors"
+description = "Moment-free Sharpe and signal-to-noise ratio estimation"
+categories = ["statistics", "finance"]
+keywords = ["Sharpe ratio", "records", "heavy tails", "Student t"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
