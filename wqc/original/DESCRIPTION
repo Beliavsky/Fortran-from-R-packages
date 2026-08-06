@@ -1,0 +1,21 @@
+Package: wqc
+Title: Wavelet Quantile Correlation Analysis
+Version: 0.1.2
+Date: 2025-06-12
+Authors@R: 
+  person( "Anoop S", "Kumar", role = c( "aut", "cre" ), email = "akumar.sasikumar@gmail.com" )
+Description: Estimate and plot wavelet quantile correlations(Kumar and Padakandla,2022) between two time series. Wavelet quantile correlation is used to capture the dependency between two time series across quantiles and different frequencies. This method is useful in identifying potential hedges and safe-haven instruments for investment purposes. See Kumar and Padakandla(2022) <doi:10.1016/j.frl.2022.102707> for further details.
+Depends: R (>= 4.0)
+Imports: waveslim, QCSIS, stats, lattice, grid, viridisLite
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2025-06-17 05:19:13 UTC; Anoop S Kumar
+Author: Anoop S Kumar [aut, cre]
+Maintainer: Anoop S Kumar <akumar.sasikumar@gmail.com>
+Repository: CRAN
+Date/Publication: 2025-06-18 08:40:02 UTC

@@ -1,0 +1,15 @@
+Package: QCSIS
+Type: Package
+Title: Sure Independence Screening via Quantile Correlation and
+        Composite Quantile Correlation
+Version: 0.1
+Date: 2015-12-02
+Author: Xuejun Ma, Jingxiao Zhang, Jingke Zhou
+Maintainer: Xuejun Ma <yinuoyumi@163.com>
+Description: Quantile correlation-sure independence screening (QC-SIS) and composite quantile correlation-sure independence screening (CQC-SIS) for ultrahigh-dimensional data.
+License: GPL-2
+URL: http://www.r-project.org
+NeedsCompilation: no
+Packaged: 2015-12-02 11:38:00 UTC; yinuo
+Repository: CRAN
+Date/Publication: 2015-12-02 14:22:26

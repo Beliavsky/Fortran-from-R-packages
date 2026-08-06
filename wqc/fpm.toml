@@ -1,0 +1,24 @@
+name = "wqc"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Anoop S Kumar; modern Fortran translation by OpenAI"
+maintainer = "Fortran port maintainers"
+copyright = "2025 Anoop S Kumar"
+description = "Modern Fortran implementation of wavelet quantile correlation analysis"
+categories = ["statistics", "time-series", "wavelets"]
+keywords = ["wavelet", "quantile-correlation", "modwt", "dependence"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+qcsis = { path = "dependencies/qcsis" }
+waveslim = { path = "dependencies/waveslim" }

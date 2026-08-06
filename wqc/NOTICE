@@ -1,0 +1,25 @@
+wqc modern Fortran translation
+
+This distribution translates the computational routines of wqc 0.1.2 by
+Anoop S Kumar to modern Fortran and FPM. Plotting code and the R/lattice/grid
+visualization layer are intentionally omitted.
+
+Upstream wqc license: GPL-3.
+Copyright (C) 2025 Anoop S Kumar.
+
+Bundled FPM path dependencies:
+
+1. QCSIS modern Fortran translation, based on QCSIS 0.1 by Xuejun Ma,
+   Jingxiao Zhang, and Jingke Zhou. License: GPL-2. See
+   dependencies/qcsis/LICENSE and dependencies/qcsis/NOTICE.
+
+2. waveslim modern Fortran translation, based on waveslim by Brandon
+   Whitcher. License: BSD-3-Clause. See dependencies/waveslim/LICENSE.
+
+The dependencies are retained as separate packages and preserve their own
+license notices. The top-level wqc translation is distributed under GPL-3.
+
+License compatibility note: upstream wqc declares GPL-3 while importing the
+GPL-2 QCSIS package. This port mirrors that dependency relationship and
+keeps the source packages separate. Redistribution of a linked binary
+containing both components may require a separate license review.
