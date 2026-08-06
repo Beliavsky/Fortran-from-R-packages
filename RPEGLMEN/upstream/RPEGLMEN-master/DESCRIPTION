@@ -1,0 +1,31 @@
+Package: RPEGLMEN
+Type: Package
+Title: Gamma and Exponential Generalized Linear Models with Elastic Net
+        Penalty
+Version: 1.1.4
+Date: 2025-12-18
+Authors@R: c(person("Anthony", "Christidis", role=c("aut", "cre"), email = "anthony.christidis@stat.ubc.ca"),
+	     person("Xin", "Chen", role=c("aut"), email = "chenx26@uw.edu"),
+	     person("Daniel", "Hanson", role=c("aut"), email = "hansondj@uw.edu"))
+Description: Implements the fast iterative shrinkage-thresholding algorithm
+             (FISTA) algorithm to fit a Gamma distribution with an elastic net 
+             penalty as described in Chen, Arakvin and Martin (2018) 
+             <doi:10.48550/arXiv.1804.07780>. An implementation for the case of the 
+             exponential distribution is also available, with details available 
+             in Chen and Martin (2018) <doi:10.2139/ssrn.3085672>.
+License: GPL (>= 2)
+Encoding: UTF-8
+Imports: Rcpp (>= 1.0.3), RPEIF
+LinkingTo: Rcpp, RcppEigen
+RoxygenNote: 7.3.2
+Suggests: R.rsp, testthat, PerformanceAnalytics
+NeedsCompilation: yes
+Biarch: true
+VignetteBuilder: R.rsp
+Packaged: 2025-12-19 00:23:15 UTC; anthony
+Author: Anthony Christidis [aut, cre],
+  Xin Chen [aut],
+  Daniel Hanson [aut]
+Maintainer: Anthony Christidis <anthony.christidis@stat.ubc.ca>
+Repository: CRAN
+Date/Publication: 2025-12-19 10:20:40 UTC
