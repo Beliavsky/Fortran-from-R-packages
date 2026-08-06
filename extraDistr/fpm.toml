@@ -1,0 +1,17 @@
+name = "extraDistr-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran translation of the computational routines in R package extraDistr"
+categories = ["statistics", "probability", "distributions"]
+keywords = ["distributions", "random-number-generation", "probability"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false

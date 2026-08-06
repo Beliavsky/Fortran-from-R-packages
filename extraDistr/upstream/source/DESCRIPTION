@@ -1,0 +1,58 @@
+Package: extraDistr
+Type: Package
+Title: Additional Univariate and Multivariate Distributions
+Version: 1.10.0.5
+Date: 2026-07-13
+Authors@R: c(person(given  = "Tymoteusz",
+                    family = "Wolodzko",
+                    role   = "aut",
+                    email  = "twolodzko+extradistr@gmail.com"),
+             person(given  = "Sigbert",
+                    family = "Klinke",
+                    role   = "cre",
+                    email  = "sigbert@wiwi.hu-berlin.de"),
+             person(given  = "Thomas",
+                    family = "Farrar",
+                    role   = "ctb",
+                    email  = "FarrarT@cput.ac.za"),
+             person(given  = "Piero Giovanni Luca",
+                    family = "Porta-Mana",
+                    role   = "ctb",
+                    email  = "")                    
+            )
+Description: Density, distribution function, quantile function
+    and random generation for a number of univariate
+    and multivariate distributions. This package implements the
+    following distributions: Bernoulli, beta-binomial, beta-negative
+    binomial, beta prime, Bhattacharjee, Birnbaum-Saunders,
+    bivariate normal, bivariate Poisson, categorical, Dirichlet,
+    Dirichlet-multinomial, discrete gamma, discrete Laplace,
+    discrete normal, discrete uniform, discrete Weibull, Frechet,
+    gamma-Poisson, generalized extreme value, Gompertz,
+    generalized Pareto, Gumbel, half-Cauchy, half-normal, half-t,
+    Huber density, inverse chi-squared, inverse-gamma, Kumaraswamy,
+    Laplace, location-scale t, logarithmic, Lomax, multivariate
+    hypergeometric, multinomial, negative hypergeometric,
+    non-standard beta, normal mixture, Poisson mixture, Pareto,
+    power, reparametrized beta, Rayleigh, shifted Gompertz, Skellam,
+    slash, triangular, truncated binomial, truncated normal,
+    truncated Poisson, Tukey lambda, Wald, zero-inflated binomial,
+    zero-inflated negative binomial, zero-inflated Poisson.
+License: GPL-2
+URL: https://github.com/sigbertklinke/extraDistr
+Encoding: UTF-8
+Depends: R (>= 3.1.0)
+LinkingTo: Rcpp, RcppArmadillo
+Imports: Rcpp
+Suggests: testthat, LaplacesDemon, VGAM, evd, skellam, triangle, actuar
+NeedsCompilation: yes
+Config/roxygen2/version: 8.0.0
+RoxygenNote: 7.3.3
+Packaged: 2026-07-13 16:37:31 UTC; sk
+Author: Tymoteusz Wolodzko [aut],
+  Sigbert Klinke [cre],
+  Thomas Farrar [ctb],
+  Piero Giovanni Luca Porta-Mana [ctb]
+Maintainer: Sigbert Klinke <sigbert@wiwi.hu-berlin.de>
+Repository: CRAN
+Date/Publication: 2026-07-13 18:30:02 UTC

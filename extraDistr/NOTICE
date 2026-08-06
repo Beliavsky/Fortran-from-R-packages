@@ -1,0 +1,18 @@
+extraDistr-fortran
+==================
+
+This package is a modern Fortran translation of the computational routines in
+extraDistr 1.10.0.5.
+
+Upstream authors and contributors:
+- Tymoteusz Wolodzko
+- Sigbert Klinke
+- Thomas Farrar
+- Piero Giovanni Luca Porta-Mana
+
+Upstream project: extraDistr, "Additional Univariate and Multivariate
+Distributions". The original source declares GPL-2. The translated source is
+distributed under GPL-2.0-only and retains the complete upstream source and
+original archive under upstream/ for provenance.
+
+This translation is not an official release of the upstream project.
