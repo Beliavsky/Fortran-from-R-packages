@@ -1,0 +1,13 @@
+xVA modern Fortran translation
+
+The original R package xVA was authored by Tasos Grivas and distributed under
+the GNU General Public License version 3. The original package metadata,
+computational R sources, documentation, and data files are retained under
+original-r/ for attribution and traceability.
+
+This distribution also bundles modern Fortran translations of the Trading and
+SACCR dependencies under dependencies/. Each dependency retains its own
+LICENSE, NOTICE, source attribution, tests, and original R materials.
+
+The Fortran translation was produced by OpenAI in 2026. No endorsement by the
+original author is implied.

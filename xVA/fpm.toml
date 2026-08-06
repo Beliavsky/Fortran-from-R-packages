@@ -1,0 +1,27 @@
+name = "xva"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Tasos Grivas; modern Fortran translation by OpenAI"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (c) Tasos Grivas and translation contributors"
+description = "Modern Fortran translation of the computational routines in the R xVA package"
+categories = ["finance", "risk", "regulation"]
+keywords = ["xVA", "CVA", "DVA", "FVA", "KVA", "SA-CVA", "SA-CCR"]
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+trading = { path = "dependencies/trading" }
+saccr = { path = "dependencies/saccr" }
+
+[install]
+library = true
