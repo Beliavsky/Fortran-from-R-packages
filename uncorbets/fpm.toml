@@ -1,0 +1,17 @@
+name = "uncorbets-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Bernardo Reckziegel; Fortran translation project"
+maintainer = "Fortran translation project"
+description = "Modern Fortran implementation of minimum-torsion diversification and effective bets"
+categories = ["finance", "portfolio", "optimization", "linear-algebra"]
+keywords = ["minimum torsion", "effective bets", "portfolio diversification", "PCA"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

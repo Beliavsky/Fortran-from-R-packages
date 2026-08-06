@@ -1,0 +1,29 @@
+Type: Package
+Package: uncorbets
+Title: Uncorrelated Bets via Minimum Torsion Algorithm
+Version: 0.1.2.9000
+Authors@R: 
+    c(person(given  = "Bernardo",
+             family = "Reckziegel",
+             email  = "bernardo_cse@hotmail.com", 
+             role   = c("aut", "cre"))
+    )
+Description: Implements Minimum Torsion for portfolio diversification as
+    described in Meucci, Attilio (2013) <doi:10.2139/ssrn.2276632>.
+License: MIT + file LICENSE
+URL: https://github.com/Reckziegel/uncorbets, https://reckziegel.github.io/uncorbets/
+BugReports: https://github.com/Reckziegel/uncorbets/issues
+Imports: 
+    assertthat (>= 0.2.1),
+    NlcOptim (>= 0.6),
+    stats
+Suggests: 
+    spelling,
+    covr,
+    testthat (>= 3.0.10)
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+Language: en-US
+Depends: 
+    R (>= 2.10)
