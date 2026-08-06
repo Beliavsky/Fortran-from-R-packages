@@ -1,0 +1,20 @@
+name = "lbfgs"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright holders of the upstream lbfgs package and libLBFGS"
+description = "Modern Fortran translation of the R lbfgs package computational core"
+categories = ["optimization", "numerical"]
+keywords = ["lbfgs", "owl-qn", "optimization", "quasi-newton"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
