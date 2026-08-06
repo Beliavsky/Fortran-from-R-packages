@@ -1,0 +1,56 @@
+Package: ycevo
+Type: Package
+Title: Nonparametric Estimation of the Yield Curve Evolution
+Version: 0.2.1.9000
+Authors@R: 
+    c(person(given = "Bonsoo",
+             family = "Koo",
+             role = c("aut"),
+             email = "Bonsoo.Koo@monash.edu"),
+      person(given = "Nathaniel",
+             family = "Tomasetti",
+             role = "ctb"),
+      person(given = "Kai-Yang",
+             family = "Goh",
+             role = "ctb"),
+      person(given = "Yangzhuoran Fin",
+             family = "Yang",
+             role = c("aut", "cre"),
+             email = "yangyangzhuoran@gmail.com",
+             comment = c(ORCID = "0000-0002-1232-8017")))
+Maintainer: Yangzhuoran Fin Yang <yangyangzhuoran@gmail.com>
+Description: Nonparametric estimation of discount functions and yield curves from 
+    transaction data of coupon paying bonds. 
+    Koo, B., La Vecchia, D., & Linton, O. B. (2021) <doi:10.1016/j.jeconom.2020.04.014> 
+    describe an application of this package using the Center for Research in 
+    Security Prices (CRSP) Bond Data and document its implementation.
+URL: https://github.com/bonsook/ycevo
+BugReports: https://github.com/bonsook/ycevo/issues
+License: GPL-3
+Depends: R (>= 3.5.0)
+Encoding: UTF-8
+Imports: 
+    dplyr (>= 1.0.0),
+    future.apply,
+    generics,
+    ggplot2,
+    graphics,
+    lubridate,
+    Matrix,
+    progressr,
+    Rcpp (>= 0.12.18),
+    rlang,
+    scales,
+    stats,
+    tibble,
+    tidyr,
+    tidyselect
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    plotly
+Language: en-AU
+Config/testthat/edition: 3

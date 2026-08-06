@@ -1,0 +1,28 @@
+name = "ycevo"
+version = "0.2.1"
+license = "GPL-3.0-only"
+author = "Bonsoo Koo, Yangzhuoran Fin Yang; Fortran port"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright original ycevo authors and Fortran port contributors"
+description = "Modern Fortran translation of the computational core of ycevo"
+categories = ["finance", "statistics", "yield-curve"]
+keywords = ["yield curve", "discount function", "nonparametric", "kernel"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "ycevo_example"
+source-dir = "app"
+main = "main.f90"
+
+[[test]]
+name = "test_ycevo"
+source-dir = "test"
+main = "test_ycevo.f90"
