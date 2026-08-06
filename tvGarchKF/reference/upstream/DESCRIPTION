@@ -1,0 +1,26 @@
+Package: tvGarchKF
+Date: 2025-05-06
+Type: Package
+Title: Time-Varying Garch Models Through a State-Space Representation
+Version: 0.0.1
+Authors@R: c(person("Guillermo", "Ferreira", role = "aut",
+                    email = "gferreir@udec.cl"),
+            person("Tomás", "Arancibia", role = c("aut", "cre"),
+                    email = "tarancibia2016@udec.cl"))
+Maintainer: Tomás Arancibia <tarancibia2016@udec.cl>
+Description: Estimates the time-varying (tv) parameters of the GARCH(1,1) model, enabling the modeling of non-stationary volatilities by allowing the model parameters to change gradually over time. The estimation and prediction processes are facilitated through the application of the Kalman filter and state-space equations. This package supports the estimation of tv parameters for various deterministic functions, which can be identified through exploratory analysis of different time periods or segments of return data. The methodology is grounded in the framework presented by Ferreira et al. (2017) <doi:10.1080/00949655.2017.1334778>.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+LinkingTo: Rcpp
+Imports: stats, fGarch, graphics
+RoxygenNote: 7.3.2
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+NeedsCompilation: yes
+Packaged: 2025-05-28 03:34:35 UTC; tomas
+Author: Guillermo Ferreira [aut],
+  Tomás Arancibia [aut, cre]
+Depends: R (>= 3.5.0)
+Repository: CRAN
+Date/Publication: 2025-05-30 09:10:02 UTC

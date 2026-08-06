@@ -1,0 +1,16 @@
+tvGarchKF Fortran translation
+=============================
+
+The upstream R package tvGarchKF 0.0.1 was authored by Guillermo Ferreira and
+Tomas Arancibia and is distributed under GPL version 3 or later.
+
+This repository is an independent modern Fortran translation of its
+computational code. It is not endorsed by the upstream authors.
+
+The local GARCH-window estimator reuses source from the supplied independent
+Fortran translation of fGarch. The upstream fGarch package is GPL version 2 or
+later; those vendored source files retain their notices. The combined package
+is distributed under GPL-3.0-or-later.
+
+The original archives and source snapshots are retained under reference/ for
+license and provenance purposes.

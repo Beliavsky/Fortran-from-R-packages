@@ -1,0 +1,12 @@
+citHeader("To cite {tvGarchKF} package in publications use:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "tvGarchKF",
+  author   = c(
+  person("Guillermo", "Ferreira"),
+  person("Tomás", "Arancibia")
+  ),
+  year     = 2025,
+  url      = "https://github.com/Tomas-UDEC/tvGarchKF",
+)

@@ -1,0 +1,28 @@
+name = "tvgarchkf"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Guillermo Ferreira, Tomas Arancibia; independent Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "2025 tvGarchKF authors; 2026 OpenAI translation"
+description = "Modern Fortran translation of the computational core of tvGarchKF"
+categories = ["finance", "statistics", "time-series"]
+keywords = ["GARCH", "Kalman filter", "time-varying volatility"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_tvgarchkf"
+source-dir = "app"
+main = "demo_tvgarchkf.f90"
+
+[[test]]
+name = "tvgarchkf-tests"
+source-dir = "test/fpm"
+main = "test_all.f90"
