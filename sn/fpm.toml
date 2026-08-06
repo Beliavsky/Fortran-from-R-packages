@@ -1,0 +1,17 @@
+name = "sn-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Adelchi Azzalini; modern Fortran port contributors"
+maintainer = "Modern Fortran port contributors"
+copyright = "Copyright (C) upstream and port contributors"
+description = "Modern Fortran implementation of skew-normal, skew-t, skew-Cauchy, multivariate and SUN distributions"
+keywords = ["statistics", "skew-normal", "skew-t", "SUN", "maximum-likelihood"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = false
+module-naming = false
+
+[install]
+library = true
