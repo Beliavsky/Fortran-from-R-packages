@@ -1,0 +1,29 @@
+name = "rpese"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "RPESE authors; modern Fortran translation"
+maintainer = "Modern Fortran translation contributors"
+description = "Standard errors for risk and performance measures"
+categories = ["statistics", "finance", "risk-management", "time-series"]
+keywords = ["standard-errors", "influence-functions", "bootstrap", "periodogram", "elastic-net"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+rpeif = { path = "vendor/rpeif" }
+rpeglmen = { path = "vendor/rpeglmen" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
