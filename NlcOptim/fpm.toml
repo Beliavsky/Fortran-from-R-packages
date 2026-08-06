@@ -1,0 +1,17 @@
+name = "nlcoptim-fortran"
+version = "0.1.1"
+license = "GPL-3.0-only"
+author = "Xianyan Chen, Xiangrong Yin; Fortran translation project"
+maintainer = "Fortran translation project"
+description = "Modern Fortran SQP solver for nonlinear constrained optimization"
+categories = ["optimization", "nonlinear-programming", "quadratic-programming"]
+keywords = ["SQP", "nonlinear constraints", "BFGS", "Goldfarb-Idnani"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

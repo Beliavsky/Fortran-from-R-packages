@@ -1,0 +1,15 @@
+Package: NlcOptim
+Title: Solve Nonlinear Optimization with Nonlinear Constraints
+Version: 0.6
+Author: Xianyan Chen <xychen@uga.edu>, Xiangrong Yin <yinxiangrong@uky.edu>
+Maintainer: Xianyan Chen <xychen@uga.edu>
+Description: Optimization for nonlinear objective and constraint functions.  Linear or nonlinear equality and inequality constraints are allowed.  It accepts the input parameters as a constrained matrix.
+Depends: MASS, R (>= 3.2.2)
+License: GPL-3
+LazyData: true
+Imports: quadprog
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2019-01-17 19:18:16 UTC; Chenxy
+Repository: CRAN
+Date/Publication: 2019-01-18 15:00:31 UTC

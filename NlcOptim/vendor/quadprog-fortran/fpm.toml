@@ -1,0 +1,17 @@
+name = "quadprog-fortran"
+version = "1.5.8"
+license = "GPL-2.0-or-later"
+author = "Berwin A. Turlach, Andreas Weingessel, Cleve Moler; Fortran modernization"
+maintainer = "Fortran translation project"
+description = "Modern Fortran implementation of the Goldfarb-Idnani quadratic programming solver"
+categories = ["optimization", "quadratic-programming"]
+keywords = ["quadratic programming", "active set", "Goldfarb-Idnani"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true

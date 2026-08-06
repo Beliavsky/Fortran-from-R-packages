@@ -1,0 +1,3 @@
+LIBRARY quadprog.dll
+EXPORTS
+ R_init_quadprog
