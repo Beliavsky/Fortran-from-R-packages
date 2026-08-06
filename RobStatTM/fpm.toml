@@ -1,0 +1,30 @@
+name = "robstattm"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "RobStatTM authors; modern Fortran translation"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran translation of the computational core of RobStatTM"
+categories = ["statistics", "robust-statistics", "regression", "multivariate-analysis"]
+keywords = ["MM-regression", "DCML", "robust-logistic", "Rocke", "robust-PCA"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+robustbase-modern-fortran = { path = "vendor/robustbase-modern-fortran" }
+rrcov = { path = "vendor/rrcov" }
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+link = ["lapack", "blas"]
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

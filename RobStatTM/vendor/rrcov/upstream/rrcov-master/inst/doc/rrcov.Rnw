@@ -1,0 +1,2197 @@
+% -*- TeX -*- -*- Soft -*-
+\documentclass[article,shortnames,nojss]{jss}
+
+%\VignetteIndexEntry{An Object-Oriented Framework for Robust Multivariate Analysis}
+%\VignetteKeywords{robustness, multivariate analysis, MCD, R, statistical design patterns}
+%\VignettePackage{rrcov}
+
+\usepackage{amsmath}                %% need for subequations
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[english]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\vv}[1]{\mbox{\boldmath$#1$}}
+\newcommand{\xv}{\mbox{\boldmath$x$}}
+\newcommand{\yv}{\mbox{\boldmath$y$}}
+\newcommand{\zv}{\mbox{\boldmath$z$}}
+\newcommand{\mv}{\mbox{\boldmath$m$}}
+\newcommand{\tv}{\mbox{\boldmath$t$}}
+\newcommand{\xbarv}{\mbox{\boldmath$\bar x$}}
+\newcommand{\uv}{\mbox{\boldmath$u$}}
+\newcommand{\muv}{\mbox{\boldmath$\mu$}}
+\newcommand{\nuv}{\mbox{\boldmath$\nu$}}
+\newcommand{\deltav}{\mbox{\boldmath$\delta$}}
+\newcommand{\chiv}{\mbox{\boldmath$\chi$}}
+\newcommand{\ov}{\mbox{\boldmath$0$}}
+
+\newcommand\MCD{\mathit{MCD}}
+\newcommand\MVE{\mathit{MVE}}
+\newcommand\OGK{\mathit{OGK}}
+\newcommand\diag{\mathrm{diag}}
+%\newcommand\det{\mathrm{det}}
+
+\newcommand{\class}[1]{``\code{#1}''}
+\newcommand{\fct}[1]{\code{#1()}}
+
+%% almost as usual
+\author{Valentin Todorov\\UNIDO \And
+        Peter Filzmoser\\Vienna University of Technology}
+\title{An Object Oriented Framework for Robust Multivariate Analysis}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Valentin Todorov, Peter Filzmoser} %% comma-separated
+\Plaintitle{Object Oriented Framework for Robust Multivariate Analysis} %% without formatting
+\Shorttitle{OOF for Robust Multivariate Analysis} %% a short title (if necessary)
+
+%% an abstract and keywords
+\Abstract{
+\noindent This introduction to the \proglang{R} package \pkg{rrcov} is a (slightly) modified version of \cite{todorov-oof}, published in the \emph{Journal of Statistical Software}.
+
+\noindent Taking advantage of the \proglang{S}4 class system of the programming environment
+  \proglang{R}, which facilitates the creation and maintenance of reusable
+  and modular components, an object oriented framework for robust multivariate analysis was developed. The framework resides in the packages \pkg{robustbase} and \pkg{rrcov} and includes an almost complete set of algorithms for computing robust multivariate location and scatter, various robust methods for principal component analysis as well as robust linear and quadratic discriminant analysis.
+  The design of these methods follows common patterns which we call statistical
+  design patterns in analogy to the design patterns widely used in software engineering.
+  The application of the framework to data analysis as well as possible extensions by the
+  development of new methods is demonstrated on examples which themselves
+  are part of the package \pkg{rrcov}.
+} \Keywords{robustness, multivariate analysis, MCD, \proglang{R},
+statistical design patterns}
+\Plainkeywords{robustness, multivariate analysis, MCD, R, statistical design patterns} %% without formatting
+%% at least one keyword must be supplied
+
+%% publication information
+%% NOTE: Typically, this can be left commented and will be filled out by the technical editor
+%% \Volume{13}
+%% \Issue{9}
+%% \Month{September}
+%% \Year{2004}
+%% \Submitdate{2004-09-29}
+%% \Acceptdate{2004-09-29}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+  Valentin Todorov\\
+  Research and Statistics Branch\\
+  United Nations Industrial Development Organization (UNIDO)\\
+  Vienna International Centre\\
+  P.O.Box 300, 1400, Vienna, Austria\\
+  E-mail: \email{valentin.todorov@chello.at}\\
+%  URL: \url{http://statmath.wu-wien.ac.at/~zeileis/}
+}
+%% It is also possible to add a telephone and fax number
+%% before the e-mail in the following format:
+%% Telephone: +43/1/31336-5053
+%% Fax: +43/1/31336-734
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\renewcommand{\v}[1]{\mathbf{#1}}
+%% Sweave options for the complete document
+%%\SweaveOpts{keep.source=TRUE}
+%%\SweaveOpts{prefix.string=images/oofgen/oof}
+\SweaveOpts{prefix.string=ooframework}
+
+\begin{document}
+
+%% include your article here, just as usual
+%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
+
+%\section[About Java]{About \proglang{Java}}
+\section[Introduction]{Introduction}
+%% Note: If there is markup in \(sub)section, then it has to be escape as above.
+Outliers are present in virtually every data set in any application domain,
+and the identification of outliers has a hundred years long history. Many
+researchers in science, industry and economics work with huge amounts of
+data and this even increases the possibility of anomalous data and
+makes their (visual) detection more difficult. Taking into account the multivariate aspect of
+the data, the outlyingness of the observations can be measured by the Mahalanobis
+distance which is based on location and scatter estimates of the data set. In order
+to avoid the masking effect, robust estimates of these parameters are called for,
+even more, they must possess a positive breakdown point. The estimates of
+the multivariate location vector
+$\muv$ and the scatter matrix $\v{\Sigma}$ are also a cornerstone in the analysis of
+multidimensional data, since they form the input to many classical
+multivariate methods. The most common estimators of multivariate
+location and scatter are the sample mean $\xbarv$
+and the sample covariance matrix $\v{S}$, i.e., the
+corresponding MLE estimates. These estimates are optimal if the data
+come from a multivariate normal distribution but are extremely
+sensitive to the presence of even a few outliers (atypical values,
+anomalous observations, gross errors) in the data. If outliers are
+present in the input data they will influence the estimates
+$\xbarv$ and $\v{S}$ and subsequently
+worsen the performance of the classical multivariate procedure based
+on these estimates. Therefore it is important to consider robust
+alternatives to these estimators and actually in the last two
+decades much effort was devoted to the development of affine
+equivariant estimators possessing a high breakdown point.
+The most widely used estimators of this type are the minimum
+covariance determinant (MCD) estimator of \citet{rousseeuw:85} for
+which also a fast computing algorithm was constructed---\citet{rousseeuw-vandriessen}, the S~estimators
+\citep{davies:87} and the Stahel-Donoho
+estimator introduced by \citet{stahel:81, stahel-phd:81} and \citet{donoho:82}
+and studied by \citet{maronna:95}. If we
+give up the requirement for affine equivariance, estimators
+like the one of \citet{maronna:2002} are available and the
+reward is an extreme gain in speed. Substituting the classical
+location and scatter estimates by their robust analogues is the most
+straightforward method for robustifying many multivariate procedures
+like principal components, discriminant and cluster analysis,
+canonical correlation, etc. The reliable identification of multivariate outliers
+which is an important task in itself, is another
+approach to robustifying many classical multivariate methods.
+
+
+Some of these estimates and procedures became available in the popular statistical
+packages like \proglang{S-PLUS}, \proglang{SAS}, \proglang{MATLAB}
+as well as in \proglang{R} but nevertheless it is recognized that the
+robust methods have not yet replaced the ordinary least square techniques as it could be expected \citep{morgenthaler:2007, stromberg:2004}.
+One reason is the lack of easily accessible and easy
+to use software, that is software which presents the robust procedures
+as extensions to the classical ones---similar input and output,
+reasonable defaults for most of the estimation options and
+visualization tools. As far as the easiness of access  is concerned,
+the robust statistical methods should be implemented in the freely available statistical
+software package \proglang{R}, \citep{RLanguage}, which provides a powerful platform
+for the development of statistical software. These requirements have been
+defined in the project ``Robust Statistics and \proglang{R}'', see
+\url{http://www.statistik.tuwien.ac.at/rsr/}, and a first step in
+this direction was the initial development of the collaborative
+package \pkg{robustbase}, \citep{robustbase}, with the intention that it becomes the
+\textit{essential robust statistics} \proglang{R} package
+covering the methods described in the recent book \citet{maronna:2006}.
+
+
+During the last decades the object oriented programming
+paradigm has revolutionized the style of software system design and
+development. A further step in the software reuse are the object
+oriented frameworks \citep[see][]{gamma} which provide
+technology for reusing both the architecture and the functionality
+of software components. Taking advantage of the new \proglang{S}4 class system \citep{chambers:98}
+of \proglang{R} which facilitate the creation of reusable and modular components
+ an object oriented framework for robust multivariate
+analysis was implemented. The goal of the framework is manyfold:
+\be
+\item{to provide the end-user with a flexible and easy access to newly
+developed robust methods for multivariate data analysis;}
+\item{to allow the programming statisticians an extension by developing,
+implementing and testing new methods with minimum effort, and }
+\item{to guarantee the original developers and
+maintainer of the packages a high level of maintainability.}
+\ee
+The framework includes an almost complete set of algorithms for
+computing robust multivariate location and scatter, such as minimum
+covariance determinant, different S~estimators (SURREAL,
+FAST-S, Bisquare, Rocke-type), orthogonalized
+Gnanadesikan--Kettenring (OGK) estimator of \citet{maronna:2002}.
+The next large group of classes are the methods for robust principal
+component analysis (PCA) including ROBPCA of
+\citet{hubert-ROBPCA:2005}, spherical principal components (SPC) of
+\citet{locantore:1999}, the projection pursuit algorithms of
+\citet{croux-Ruiz-Gazen:2005} and
+\citet{croux-filzmoser-oliveira-pppca}.
+Further applications
+implemented in the framework are linear and quadratic discriminant
+analysis \citep[see][for a review]{todorov-roblda},
+multivariate tests
+\citep{rousseeuw-willems:2002, todorov-manova} and
+outlier detection tools.
+
+
+The application of the framework to data analysis as well as
+the development of new methods is illustrated on examples, which
+themselves are part of the package. Some issues of the object
+oriented paradigm as applied to the \proglang{R} object model
+(naming conventions, access methods, coexistence of \proglang{S}3 and
+\proglang{S}4 classes, usage of UML, etc.) are discussed.
+The framework is implemented in the \proglang{R} packages \pkg{robustbase} and \pkg{rrcov}, \citep{todorov-rrcov},
+which are available from Comprehensive \proglang{R} Archive Network (CRAN) at \url{http://CRAN.R-project.org} under the GNU General Public License.
+
+
+The rest of the paper is organized as follows. In the
+next Section~\ref{oof-sec:objmodel} the design principles
+and the structure of the framework is presented as well as some related object oriented concepts are discussed. As a main tool for modeling of the robust estimation methods a statistical design pattern is proposed. Section~\ref{oof-sec:ex-intro} facilitates the quick start by an example session giving a brief overview of the framework. Section~\ref{oof-sec:multi} describes the robust multivariate methods, their computation and implementation. The Sections~\ref{oof-sec:cov}, \ref{oof-sec:pca} and \ref{oof-sec:lda} are dedicated to the estimation of multivariate location and scatter, principal component analysis and discriminant analysis, respectively. For each domain the object model, the available visualization tools, an example, and other relevant information are presented. We conclude in Section~\ref{oof-sec:conclusions} with discussion and outline of the future work.
+\section{Design approach and structure of the framework}
+\label{oof-sec:objmodel}
+In classical multivariate statistics we rely on
+parametric models based on assumptions about the  structural
+and the stochastic parts of the model for which optimal procedures
+are derived, like the least squares estimators and the maximum
+likelihood estimators. The corresponding robust methods can be
+seen as extensions to the classical ones which can cope with
+deviations from the stochastic assumptions thus mitigating the
+dangers for classical estimators. The developed statistical
+procedures will  remain reliable and reasonably efficient even
+when such deviations are present. For example in the case of
+location and covariance estimation the classical
+theory yields the sample mean $\xbarv$ and the sample
+covariance matrix $\v{S}$, i.e.,
+the corresponding MLE estimates as an optimal solution.
+One (out of many) robust alternatives is the minimum
+covariance determinant estimator. When we consider
+this situation from an object oriented design point of view
+we can think of an abstract base class representing the estimation problem,
+a concrete realization of this object---the classical estimates, and
+a second concrete derivative of the base class representing
+the MCD estimates. Since there exist many other robust
+estimators of multivariate location and covariance
+which share common characteristics we would prefer to add one
+more level of abstraction by defining an abstract ``robust'' object
+from which all other robust estimators are derived. We encounter
+a similar pattern in most of the other multivariate statistical
+methods like principal component analysis, linear and quadratic
+discriminant analysis, etc. and we will call it a
+\textit{statistical design pattern}.
+A schematic representation as an \textit{UML diagram} is shown
+in Figure~\ref{oof-fig:objmodel}.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{AModel}
+\label{oof-fig:objmodel}
+\caption{Class diagram of the statistical design pattern for robust estimation methods.}
+\end{center}
+\end{figure}
+The following simple example demonstrates the functionality. We
+start with a generic object model of a robust and the corresponding
+classical multivariate method with all the necessary interfaces and
+functionalities and then concretize it to represent the desired
+class hierarchy. The basic idea is to define an abstract \proglang{S}4
+class which has as slots the common data elements of the result of
+the classical method and its robust counterparts (e.g., \code{Pca}).
+For this abstract class we can implement the standard in \proglang{R}
+generic functions like \code{print()}, \code{summary()}, \code{plot()} and maybe
+also \code{predict()}. Now we can derive and implement a concrete
+class which will represent the classical method, say
+\code{PcaClassic}. Further we derive another abstract class which
+represents a potential robust method we are going to implement, e.g.,
+\code{PcaRobust}---it is abstract because we want to have a
+``placeholder'' for the robust methods we are going to develop next.
+The generic functions that we implemented for the class \code{Pca}
+are still valid for \code{PcaRobust} but whenever necessary we can
+override them with new functionality. Now we have the necessary
+platform and of course we have had diligently documented everything
+we have implemented so far---this is our investment in the future
+development of robust methods from this family. The framework at
+its current expansion stage provides such
+platform for several important families of multivariate methods. It
+is time to dedicate our effort to the development and implementation
+of our new robust method/class, say \code{PcaHubert} and only to
+this---here comes the first obvious benefit from the framework---we
+do not need to care for the implementation of \code{print()},
+\code{summary()}, \code{plot()} and \code{predict()} neither for their documentation or testing.
+
+
+In contrast to the \proglang{S}3 class system the \proglang{S}4 system requires
+the creation of objects to be done by the \code{new()} function which will
+perform the necessary validity checks. We go one step
+further and require that the \code{new()} function is not
+used directly but only through special functions known in
+\proglang{R} as \textit{generating functions} or as
+\textit{constructors} in the conventional object
+oriented programming languages. A constructor function
+has the same name as the corresponding class, takes
+the estimation options as parameters, organizes
+the necessary computations and returns an object of
+the class containing the results of the computation.
+It can take as a parameter also a \textit{control object}
+which itself is an \proglang{S}4 object and contains
+the estimation options. More details on the generating
+functions and their application for structuring
+the user interface can be found in \citet{todorov-constructors}.
+
+
+The main part of the framework is implemented in
+the package \pkg{rrcov} but it relies on code in the
+packages \pkg{robustbase} and \pkg{pcaPP} \citep{filzmoser-pcaPP}. The structure
+of the framework and its relation to other \proglang{R}
+packages is shown in Figure~\ref{oof-fig:structure}.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Structure}
+\label{oof-fig:structure}
+\caption{Class diagram: structure of the framework and relation to other \proglang{R} packages.}
+\end{center}
+\end{figure}
+The framework can be used by other packages, like for example by \pkg{robust}
+\citep[see][]{konis-robust} or can be further extended.
+In Figure~\ref{oof-fig:structure} a hypothetical
+package \pkg{rrcovNA} is shown, which could extend the available
+robust multivariate methods with options for dealing
+with missing values.
+
+
+In the rest of this section some object-oriented programming (OOP) concepts will be discussed which
+are essential for understanding the framework.
+\newpage
+\subsection{UML diagrams}
+\label{oof-sec:UML}
+Throughout this paper we exploit UML class diagrams to give a clear picture
+of the framework and its components. UML stands for \textit{Unified Modeling Language}---an object-oriented system of notation which has evolved from previous works of Grady Booch, James Rumbaugh and Ivar Jacobson
+to become a tool accepted by the Object Management Group (OMG) as
+the standard for modeling object oriented programs \citep[see][]{umlInfra, umlSuper}.
+A class diagram models the
+structure and contents of a system by depicting classes, packages, objects and the relations
+among them with the aim to increase the ease of understanding the considered application.
+A class is denoted by a box with three compartments which contain the name,
+the attributes (slots) and operations (methods) of the class, respectively.
+The class name in italics indicates that the class is abstract.
+The bottom two compartments could be omitted or they can contain only the
+key attributes and operations which are useful for understanding
+the particular diagram. Each attribute is followed by its
+type and each operation---by the type of its return value.
+We use the \proglang{R} types like \code{numeric}, \code{logical}, \code{vector},
+\code{matrix}, etc. but the type can be also a name of an \proglang{S}4 class.
+
+
+Relationships between classes are denoted by lines or arrows
+with different form. The inheritance relationship is depicted
+by a large empty triangular arrowhead pointing to the base class.
+Composition means that one class contains another one as
+a slot (not to be mistaken with the keyword ``contains''
+signalling inheritance in \proglang{R}).
+This relation is represented by an arrow with a solid
+diamond on the side of the composed class.
+If a class ``uses'' another one or depends on it,
+the classes are connected by a dashed arrow
+(dependence relation).
+Packages can also be present in a class diagram---in our case they correspond more or less to \proglang{R} packages---and are shown as tabbed boxes with the name of the package
+written in the tab (see Figure~\ref{oof-fig:structure}).
+
+
+All UML diagrams of the framework were created with
+the open source UML tool \pkg{ArgoUML} \citep{argo:phd, argo:2000} which is available for download from \url{http://argouml.tigris.org/}.
+
+\subsection{Design patterns}
+\label{oof-sec:patterns}
+Design patterns are usually defined as general solutions to recurring design
+problems and refer to both the description of a solution and
+an instance of that solution solving a particular problem. The current use of
+the term design patterns originates in the writings of the architect
+Christopher Alexander devoted to urban planning and building architecture
+\citep{alexander} but it was brought to the software development
+community by the seminal book of \citet{gamma}.
+
+
+A design pattern can be seen as a template for how to solve
+a problem which can be used in many different situations.
+Object-Oriented design patterns are about classes and
+the relationships between classes or objects at abstract level,
+without defining the final classes or objects of the particular application.
+In order to be usable, design patterns must be defined formally and the
+documentation, including a preferably evocative name,
+describes the context in which the pattern is used,
+the pattern structure, the participants and collaboration, thus presenting the suggested solution.
+
+
+Design patterns are not limited to architecture or software development
+but can be applied in any domain where solutions are searched for. During the development of the here presented framework several design patterns were identified, which we prefer to call \textit{statistical design patterns}.
+The first one was already described earlier in this section and captures
+the relations among a classical and one or more alternative robust multivariate estimators.
+Another candidate is the control object encapsulating the estimation parameters and a third one is the factory-like construct which suggests selection of a robust estimation method and creation of the corresponding objects
+based on the data set characteristics (see Section~\ref{oof-sec:cov}).
+The formal description of these design patterns is beyond the scope of this
+work and we will limit the discussion to several examples.
+\subsection{Accessor methods}
+\label{oof-sec:accessors}
+One of the major characteristics and advantages of object oriented programming is the
+encapsulation. Unfortunately real encapsulation (information hiding)
+is missing in \proglang{R}, but as far as the access to the member
+variables is concerned this could be mitigated by defining accessor
+methods (i.e., methods used to examine or modify the slots (member variables)
+of a class) and ``advising'' the users to use them instead of directly
+accessing the slots. The usual way of defining accessor
+functions in \proglang{R} is to use the same name as the name of the
+corresponding slot. For example for the slot \code{a} these are:
+\begin{Scode}
+R> cc <- a(obj)
+R> a(obj) <- cc
+\end{Scode}
+In many cases this is not possible, because of conflicts with other
+existing functions. For example it is not possible to define an
+accessor function \code{cov()} for the slot \code{cov} of class
+\code{Cov}, since the function \code{cov()} already exists in the
+\code{base} \proglang{R}. Also it is not immediately seen if a slot
+is ``read only'' or can be modified by the user (unfortunately, as
+already mentioned, every slot in \proglang{R} can be modified by
+simply using \code{obj@a <- cc}). In \pkg{rrcov} a notation was
+adopted, which is usual in \proglang{Java}: the accessors are defined as
+\code{getXxx()} and \code{setXxx()} (if a \code{setXxx()} method is
+missing, we are ``not allowed'' to change the slot). The use of
+accessor methods allows to perform computations on demand
+(\code{getMah(mcd)} computes the Mahalanobis distances,  stores them
+into the object and returns them) or even have ``virtual'' slots
+which are not at all stored in the object (e.g., \code{getCorr(mcd)}
+computes each time and returns the correlation matrix without
+storing it).
+\subsection{Naming conventions}
+\label{oof-sec:naming}
+%%
+%From Sun: "Class names should be nouns, in mixed case with the first letter of each
+%internal word capitalized. Methods should be verbs, in mixed case with the first
+%letter lowercase, with the first letter of each internal word capitalized."
+%%
+%No coding rules in R: the R Internals manual that is shipped with R
+%also has a section on coding standards:
+%http://cran.r-project.org/doc/manuals/R-ints.html#R-coding-standards
+%though this is quite short and does not go much beyond the basic indentation
+%%
+There is no agreed naming convention (coding rules)
+in \proglang{R} but to facilitate the  framework usage
+several simple rules are in order, following the
+recommended Sun's \proglang{Java} coding style (see \url{http://java.sun.com/docs/codeconv/}):
+\bi
+\item{Class, function, method and variable names are alphanumeric, do not contain ``-'' or ``.'' but rather use interchanging lower and upper case.}
+\item{Class names start with an uppercase letter.}
+\item{Methods, functions, and variables start with a lowercase letter.}
+\item{Exceptions are functions returning an object of a given class (i.e., generating functions or constructors)---they have the same name as the class.}
+\item{Variables and methods which are not intended to be seen by the user---i.e., private members---start with ``.''.}
+\item{Violate these rules whenever necessary to maintain compatibility.}
+\ei
+\section{Example session}
+\label{oof-sec:ex-intro}
+In this section we will introduce the base functionalities of the
+framework by an example session. First of all we have to load the
+package \pkg{rrcov} which will cause all necessary packages to be
+loaded too. The framework includes many example data sets but here we will
+load only those which will be used throughout the following
+examples. For the rest of the paper it will be assumed that the
+package has been loaded already.
+<<echo=FALSE, results=hide>>=
+## set the prompt to "R> " and the continuation to "+ "
+options(prompt="R> ", continue="+ ")
+@
+
+<<label=intro>>=
+##
+## Load the 'rrcov' package and the first two data sets to be
+## used throughout the examples
+##
+library("rrcov")
+data("delivery")
+delivery.x <- delivery[,1:2]    # take only the X part
+data("hbk")
+hbk.x <- hbk[,1:3]              # take only the X part
+@
+Most of the multivariate statistical methods are based on estimates of
+multivariate location and covariance, therefore these estimates play a
+central role in the framework. We will start with computing
+the robust \textit{minimum covariance determinant} estimate for the data set
+\code{delivery} from the package \pkg{robustbase}.
+The data set \citep[see][Table~23, p.~155]{rousseeuw-leroy} contains delivery time data in
+25 observations with 3 variables.
+The aim is to explain the time required to service
+a vending  machine \code{(Y)} by means of the number of products stocked \code{(X1)}
+and the  distance walked by the route driver \code{(X2)}. For this example
+we will consider only the $\v{X}$ part of the data set. After computing
+its robust location and covariance matrix using the MCD method implemented
+in the function \code{CovMcd()} we can print the results by calling the default
+\code{show()} method on the returned object \code{mcd} as well as summary
+information by the \code{summary()} method. The standard output contains
+the robust estimates of location and covariance.
+The summary output contains additionally the eigenvalues of
+the covariance matrix and the robust distances of the data
+items (Mahalanobis type distances computed with the robust
+location and covariance instead of the sample ones).
+<<label=intro-mcd>>=
+##
+## Compute MCD estimates for the delivery data set
+## - show() and summary() examples
+##
+mcd <- CovMcd(delivery.x)
+mcd
+summary(mcd)
+@
+<<label=intro-plot, fig=TRUE, include=FALSE>>=
+##
+## Example plot of the robust against classical
+##  distances for the delivery data set
+##
+plot(mcd, which="dd")
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=0.8\textwidth}
+\includegraphics{ooframework-intro-plot}
+\caption{Example plot of the robust against classical distances for the \code{delivery} data set.}
+\label{oof-fig:intro}
+\end{figure}
+\end{center}
+Now we will show one of the available plots by calling the \code{plot()}
+method---in Figure~\ref{oof-fig:intro} the Distance-Distance plot introduced by
+\citet{Rousseeuw-van-Zomeren} is presented, which plots the robust distances
+versus the classical Mahalanobis distances and allows to classify
+the observations and identify the potential outliers. The description of
+this plot as well as examples of more graphical displays based on the covariance structure
+will be shown in Section~\ref{oof-sec:cov}.
+
+
+Apart from the demonstrated MCD method the framework provides many other
+robust estimators of multivariate location and covariance,
+actually almost all of the well established estimates in the contemporary
+robustness literature. The most fascinating feature of the framework is that
+one will get the output and the graphs in the same format, whatever estimation
+method was used. For example the following code lines will compute the S~estimates
+for the same data set and provide the standard and extended output (not shown here).
+<<label=intro-S, results=hide>>=
+##
+## Compute the S-estimates for the delivery data set
+##  and provide the standard and extended output
+##
+est <- CovSest(delivery.x, method="bisquare")
+est
+summary(est)
+@
+Nevertheless, this variety of methods could pose a serious
+hurdle for the novice and could be quite tedious even for
+the experienced user. Therefore a shortcut is provided too---the function
+\code{CovRobust()} can be called with a parameter
+set specifying any of the available estimation methods,
+but if this parameter set is omitted the function will
+decide on the basis of the data size which method to use.
+As we see in the example below, in this case it selects
+the Stahel-Donoho estimates. For details and further examples
+see Section~\ref{oof-sec:cov}.
+<<label=intro-CovRobust>>=
+##
+## Automatically select the appropriate estimator according
+##  to the problem size - in this example the Stahel-Donoho estimates
+##  will be selected.
+##
+est <- CovRobust(delivery.x)
+est
+@
+\section{Robust multivariate methods}
+\label{oof-sec:multi}
+\subsection{Multivariate location and scatter}
+\label{oof-sec:cov} The framework provides an almost complete set of
+estimators for multivariate location and scatter with high breakdown
+point. The first such estimator was proposed
+by \citet{stahel:81, stahel-phd:81} and \citet{donoho:82} and it is recommended for
+small data sets, but the most widely
+used high breakdown estimator is the minimum covariance determinant estimate \citep{rousseeuw:85}. Several algorithms for computing the
+S~estimators \citep{davies:87} are provided
+\citep{ruppert:1992, rocke:94, rocke:96a, salibian:2005}. The
+minimum volume ellipsoid (MVE) estimator \citep{rousseeuw:85} is
+also included since it has some desirable properties when used as
+initial estimator for computing the S~estimates \citep[see][p.
+198]{maronna:2006}. In the rest of this section the definitions of
+the different estimators of location and scatter will be briefly
+reviewed and the algorithms for their computation will be discussed.
+Further details can be found in the relevant references.
+The object model is presented and examples of its usage, as well as further examples of the graphical
+displays are given.
+\subsubsection{The Minimum covariance determinant estimator and its computation}
+\label{oof-sec:cov-mcd} The MCD estimator for a data set
+$\{\xv_1, \ldots, \xv_n\}$ in $\Re^p$
+is defined by that subset $\{\xv_{i_1}, \ldots, \xv_{i_h}\}$ of
+$h$ observations whose covariance matrix has the smallest
+determinant among all possible subsets of size $h$. The MCD location
+and scatter estimate $\v{T}_{\MCD}$ and $\v{C}_{\MCD}$ are then given
+as the arithmetic mean and a multiple of the sample covariance
+matrix of that subset
+\begin{eqnarray}
+\label{oof-eq:mcd} \v{T}_{\MCD} &=& \frac{1}{h}\sum^{h}_{j=1} \xv_{i_j}
+\nonumber\\
+\v{C}_{MCD} &=& c_{ccf}c_{sscf}\frac{1}{h-1}\sum^{h}_{j=1}
+(\xv_{i_j}-\v{T}_{\MCD})(\xv_{i_j}-\v{T}_{\MCD})^{\top}.
+\end{eqnarray}
+The multiplication factors $c_{ccf}$ (consistency correction factor)
+and $c_{sscf}$ (small sample correction factor) are selected so that
+$\v{C}$ is consistent at the multivariate normal model and unbiased
+at small samples \citep[see][]{butler:1993, croux-haesbroeck:99,
+pison:2002, todorov-cf}. A recommendable choice for $h$ is
+$\lfloor(n+p+1)/2\rfloor$ because then the BP of the MCD is
+maximized, but any integer $h$ within the interval $[(n + p +
+1)/2,n]$ can be chosen, see \citet{rousseeuw-leroy}. Here $\lfloor
+z\rfloor$ denotes the integer part of $z$ which is not less than
+$z$. If $h = n$ then the MCD location  and scatter estimate
+$\v{T}_{\MCD}$ and $\v{C}_{\MCD}$ reduce to the  sample mean and
+covariance matrix of the full data set.
+
+
+The computation of the MCD estimator is far from being trivial. The
+naive algorithm would proceed by exhaustively investigating all
+subsets of size $h$ out of $n$ to find the subset with the smallest
+determinant of its covariance matrix, but this will be feasible only
+for very small data sets. Initially MCD was neglected in favor of MVE
+because the simple resampling
+algorithm was more efficient for MVE.
+Meanwhile several heuristic search algorithms
+\citep[see][]{todorov:92, rocke:94, hawkins:94}
+and exact algorithms \citep[][]{agullo:96} were
+proposed but now a very fast algorithm due to
+\citet{rousseeuw-vandriessen} exists and this
+algorithm is usually used in practice.
+The algorithm is based on the C-step which moves from one approximation
+$(\v{T}_1, \v{C}_1)$ of the MCD estimate of a data set $\v{X}=\{\xv_1, \ldots, \xv_n\}$
+to the next one $(\v{T}_2, \v{C}_2)$ with possibly lower determinant
+$\det(\v{C}_2) \le \det(\v{C}_1)$ by computing the distances $d_1, \ldots, d_n$ relative to
+$(\v{T}_1, \v{C}_1)$, i.e.,
+\begin{equation}
+\label{oof-eq:mah}
+d_i=\sqrt{(\xv_i-\v{T}_1)^{\top}\v{C}_1^{-1}(\xv_i-\v{T}_1)}
+\end{equation}
+and then computing $(\v{T}_2, \v{C}_2)$ for those $h$
+observations which have smallest distances.
+``C'' in C-step stands for ``concentration'' since we are looking
+for a more ``concentrated'' covariance matrix with lower determinant.
+\citet{rousseeuw-vandriessen} have proven a theorem stating that
+the iteration process given by the C-step converges in a finite
+number of steps to a (local) minimum. Since there is no guarantee
+that the global minimum of the MCD objective function will be reached,
+the iteration must be started many times from different initial subsets,
+to obtain an approximate solution. The procedure is very fast for small
+data sets but to make it really ``fast'' also for large data sets several
+computational improvements are used.
+\bi
+\item{\textit{initial subsets}: It is possible to restart the
+    iterations from randomly generated subsets of size $h$, but in order to increase
+    the probability of drawing subsets without outliers, $p+1$ points are
+    selected randomly. These $p+1$ points are used to compute ($\v{T}_0,\v{C}_0)$.
+    Then the distances $d_1,\ldots, d_n$ are computed and sorted in increasing order.
+    Finally the first $h$ are selected to form the initial $h-$subset $H_0$.}
+\item{\textit{reduced number of C-steps}: The C-step involving the computation
+    of the covariance matrix, its determinant and the relative distances, is the most
+    computationally intensive part of the algorithm. Therefore instead of iterating
+    to convergence for each initial subset only two C-steps are performed and the
+    10 subsets with lowest determinant are kept. Only these subsets are iterated to
+    convergence. }
+\item{\textit{partitioning}: For large $n$ the computation time of the algorithm increases
+    mainly because all $n$ distances given by Equation~(\ref{oof-eq:mah})
+    have to be computed at each iteration. An improvement is to partition
+    the data set into a maximum of say five subsets of approximately equal
+    size (but not larger than say 300) and iterate in each subset separately.
+    The ten best solutions for each data set are kept and finally
+    only those are iterated on the complete data set. }
+\item{\textit{nesting}: Further decrease of the computational time can be achieved
+    for data sets with $n$ larger than say 1500 by drawing 1500 observations without
+    replacement and performing the computations (including the partitioning)
+    on this subset. Only the final iterations are carried out on the complete
+    data set. The number of these iterations depends on the actual size of
+    the data set at hand.}
+\ei
+
+The MCD estimator is not very efficient at normal models, especially
+if $h$ is selected so that maximal BP is achieved. To overcome the
+low efficiency of the MCD estimator, a reweighed version can be
+used. For this purpose a weight $w_i$ is assigned to each observation $\xv_i$,
+defined as $w_i=1$ if
+$(\xv_i-\v{T}_{\MCD})^{\top}\v{C}_{\MCD}^{-1}(\xv_i-\v{T}_{\MCD}) \le \chi^2_{p,0.975}$
+and $w_i=0$ otherwise, relative to the raw MCD estimates
+$(\v{T}_{\MCD}, \v{C}_{\MCD})$. Then the reweighted estimates are
+computed as
+\begin{eqnarray}
+\label{oof-eq:mcd-rew}
+\v{T}_R &=& \frac{1}{\nu}\sum^{n}_{i=1}{w_i\xv_i},\nonumber\\
+\v{C}_R &=&
+c_{r.ccf}c_{r.sscf}\frac{1}{\nu-1}\sum^n_{i=1}{w_i(\xv_i-\v{T}_R)(\xv_i-\v{T}_R)^{\top}},
+\end{eqnarray}
+where $\nu$ is the sum of the weights, $\nu =\sum^n_{i=1}{w_i}$.
+Again, the multiplication factors $c_{r.ccf}$  and $c_{r.sscf}$
+ are selected so that $\v{C}_R$ is
+consistent at the multivariate normal model and unbiased at small
+samples \citep[see][and the references therein]{pison:2002,
+todorov-cf}. These reweighted estimates $(\v{T}_R,\v{C}_R)$ which
+have the same breakdown point as the initial (raw) estimates but
+better statistical efficiency are computed and used by default.
+\subsubsection{The Minimum volume ellipsoid estimates}
+\label{oof-sec:cov-mve} The minimum volume ellipsoid estimator
+searches for the ellipsoid of minimal volume containing at least
+half of the points in the data set $\v{X}$. Then the location
+estimate is defined as the center of this ellipsoid and the
+covariance estimate is provided by its shape. Formally the estimate
+is defined as these $\v{T}_{\MVE},\v{C}_{\MVE}$ that minimize
+$\det(\v{C})$ subject to
+\begin{equation}
+\label{oof-eq:mve}
+\#\{i:(\xv_i - \v{T})^{\top}\v{C}^{-1}(\xv_i - \v{T}) \le c^2\} \ge
+\left \lfloor \frac{n+p+1}{2} \right \rfloor,
+\end{equation}
+where \# denotes the cardinality. The constant $c$ is chosen as
+$\chi^2_{p,0.5}$.
+
+
+The search for the approximate solution is made over ellipsoids
+determined by the covariance matrix of $p+1$ of the data points and by
+applying a simple but effective improvement of the sub-sampling
+procedure as described in \citet{maronna:2006}, p. 198. Although
+there exists no formal proof of this improvement (as for MCD and
+LTS), simulations show that it can be recommended as an
+approximation of the MVE. The MVE was the first popular high breakdown point
+estimator of location and scatter but later it was
+replaced by the MCD, mainly because of the availability of an efficient algorithm for its computation \citep{rousseeuw-vandriessen}. Recently
+the MVE gained importance as initial estimator for S~estimation because
+of its small maximum bias \citep[see][Table~6.2, p.~196]{maronna:2006}.
+\subsubsection{The Stahel-Donoho estimator}
+\label{oof-sec:cov-sde}
+The first multivariate equivariant estimator of location
+and scatter with high breakdown point was proposed
+by \citet{stahel:81, stahel-phd:81} and \citet{donoho:82} but became better
+known after the analysis of \citet{maronna:95}. For a data set
+$\v{X}=\{\xv_1,\ldots,\xv_n\}$ in  $\Re^p$ it is defined as a weighted mean
+and covariance matrix of the form given by Equation~(\ref{oof-eq:mcd-rew})
+where the weight $w_i$ of each observation is inverse proportional to
+the ``outlyingness'' of the observation.
+Let the univariate outlyingness of a point $\xv_i$ with respect to
+the data set $\v{X}$ along a vector $\v{a} \in \Re^p, ||\v{a}|| \ne \v{0}$ be given by
+\begin{equation}
+\label{oof-eq:sde1}
+r(\xv_i,\v{a}) = \frac{|\xv^{\top}\v{a}-m(\v{a}^{\top}\v{X})|}{s(\v{a}^{\top}\v{X})}~~~i=1,\ldots,n
+\end{equation}
+where $(\v{a}^{\top}\v{X})$ is the projection of the data set $\v{X}$ on $\v{a}$
+and the functions $m()$ and $s()$ are robust univariate location and scale
+statistics, for example the median and MAD, respectively.
+Then the multivariate outlyingness of $\xv_i$ is defined by
+\begin{equation}
+\label{oof-eq:sde2}
+r_i=r(\xv_i) = \max_{\v{a}} r(\xv_i,\v{a}).
+\end{equation}
+The weights are computed by $w_i=w(r_i)$ where $w(r)$ is a nonincreasing
+function of $r$ and $w(r)$ and $w(r)r^2$ are bounded. \citet{maronna:95} use the weights
+\begin{equation}
+\label{oof-eq:sde-weight}
+w(r)=\min \left ( 1,\left (\frac{c}{t} \right )^2 \right )
+\end{equation}
+with $c=\sqrt{\chi^2_{p,\beta}}$ and $\beta=0.95$, that are known in the literature as ``Huber weights''.
+
+
+Exact computation of the estimator is not possible and an approximate solution is
+found by subsampling a large number of directions $\v{a}$ and computing the
+outlyingness measures $r_i, i=1,\ldots,n$ for them. For each subsample
+of $p$ points the vector $\v{a}$ is taken as the norm 1 vector orthogonal
+to the hyperplane spanned by these points. It has been shown by simulations
+\citep{maronna:2006} that one step reweighting does not improve the estimator.
+\subsubsection{Orthogonalized Gnanadesikan/Kettenring}
+\label{oof-sec:cov-ogk} The MCD estimator and all other known affine
+equivariant high-breakdown point estimates are solutions to a highly
+non-convex optimization problem and as such pose a serious
+computational challenge. Much faster estimates with high breakdown
+point can be computed if one gives up the requirements of affine
+equivariance of the covariance matrix. Such an algorithm was
+proposed by \citet{maronna:2002} which is based on the very simple
+robust bivariate covariance estimator $s_{jk}$ proposed by
+\citet{Gnanadesikan-Kettenring:1972} and studied by
+\citet{devlin:81}. For a pair of random variables $Y_j$ and $Y_k$
+and a standard deviation function $\sigma()$, $s_{jk}$ is defined as
+\begin{equation}
+\label{oof-eq:GK}
+s_{jk}=\frac{1}{4}\left(\sigma \left(\frac{Y_j}{\sigma(Y_j)}+\frac{Y_k}{\sigma(Y_k)}\right)^2 -
+\sigma \left(\frac{Y_j}{\sigma(Y_j)}-\frac{Y_k}{\sigma(Y_k)}\right)^2\right).
+\end{equation}
+If a robust function is chosen for $\sigma()$ then $s_{jk}$ is also
+robust and an estimate of the covariance matrix can be obtained by
+computing each of its elements $s_{jk}$ for each $j=1,\ldots,p$ and
+$k=1,\ldots,p$ using Equation~(\ref{oof-eq:GK}). This estimator does
+not necessarily produce a positive definite matrix (although
+symmetric) and it is not affine equivariant.
+\citet{maronna:2002} overcome the lack of positive definiteness by
+the following steps:
+\bi
+\item{Define $\yv_i=\vv{D}^{-1}\xv_i, i=1,\ldots,n$ with
+    $\v{D}=\diag(\sigma(X_1),\ldots,\sigma(X_p))$ where $X_l,
+    l=1,\ldots,p$ are the columns of the data matrix $\vv{X}=\{\xv_1, \ldots, \xv_n\}$.
+    Thus a normalized data matrix $\vv{Y}=\{\yv_1, \ldots, \yv_n\}$ is computed.}
+\item{Compute the matrix $\vv{U}=(u_{jk})$ as
+    $u_{jk}= s_{jk}=s(Y_j, Y_k)$ if $j \ne k$ or $u_{jk}= 1$ otherwise.
+    Here $Y_l, l=1,\ldots,p$ are the columns of the transformed data
+    matrix $\vv{Y}$ and $s(.,.)$ is a robust estimate of the covariance of two random variables like the one in Equation~(\ref{oof-eq:GK}).}
+\item{Obtain the ``principal component decomposition'' of $\vv{Y}$ by decomposing $\vv{U}=\vv{E}\vv{\Lambda}\vv{E}^{\top}$
+    where $\vv{\Lambda}$ is a diagonal matrix $\vv{\Lambda}=\diag(\lambda_1,\ldots,\lambda_p)$ with the eigenvalues $\lambda_j$ of $\vv{U}$ and $\vv{E}$ is a matrix with columns the eigenvalues $\vv{e}_j$ of $\vv{U}$.}
+\item{Define $\zv_i=\vv{E}^{\top}\yv_i=\vv{E}^{\top}\vv{D}^{-1}\xv_i$ and $\vv{A}=\vv{D}\vv{E}$.
+    Then the estimator of $\vv{\Sigma}$ is
+    $\vv{C}_{\OGK}=\vv{A}\vv{\Gamma}\vv{A}^{\top}$ where
+    $\vv{\Gamma}=\diag(\sigma(Z_j)^2), j=1,\ldots,p$} and the location
+    estimator is $\vv{T}_{\OGK}=\vv{A}\mv$ where
+    $\mv=m(\zv_i) = (m(Z_1),\ldots,m(Z_p))$ is a robust mean function.
+\ei
+This can be iterated by computing $\vv{C}_{\OGK}$ and $\vv{T}_{\OGK}$ for $\vv{Z}=\{\zv_1, \ldots, \zv_n\}$ obtained in the last step of the procedure and then transforming back to the original coordinate system. Simulations \citep{maronna:2002} show that iterations beyond the second did not lead to improvement.
+
+
+Similarly as for the MCD estimator a one-step reweighting can be performed using
+Equations~(\ref{oof-eq:mcd-rew}) but the weights $w_i$ are based on
+the 0.9 quantile of the $\chi^2_p$ distribution (instead of 0.975)
+and the correction factors $c_r.ccf$ and $c_r.sscf$ are not used.
+
+
+In order to complete the algorithm we need a robust and efficient
+location function $m()$ and scale function $\sigma()$, and one
+proposal is given in \citet{maronna:2002}. Further, the robust
+estimate of covariance between two random vectors $s()$ given by
+Equation~(\ref{oof-eq:GK}) can be replaced by another one. In the
+framework two such functions are predefined but the user can
+provide as a parameter an own function.
+\subsubsection{S estimates}
+\label{oof-sec:cov-s} S~estimators of $\muv$ and $\v{\Sigma}$ were
+introduced by \citet{davies:87} and further studied by \citet{lopuhaa:1989} \citep[see also][p. 263]{rousseeuw-leroy}.
+For a data set of
+$p$-variate observations $\{\xv_1, \ldots, \xv_n\}$
+an S~estimate $(\v{T},\v{C})$ is defined as the solution of
+$\sigma(d_1,\ldots,d_n)= \min$ where
+$d_i=(\xv-\v{T})^{\top}\v{C}^{-1}(\xv-\v{T})$ and $\det(\v{C})=1$. Here
+$\sigma=\sigma(\zv)$ is the M-scale estimate of a data set
+$\zv=\{z_1,\ldots,z_n\}$ defined as the solution of
+$\frac{1}{n}\Sigma\rho(z/\sigma)=\delta$ where $\rho$ is
+nondecreasing, $\rho(0)=0$ and $\rho(\infty)=1$ and $\delta
+\in(0,1)$. An equivalent definition is to find the vector $\v{T}$
+and a positive definite symmetric matrix $\v{C}$ that minimize
+$\det(\v{C})$ subject to
+\begin{equation}
+\label{oof-eq:s-def}
+ \frac{1}{n}\sum_{i=1}^{n}\rho(d_i)=b_0
+\end{equation}
+with the above $d_i$ and $\rho$.
+
+
+As shown by \citet{lopuhaa:1989} S~estimators have a close
+connection to the M~estimators and the solution $(\v{T},\v{C})$ is
+also a solution to an equation defining an M~estimator as well as a
+weighted sample mean and covariance matrix:
+\begin{eqnarray}
+\label{oof-eq:s-iter}
+d_i^{j}&=&[(\xv_i-\v{T}^{(j-1)})^{\top}\v{(C}^{(j-1)})^{-1}(\xv-\v{T}^{(j-1)})]^{1/2}
+\nonumber\\
+\v{T}^{(j)} &=& \frac{\Sigma w(d_i^{(j)})\xv_i}{\Sigma w(d_i^{(j)})}
+\nonumber\\
+\v{C}^{(j)} &=& \frac{\Sigma
+w(d_i^{(j)})(\xv_i-\v{T}^{(j)})(\xv_i-\v{T}^{(j)})^{\top}}{\Sigma
+w(d_i^{(j)})}
+\end{eqnarray}
+The framework implements the S~estimates in the class
+\code{CovSest} and provides four different algorithms for their computation.
+\be
+\item{\emph{SURREAL}: This algorithm was proposed by
+    \citet{ruppert:1992} as an analog to the algorithm
+    proposed by the same author for computing S~estimators of regression.}
+\item{\emph{Bisquare S~estimation with HBDP start}: S~estimates with the biweight
+    $\rho$ function can be obtained using the
+    Equations~(\ref{oof-eq:s-iter}) by a reweighted sample covariance and reweighted sample mean algorithm as described in \citet{maronna:2006}. The preferred
+    approach is to start the iteration from a bias-robust but possibly
+    inefficient estimate which is computed by some form of sub-sampling.
+    Since \citet{maronna:2006} have shown that the MVE has smallest
+    maximum bias (Table~6.2, p.~196) it is recommended to use it as initial estimate.}
+\item{\emph{Rocke type S~estimates}: In \citet{rocke:96a} it is shown
+    that S~estimators in high dimensions can be sensitive to outliers
+    even if the breakdown point is set to 50\%. Therefore they propose
+    a modified $\rho$ function called translated biweight (or t-biweight)
+    and replace the standardization step given in Equation~(\ref{oof-eq:s-def})
+    with a standardization step consisting of equating the median
+    of $\rho(d_i)$ with the median under normality. The estimator
+    is shown to be more outlier resistant in high dimensions than
+    the typical S~estimators. The specifics of the iteration are given
+    in \citet{rocke:96}, see also \citet{maronna:2006}. As starting values for the iteration any of
+    the available methods in the framework can be used. The recommended
+    (and consequently the default) one is the MVE estimator computed
+    by \code{CovMve()}.}
+\item{\emph{Fast~S~estimates}: \citet{salibian:2005} proposed
+    a fast algorithm for regression S~estimates similar to the
+    FAST-LTS algorithm of \citet{rousseeuw-vandriessen:LTS} and
+    borrowing ideas from the SURREAL algorithm of \citet{ruppert:1992}.
+    Similarly, the FAST-S algorithm for multivariate location
+    and scatter is based on modifying each candidate to improve
+    the S-optimality criterion thus reducing the number of
+    the necessary sub-samples required to achieve desired high breakdown
+    point with high probability.}
+\ee
+\subsubsection{Object model for robust location and scatter estimation}
+\label{oof-sec:cov-objmodel}
+The object model for the \proglang{S}4
+classes and methods implementing the different multivariate location
+and scatter estimators follows the proposed class hierarchy given in
+Section~\ref{oof-sec:objmodel} and is presented in
+Figure~\ref{fig:uml-cov}.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=\textwidth]{CovModel}
+\caption{Object model for robust location and scatter estimation.}
+\label{fig:uml-cov}
+\end{center}
+\end{figure}
+
+The abstract class \code{Cov} serves as a base class for deriving all classes
+representing classical and robust location and scatter estimation methods. It
+defines the common slots and the corresponding accessor methods, provides
+implementation for the general methods like \code{show()}, \code{plot()}
+and \code{summary()}. The slots of \code{Cov} hold some input or
+default parameters as well as the
+results of the computations: the location, the covariance matrix and the distances.
+The \code{show()} method presents brief results of the
+computations and the \code{summary()} method returns an object of class
+\code{SummaryCov} which has its own \code{show()} method. As in the other
+sections of the framework these slots and methods are defined and documented
+only once in this base class and can be used by all derived classes. Whenever
+new data (slots) or functionality (methods) are necessary, they can be defined
+or redefined in the particular class.
+
+
+The classical location and scatter estimates are represented by the
+class \code{CovClassic} which inherits directly from \code{Cov} (and
+uses all slots and methods defined there). The function
+\code{CovClassic()} serves as a constructor (generating function) of
+the class. It can be called by providing a data frame or
+matrix.
+As already demonstrated in Section~\ref{oof-sec:ex-intro} the methods
+\code{show()} and \code{summary()} present the results of the computations.
+The \code{plot()} method draws different diagnostic plots which
+are shown in one of the next sections.
+The accessor functions like \code{getCenter()}, \code{getCov()}, etc.
+are used to access the corresponding slots.
+
+
+Another abstract class, \code{CovRobust} is
+derived from \code{Cov}, which serves as a base class for all robust
+location and scatter estimators.
+
+
+The classes representing robust estimators like
+\code{CovMcd}, \code{CovMve}, etc. are  derived
+from \code{CovRobust} and provide implementation
+for the corresponding methods. Each of the constructor
+functions \code{CovMcd()},
+\code{CovMve()},\code{CovOgk()}, \code{CovMest()} and
+\code{CovSest()} performs the necessary computations and returns an
+object of the class containing the results. Similarly
+as the \code{CovClassic()} function, these functions can be
+called either with a data frame or a numeric matrix.
+\subsubsection{Controlling the estimation options}
+\label{oof-sec:cov-control}
+Although the different robust estimators of multivariate location
+and scatter have some controlling options in common, like the
+tracing flag \code{trace} or the numeric tolerance \code{tolSolve}
+to be used for inversion (\code{solve}) of the covariance matrix in
+\code{mahalanobis()}, each of them has more specific options. For
+example, the MCD and MVE estimators (\code{CovMcd()} and
+\code{CovMve()}) can specify \code{alpha} which controls the size of
+the subsets over which the determinant (the volume of the ellipsoid)
+is minimized. The allowed values are between 0.5 and 1 and the
+default is 0.5. Similarly, these estimators have parameters
+\code{nsamp} for the number of subsets used for initial estimates
+and \code{seed} for the initial seed for \proglang{R}'s random number generator
+while the M and S~estimators (\code{CovMest} and \code{CovSest})
+have to specify the required breakdown point (allowed values between
+$(n - p)/(2*n)$ and 1 with default 0.5) as well as the asymptotic
+rejection point, i.e., the fraction of points receiving zero weight
+\citep{rocke:96}.
+
+
+These parameters can be passed directly to the corresponding constructor
+function but additionally there exists the possibility to use a control object
+serving as a container for the parameters. The object model for the control
+objects shown in Figure~\ref{oof-fig:cov-control} follows the proposed class
+hierarchy---there is a base class \code{CovControl} which holds the common
+parameters and from this class all control classes holding the specific parameters of their
+estimators are derived. These classes have only a
+constructor function for creating new objects and a method \code{restimate()}
+which takes a data frame or a matrix, calls the corresponding estimator to
+perform the calculations and returns the created class
+with the results.
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=\textwidth]{CovControl}
+\caption{Object model of the control classes for robust location and scatter estimation.}
+\label{oof-fig:cov-control}
+\end{center}
+\end{figure}
+Apart from providing a structured container for the estimation parameters this
+class hierarchy has the following additional benefits:
+\bi
+\item{the parameters can be passed easily to another
+    multivariate method, for example the principal components analysis
+    based on a covariance matrix \code{PcaCov()} (see Section~\ref{oof-sec:pca})
+    can take a control object which will be used to estimate
+    the desired covariance (or correlation) matrix.
+    In the following example a control object holding
+    the parameters for S~estimation will be created and
+    then \code{PcaCov()} will be called with this object.}
+<<echo=FALSE, results=hide>>=
+set.seed(1234)
+@
+<<label=CovControl>>=
+##
+## Controlling the estimation options with a control object
+##
+control <- CovControlSest(method="biweight")
+PcaCov(hbk.x, cov.control=control)
+
+@
+\item{the class hierarchy of the control objects allows to
+    handle different estimator objects using a uniform interface
+    thus leveraging one of the most important features of
+    the object oriented programming, the polymorphism.
+    In the following example we create a list containing different
+    control objects and then via \code{sapply} we call the generic
+    function \code{restimate()} on each of the objects in the list.
+    The outcome will be a list containing the objects resulting from
+    these calls (all are derived from \code{CovRobust}). This
+    looping over the different estimation methods is very useful
+    for implementing simulation studies.}
+
+<<label=CovControl-loop>>=
+##
+## Controlling the estimation options: example
+##  of looping through several estimators
+##
+cc <- list(CovControlMcd(), CovControlMest(), CovControlOgk(), CovControlSest(), CovControlSest(method="rocke"))
+clist <- sapply(cc, restimate, x=delivery.x)
+
+sapply(clist, data.class)
+sapply(clist, getMeth)
+@
+\ei
+\subsubsection[A generalized function for robust location and
+covariance estimation: CovRobust()]{A generalized function
+for robust location and covariance estimation: \code{CovRobust()}}
+\label{oof-sec:cov-covrobust}
+The provided variety of estimation methods, each of them with different
+parameters as well as the object models described in
+the previous sections can be overwhelming for the user,
+especially for the novice who does not care much about the technical
+implementation of the framework. Therefore a function is provided which
+gives a quick access to the robust estimates of location and covariance matrix.
+This function is loosely modeled around the
+\textit{abstract factory design pattern} \citep[see][page 87]{gamma} in
+the sense that it creates concrete objects of derived classes and returns
+the result over a base class interface.
+The class \code{CovRobust} is abstract (defined as \textit{VIRTUAL}) and no
+objects of it can be created but any of the classes derived from \code{CovRobust},
+such as \code{CovMcd} or \code{CovOgk}, can act as an object of class \code{CovRobust}.
+The function \code{CovRobust()} which is technically not a constructor function can
+return an object of any of the classes derived from \code{CovRobust} according
+to the user request. This request can be specified in one of three forms:
+\bi
+\item{If only a data frame or matrix is provided and the control parameter
+    is omitted, the function decides which estimate to apply according
+    to the size of the problem at hand. If there are less than 1000
+    observations and less than 10 variables or less than 5000 observations
+    and less than 5 variables, Stahel-Donoho estimator will be used. Otherwise,
+    if there are less than 50000 observations, either bisquare S~estimates
+    (in case of less than 10 variables) or Rocke type S~estimates (for 10 to 20 variables)
+    will be used. In both cases the S iteration starts at the initial MVE estimate.
+    And finally, if there are more than 50000 observations and/or more than 20 variables
+    the Orthogonalized Quadrant Correlation estimator (\code{CovOgk} with the
+    corresponding parameters) is used. This is illustrated by the following example.}
+<<label=CovRobust>>=
+##
+## Automatically select the appropriate estimator according
+##  to the problem size.
+##
+getMeth(CovRobust(matrix(rnorm(40), ncol=2)))       # 20x2      - SDE
+getMeth(CovRobust(matrix(rnorm(16000), ncol=8)))    # 2000x8    - bisquare S
+getMeth(CovRobust(matrix(rnorm(20000), ncol=10)))   # 2000x10   - Rocke S
+getMeth(CovRobust(matrix(rnorm(200000), ncol=2)))   # 100000x2  - OGK
+@
+\item{The simplest way to choose an estimator is to provide a character string with
+    the name of the estimator---one of \code{"mcd"}, \code{"ogk"}, \code{"m"}, \code{"s-fast"}, \code{"s-rocke"}, etc.}
+<<label=CovControl-S>>=
+##
+## Rocke-type S-estimates
+##
+    getMeth(CovRobust(matrix(rnorm(40), ncol=2), control="rocke"))
+@
+\item{If it is necessary to specify also some estimation parameters,
+    the user can create a control object (derived from \code{CovControl})
+    and pass it to the function together with the data. For example to compute
+    the OGK estimator using the median absolute deviation (MAD) as a
+    scale estimate and the quadrant correlation (QC) as a pairwise
+    correlation estimate we create a control object \code{ctrl}
+    passing the parameters \code{s_mad} and \code{s_qc} to the
+    constructor function and then call \code{CovRobust} with this
+    object. The last command line illustrates the accessor method
+    for getting the correlation matrix of the estimate as well as
+    a nice formatting method for covariance matrices.}
+<<label=CovControl-CovRobust>>=
+##
+## Specify some estimation parameters through a control object.
+##  The last command line illustrates the accessor method
+##  for getting the correlation matrix of the estimate
+##  as well as a nice formatting method for covariance
+##  matrices.
+##
+    data("toxicity")
+    ctrl <- CovControlOgk(smrob = "s_mad", svrob = "qc")
+    est <- CovRobust(toxicity, ctrl)
+    round(getCenter(est),2)
+    as.dist(round(getCorr(est), 2))
+@
+\ei
+\subsubsection{Visualization of the results}
+\label{oof-sec:cov-vis}
+The default plot accessed through the method \code{plot()} of class
+\code{CovRobust} is the Distance-Distance plot introduced by
+\citet{Rousseeuw-van-Zomeren}. An example of this graph, which plots
+the robust distances versus the classical Mahalanobis distances is
+shown in Figure~\ref{oof-fig:intro}. The dashed line represents the
+points for which the robust and classical distances are equal.
+The horizontal and vertical lines are drawn at values $x=y=\sqrt{\chi_{p,0.975}^2}$.
+Points beyond these lines can be considered as outliers and
+are identified by their labels.
+
+
+The other available plots are accessible either interactively or
+through the \code{which} parameter of the \code{plot()} method.
+The left panel of Figure~\ref{oof-fig:cov-lattice} shows
+an example of the distance plot in which robust and classical
+Mahalanobis distances are shown in parallel panels.
+The outliers have large robust distances and are identified by their labels.
+The right panel of Figure~\ref{oof-fig:cov-lattice} shows a Quantile-Quantile
+comparison plot of the robust and the classical Mahalanobis distances versus
+the square root of the quantiles of the chi-squared distribution.
+<<label=ex-cov-plot-lattice, echo=FALSE, fig=TRUE, results=hide, include=FALSE, width=12, height=6>>=
+##
+## Distance plot and Chi-square Q-Q plot of the robust and classical distances
+##  Lattice plots (currently not available in rrcov)
+##
+    library("lattice")
+    library("grid")
+    library("rrcov")
+
+    data("delivery")
+    X <- delivery[,1:2]
+
+    myPanel.dd <- function(x, y, subscripts, cutoff, ...) {
+        panel.xyplot(x, y, ...)
+        panel.abline(h=cutoff,lty="dashed")
+
+        n <- length(y)
+        id.n <- length(which(y>cutoff))
+        if(id.n > 0){
+            ind <- sort(y, index.return=TRUE)$ix
+            ind <- ind[(n-id.n+1):n]
+
+            xrange<-range(y)
+            adj <- (xrange[2]-xrange[1])/20
+            ltext(x[ind] + adj, y[ind] + adj, ind, cex=1.0)
+        }
+    }
+
+    myPanel.qchi <- function(x, y, subscripts, cutoff, ...) {
+        y <- sort(y, index.return=TRUE)
+        iy <- y$ix
+        y <- y$x
+        panel.xyplot(x, y, ...)
+        panel.abline(0,1,lty="dashed")
+
+        n <- length(y)
+        id.n <- length(which(y>cutoff))
+        if(id.n > 0){
+            ind <- (n-id.n+1):n
+
+            xrange<-range(y)
+            adj <- (xrange[2]-xrange[1])/50
+            ltext(x[ind] + adj, y[ind] + adj, iy[ind], cex=1.0)
+        }
+    }
+
+
+    n<-nrow(X)
+    p <- ncol(X)
+    cutoff <- sqrt(qchisq(0.975, p))
+
+    mm <- covMcd(X)
+    dd1 <- sqrt(mm$mah)                             # robust distances
+
+    vv<-cov.wt(X)
+    dd2 <- sqrt(mahalanobis(X,vv$center,vv$cov))    # classical distances
+
+    dd<-c(dd1,dd2)                                  # both robust and classical distances
+
+    gr  <- as.factor(c(rep(1,n), rep(2,n)))
+    levels(gr)[1] <- "Robust"
+    levels(gr)[2] <- "Classical"
+
+    qq  <- sqrt(qchisq(((1:n)-1/3)/(n+1/3), p))
+
+    ind.dd <- c(1:n, 1:n)
+    ind.qchi <- c(qq, qq)
+
+    dplot <- xyplot(dd~ind.dd|gr,
+                cutoff=cutoff,
+                panel = myPanel.dd,
+                xlab="Index",
+                ylab="Mahalanobis distance",
+                main="Distance Plot",
+                col = "darkred",
+                scales=list(cex=1.0))
+
+    qplot <- xyplot(dd~ind.qchi|gr,
+                cutoff=cutoff,
+                panel = myPanel.qchi,
+                xlab="Quantiles of the chi-squared distribution",
+                ylab="Mahalanobis distance",
+                main="Chi-Square QQ-Plot",
+                col = "darkred",
+                scales=list(cex=1.0))
+
+    plot(dplot, split = c(1, 1, 2, 1), more = TRUE)
+    plot(qplot, split = c(2, 1, 2, 1), more = FALSE)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-cov-plot-lattice}
+\caption{Distance plot and Chi-square Q-Q plot of the robust and classical distances.}
+\label{oof-fig:cov-lattice}
+\end{figure}
+\end{center}
+The next plot shown in Figure~\ref{oof-fig:cov-ellipse}
+presents a scatter plot of the data on which the 97.5\%
+robust and classical confidence ellipses are superimposed.
+Currently this plot is available only for bivariate data.
+The observations with distances larger than
+$\sqrt{\chi_{p,0.975}^2}$ are identified by their subscript.
+In the right panel of Figure~\ref{oof-fig:cov-ellipse} a \code{screeplot} of the \code{milk}
+data set is shown, presenting the robust and classical eigenvalues.
+<<label=ex-cov-plot-ellipse, echo=TRUE, fig=TRUE, results=hide, include=FALSE, width=12, height=6>>=
+##
+## a) scatter plot of the data with robust and classical confidence ellipses.
+## b) screeplot presenting the robust and classical eigenvalues
+##
+data("milk")
+usr<-par(mfrow=c(1,2))
+plot(CovMcd(delivery[,1:2]), which="tolEllipsePlot", classic=TRUE)
+plot(CovMcd(milk), which="screeplot", classic=TRUE)
+par(usr)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-cov-plot-ellipse}
+\caption{Robust and classical tolerance ellipse for the \code{delivery}
+data and robust and classical screeplot for the \code{milk} data.}
+\label{oof-fig:cov-ellipse}
+\end{figure}
+\end{center}
+\subsection{Principal component analysis}
+\label{oof-sec:pca} Principal component analysis is a widely
+used technique for dimension reduction achieved by finding a smaller
+number $q$ of linear combinations of the originally observed $p$
+variables and retaining most of the variability of the data. Thus
+PCA is usually aiming at a graphical representation of the data in a
+lower dimensional space. The classical approach to PCA measures the
+variability through the empirical variance and is essentially based on
+computation of eigenvalues and eigenvectors of the sample covariance
+or correlation matrix. Therefore the results may be extremely
+sensitive to the presence of even a few atypical observations in the
+data. These discrepancies will carry over to any subsequent analysis
+and to any graphical display related to the principal components
+such as the biplot.
+
+
+%%% Example - hbk data
+The following example in Figure~\ref{oof-fig:pca-hbk} illustrates the effect of
+outliers on the classical PCA. The data set \code{hbk} from the package
+\pkg{robustbase} consists of 75
+observations in 4 dimensions (one response and three explanatory
+variables) and was constructed by Hawkins, Bradu and Kass in 1984
+for illustrating some of the merits of a robust technique
+\citep[see][]{rousseeuw-leroy}. The first 10 observations are bad
+leverage points, and the next four points are good leverage points
+(i.e., their $\xv$ are outlying, but the corresponding $y$ fit the model
+quite well). We will consider only the X-part of the data.
+The left panel shows the plot of the scores on the first
+two classical principal components
+(the first two components account for more than
+98\% of the total variation). The outliers are identified as separate groups,
+but the regular points are far from the origin
+(where the mean of the scores should be located).
+Furthermore, the ten bad leverage points 1--10 lie within
+the 97.5\% tolerance ellipse and influence the classical
+estimates of location and scatter. The right panel
+shows the same plot based on robust estimates. We see
+that the estimate of the center is not shifted by the outliers
+and these outliers are clearly separated by the 97.5\% tolerance ellipse.
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+<<pca-ex-hbk, echo=FALSE, fig=TRUE, height=6, width=12>>=
+##
+## Principal Component Analysis example:
+##  Plot of the first two principal components of the
+##  Hawkins, Bradu and Kass data set: classical and robust
+##
+par(mfrow=c(1,2))
+pca <- PcaClassic(hbk.x, k=2)
+cpca <- list(center=c(0,0), cov=diag(pca@eigenvalues), n.obs=pca@n.obs)
+rrcov:::.myellipse(pca@scores, xcov=cpca, main="Classical",  xlab="PC1", ylab="PC2", ylim=c(-30,30), id.n=0)
+abline(v=0)
+abline(h=0)
+text(-29,6,labels="1-10", cex=0.8)
+text(-37,-13,labels="14", cex=0.8)
+text(-31,-5,labels="11-13", cex=0.8)
+hub <- PcaHubert(hbk.x, k=2, mcd=TRUE)
+chub <- list(center=c(0,0), cov=diag(hub@eigenvalues), n.obs=hub@n.obs)
+rrcov:::.myellipse(hub@scores, xcov=chub, main="Robust (MCD)", xlab="PC1", ylab="PC2", xlim=c(-10,45), ylim=c(-25,15), id.n=0)
+abline(v=0)
+abline(h=0)
+text(30,-9,labels="1-10", cex=0.8)
+text(36,-11,labels="11", cex=0.8)
+text(42,-4,labels="12", cex=0.8)
+text(41,-11,labels="13", cex=0.8)
+text(44,-15,labels="14", cex=0.8)
+@
+\caption{Plot of the first two principal components of the Hawkins, Bradu and Kass data set: classical and robust.}
+\label{oof-fig:pca-hbk}
+\end{figure}
+\end{center}
+
+PCA was probably the first multivariate technique subjected to
+robustification, either by simply computing the eigenvalues and
+eigenvectors of a robust estimate of the covariance matrix or
+directly by estimating each principal component in a robust manner.
+Different approaches to robust PCA are briefly presented in the next
+subsections with the emphasis on those methods which are available
+in the framework. Details about the methods and algorithms can be
+found in the corresponding references. The object model is described and examples are given.
+\subsubsection{PCA based on robust covariance matrix (MCD, OGK, MVE, etc.)}
+The most straightforward and intuitive method to obtain robust PCA
+is to replace the classical estimates of location and covariance
+by their robust analogues. In the earlier works M~estimators
+of location and scatter were used for this purpose
+\citep[see][]{devlin:81, campbell:80} but these estimators have
+the disadvantage of low breakdown point in high dimensions. To cope
+with this problem \citet{naga:1990} used the MVE estimator and
+\citet{todorov-compstat:94} used the MCD estimator.
+\citet{croux-Haesbroeck:2000} investigated the properties of the MCD
+estimator and computed its influence function and
+efficiency.
+
+
+The package \pkg{stats} in base \proglang{R} contains the function
+\code{princomp()} which performs a principal components analysis on
+a given numeric data matrix and returns the results as an object of
+\proglang{S}3 class \code{princomp}. This function has a parameter
+\code{covmat} which can take a covariance matrix, or a covariance
+list as returned by \code{cov.wt}, and if supplied, it is used rather
+than the covariance matrix of the input data. This allows to obtain
+robust principal components by supplying the covariance matrix
+computed by \code{cov.mve} or \code{cov.mcd} from the package
+\pkg{MASS}. One could ask why is it then necessary to include such
+type of function in the framework (since it already exists in the base package).
+The essential value added of the
+framework, apart from implementing many new robust multivariate
+methods is the unification of the interfaces by leveraging the
+object orientation provided by the \proglang{S}4 classes and
+methods. The function \code{PcaCov()} computes robust PCA by
+replacing the classical covariance matrix with one of the robust
+covariance estimators available in the framework---MCD, OGK, MVE,
+M, S or Stahel-Donoho, i.e., the parameter \code{cov.control} can be any object of a class
+derived from the base class \code{CovControl}. This control class will be used to compute a robust estimate of the covariance matrix. If this parameter is omitted, MCD will be used by default.
+Of course any newly developed
+estimator following the concepts of the framework can be used as
+input to the function \code{PcaCov()}.
+\subsubsection{Projection pursuit methods}
+The second approach to robust PCA uses \textit{projection pursuit}
+(PP) and calculates directly the robust estimates of the eigenvalues
+and eigenvectors. Directions are seeked for, which maximize the
+variance (classical PCA) of the data projected onto them. Replacing
+the variance with a robust measure of spread yields robust PCA. Such
+a method was first introduced by \citet{li:1985} using an
+M~estimator of scale $S_n$ as a \textit{projection index (PI)}. They
+showed that the PCA estimates inherit the robustness properties of
+the scale estimator $S_n$. Unfortunately, in spite of the good
+statistical properties of the method, the algorithm they proposed
+was too complicated to be used in practice. A more tractable
+algorithm in these lines was first proposed by
+\citet{croux-Ruiz-Gazen:1996} and later improved by
+\citet{croux-Ruiz-Gazen:2005}. To improve the performance of the
+algorithm for high dimensional data a new improved version was
+proposed by \citet{croux-filzmoser-oliveira-pppca}. The latter two
+algorithms are available in the package \pkg{pcaPP}
+\citep[see][]{filzmoser-pcaPP} as functions \code{PCAproj()} and
+\code{PCAgrid()}.
+
+
+In the framework these methods are represented by the classes
+\code{PcaProj} and \code{PcaGrid}. Their generating functions
+provide simple wrappers around the original functions from
+\pkg{pcaPP} and return objects of the corresponding
+class, derived from \code{PcaRobust}.
+
+
+A major advantage of the PP-approach is that it searches for the
+eigenvectors consecutively and in case of high dimensional data when
+we are interested in only the first one or two principal components
+this results in reduced computational time. Even more, the
+PP-estimates cope with the main drawback of the covariance-based
+estimates---they can be computed for data matrices with more
+variables than observations.
+\subsubsection{Hubert method (ROBPCA)}
+The PCA method proposed by \citet{hubert-ROBPCA:2005} tries to
+combine the advantages of both approaches---the PCA based on a
+robust covariance matrix and PCA based on projection pursuit. A
+brief description of the algorithm follows, for details see the
+relevant references \citep{hubert:2008}.
+
+
+Let $n$ denote the number of observations, and $p$ the number of
+original variables in the input data matrix $\v{X}$. The ROBPCA
+algorithm finds a robust center $\mv$ of the data and a loading matrix
+$\v{P}$ of dimension $p \times k$. Its columns are orthogonal and
+define a new coordinate system. The scores $\v{T}$, an $n \times k$
+matrix, are the coordinates of the centered observations with
+respect to the loadings:
+\begin{equation}
+\label{oof-eq:pca-scores}
+\v{T}=(\v{X}-\v{1}\mv^{\top})\v{P}
+\end{equation}
+where $\v{1}$ is a column vector with all $n$ components equal to 1.
+The ROBPCA algorithm yields also a robust covariance matrix (often
+singular) which can be computed as
+\begin{equation}
+\label{oof-eq:pca-S}
+\v{S}=\v{PLP}^{\top}
+\end{equation}
+where $\v{L}$ is the diagonal matrix with the eigenvalues $l_1,
+\dots, l_k$. This is done in the following three main steps:
+\paragraph{Step 1:} The data are preprocessed by reducing their
+data space to the subspace spanned by the $n$ observations. This is
+done by singular value decomposition of the input data matrix. As a
+result the data are represented in a space whose dimension is $rank(\v{X})$,
+being at most $n-1$ without loss of information.
+
+\paragraph{Step 2:} In this step a measure of outlyingness is computed
+for each data point. For this purpose the data points are projected on
+the $n(n-1)/2$ univariate directions through each two points. If $n$
+is too large,  \code{maxdir} directions are chosen at random (\code{maxdir}
+defaults to 250 but can be changed by the user). On every direction
+the univariate MCD estimator of location and scale is computed and
+the standardized distance to the center is measured. The largest
+of these distances (over all considered directions) is the outlyingness
+measure of the data point. The $h$ data points with smallest
+outlyingness measure are used to compute the covariance matrix
+$\v{\Sigma}_h$ and to select the number $k$ of principal components
+to retain. This is done by finding $k$ such that $l_k/l_1
+\ge 10^{-3}$ and $\Sigma_{j=1}^k l_j/\Sigma_{j=1}^r l_j \ge 0.8$.
+Alternatively the number of principal components $k$ can be
+specified by the user after inspecting the scree plot.
+\paragraph{Step 3:} The data points are projected on the
+$k$-dimensional subspace spanned by the $k$ eigenvectors
+corresponding to the largest $k$ eigenvalues of the matrix
+$\v{\Sigma}_h$. The location and scatter of the projected data are
+computed using the reweighted MCD estimator, and the eigenvectors of
+this scatter matrix yield the robust principal components.
+\subsubsection{Spherical principal components (SPC)}
+The spherical principal components procedure was first proposed by
+\cite{locantore:1999} as a method for functional data analysis. The idea
+is to perform classical PCA on the data, projected onto a unit
+sphere. The estimates of the eigenvectors are consistent if the data
+are elliptically distributed \cite[see][]{boente-fraiman:1999} and
+the procedure is extremely fast. Although not much is known about
+the efficiency of this method, the simulations of
+\cite{maronna:2005} show that it has very good performance. If each
+coordinate of the data is normalized using some kind of robust
+scale, like for example the MAD, and then SPC is applied, we obtain
+``elliptical PCA'', but unfortunately this procedure is not
+consistent.
+\subsubsection{Object model for robust PCA and examples}
+\label{oof-sec:pca-objmodel}
+The object model for the \proglang{S}4
+classes and methods implementing the principal component analysis
+methods follows the proposed class hierarchy given in
+Section~\ref{oof-sec:objmodel} and is presented in
+Figure~\ref{fig:uml-pca}.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=\textwidth]{PcaModel}
+\caption{Object model for robust Principal Component Analysis.}
+\label{fig:uml-pca}
+\end{center}
+\end{figure}
+The abstract class \code{Pca} serves as a base class for deriving all classes
+representing classical and robust principal components analysis methods. It
+defines the common slots and the corresponding accessor methods, provides
+implementation for the general methods like \code{show()}, \code{plot()},
+\code{summary()} and \code{predict()}. The slots of \code{Pca} hold some input or
+default parameters like the requested number of components as well as the
+results of the computations: the eigenvalues, the loadings
+and the scores. The \code{show()} method presents brief results of the
+computations, and the \code{predict()} method projects the
+original or new data to the space spanned by the principal components.
+It can be used either with new observations or with the scores (if no new data are
+provided). The \code{summary()} method returns an object of class
+\code{SummaryPca} which has its own \code{show()} method. As in the other
+sections of the framework these slots and methods are defined and documented
+only once in this base class and can be used by all derived classes. Whenever
+new information (slots) or functionality (methods) are necessary, they can be defined
+or redefined in the particular class.
+
+
+Classical principal component analysis is represented by the
+class \code{PcaClassic} which inherits directly from \code{Pca} (and
+uses all slots and methods defined there). The function
+\code{PcaClassic()} serves as a constructor (generating function) of
+the class. It can be called either by providing a data frame or
+matrix or a formula with no response variable, referring only to
+numeric variables. Let us consider the following simple example with
+the data set \code{hbk} from the package \pkg{robustbase}. The code line
+\begin{Scode}
+R> PcaClassic(hbk.x)
+\end{Scode}
+can be rewritten as (and is equivalent to) the following code line using the
+formula interface
+\begin{Scode}
+R> PcaClassic(~ ., data = hbk.x)
+\end{Scode}
+The function \code{PcaClassic()} performs the standard principal
+components analysis and returns an object of the class
+\code{PcaClassic}.
+
+<<label=pca-classic, echo=TRUE, fig=FALSE, >>=
+##
+## Classical PCA
+##
+pca <- PcaClassic(~., data=hbk.x)
+pca
+summary(pca)
+plot(pca)
+getLoadings(pca)
+@
+The \code{show()} method displays the standard deviations of
+the resulting principal components, the loadings and the original call.
+The \code{summary()} method presents the importance of
+the calculated components.
+The \code{plot()} draws a PCA diagnostic plot which is shown and described later.
+The accessor functions like \code{getLoadings()}, \code{getEigenvalues()}, etc.
+are used to access the corresponding slots, and \code{predict()} is used to rotate
+the original or new data to the space of the principle components.
+
+
+Another abstract class, \code{PcaRobust} is
+derived from \code{Pca}, which serves as a base class for all robust
+principal components methods.
+
+
+The classes representing robust PCA methods like
+\code{PcaHubert}, \code{PcaLocantore}, etc. are  derived from
+\code{PcaRobust} and provide implementation for the corresponding
+methods. Each of the constructor functions \code{PcaCov()},
+\code{PcaHubert()}, \code{PcaLocantore()}, \code{PcaGrid()} and
+\code{PcaProj()} performs the necessary computations and returns an
+object of the class containing the results. In the following
+example the same data are analyzed using the projection pursuit
+method \code{PcaGrid()}.
+<<label=pca-robust, echo=TRUE, fig=FALSE, >>=
+##
+## Robust PCA
+##
+rpca <- PcaGrid(~., data=hbk.x)
+rpca
+summary(rpca)
+@
+Similar to the function \code{PcaClassic()},
+these functions can be called either with a data frame or matrix or
+by a formula interface.
+\subsubsection{Visualization of PCA results}
+\label{oof-sec:pca-vis}
+One of the most important applications of PCA, besides
+dimensionality reduction is data visualization. In the framework
+several plots for visualizing the results of the
+analysis are available. The \code{plot()} methods are implemented in the base
+class \code{Pca} and thus they are available for all objects derived from the class \code{Pca}
+no matter if classical and robust. The most straightforward plot is the
+\textit{screeplot} which plots the variances against the number of
+principal components (similar to the screeplot for the standard
+\code{prcomp()} and \code{princomp()} functions). It is a useful tool
+for determining the number of relevant principal components. An example
+of the classical and robust screeplot for the \code{milk} data from
+\pkg{robustbase} is shown in Figure~\ref{oof-fig:pca-screeplot}.
+
+<<label=ex-pca-plot-screeplot, echo=TRUE, fig=TRUE, results=hide, include=FALSE, height=6, width=12, keep.source=TRUE>>=
+##
+## Screeplot for classical and robust PCA of the milk data set.
+##
+usr <- par(mfrow=c(1,2))
+screeplot(PcaClassic(milk), type="lines",
+main="Screeplot: classical PCA", sub="milk data")
+screeplot(PcaHubert(milk), type="lines", main="Screeplot: robust PCA",
+sub="milk data")
+par(usr)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-pca-plot-screeplot}
+\caption{Screeplot for classical and robust PCA of the \code{milk} data set.}
+\label{oof-fig:pca-screeplot}
+\end{figure}
+\end{center}
+Another plot borrowed from standard \proglang{R} is the \textit{biplot}.
+The biplot \citep{gabriel} represents both the observations and variables in the plane of
+(the first) two principal components allowing the visualization of
+the magnitude and sign of each variable's contribution to
+these principal components. Each observation
+(row of scores) is represented as a point in the biplot and each
+variable is represented as an arrow. The arrows graphically
+indicate the proportion of the original variance explained by
+the (first) two principal components and their direction indicates
+the relative loadings on these components.
+Figure~\ref{oof-fig:pca-biplot} shows an example of the
+robust biplot of the \code{un86} data set which contains seven socioeconomic
+variables observed for 73 countries. The data set is from
+World Statistics in Brief, Number 10, a 1986 UN publication.
+It was used in \citet{Daigle:1992} to illustrate a robust biplot method.
+<<label=ex-pca-plot-biplot, fig=TRUE, include=FALSE, keep.source=TRUE, height=6, width=12>>=
+##
+## Robust biplot for the UN86 data
+##
+data("un86")
+set.seed(9)
+
+usr<-par(mfrow=c(1,2))
+biplot(PcaCov(un86, corr=TRUE, cov.control=NULL),
+main="Classical biplot", col=c("gray55", "red"))
+biplot(PcaCov(un86, corr=TRUE), main="Robust biplot",
+col=c("gray55", "red"))
+par(usr)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-pca-plot-biplot}
+\caption{Classical (left panel) and robust (right panel) biplot for the \code{UN86} data.}
+\label{oof-fig:pca-biplot}
+\end{figure}
+\end{center}
+%% diagnostic plot (outlier map)
+In the context of PCA \citet{hubert-ROBPCA:2005} defined a \textit{diagnostic
+plot} or \textit{outlier map} which helps to distinguish between the regular
+observations and the different types of outliers. This plot is based on the
+\textit{score distances} and \textit{orthogonal distances} computed for each
+observation. The score distances are given by
+\begin{equation}
+\label{oof-eq:pca-SD} SD_i=\sqrt{\sum_{j=1}^k{\frac{t_{ij}^2}{l_j}}},~~~~
+i=1,\ldots,n
+\end{equation}
+where $t_{ij}$ are the elements of the scores from (\ref{oof-eq:pca-scores}) and
+$l_j$ are the eignevalues (the diagonal elements of the matrix
+$\v{L}$ in (\ref{oof-eq:pca-S})). The orthogonal distances $OD_i$ of
+each observation to the subspace spanned by the first $k$ ($1\le k
+\le r$, $r$ is the rank of the data) principal components are
+defined by
+\begin{equation}
+\label{oof-eq:pca-OD} OD_i=||\xv_i - \hat{\muv} - \v{P}^{(k)}\tv_i^{(k)}||,~~~~
+i=1,\ldots,n
+\end{equation}
+where $\xv_i$ denotes the $i$th observation, $\hat{\muv}$ is the
+estimated center of the data, $\tv_i^{(k)}$ is the $i$th score
+vector in the space of the first $k$ principal components and the
+matrix $\v{P}^{(k)}$ contains the first $k$ estimated eigenvectors in its columns.
+The diagnostic plot is constructed by plotting the score distances
+on the horizontal axis, the orthogonal distances on the vertical
+axis and drawing two cutoff lines which will help to classify the
+observations. The cutoff value on the horizontal axis (for the score
+distances) is taken as the 97.5\% quantile of $\chi_k^2$
+distribution, i.e., $c_h=\sqrt{\chi^2_{k,0.975}}$. For the cutoff
+value on the vertical axis (for the orthogonal distances)
+the Wilson-Hilferty transformation for a $\chi^2$ distribution
+is used (which assumes that the $OD_i$ to the power of 2/3 are approximately
+normally distributed). The parameters $\mu$ and $\sigma$ of the
+normal distribution can be estimated by the median and MAD of the
+values $OD_i^{2/3}$, and the critical value can be taken as
+$c_v=(\hat{\mu} + \hat{\sigma}z_{0.975})^{3/2}$ where $z_{0.975}$ is
+the the 97.5\% quantile of the standard normal distribution.
+
+
+An example of the classical and robust diagnostic plot for the
+\code{hbk} data set from \pkg{robustbase}
+is shown in Figure~\ref{oof-fig:pca-diagplot}.
+
+<<label=ex-pca-plot-diagplot, echo=TRUE, fig=TRUE, results=hide, include=FALSE, height=6, width=12>>=
+##
+## An example of the classical and robust diagnostic
+##  plot for the hbk data set
+##
+usr<-par(mfrow=c(1,2))
+plot(PcaClassic(hbk.x, k=2), sub="data set: hbk, k=2")
+plot(PcaHubert(hbk.x, k=2), sub="data set: hbk, k=2")
+par(usr)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-pca-plot-diagplot}
+\caption{Classical and robust diagnostic plot for the \code{hbk} data with $k=2$.}
+\label{oof-fig:pca-diagplot}
+\end{figure}
+\end{center}
+If $k=p$ the orthogonal distances are not meaningful and the diagnostic
+plot shows a simple distance plot of the score distances (distances vs index). An
+example is shown in Figure~\ref{oof-fig:pca-distplot}.
+<<label=ex-pca-plot-distplot, echo=TRUE, fig=TRUE, results=hide, include=FALSE, height=6, width=12>>=
+##
+## If k=p the orthogonal distances are not meaningful and
+##  simple distance plot of the score distances will be shown
+##
+usr<-par(mfrow=c(1,2))
+plot(PcaClassic(hbk.x, k=3), sub="data set: hbk.x, k=3")
+plot(PcaHubert(hbk.x, k=3), sub="data set: hbk.x, k=3")
+par(usr)
+@
+\begin{center}
+\begin{figure}[h!]
+\setkeys{Gin}{width=1.0\textwidth}
+\includegraphics{ooframework-ex-pca-plot-distplot}
+\caption{Classical and robust diagnostic plot for the x-part of the \code{hbk} data set with $k=3=p$.}
+\label{oof-fig:pca-distplot}
+\end{figure}
+\end{center}
+\subsection{Linear and quadratic discriminant analysis}
+\label{oof-sec:lda}
+The problem of discriminant analysis arises when
+one wants to assign an individual to one of $g$ populations at the
+basis of a $p$-dimensional feature vector $\xv$. Let the
+$p$-dimensional random variable $\xv_k$ come from a population
+$\pi_k$ with underlying density $\v{f}_k$. Further let the prior
+probability of group $k$, i.e., the probability that an individual
+comes from population $\pi_k$ be $\alpha_k$, $\Sigma_{k=1}^g
+\alpha_k = 1$. The prior probabilities $\alpha_k$ are usually
+estimated by the empirical frequencies $n_k$ in the $k$-th group of the training set, i.e.,
+$\hat{\alpha}_k=n_k/\Sigma_{j=1}^gn_j$. Then the Bayesian
+discriminant rule assigns an observation $\xv$ to that population
+$\pi_k$ for which the expression $\ln(\alpha_k \v{f}_k(\xv))$ is
+maximal over all groups $k=1,\ldots,g$. Usually it is assumed that
+the $k$ populations $\pi_k$ are $p$-dimensional normally distributed,
+\begin{equation}
+\label{oof-eq:discrim-distr}
+\pi_k \sim N({\muv}_k,\v{\Sigma}_k)~~~~~k=1,\ldots,g.
+\end{equation}
+With this assumption the discriminant
+rule is equivalent to maximizing the discriminant scores
+$D_k(\xv)$ given by
+\begin{equation}
+\label{oof-eq:QDA}
+D_k(\xv) = -\frac{1}{2}\ln|\v{\Sigma}_k| -
+\frac{1}{2}(\xv-\muv_k)^{\top}\v{\Sigma}_k^{-1}(\xv-\muv_k) +
+\ln(\alpha_k)~~~~~(k=1,\ldots,g),
+\end{equation}
+and individual $\xv$ is assigned to $\pi_k$ if
+\begin{equation}
+\label{oof-eq:QDA-rule}
+D_k(\xv)=\arg\max_j D_j(\xv).
+\end{equation}
+The application of the discrimination rule given by
+Equations~(\ref{oof-eq:QDA}) and (\ref{oof-eq:QDA-rule}) is referred
+to as quadratic discriminant analysis (QDA), since the groups are
+separated by quadratic boundaries.
+
+
+If it is further assumed that all group covariance matrices are equal
+$(\v{\Sigma}_{1}= \ldots= \v{\Sigma}_g=\v{\Sigma})$, then the overall
+probability of misclassification is minimized by assigning a new
+observation $\xv$ to population $\pi_k$ which maximizes
+\begin{equation}
+\label{oof-eq:LDA}
+%%%%%%%%d_k(\xv)=\frac{1}{2}(\xv-\muv_k)^{\top}\v{\Sigma}^{-1}(\xv-\muv_k) + \ln(\alpha_k)~~~~~(k=1,\ldots,g).
+d_k(\xv)=\xv^{\top}\v{\Sigma}^{-1}\muv_k -
+\frac{1}{2}\muv_k^{\top}\v{\Sigma}^{-1}\muv_k +
+\ln(\alpha_k)~~~~~(k=1,\ldots,g).
+\end{equation}
+The application of the discriminant rule given by
+Equation~(\ref{oof-eq:LDA}) is referred to as linear discriminant
+analysis (LDA), since the scores $d_k(\xv)$ are linear in $\xv$.
+
+
+If the means $\muv_k, k=1,\ldots,g$, and the common covariance
+matrix $\v{\Sigma}$ are unknown, which is usually the case, a
+training set consisting of samples drawn from each of the
+populations is required. In classical QDA and LDA the sample group
+means and sample covariance matrices are used to estimate $\muv_k$,
+$\v{\Sigma}_k$ and $\v{\Sigma}$. The prior probabilities can    be
+estimated by the relative frequencies of observations in each
+particular group. Both QDA and LDA using the classical estimates in
+(\ref{oof-eq:QDA}) and (\ref{oof-eq:LDA}) are vulnerable to the
+presence of outliers. The problem of the non-robustness of the
+classical estimates in the setting of the quadratic and linear
+discriminant analysis has been addressed by many authors:
+\citet*{todorov:90, todorov:94} replaced the classical estimates by
+MCD estimates; \citet*{chork} used MVE instead; \citet*{hawkins:97}
+defined the minimum within-group covariance determinant estimator (MWCD)
+especially for the case of linear discriminant analysis;
+\citet*{he:2000} and \citet*{croux-dehon:01} used S~estimates;
+\citet*{hubert:04} applied the MCD estimates computed by the FAST-MCD
+algorithm. For a recent review and comparison of these methods
+see \citet{todorov-roblda}.
+
+
+A robust version of quadratic
+discriminant analysis can be obtained by substituting the parameters
+$\muv_k$, $\v{\Sigma}_k$ by their robust estimates. For this purpose
+the reweighted MCD estimates, S~estimates or OGK can be used. In the
+case of linear discriminant analysis a robust version of the common
+covariance matrix $\v{\Sigma}$ is necessary. There are several
+methods for estimating the common covariance matrix based on a high
+breakdown point estimator which are considered in one of the next
+subsections.
+\subsubsection{Object model for robust LDA and QDA}
+The object model for the \proglang{S}4 classes and methods implementing the
+linear and quadratic discriminant analysis methods follows the proposed class
+hierarchy given in Section~\ref{oof-sec:objmodel} and is presented in
+Figure~\ref{fig:uml-lda-qda}.
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=\textwidth]{DAModel}
+\caption{Object models for robust linear discriminant analysis
+and quadratic discriminant analysis.} \label{fig:uml-lda-qda}
+\end{center}
+\end{figure}
+The abstract classes \code{Lda} and \code{Qda} serve as base classes
+for deriving all classes representing classical and robust methods
+for linear and quadratic discriminant analysis methods. They define
+the common slots and the corresponding accessor methods, provide
+implementation for the general methods like \code{show()},
+\code{plot()}, \code{summary()} and \code{predict()}. This base
+classes also host several utility functions which are not directly
+exported but are documented and can be used by quoting the
+namespace. The slots of \code{Lda} hold some input or default
+parameters like the prior probabilities, the original data matrix
+and the grouping variable as well as the results of the
+computations: the group means and the common covariance matrix, the
+linear discriminant functions and the corresponding constants. The
+\code{show()} method presents brief results of the computations, and
+\code{predict()} can be used either for classifying new observations
+or for the evaluation of the discriminant rules on the basis of the
+training sample. The method \code{predict()} returns an object of
+class \code{PredictLda} which has its own \code{show()} method to
+print the results of the classification or evaluation. The
+\code{summary()} method returns an object of class \code{SummaryLda}
+which has its own \code{show()} method. As in the other sections of
+the framework these slots and methods are defined and documented
+only once in this base class and can be used by all derived classes.
+Whenever new data (slots) or functionality (methods) are necessary,
+they can be defined or redefined in the
+particular class.
+
+
+Classical linear discriminant analysis is represented by the
+class \code{LdaClassic} which inherits directly from \code{Lda} (and
+uses all slots and methods defined there). The function
+\code{LdaClassic()} serves as a constructor (generating function) of
+the class. It can  be called either by providing a data frame or
+matrix and a grouping variable (factor) or a formula specifying the
+model to be used. Let us consider the following simple example with
+the data set \code{diabetes}: the grouping
+variable is \code{diabetes$group} and the three explanatory variables 
+are \code{glucose}, \code{insulin} and \code{sspg}. The code
+\begin{Scode}
+R> x <- diabetes[, c("glucose", "insulin", "sspg")]
+R> grpvar <- diabetes$group
+R> LdaClassic(x, grpvar)
+\end{Scode}
+can be rewritten as (and is equivalent to) the following code using
+the formula interface:
+\begin{Scode}
+R> LdaClassic(group ~ ., data = diabetes)
+\end{Scode}
+
+The function \code{LdaClassic()} performs standard linear
+discriminant analysis and returns an object of class
+\code{LdaClassic}. Another abstract class, \code{LdaRobust} is
+derived from \code{Lda}, which serves as a base class for all robust
+linear discriminant analysis methods. The only slot added in this
+class is
+a character variable specifying the robust method to be used.
+
+
+The class \code{Linda} is derived from \code{LdaRobust} and provides
+implementation for all methods for robust LDA currently available
+in the framework. If we wanted to be precisely object oriented, we
+should define a separate class for each robust method---for example
+\code{LdaRobustMcd}, \code{LdaRobustFsa}, etc. but this would lead
+to explosion of the necessary code and documentation. The
+constructor function \code{Linda()} takes a character parameter
+\code{method} specifying which robust location and scatter
+estimator to use and how to compute the common covariance matrix
+and returns an object of class \code{Linda}. Similarly as the function \code{LdaClassic()},
+\code{Linda()} can be called either with a data matrix and grouping
+variable or by a formula interface.
+\subsubsection{Computing the common covariance matrix}
+\label{oof-sec:common-cov} The easiest way to estimate the common
+covariance matrix $\v{\Sigma}$ is to obtain the estimates of the
+group means $\muv_k$ and group covariance matrices $\v{\Sigma}_k$
+from the individual groups as $(\mv_k,\v{C}_k), k=1,\ldots,g$,
+and then pool the estimates $\v{C}_k,
+k=1,\ldots,g$ to yield the common covariance matrix
+\begin{equation}
+\v{C} = {\sum_{k=1}^g{n_k\v{C}_k} \over \sum_{k=1}^g{n_k-g}}.
+\end{equation}
+This method, using MVE and MCD estimates, was proposed by
+\citet{todorov:90, todorov:94} and was also used, based on the MVE
+estimator by \citet*{chork}. \newline \citet*{croux-dehon:01} applied this
+procedure for robustifying linear discriminant analysis based on S~estimates.
+A drawback of this method is that the same trimming
+proportions are applied to all groups which could lead to a loss of
+efficiency if some groups are outlier free. We will denote this
+method as ``$A$'' and the corresponding estimator as XXX-A. For example,
+in the case of the MCD estimator this will be MCD-A.
+
+
+Another method was proposed by \citet*{he:2000} for the S~estimates
+and was later adapted by \citet*{hubert:04} for the MCD estimates.
+Instead of pooling the group covariance matrices, the observations
+are centered and pooled to obtain a single sample for which the
+covariance matrix is estimated. It starts by obtaining the
+individual group location estimates $\tv_k, k=1,\ldots,g$, as the
+reweighted MCD location estimates of each group. These group means
+are swept from the original observations $\xv_{ik}~(i=1,\ldots,n_k;~k=1,\ldots,g)$
+to obtain the centered observations
+\begin{eqnarray}
+\v{Z} = \{\zv_{ik}\}, ~~~~~\zv_{ik} = \xv_{ik} - \tv_k.
+\end{eqnarray}
+The common covariance matrix $\v{C}$ is estimated as the reweighted
+MCD covariance matrix of the centered observations $\v{Z}$. The
+location estimate $\deltav$ of $\v{Z}$ is used to adjust the group
+means $\mv_k$ and thus the final group means are
+\begin{equation}
+\mv_k = {\tv_k + \deltav}.
+\end{equation}
+This process could be iterated until convergence, but since the
+improvements from such iterations are negligible \citep[see][]{
+he:2000, hubert:04} we are not going to use it. This method will be
+denoted by ``$B$'' and as already mentioned, the corresponding estimator
+as XXX-B, for example MCD-B.
+
+
+The third approach is to modify the algorithm for high breakdown
+point estimation itself in order to accommodate the pooled sample.
+\citet*{he:2000} modified Ruperts's SURREAL algorithm for S~estimation in case of two groups. \citet*{hawkins:97} defined the
+minimum within-group covariance determinant estimator which
+does not apply the same trimming proportion to each group but
+minimizes directly the determinant of the common within groups
+covariance matrix by pairwise swaps of observations. Unfortunately
+their estimator is based on the Feasible Solution Algorithm
+\citep[see][and the references therein]{hawkins:97}, which is
+extremely time consuming as compared to the FAST-MCD algorithm.
+\citet*{hubert:04} proposed a modification of this algorithm taking
+advantage of the FAST-MCD, but it is still necessary to compute the
+MCD for each individual group. This method will be denoted by
+MCD-C.
+
+
+Using the estimates $\mv^0_k$ and $\v{C}_0$ obtained by one of the
+methods, we can calculate the initial robust distances
+\citep{Rousseeuw-van-Zomeren}
+\begin{equation}
+RD^0_{ik}=
+\sqrt{(\xv_{ik}-\mv^0_k)^{\top}\v{C}_0^{-1}(\xv_{ik}-\mv^0_k)}.
+\end{equation}
+With these initial robust distances we can define a weight for each
+observation $\xv_{ik}, ~ i=1, \ldots , n_k$ and $k=1, \ldots, g$,
+by setting the weight to $1$ if the corresponding robust distance is
+less or equal to a suitable cut-off, usually
+$\sqrt{\chi^2_{p,0.975}}$, and to 0 otherwise, i.e.,
+\begin{equation}
+\label{oof-eq:mdiv} w_{ik} =
+\begin{cases}
+1&RD^0_{ik} \leq \sqrt{\chi^2_{p,0.975}} \\
+0&\text{otherwise}.\\
+\end{cases}
+\end{equation}
+With these weights we can calculate the final reweighted estimates
+of the group means, $\mv_k$, and the common within-groups
+covariance matrix, $\v{C}$, which are necessary for constructing the
+robust classification rules,
+\begin{eqnarray}
+\mv_k &=& (\sum^{n_k}_{i=1}{w_{ik}\xv_{ik}})/\nu_k, \nonumber\\
+\v{C} &=&
+\frac{1}{\nu-g}\sum^g_{k=1}\sum^{n_k}_{i=1}{w_{ik}(\xv_{ik}-\mv_k)(\xv_{ik}-\mv_k)^{\top}},
+\end{eqnarray}
+where $\nu_k$ are the sums of the weights within group $k$, for
+$k=1,\ldots,g$, and $\nu$ is the total sum of weights,
+\begin{equation}
+\nu_k =\sum^{n_k}_{i=1}{w_{ik}}, ~~~~\nu = \sum^{g}_{k=1}{\nu_k}.
+\nonumber
+\end{equation}
+
+\subsubsection{Evaluation of the discriminant rules}
+In order to evaluate and compare different discriminant rules, their
+discriminating power has to be determined in the classification of
+future observations, i.e., we need an estimate of the overall
+probability of misclassification. A number of methods to estimate
+this probability exists in the literature---see for example
+\citet{lachenbruch:1975}. The \textit{apparent error rate} (known
+also as resubstitution error rate or reclassification error rate) is
+the most straightforward estimator of the actual error rate
+in discriminant analysis and is calculated by applying the
+classification criterion to the same data set from which it was
+derived. The number of misclassified observations for each group is
+divided by the group sample size. An estimate of the apparent error
+rate is calculated by the method \code{predict()} of the class
+\code{Lda}. Examples are given in the next section.
+
+
+It is well known that this method is too optimistic (the true error
+is likely to be higher). If there are plenty of observations in each
+class, the error rate can be estimated by splitting the data into
+training and validation set. The first one is used to estimate the
+discriminant rules and the second to estimate the misclassification
+error. This method is fast and easy to apply but it is wasteful of
+data. Another method is the
+\textit{leave-one-out} \textit{cross-validation}
+\citep{lachenbruch-michey:68} which proceeds by removing one
+observation from the data set, estimating the discriminant rule,
+using the remaining $n-1$ observations and then classifying this
+observation with the estimated discriminant rule. For the classical
+discriminant analysis there exist updating formulas which avoid the
+re-computation of the discriminant rule at each step, but no such
+formulas are available for the robust methods. Thus the estimation
+of the error rate by this method can be very time consuming
+depending on the size of the data set. Nevertheless, \pkg{rrcov}
+provides an (internal, not exported) function \code{rrcov:::.CV()}
+which calculates the leave-one-out cross-validation error rate by ``brute force'',
+but the user should be aware that its usage is appropriate only for
+moderate data sets. An improvement will be the implementation of a
+cross-validation technique similar to the one proposed by
+\citet{hubert:2007-CV}.
+
+\subsubsection{Example: Diabetes data}
+\label{oof:sec-diabetes} As an example for demonstrating the usage
+of the robust discriminant analysis classes and methods we use the
+\code{diabetes} data set, which was analyzed by \citet*{reaven-miller} in an
+attempt to examine the relationship between chemical diabetes and
+overt diabetes in 145 nonobese adult subjects. Their analysis was
+focused on three primary variables and the 145 individuals were
+classified initially on the basis of their plasma glucose levels
+into three groups: normal subjects, chemical diabetes and overt
+diabetes. This data set was also analyzed by \citet*{hawkins:97} in
+the context of robust linear discriminant analysis. The data set
+is available in several \proglang{R} packages: \code{diabetes} in package
+\pkg{mclust} \citep{mclust}, \code{chemdiab} in package \pkg{locfit} \citep{locfit} and
+\code{diabetes.dat} in \pkg{Rfwdmv} \citep{Rfwdmv}. We are going to use the one
+from \pkg{mclust} in which the value of the second variable,
+$insulin$, on the 104th observation, is 45 while for the other data
+sets this value is 455 (note that 45 is more
+likely to be an outlier in this variable than 455).
+
+
+We start with bringing the data set \code{diabetes} from package
+\pkg{mclust} into the workspace by typing
+<<lda-prelim>>=
+data("diabetes")
+@
+Using the package \pkg{lattice} \citep{Sarkar:2008} we produce a three dimensional
+cloud plot of the data (Figure~\ref{lda-cloud}).
+<< lda-cloud, fig=FALSE>>=
+library("lattice")    # load the graphical library
+
+## set different plot symbols - important for black-and-white print
+sup.sym <- trellis.par.get("superpose.symbol")
+sup.sym$pch <- c(1,2,3,4,5)
+trellis.par.set("superpose.symbol", sup.sym)
+cloud.plt <- cloud(insulin ~ glucose + sspg, groups = group, data = diabetes, auto.key=TRUE)
+@
+\begin{center}
+\begin{figure}[h!]
+<< lda-cloud-fig, fig=TRUE>>=
+print(cloud.plt)
+@
+\caption{Three dimensional scatter plot of the \code{diabetes} data.}
+\label{lda-cloud}
+\end{figure}
+\end{center}
+We will first apply the classical linear discriminant analysis as implemented in \code{LdaClassic()}
+by the formula interface of the function---the grouping variable is \code{class}
+and all the remaining variables in \code{diabetes} are used as predictor variables.
+The \code{show()} method will present the results of the computations:
+the group means, the (common) within group covariance matrix,
+the linear discriminant functions together with the corresponding constants.
+The prior probabilities (either provided by the user or estimated as
+a proportion of the groups) are also presented.
+<< lda-classic>>=
+lda <- LdaClassic(group~glucose+insulin+sspg, data=diabetes)
+lda
+@
+Now the \code{predict()} method can be used on the \code{Lda} object
+(\code{Lda} is the base class for both \code{LdaClassic} and \code{LdaRobust}) in order to classify
+new observations. The method returns an object of class \code{PredictLda} which has its own \code{show()} method.
+If no new data are supplied, the training sample will be reclassified and a classification table will be produced
+to estimate the apparent error rate of the classification rules.
+<< lda-classic-predict>>=
+predict(lda)
+@
+Robust linear discriminant analysis can be performed in a similar way but using
+the function \code{Linda} (which will create an object of class \code{Linda}). As before
+the \code{predict()} method called without new data returns a classification
+table of the training subsample. Using
+the internal convenience function \code{rrcov:::.AER()}
+we can calculate and print the apparent error rate
+(which now is equal to 0.1103 and is lower than the obtained with the classical LDA 0.1310).
+<< lda-robust>>=
+rlda <- Linda(group~glucose+insulin+sspg, data=diabetes)
+rlda
+
+rlda.predict <- predict(rlda)
+cat("\nApparent error rate: ", round(rrcov:::.AER(rlda.predict@ct),4))
+@
+In the above example we did not specify which method for computing the
+common covariance matrix should be used (thus using the default
+method ``MCD-B'' described above).
+We could choose the method by providing the \code{method}
+parameter to the function \code{Linda()}. For example the following call
+\begin{Scode}
+R> rlda <- Linda(group~glucose+insulin+sspg, data = diabetes, method = "fsa")
+\end{Scode}
+will use the \citet*{hawkins:97} \textit{feasible solution algorithm} method.
+
+
+The variance-covariance structures of the three classes in the \code{diabetes}
+data set differ substantially and we can expect improved results if quadratic
+discriminant analysis is used. Robust quadratic discriminant analysis is
+performed by the function \code{QdaCov()} which will return an object of class \code{QdaCov}.
+<< qda-robust>>=
+rqda <- QdaCov(group~glucose+insulin+sspg, data=diabetes)
+rqda
+rqda.predict <- predict(rqda)
+cat("\nApparent error rate: ", round(rrcov:::.AER(rqda.predict@ct),4))
+@
+The accuracy of the prediction improves compared to the linear discriminant analysis.
+\section{Conclusions}
+\label{oof-sec:conclusions}
+In this paper we presented an object oriented framework for
+robust multivariate analysis developed in the \proglang{S}4 class
+system of the programming environment \proglang{R}. The main
+goal of the framework is to support the usage, experimentation,
+development and testing of robust multivariate methods as well as
+simplifying comparisons with related methods.
+It minimizes the effort for performing any of the following tasks:
+\bi
+\item{application of the already existing robust multivariate methods for practical data analysis;}
+\item{implementation of new robust multivariate methods or variants of the existing ones;}
+\item{evaluation of existing and new methods by carrying out comparison studies.}
+\ei
+A major design goal was the openness to extensions by the development
+of new robust methods in the package \pkg{rrcov} or in other
+packages depending on \pkg{rrcov}.
+Further classes implementing robust multivariate methods like
+principal component regression and partial least squares will
+follow but the user is encouraged to develop own methods using
+the proposed reusable statistical design patterns.
+\section*{Acknowledgements}
+We wish to express our thanks to the organizers of and participants in the
+``Robust Statistics and \proglang{R}'' workshops for the valuable comments and suggestions
+which were a major input for the development of this framework.
+We are also grateful to many people, notably Matias Salibian-Barrera, Victor Yohai,
+Kjell Konis, and Christophe Croux  for the provided code. The careful review and
+constructive comments of the editor and the anonymous reviewers helped us to
+substantially improve the manuscript.
+
+The views expressed herein are those of the authors and do not 
+necessarily reflect the views of the United Nations Industrial 
+Development Organization (UNIDO).
+
+\bibliography{mybiblio}
+\end{document}

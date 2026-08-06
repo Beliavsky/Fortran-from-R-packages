@@ -1,0 +1,695 @@
+2025-07-03  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-8
+    *
+    
+2025-04-10  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-7
+    *
+    * R/datadoc: removed a pipe in an example for ionosphere data set to avoid 
+    *   dependence on R 4.1.0
+    * R/*: added "#' @export" to many functions to satisfy roxygen2
+    
+2024-08-17  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-6
+    *
+    * R/plot-utils - a bug fixed in function .rrpairs()
+    * man/*: Correct Rd file(s) with Rd \link{} targets missing package anchors
+    * src/sest.cpp: Calloc() and Free() replaced by R_Calloc() and R_Free()
+    
+2024-01-30  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-5
+    *
+    * data/Cars.rda - data set added
+    * man/rrcov-utils.Rd: (mail from Kurt Hornik from 22.01.2024)
+    * man/fish.Rd: URL corrected
+    *   
+    
+2023-18-06  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-4
+    *
+    * DESCRIPTION: ISBN changed to <urn:isbn:978-3838108148> 
+    *    (mail from Kurt Hornik from 06.06.2023)
+    * tests/thubert.Rout.save, tlda.Rout.save, tmcd4.Rout.save, tqda.Rout.save:
+    *   Follow up to changes in robustbase 0.99-0
+    *   
+    
+2023-03-23  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-3
+    *
+    * data/ionosphere.rda - data set added
+    * R/CovRobust, plot_utils: 'xyqqchi2' and 'xydistance' plots, fixed to use of parameter id.n
+    *
+
+2022-10-22  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-2
+    *
+    * src/rrcov_init.c: Fixed -  warning: invalid UTF-8 in comment [-Winvalid-utf8]
+    *   see mail of K.Hornik from 17.10.2022
+    *
+
+2022-07-18  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-1
+    *
+    * R/CovMrcd.R: Fixed - maxcond passed to the low level functions
+    * R/detmrcd.R, plot_utils.R: Fixed errors "Found if() conditions comparing class() to string"
+    * man/PcaHubert.Rd: Fixed NOTE "Found the following math rendering problems", see
+    *   mail from Kurt Hornik from 11 August 2022
+    *
+
+2022-04-25  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-0
+    *
+    * src/covOPW.c - Fix for USE_FC_LEN_T becoming the default in 4.2.0
+    * src/ds11.f, fsada.f - fixed several Fortran warnings
+    *
+
+2022-02-08  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-2
+    *
+    * tests/thubert.R - minor differences in tests for PcaProj() on some platforms fixed
+    * Examples for PCA/adjustment for skewed data and PCA/percentage of explained
+    *   variance added
+    * R/Pca.R: scorePlot() improved to show the labels of the samples
+    *
+
+2022-01-28  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-1
+    *
+    * data/fruit.rda - data set added
+    *
+    * man/*.Rd - URLs replaced by DOI to fix for the migration of the www.jstatsoft.org
+    *   to a new editorial system (see mail from Achim Zeileis from 06.10.2021)
+    *
+    * R/Pca*.R - fixed a problem when showing the percentage of explained variance in
+    *   summary() of all PCA functions when k is chosen to be less than the number of variables in the
+    *   input data matrix (k < p). The returned object contains now additionally
+    *   the rank of the input matrix, the original eigenvalues (of all variables)
+    *   and the original total variance, if available.
+
+2021-09-15  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-0
+    *
+    * R/PcaHubert.R - option for adjusted outlyingness for skewed data added
+    * data/machines.rda - data set Computer Hardware added
+    * data/wolves.rda - data set 'wolves' added
+    * Fixed some URLs, particularly the reference to javasoft.org
+
+2020-08-03  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.5-5
+    *
+    * R/PcaHubert.R - PcaHubert will crash if X is 1-dimensional and mcd=FALSE: fixed
+    * R/PcaProj.R - fixed a problem with wrong scores (reported by Matthieu Lesnoff <matthieu.lesnoff@gmail.com>)
+    * R/CovMve.R, CovSest.R - fixed a problem with nsamp="exact" or nsamp="best"
+    *       (reported by Claudio Agostinelli) - these functions, differently from CovMcd,
+    *       should not take non-numeric 'nsamp'
+    * tests/tlda.R, togk4.R: fixed 'noLD' issues in tlda.R and okg4.R
+    *
+
+2020-01-14  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.5-2
+    *
+    * R/getEllipse.R - Removed the dependence on packages 'cluster' and 'ellipse'
+    * R/Linda - added parameter 'control' to select the robust location and
+    *   covariance estimator to use in LDA. Now any estimator derived from class 'Cov'
+    *   can be used, even such that are not in 'rrcov'. Return this parameter in the
+    *   returned S4 object.
+    *
+    * R/Linda - return the location and covariance estimator used as 'covobj'. This
+    *   is useful for controlling cross-validation, for example.
+    *
+    * R/Lda.R - fixed an issue in predict function
+    *
+    * R/LdaClassic, R/Linda - use generalized inverse if the common covariance
+    *   matrix is singular.
+    *
+
+2019-11-25  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-9
+    * DESCRIPTION (Version): 1.4-8
+    *
+    * - Added data set \code{diabetes}; data set \code{soil} from package \code{rrcovHD} moved here.
+    * - Linear and quadratic discriminant analysis can use the MRCD estimates.
+    * - Fixed an issue with CovControlMcd(nsamp="deterministic") - this would not work,
+    *       because nsamp was defined in the class definition as "numeric". Now it is
+    *       "Cnumeric" - union of "character" and "numeric'.
+    * - Corrected the code for Minimum Regularized Covariance Determinant estimator (MRCD) -
+    *       \code{CovMrcd()} - the step of adjusting the eignevalues in r6pack() is excluded
+    *       now because it has no effect when n > p.
+    *
+
+2018-11-14  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-7
+    * DESCRIPTION (Version): 1.4-6
+    *
+    *   R/CovMrcd.R, CovControlMrcd.R: added Minimum Regularized Covariance
+    *       Determinant estimator (MRCD) (Boudt et al. 2018)
+    *
+    *   data/octane.rda, man/octane.Rd - octane data set added
+    *   data/olitos.rda, man/olitos.Rd - olitos data set moved from package rrcovHD
+    *
+    *   R/CovClassic.R, plot-utils.R: make the 'pairs' plot also
+    *       available for classical covariance matrix
+    *
+
+2018-05-20  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-4
+    *
+    *   vignettes/mybiblio.bib: Fixed issue with building
+    *	    the vignette: non-ascii symbols in .bib
+    *       (see mail from K. Hornik from 14.05.2018)
+    *	src/rrcov_init.c: Registration of native routines
+    *
+
+2016-09-03  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-3
+    * DESCRIPTION (Version): 1.4-2
+    *
+    * src/sest.c: Warning reported by Duncan Murdoch:   if(fabs(t <= cc))
+    *
+2016-08-19  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-1
+    *
+    * R/Pca.R, PcaCov.R, PcaHubert.R, PcaLocantore.R, PcaClasic.R:
+    *   fixed a bug when scale != FALSE.
+    *   Now scale can be also a function or a vector with length p.
+    *
+2016-08-05  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.4-0
+    *
+    * R/PcaCov.R, Pca.R: fixed a bug when scale != FALSE; the call to princomp()
+    *   replaced by an internal function (simplified princomp())
+    *
+    * R/Pca.R: fixed a bug when scale != FALSE - computing OD .distances()
+    *
+    * R/Linda.R: added argument l1med=FALSE - if set to TRUE, the L1 median
+    * will be used for centering the data in mcdB and mcdC methods
+    *
+2016-02-10  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.3-10
+    *
+    * R/CovSest.r: additional trace for Rocke S-estimates
+    * R/Pca.R, Allclasses.R, etc.: Add the quantile cut-off for computing the OD and SD distances in PCA as a parameter
+    * R/PcaCov.R, etc.: Automatic selection of components with k=0
+    *
+    *
+2015-11-28  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.3-9
+    *
+    * 2015-07-07
+    * R/Pca.R, man/biplot.rd: The missing parameter choices= added to biplot()
+    *
+    * R/PcaXxx.R, man/PcaXxx.rd: added a parameter crit.pca.distances to be used
+    *   for computing the score and orthogonal distances. This parameter is stored
+    *   in the Pca-class object
+    *
+    * R/PcaXxx.R, man/PcaXxx.rd (except Grid and Proj): selection of number of
+    *   components fixed, see Help.
+    *
+
+2014-11-23  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.3-7
+    *
+    * src/sest.c: fixed an issue (reported by Stefan van Aelst)
+    *   in computing S-estimates, related to improper
+    *   calculation of the rank of a matrix with q()
+    *
+2014-11-05  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.3-6
+    *
+    * R/CovSest.R, dets.R, AllClasses.R, CovControl.R: added Deterministic S as
+    *   an option to CovSest (method="sdet"), function ..detSloc(),
+    *   new parameters and new slots in class CovSest.
+    *
+    * R/Pca.R, PcaClassic.R, pcaHubert.R: the internal functions classSVD()
+    *   and kernelEVD() are replaced by function classPC() which is moved
+    *   to robustbase
+    *
+    * R/CovMcd.R, AllClasses.R, CovControl.R - deterministic MCD, with nsamp="deterministic",
+    *   new parameters and new slots in class CovMcd
+    *
+    * tests/tsest.R: added tests method="sdet"
+    *
+    * R/CovSde, man/CovSde.Rd: a bug, when number of variables
+    *   too large, fixed. The number of variables is used to calculate
+    *   the necessary number of samples. If this number is large than
+    *   .Machine$integer.max an error message, saying NAs passed to
+    *   an external function was issued. Now the nsamp <= .Machine$integer.max
+    *   and in the documentation is explained that CovSde() can be used only
+    *   with relatively small data sets.
+    *
+    * R/CovMest3.R, man/CovMest3.Rd - function deprecated,
+    *   replaced by the one return ing an S4 class, CovMest().
+    *   tests/tmest.R removed.
+    *
+    * TODO: fix a bug in C version of sfast
+    * TODO fix a crash in CovOgk with a singular matrix
+    *
+    *
+2013-09-01  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-5
+    *
+    * R/Pca.R - definition of a print() method removed
+    * Use suppressPackageStartupMessages(library(rrcov)) in the tests
+    *
+    * R/CovOgk.R - bug fixed (Chris Green): a data set with 0 (complete) rows
+    *   (n=0) would crash R with access violation
+    *
+    * R/CovClassic.R - the restriction "Need at least p=(number of variables)
+    *   observations" removed
+    *
+    * man/PcaHubert.Rd - % signs in the examples were not escaped and part of the
+    *                   statements was missing
+    *
+2013-08-19  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-4
+    *
+    * Changes, mainly to fix warnings in packages rrcovNA and rrcovHD
+    *
+    * Generic and method scoreplot changed to scorePlot to avoid
+    *  conflict with package pls
+    *
+    * Vignette moved to directory .\vignettes, as recommended in
+    *   the 'Writing R Extensions' manual
+    *
+    * NOTE "Namespace imported from by a ':::' call: ..." fixed for all
+    *   but two robustbase calls.
+    *
+    * Packages 'mvtnorm' and 'pcaPP' moved from Depends to Import and the particular
+    *   functions used are only imported (rmvnorm from 'mvtnorm' and PCAgrid
+    *   and PCAproj from 'pcaPP')
+    *
+2013-04-28  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-3
+    *
+    * SRC/ds11.f: Fortran array bound check error fixed
+    *
+    * R/zzz.R: on.Load() replaced by on.Attach() to suppress a NOTE
+    *
+    * R/Pca.R: Fixed a problem in pca.scoreplot() - the ellipse was not
+    *   properly shown in case for example of PP PCA, when the scores can be correlated.
+
+2012-06-10  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-02
+    *
+    *   R/Linda.R: Fixed a problem with array over-run in .Fortran("fsada")
+            in integer argument 14
+    *
+    *   Method getRaw() for CovMcd, CovMve and CovOgk added
+    *   Union S4 classes Uvector, Umatrix, Ulist, Ufunction, Utable exported
+    *       in the name space
+    *   T2.test() fixed - the F statistic was shown but titled as "T^2". Now both
+    *   T2 and F are shown
+    *
+2011-06-26  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-01
+    *
+    *   Fix for LdaPP()
+    *
+2011-05-05  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.3-00
+    *
+    *   Added LdaPP() and the related classes - see Pires and Branco (2010)
+    *
+2011-04-30  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.2-02
+    *
+    * R/plot-methods.R: fixed the pairs-plot for Cov objects - on the diagonal
+    *   were shown not the variable names but Var1, var2, etc.
+    *
+    * R/Pca.R, AllGenerics.R, Man/scoreplot.rda, pca.scoreplot.rda:
+    *   the internal function pca.scoreplot()is defined now in the namespace,
+    *   help is added and corresponding method/generic scoreplot() function
+    *   is defined too.
+    *
+    * Data/pottery.rda, Man/pottery.rd: added the pottery data set -
+    *   see Pires and Branco (2010)
+    *
+    *
+2011-04-04  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.2-00
+    * R/CovSest.R, CovMMest.R, man/* - added slots for the tuning constants of
+    * the S- and MM-loss functions. The functions for calculating these
+    * constants (.csolve.bw.S() and .csolve.bw.MM() are not exported but the
+    * user could access them using rrcov:::.csolve.bw.S() call
+
+    * data/wages.rda - Added data set Wages and Hours
+
+    * R/Pca.R - fixed the cutoff for the orthogonal distances (diagnostic plot)-
+    *   univariate MCD replaced by median and MAD
+
+2010-08-30  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.1-00
+    * src/ds11.f - fixed a problem with CovSde for p=1 (i.e. option p=1 implemented)
+    * R/CovSest.R, man/CovSest.Rd - default number of samples 'nsamp' for method='sfast'
+    *       changed to nsamp=20
+    * Added MM-estimates of location and scatter
+    * Added methods getDet(), getShape() and getDflag() for objects of class 'Cov'
+    * C implementation of the FAST-S estimates
+    * signflip and scale parameters added to PcaHubert() and PcaCov()
+2010-06-20  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.0-01
+    * data/rice.Rda, man/rice.Rd: Rice data set added
+    *
+    * R/PcaHubert.R - fixed a minor problem - see VT::14.12.2009
+    *
+    * src/fsada.f: fixed a problem in Linda with method 'fsa' -
+    *   number of cases was limited to 500 and number of
+    *   variables to 100 without error message
+    * R/Linda.R, man/Linda.Rd, src/fsada.f - added 'trace' parameter
+    *
+    * R/Allclasses.R, AllGenerics.R, PcaClassic.R, PcaLocantore.R,
+    *   RcaHubert.R, Pca.R, man/PcaClassic.Rd, PcaLocantore.Rd,
+    *   PcaClassic-class.Rd, PcaLocantore-class.Rd, Pca-class.Rd:
+    *   - added sign flipping for the loadings, controlled by a
+    *       signflip=TRUE parameter
+    *   - added a scale slot in Pca class and scale=FALSE parameter in
+    *       PcaClassic() and PcaLocantore()
+    *
+    * R/plot-utils.R, CovRobust.R, CovClassic:
+    *   - additional graphics parameters for the plot methods are available now, e.g.
+    *       different colors or different symbols for the different groups
+    *   - it is possible to provide custom labels for the id.n observations
+    *   - pairs-plot for more than 2 variables
+    *
+2009-10-10  Valentin Todorov  <valentin.todorov@chello.at>
+    * 1.0-00
+    * CITATION to the JSS paper added
+    * Rd files updated to refer to the JSS paper
+    * vignette added
+    *
+**********************************************************
+2009-09-29  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.5-03
+    * citation file added
+    * PcaCov can compute the classical estimates (cov.control=NULL)
+    *
+2009-07-21  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.5-02
+    * Defaults of CovRobust() changed
+    * Corrections in some help pages
+    * Biplot implemented as a method of class PCA (generic function biplot)
+    *
+2009-02-20  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.5-01
+    *
+    * Added Quadratic Discriminant Abalyis: Qda, SummaryQda,
+    *   PredictQda, QdaClassic, QdaRobust and QdaCov
+    *
+
+2009-02-14  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.5-00
+    *
+    * Added Stahel-Donoho estimator of multivariate location and scatter
+    *   CovSde
+
+2009-01-14  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-08
+    *
+    * data/salmon - data set added
+    * Added Robust Linear Discriminant Analysis:
+    *   R/AllClasses, R/Lda.R, R/LdaClassic.R, R/Linda.R
+    *   and the corresponding manual pages: man/Lda*.Rd
+    *
+    * Added PP-approach PCA methods PcaProj and PcaGrid (see package pcaPP):
+    *   R/AllClasses, R/PcaProj.R, R/PcaGrid.R
+    *   and the corresponding manual pages: man/PcaProj*.Rd, man/PcaGrid*.Rd
+    *
+
+2008-07-04  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-07
+    *
+    * data/un86 - data set added
+    *
+    * R/CovRobust.R - function to select a robust estimator added
+    *
+    * R/CovSest.R, man/CovSest.Rd, R/CovControlSest.R, man/CovControlSest.Rd -
+    *   added two more estimation methods for the S estimates: bisqauare and
+    *   Rocke type, as described in Maronna et al. (2006) - thanks to Matias
+    *   Salibian-Barrera for the provided code.
+    *
+    * R/CovMve.R, man/CovMve.Rd - now the raw cov matrix is properly scaled by
+    *   a factor  median(dist)/qchisq(0.5, p) and the reweighted cov matrix is
+    *   multiplied by a consistency corretcion factor, similarly as in CovMcd().
+    *   No finite sample correction factors are used. For details see ?CovMve.
+    *
+    * man/CovMve.Rd -  the search for the approximate solution is explained
+    *   (fast MVE) and the corresponding referecne (Maronna et al., 2006) is given.
+    *
+    * R/CovMest.R, man/CovMest.Rd - the default initial value now is the raw
+    *   (not reweighted) MVE estimate with the covariance matrix standardised
+    *   to det(cov)=1
+    *
+    * R/CovOgk.R, man/CovOgk.RD, src/covOPW.c, R/CovControlOgk.R, man/CovControlOgk.R
+    *   Added a C implementation for OGK - thanks to Kjell Konis.
+    *   See ?CovOgk for details
+    *
+    * R/plot-utils.R - fixed a bug in plot(CovMcd(x), which="tolEllipsePlot", id.n=0) -
+    *   even if id.n was set to 0, at least one observation was plotted with a label
+    *
+
+2008-06-02  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-06
+    * Added the 'bushmiss' - a group of data sets based on 'bushfire'
+    *   with added incompliteness (MCAR) with probability 0.1,
+    *   0.2, 0.3 and 0.4
+    * Fixed minor errors in the documentation
+    * Added PCA based on robust cov matrix - PcaCov
+    * Added Spherical PCA algorithm - PcaLocantore
+    * Added 'bus' data set - Automatic vehicle recognition data
+    *   as an illustration for the PCA methods. The examples reproduce
+    *   the corresponding examples from Maronna et al. (2006), page 213
+
+2007-02-12  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-05
+    * Added the OsloTransect data set
+    * Fixed minor errors in the documentation
+    * Fixed two serious problems in .fastMve() - there was a
+    *   hard-coded seed setting and the half-sample was hardcoded too
+    * Added S-estimates computed by either the FAST-S algorithm or
+    *   Ruppert's SURREAL
+
+2007-11-10  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-03
+    * R/plot-utils.R - "Squared Robust distance" changed to "Robust distance",
+    *   added ylim parameter so that two parallel distance plots
+    *   (robust and classic) will have the same scale
+    * man/getCenter-methods.Rd - there was an 'unmatched right brace' in line 34 -
+    *   shown as 'Note' in "R CMD install" but not in "R CMD check"
+    * R/CovRobust.R - method 'plot' - make robust and classic distance
+    *   plot same scale
+    * Added function Cov() as an alias to CovClassic() for compatibility with
+    *   previous versions
+    * Function and class Robpca changed to PcaHubert - Robpca was too general
+    * Added methods predict, screeplot and biplot for Pca
+
+2007-10-24  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-02
+    * Fixed the OO-hierarchy for robust location and scatter: now
+    *   Cov is a VIRTUAL class and CovClassic added for representing
+    *   the classic estimates
+
+    * CovMve added, to be used as initial solution for CovMest
+
+2007-09-28  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-01
+
+    * Removed covMcd, ltsReg and all datasets which were already moved to
+    * package robustbase. Now package robustbase is required and these
+    * functions are used from there. This could cause some minor
+    * incompatibilities because of changed parameters in covMcd(), like:
+    *   - trace=FALSE instead of print.it=FALSE
+    *   - seed=NULL instead of seed=0
+    *   - changed structure and names of datasets
+
+2007-09-24  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-08
+
+    * Added ROBPCA - Robust Principal Component Analysis - with an
+    *   S4 object model R/Pca.R, R/PcaClassic,  R/Robpca and
+    *   man/Pca-class.RD, man/PcaRobust-class.Rd, man/PcaClassic-class.RD
+    *   man/Robpca-class.RD, man/PcaClassic.RD, man/Robpca.RD
+
+2007-09-20  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-07
+
+    * Added classical and robust Wilks Lambda test - R/Wilks.test.R and
+    * man/Wilks.test.RD
+
+2007-07-05  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-06
+
+    * Added one- and two-sample T2 Hotelling test and one-sample
+    * robust T2 Hotelling test (Willems et al. 2002) - R/T2.test.R and
+    * man/T2.test.RD
+
+    * R/covMcd.R: usage of simulated finite sample correction factors fixed:
+    * - case p=1 fixed
+    * - simulated corrections used only when the Pison et.al.
+    *   formula is definitely wrong (negative or very large)
+
+    * Added the L-moments data sets from Hosking and Wallis (1997):
+    *       Appalachia, Cascades, lmom32 and lmom33
+
+    * Fixed print.mcd() to avoid conflict with package 'robust'
+    *   (same class "mcd")
+
+    * R/covMcd.R - the calculation of the consistency correction factor
+    *   for the raw and reweighted MCD covariance replaced by a call to
+    *   a function MCDcons()
+
+    * R/CovRobust.R, Cov.R, AllGenerics.R, utils.R - fixed the plot
+    *   method of CovRobust in case of singular covariance matrix
+
+2006-12-21  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-05
+    * fixed a bug in ltsReg (in the QQ-plot were plotted the residuals  instead
+    *   of the standardized reisuals)
+    * added dataset 'Fish Catch Data'
+    * added dataset 'Hemophilia'
+2006-09-07  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-04
+    * name the partial= argument of the sort function in covMcd3.R -
+    *   necessary for the coming R 2.4.0
+2006-07-08  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-03
+    * Remove CRLF line endings of the files *.Rout.save in rrcov/tests directory
+2006-06-01  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-02
+    * add CovControlMcd function and CovControlMcd-class
+    * add CovMcd function and CovMcd-class
+    * add CovControlOgk function and CovControlOgk-class
+    * add CovOgk function and CovOgk-class
+2006-05-21  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-01
+    * NAMESPACE: add importFrom(stats4, plot, summary)
+    * add Marona and Yohai data set
+    * add Cov function and Cov-class
+    * add CovControl-class
+    * add CovControlMest function and CovControlMest-class
+    * add CovRobust-class
+    * add CovMest function and CovMest-class
+2006-03-13  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-13
+    * defined package namespace
+    * added constrained M-estimates (Rocke (1994,1996))
+2006-02-10  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-12
+    * FIXED - .fastmcd and fastlts does not return everything
+    * fixed problems in ltsReg in case of location model Y~1 (or x
+        is missing in ltsReg.default())
+2006-02-06  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-11
+    * added more data sets from Rousseeuw & Leroy: telef, lactic,
+        pension, pilot, cloud, education, airmay
+    * fixed codoc discrepancies in the data sets stars and wood
+    * ltsReg & covMcd - added options 'best' and 'exact' for nsamp
+    * ltsReg & covMcd - added parameter for controlling the small sample correction factors - use.correction
+    * rrcov.control - added parameter for controlling the small sample correction factors - use.correction
+    * ltsReg & covMcd - output of the consistency and the small sample correction factors
+
+2005-10-24  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-10
+    * minor corrections in the help of covPlot
+    * fixed bug in covPlot in case of class=TRUE
+    * tolellipse - both robust and classical ellipse are superimposed
+    * added directory inst/bm containing benchmarks comparing covMcd and ltsReg
+        to the corresponding functions in MASS, S-PLUS and Matlab
+2005-10-17  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-9
+    * minor corrections in the help of covMcd
+    * minor correction in ltsReg (false corrected to FALSE)
+    * covMcd - fixed the limitation on the number of variables <= 50
+    * ltsReg - fixed the limitation on the number of variables <= 50
+    * added function summary.mcd which prints (additionally to the output
+        of print.mcd) the correlation matrix (if requested), the eigenvalues
+        of the covariance or correlation matrix and the robust distances.
+    * added control object for the estimation options rrcov.control and
+        used in covMcd and ltsReg
+
+2005-09-20  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-8
+    * ltsReg: added formula interface
+    * ltsReg: adde generic functions summary.lts and print.summary.lts
+    * ltsReg: fixed a problem with reordering of the coeficients even in case
+        without intercept
+
+2005-04-16  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-7
+    * ltsReg: fixed a bug related to nsamp -> it was hard-coded = 500
+        in Fortran
+    * ltsPlot: default for id.n changed - instead of 3, now it is the
+        number of identified outliers
+    * ltsPlot: help enhanced
+    * covMcd, covPlot, tolellipse: tol.inv parameter changed to tol,
+        according the change in mahalanobis() in 2.1.0
+
+2004-12-26  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-6
+    * a bug in ltsReg (rsquared) fixed
+    * fixed CRLF line endings in FORTRAN sources
+    * fixed a problem in covMcd: in case of p=1 and cov=[0], the cov matrix was
+        a double instead of a matrix, which resulted in errors in subsequent
+        calls (e.g. determinant(mcd$cov) expects a matrix)
+    * fixed a problem in ltsReg when p==1 and Intercept==FALSE - the vectors of
+        coefficients ans$coefficients and ans$raw.coefficients were of size 2
+    * error handling added in ltsReg in case of scale=0
+
+2004-09-16  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-5
+    * several errors in doc fixed (ltsPlot.Rd, covPlot.Rd, aircraft.Rd)
+
+2004-09-16 Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-4
+    * added Regression Diagnostic Plots - function ltsPlot()
+    * ...added Normal QQ Plot of the residuals
+    * ...added Standardized Residuals versus index plot
+    * ...added Standardized Residuals versus fitted values plot
+    * ...added Regression diagnostic plot
+    * ltsReg: the responce variable Y added to the result object
+    * covMcd: fixed a bug related to nsamp -> it was hard-coded = 500 in Fortran
+    * covMcd: fixed a bug - in case of alpha=1
+    * added S3 methods plot.mcd and plot.lts
+    * the S3 methods print.mcd and print.lts moved to separate R files
+    * added the stars data set (Hertzsprung-Russell diagram)
+
+2004-07-13  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-3
+    * improved documentation of the datasets
+    * added datasets aircraft and delivery
+    * added Covariance Plots - function covPlot()
+    * ...added Distance Plot - function distplot()
+    * ...added Distance-Distance Plot - function ddplot()
+    * ...added Chisquare QQ-Plot - function chi2qqplot()
+    * ...added Tolerance Ellipse Plot - function tolellipse()
+    * added function print.lts (for ltsReg result); included in the test tlts.R
+    * added function print.mcd (for covMcd result); included in the test tmcd.R
+
+2004-06-26  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-2
+    * fixed bug in Fortran: rfltsreg.f, xrfnbreak()
+    * Depends >= 1.8 (it was >= 1.9, because of the bug above)
+    * Parameter, controlling whether to perform intercept adjustment at each step added to ltsReg and its default value set to FALSE
