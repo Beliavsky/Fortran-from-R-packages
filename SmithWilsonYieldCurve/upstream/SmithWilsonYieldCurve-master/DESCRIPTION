@@ -1,0 +1,26 @@
+Package: SmithWilsonYieldCurve
+Type: Package
+Title: Smith-Wilson Yield Curve Construction
+Version: 1.1.1
+Date: 2024-07-11
+Authors@R: c(person("Phil", "Joubert", role = c("aut", "cre"),
+                     email = "phil.joubert@gmail.com"))
+Description: Constructs a yield curve by the Smith-Wilson method from a table of
+              libor and swap rates. Now updated to take bond coupons and prices 
+              in the same table.
+License: GPL-3
+Suggests: testthat
+Collate: 'fWilson.R' 'fFitKernelWeights.R' 'fCreateCashflowMatrix.R'
+        'fCreateTimeVector.R' 'fCreateKernelMatrix.R'
+        'fFitSmithWilsonYieldCurve.R' 'fFitYieldCurve.R'
+        'fFitSmithWilsonYieldCurveToInstruments.R' 'Utilities.R'
+        'SmithWilsonYieldCurve.R' 'plot.SmithWilsonYieldCurve.R'
+        'lines.SmithWilsonYieldCurve.R'
+        'points.SmithWilsonYieldCurve.R'
+Packaged: 2024-07-11 06:53:34 UTC; philj
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2024-07-12 15:20:05 UTC
+RoxygenNote: 7.3.1
+Author: Phil Joubert [aut, cre]
+Maintainer: Phil Joubert <phil.joubert@gmail.com>

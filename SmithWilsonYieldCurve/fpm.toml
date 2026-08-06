@@ -1,0 +1,17 @@
+name = "smith_wilson_yield_curve"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Phil Joubert; modern Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "Upstream copyright Phil Joubert; translation copyright 2026 OpenAI"
+description = "Modern Fortran implementation of Smith-Wilson yield-curve construction"
+categories = ["finance", "economics", "numerical"]
+keywords = ["Smith-Wilson", "yield curve", "term structure", "fixed income"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"

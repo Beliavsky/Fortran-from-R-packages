@@ -1,0 +1,191 @@
+Yield Curve fitting - the Smith-Wilson method
+=============================================
+
+This article illustrates the R package SmithWilsonYieldCurve, and provides some additional background on yield curve fitting.
+
+The method implemented in the package fits a curve to interest rate market data such that the observed prices of market instruments are replicated, and it produces a function which can interpolate between and extrapolate beyond data points.
+
+
+Yield Curve Fitting Overview
+----------------------------
+
+Fitting a yield curve is the process by which a continuum of rates is derived from some market inputs. Methods vary depending on the what the derived curve is used for. Econometricians often use regression types which minimise the difference between observed market rates some functional form. The best known example of this type is [Nelson-Siegel](http://en.wikipedia.org/wiki/Nelson-Siegel#Modeling_the_yield_curve), and there are several R packages which fit this kind, including [YieldCurve](http://cran.r-project.org/web/packages/YieldCurve), [termstrc](http://cran.r-project.org/web/packages/termstrc/) and Rmetrics' [fBonds](http://cran.r-project.org/web/packages/fBonds). 
+
+Traders / market makers have a different use for fitted yield curves, and in particular need to be able to exactly replicate the prices of the market inputs. The curve fitting methods used on trading desks are inversion types, which basically assume that there is a vector $R$ of rates such the $V(R)=P$, where $V$ is a vector valuation function and $P$ is the observed vector of market prices. We then need to invert this equation to solve for the unknown vector $R$, and assume some method of interpolation. This can either be done by [bootstrapping](http://www.bankofcanada.ca/wp-content/uploads/2010/01/wp00-17.pdf) or [root finding](http://developers.opengamma.com/quantitative-research/Analytic-Framework-for-Implying-Yield-Curves-from-Market-Data-OpenGamma.pdf). I'm not aware of any R package which does either of these, but the techniques are well known.
+
+The regression methods are generally applied to (sovereign) bond data, the inversion methods to intra-dealer data (swaps, FRA's, Libor rates, etc).
+
+Smith-Wilson Curve Fitting
+--------------------------
+
+The Smith-Wilson method of curve fitting is either a hybrid of the regression and inversion methods, or at right-angles to both, depending on your point of view. It exactly replicates the values of the market instruments used and involves only some linear algebra, no numerical optimisation is needed. The same technique is used to interpolate points on the yield curve between market data points and to extrapolate beyond the last used market data point. The extrapolation in particular is smooth and avoids unwanted artifacts which can result from the interpolation methods often used in fitting.
+
+On the other hand it is not a generally well-known method and it can't use floating rate instruments as inputs, which precludes multi-currency curve construction. The inter- / extrapolation method uses two parameters which must be estimated "outside" of the model (see below).
+
+Method Description
+------------------
+
+The method is a kernel regression. This means that it describes the yield curve as a weighted sum of several functions of a particular form. These functions are the "kernels". The Smith-Wilson method uses kernels known as Wilson functions, which are defined as:
+$$
+	W(t,u) = e^{-f_{\infty}(t+u) } \left( \alpha min(t,u) - \frac{1}{2} \frac{(e^{\alpha min(t,u)} - e^{ - \alpha min(t,u)})}{e^{\alpha max(t,u)}} \right)
+$$ 
+
+We can graph these functions for some sample values of u, say with $\alpha=$ 0.01 and $f_{\infty}=$ 0.042
+
+
+
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
+
+These kernel functions are used to construct the yield curve by writing zero coupon bond prices as the following function:
+$$  
+	P(t) = e^{-f_{\infty}t} + \sum_{i=1}^N \xi_i \sum_{j=1}^J c_{i,j} W(t,u_j)
+$$ 
+
+As you can see, a "basic" function $P(t) = e^{-f_{\infty}t}$  representing a flat yield of $f_{\infty}$  is perturbed by a sum of the kernel functions. The weights $c_{i,j}$  are the (fixed) cashflows associated with each market instrument used to construct the curve, and the weights $\xi_i$  are chosen so that the constructed yield curve will return the observed prices of those instruments. 
+
+
+Simple Example
+--------------
+
+Let's demonstrate. We start with the basic discount function, say at a rate of 4.2% continous. Let's then suppose that we have two (theoretical) market instruments: a zero-coupon bond with a term of 5 years and a price of 0.88 and another with a term of 20 years and a price of 0.37, corresponding to yields of 2.56% and 4.97% respectively.
+
+Now if we do something like:
+
+```r
+library(SmithWilsonYieldCurve)
+C <- diag(2)
+m <- c(m1, m2)
+u <- c(u1, u2)
+
+Curve <- fFitSmithWilsonYieldCurve(TimesVector = u, CashflowMatrix = C, MarketValueVector = m, 
+    ufr = f, alpha = 0.1)
+```
+
+
+We can plot the situation as below
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+
+Noting the form of the discount function and Wilson functions above we can extract the contributions of the Wilson functions as
+
+```r
+plot(1:100, -log(1 + t(Curve$xi) %*% Curve$K(1:100)/exp(-f * (1:100)))/1:100, 
+    xlab = "Term", ylab = "Rate", col = "green")
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+
+
+Observe that the SmithWilsonYieldCurve object has entries for the regression weights (`xi`) and the Kernel functions (`K`). The kernel has a negative contribution at the short end (due to the short term rate of 2.56%, and a positive contribution at medium terms which slowly decays to zero as long term rates tend towards the ultimate forward rate 4.2%.
+
+Summary of Mathematical Details
+-------------------------------
+
+Below we give the formula for $\xi_i$ , but not the derivation. For that please consult [the CEIOPS (now EIOPA) paper](http://eiopa.europa.eu/fileadmin/tx_dam/files/consultations/QIS/QIS5/ceiops-paper-extrapolation-risk-free-rates_en-20100802.pdf).
+
+With the following notation:
+
+* We are using $N$  instruments with market prices $m_i$  for $i=1,...,N$ 
+* The (fixed) cashflows from these instruments occur at $J$  dates $u_j$  for $j=1,...,J$ 
+* The cashflow from the $i^{th}$  instrument on the $j^{th}$  date is denoted $c_{i,j}$  and may be zero
+
+We define the vectors
+
+* $\mathbf{m} = (m_1, ..., m_N )^T$ 
+* $\mathbf{\mu} = \left( e^{-f_{\infty}u_1}, ..., e^{-f_{\infty}u_J}  \right)^T$
+* $\mathbf{\xi} = (\xi_1, ..., xi_N )^T$
+
+and matrices
+$$ 
+C = \left[ \begin{array}{cccccc}
+c_{1,1} & c_{1,2} & ... & c_{1,j} & ... & c_{1,J} \\
+c_{2,1} & c_{2,2} & ... & c_{2,j} & ... & c_{2,J} \\
+... & ... & ... & ... & ... & ... \\
+c_{i,1} & c_{i,2} & ... & c_{i,j} & ... & c_{i,J} \\
+... & ... & ... & ... & ... & ... \\
+c_{N,1} & c_{N,2} & ... & c_{N,j} & ... & c_{N,J} \\
+\end{array} \right]
+$$ 
+
+and
+
+$$ 
+W = \left[ \begin{array}{cccccc}
+W(u_1,u_1) & W(u_1,u_2) & ... & W(u_1,u_j) & ... & W(u_1,u_J) \\
+W(u_2,u_1) & W(u_2,u_2) & ... & W(u_2,u_j) & ... & W(u_2,u_J) \\
+... & ... & ... & ... & ... & ... \\
+W(u_i,u_1) & W(u_i,u_2) & ... & W(u_i,u_j) & ... & W(u_i,u_J) \\
+... & ... & ... & ... & ... & ... \\
+W(u_J,u_1) & W(u_J,u_2) & ... & W(u_J,u_j) & ... & W(u_J,u_J) \\
+\end{array} \right]
+$$ 
+
+then we can write the expression for $\mathbf{\xi}$  as
+$$
+\mathbf{\xi} =  (\mathbf{CWC}^T)^{-1}(\mathbf{m} - \mathbf{C\mu}) 
+$$ 
+
+Note that if the market instuments used are all zero coupon bonds, then the cashflow matrix is the identity, and the Smith-Wilson technique becomes a useful way to interpolate the curve. 
+
+
+Implementation Details / Usage
+------------------------------
+
+The package implementation exposes two public functions: fFitSmithWilsonYieldCurve and fFitSmithWilsonYieldCurveToInstruments. The first requires you to specify the matrix of all cashflows $\mathbf(C)$, the vector of cashflow times $\mathbf(u)$ and the vector of market input prices $\mathbf{m}$. 
+
+The second is a convenience function which takes a data frame defining a set of calibration instruments and then calls the first function. As of the current release (1.0.1) it knows about swaps and Libor agreements. It can handle different frequencies for swaps, but it doesn't know anything about day count conventions or business day date rolling, or any other subleties of the fixed income markets. Although rates quants will tell you that these details are crucial, I have found that the differences they make are small (maybe 1 bp on the rates at any given term). 
+
+Remember we can only use fixed cashflows, so we exploit a couple of key identities: for example, at outset the fixed and floating legs of a swap contract are equal in value to each other, and equal to one per unit notional. We include the exchange of notional in all contracts where needed.
+
+In both cases you need to provide values for the parameters alpha and ufr. Selection of these parameters is (to an extent) arbitrary - it depends on your method and dataset, etc, etc. You might also want to try experimenting with different values. I suggest using the EIOPA values of $f = 4.2%$ and $\alpha = 0.1$, since they seem as good as any.
+
+If using the convenience function you need a dataframe looking like the following:
+
+
+```
+##    Type Tenor  Rate Frequency
+## 1 LIBOR     1  0.01      <NA>
+## 2  SWAP     2  0.02         1
+## 3  SWAP     3 0.026         1
+## 4  SWAP     5 0.034         1
+```
+
+
+Note that frequency is ignored for LIBOR types, and that you should have Tenor as a multiple of 1 / frequency to get sensible results.
+
+Testing Summary
+---------------
+
+This package is tested using [testthat](http://cran.r-project.org/web/packages/testthat/), see the tests subfolder of the library.
+
+Current tests are:
+
+test_check_Identities - check that if we calibrate using a single rate we obtain that rate back from the pricing function
+
+test_replicate_EIOPA_QIS5_Examples - check that we can replicate the numbers from the examples in the EIOPA paper referenced above
+
+test_defect_17 - check that if the user specifies inputs such that there are no cashflows for a given instrument an error is thrown
+
+test_enhancement_14 - check that if the user specifies an invalid (<=0) value for `alpha` that an error is thrown, and if the user specifies a negative value for `ufr` a warning is given.
+
+
+
+Future developments
+-------------------
+
+The most immediate development would be to expand the convenience functions to use FRA's as well as swaps and Libor agreements. This should be fairly quick to do.
+
+Rate calculations such as extracting spot and forward rates at various compoundings would be useful since these are the kinds of calculation which should be specified, implemented and tested once rather than redone on an ad-hoc basis. The reason I haven't done these yet is because they are all generic and not tied to a particular kind of yield curve method. One should have an abstract class of type AYieldCurve (say), which has a virtual ZCB function and the rate calculation functions defined in terms of the ZCB function. Then derived concrete classes just have to declare the ZCB function and everything is available. Unfortunately that's not easy to do elegantly in R, so what I'll probably end up with is a generic method Spot( Curve, T, CompoundingPerAnnum=NA )
+
+
+
+
+
+
+
+
+
+
