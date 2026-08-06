@@ -1,0 +1,21 @@
+name = "yrnd_fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "William Arrata; modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran translation of the computational routines in the R yrnd package"
+keywords = ["finance", "risk-neutral-density", "options", "bond-futures", "yield"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+tvm_fortran = { path = "dependencies/tvm-fortran" }

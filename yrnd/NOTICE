@@ -1,0 +1,13 @@
+yrnd Fortran translation
+========================
+
+The original R package yrnd was written by William Arrata and is distributed
+under GPL-3. This translation preserves that license. The original package
+sources are retained under original/yrnd-master for attribution and review.
+
+The bundled tvm Fortran dependency is a separate MIT-licensed work. Its own
+LICENSE and NOTICE files remain in dependencies/tvm-fortran.
+
+The Bloomberg retrieval helpers require Bloomberg Terminal/API access and the
+Rblpapi R package. They are external data-interface routines, not portable
+numerical algorithms, and are intentionally not translated.

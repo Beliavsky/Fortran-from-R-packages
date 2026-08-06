@@ -1,0 +1,21 @@
+Package: yrnd
+Title: Extracts Risk Neutral Densities of Prices, Money Market Rates
+        and Government Bond Yields from Interest Rates Futures Options
+        Prices
+Version: 0.1.5
+Authors@R: 
+    person("William", "Arrata", , "william.arrata@gmail.com", role = c("aut", "cre"))
+Description: Provides with parametric Risk Neutral Densities (RNDs) and cumulative densities of futures prices on fixed-income products. It relies on options on Short Term Interest Rate futures or options on government bond futures. It models the futures price as a mixture of lognormal densities. It also provides with the RNDs and cumulative densities of the money market rate or the government bond yield inferred from the futures price, using the RND of the futures price. The package also provides with the probability attached to each bond in the delivery basket of a government bond futures to be the cheapest at maturity, and also the non parametric distribution of the spread between two bond yields, using two RNDs based on options on bond futures of the same maturity. The package leverages on the works of Melick, W. R. and Thomas, C. P. (1997) <doi:10.2307/2331318> and B. Bahra (1998) <doi:10.2139/ssrn.77429>.
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Imports: dplyr, ggplot2, lubridate, MASS, Rblpapi, scales, stats,
+        tibble, tvm, utils, zoo
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2026-07-21 17:32:47 UTC; William
+Author: William Arrata [aut, cre]
+Maintainer: William Arrata <william.arrata@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-07-21 19:30:02 UTC

@@ -1,0 +1,19 @@
+name = "tvm_fortran"
+version = "0.5.2"
+license = "MIT"
+author = "Juan Manuel Truppia; modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+copyright = "Copyright (c) 2014 Juan Manuel Truppia"
+description = "Modern Fortran translation of the numerical routines in the R tvm package"
+keywords = ["finance", "time-value-of-money", "cashflow", "interest-rate", "yield-curve"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

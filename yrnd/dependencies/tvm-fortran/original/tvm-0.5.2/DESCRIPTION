@@ -1,0 +1,19 @@
+Package: tvm
+Type: Package
+Title: Time Value of Money Functions
+Version: 0.5.2
+Author: Juan  Manuel Truppia
+Maintainer: Juan Manuel Truppia <jmtruppia@gmail.com>
+Description: Functions for managing cashflows and interest rate curves.
+License: MIT + file LICENSE
+Depends: R (>= 3.1.0)
+Suggests: testthat, knitr, markdown, rmarkdown
+Imports: ggplot2, reshape2, scales, stats, utils
+VignetteBuilder: knitr
+RoxygenNote: 7.2.3
+Encoding: UTF-8
+URL: https://bitbucket.org/juancentro/tvm
+NeedsCompilation: no
+Packaged: 2023-08-30 13:33:41 UTC; Juan
+Repository: CRAN
+Date/Publication: 2023-08-30 13:50:02 UTC
