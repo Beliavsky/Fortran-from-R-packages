@@ -1,0 +1,11 @@
+citHeader("To cite 'spantest' in publications use:")
+
+bibentry(bibtype = "Manual",
+  title  = "spantest: Mean-Variance Spanning Tests in R",
+  author = c(person("David","Ardia"),
+             person("Benjamin","Seguin")),
+  year   = "2025",
+  organization = "CRAN",
+  textVersion = paste("Ardia, D., Seguin, B. (2025).",
+    "spantest: Mean-Variance Spanning Tests in R.")
+)

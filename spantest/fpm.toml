@@ -1,0 +1,19 @@
+name = "spantest"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "David Ardia, Benjamin Seguin, Rosnel Sessinou, Richard Luger; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran implementation of mean-variance spanning tests"
+categories = ["finance", "statistics"]
+keywords = ["spanning", "portfolio", "GRS", "mean-variance", "Monte Carlo"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
