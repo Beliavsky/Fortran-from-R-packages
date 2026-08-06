@@ -1,0 +1,55 @@
+name = "tsgarch-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Alexios Galanos; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "Copyright tsgarch contributors"
+description = "Modern Fortran translation of the computational core of tsgarch"
+categories = ["finance", "statistics", "time-series"]
+keywords = ["GARCH", "volatility", "risk", "forecasting"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[[example]]
+name = "demo_tsgarch"
+source-dir = "example"
+main = "demo_tsgarch.f90"
+
+[[test]]
+name = "test_models"
+source-dir = "test"
+main = "test_models.f90"
+
+[[test]]
+name = "test_simulation_forecast"
+source-dir = "test"
+main = "test_simulation_forecast.f90"
+
+[[test]]
+name = "test_estimation"
+source-dir = "test"
+main = "test_estimation.f90"
+
+[[test]]
+name = "test_inference_profile"
+source-dir = "test"
+main = "test_inference_profile.f90"
+
+[[test]]
+name = "test_backtest"
+source-dir = "test"
+main = "test_backtest.f90"
+
+[[test]]
+name = "test_constraints_vreg"
+source-dir = "test"
+main = "test_constraints_vreg.f90"
