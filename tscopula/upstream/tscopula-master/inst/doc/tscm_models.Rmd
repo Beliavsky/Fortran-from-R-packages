@@ -1,0 +1,143 @@
+---
+title: "Models with Margins"
+author: "Alexander J. McNeil and Martin Bladt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Models with Margins}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tscopula)
+```
+
+## 1. Gaussian ARMA Process
+
+### Construction
+
+We generate a Gaussian ARMA model.
+
+```{r standard-arma, fig.show='hold', fig.width = 6, fig.height = 3, dev.args =list(pointsize=9)}
+set.seed(13)
+data1 <- 0.5 + 2*arima.sim(list(ar =0.95, ma =-0.85), 1000)
+ts.plot(data1)
+```
+
+### Estimation 
+
+A model spec can be fitted to data with the generic command `fit`.
+
+```{r standard-arma-fit}
+copspec <- armacopula(pars = list(ar =0.01, ma =0.01))
+margspec <- margin("norm")
+fullspec <- tscm(copspec, margspec)
+modfit <- fit(fullspec, data1, method = "full")
+modfit
+```
+
+### Plotting
+
+As well as the copula plots we can also plot the marginal fit.
+
+```{r standardarma-plot, fig.show='hold', dev.args =list(pointsize=9)}
+plot(modfit, plottype = "residual")
+plot(modfit, plottype = "kendall")
+plot(modfit, plottype = "margin")
+```
+
+## 2. VT-D-Vine Process (type 2) with Skewed Laplace Margin 
+
+### Construction
+
+```{r tscm-dvine}
+copmod <- dvinecopula2(family = "joe",
+                       kpacf = "kpacf_arma",
+                       pars = list(ar = 0.9, ma = -0.8),
+                       maxlag = 20)
+vcopmod <- vtscopula(copmod,
+                     Vtransform = V2p(delta = 0.5, kappa = 2))
+margmod <- margin("slaplace",
+                  pars = c(mu = 1, scale = 2, gamma = 0.7))
+tscmmod <- tscm(vcopmod, margmod)
+tscmmod
+```
+
+### Simulation
+
+```{r tscm-dvine-sim, fig.show='hold', fig.width = 6, fig.height = 3, dev.args =list(pointsize=9)}
+set.seed(13)
+data2 <- sim(tscmmod, n= 2000)
+hist(data2)
+ts.plot(data2)
+```
+
+### Estimation
+
+First fit a marginal model only. 
+
+```{r margin-fit}
+margfit <- fit(margmod, data2)
+```
+
+Now fit the time series copula model stepwise.
+
+```{r stepwise-fit}
+tscmfit_step <- fit(tscmmod, data2)
+tscmfit_step
+coef(tscmfit_step)
+coef(tscmmod)
+```
+
+Final optimization over all parameters.
+
+```{r full-optimization}
+tscmfit_full <- fit(tscmfit_step, data2, method = "full")
+tscmfit_full
+```
+
+Comparison of model.
+
+```{r compare-models}
+AIC(margfit, tscmfit_step, tscmfit_full)
+```
+
+### Plotting
+
+We can plot the estimated v-transform and well as the goodness-of-fit plots for the `dvinecopula` object based on Kendall rank correlations.
+
+The first plots relate to the fitted copula.
+
+```{r plots1, fig.show='hold', dev.args =list(pointsize=9)}
+plot(tscmfit_full)
+plot(tscmfit_full, plottype = "kendall")
+```
+
+The next plot is the QQplot of the marginal fit.
+
+```{r plot2, fig.show='hold', dev.args =list(pointsize=9)}
+plot(tscmfit_full, plottype = "margin")
+```
+
+The next two plots are the estimated v-transform and the estimated volatility profile function.
+
+```{r plots3, fig.show='hold', dev.args =list(pointsize=9)}
+plot(tscmfit_full, plottype = "vtransform")
+plot(tscmfit_full, plottype = "volprofile")
+```
+
+The final plot shows aspect of the fit of the v-transform to the data.
+
+```{r plot4, fig.show='hold', dev.args =list(pointsize=9)}
+plot(tscmfit_full, plottype = "volproxy")
+```
+
+
+
+
+
