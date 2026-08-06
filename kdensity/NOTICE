@@ -1,0 +1,10 @@
+This project is a modern Fortran translation of the computational portions of
+kdensity 1.2.0 by Jonas Moss and Martin Tveten.
+
+The original package is distributed under the MIT License. The original source
+and archive are retained under upstream/ for provenance.
+
+The Fortran implementation is an independent translation. No code from the
+univariateML dependency is copied into this package. Common parametric starts
+are implemented locally, and custom starts can be supplied through procedure
+pointers.
