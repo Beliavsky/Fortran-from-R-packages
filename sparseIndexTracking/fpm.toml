@@ -1,0 +1,17 @@
+name = "sparse_index_tracking"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Konstantinos Benidis and Daniel P. Palomar; modern Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "Upstream copyright Konstantinos Benidis and Daniel P. Palomar; translation copyright 2026 OpenAI"
+description = "Modern Fortran implementation of sparse financial index tracking"
+categories = ["finance", "optimization", "numerical"]
+keywords = ["index tracking", "sparse portfolio", "MM algorithm", "Huber loss"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
