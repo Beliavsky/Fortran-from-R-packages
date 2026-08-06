@@ -1,0 +1,17 @@
+name = "stochvoltmb-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Jens Wahl; modern Fortran port contributors"
+maintainer = "Modern Fortran port contributors"
+copyright = "Copyright (C) upstream and port contributors"
+description = "Laplace maximum-likelihood stochastic-volatility models in modern Fortran"
+keywords = ["stochastic-volatility", "laplace", "time-series", "finance", "maximum-likelihood"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = false
+module-naming = false
+
+[install]
+library = true

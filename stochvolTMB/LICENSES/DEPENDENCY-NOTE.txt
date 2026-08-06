@@ -1,0 +1,6 @@
+The upstream stochvolTMB package is GPL-3.0-only.
+
+The skew-normal formulas and random generator in this port reuse compatible
+material from the previously completed sn-fortran translation under its
+GPL-3.0-only licensing option. The sn-fortran archive is retained under
+upstream/ for provenance. The combined work is distributed under GPL-3.0-only.
