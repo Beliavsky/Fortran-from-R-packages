@@ -1,0 +1,36 @@
+Package: vamc
+Type: Package
+Title: A Monte Carlo Valuation Framework for Variable Annuities
+Version: 0.2.1
+Authors@R: c(
+    person("Hengxin", "Li", email = "h343li@uwaterloo.ca", 
+    role = c("aut", "cph")),
+    person("Ben", "Feng", email = "ben.feng@uwaterloo.ca", 
+    role = c("aut", "cph")),
+    person("Mingyi", "Jiang", email = "m64jiang@uwaterloo.ca", 
+    role = c("aut" , "cph", "cre")),
+    person("GuoJun", "Gan", email = "Guojun.Gan@uconn.edu", 
+    role = c("ctb")))
+Description: Implementation of a Monte Carlo simulation engine for valuing synthetic portfolios of 
+    variable annuities, which reflect realistic features of common annuity contracts in practice. 
+    It aims to facilitate the development and dissemination of research related to the efficient 
+    valuation of a portfolio of large variable annuities. The main valuation methodology was 
+    proposed by Gan (2017) <doi:10.1515/demo-2017-0021>.
+Depends: R (>= 3.3.0)
+License: GPL-2
+LazyData: true
+Suggests: knitr, rmarkdown, testthat
+VignetteBuilder: knitr
+RoxygenNote: 7.0.2
+Imports: stats (>= 3.3.0), utils (>= 3.3.0), Rdpack (>= 0.4)
+RdMacros: Rdpack
+NeedsCompilation: no
+Encoding: UTF-8
+Repository: CRAN
+Packaged: 2020-02-27 01:43:34 UTC; Iris
+Author: Hengxin Li [aut, cph],
+  Ben Feng [aut, cph],
+  Mingyi Jiang [aut, cph, cre],
+  GuoJun Gan [ctb]
+Maintainer: Mingyi Jiang <m64jiang@uwaterloo.ca>
+Date/Publication: 2020-02-28 12:00:02 UTC

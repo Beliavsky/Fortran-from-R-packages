@@ -1,0 +1,143 @@
+---
+title: "A Comprehensive Monte Carlo Valuation of Variable Annuities"
+author: "Hengxin Li, Mingbin Feng, Mingyi Jiang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A Comprehensive Monte Carlo Valuation of Variable Annuities}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Package Info
+This package uses Monte Carlo simulation to estimate the fair market value of a large portfolio of synthetic variable annuities.
+The portfolio of variable annuities under consideration is generated based on realistic features of common types of guarantee riders in North America.
+The Monte Carlo simulation engine generates sample paths of asset prices based on Black-Scholes model.
+In this vignette, we will demonstrate the functionalities provided in this package. 
+
+For illustrative purposes, we will use few scenarios to valuate a pool of two
+variable annuities. Users may obtain a more robust valuation result by increasing
+the amount of risk-neutral scenarios.
+
+## Yield Curve Generation
+In this step, we exploit Secant method to calculate discount factors and forward rates at different tenor based on given swap rates using `buildCurve()`.
+
+```{r, echo = FALSE}
+  knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+  library(vamc)
+```
+
+```{r}
+# Initialize required inputs to boostrap a curve
+swap <- c(0.69, 0.77, 0.88, 1.01, 1.14, 1.38, 1.66, 2.15)*0.01
+tenor <- c(1, 2, 3, 4, 5, 7, 10, 30)
+fixFreq <- 6
+fixDCC <- "Thirty360"
+fltFreq <- 6
+fltDCC <- "ACT360"
+calendar <- "General"
+bdc <- "Modified_Foll"
+curveDate <- "2016-02-08"
+numSetDay <- 2
+yieldCurveDCC <- "Thirty360"
+holidays <- NULL
+
+# Bootstrap a forward curve 
+buildCurve(swap, tenor, fixFreq, fixDCC, fltFreq, fltDCC, calendar, bdc,
+            curveDate, numSetDay, yieldCurveDCC, holidays)
+
+```
+
+## Generate index scenarios and fund scenarios
+In the following example, we first simulate the index movements using `genIndexScen()`. Three of the inputs to `genIndexScen()` are stored as default data under variable names "mCov", "indexNames", and "cForwardCurve" respectively. For illustration purposes, we will simulate 100 scenarios for 360 steps with a step length dT = 1/12 and seed = 1. 
+
+The underlying model utilizes the __multivariate Black-Scholes model__. All the simulated index movements are stored in a __3D-array__ with dimensions [number of Scenarios, number of Steps, number of Indices]
+
+### Default covariance matrix
+```{r, echo=FALSE, results='asis'}
+# Default randomly generated covariance matrix
+knitr::kable(mCov, col.names = indexNames)
+```
+
+### Default index names
+```{r, echo=FALSE, results='asis'}
+# Default index names
+knitr::kable(indexNames, col.names = c("Index Names"))
+```
+
+### Risk-neutral path simulation for 5 indices
+```{r}
+# We will show the index simulated path for five months of the first scenario 
+indexScen <- genIndexScen(mCov, 100, 360, indexNames, 1 / 12, cForwardCurve, 1)
+indexScen[1, 1:5, ]
+```
+
+Then we use `genFundScen()` to map the index movements to funds according to different allocations of capital using a fund map (stored as default data under variable "fundMap"). The fund movements are also stored in a 3D-array with dimension [number of Scenarios, number of Steps, number of Funds]
+
+### Risk-neutral path simulation for 10 funds
+```{r}
+# Again, we show the fund simulated path for five months of the first scenario 
+fundScen <- genFundScen(fundMap, indexScen)
+fundScen[1, 1:5, ]
+```
+
+## Generate a synthetic portfolio of variable annuities
+Perhaps the most value-added step in this package is the generation of synthetic portfolio of variable annuities that has realistic charateristic features. Using the fuction `genPortInception()`, users can generate a synthetic variable annuity portfolio of desirable size. The function `genPortInception()` has certain predetermined default values based on the research in the package reference.
+We recommend users to change these default values, such as maturity and issue range, to match their portfolio characteristics. In the current version, there are a few constraints for the portfolio being generated: The issue range must be later than the first date of historical scenario; The maturity range should also be set after the  valuation date to be meaningful. 
+
+```{r}
+# For illustration purposes, we will only simulate one guarantee contract for each of 
+# the 19 guarantee types. Please note that due to randomness the generated portfolio 
+# under this code block may not align with the default VAPort under lazy data.
+if(capabilities("long.double")) {
+VAport <- genPortInception(issueRng = c("2001-08-01", "2014-01-01"), numPolicy =  1)
+}
+```
+
+## Monte Carlo Valuation
+After generating the above required elements for Monte Carlo valuation, we can now proceed to calculate the fair market price of the portfolio by calling the function `valuatePortfolio()`. Under the current version of the package, all the annuity contracts in the portfolio are assumed to be valuated on the same date, i.e. the first date of our simulated fund scenario. Users can either use the default mortality table by calling "mortTable", or input a mortality table to project liability cash flows.
+
+```{r}
+# In this vignette, we will arbitrarily use the first two scenarios from fundSen to 
+# valuate a portfolio of two guarantees to speed up the execution of the example.
+# The input cForwardCurve is a vector of 0.02 with dimension 360. 
+valuatePortfolio(VAPort[1:5, ], mortTable, fundScen[1, , ], 1 / 12, cForwardCurve)
+```
+
+Note that users can also "age" the portfolio, calling the function `agePortfolio()`, to a particular valuation date by incorporating the historical fund movements prior to that date.
+
+```{r}
+# Again, we will arbitrarily age a portfolio of two guarantees to speed up the execution.
+targetDate <- "2016-01-01"
+
+# Here we generate historical fund scenarios using default index data stored under "histIdxScen"
+histFundScen <- genFundScen(fundMap, histIdxScen)
+
+# Perform aging
+agePortfolio(VAPort[1:2, ], mortTable, histFundScen, histDates, dT = 1 / 12, targetDate, cForwardCurve)
+
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Closing Remarks
+Though the primary purpose of this package is to valuate a portfolio of variable annuities, users can also use the `valuateOnePolicy()` and the `ageOnePolicy()` functions to perform fair market valuation on a single variable annuity as demonstrated below.
+
+### Valuation of one variable annuity
+```{r}
+exPolicy <- VAPort[1, ]
+valuateOnePolicy(exPolicy, mortTable, fundScen[1:2, , ], 1 / 12, cForwardCurve)
+```
+
+### Aging of one variable annuity 
+```{r}
+# Similarly, users can age this single policy before pricing it. We use the same 
+# target date and historical fund scenario as generated before
+exPolicy <- VAPort[1, ]
+ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12, targetDate, cForwardCurve)
+```

@@ -1,0 +1,19 @@
+name = "vamc"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Hengxin Li, Ben Feng, Mingyi Jiang; Fortran port by OpenAI"
+maintainer = "OpenAI"
+copyright = "Copyright (c) upstream authors and contributors"
+description = "Modern Fortran Monte Carlo valuation framework for variable annuities"
+categories = ["finance", "actuarial", "monte-carlo"]
+keywords = ["variable annuity", "yield curve", "mortality", "simulation"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
