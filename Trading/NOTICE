@@ -1,0 +1,14 @@
+Trading modern Fortran translation
+
+Upstream work:
+  Trading R package, version 3.2
+  Copyright: Tasos Grivas
+  Upstream URL: https://openriskcalculator.com/
+  Upstream license declaration: GPL-3
+
+Translation:
+  Modern Fortran/FPM computational translation prepared by OpenAI in 2026.
+
+The original R files and data used for this translation are included under
+original-r/. Plotting and R-specific package infrastructure were not translated.
+See docs/PORTING_NOTES.md for API adaptations and documented correctness fixes.
