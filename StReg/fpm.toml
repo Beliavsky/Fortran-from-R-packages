@@ -1,0 +1,56 @@
+name = "streg"
+version = "0.1.1"
+license = "GPL-2.0-only"
+author = "Niraj Poudyal; modern Fortran port"
+maintainer = "modern Fortran port"
+copyright = "Copyright (c) upstream StReg authors and Fortran port contributors"
+description = "Student-t static and dynamic regression models"
+categories = ["statistics", "econometrics", "time-series"]
+keywords = ["student-t", "regression", "autoregression", "var", "heteroskedasticity"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[example]]
+name = "streg_demo"
+source-dir = "example"
+main = "streg_demo.f90"
+
+[[test]]
+name = "block_top"
+source-dir = "test/block_top"
+main = "main.f90"
+
+[[test]]
+name = "conditional"
+source-dir = "test/conditional"
+main = "main.f90"
+
+[[test]]
+name = "static"
+source-dir = "test/static"
+main = "main.f90"
+
+[[test]]
+name = "dynamic"
+source-dir = "test/dynamic"
+main = "main.f90"
+
+[[test]]
+name = "inference_errors"
+source-dir = "test/inference_errors"
+main = "main.f90"
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

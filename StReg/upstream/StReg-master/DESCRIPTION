@@ -1,0 +1,18 @@
+Package: StReg
+Type: Package
+Title: Student's t Regression Models
+Version: 1.1
+Date: 2023-08-08
+Authors@R: person("Niraj", "Poudyal", role = c("aut", "cre"), email = "niraj.poudyal@ku.edu.np")
+Description: It contains functions to estimate multivariate Student's t dynamic and static regression models for given degrees of freedom and lag length. Users can also specify the trends and dummies of any kind in matrix form.
+    Poudyal, N., and Spanos, A. (2022) <doi:10.3390/econometrics10020017>.
+    Spanos, A. (1994) <http://www.jstor.org/stable/3532870>.
+Depends: R (>= 3.0.0)
+Imports: ADGofTest,numDeriv,MCMCpack,matlab,tseries
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2023-08-16 09:34:46 UTC; Bell
+Author: Niraj Poudyal [aut, cre]
+Maintainer: Niraj Poudyal <niraj.poudyal@ku.edu.np>
+Repository: CRAN
+Date/Publication: 2023-08-17 06:42:41 UTC
