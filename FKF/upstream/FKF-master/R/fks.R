@@ -1,0 +1,109 @@
+#' Fast Kalman Smoother
+#'
+#' @description This function can be run after running \code{\link{fkf}} to produce
+#' "smoothed" estimates of the state variable \eqn{\alpha_t}{alpha(t)}.
+#' Unlike the output of the filter, these estimates are conditional
+#' on the entire set of \eqn{n}{n} data points rather than only the past, see details.
+#'
+#' @param FKFobj  An S3-object of class "fkf", returned by \code{\link{fkf}}.
+#'
+#' @return An S3-object of class "fks" which is a list with the following elements:
+#'
+#'   \code{ahatt}  A \eqn{m \times n}{m * n}-matrix containing the
+#'   smoothed state variables, i.e. ahatt[,t] = \eqn{a_{t|n}}{a(t|n)}\cr
+#'   \code{Vt}  A \eqn{m \times m \times n}{m * m * n}-array
+#'   containing the variances of \code{ahatt}, i.e. Vt[,,t] = \eqn{P_{t|n}}{P(t|n)}\cr
+#'
+#' @details
+#' The following notation is taken from the \code{\link{fkf}} function descriptions
+#' and is close to the one of Koopman et al. The smoother estimates
+#' \deqn{a_{t|n} = E[\alpha_{t} | y_1,\ldots,y_n]}{a(t|n)=E[alpha(t)|y(1),...,y(n)]}
+#' \deqn{P_{t|n} = Var[\alpha_{t} | y_1,\ldots,y_n]}{P(t|n)=Var[alpha(t)|y(1),...,y(n)]}
+#' based on the outputs of the forward filtering pass performed by \code{\link{fkf}}.
+#'
+#' The formulation of Koopman and Durbin is used which evolves the two values
+#' \eqn{r_{t} \in R^m}{r(t) in R^m} and \eqn{N_{t} \in R^{m \times m}}{N(t) in R^{m x m}}
+#' to avoid inverting the covariance matrix.
+#'
+#' \strong{Iteration:}
+#'
+#' If there are no missing values the iteration proceeds as follows:
+#' 
+#' Initialisation: Set \eqn{t=n}{t=n}, with \eqn{r_t =0}{r(t)=0} and \eqn{N_t =0}{N(t)=0}.
+#' 
+#' Evolution equations:
+#' \deqn{L = T_{t} - T_{t}K_{t}Z_{t}}{L = T(t) - T(t)K(t)Z(t)}
+#' \deqn{r_{t-1} = Z_{t}^\prime F_{t}^{-1} v_{t} + L^\prime r_{t}}{r(t-1) = Z(t)' F(t)^{-1} v(t) + L'r(t)}
+#' \deqn{N_{t-1} = Z_{t}^\prime F_{t}^{-1} Z_{t} + L^\prime N_{t} L}{N(t-1) = Z(t)' F(t)^{-1} Z(t) + L' N(t) L}
+#' 
+#' Updating equations:
+#' \deqn{a_{t|n} = a_{t|t-1} + P_{t|t-1}r_{t-1}}{a(t|n) = a(t|t-1) + P(t|t-1)r(t)}
+#' \deqn{P_{t|n} = P_{t|t-1} - P_{t|t-1}N_{t-1}P_{t|t-1}}{P(t|n) = P(t|t-1) - P(t|t-1)N(t-1)P(t|t-1)}
+#'
+#'
+#' Next iteration: Set \eqn{t=t-1}{t=t-1} and goto \dQuote{Evolution equations}.
+#'
+#' @section References:
+#'
+#' Koopman, S. J. and Durbin, J. (2000). \emph{Fast filtering and smoothing for multivariate state space models} Journal of Time Series Analysis Vol. 21, No. 3
+#' 
+#' @examples
+#' ## <--------------------------------------------------------------------------->
+#' ## Example: Local level model for the Nile's annual flow.
+#' ## <--------------------------------------------------------------------------->
+#' ## Transition equation:
+#' ## alpha[t+1] = alpha[t] + eta[t], eta[t] ~ N(0, HHt)
+#' ## Measurement equation:
+#' ## y[t] = alpha[t] + eps[t], eps[t] ~  N(0, GGt)
+#'
+#' y <- Nile
+#' y[c(3, 10)] <- NA  # NA values can be handled
+#'
+#' ## Set constant parameters:
+#' dt <- ct <- matrix(0)
+#' Zt <- Tt <- matrix(1)
+#' a0 <- y[1]            # Estimation of the first year flow
+#' P0 <- matrix(100)     # Variance of 'a0'
+#'
+#' ## Estimate parameters:
+#' fit.fkf <- optim(c(HHt = var(y, na.rm = TRUE) * .5,
+#'                    GGt = var(y, na.rm = TRUE) * .5),
+#'                  fn = function(par, ...)
+#'                    -fkf(HHt = matrix(par[1]), GGt = matrix(par[2]), ...)$logLik,
+#'                  yt = rbind(y), a0 = a0, P0 = P0, dt = dt, ct = ct,
+#'                  Zt = Zt, Tt = Tt)
+#'
+#' ## Filter Nile data with estimated parameters:
+#' fkf.obj <- fkf(a0, P0, dt, ct, Tt, Zt, HHt = matrix(fit.fkf$par[1]),
+#'                GGt = matrix(fit.fkf$par[2]), yt = rbind(y))
+#'
+#' ## Smooth the data based on the filter object
+#' fks.obj <- fks(fkf.obj)
+#'
+#' ## Plot the flow data together with local levels:
+#' plot(y, main = "Nile flow")
+#' lines(ts(fkf.obj$att[1, ], start = start(y), frequency = frequency(y)), col = "blue")
+#' lines(ts(fks.obj$ahatt[1,], start = start(y), frequency = frequency(y)), col = "red")
+#' legend("top", c("Nile flow data", "Local level (fkf)","Local level (fks)"),
+#'        col = c("black", "green", "blue", "red"), lty = 1)
+#'
+#' @export
+fks <- function (FKFobj) {
+  if ( !inherits(FKFobj,'fkf') ) stop('Input must be an object of class FKF')
+  if (FKFobj$status[1] != 0 || FKFobj$status[2] != 0) {
+    stop('Smoothing requires successful inversion of Ft for all t')
+  }
+  yt <- FKFobj$yt
+  vt <- FKFobj$vt
+  Ftinv <- FKFobj$Ftinv
+  n <- dim(Ftinv)[3]
+  Kt <- FKFobj$Kt
+  at <- FKFobj$at[,1:n]
+  Pt <- FKFobj$Pt[,,1:n]
+  Zt <- FKFobj$Zt
+  Tt <- FKFobj$Tt
+
+  
+  ans <- .Call("FKS", yt, Zt, vt, Tt, Kt, Ftinv, at, Pt, PACKAGE = "FKF")
+  return(ans)
+}

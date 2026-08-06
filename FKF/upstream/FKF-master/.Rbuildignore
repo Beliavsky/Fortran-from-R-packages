@@ -1,0 +1,10 @@
+$.git$
+^\.github$
+.Rhistory
+^docs$
+^cran-comments\.md$ # Comments for CRAN submission
+^\.travis\.yml$
+^appveyor\.yml$
+.directory
+^.*\.Rproj$
+^\.Rproj\.user$
