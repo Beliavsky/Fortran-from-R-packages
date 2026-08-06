@@ -1,0 +1,12 @@
+name = "tvgarch-modern-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of tvgarch by Susana Campos-Martins and Genaro Sucarrat"
+maintainer = "Translation project"
+description = "Modern Fortran computational translation of the R tvgarch package"
+copyright = "Original tvgarch authors; translation modifications 2026"
+
+[build]
+auto-executables = true
+auto-tests = true
+link = ["lapack", "blas"]

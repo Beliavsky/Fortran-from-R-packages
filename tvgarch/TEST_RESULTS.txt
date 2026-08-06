@@ -1,0 +1,71 @@
+mkdir -p build/debug
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_kinds.f90 -o build/debug/garchx_kinds.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_linalg.f90 -o build/debug/garchx_linalg.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_math.f90 -o build/debug/garchx_math.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_optimize.f90 -o build/debug/garchx_optimize.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_model.f90 -o build/debug/garchx_model.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_utilities.f90 -o build/debug/garchx_utilities.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/garchx_inference.f90 -o build/debug/garchx_inference.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/tvgarch_transition.f90 -o build/debug/tvgarch_transition.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/tvgarch_model.f90 -o build/debug/tvgarch_model.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/tvgarch_multivariate.f90 -o build/debug/tvgarch_multivariate.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/tvgarch_tests.f90 -o build/debug/tvgarch_tests.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -J build/debug -I build/debug -c src/tvgarch.f90 -o build/debug/tvgarch.o
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug test/test_transition.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/test_transition
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug test/test_simulation.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/test_simulation
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug test/test_fit.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/test_fit
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug test/test_multivariate.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/test_multivariate
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug test/test_lm.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/test_lm
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O0 -g -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -I build/debug app/demo_tvgarch.f90 build/debug/garchx_kinds.o build/debug/garchx_linalg.o build/debug/garchx_math.o build/debug/garchx_optimize.o build/debug/garchx_model.o build/debug/garchx_utilities.o build/debug/garchx_inference.o build/debug/tvgarch_transition.o build/debug/tvgarch_model.o build/debug/tvgarch_multivariate.o build/debug/tvgarch_tests.o build/debug/tvgarch.o -llapack -lblas -o build/debug/demo_tvgarch
+/usr/bin/ld: warning: build/debug/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+test_transition: PASS
+test_simulation: PASS
+test_fit: PASS
+test_multivariate: PASS
+test_lm: PASS
+build/debug/demo_tvgarch >/dev/null
+All tvgarch tests passed.
+make clean
+make[1]: Entering directory '/mnt/data/work_tvgarch/tvgarch-fortran-v0.1.0'
+rm -rf build
+make[1]: Leaving directory '/mnt/data/work_tvgarch/tvgarch-fortran-v0.1.0'
+make check BUILD=build/release FFLAGS='-std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace'
+make[1]: Entering directory '/mnt/data/work_tvgarch/tvgarch-fortran-v0.1.0'
+mkdir -p build/release
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_kinds.f90 -o build/release/garchx_kinds.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_linalg.f90 -o build/release/garchx_linalg.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_math.f90 -o build/release/garchx_math.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_optimize.f90 -o build/release/garchx_optimize.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_model.f90 -o build/release/garchx_model.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_utilities.f90 -o build/release/garchx_utilities.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/garchx_inference.f90 -o build/release/garchx_inference.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/tvgarch_transition.f90 -o build/release/tvgarch_transition.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/tvgarch_model.f90 -o build/release/tvgarch_model.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/tvgarch_multivariate.f90 -o build/release/tvgarch_multivariate.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/tvgarch_tests.f90 -o build/release/tvgarch_tests.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -J build/release -I build/release -c src/tvgarch.f90 -o build/release/tvgarch.o
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release test/test_transition.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/test_transition
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release test/test_simulation.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/test_simulation
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release test/test_fit.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/test_fit
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release test/test_multivariate.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/test_multivariate
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release test/test_lm.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/test_lm
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+gfortran -std=f2018 -O2 -Wall -Wextra -Wimplicit-interface -Werror -fbacktrace -I build/release app/demo_tvgarch.f90 build/release/garchx_kinds.o build/release/garchx_linalg.o build/release/garchx_math.o build/release/garchx_optimize.o build/release/garchx_model.o build/release/garchx_utilities.o build/release/garchx_inference.o build/release/tvgarch_transition.o build/release/tvgarch_model.o build/release/tvgarch_multivariate.o build/release/tvgarch_tests.o build/release/tvgarch.o -llapack -lblas -o build/release/demo_tvgarch
+/usr/bin/ld: warning: build/release/garchx_model.o: requires executable stack (because the .note.GNU-stack section is executable)
+test_transition: PASS
+test_simulation: PASS
+test_fit: PASS
+test_multivariate: PASS
+test_lm: PASS
+build/release/demo_tvgarch >/dev/null
+All tvgarch tests passed.
+make[1]: Leaving directory '/mnt/data/work_tvgarch/tvgarch-fortran-v0.1.0'

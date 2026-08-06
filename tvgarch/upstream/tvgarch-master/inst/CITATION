@@ -1,0 +1,17 @@
+bibentry(bibtype = "Article",
+  title        = "Modeling Nonstationary Financial Volatility with the {R} Package {tvgarch}",
+  author       = c(person(given = "Susana",
+                          family = "Campos-Martins",
+                          email = "susana.martins@nuffield.ox.ac.uk"),
+                   person(given = "Genaro",
+                          family = "Sucarrat",
+                          email = "genaro.sucarrat@bi.no")),
+  journal      = "Journal of Statistical Software",
+  year         = "2024",
+  volume       = "108",
+  number       = "9",
+  pages        = "1--38",
+  doi          = "10.18637/jss.v108.i09",
+  header       = "To cite tvgarch in publications use:"
+)
+

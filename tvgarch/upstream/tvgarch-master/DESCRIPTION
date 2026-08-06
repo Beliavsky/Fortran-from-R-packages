@@ -1,0 +1,23 @@
+Package: tvgarch
+Type: Package
+Title: Time Varying GARCH Modelling
+Version: 2.4.3
+Date: 2025-09-01
+Authors@R: c(person(given = "Susana",
+                      family = "Campos-Martins",
+                      role = c("aut", "cre"),
+                      email = "scmartins@ucp.pt"),
+               person(given = "Genaro",
+                      family = "Sucarrat",
+                      role = "ctb"))
+Maintainer: Susana Campos-Martins <scmartins@ucp.pt>
+Description: Simulation, estimation and inference for univariate and multivariate TV(s)-GARCH(p,q,r)-X models, where s indicates the number and shape of the transition functions, p is the ARCH order, q is the GARCH order, r is the asymmetry order, and 'X' indicates that covariates can be included; see Campos-Martins and Sucarrat (2024) <doi:10.18637/jss.v108.i09>. In the multivariate case, variances are estimated equation by equation and dynamic conditional correlations are allowed. The TV long-term component of the variance as in the multiplicative TV-GARCH model of Amado and Terasvirta (2013) <doi:10.1016/j.jeconom.2013.03.006> introduces non-stationarity whereas the GARCH-X short-term component describes conditional heteroscedasticity. Maximisation by parts leads to consistent and asymptotically normal estimates.
+License: GPL (>= 2)
+Depends: R (>= 3.5.0), garchx, zoo, numDeriv
+URL: https://sites.google.com/site/susanacamposmartins
+NeedsCompilation: no
+Packaged: 2025-09-01 17:22:56 UTC; susanacamposmartins
+Repository: CRAN
+Date/Publication: 2025-09-01 17:40:02 UTC
+Author: Susana Campos-Martins [aut, cre],
+  Genaro Sucarrat [ctb]

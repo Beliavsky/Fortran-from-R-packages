@@ -1,0 +1,78 @@
+
+## import:
+
+import("zoo")
+import("garchx")
+import("numDeriv")
+
+importFrom(
+
+	"stats", "lm", "pchisq", "cor", "sd", "coef", "dnorm",
+	"fitted", "logLik", "constrOptim", "nobs", "pnorm", "vcov",
+	"quantile", "residuals", "rnorm", "runif", "predict", 
+	"optimHess"
+)
+
+importFrom(
+
+	"graphics", "lines", "par", "title"
+)
+
+importFrom(
+	
+	"utils", "toLatex", "tail"
+)
+
+
+export(
+
+	# main functions: 
+	"tv", "tvgarchSim", "tvgarchTest", "tvObj", "garchObj", "tvgarchObj", 
+	"tvgarch", "mtvgarchSim", "mtvgarch", "combinations", "combos"
+)
+    
+# methods for class tvgarchTest:
+
+S3method("coef", "tvgarchTest")
+S3method("fitted", "tvgarchTest")
+S3method("logLik", "tvgarchTest")
+S3method("nobs", "tvgarchTest")
+S3method("predict", "tvgarchTest")
+S3method("print", "tvgarchTest")
+S3method("quantile", "tvgarchTest")
+S3method("residuals", "tvgarchTest")
+S3method("toLatex", "tvgarchTest")
+S3method("vcov", "tvgarchTest")
+S3method("plot", "tvgarchTest")
+S3method("summary", "tvgarchTest")
+
+# methods for class tvgarch:
+
+S3method("coef", "tvgarch")
+S3method("fitted", "tvgarch")
+S3method("logLik", "tvgarch")
+S3method("nobs", "tvgarch")
+S3method("predict", "tvgarch")
+S3method("print", "tvgarch")
+S3method("quantile", "tvgarch")
+S3method("residuals", "tvgarch")
+S3method("toLatex", "tvgarch")
+S3method("vcov", "tvgarch")
+S3method("plot", "tvgarch")
+S3method("summary", "tvgarch")
+
+
+# methods for class mtvgarch:
+
+S3method("coef", "mtvgarch")
+S3method("fitted", "mtvgarch")
+S3method("logLik", "mtvgarch")
+S3method("nobs", "mtvgarch")
+S3method("predict", "mtvgarch")
+S3method("print", "mtvgarch")
+S3method("quantile", "mtvgarch")
+S3method("residuals", "mtvgarch")
+S3method("toLatex", "mtvgarch")
+S3method("vcov", "mtvgarch")
+S3method("plot", "mtvgarch")
+S3method("summary", "mtvgarch")

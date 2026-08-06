@@ -1,0 +1,78 @@
+Version 2.4.3 (01 September 2025):
+============================
+
+* Missing package anchors added. 
+
+
+Version 2.4.2 (03 April 2024):
+============================
+
+* Citation Campos-Martins and Sucarrat (2024) <doi:10.18637/jss.v108.i09> added. 
+
+
+Version 2.4.1 (01 October 2023):
+============================
+
+* Correction: given version disagreed with the actual package version (meta: 2.4, docs: 2.3).
+
+
+Version 2.4 (07 March 2023):
+============================
+
+* New functions: combos() and combinations(). The former is a modification of the function combos1() from the package hier.part by Chris Walsh, whereas the latter is from the package gtools.
+
+* Reduced dependency: the package tvgarch does not depend anymore on the packages hier.part and gtools 
+
+
+Version 2.3 (18 January 2023):
+==============================
+
+* The notation in the NEWS file was changed to enable the application of the news() function.
+
+* Bug fixed to return dates rather than index numbers when using mtvgarch().
+
+* Allows the user to choose the upper bound for the speed of transition using the new additional argument upper.speed in tvgarch() and mtvgarch() functions. Defaults to speed = NULL, meaning an upper bound of 10000. 
+
+* New argument tvgarch in tvgarch() and mtvgarch() functions. In order to compute the full vcov matrix after the final iteration, the full model is estimated using the parameters obtained by maximisation by parts of the likelihood as initial values. If tvgarch = TRUE, the previous estimates are overwritten but the estimates obtained by maximisation of the full log-likelihood. 
+
+* Modified argument spec in S3 methods. Changed from spec = c("sigma2", "tv", "garch") to spec = c("tvgarch", "tv", "garch") such that the default is to return values for the TV-GARCH model (and not its parts separately). When spec = "tvgarch", the full vcov matrix is computed for the full parameter set i.e., considering both par.g and par.h, after the final iteration. Estimates and s.e. for the final iteration can still be retrieved by setting argument tvgarch = FALSE in tvgarch() or mtvgarch() function. Otherwise, these are overwritten by the estimates and s.e. considering the full parameter set. Also, the first row and the first column of the previous form of the vcov matrix of the TV component has been removed given intercept.g is fixed after the first iteration. 
+
+
+Version 2.2 (11 December 2021):
+===============================
+
+* mtvgarchSim() has a different specification for the volatility spillovers, i.e.,  when 'order.x' is not NULL, but 'xreg' is. Only up to order.h = (1,1,1) is allowed with volatility spillovers.
+
+* Argument 'as.zoo' (= TRUE by default) added to tvgarchSim(), predict.tvgarch(), mtvgarchSim() and predict.mtvgarch().
+
+* Extraction functions plot() and summary() added to objects of class 'tvgarch' and 'mtvgarch'.
+
+* Argument 'spec' in the extraction functions should be one of “sigma2”, “tv” or “garch” for objects of class 'tvgarch' and one of “sigma2”, “tv”, “garch” or “cc” for objects of class 'mtvgarch'. “sigma2”, “tv” or “garch” is only relevant for TV-GARCH-X models (irrelevant for GARCH-X models).
+
+* Argument 'names' in the extraction function quantile.mtvgarch() removed. 
+
+* Names of columns in extraction functions for objects of class 'mtvgarch' have changed.
+
+* Objects of class 'tvgarchTest' are now possible to obtain when testing for a TV-GARCH(1,1) model as well as results from the estimation of the model under the null hypothesis, i.e., a GARCH(1,1) model. 
+
+* Argument 'trace' has been eliminated from function tvgarchTest().
+
+* Bugs have been fixed.
+
+
+Version 2.1 (1 September 2021):
+===============================
+
+* Second version with some bugs fixed and faster tv() function.
+
+
+Version 2.0 (15 April 2021):
+============================
+
+* New functions for simulation and estimation of (not only univariate but also) multivariate TV-GARCH-X models.
+
+
+Version 1.0 (28 January 2021):
+==============================
+
+* First version.
