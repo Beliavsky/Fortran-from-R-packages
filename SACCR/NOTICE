@@ -1,0 +1,21 @@
+SACCR modern Fortran translation
+
+Upstream project:
+  SACCR 3.4
+  Copyright Tasos Grivas
+  https://openriskcalculator.com/
+  License: GPL-3
+
+Modern Fortran translation:
+  Generated for the user by OpenAI in 2026.
+  License: GPL-3.0-only, consistent with the upstream package.
+
+Bundled dependency:
+  Trading modern Fortran translation
+  Upstream author: Tasos Grivas
+  License: GPL-3.0-only
+
+The complete upstream SACCR R sources and data used for this translation are
+retained in original-r/. The complete bundled Trading translation, including
+its own notice and upstream source archive, is retained in
+dependencies/trading/.
