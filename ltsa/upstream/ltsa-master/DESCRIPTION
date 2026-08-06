@@ -1,0 +1,30 @@
+Package: ltsa
+Version: 1.4.6.1
+Date: 2015-12-20
+Title: Linear Time Series Analysis
+Authors@R: c(person(given = "A.I.",
+                    family = "McLeod",
+                    role = c("aut", "cre"),
+                    email = "aimcleod@uwo.ca"),
+             person(given = "Hao",
+                    family = "Yu",
+                    role = "aut"),
+             person(given = "Zinovi",
+                    family = "Krougly",
+                    role = "aut"))
+Depends: R (>= 2.1.0)
+Description: Methods of developing linear time series modelling.
+ Methods are given for loglikelihood computation, forecasting
+  and simulation.
+Classification/ACM: G.3, G.4, I.5.1
+Classification/MSC: 62M10, 91B84
+License: GPL (>= 2)
+URL: http://www.stats.uwo.ca/faculty/aim
+NeedsCompilation: yes
+Packaged: 2024-09-18 10:20:12 UTC; hornik
+Repository: CRAN
+Date/Publication: 2024-09-18 10:28:37 UTC
+Author: A.I. McLeod [aut, cre],
+  Hao Yu [aut],
+  Zinovi Krougly [aut]
+Maintainer: A.I. McLeod <aimcleod@uwo.ca>

@@ -1,0 +1,8 @@
+ltsa-fortran is distributed under the GNU General Public License, version 2 or later.
+
+This is a translation of ltsa, whose DESCRIPTION declares "GPL (>= 2)".
+The complete GPL version 2 text is in licenses/GPL-2.0.txt.
+
+Copyright remains with the upstream authors for the translated algorithms and
+source snapshot. New Fortran translation code is distributed under the same
+GPL-2.0-or-later terms.

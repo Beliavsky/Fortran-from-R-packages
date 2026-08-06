@@ -1,0 +1,10 @@
+bibentry("Article",
+  title        = "Algorithms for Linear Time Series Analysis: With R Package",
+  author       = c(as.person("A. I. McLeod"),
+                   as.person("Hao Yu"),
+		   as.person("Zinovi Krougly")),
+  journal      = "Journal of Statistical Software",
+  year         = "2007",
+  volume       = "23",
+  number       = "5",
+  url          = "https://www.jstatsoft.org/v23/i05/")

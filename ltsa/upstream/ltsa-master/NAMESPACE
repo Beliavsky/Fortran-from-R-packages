@@ -1,0 +1,20 @@
+useDynLib(ltsa)
+
+export("DHSimulate",
+"DLAcfToAR",
+"DLLoglikelihood",
+"DLResiduals",
+"DLSimulate",
+"exactLoglikelihood",
+"PredictionVariance",
+"innovationVariance",
+"SimGLP",
+"ToeplitzInverseUpdate",
+"TrenchForecast",
+"TrenchInverse",
+"TrenchLoglikelihood",
+"TrenchMean",
+"is.toeplitz",
+"tacvfARMA")
+importFrom("stats", "ARMAtoMA", "convolve", "fft", "rnorm", "toeplitz")
+importFrom("stats", "ar", "spec.pgram")
