@@ -1,0 +1,20 @@
+name = "mass-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "MASS authors and Fortran port contributors"
+maintainer = "Fortran port contributors"
+copyright = "Copyright MASS authors; Fortran translation 2026"
+description = "Modern Fortran computational port of the R MASS package"
+keywords = ["statistics", "robust-regression", "discriminant-analysis", "mds", "fortran"]
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
