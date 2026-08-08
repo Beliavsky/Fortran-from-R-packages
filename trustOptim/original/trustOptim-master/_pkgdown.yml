@@ -1,0 +1,28 @@
+url: https://braunm.github.io/trustOptim
+
+template:
+  bootstrap: 5
+  params:
+    bootswatch: spacelab
+    ganalytics: G-XVJF7FJCCT
+
+authors:
+  Michael Braun:
+    href: https://braunm.github.io
+
+reference:
+  - title: Package overview
+    desc:  Overview of trustOptim
+    contents:
+      - trustOptim
+  - title: "Running the optimizer"
+  - contents:
+      - trust.optim
+  - title: Data and functions for examples
+  - desc: "Functions and data used in the vignettes and examples"
+  - contents:
+      - starts_with("binary")
+links:
+  - text:  Browse at source code
+news:
+  one_page: true

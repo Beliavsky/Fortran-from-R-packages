@@ -1,0 +1,120 @@
+# trustOptim 0.8.7.4
+
+- minor changes to conform to new CRAN guidelines and resolve check notes.
+- updated documentation files to remove deprecated roxygen2 arguments
+
+# trustOptim 0.8.7.3
+
+- Disabled tests on CRAN.  Checks depending on numerical precision are not 100% guaranteed to pass on all CRAN platforms.
+- Updated CITATION file to point to the DOI link to JStatSoft article.
+
+# trustOptim 0.8.7.2
+
+- Built a pkgdown site.
+- Changes to various urls and links.
+- New API for Matrix 1.3: replaced deprecated giveCsparse arguments with repr.
+- Relaxed numerical precision requirements in tests/testthat/test_rosenbrock.R, so the package passes CRAN checks on 32-bit Solaris.
+
+# trustOptim 0.8.7
+
+- Changes to status reporting by iteration:
+    - Made report.header.freq a user argument (was previously hard-coded in C++ code at 25).
+	- Suppress start and end messages when report.level = 0.
+- Now using Rcpp exception handler and interrupt check.
+
+# trustOptim 0.8.6.2
+
+-   Removed deprecated Matrix package functions rBind and cBind, and
+    replaced them with their rbind and cbind counterparts.
+
+# trustOptim 0.8.6.1
+
+- Modified registration of native routines in src/init.c to be
+   compatible with new Rcpp naming convention.
+
+- Replaced deprecated MappedSparseMatrix with Map<SparseMatrix>  for RcppEigen 0.3.3.3.0.
+
+# trustOptim 0.8.6
+
+- Add explicit registration of compiled functions, as required for R 3.4.0.
+
+- Fixed various, Depends, Imports, Suggests, and LinkingTo statements to comply with new CRAN requirements since previous release.
+
+# trustOptim 0.8.5
+
+-  New vignettes that do not depend on sparseHessianFD
+
+-  Removed demos, which are replaced by the vignettes
+
+-  Converted from standard C interface to Rcpp::attributes
+
+-  Added some unit tests, using testthat.
+
+-  Removed demonstration functions that were in .R files, but are now included in the vignettes and unit tests directly.
+
+-  Removed logit.R and vech.R files, which weren't used at all.
+
+-  Replaced abs with std::abs in C++ code.
+
+-  Added NEWS.md, which can be converted to NEWS via pandoc.
+
+# trustOptim 0.8.4.1
+
+-  Final version for Journal of Statistical Software, with new CITATION file.  Please cite this package if using it in your work.
+
+-  Some minor changes to the vignette, to correspond with the JStatSoft paper.
+
+# trustOptim 0.8.4
+
+-  Now using Roxygen2 for documentation and namespace management.
+
+-  Non-CRAN version for Journal of Statistical Software.
+
+
+# trustOptim 0.8.3
+
+-  For log10(x) and sqrt(x), with x being an integer, provide explicit casts from int to double (strict conformance with C++, need to compile on Solaris).
+
+# trustOptim 0.8.2
+
+-  Minor changes in the demo/choice_sparse.R and demo/choice_dense.R, so the algorithms start closer to the optimal values.
+
+-  Moved vignette code to conform to new CRAN standards.
+
+-  Updated maintainer contact information.
+
+
+# trustOptim 0.8.1
+
+-  Rewrote update_one_step() in CG-base.h so the gradient is not evaluated if we already know that the trust region will contract.  If the trust region contracts, the algorithm does not move, so the gradient does not need to be recomputed. (Thanks to Gregor Reich for contributing a change to the code).
+
+-  For report_level >= 3, the precision of the output of the current radius of the trust region now depends on the report_precision parameter.  Previously, the precision had an upper bound of 2. (Thanks to Gregor Reich for contributing a change to the code).
+-  For the BFGS method, the default preconditioner is now the Cholesky (Hessians are guaranteed to be positive definite).  For SR1 and Sparse, the default preconditioner remains the identity matrix.
+
+-  There is a new vignette, with an added example of a smaller problem with a dense Hessian.  Both the sparse and dense Hessian examples can be run through demo(choice_sparse) and demo(choice_dense).  The code for the examples is in the demo directory.  The code for the objective functions and gradients is in R/demo_funcs.R.
+
+-  New minimum versions for dependencies (Rcpp 0.10.3 and RcppEigen 0.3.1.2.1).
+
+# trustOptim 0.8.0
+
+-  Removed sparseFD method. Instead, use the sparseHessianFD package for similar funcationality.
+
+-  All ACM-licensed code was removed from the package and moved to the sparseHessianFD package.
+
+-  Disabled the diagonal preconditioner, which was segfaulting for some yet-to-be-identified reason.  Since it didn't work much better than no preconditioner at all, it's no great loss.  The modified Cholesky preconditioner remains.
+
+-  In the control list, setting preconditioner to 1 implements the modified Cholesky preconditioner. The value 2 is no longer a valid (and will default to the identity preconditioner).
+
+-  Fixed a bug where the function.scale.factor option defaulted to -1 instead of 1. It now defaults to 1.
+
+
+# trustOptim 0.7.1
+
+-  Added get.fdfh function to return estimate of sparse Hessian when only the structure is known.
+
+-  Added vignette that describes how to use the package, and compares performance to some other optimizers.
+
+
+# trustOptim 0.7.0
+
+-  Initial upload to CRAN.

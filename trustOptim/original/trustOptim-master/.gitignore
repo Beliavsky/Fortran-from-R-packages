@@ -1,0 +1,14 @@
+*.so
+*.o
+*~
+.*~
+.DS_Store
+.Rhistory
+.RData
+vignettes/*_cache
+inst/doc/*
+README.R
+
+
+Meta
+doc

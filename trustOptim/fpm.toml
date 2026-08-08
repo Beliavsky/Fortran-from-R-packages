@@ -1,0 +1,15 @@
+name = "trustoptim-fortran"
+version = "0.1.0"
+license = "MPL-2.0"
+author = "Modern Fortran translation of trustOptim by OpenAI; upstream Michael Braun"
+maintainer = ""
+copyright = "Copyright (c) 2014-2026 Michael Braun; translation preserves MPL-2.0 terms"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

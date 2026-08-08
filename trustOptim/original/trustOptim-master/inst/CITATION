@@ -1,0 +1,13 @@
+#citHeader("To cite trustOptim in publications use:")
+
+bibentry(bibtype = "Article",
+  title        = "{trustOptim}: An {R} Package for Trust Region Optimization with Sparse Hessians",
+  author       = person("Michael", "Braun"),
+  journal      = "Journal of Statistical Software",
+  year         = "2014",
+  volume       = "60",
+  number       = "4",
+  pages        = "1--16",
+  doi          = "10.18637/jss.v060.i04",
+  header       ="To cite trustOptim in publications use:"
+  )
