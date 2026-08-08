@@ -1,0 +1,9 @@
+
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+SOURCES_C = ajour.c calmaj.c init.c n1qn1_all.c proj.c satur.c
+SOURCES_CPP = RcppExpMod.cpp
+
+OBJECTS = $(SOURCES_C:.c=.o) $(SOURCES_CPP:.cpp=.o)
+ 
+all: $(SHLIB)
