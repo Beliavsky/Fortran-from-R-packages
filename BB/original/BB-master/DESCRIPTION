@@ -1,0 +1,47 @@
+Package: BB
+Version: 2026.1.0
+Title: Solving and Optimizing Large-Scale Nonlinear Systems
+Description: Barzilai-Borwein spectral methods for solving nonlinear
+        system of equations, and for optimizing nonlinear objective
+        functions subject to simple constraints. A tutorial style
+        introduction to this package is available in a vignette on the
+        CRAN download page or, when the package is loaded in an R
+        session, with vignette("BB").
+Depends: R (>= 4.0.0)
+Imports: stats, quadprog
+Suggests: setRNG, survival, Hmisc, numDeriv
+BuildVignettes: true
+LazyLoad: yes
+ByteCompile: yes
+License: GPL-3
+Authors@R: c(
+  person("Ravi", "Varadhan", role=c("aut","cph","cre"), email="ravi.varadhan@jhu.edu"),
+  person("Paul", "Gilbert",  role=c("aut"), email="pgilbert.ttv9z@ncf.ca"),
+  person("Marcos", "Raydan", role="ctb", 
+   comment="with co-authors, wrote original algorithms in fortran. These provided some guidance for implementing R code in the BB package."),
+  person("JM", "Martinez", role="ctb", 
+   comment="with co-authors, wrote original algorithms in fortran. These provided some guidance for implementing R code in the BB package."),
+  person("EG", "Birgin", role="ctb", 
+   comment="with co-authors, wrote original algorithms in fortran. These provided some guidance for implementing R code in the BB package."),
+  person("W", "LaCruz", role="ctb", 
+   comment="with co-authors, wrote original algorithms in fortran. These provided some guidance for implementing R code in the BB package.")
+  )
+NeedsCompilation: no
+Packaged: 2026-02-19 00:28:39 UTC; raviv
+Author: Ravi Varadhan [aut, cph, cre],
+  Paul Gilbert [aut],
+  Marcos Raydan [ctb] (with co-authors, wrote original algorithms in
+    fortran. These provided some guidance for implementing R code in
+    the BB package.),
+  JM Martinez [ctb] (with co-authors, wrote original algorithms in
+    fortran. These provided some guidance for implementing R code in
+    the BB package.),
+  EG Birgin [ctb] (with co-authors, wrote original algorithms in fortran.
+    These provided some guidance for implementing R code in the BB
+    package.),
+  W LaCruz [ctb] (with co-authors, wrote original algorithms in fortran.
+    These provided some guidance for implementing R code in the BB
+    package.)
+Maintainer: Ravi Varadhan <ravi.varadhan@jhu.edu>
+Repository: CRAN
+Date/Publication: 2026-02-19 10:40:14 UTC

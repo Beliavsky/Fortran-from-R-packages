@@ -1,0 +1,11 @@
+The BB package implements all algorithms in R and contains none of the 
+original Fortran.
+
+Prior versions of the spg algorithm, written in Fortran, are licensed under 
+GPL version 2 or later and are available at the TANGO project 
+<http://www.ime.usp.br/~egbirgin/tango/downloads.php>
+
+The original sane and dfsane algorithms were published in Fortran by 
+Marcos Raydan and co-authors, who have release their Fortran code 
+under GPL version 3. 
+

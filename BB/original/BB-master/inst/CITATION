@@ -1,0 +1,16 @@
+citHeader("To cite BB in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  title = "{BB}: An {R} Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function",
+  author = c(
+    person("Ravi Varadhan", role = "aut"),
+    person("Paul Gilbert", role = "aut")
+  ),
+  journal = "Journal of Statistical Software",
+  year = "2009",
+  volume = "32",
+  number = "4",
+  pages = "1--26",
+  url = "https://www.jstatsoft.org/v32/i04/"
+)

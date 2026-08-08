@@ -1,0 +1,55 @@
+name = "bb-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of the R BB package by Ravi Varadhan and Paul Gilbert"
+maintainer = "Fortran translation project"
+description = "Modern Fortran translation of the computational algorithms in the R BB package"
+categories = ["optimization", "nonlinear-equations"]
+keywords = ["Barzilai-Borwein", "spectral-gradient", "SANE", "DF-SANE", "nonlinear-systems"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
+
+[[test]]
+name = "test_spg"
+source-dir = "test"
+main = "test_spg.f90"
+
+[[test]]
+name = "test_sane"
+source-dir = "test"
+main = "test_sane.f90"
+
+[[test]]
+name = "test_dfsane"
+source-dir = "test"
+main = "test_dfsane.f90"
+
+[[test]]
+name = "test_projection"
+source-dir = "test"
+main = "test_projection.f90"
+
+[[test]]
+name = "test_drivers"
+source-dir = "test"
+main = "test_drivers.f90"
+
+[[example]]
+name = "spg_rosenbrock"
+source-dir = "example"
+main = "spg_rosenbrock.f90"
+
+[[example]]
+name = "solve_system"
+source-dir = "example"
+main = "solve_system.f90"
