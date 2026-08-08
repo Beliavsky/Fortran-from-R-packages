@@ -1,0 +1,193 @@
+
+R version 3.0.3 (2014-03-06) -- "Warm Puppy"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-unknown-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+>  library(trust)
+> 
+>  options(error = function() NULL)
+> 
+>  ##### TEST IMMEDIATE ERROR #####
+> 
+>  objfun <- function(x) stop("bogus error in objfun")
+> 
+>  trust(objfun, c(3, 1), 1, 5, blather = TRUE)
+Error in objfun(theta, ...) : bogus error in objfun
+$error
+[1] "Error in objfun(theta, ...) : bogus error in objfun\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in objfun(theta, ...): bogus error in objfun>
+
+$argument
+[1] 3 1
+
+$converged
+[1] FALSE
+
+$iterations
+[1] 0
+
+Warning message:
+In trust(objfun, c(3, 1), 1, 5, blather = TRUE) :
+  error in first call to objfun
+> 
+>  ##### TEST LATER ERROR #####
+> 
+>  objfun <- function(x) {
++      kiter <<- kiter + 1
++      if (kiter == 5)
++          stop("kiter reached 5")
++      ##### Rosenbrock's function #####
++      stopifnot(is.numeric(x))
++      stopifnot(length(x) == 2)
++      f <- expression(100 * (x2 - x1^2)^2 + (1 - x1)^2)
++      g1 <- D(f, "x1")
++      g2 <- D(f, "x2")
++      h11 <- D(g1, "x1")
++      h12 <- D(g1, "x2")
++      h22 <- D(g2, "x2")
++      x1 <- x[1]
++      x2 <- x[2]
++      f <- eval(f)
++      g <- c(eval(g1), eval(g2))
++      B <- rbind(c(eval(h11), eval(h12)), c(eval(h12), eval(h22)))
++      list(value = f, gradient = g, hessian = B)
++  }
+> 
+>  kiter <- 0
+>  trust(objfun, c(3, 1), 1, 5, blather = TRUE)
+Error in objfun(theta.try, ...) : kiter reached 5
+$error
+[1] "Error in objfun(theta.try, ...) : kiter reached 5\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in objfun(theta.try, ...): kiter reached 5>
+
+$argument
+[1] 1.0323820 0.1634548
+
+$converged
+[1] FALSE
+
+$iterations
+[1] 4
+
+$argpath
+         [,1]     [,2]
+[1,] 3.000000 1.000000
+[2,] 2.213163 1.617161
+[3,] 1.995363 3.605266
+[4,] 1.982307 3.929371
+
+$argtry
+         [,1]     [,2]
+[1,] 2.213163 1.617161
+[2,] 1.995363 3.605266
+[3,] 1.982307 3.929371
+
+$steptype
+[1] "easy-easy" "easy-easy" "Newton"   
+
+$accept
+[1] TRUE TRUE TRUE
+
+$r
+[1] 1 2 4 4
+
+$rho
+[1] 1.132384 1.026844 1.000905
+
+$valpath
+[1] 6404.0000000 1077.9211880   15.1438205    0.9649301
+
+$valtry
+[1] 1077.9211880   15.1438205    0.9649301
+
+$preddiff
+[1] -4703.42125 -1034.99411   -14.16607
+
+$stepnorm
+[1] 1.0000000 2.0000000 0.3243678
+
+> 
+>  ##### TEST ERROR IN LAST #####
+> 
+>  kiter <- 0
+>  trust(objfun, c(3, 1), 1, 5, blather = TRUE, iterlim = 3)
+Error in objfun(theta, ...) : kiter reached 5
+$error
+[1] "Error in objfun(theta, ...) : kiter reached 5\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in objfun(theta, ...): kiter reached 5>
+
+$argument
+[1] 1.982307 3.929371
+
+$converged
+[1] FALSE
+
+$iterations
+[1] 3
+
+$argpath
+         [,1]     [,2]
+[1,] 3.000000 1.000000
+[2,] 2.213163 1.617161
+[3,] 1.995363 3.605266
+
+$argtry
+         [,1]     [,2]
+[1,] 2.213163 1.617161
+[2,] 1.995363 3.605266
+[3,] 1.982307 3.929371
+
+$steptype
+[1] "easy-easy" "easy-easy" "Newton"   
+
+$accept
+[1] TRUE TRUE TRUE
+
+$r
+[1] 1 2 4
+
+$rho
+[1] 1.132384 1.026844 1.000905
+
+$valpath
+[1] 6404.00000 1077.92119   15.14382
+
+$valtry
+[1] 1077.9211880   15.1438205    0.9649301
+
+$preddiff
+[1] -4703.42125 -1034.99411   -14.16607
+
+$stepnorm
+[1] 1.0000000 2.0000000 0.3243678
+
+Warning message:
+In trust(objfun, c(3, 1), 1, 5, blather = TRUE, iterlim = 3) :
+  error in last call to objfun
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.152   0.021   0.175 

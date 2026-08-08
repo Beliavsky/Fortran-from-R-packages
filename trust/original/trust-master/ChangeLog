@@ -1,0 +1,25 @@
+
+ 0.1   first version
+
+ 0.1-1   found typo/thinko in documentation
+         also corrected bug found by Vinicius Melo <xvinnie@gmail.com>
+         didn't give informative error message (garbage in, error message
+         out!) when given infeasible initial point.  Now does.  Also
+         help page changed specify initial point must be feasible and
+         example given of error in examples.
+
+ 0.1-2  fix bug in docs found by Rdversion 2 parser.
+ 
+ 0.1-3  changed license to "MIT + file LICENSE" as per CRAN instructions
+        also bumped required R version to >= 2.6.0 because 2.4.1 broken
+        also moved trust.tex to trust.Rnw so now vignette
+
+ 0.1-5   vignettes directory
+
+ 0.1-6   changed LICENCE file as per CRAN instructions
+
+ 0.1-7   explicitly import stuff from stats, required for R-3.3.0
+
+ 0.1-8   remove some stuff from test that CRAN objects to
+
+ 0.1-9   more changes required by CRAN

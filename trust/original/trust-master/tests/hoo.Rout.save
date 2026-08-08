@@ -1,0 +1,95 @@
+
+R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+>  library(trust)
+>  options(digits = 3)
+> 
+>  d <- 5
+>  mu <- seq(1:d)
+> 
+>  objfun <- function(x) {
++      stopifnot(is.numeric(x))
++      stopifnot(length(x) == d)
++      normxsq <- sum(x^2)
++      omnormxsq <- 1 - normxsq
++      if (normxsq >= 1) return(list(value = Inf))
++      f <- sum(x * mu) - log(omnormxsq)
++      g <- mu + 2 * x / omnormxsq
++      B <- 4 * outer(x, x) / omnormxsq^2 + 2 * diag(d) / omnormxsq
++      list(value = f, gradient = g, hessian = B)
++  }
+> 
+>  whoop <- trust(objfun, rep(0, d), 1, 100, blather = TRUE)
+>  whoop$converged
+[1] TRUE
+>  ceiling(log10(max(abs(whoop$gradient))))
+[1] -9
+>  length(whoop$r)
+[1] 11
+>  data.frame(type = whoop$steptype, # rho = round(whoop$rho, 2),
++      change = whoop$preddiff, accept = whoop$accept, r = whoop$r)
+        type    change accept      r
+1  easy-easy -6.42e+00  FALSE 1.0000
+2  easy-easy -1.79e+00   TRUE 0.2500
+3  easy-easy -3.14e+00   TRUE 0.5000
+4     Newton -4.87e-01  FALSE 1.0000
+5     Newton -4.87e-01  FALSE 0.2500
+6  easy-easy -2.17e-01   TRUE 0.0625
+7     Newton -1.21e-01   TRUE 0.1250
+8     Newton -2.84e-02   TRUE 0.1250
+9     Newton -1.60e-03   TRUE 0.1250
+10    Newton -5.06e-06   TRUE 0.1250
+11    Newton -5.06e-11   TRUE 0.1250
+> 
+>  whoop$argument
+[1] -0.118 -0.236 -0.354 -0.472 -0.589
+>  1 - sqrt(sum(whoop$argument^2))
+[1] 0.126
+>  (whoop$stepnorm / whoop$r)[whoop$accept & whoop$steptype != "Newton"]
+[1] 1 1 1
+> 
+>  mu <- 10 * mu
+> 
+>  whoop <- trust(objfun, rep(0, d), 1, 100, blather = TRUE)
+>  whoop$converged
+[1] TRUE
+>  ceiling(log10(max(abs(whoop$gradient))))
+[1] -10
+>  length(whoop$r)
+[1] 15
+>  # give up.  This is just too ill-determined to be in tests
+>  if (FALSE) {
++  data.frame(type = whoop$steptype, rho = round(whoop$rho, 2),
++      change = whoop$preddiff, accept = whoop$accept, r = whoop$r)
++  }
+> 
+>  whoop$argument
+[1] -0.133 -0.266 -0.399 -0.532 -0.665
+>  1 - sqrt(sum(whoop$argument^2))
+[1] 0.0134
+>  (whoop$stepnorm / whoop$r)[whoop$accept & whoop$steptype != "Newton"]
+[1] 1 1 1 1 1 1
+> 
+>  try(whoop <- trust(objfun, rep(0.5, d), 1, 100, blather = TRUE))
+Error in trust(objfun, rep(0.5, d), 1, 100, blather = TRUE) : 
+  parinit not feasible
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.288   0.020   0.303 

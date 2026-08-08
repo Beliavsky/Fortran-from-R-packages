@@ -1,0 +1,78 @@
+
+R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+>  objfun <- function(x) {
++      stopifnot(is.numeric(x))
++      stopifnot(length(x) == 2)
++      f <- expression(x1^2 - x2^2)
++      g1 <- D(f, "x1")
++      g2 <- D(f, "x2")
++      h11 <- D(g1, "x1")
++      h12 <- D(g1, "x2")
++      h22 <- D(g2, "x2")
++      x1 <- x[1]
++      x2 <- x[2]
++      f <- eval(f)
++      g <- c(eval(g1), eval(g2))
++      B <- rbind(c(eval(h11), eval(h12)), c(eval(h12), eval(h22)))
++      list(value = f, gradient = g, hessian = B)
++  }
+> 
+>  library(trust)
+> 
+>  options(digits = 3)
+> 
+>  goo <- trust(objfun, c(3, 1), 1, 5, blather = TRUE, iterlim = 20)
+>  goo$converged
+[1] FALSE
+>  length(goo$r)
+[1] 20
+>  data.frame(type = goo$steptype, rho = goo$rho, change = goo$preddiff,
++      accept = goo$accept, r = goo$r)
+        type rho  change accept r
+1  easy-easy   1   -5.72   TRUE 1
+2  easy-easy   1  -12.04   TRUE 2
+3  easy-easy   1  -44.18   TRUE 4
+4  easy-easy   1  -99.28   TRUE 5
+5  easy-easy   1 -149.06   TRUE 5
+6  easy-easy   1 -198.99   TRUE 5
+7  easy-easy   1 -248.96   TRUE 5
+8  easy-easy   1 -298.94   TRUE 5
+9  easy-easy   1 -348.93   TRUE 5
+10 easy-easy   1 -398.93   TRUE 5
+11 easy-easy   1 -448.93   TRUE 5
+12 easy-easy   1 -498.92   TRUE 5
+13 easy-easy   1 -548.92   TRUE 5
+14 easy-easy   1 -598.92   TRUE 5
+15 easy-easy   1 -648.92   TRUE 5
+16 easy-easy   1 -698.92   TRUE 5
+17 easy-easy   1 -748.92   TRUE 5
+18 easy-easy   1 -798.92   TRUE 5
+19 easy-easy   1 -848.92   TRUE 5
+20 easy-easy   1 -898.92   TRUE 5
+> 
+>  ##### note: FAILS to converge because function is unbounded -- optimum
+>  #####     value does not exist
+> 
+>  (goo$stepnorm / goo$r)[goo$accept & goo$steptype != "Newton"]
+ [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.268   0.036   0.300 

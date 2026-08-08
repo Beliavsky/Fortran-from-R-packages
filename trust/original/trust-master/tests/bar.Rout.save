@@ -1,0 +1,112 @@
+
+R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+>  objfun <- function(x) {
++      stopifnot(is.numeric(x))
++      stopifnot(length(x) == 2)
++      f <- expression(x1^2 - x2^2 + (1 / 100) * (x1^4 + x2^4))
++      g1 <- D(f, "x1")
++      g2 <- D(f, "x2")
++      h11 <- D(g1, "x1")
++      h12 <- D(g1, "x2")
++      h22 <- D(g2, "x2")
++      x1 <- x[1]
++      x2 <- x[2]
++      f <- eval(f)
++      g <- c(eval(g1), eval(g2))
++      B <- rbind(c(eval(h11), eval(h12)), c(eval(h12), eval(h22)))
++      list(value = f, gradient = g, hessian = B)
++  }
+> 
+>  library(trust)
+> 
+>  tout <- trust(objfun, c(0, 0), 1, 5, blather = TRUE)
+> ## IGNORE_RDIFF_BEGIN
+>  tout
+$value
+[1] -25
+
+$gradient
+[1]  0.000000e+00 -5.506706e-14
+
+$hessian
+     [,1] [,2]
+[1,]    2    0
+[2,]    0    4
+
+$argument
+[1]  0.000000 -7.071068
+
+$converged
+[1] TRUE
+
+$iterations
+[1] 6
+
+$argpath
+     [,1]      [,2]
+[1,]    0  0.000000
+[2,]    0 -1.000000
+[3,]    0 -3.000000
+[4,]    0 -7.000000
+[5,]    0 -7.072165
+[6,]    0 -7.071068
+
+$argtry
+     [,1]      [,2]
+[1,]    0 -1.000000
+[2,]    0 -3.000000
+[3,]    0 -7.000000
+[4,]    0 -7.072165
+[5,]    0 -7.071068
+[6,]    0 -7.071068
+
+$steptype
+[1] "hard-hard" "easy-easy" "easy-easy" "Newton"    "Newton"    "Newton"   
+
+$accept
+[1] TRUE TRUE TRUE TRUE TRUE TRUE
+
+$r
+[1] 1 2 4 4 4 4
+
+$rho
+[1] 0.9900000 0.9375000 0.6213018 0.9895576 1.0001551 1.0087674
+
+$valpath
+[1]   0.00  -0.99  -8.19 -24.99 -25.00 -25.00
+
+$valtry
+[1]  -0.99  -8.19 -24.99 -25.00 -25.00 -25.00
+
+$preddiff
+[1] -1.000000e+00 -7.680000e+00 -2.704000e+01 -1.010309e-02 -2.407417e-06
+[6] -1.303079e-13
+
+$stepnorm
+[1] 1.000000e+00 2.000000e+00 4.000000e+00 7.216495e-02 1.096881e-03
+[6] 2.552527e-07
+
+> ## IGNORE_RDIFF_END
+> 
+>  (tout$stepnorm / tout$r)[tout$accept & tout$steptype != "Newton"]
+[1] 1 1 1
+> 
+> proc.time()
+   user  system elapsed 
+  0.068   0.025   0.086 
