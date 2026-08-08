@@ -1,0 +1,17 @@
+name = "nonneg-cg"
+version = "0.1.0"
+license = "BSD-2-Clause"
+author = "David Cortes; Fortran port"
+maintainer = "Fortran port maintainers"
+copyright = "Copyright (c) 2019 David Cortes"
+description = "Modern Fortran port of the nonneg.cg non-negative conjugate-gradient optimizer"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

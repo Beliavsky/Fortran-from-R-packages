@@ -1,0 +1,19 @@
+Package: nonneg.cg
+Type: Package
+Title: Non-Negative Conjugate-Gradient Minimizer
+Version: 0.1.6-1
+Author: David Cortes
+Maintainer: David Cortes <david.cortes.rivera@gmail.com>
+URL: https://github.com/david-cortes/nonneg_cg
+BugReports: https://github.com/david-cortes/nonneg_cg/issues
+Description: Minimize a differentiable function subject to all the variables being non-negative (i.e. >= 0),
+  using a Conjugate-Gradient algorithm based on a modified Polak-Ribiere-Polyak formula as described in
+  (Li, Can, 2013, <https://www.hindawi.com/journals/jam/2013/986317/abs/>).
+License: BSD_2_clause + file LICENSE
+Imports: Rcpp (>= 0.12.19)
+LinkingTo: Rcpp
+RoxygenNote: 6.1.1
+NeedsCompilation: yes
+Packaged: 2021-09-25 23:51:23 UTC; david
+Repository: CRAN
+Date/Publication: 2021-09-26 04:10:08 UTC
