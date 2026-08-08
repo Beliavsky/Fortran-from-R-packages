@@ -1,0 +1,18 @@
+name = "rcppnumerical"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI; based on RcppNumerical by Yixuan Qiu and contributors"
+maintainer = "OpenAI"
+description = "Modern Fortran translation of the computational core of RcppNumerical"
+categories = ["numerical-integration", "optimization", "statistics"]
+keywords = ["gauss-kronrod", "cuhre", "lbfgs", "lbfgsb", "logistic-regression"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[dependencies]
+lbfgs = { path = "dependencies/lbfgs" }
+lbfgsb3 = { path = "dependencies/lbfgsb3" }
