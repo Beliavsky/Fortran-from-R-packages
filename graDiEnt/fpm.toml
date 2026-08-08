@@ -1,0 +1,18 @@
+name = "gradient"
+version = "0.1.0"
+license = "MIT"
+author = "Brendan Matthew Galdo; Fortran translation by OpenAI"
+maintainer = ""
+copyright = "Copyright (c) 2022 Brendan Galdo"
+description = "Modern Fortran translation of the computational code in the R package graDiEnt"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
