@@ -1,0 +1,18 @@
+name = "rgenoud-fortran"
+version = "0.1.2"
+license = "GPL-3.0-only"
+author = "Walter R. Mebane Jr., Jasjeet Singh Sekhon, Theo Saarinen; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Upstream rgenoud authors"
+description = "Modern Fortran translation of the computational core of the R package rgenoud"
+keywords = ["optimization", "genetic-algorithm", "bfgs", "global-optimization"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
