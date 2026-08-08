@@ -1,0 +1,13 @@
+name = "soma-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Fortran translation of Jon Clayden's soma package"
+description = "Modern Fortran translation of the computational code in the R package soma"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
