@@ -1,0 +1,17 @@
+^codecov\.yml$
+^appveyor\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^docs$
+^README\.md$
+^\.travis\.yml$
+^cran-comments\.md$
+^CRAN-RELEASE$
+^\.github$
+^CRAN-SUBMISSION$
+^_pkgdown\.yml$
+^\.air\.toml$
+^\.lintr$
+^pkgdown$
+^pkgdown-site$
+^scripts$

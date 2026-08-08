@@ -1,0 +1,28 @@
+Package: mize
+Type: Package
+Title: Unconstrained Numerical Optimization Algorithms
+Version: 0.2.5.9000
+Authors@R: person("James", "Melville", email = "jlmelville@gmail.com",
+    role = c("aut", "cre"))
+Description: Optimization algorithms implemented in R, including
+    conjugate gradient (CG), Broyden-Fletcher-Goldfarb-Shanno (BFGS) and the
+    limited memory BFGS (L-BFGS) methods. Most internal parameters can be set
+    through the call interface. The solvers hold up quite well for
+    higher-dimensional problems.
+License: BSD 2-clause License + file LICENSE
+Encoding: UTF-8
+Imports:
+    methods
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown,
+    covr,
+    pkgdown
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+URL: https://jlmelville.github.io/mize/, https://github.com/jlmelville/mize
+BugReports: https://github.com/jlmelville/mize/issues
+VignetteBuilder: knitr
+Config/Needs/website: pkgdown
+Config/roxygen2/version: 8.0.0
