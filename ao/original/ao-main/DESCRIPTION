@@ -1,0 +1,47 @@
+Package: ao
+Title: Alternating Optimization
+Version: 1.2.3
+Authors@R:
+    c(
+    person(given = "Lennart",
+           family = "Oelschl\U00E4ger",
+           role = c("aut", "cre"),
+           email = "oelschlaeger.lennart@gmail.com",
+           comment = c(ORCID = "0000-0001-5421-9313")),
+    person(given = "Siddhartha",
+           family = "Chib",
+           role = "ctb",
+           email = "chib@wustl.edu")
+    )
+Description: Implementation of an iterative process that optimizes a function by
+    alternately performing restricted optimization over parameter subsets.
+    Instead of solving one joint optimization problem, alternating optimization
+    breaks it into smaller sub-problems. This approach can make optimization
+    feasible when joint optimization is too difficult.
+URL: https://loelschlaeger.de/ao/, https://github.com/loelschlaeger/ao/
+BugReports: https://github.com/loelschlaeger/ao/issues
+License: GPL-3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    checkmate,
+    cli,
+    future.apply,
+    oeli (>= 0.7.5),
+    optimizeR (>= 1.2.1),
+    progressr,
+    R6,
+    stats,
+    utils
+Suggests:
+    devtools,
+    ggplot2,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Depends:
+    R (>= 4.1.0)

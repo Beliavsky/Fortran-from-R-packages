@@ -1,0 +1,15 @@
+name = "ao-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Lennart Oelschlaeger, Siddhartha Chib; Fortran translation generated from ao 1.2.3"
+maintainer = "Translation package"
+description = "Modern Fortran translation of the computational core of the R package ao"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

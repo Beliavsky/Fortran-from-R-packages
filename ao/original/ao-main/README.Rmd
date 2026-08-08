@@ -1,0 +1,98 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+library("ao")
+```
+
+# Alternating optimization <img src="man/figures/logo.png" align="right" height="139" />
+
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ao)](https://CRAN.R-project.org/package=ao)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/ao)](https://CRAN.R-project.org/package=ao)
+[![metacran downloads](https://cranlogs.r-pkg.org/badges/last-month/ao)](https://cran.r-project.org/package=ao)
+[![R-CMD-check](https://github.com/loelschlaeger/ao/workflows/R-CMD-check/badge.svg)](https://github.com/loelschlaeger/ao/actions)
+[![future-tests](https://github.com/loelschlaeger/ao/workflows/future_tests/badge.svg)](https://github.com/loelschlaeger/ao/actions)
+[![Codecov test coverage](https://codecov.io/gh/loelschlaeger/ao/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/ao?branch=main)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+<!-- badges: end -->
+
+The `{ao}` package implements alternating optimization (AO) in [R](https://cran.r-project.org/).
+
+## Why?
+
+AO is an iterative process that optimizes a function by alternately performing restricted optimization over parameter subsets. Instead of solving one joint optimization problem, AO breaks it into smaller sub-problems. This can make optimization feasible when joint optimization is too difficult.
+
+The AO process implemented in `{ao}` can be
+
+- viewed as a generalization of joint optimization, 
+
+- used for minimization and maximization problems with custom parameter partitions,
+
+- randomized by changing the parameter partition randomly after each iteration, 
+
+- run in multiple parallel processes for different initial values, parameter partitions, and/or base optimizers.
+
+See the [package vignette](https://loelschlaeger.de/ao/articles/ao.html) for more details.
+
+## How?
+
+You can install the released package version from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("ao")
+```
+
+Then load the package with `library("ao")`. Here is a simple example of alternating minimization of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function):
+
+```{r, rosenbrock}
+rosenbrock <- function(x) (1 - x[1])^2 + (x[2] - x[1]^2)^2
+```
+
+The resulting optimization path is shown below.
+
+```{r, rosenbrock_ao_path, echo = FALSE, warning = FALSE}
+out <- ao(f = rosenbrock, initial = c(2, 2))
+library("ggplot2")
+x <- y <- seq(0.9, 2.1, 0.05)
+grid <- expand.grid(x, y)
+grid$z <- apply(grid, 1, rosenbrock)
+ggplot(grid) +
+  geom_raster(aes(x = Var1, y = Var2, fill = z)) +
+  geom_contour(aes(x = Var1, y = Var2, z = z), colour = "white", bins = 40) +
+  scale_fill_gradient(low = "blue", high = "red") +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(angle = 90)
+  ) +
+  labs(
+    x = "x",
+    y = "y",
+    fill = "value",
+    title = "Rosenbrock function with AO path"
+  ) +
+  coord_fixed() +
+  scale_x_continuous(breaks = c(1, 2)) +
+  scale_y_continuous(breaks = c(1, 2)) +
+  geom_path(
+    data = out$details, aes(x = p1, y = p2), linewidth = 1
+  )
+```
+
+It is obtained with:
+
+```{r, ao rosenbrock}
+ao(f = rosenbrock, initial = c(2, 2))
+```
+
+## Contact?
+
+If you have questions, find a bug, or need a feature, [file an issue on GitHub](https://github.com/loelschlaeger/ao/issues/new/choose).
