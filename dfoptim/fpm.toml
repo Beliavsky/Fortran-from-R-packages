@@ -1,0 +1,17 @@
+name = "dfoptim"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI; original dfoptim authors"
+maintainer = "OpenAI"
+copyright = "Original dfoptim authors and contributors"
+description = "Modern Fortran translation of the computational algorithms in the R dfoptim package"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
