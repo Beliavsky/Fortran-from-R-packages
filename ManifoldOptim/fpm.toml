@@ -1,0 +1,15 @@
+name = "manifoldoptim_fortran"
+version = "0.2.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of ManifoldOptim / ROPTLIB computational interface"
+copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
