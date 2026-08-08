@@ -1,0 +1,19 @@
+CeCILL-2.0 license notice
+=========================
+
+The upstream R package declares "License: CeCILL-2" and every computational
+source file states that it must be used under the terms of the CeCILL license.
+This translation preserves that licensing declaration and the original copyright
+notices. The authoritative English license text is available from the CeCILL
+project at:
+
+  https://cecill.info/licences/Licence_CeCILL_V2-en.html
+
+The uploaded upstream archive did not contain its referenced COPYING file, so
+this redistribution does not fabricate or alter that missing license text.
+The complete supplied upstream tree is retained under original/neldermead-master/.
+
+Copyright notices appearing in the translated computational sources derive from:
+  Copyright (C) 2008-2009 INRIA - Michael Baudin
+  Copyright (C) 2009-2010 DIGITEO - Michael Baudin
+  Copyright (C) 2010-2026 Sebastien Bihorel

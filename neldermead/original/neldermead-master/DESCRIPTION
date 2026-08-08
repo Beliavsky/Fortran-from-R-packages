@@ -1,0 +1,30 @@
+Package: neldermead
+Type: Package
+Title: R Port of the 'Scilab' Neldermead Module
+Version: 1.0-13
+Date: 2026-01-25
+Authors@R: c(person("Sebastien","Bihorel",role=c("aut","cre"),email="sb.pmlab@gmail.com"),
+             person("Michael","Baudin",role=c("cph")))
+Depends: optimbase (>= 1.0-9), optimsimplex (>= 1.0-7), methods
+Suggests: knitr (>= 1.28),rmarkdown (>= 2.2)
+Description: Provides several direct search optimization algorithms based on the
+  simplex method. The provided algorithms are direct search algorithms, i.e.
+  algorithms which do not use the derivative of the cost function. They are
+  based on the update of a simplex. The following algorithms are available: the
+  fixed shape simplex method of Spendley, Hext and Himsworth (unconstrained
+  optimization with a fixed shape simplex, 1962) <doi:10.1080/00401706.1962.10490033>, 
+  the variable shape simplex method of Nelder and Mead (unconstrained optimization
+  with a variable shape simplex made, 1965) <doi:10.1093/comjnl/7.4.308>, and 
+  Box's complex method (constrained optimization with a variable shape simplex,
+  1965) <doi: 10.1093/comjnl/8.1.42>.
+License: CeCILL-2
+Encoding: UTF-8
+VignetteBuilder: knitr
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2026-01-25 18:57:49 UTC; sebastien
+Author: Sebastien Bihorel [aut, cre],
+  Michael Baudin [cph]
+Maintainer: Sebastien Bihorel <sb.pmlab@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-01-26 06:30:14 UTC

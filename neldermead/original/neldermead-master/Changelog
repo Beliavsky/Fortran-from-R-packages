@@ -1,0 +1,72 @@
+2018/02/12 Sebastien Bihorel <sb.pmlab@gmail.com>
+
+ * Package structure clean up
+ * Update change in optimsimplex class name
+
+2015/01/11 Sebastien Bihorel <sb.pmlab@gmail.com>
+  
+  * Corrected bugs with Box's method in following functions:
+  neldermead.storehistory, neldermead.isroneill, neldermead.updatesimp
+
+2014/03/01 Sebastien Bihorel <sb.pmlab@gmail.com>
+  
+  * Simplified set and get methods:
+    - optimbase.set: code from previous optimbase.set and optimbase.configure
+    consolidated into a single function.
+    - optimbase.get: code from previous optimbase.get and optimbase.cget
+    consolidated into a single function.
+  * deprecated function: optimbase.configure, optimbase.cget
+
+2014/01/26 Sebastien Bihorel <sb.pmlab@gmail.com>
+
+  * Change vignette data location to comply to R 3.0 requirements 
+  * Add NAMESPACE
+  * Rename .Rnw file due to creation of neldermead.tex doc file
+  * Formal creation of "existing" or new classes:
+    - neldermead
+    - neldermead.data
+  * Add is, summary, and print methods for neldermead class objects
+  * Add experimental fminbnd, equivalent of fminsearch for constrained 
+    optimization (limited documentation provided)
+  * deprecated function: neldermead.new
+
+2011/03/30 Sebastien Bihorel <sb.pmlab@gmail.com>
+
+  * Corrected encoding of vignette source (latin1 instead of utf8x)
+  
+2011/01/08 Sebastien Bihorel <sb.pmlab@gmail.com>
+  
+  * fmin.gridsearch: corrected documentation about alpha. Must contain values 
+  greater than 1.
+
+2010/09/10 Sebastien Bihorel <sb.pmlab@gmail.com>
+  
+  * neldermead.configure: fix the check of -coords0 key to real type instead of
+    of string type
+    
+  * fminsearch: modified type argument of fmsdata and fmsfundata to T_FARGS
+  
+  * added fmin.gridsearch function 
+  
+2010/05/25 Sebastien Bihorel <sb.pmlab@gmail.com>
+
+  * neldermead.startup: at line 92, substituted "this <- tmp$this" by 
+    "this$optbase <- tmp$this"
+
+  * neldermead.storehistory: corrected keys in the calls to optimbase.histset
+
+  * scaleinconstraints: modified syntax and corrected multiple bugs which 
+    broke the Box's method.
+
+  * neldermead.function: function added.
+
+  * neldermead.Rnw: modified Description and Cost function sections. Added a 
+    section of examples.
+
+2010/05/11 Sebastien Bihorel <sb.pmlab@gmail.com>
+
+  * neldermead.Rnw: corrected \bibliography{neldermead.bib} to
+    \bibliography{neldermead} to address compilation issue in Windows.
+
+  * DESCRIPTION: corrected typos in the description of the algorithms (replaced
+    'sized' by 'shape')

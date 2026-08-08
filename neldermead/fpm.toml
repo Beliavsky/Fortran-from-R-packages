@@ -1,0 +1,16 @@
+name = "neldermead-fortran"
+version = "0.1.0"
+license = "CeCILL-2.0"
+author = "Fortran translation of neldermead by Sebastien Bihorel and Michael Baudin"
+maintainer = ""
+copyright = "Upstream copyrights preserved; see LICENSE and original/"
+description = "Modern Fortran translation of the computational algorithms in the R package neldermead"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

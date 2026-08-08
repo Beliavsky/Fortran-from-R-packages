@@ -1,0 +1,7 @@
+exportPattern("^[^\\.]")
+import(methods)
+import(optimbase)
+import(optimsimplex)
+importFrom("utils", "str")
+S3method(print,neldermead)
+S3method(summary,neldermead)
