@@ -1,0 +1,20 @@
+name = "pso-fortran"
+version = "0.1.0"
+license = "LGPL-3.0-only"
+author = "Fortran translation of Claus Bendtsen's pso package"
+maintainer = "Fortran translation maintainers"
+copyright = "Original pso package copyright its upstream author(s)"
+description = "Modern Fortran translation of the computational code in the R pso package"
+categories = ["optimization", "particle-swarm"]
+keywords = ["PSO", "SPSO2007", "SPSO2011", "optimization"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
