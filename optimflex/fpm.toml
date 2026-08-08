@@ -1,0 +1,15 @@
+name = "optimflex-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Eunseong Cho; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational algorithms in the R optimflex package"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

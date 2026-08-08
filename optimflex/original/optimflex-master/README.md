@@ -1,0 +1,60 @@
+
+# optimflex
+
+`optimflex` provides a highly flexible suite of derivative-based
+non-linear optimization algorithms. It is specifically designed for
+researchers who require **rigorous convergence control**, particularly
+in complex models like SEM.
+
+## Why Use optimflex?
+
+Standard optimization functions often rely on a single, fixed stopping
+rule. `optimflex` offers:
+
+1.  **Strict Convergence Control**: Choose from 8 distinct criteria.
+2.  **The “AND” Rule**: All selected criteria must be met
+    simultaneously.
+3.  **Hessian Verification**: Verify local minima by checking positive
+    definiteness at the final point.
+
+## Installation
+
+``` r
+# install.packages("devtools")
+# devtools::install_github("yourusername/optimflex")
+```
+
+## Basic Usage
+
+``` r
+library(optimflex)
+
+rosenbrock <- function(x) {
+  100 * (x[2] - x[1]^2)^2 + (1 - x[1])^2
+}
+
+res <- double_dogleg(
+  start = c(-1.2, 1.0),
+  objective = rosenbrock,
+  control = list(
+    use_grad = TRUE,
+    use_rel_x = TRUE,
+    use_posdef = TRUE
+  )
+)
+
+print(res$par)
+#> [1] 0.9999955 0.9999910
+```
+
+## Convergence Criteria Overview
+
+| Flag         | Description               |
+|:-------------|:--------------------------|
+| `use_abs_f`  | Absolute function change  |
+| `use_rel_f`  | Relative function change  |
+| `use_abs_x`  | Absolute parameter change |
+| `use_rel_x`  | Relative parameter change |
+| `use_grad`   | Gradient infinity norm    |
+| `use_posdef` | Hessian Verification      |
+| `use_pred_f` | Predicted Decrease        |

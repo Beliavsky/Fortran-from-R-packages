@@ -1,0 +1,105 @@
+---
+title: "Introduction to optimflex"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to optimflex}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(optimflex)
+```
+
+## Introduction
+
+The `optimflex` package provides a highly flexible suite of non-linear optimization algorithms designed for robustness and numerical precision. It is particularly suited for complex models—such as those found in Structural Equation Modeling (SEM)—where convergence stability and verification are paramount.
+
+## Rigorous Convergence Control
+
+A defining feature of `optimflex` is its **rigorous convergence control**. Instead of relying on a single, hard-coded stopping rule, `optimflex` allows users to select and combine up to eight distinct convergence criteria. 
+
+When multiple criteria are enabled (by setting their respective `use_` flags to `TRUE` in the `control` list), the package applies a **strict "AND" rule**: all chosen conditions must be satisfied simultaneously before the algorithm declares success. This multi-faceted approach ensures that the solution is stable from various numerical perspectives.
+
+### Convergence Criteria and Formulas
+
+Each criterion is managed via a logical flag (`use_*`) and a corresponding tolerance parameter (`tol_*`) within the `control` list.
+
+#### 1. Function Value Changes
+These monitor the stability of the objective function $f$.
+
+* **Absolute Change (`use_abs_f`):** $$|f_{k+1} - f_k| < \epsilon_{abs\_f}$$
+* **Relative Change (`use_rel_f`):** $$\frac{|f_{k+1} - f_k|}{\max(1, |f_k|)} < \epsilon_{rel\_f}$$
+
+#### 2. Parameter Space Changes
+These ensure that the parameter vector $x$ has stabilized.
+
+* **Absolute Change (`use_abs_x`):** $$\|x_{k+1} - x_k\|_\infty < \epsilon_{abs\_x}$$
+* **Relative Change (`use_rel_x`):** $$\frac{\|x_{k+1} - x_k\|_\infty}{\max(1, \|x_k\|_\infty)} < \epsilon_{rel\_x}$$
+
+#### 3. Gradient Norm
+The standard measure of stationarity (first-order optimality). 
+
+* **Gradient Infinity Norm (`use_grad`):** $$\|g_{k+1}\|_\infty < \epsilon_{grad}$$
+
+#### 4. Hessian Verification
+* **Positive Definiteness (`use_posdef`):** $$\lambda_{min}(H) > 0$$
+This verifies that the Hessian at the final point is positive definite. This is crucial for confirming that the algorithm has reached a true local minimum rather than a saddle point.
+
+#### 5. Model-based Predicted Decrease
+These check if the quadratic model of the objective function suggests significant further improvement is possible.
+
+* **Predicted Decrease (`use_pred_f`):** $$\Delta m_k < \epsilon_{pred\_f}$$
+* **Average Predicted Decrease (`use_pred_f_avg`):** $$\frac{\Delta m_k}{n} < \epsilon_{pred\_f\_avg}$$
+
+---
+
+## Basic Usage
+
+The following example demonstrates how to minimize a simple quadratic function using the BFGS algorithm with customized convergence criteria.
+
+```{r basic_usage}
+# Define a simple objective function
+quad_func <- function(x) {
+  (x[1] - 5)^2 + (x[2] + 3)^2
+}
+
+# Run optimization
+res <- bfgs(
+  start = c(0, 0),
+  objective = quad_func,
+  control = list(
+    use_grad = TRUE,
+    tol_grad = 1e-6,
+    use_rel_x = TRUE
+  )
+)
+
+# Inspect results
+res$par
+res$converged
+```
+
+## Algorithm Comparison: The Rosenbrock Function
+
+`optimflex` shines when dealing with difficult landscapes like the Rosenbrock "banana" function. You can easily compare how different algorithms (e.g., Quasi-Newton vs. Trust-Region) navigate the narrow valley.
+
+```{r comparison}
+rosenbrock <- function(x) {
+  100 * (x[2] - x[1]^2)^2 + (1 - x[1])^2
+}
+
+start_val <- c(-1.2, 1.0)
+
+# Compare Double Dogleg
+res_dd  <- double_dogleg(start_val, rosenbrock, control = list(initial_delta = 2.0))
+
+cat("Double Dogleg Iterations:", res_dd$iter, "\n")
+```
