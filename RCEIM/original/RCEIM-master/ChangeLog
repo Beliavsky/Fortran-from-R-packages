@@ -1,0 +1,20 @@
+
+0.3
+
+* Updated to correct some NOTES issued during the automated R tests. 
+
+* Minor modifications in the documentation.
+
+0.2
+
+* Updated to use parallel (before this version, multicore was adopted for parallel processing).
+
+* Using "requireNamespace" to check if the parallel package can be found and used.
+
+* Minor modification in the examples to lower the execution time.
+
+* Minor modifications in the documentation.
+
+0.1
+
+* First release in CRAN

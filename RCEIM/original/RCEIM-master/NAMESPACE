@@ -1,0 +1,4 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("grDevices", "dev.new", "rgb")
+importFrom("graphics", "abline", "close.screen", "grid", "lines", "plot", "polygon", "screen", "split.screen", "text")
+importFrom("stats", "density", "rnorm", "runif", "sd")

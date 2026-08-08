@@ -1,0 +1,14 @@
+Package: RCEIM
+Type: Package
+Title: R Cross Entropy Inspired Method for Optimization
+Version: 0.3
+Date: 2017-04-03
+Author: Alberto Krone-Martins
+Maintainer: Alberto Krone-Martins <algol@sim.ul.pt>
+Description: An implementation of a stochastic heuristic method for performing multidimensional function optimization. The method is inspired in the Cross-Entropy Method. It does not relies on derivatives, neither imposes particularly strong requirements into the function to be optimized. Additionally, it takes profit from multi-core processing to enable optimization of time-consuming functions.
+License: GPL (>= 2)
+Suggests: parallel
+NeedsCompilation: no
+Packaged: 2017-04-03 19:00:59 UTC; algol
+Repository: CRAN
+Date/Publication: 2017-04-03 20:19:16 UTC

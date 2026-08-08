@@ -1,0 +1,14 @@
+name = "rceim-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of RCEIM by Alberto Krone-Martins"
+description = "Modern Fortran translation of the computational code in RCEIM"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
