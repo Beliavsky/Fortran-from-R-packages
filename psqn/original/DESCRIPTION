@@ -1,0 +1,29 @@
+Package: psqn
+Type: Package
+Title: Partially Separable Quasi-Newton
+Version: 0.3.2
+Authors@R: c(person("Benjamin", "Christoffersen", 
+                    email = "boennecd@gmail.com", 
+                    role = c("cre", "aut"), 
+                    comment = c(ORCID = "0000-0002-7182-1346")))
+Maintainer: Benjamin Christoffersen <boennecd@gmail.com>
+Description: Provides quasi-Newton methods to minimize partially separable
+    functions. The methods are largely described by  
+    Nocedal and Wright (2006) <doi:10.1007/978-0-387-40065-5>.
+License: Apache License (>= 2)
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+Depends: R (>= 3.5.0), Matrix
+URL: https://github.com/boennecd/psqn
+BugReports: https://github.com/boennecd/psqn/issues
+LinkingTo: Rcpp, RcppEigen, testthat
+Imports: Rcpp
+Suggests: R.rsp, rmarkdown, RcppArmadillo, RcppEigen, bench, testthat,
+        numDeriv, lbfgsb3c, lbfgs, alabama
+VignetteBuilder: R.rsp
+NeedsCompilation: yes
+Packaged: 2024-09-21 07:35:15 UTC; benjaminnon-work
+Author: Benjamin Christoffersen [cre, aut]
+    (<https://orcid.org/0000-0002-7182-1346>)
+Repository: CRAN
+Date/Publication: 2024-09-22 08:30:02 UTC

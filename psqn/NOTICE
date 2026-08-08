@@ -1,0 +1,15 @@
+psqn-fortran
+
+This project is a modern Fortran translation of computational code from:
+
+  psqn 0.3.2 - Partially Separable Quasi-Newton
+  Copyright: Benjamin Christoffersen and contributors
+  Source package license: Apache License (>= 2)
+  Upstream: https://github.com/boennecd/psqn
+
+The translated derivative is distributed under the Apache License 2.0.
+The full license text is in LICENSE. The upstream DESCRIPTION file is retained
+under original/DESCRIPTION for provenance.
+
+R/Rcpp registration and wrapper plumbing, platform-specific reporting, and
+presentation/vignette material are not part of this standalone Fortran port.

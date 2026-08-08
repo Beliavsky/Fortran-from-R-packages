@@ -1,0 +1,42 @@
+Changes in version 0.3.2
+ * Do not use sourceCpp in tests where the files include
+   [[Rcpp::plugins(openmp)]] when OpenMP is not supported.
+
+Changes in version 0.3.1
+ * the BFGS implementation supports an aboslute convergence treshold.
+ * the user can provide pre-allocated memory to the C++ API for the BFGS
+   implementation.
+
+Changes in version 0.3.0
+ * it is possible to mask (fix) some of the parameters. Non-linear equality
+   constraints are also supported with an augmented Lagrangian method.
+ * the code has been refactored. This may yield a speedup in some cases.
+ * computation of the hessian is now supported using numerical differentiation
+   with Richardson extrapolation to refine the estimate.
+ * the gradient norm can be used as a convergence criterion.
+ * a diagonal preconditioning method has been added to the psqn method. This
+   requires that one defines PSQN_W_LAPACK prior to including the header files
+   from the package and links with LAPACK and BLAS.
+ * the license has been changed to the Apache license.
+
+Changes in version 0.2.1
+ * tests that compile files using Rcpp::sourceCpp() now do so in a temporary
+   directory in tempdir(). It was done before in the package directory which
+   violates CRAN policies.
+
+Changes in version 0.2.0
+ * added a generic method for partially separable functions.
+ * made it possible to run a setup function prior to evaluating all the element
+   functions. Thus, some computations may be done once if possible. See
+   https://github.com/boennecd/psqn-va-ex for an example.
+ * made it possible to change the unsigned integer type used in the package by
+   defining the PSQN_SIZE_T macro prior to including the header files from the
+   package.
+ * added the incomplete Cholesky factorization preconditioner from Eigen to the
+   package. This requires that one defines the PSQN_USE_EIGEN macro prior to
+   including the header files from the package.
+
+Changes in version 0.1.0 to 0.1.4
+ * first submission to CRAN.
+ * bug fixes of bugs found on CRAN's checks.
+ * minor improvements.
