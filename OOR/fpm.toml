@@ -1,0 +1,14 @@
+name = "oor"
+version = "0.1.0"
+license = "LGPL"
+author = "OpenAI translation; upstream authors retained in original/OOR-master/DESCRIPTION"
+copyright = "See upstream package and provenance documentation"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

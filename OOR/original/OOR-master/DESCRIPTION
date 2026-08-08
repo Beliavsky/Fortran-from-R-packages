@@ -1,0 +1,27 @@
+Package: OOR
+Type: Package
+Title: Optimistic Optimization in R
+Version: 0.1.4
+Date: 2023-08-22
+Authors@R: c(
+  person("M.", "Binois", role = c("cre", "aut", "trl"), comment = "R port", email = "mickael.binois@inria.fr"),
+  person("A.", "Carpentier", role = "aut", comment = "Matlab original"),
+  person("J.-B.", "Grill", role = "aut", comment = "Python original"),
+  person("R.", "Munos", role = "aut", comment = "Python and Matlab original"),
+  person("M.", "Valko", role = c("aut", "ctb"), comment = "Python and Matlab original"))
+Description: Implementation of optimistic optimization methods for global optimization of deterministic or stochastic functions. The algorithms feature guarantees of the convergence to a global optimum. They require minimal assumptions on the (only local) smoothness, where the smoothness parameter does not need to be known. They are expected to be useful for the most difficult functions when we have no information on smoothness and the gradients are unknown or do not exist. Due to the weak assumptions, however, they can be mostly effective only in small dimensions, for example, for hyperparameter tuning.
+License: LGPL
+Depends: methods
+URL: https://github.com/mbinois/OOR
+BugReports: https://github.com/mbinois/OOR/issues
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2023-08-22 08:23:56 UTC; mickael
+Author: M. Binois [cre, aut, trl] (R port),
+  A. Carpentier [aut] (Matlab original),
+  J.-B. Grill [aut] (Python original),
+  R. Munos [aut] (Python and Matlab original),
+  M. Valko [aut, ctb] (Python and Matlab original)
+Maintainer: M. Binois <mickael.binois@inria.fr>
+Repository: CRAN
+Date/Publication: 2023-08-23 00:40:02 UTC
