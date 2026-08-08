@@ -1,0 +1,15 @@
+name = "subplex-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Tom Rowan; Aaron A. King; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the R subplex package"
+categories = ["optimization", "numerical"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
