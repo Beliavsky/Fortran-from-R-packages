@@ -1,0 +1,17 @@
+name = "stochqn"
+version = "0.1.0"
+license = "BSD-2-Clause"
+author = "David Cortes; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright (c) 2019 David Cortes"
+description = "Modern Fortran translation of stochastic limited-memory quasi-Newton optimizers"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
