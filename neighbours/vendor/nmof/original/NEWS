@@ -1,0 +1,1099 @@
+v2.11-0  (2025-10-20)
+
+  o 'Ritter' has been adapted to new file format and
+    allows to pass parameters to 'download.file'
+
+  o 'trackingPortfolio' keeps column names of the
+    input data
+
+  o new function 'PBO', for computing probability of
+    backtest overfitting, as descrived in Bailey et al.
+    (2017; https://doi.org/10.21314/JCF.2016.322 )
+
+v2.10-2  (2025-02-14)
+
+  o French: support more datasets; see
+    https://quant.stackexchange.com/a/81590
+
+v2.10-1  (2024-11-03)
+
+  o an example was removed from the manual page of 'NS'
+
+v2.10-0  (2024-10-20)
+
+  o fix bug in bracketing introduced in version 2.9-0
+
+  o 'French' supports more datasets:
+    "F-F_Research_Data_5_Factors_2x3_daily_CSV.zip", and
+    "market" with frequency "monthly"
+
+  o 'French' gains an argument "return.class": supported are
+     "data.frame" (the current behaviour) and "zoo", which
+     can easily be transformed to "xts"
+
+  o 'Shiller' tries to fetch data from new URL at
+    https://shillerdata.com/
+
+v2.9-0  (2023-12-29)
+
+  o new function 'approxBondReturn', for approximating the
+    total return of a (par) bond through its current yield,
+    duration and convexity, as described in Swinkels (2019;
+    https://doi.org/10.3390/data4030091 )
+
+  o 'bracketing' better handles cases when 'fun' evaluates to
+    exactly zero, matching the MATLAB implementation in the
+    NMOF book
+
+v2.8-0  (2023-10-20)
+
+  o 'callHestoncf' gains an argument 'uniroot.control', which
+    allows passing settings for 'uniroot' (to compute implied
+    vol), and 'uniroot.info'; both arguments work the same way
+    as in functions 'vanillaOptionImpliedVol' and 'callCF'
+
+  o 'trackingPortfolio' now has an argument 'ls.algo', for
+    specifying settings for method 'ls'
+
+  o new function 'minMAD' for computing minimum-MAD
+    portfolios, as described in Konno and Yamazaki
+    (1991; https://doi.org/10.1287/mnsc.37.5.519 )
+
+  o 'vanillaOptionEuropean' also provides "DvegaDspot" and
+    "DvegaDvol"
+
+  o 'Ritter' has been adapted to new file format
+
+  o all functions that allow parallel programming now support
+    argument 'affinity.list'
+
+  o the package now depends on R >= 3.5 (which was released
+    in 2018)
+
+  o the manual has been updated:
+    https://enricoschumann.net/NMOF.htm#NMOFmanual
+
+v2.7-1  (2022-10-20)
+
+  o various minor documentation updates
+
+  o manual has been updated:
+    https://enricoschumann.net/NMOF.htm#NMOFmanual
+
+  o there is an additional public repository at
+    https://git.sr.ht/~enricoschumann/NMOF
+
+v2.7-0  (2022-08-19)
+
+  o function 'gbm' gains an argument "antithetic": if
+    TRUE, paths are created based on antithetic variates
+
+  o functions 'gbm' and 'gbb' gain an argument
+    'exp.result', with default TRUE. If FALSE, the log
+    paths are returned. Function 'gbb' gets an argument
+    'log', with default FALSE, which matches the
+    previous behaviour
+
+  o new function 'barrierOptionEuropean', for computing
+    theoretical prices for various barrier-option types
+
+  o function 'French' tries harder to evaluate to NULL
+    when a download fails
+
+  o function vanillaOptionAmerican now works for very
+    small values for M (M <= 3)
+
+v2.6-0  (2022-01-26)
+
+  o function 'randomReturns' gains an argument "exact":
+    if TRUE, the created matrix has the exact specified
+    column means (up to numerical, but not sampling accuracy)
+
+  o group constraints now work with only a single group
+    (e.g. in functions 'minCVaR' or 'minvar')
+
+v2.5-0  (2021-10-20)
+
+  o new function 'Ritter', which downloads IPO data
+    provided by Jay Ritter
+
+  o 'gridSearch' now can handle arbitrary lists (before,
+    only lists of numeric vectors were supported)
+
+  o 'French': improve formatting of (some) datasets
+
+v2.4-1  (2021-04-09)
+
+  o the default value for option 'printBar' in all
+    optimisation routines is now 'interactive()', so
+    progress bars remain shown in interactive sessions,
+    but are suppressed otherwise. (For the old
+    behaviour, set 'printBar' to TRUE.)
+
+v2.4-0  (2021-04-01)
+
+  o fixed: 'minCVaR' no longer ignores minimum and
+    maximum holding constraints; thanks to Peter Garnry
+    for reporting on GitHub. Group constraints are
+    supported, too. See
+    https://github.com/enricoschumann/NMOF/issues/3 .
+
+  o 'randomReturns': argument 'rho' may now be a
+    correlation matrix
+
+  o 'callHestoncf' gains a '...' argument, for passing
+    settings to integrate
+
+  o 'French' supports more datasets
+
+v2.3-1  (2021-01-19)
+
+  o 'minCVaR' gains an argument 'min.return' for
+    specifying a minimum required return (and another
+    argument 'm' for specifying expected returns)
+
+  o 'Shiller' includes additional columns, such as bond
+    returns
+
+v2.2-0  (2020-10-20)
+
+  o New function 'minCVaR' for computing minimum CVaR
+    portfolios, as described in Rockafellar/Uryasev
+    (2000; http://doi.org/10.21314/JOR.2000.038 ).
+    For details on implementation, see
+    https://enricoschumann.net/notes/minimising-conditional-var.html
+
+  o New function 'trackingPortfolio'. For details, see
+    https://enricoschumann.net/notes/return-based-tracking-portfolios.html
+
+  o New vignette 'Functions for portfolio selection'.
+
+  o 'TAopt' gains a new option 'drop0' (to be passed
+    via 'algo): if TRUE, zero values are dropped from
+    the sample of objective-function values during the
+    computation of the threshold sequence. See
+    https://stackoverflow.com/a/63429510 .
+
+  o 'French' supports more datasets. For industry
+    portfolios, the function now also provides "Sum of
+    BE/Sum of ME". The data are attached as an
+    attribute "sumBE.sumME". All data-frames attached
+    as attributes now have the timestamps as rownames.
+
+  o The setting-up of constraints matrices in
+    portfolio-selection functions such as 'minvar' is
+    now fixed; thanks to 'clcsar' for reporting on
+    GitHub. Also, the functions now allow group labels
+    for specifying constraints.
+    See https://github.com/enricoschumann/NMOF/issues/2 .
+
+v2.1-0  (2020-04-01)
+
+  o 'Shiller': adapt function to new file format
+
+  o 'French'/'Shiller': if download fails, the
+    functions now return NULL (invisibly). Also,
+    'French' supports additional datasets.
+
+  o 'minvar', 'mvFrontier', 'mvPortfolio': the
+    functions gain arguments 'groups', 'groups.wmin'
+    and 'groups.wmax', which allow to specify group
+    constraints
+
+  o 'mvPortfolio': new argument 'lambda' for specifying
+    a risk--reward trade-off
+
+v2.0-1  (2019-10-20)
+
+  o The package now includes the code examples from the
+    second edition of 'Numerical Methods and Optimization
+    in Finance". 'showExample' has been updated as well:
+    it gains an argument 'edition', which defaults to 2.
+    Also, the default for 'ignore.case' was changed
+    to TRUE.  (To get back the old behaviour of the
+    function, set 'edition' to 1 and 'ignore.case' to
+    FALSE.)
+
+  o 'French' supports more datasets, e.g. for
+    momentum. Invoking 'French()' lists the supported
+    files. Also supported are datasets "market" and
+    "rf", which provide the market return and the
+    (so-called) risk-free rate.
+
+  o 'resampleC': 'cormat' can be a single number (the
+    correlation), which is then expanded into a
+    correlation matrix (this has worked before, but only
+    for the case of two series)
+
+  o new functions 'greedySearch' and 'randomReturns'
+
+  o 'DEopt' and 'PSopt' gain a 'drop' option. If FALSE,
+    the dimension attribute of a solution is kept when
+    the population is evaluated via a loop,
+    i.e. functions receive a one-column matrix. Note
+    that the defaults differ for both functions, so as
+    to keep both functions' behaviour unchanged.
+
+  o a tutorial on optimisation heuristics is
+    available at https://ssrn.com/abstract=3391756
+
+  o a tutorial on backtesting, which makes
+    much use of the NMOF package, is available
+    at https://ssrn.com/abstract=3374195
+
+  o various documentation updates; new features are
+    now described at
+      https://enricoschumann.net/notes/NMOF/
+
+  o manual has been updated:
+    https://enricoschumann.net/NMOF.htm#NMOFmanual
+
+v1.6-0  (2019-04-01)
+
+  o 'French' supports more datasets; invoking
+    'French()' lists the supported files
+
+v1.5-0  (2018-12-31)
+
+  o new function 'mvPortfolio', for computing efficient
+    frontiers, with or without cash
+
+  o new function 'mvFrontier', for computing
+    mean--variance efficient portfolios
+
+  o new functions 'French' and 'Shiller', for
+    downloading research datasets
+
+  o 'TAopt' gains an option 'thresholds.only': if TRUE,
+    'TAopt' only computes the threshold sequence and
+    then exits
+
+  o optimisation functions 'LSopt', 'SAopt' and 'TAopt'
+    gain an option 'nI' (total number of iterations)
+
+v1.4-0  (2017-12-06)
+
+  o new function 'convexity'
+
+v1.3-0  (2017-12-05)
+
+  o new vignette 'Solving the N-Queens Problem with
+    Local Search'
+
+v1.2-0  (2017-09-13)
+
+  o new functions 'bundFuture' and
+    'bundFutureImpliedRate', for computing theoretical
+    futures prices and implied repo rates, respectively
+
+v1.1-0  (2017-05-01)
+
+  o new function 'divRatio', for computing the
+    diversification ratio
+
+v1.0-0  (2017-04-01)
+
+  o 'LSopt' gains an option 'OF.target', which lets the
+    algorithm stop when a desired objective-function
+    value is reached
+
+  o 'minvar' allows Inf and -Inf as maximum/minimum
+    weights; the function now also returns the
+    portfolio's variance
+
+  o 'resampleC': if only two series are passed,
+    'cormat' can be a single number (the correlation)
+
+  o various small updates in documentation
+
+v0.99-0  (2017-02-15)
+
+  o new function 'CPPI': simulate a constant-proportion
+    portfolio-insurance strategy
+
+  o new function 'SAopt': optimisation with
+    Simulated Annealing
+
+  o new function 'minvar': compute minimum-variance
+    portfolios
+
+  o manual has been updated:
+    https://enricoschumann.net/NMOF.htm#NMOFmanual
+
+v0.40-0  (2016-10-20)
+
+  o new function 'xtTickValue', which computes the tick
+    value for of Australian government-bond futures
+
+v0.39-0  (2016-09-30)
+
+  o new function 'xtContractValue', for computing
+    contract values of Australian government-bond
+    futures
+
+v0.38-0  (2016-09-03)
+
+  o fixed: LSopt did not switch off 'printBar' in cases
+    when 'printDetail > 1'
+
+  o updates to documentation of LSopt/TAopt
+
+v0.37-6  (2016-08-27)
+
+  o fixed: 'gbb' failed when only a single path was to
+    be computed
+
+v0.37-5  (2016-08-23)
+
+  o gbm: add fanplot example
+
+v0.37-4  (2016-07-12)
+
+  o fixed: 'DEopt' did not work for univariate
+    optimisation models. (Thanks to Torsten von
+    Bartenwerffer for reporting.)
+
+v0.37-3  (2016-07-06)
+
+  o TAopt: new option 'OF.target', which lets the
+    algorithm stop when a desired objective-function
+    value is reached
+
+v0.37-2  (2016-06-08)
+
+  o TA.info: the best solution ('xbest') is now also
+    provided
+
+v0.37-1  (2016-05-24)
+
+  o new test function 'tfEggholder'
+
+v0.37-0  (2016-04-11)
+
+  o TAopt: experimental/rudimentary plot and print
+    methods. The methods are invoked if 'algo$classify'
+    is TRUE (default is FALSE in order to keep old
+    behaviour)
+
+  o there is now a public Git repository at
+    https://github.com/enricoschumann/NMOF
+
+v0.36-5  (2016-04-07)
+
+  o repairMatrix: new argument 'eps', which specifies
+    the replacement value for negative eigenvalues
+
+v0.36-4  (2015-11-18)
+
+  o bracketing: the resulting matrix's columns are
+    named 'lower' and 'upper'
+
+v0.36-3  (2015-11-09)
+
+  o restartOpt: when 'cl' is specified and 'method' is
+    identical to 'loop', the function will now issue a
+    warning before changing method to 'snow'
+
+v0.36-2  (2015-10-16)
+
+  o functions from packages other than 'base' are now
+    explicity imported: 'grDevices', 'graphics',
+    'stats', 'utils'
+
+v0.36-1  (2015-07-22)
+
+  o TAopt: more informative error message when
+    objective function evaluates to NA during
+    computation of thresholds
+
+v0.36-0  (2015-06-23)
+
+  o experimental: new function 'LS.info' for accessing
+    information during optimisation run (eg, current
+    iteration)
+
+v0.35-1  (2015-06-04)
+
+  o small correction in parameter description in
+    'callMerton' (suggested by Laurs Leth)
+
+v0.35-0  (2015-05-12)
+
+  o new function 'pm' for computing partial moments
+
+v0.34-2  (2015-05-05)
+
+  o fixed: 'DEopt' did not properly handle the
+    'minmaxConstr' option, which could result in
+    solutions that violated the box constraints.
+    (Thanks to David Ashear for reporting.)
+
+v0.34-1  (2015-02-03)
+
+  o no user-visible changes (see ChangeLog for non-visible changes)
+
+v0.34-0  (2014-10-23)
+
+  o Functions such as 'mclapply' from package 'parallel' are imported;
+    'parallel' is no longer attached when these functions are used
+    (ie, the package is not added to the user's search path).  [Please
+    note that the CRAN version of NMOF has required R (>= 2.14) for
+    some time now, and since that R-version package 'parallel' has
+    been available anyway.]
+
+  o report 'Distributed computations with the NMOF package' was
+    updated
+
+v0.33-0  (2014-08-22)
+
+  o updates in documentation and vignettes
+
+v0.32-1  (2014-08-14)
+
+  o argument 'offset' in 'ytm' can be a vector (that worked before as
+    well, but is now documented)
+
+  o several small updates in documentation
+
+v0.32-0  (2014-03-26)
+
+  o new function 'colSubset'
+
+  o experimental: new function 'TA.info' for accessing information
+    during optimisation run (eg, current iteration)
+
+  o rewrote example in 'Asset selection with Local Search'
+
+v0.31-2  (2014-02-21)
+
+  o various small updates in documentation and
+    vignettes (e.g.  links to mailing lists)
+
+v0.31-1  (2013-12-31)
+
+  o expanded vignette 'Overview of the NMOF package'
+
+v0.31-0  (2013-12-27)
+
+  o new function 'callMerton' for European calls under Merton's
+    jump--diffusion model
+
+  o new vignette 'Overview of the NMOF package'
+
+  o smaller changes/updates in documentation
+
+v0.30-0  (2013-11-18)
+
+  o new function 'duration'
+
+v0.29-2  (2013-11-02)
+
+  o function 'ytm' has an argument 'offset' now; see ?ytm for examples
+
+v0.29-1  (2013-10-31)
+
+  o function 'ytm' is slightly faster now
+
+  o small additions to documentation
+
+v0.29-0  (2013-10-13)
+
+  o added function 'drawdown'
+
+  o Code examples in subdirectory 'NMOFex' (manual)
+    updated.
+
+  o small updates in documentation
+
+v0.28-2  (2013-09-04)
+
+  o vignettes are now all placed in vignettes, again [see NEWS entries
+    v0.27-5 (2013-04-26) and v0.26-0 (2012-09-19)]; small changes in
+    vignettes
+
+v0.28-1  (2013-07-22)
+
+  o 'snow' was removed from 'Suggested'.  Whenever distribution of
+    computations is done via method 'snow', package 'parallel' is now
+    used.  Note that this is currently experimental and little-tested;
+    feedback is thus much appreciated.
+
+  o in 'callHestoncf' and 'callCF', the upper integration limit is now
+    'Inf' (suggested by Wolfgang H\"ormann).  This may make it easier
+    to compare different numerical implementations (but accuracy with
+    the old cutoff value was sufficient: numeric differences in prices
+    are of the order of a few hundredths of one cent).
+
+v0.28-0  (2013-06-08)
+
+  o 'multicore' was removed from the 'Suggested' packages. (Package
+    'parallel' had already been used -- if possible -- since version
+    0.25-6; see the NEWS entry.)
+
+  o the package now 'Depends' on R version >= 2.14 (because of
+    'parallel')
+
+  o new functions 'gbm' and 'gbb' added (geometric Brownian
+    motion/bridge)
+
+v0.27-5  (2013-04-26)
+
+  o since vignettes are built offline, the number of restarts was
+    increased again; cf. NEWS entry for v0.26-0  (2012-09-19)
+
+  o fixed a small error in help page for 'vanillaBond'
+
+  o internal changes in option pricing functions; more tests added for
+    dividend handling
+
+v0.27-4  (2013-04-22)
+
+  o function 'putCallParity' added
+
+  o for 'vanillaOptionEuropean', a parameter 'vol' can be passed via
+    '...' (which is translated into 'v' by squaring and ignored if 'v'
+    is already specified)
+
+  o a few internal changes and doc changes
+
+v0.27-3  (2013-01-04)
+
+  o Experimental: 'vanillaOptionEuropean' has arguments 'model'
+    (default is NULL which corresponds to Black-Scholes-Merton)
+    and '...'. This allows to pass other models; for
+    example, 'heston'. With 'greeks' set to TRUE, the function
+    also returns (some) derivatives. More will be added over
+    time, so the results should be extracted by name, not by
+    position (eg, x[["delta"]], but not x[[2L]]).
+    (Adding derivatives for non-BSM models was suggested by
+    Nitesh Kumar.)
+
+v0.27-2  (2013-01-03)
+
+  o Small corrections in docs for 'ytm' and
+    'vanillaOptionEuropean'.
+
+v0.27-1  (2013-01-02)
+
+  o Added functions 'ytm' and 'vanillaBond': compute
+    yield-to-maturity and price of plain-vanilla bond.
+
+v0.27-0  (2012-11-29)
+
+  o Function 'qTable' has new arguments 'funs', 'tabular.format'
+    and 'skip'; see vignette 'qTableEx' and ?qTable.
+    The function now (correctly) adds more space at the end of
+    the tabular (unless 'skip' is FALSE, which corresponds to the
+    previous behaviour).
+
+v0.26-4  (2012-11-14)
+
+  o Minor changes in documentation and examples.
+
+  o Code examples in subdirectory 'NMOFex' (manual)
+    updated.
+
+v0.26-3  (2012-10-25)
+
+  o Important: all option pricing functions that return lists of
+    named elements (callCF, vanillaOptionE/A, callHestoncf)
+    now call the theoretical option value just 'value'. Before,
+    they returned 'price' or 'callPrice', which could be confusing
+    for instance in case of implied vol calculations.
+
+  o DEopt, GAopt and PSopt now also return the initial populations
+    (but only if 'algo$storeSolutions' is TRUE)
+
+  o More unit tests added.
+
+v0.26-2  (2012-10-23)
+
+  o Changes in documentation and unit tests.
+
+v0.26-1  (2012-10-12)
+
+  o Small changes in documentation (option pricing
+    functions).
+
+  o Code examples in subdirectory 'NMOFex' (manual)
+    updated.
+
+v0.26-0  (2012-09-19)
+
+  o Vignettes (except for one) are now built offline
+    to reduce build/check time for R-Forge/CRAN.
+    (As suggested by Kasper Daniel Hansen in this post:
+    https://stat.ethz.ch/pipermail/r-devel/2012-September/064810.html )
+
+  o Small changes in documentation.
+
+v0.25-9  (2012-09-19)
+
+  o Added functions 'vanillaOptionEuropean',
+    'VanillaOptionAmerican' and 'vanillaOptionImpliedVol'.
+
+  o Test files have been reorganised (there are now about
+    700 unit tests; they all can be run from
+    /unitTests/runTests.R).
+
+  o New maintainer e-mail address.
+
+v0.25-8  (2012-08-28)
+
+  o all opt-functions now return 'initial.state' (which is
+    the value of '.Random.seed' when the function is
+    called). All the warnings of '?Random' apply (in
+    particular, see section 'Note'); the preferred way
+    is still to set a seed explicitly with 'set.seed'.
+
+v0.25-7  (2012-08-17)
+
+  o minor internal changes (the only visible update are small
+    changes in some of the examples)
+
+v0.25-6  (2012-08-07)
+
+  o Package 'parallel' is now suggested. In functions gridSearch,
+    restartOpt, bracket: with method 'multicore' the functions
+    first check if package 'parallel' is available; if not, they
+    look for package 'multicore'
+
+  o 'restartOpt' has a new argument 'best.only': if TRUE,
+    only the best run is reported. Default is FALSE.
+
+v0.25-5  (2012-07-20)
+
+  o Added checks in DEopt that vectorised functions
+    return objects of correct size (will be added to PSopt
+    and GAopt as well).
+
+  o Removed NEWS.Rd (NEWS now back to plain text).
+
+v0.25-4  (2012-07-03)
+
+  o Added checks on the parameters for 'callCF'; added
+    new arguments 'uniroot.control', which allows to pass
+    the settings for 'uniroot' (to compute implied vol),
+    and 'uniroot.info'.
+    (Computation of implied vol would fail when spot equalled
+    strike and r equalled q; thanks to Douglas McLean for
+    reporting this case.)
+
+v0.25-3  (2012-06-22)
+
+  o Small changes in the vignettes (mostly layout).
+
+  o Code examples in subdirectory 'NMOFex' updated.
+
+v0.25-2  (2012-06-17)
+
+  o Small changes in the vignettes (mostly layout).
+
+  o In 'TAopt', 'LSopt': if 'x0' is not a function, it is
+    initialised with 'eval(x0)'; thus, it can be an expression.
+
+  o Several minor internal changes.
+
+v0.25-1  (2012-05-22)
+
+  o Edited some of the examples in the documentation; minor
+    modifications in docs.
+
+  o Code examples in subdirectory 'NMOFex' updated.
+
+v0.25-0  (2012-04-20)
+
+  o All the R-code examples from the book are now available
+    in the package through function 'showExample'; eg,
+    'showExample("equations.R")'
+    (The scripts are stored in subdirectory 'book'.)
+
+  o A first draft of the 'NMOF Manual' is available from
+    https://enricoschumann.net/NMOF.htm . The manual's code
+    examples are collected in file 'NMOFman.R' (in subdirectory
+    'NMOFex'). The manual supersedes 'Examples and Extensions for
+    the NMOF package'.
+
+  o The tests on specific TA applications (minimum variance,
+    tangency portfolio) have been removed; the code was added to
+    the manual.
+
+v0.24-1  (2012-04-16)
+
+  o Small changes in vignettes.
+
+  o Re-organised existing/added new unit tests.
+
+v0.24-0  (2012-04-11)
+
+  o Added function 'resampleC': allows to sample with replacement from
+    arbitrary numeric vectors (ie, samples) and making the samples (rank)
+    correlated.
+
+  o 'DEopt' and 'PSopt' now have an argument 'algo$minmaxConstr'. If
+    TRUE, 'algo$min' and 'algo$max' are become constraints. These
+    constraints are implemented through an internal repair function that
+    is called before any user-defined repair function.
+
+v0.23-3  (2012-03-25)
+
+  o fixed: 'restartOpt' could not take an argument named 'X'
+    via the '...' argument.
+  o Unit tests added in unitTests1.R.
+
+v0.23-2  (2012-03-19)
+
+  o fixed: with 'algo$storeSolutions==TRUE', functions 'LSopt'
+    and 'TAopt' only returned the current (=accepted) solution
+    in a given iteration, but not the candidate solution.
+    (These data can be found in 'xlist'. See ?TAopt and
+    ?LSopt, under 'Value'.)
+  o Unit tests added in unitTests1.R.
+
+v0.23-1  (2012-02-27)
+
+  o Added 'Depends: R (>= 2.10)' to DESCRIPTION (necessary
+    because of file compression).
+
+v0.23-0  (2012-02-14)
+
+  o Dataset 'optionData' was added.
+  o More tests were added for function 'callCF'; and its
+    documentation was updated.
+
+v0.22-3  (2012-01-15)
+
+  o with 'algo$printDetail = TRUE', functions DEopt, GAopt and
+    PSopt give more information
+  o vignette 'DEnss.Rnw' was shortened to reduce build-time of
+    the package (removed parts are now in 'Examples and
+    Extensions for the NMOF package')
+  o code examples in subdirectory 'NMOFex' updated
+
+v0.22-2  (2012-01-05)
+
+  o minor changes in vignettes/documentation
+  o code examples in subdirectory 'NMOFex' updated
+
+v0.22-1  (2011-12-15)
+
+  o tests for distributed computing have been organised into a
+    report, 'Distributed computations with the NMOF package',
+    available as a pdf-file from
+    https://enricoschumann.net/files/NMOFdist_Windows.pdf
+    and
+    https://enricoschumann.net/files/NMOFdist_Linux.pdf
+    (package 'multicore' is only available on Linux)
+  o the code for 'Distributed computations with the NMOF package'
+    is available in file 'NMOFdist.R', stored in subdirectory
+    'NMOFex' (the file 'multicore.R' has been removed from
+    subdirectory 'unitTests')
+  o unit tests updated
+
+v0.22-0  (2011-12-08)
+
+  o documentation updated
+  o slight changes in vignette 'DEnss.Rnw' (to reduce time
+    to build package)
+
+v0.21-5  (2011-12-01)
+
+  o fixed: in 'GAopt', optional arguments for 'mclapply'
+    (multicore) were not passed. An example for passing an
+    argument was added to file 'unitTests/multicore.R'.
+  o documentation for 'GAopt' updated
+  o code examples in subdirectory 'NMOFex' updated
+
+v0.21-4  (2011-11-29)
+
+  o 'GAopt' now has an argument 'algo$methodOF' that supports
+    'loop' (default) but also 'snow' or 'multicore'. See
+    'Examples and Extensions for the NMOF package' (with code
+    in subdirectory 'NMOFex') for an example.
+  o vignette 'TAportfolio' updated (now with example for
+    rank-deficient matrix)
+
+v0.21-3  (2011-11-25)
+
+  o fixed: 'gridSearch' with 'printDetail=TRUE' did not give
+    a meaningful message
+  o experimental: 'GAopt' now has an argument 'algo$methodOF'
+    that can be 'loop' (default) but also 'snow' or 'multicore'
+    (currently, only 'snow' is operational). If 'algo$methodOF'
+    is not 'loop', the evaluation of the objective function will
+    be distributed. See 'Examples and Extensions for the NMOF
+    package'(with code in subdirectory 'NMOFex') for an example.
+
+v0.21-2  (2011-11-22)
+
+  o fixed: with 'printDetail' greater than zero, 'TAopt' did
+    not print the best solution, but the current solution
+    (but internal book keeping worked correctly, and the best
+    solution was returned)
+  o 'bracketing', 'gridSearch', 'restartOpt': when 'cl' argument
+    is not NULL, then argument 'method' is set to 'snow' (but as
+    before it is checked whether package 'snow' is available)
+  o the latest pdf-version of 'Examples and Extensions
+    for the NMOF package' is now available from
+    https://enricoschumann.net/files/NMOFex.pdf
+  o code examples in subdirectory 'NMOFex' updated
+
+
+v0.21-1  (2011-11-15)
+
+  o the 'printDetail' option for opt-functions is now more consistent:
+    a positive integer 'i' greater than one means that information
+    is printed at every 'i'th iteration
+  o minor changes in vignettes
+  o unit tests for 'callCF' added (in file 'unitTests/unitTests5.R')
+
+v0.21-0  (2011-11-08)
+
+  o added function 'callCF' as a wrapper for pricing
+    European calls with the characteristic function;
+    characteristic functions for BSM, Merton, Bates, Heston
+    and Variance-Gamma were also added
+  o when 'algo$q' in 'TAopt' is zero, all thresholds are set
+    to zero
+  o code examples in subdirectory 'NMOFex' updated
+  o CITATION file now points to the book's homepage http://nmof.net
+
+v0.20-1  (2011-10-28)
+
+  o the 'keepNames' argument of function 'gridSearch' is now
+    supported
+  o more examples added for 'gridSearch' (and corresponding tests
+    in 'unitTests/unitTests2.R')
+  o fixed: some typos in vignette 'Vectorised objective functions'
+
+v0.20-0  (2011-10-20)
+
+  o *first CRAN release*
+  o the 'printDetail' argument for 'LSopt' now recognises
+    TRUE and FALSE (as before), but also an integer 'i'
+    greater than 1. In the latter case, information on the best
+    solution is printed at every 'i'th step.
+  o minor cleanups in documentation
+
+v0.19-4  (2011-10-15)
+
+  o small changes in vignette 'Repairing solutions'
+  o small internal changes in 'GAopt' and 'DEopt' (auxiliary functions
+    like 'switch' and 'shift' have been inlined)
+  o code examples in subdirectory 'NMOFex' updated
+
+v0.19-3  (2011-10-07)
+
+  o fixed: a bug had been introduced into 'GAopt' in version 0.19-2
+    (revision 88), which let the population grow to algo$nP+1
+  o minor changes in documentation/examples
+
+v0.19-2  (2011-09-30)
+
+  o minor cleanups in documentation
+
+v0.19-1  (2011-09-29)
+
+  o minor cleanups in documentation
+  o minor internal changes in 'restartOpt' (passing of the '...' arguments
+    for method 'snow')
+
+v0.19-0  (2011-09-26)
+
+  o 'bracketing', 'gridSearch' and 'restartOpt' now support distributed
+    evaluation of 'fun' via 'clusterApply' from the 'snow' package. As a
+    side effect, the interface of 'gridSearch' and 'restartOpt' has
+    changed: instead of an option 'multicore', they now have an argument
+    'method', which can be 'loop', 'multicore' or 'snow'. See the
+    documentation of these functions.
+  o for consistency, the 'method' argument of 'bracketing' expects 'vectorised'
+    rather than 'vectorise' (but both work, and also the '-ize' spellings)
+  o substantial revision of documentation/examples
+  o more intelligible error/warning messages in 'bracketing' added
+  o small changes in vignettes 'Robust Regression with Particle Swarm
+    Optimisation and Differential Evolution' and 'Repairing solutions'
+  o file 'multicore.R' was moved to subdirectory inst/unitTests;
+    thus, it is installed with the package. Some tests for package 'snow'
+    were added.
+  o more tests added (subdirectory unitTests); in particular, tests are
+    more comprehensively commented now
+
+v0.18-1  (2011-09-21)
+
+  o fixed: 'restartOpt' with 'multicore = TRUE' did not correctly
+    pass '...' arguments to 'fun'
+  o fixed: typo in message issued by 'gridSearch'
+  o new file 'multicore.R' added in subdirectory tests; it contains a number
+    of timing tests to see if the 'multicore' option works. (The tests are
+    not run when the package is built.)
+  o minor updates in documentation
+
+v0.18-0  (2011-09-20)
+
+  o 'restartOpt' now has option 'multicore'
+  o the 'method' option of function 'xwGauss' can now take on values
+    'hermite' and 'laguerre'
+  o documentation updated
+  o new examples added in 'Examples and Extensions for the NMOF package'
+    (see subdirectory NMOFex)
+  o test cases added for 'restartOpt' and 'xwGauss'
+    (see subdirectory unitTests)
+
+v0.17-0  (2011-09-18)
+
+  o functions for Gaussian integration added: 'xwGauss' computes nodes and
+    weights; 'changeInterval' transforms the nodes/weights to arbitrary
+    intervals. Currently, only method 'legendre' is supported.
+  o documentation updated
+  o more tests added for opt-functions (for returned objects 'Fmat'
+    and 'xlist')
+
+v0.16-2  (2011-09-17)
+
+  o all opt-functions now have arguments 'storeF' and 'storeSolutions'
+    (passed through 'algo'). If the latter is TRUE, intermediary results
+    will be stored in a list 'xlist' that is returned by the function
+    (what exactly 'xlist' contains, depends on the specific function)
+  o minor revision in vignette 'Robust Regression with
+    Particle Swarm Optimisation and Differential Evolution'
+  o NEWS file can now be found under inst/NEWS.Rd
+  o internal changes: a number of test utilities have been added
+    (not exported); see, for instance, ?checkList
+
+v0.16-1  (2011-09-13)
+
+  o fixed: 'bracketing' had not been added to the NAMESPACE file (now it is)
+  o tests for 'bracketing' added (see directory unitTests)
+
+v0.16-0  (2011-09-12)
+
+  o function 'bracketing' added
+  o minor changes in function 'MA' (added checks)
+
+v0.15-6  (2011-09-11)
+
+  o vignette for 'qTable' added/corrected
+
+v0.15-5  (2011-09-04)
+
+  o 'qTable' revised (user-specified labels are now possible)
+  o (very) short vignette for 'qTable' added
+  o minor changes in code/documentation/examples
+
+v0.15-4
+
+  o experimental: 'DEopt' takes further arguments 'storeF' and 'storeSolutions'
+    (through list 'algo'). If 'storeF' is FALSE, objective function values are
+    not stored ('Fmat' is set to NA; see ?DEopt). If 'storeSolutions' is TRUE,
+    all population matrices are stored for every generation. This should be
+    helpful for diagnostic checking (and demonstration purposes), but may use
+    up a lot of memory for larger problems; hence default is FALSE.
+    (These settings will either be removed from 'DEopt' or be added to all
+    opt-functions in one of the next package versions.)
+
+v0.15-3
+
+  o new vignette ('Vectorised objective functions') added
+  o more safeguards added to 'gridSearch'
+
+v0.15-2
+
+  o function 'gridSearch' now takes a list 'mc.control' as an argument;
+    it allows to pass settings to 'mclapply'
+  o more tests were added (see unitTests.R)
+  o minor changes in code/documentation/examples
+
+v0.15-1
+
+  o more tests were added (see unitTests.R)
+  o minor changes in code/documentation/examples
+
+v0.15-0
+
+  o function 'gridSearch' can now evaluate a function that expects
+    a list or a vector as its first argument
+  o test cases for 'gridSearch' added  (in unitTests/unitTests.R)
+  o 'DEopt' can take a vector 'F' to set specific step sizes for each
+    decision variable (this actually worked before but is now documented
+    and tested)
+  o 'PSopt' can take a function 'changeV' and a logical 'loopChangeV'
+    (passed via the list 'algo'); 'changeV' allows to impose restrictions
+    on the velocity (see the code in directory NMOFex for an example)
+  o more checks were added in opt-functions
+  o small changes in the vignettes (in particular, seeds are set now)
+  o minor changes in documentation/examples
+
+v0.14-2
+
+  o experimental: 'gridSearch' now an has argument 'multicore'; if TRUE,
+    the function calls 'mclapply' (from the multicore package) to
+    evaluate argument 'fun'. Currently added only for cross-platform
+    testing (in particular, to see how R CMD check reacts under Windows).
+  o directory NMOFex was updated
+  o small correction in output of 'TAopt'
+
+v0.14-1
+
+  o test cases for portfolio optimisation added (in unitTests/unitTests.R)
+
+v0.14-0
+
+  o function 'gridSearch' was added
+
+v0.13-6
+
+  o an initial population in 'DEopt', 'GAopt' and 'PSopt' is now passed
+    through 'algo$initP' (before, a population could be passed via 'algo$mP')
+  o directory NMOFex was updated
+  o documentation was updated
+
+v0.13-5
+
+  o directory NMOFex was updated
+  o internal changes in several functions
+  o GAopt.Rd was updated
+
+v0.13-4
+
+  o directory NMOFex was updated
+  o minor internal changes in several functions
+
+v0.13-3
+
+  o directory NMOFex was added; it contains the code for
+    'Examples and Extensions for the NMOF package'
+  o documentation updated; minor changes in examples and vignettes
+
+v0.13-2
+
+  o documentation, checks, unit tests added for function 'GAopt'
+
+v0.13-1
+
+  o the population in 'GAopt' is now of mode logical (mistaking a logical
+    vector for a numeric one is less harmful than the other way around)
+
+v0.13-0
+
+  o function 'GAopt' added (minimisation by a Genetic Algorithm)
+  o several unit tests added
+  o documentation revised (thanks to Manfred Gilli for comments)
+
+v0.12-9
+
+  o fewer simulation runs in vignettes to reduce build time
+
+v0.12-1
+
+  o documentation has been revised
+
+v0.11-1
+
+  o a number of test functions have been added (see ?testFunctions)
+  o new examples added for 'DEopt' and 'TAopt'
+  o vignettes have been revised
+
+v0.10-1
+
+  o opt-functions now have 'printBar' and 'printDetail' option
+    (set via 'algo')

@@ -1,0 +1,36 @@
+Package: neighbours
+Type: Package
+Title: Neighbourhood Functions for Local-Search Algorithms
+Version: 0.1-5
+Date: 2025-12-17
+Maintainer: Enrico Schumann <es@enricoschumann.net>
+Authors@R: person(given = "Enrico", family = "Schumann",
+                  role  = c("aut", "cre"),
+                  email = "es@enricoschumann.net",
+                  comment = c(ORCID = "0000-0001-7601-6576"))
+Description: Neighbourhood functions are key components of
+  local-search algorithms such as Simulated Annealing or
+  Threshold Accepting.  These functions take a solution and
+  return a slightly-modified copy of it, i.e. a neighbour.
+  The package provides a function neighbourfun() that
+  constructs such neighbourhood functions, based on
+  parameters such as admissible ranges for elements in a
+  solution.  Supported are numeric and logical solutions.
+  The algorithms were originally created for
+  portfolio-optimisation applications, but can be used for
+  other models as well.  Several recipes for neighbour
+  computations are taken from "Numerical Methods and
+  Optimization in Finance" by M. Gilli, D. Maringer and
+  E. Schumann (2019, ISBN:978-0128150658).
+License: GPL-3
+URL: https://enricoschumann.net/R/packages/neighbours/ ,
+        https://sr.ht/~enricoschumann/neighbours/ ,
+        https://github.com/enricoschumann/neighbours
+Depends: R (>= 3.3)
+Suggests: NMOF, quadprog, tinytest
+NeedsCompilation: no
+Packaged: 2025-12-17 10:02:55 UTC; es19
+Author: Enrico Schumann [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-7601-6576>)
+Repository: CRAN
+Date/Publication: 2025-12-17 10:20:14 UTC

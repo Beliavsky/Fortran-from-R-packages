@@ -1,0 +1,19 @@
+name = "neighbours"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Enrico Schumann; Fortran translation by OpenAI"
+maintainer = "OpenAI"
+copyright = "2025 Enrico Schumann"
+description = "Modern Fortran translation of computational routines in the R package neighbours"
+categories = ["optimization"]
+keywords = ["neighbourhood", "local-search", "simulated-annealing", "threshold-accepting"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

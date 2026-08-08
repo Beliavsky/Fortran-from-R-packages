@@ -1,0 +1,17 @@
+name = "neighbours-nmof-demo"
+version = "0.1.0"
+license = "GPL-3.0-only"
+
+[dependencies]
+neighbours = { path = "../.." }
+nmof = { path = "../../vendor/nmof" }
+
+[build]
+auto-executables = true
+auto-tests = false
+auto-examples = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

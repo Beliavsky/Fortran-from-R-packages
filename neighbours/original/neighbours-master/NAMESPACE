@@ -1,0 +1,6 @@
+importFrom("stats", "runif")
+
+export("neighbourfun",
+       "neighborfun",
+       "next_subset",
+       "compare_vectors")

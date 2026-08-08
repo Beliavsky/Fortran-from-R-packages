@@ -1,0 +1,1562 @@
+2025-11-14  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (maxMinR): add outline of function
+
+2025-10-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (trackingPortfolio): only copy names
+        of 'var' when it is defined
+
+2025-06-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): adapt to new format of
+        "10_portfolios_prior_12_2_csv.zip":
+        "Average Value Weighted Returns -- Monthly" ==>
+        "Value Weight Returns -- Monthly"
+
+2025-06-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/probBO.R (PBO): add function 'PBO', for
+        computing probability of backtest overfitting,
+        as descrived in Bailey et al. (2017;
+        https://doi.org/10.21314/JCF.2016.322 )
+
+2025-06-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Ritter): new '...' argument,
+        with the additional parameters passed to
+        'download.file'
+        (Ritter): adapt to new file format -- there is new
+        column "ADR"
+
+2025-03-28  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (trackingPortfolio): copy names of
+        'var' to solution
+
+2025-02-14  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.10-2
+
+        * NEWS: updated many links from http to https
+
+2025-01-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): update list of
+        supported data files
+
+2025-01-09  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support
+        'Europe_5_Factors_CSV.zip'
+
+2024-11-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.10-1
+
+        * man/NS.Rd: remove code example, as it failed on
+        a CRAN machine and the failure could not be
+        reproduced elsewhere
+
+2024-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.10-0
+
+        * R/market_data.R (Shiller): adapt regex; set
+        default of argument 'url' to NULL, since old link
+        is no longer working
+
+        * R/market_data.R (Ritter): adapt to new column
+        headers in latest files; column names are now made
+        lower case
+
+        * man/*.Rd: updated many links to https
+
+2024-10-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/MRC.R: add function, based on
+        https://quant.stackexchange.com/questions/80370/risk-parity-portfolio-from-scenario-optimization/80453#80453
+
+2024-09-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R: slightly rearrange code for case
+        when 'na.rm' is TRUE, to avoid the (harmless)
+        warning when there are no finite values
+
+2024-07-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/tinytest/test_heston.R: add tests, using
+        reference prices from Alan Lewis' blog
+
+2024-04-07  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/unitTests/unitTests2.R: removed (emptied) file
+
+2024-03-21  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R: use zoo::zoo to fix namespace
+
+        * inst/tinytest/test_bracketing.R: add testfile
+
+        * R/market_data.R (Shiller): implement new URL of file;
+        if argument "url" is not explicitly defined, the
+        function uses the new URL
+
+2024-03-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/bracket.R (bracketing): fix bug introduced in
+        version 2.9-0
+
+        * R/market_data.R (French): new argument
+        "return.class", with default value 'data.frame';
+        a single alternative value 'zoo' is supported
+
+2024-02-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support dataset
+        "F-F_Research_Data_5_Factors_2x3_daily_CSV.zip"
+
+2023-12-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.9-0
+
+2023-12-28  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/tinytest/test_trackingPortfolio.R: make test
+        less stringent
+
+2023-12-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/bracket.R (bracketing): directly compare signs,
+        instead of the sign of products, which works better
+        when 'fun' evaluates to /exactly/ zero
+
+2023-10-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/approxTR.R (approxBondReturn): new function, which
+        approximates the total return of a bond by its
+        duration & convexity, as described in Swinkels(2019)
+
+2023-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.8-0
+
+        * man/*.Rd: fix many links
+
+2023-10-15  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Ritter): fix removal of empty lines
+
+        * R/internals.R (mcList): add 'affinity.list'
+
+2023-07-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Ritter): adapt to new file
+        format
+
+2023-03-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (vanillaOptionEuropean): compute
+        "DvegaDspot" and "DvegaDvol"
+
+2023-03-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minMAD): copy neighbourhood
+        function from "neighbours" package
+
+2023-02-28  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minMAD): add function
+
+2023-01-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (trackingPortfolio): add
+        argument 'ls.algo' for specifying settings for
+        method 'ls'
+        (trackingPortfolio): no longer require 'var'
+        when 'R' is specified
+
+2023-01-13  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/callHestoncf.R (callHestoncf): add argument
+        'uniroot.control' for passing settings for
+        'uniroot', and 'uniroot.info'
+
+2022-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.7-1
+
+        * man/*: documentation updates
+
+2022-08-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.7-0
+
+2022-06-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): safeguard download so
+        that the function evaluates to NULL when the
+        download fails. That behaviour had been intended as
+        least since 2020-01-23 [see ChangeLog], but had so
+        far depended on the return value of 'download.file'.
+
+2022-03-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (vanillaOptionAmerican): the function
+        now works even for very small values for M (M <= 3)
+
+2022-03-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (barrierOptionEuropean): add function
+
+2022-03-09  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/mc.R (gbm): the function gains an argument
+        "antithetic", with default FALSE. If TRUE, only
+        npaths/2 paths are created and then duplicated with
+        switched sign
+
+2022-01-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/mc.R (gbm, gbb): both functions gain an argument
+        "exp.result", with default TRUE. If FALSE, the log
+        paths are returned
+        (gbb): the function gets an argument "log", with
+        default FALSE, which matches the previous behaviour
+
+2022-01-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.6-0
+
+2021-12-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (group_constraints_matrices):
+        fix group constraints with a single group
+
+2021-11-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/randomReturns.R (randomReturns): specially
+        handle case rho == 1. Also, add an argument
+        "exact"; if TRUE, the created matrix has exact
+        means, standard deviations and
+        correlations. Default is FALSE.
+
+2022-05-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.5-1
+
+        * man/*,vignettes/*,inst/tinytest/*: add
+        tests whether suggested packages 'quadprog' and
+        'Rglpk' are available
+
+2021-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.5-0
+
+2021-09-28  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/gridSearch.R (gridSearch): allow
+        non-numeric input arguments, e.g. factors or
+        character vectors, specified in argument
+        "levels". Used only if argument 'asList' is
+        TRUE.
+
+2021-07-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Ritter): add function, which
+        downloads IPO data from Jay Ritter
+
+2021-05-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): trim whitespace
+        from "industry_group"
+
+2021-04-09  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.4-1
+
+        * R/*opt.R: set default value of 'printBar' to
+        'interactive()' in optimisation functions
+
+        * inst/tinytest/test_portfolio.R: run several
+        tests only locally
+
+2021-04-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.4-0
+
+2021-03-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/tinytest/test_portfolio.R: use more
+        tolerance in tests
+
+2021-03-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support univariate
+        dataset "Portfolios Formed on ME"
+
+2021-03-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/randomReturns.R (randomReturns): 'rho' may
+        now be a correlation matrix
+
+2021-02-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minCVaR): support wmin/wmax
+        other than the defaults (thanks to Peter Garnry
+        for reporting on GitHub)
+        (minCVaR): support group constraints
+
+        * R/market_data.R (French): the function no
+        longer fails when a column is are NA; more
+        tweaks to process files
+
+        * R/callHestoncf.R (callHestoncf): new \dots
+        argument for passing arguments to 'integrate'
+
+2021-01-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.3-1
+
+        * R/market_data.R (Shiller): support additional
+        columns; construct dates as monthly sequence
+        instead of parsing the dates in the file
+
+2020-10-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minCVaR): new arguments
+        'min.return' and 'm' for specifying a
+        minimum-return restriction
+
+2020-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.2-2
+
+        * inst/tinytest: exclude tests after spurious
+        error on CRAN machine
+
+2020-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.2-1
+
+        * man/optionData.Rd: update URLs, as
+        requested by CRAN
+
+2020-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.2-0
+
+2020-10-14  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): use 'basename' on
+        the dataset, so that the complete ftp-link to a
+        dataset can be used
+
+2020-08-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/TAopt.R (TAopt): new option 'drop0',to be
+        passed via 'algo'
+
+2020-07-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * vignettes/portfolio.Rnw: add vignette on
+        portfolio-selection functions
+
+2020-06-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (group_constraints_matrices):
+        fix how constraints matrices are set up (thanks
+        to 'clcsar' for reporting on GitHub); allow
+        group labels
+
+2020-06-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (trackingPortfolio): export function
+
+2020-06-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (trackingPortfolio): add function (not
+        yet exported); see
+        https://enricoschumann.net/notes/return-based-tracking-portfolios.html
+
+2020-05-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): for industry portfolios,
+        also export "Sum of BE/Sum of ME". The data are
+        attached as an attribute "sumBE.sumME". All
+        data-frames attached as attributes now have the
+        timestamps as rownames.
+
+2020-04-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R: support further datasets, such as
+        "Bivariate sorts on Size, B/M, OP and Inv"
+
+2020-04-11  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minCVaR): add function; see
+        https://enricoschumann.net/notes/minimising-conditional-var.html
+
+2020-04-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.1-0
+
+2020-03-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): provide more
+        information for share issuance dataset
+
+2020-02-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): adapt function to
+        changed format (momentum monthly/yearly)
+
+2020-02-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minvar,mvFrontier,mvPortfolio):
+        the functions gain arguments 'groups',
+        'groups.wmin' and 'groups.wmax', which allow to
+        specify group constraints
+
+2020-01-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French,Shiller): if download
+        fails, return NULL invisibly
+
+2019-12-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller): adapt function to
+        new file format (reordered sheets)
+
+2019-12-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (mvPortfolio): new argument
+        'lambda' for specifying a risk--reward
+        trade-off
+
+2019-12-11  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): improve parsing of
+        not-explicitly-supported _daily_ datasets
+
+2019-11-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller): adapt function to
+        new file format
+
+2019-11-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): improve parsing of
+        not-explicitly-supported datasets
+
+2019-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 2.0-1
+
+        * DESCRIPTION (Suggests): add 'PMwR'
+
+2019-10-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/TAopt.R (TA.info): add the
+        objective-function value of currently best
+        solution, 'OF.xbest', to the data that
+        'TA.info' provides
+
+2019-10-11  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support
+        "Portfolios_Formed_on_NI_CSV.zip",
+        "Portfolios_Formed_on_RESVAR_CSV.zip"
+
+        * DESCRIPTION (ByteCompile): set to 'yes' again
+
+2019-10-07  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minvar): require 'quadprog'
+        only for method "qp"
+
+2019-09-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (ByteCompile): remove explicit setting
+
+2019-09-13  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): fix special
+        datasets 'market' and 'rf'
+
+2019-09-08  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/randomReturns.R (randomReturns): add function
+
+        * R/greedySearch.R (greedySearch): add function
+
+        * R/showExample.R, internals.R: replace the
+        vector 'Chapters' (which is not exported) with
+        'Chapters1' and 'Chapters2' (the chapter names of
+        the first and second edition)
+
+2019-08-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): new argument
+        'adjust.frequency': if TRUE (the default),
+        frequency is set to TRUE if the dataset looks
+        like a daily file
+
+2019-06-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller): suppress warnings
+        that are issued with new version of 'readxl'
+
+2019-06-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/DEopt.R, PSopt.R (DEopt, PSopt): DEopt and
+        PSopt gain a 'drop' option. If FALSE, the
+        dimension attribute of a solution is kept when
+        the population is evaluated via a loop,
+        i.e. functions receive a one-column
+        matrix. Note that the defaults differ for both
+        functions, so that the functions behave as
+        before.
+
+2019-06-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support
+        "10_Portfolios_Prior_12_2_CSV.zip" and
+        "10_Portfolios_Prior_12_2_Daily_CSV.zip"
+
+2019-06-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/resampleC.R (resampleC): if 'cormat' is a
+        single number, it is expanded into a constant
+        correlation matrix (this has worked before, but
+        only for the case of two series)
+
+2019-05-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support
+        "F-F_Momentum_Factor_CSV.zip"
+
+2019-04-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support datasets
+        "market" and "rf"
+
+2019-04-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.6-0
+
+        * R/market_data.R (French): support more
+        datasets
+
+2018-12-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.5-0
+
+        * R/TAopt.R (TAopt): new option
+        'thresholds.only'. If TRUE, TAopt computes only
+        threshold sequence and then exits.
+
+2018-10-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support more
+        datasets
+
+2018-09-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support datasets
+        "siccodes12" and "siccodes49"; improve output
+        formatting
+
+2018-09-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): fix data
+        interpretation for "me_breakpoints"
+
+2018-09-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support datasets
+        "me_breakpoints", "industry49_defs"
+
+2018-08-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller, French): add
+        'dest.dir' argument: downloaded files are
+        stored in this directory and reused when a
+        download is done on the same day
+
+2018-08-08  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (mvFrontier): the function
+        gains a new argument 'rf', as in "risk-free
+        rate". When specified, the frontier will be
+        computed including a cash position.
+
+2018-07-21  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller): fix date coersion
+
+2018-07-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): support dataset
+        'ff3'
+
+2018-06-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (mvPortfolio): add function
+
+2018-06-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Suggests): remove 'snow', as
+        requested by CRAN
+        (Version): 1.4-3
+
+        * inst/NMOFex/*: code examples have been
+        removed (but remain available from
+        https://enricoschumann.net)
+
+2018-06-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Suggests): add 'readxl'
+
+2018-06-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): new argument
+        'na.rm'; support for "industry49" dataset,
+        monthly and daily
+
+2018-05-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.4-2
+        (Suggests): add package 'snow', as requested by
+        CRAN
+
+2018-05-08  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.4-1
+        (ByteCompile): remove explicit setting
+        (Authors@R): add ORCID
+
+2018-05-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (French): add function
+
+2018-05-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/market_data.R (Shiller): add function
+
+2018-04-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.4-0
+
+2018-02-21  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/colSubset.R (colSubset): explicitly set
+        LAPACK=FALSE (the default already); see
+        https://stat.ethz.ch/pipermail/r-devel/2018-January/075398.html
+
+2017-12-06  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/TAopt.R (TAopt): new option 'nI', for
+        number of iterations. If specified, it will
+        override 'nS'. The option makes it easier to
+        switch between functions 'LSopt', 'TAopt' and
+        'SAopt'.
+
+        * R/SAopt.R (SAopt): new option nI
+
+        * R/LSopt.R (LSopt): new option nI
+
+2017-12-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/bonds.R (convexity): add function
+
+2017-12-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.3-0
+
+2017-10-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * vignettes/LSqueens.Rnw: add vignette
+
+2017-10-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.2-2
+
+        * R/*: remove unnecessary whitespace, remove
+        commented code
+
+        * man/*: update references
+
+2017-10-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.2-1
+
+        * R/portfolio.R (minvar): remove (harmless)
+        warning when weight-limit vectors have
+        length > 1
+
+        * inst/unitTests/unitTests_portfolio.R
+        (test.minvar): add tests
+
+        * man/NMOF-package.Rd: add more links
+
+        * man/pm.Rd: fix equation format
+
+2017-09-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.2-0
+
+        * R/bundFuture.R
+        (bundFuture,bundFutureImpliedRate): add
+        functions
+
+2017-05-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.1-0
+
+        * man/divRatio.Rd: document and export 'divRatio'
+
+2017-04-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/divRatio.R: add function
+
+2017-04-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.0-2
+        (ByteCompile): set to no
+
+        * R/pm.R (cm): with no data points below
+        'threshold', a lower conditional moment is set
+        to zero instead of NaN; with no data points
+        above 'threshold', an upper conditional moment
+        is set to zero (the function is not exported)
+
+2017-04-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.0-1
+        (ByteCompile): set to yes
+
+        * R/pm.R (cm): fix computation of conditional
+        moment (function is not exported)
+
+2017-04-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 1.0-0
+
+        * R/resampleC.R (resampleC): if only two series
+        are passed, 'cormat' can be a single number (the
+        correlation)
+
+        * R/TAopt.R (TA.info): 'OF.sampling' is TRUE
+        when the algorithm samples the objective
+        function and FALSE during the actual
+        optimisation
+
+        * R/TAopt.R (TAopt): improved printed output
+        when 'printDetail' and 'printBar' are both TRUE
+
+2017-03-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minvar): allow Inf and -Inf as
+        maximum/minimum weights
+
+2017-03-21  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (mv_frontier,mvFrontier):
+        rename 'mv_frontier' to 'mvFrontier'
+        (mvFrontier): 'm' is now recycled if of length 1;
+        add check whether 'quadprog' is available
+
+2017-03-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (minvar): the result gains an
+        attribute 'variance', which returns the
+        portfolio variance
+
+2017-03-15  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/LSopt.R (LSopt): add new option
+        'OF.target', which lets the algorithm stop when
+        a desired objective-function value is reached
+
+        * NAMESPACE: import 'graphics::legend'
+
+2017-03-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/SAopt.R: safeguard computation of initial
+        temperature
+
+2017-03-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/DEopt.Rd, GAopt.Rd, PSopt.Rd: fix
+        documentation of 'xlist'
+
+2017-02-15  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.99-0
+
+        * NAMESPACE: export 'minvar'
+
+        * R/portfolio.R (minvar): add check whether
+        'quadprog' is available
+
+        * man/minvar.Rd: add file
+
+        * man/SAopt.Rd: update docs
+
+2017-02-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/unitTests/unitTestsSAopt.R (test.SAopt):
+        add unit tests for 'SAopt'
+
+2017-01-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/CPPIgap.R (CPPI): Add function and docs
+
+        * R/SAopt.R (SAopt): add function
+        (SA.info): add function
+        (print.SAopt): add function, not exported
+        (plot.SAopt): add function, not exported
+
+2016-11-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * vignettes/repair.Rnw: set 'max.print' and
+        'width' options
+
+2016-11-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/restartOpt.R (restartOpt): do no longer use
+        which.min, which silently drops NAs, to
+        determine best solution
+
+        * R/portfolio.R (erc): fixed -- 'wmin' and
+        'wmax' were ignored
+        (erc): 'wmin' and 'wmax' may now be vectors,
+        specifying holding-size constraints for each
+        asset
+
+2016-10-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.40-0
+
+        * R/xtContractValue.R (xtTickValue): add function
+
+2016-09-30  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.39-0
+
+        * R/xtContractValue.R (xtContractValue): add function
+
+2016-09-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.38-0
+
+        * man/TAopt.Rd, LSopt.Rd: update behaviour of
+        'printDetail'
+
+        * R/portfolio.R (minvar, mv_frontier): use `::`
+        notation for 'solve.QP'
+
+2016-09-02  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/LSopt: switch off printBar if
+        'printDetail > 1'
+
+2016-08-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/portfolio.R (erc): experimental -- add
+        functions for computing ERC, min-variance
+        portfolios [not exported]
+
+2016-08-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-6
+
+        * R/mc.R (gbb): fixed -- 'gbb' failed when only
+        a single path was to be computed
+
+        * inst/unitTests/unitTests_mc.R (test.gbm): add
+        tests
+
+2016-08-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-5
+
+        * man/mc.Rd: add fanplot example
+
+        * inst/CITATION: add NMOF manual
+
+2016-07-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-4
+
+        * R/DEopt.R (DEopt): fixed -- function now also
+        works for univariate models; reported by
+        Torsten von Bartenwerffer
+
+2016-07-06  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-3
+
+        * R/TAopt.R (TAopt): add new option
+        'OF.target', which lets the algorithm stop when
+        a desired objective-function value is reached
+
+2016-06-08  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-2
+
+        * R/TAopt.R (TA.info): add 'xbest' to the data
+        that 'TA.info' provides
+
+2016-05-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-1
+
+        * R/testFun.R (tfEggholder): new test function
+
+2016-04-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * README.org: add RSS feed; format improvements
+
+        * vignettes/An_overview.Rnw: add link to RSS feed
+
+        * inst/unitTests/runTests.R: fixed -- 'testFileRegexp'
+        was wrong and so unit test were not run
+
+2016-04-11  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.37-0
+
+        * R/TAopt.R (print.TAopt): return 'invisible(x)'
+
+        * R/TAopt.R (plot.TAopt): new argument 'plot.type';
+        use 'do.call' for invoking plot
+
+2016-04-07  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-5
+
+        * R/repairMatrix.R (repairMatrix): new argument
+        'eps', which specifies the replacement value for
+        negative eigenvalues
+
+2016-04-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Description): add ISBN
+
+2016-03-02  Enrico Schumann  <es@enricoschumann.net>
+
+        * NAMESPACE: import 'lines', 'grey' from package
+        'grDevices'/'graphics'
+
+2016-02-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/TAopt.R (TAopt): Experimental. An argument 'classify' can now
+        be specified (passed through 'algo' settings). Default is FALSE;
+        if TRUE, the result gets a class attribute 'TAopt'. Methods for
+        'plot' and 'print' have been added.
+
+2015-12-08  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/*: added \concept to several help files
+
+2015-11-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-4
+
+        * R/bracket.R (bracketing): the resulting matrix's columns are
+        named 'lower' and 'upper'
+
+        * inst/unitTests/unitTests2.R (test.bracketing): updated unit
+        tests to include column names
+
+2015-11-09  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-3
+
+        * R/restartOpt.R (restartOpt): when 'cl' is specified and 'method'
+        is identical to 'loop', the function will now issue a warning
+        before changing method to 'snow'
+
+        * R/DEopt.R (DEopt and other files): updated invocations of
+        'makeInteger'
+
+        * R/internals.R (makeInteger): use 'sQuote' to quote argument name
+
+2015-10-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-2
+
+        * NAMESPACE: explicitly import functions from all packages other
+        than 'base': 'grDevices', 'graphics', 'stats', 'utils'
+
+2015-07-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-1
+
+        * R/TAopt.R (TAopt): more informative error message when objective
+        function evaluates to NA during computation of thresholds
+
+2015-06-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.36-0
+
+        * NAMESPACE: export 'LS.info'
+
+        * R/LSopt.R (LS.info): added function
+
+        * man/LS.info.Rd: added file
+
+2015-06-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.35-1
+
+2015-06-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/callMerton.Rd: small correction in parameter description
+        (suggested by Laurs Leth)
+
+2015-05-12  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.35-0
+
+        * R/pm.R (pm): new function 'pm' (partial moment)
+
+2015-05-07  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/EuropeanCallBE.R (EuropeanCallBE): remove unnecessary final
+        assignment
+
+2015-05-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.34-2
+
+        * R/DEopt.R (DEopt): fixed -- 'DEopt' did not properly handle
+        'minmaxConstr', which could result in solutions that violated the
+        box constraints. (Thanks to David Ashear for reporting.)
+
+        * inst/unitTests/unitTestsDEopt.R: added test case for box
+        constraints
+
+2015-02-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.34-1
+
+        * vignettes/: updated 'VignetteKeyword' as requested by the CRAN
+        maintainers
+
+2015-01-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * vignettes/.install_extras: added file (NMOF.bib now installed
+        with vignettes)
+
+2014-11-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Author): removed Author field (CRAN request)
+
+2014-10-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.34-0
+
+        * R/*: removed all 'require("parallel")' tests from 'GAopt',
+        'bracketing', 'gridSearch' and 'restartOpt'
+
+2014-09-09  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/NMOF-package.Rd: moved some examples out of 'dontrun'
+
+2014-09-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Imports): added parallel (before in Suggests)
+
+2014-08-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.33-0
+
+        * man/NMOF-package.Rd: corrected regexp in examples
+
+        * inst/CITATION: added address
+
+        * vignettes/An_overview.Rnw: updated
+
+2014-08-14  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.32-1
+
+        * man/PSopt.Rd: small update (mention 'loopChangeV')
+
+        * R/PSopt.R (PSopt): added tests that vectorised functions return
+        objects of correct size
+
+2014-05-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/integrate.R (xwGauss): use tolower before matching the method
+        (xwGauss): removed line ends
+
+2014-04-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/bonds.Rd: 'offset' can be a vector (that worked before as
+        well, but is now documented)
+
+2014-03-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.32-0
+
+        * man/colSubset.Rd: escaped % in example
+
+2014-03-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * vignettes/LSselect.Rnw: changed solution-representation from
+        numeric to logical
+
+2014-03-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/TA.info.Rd: added file
+
+2014-03-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * NAMESPACE: added colSubset;
+        added TA.info
+
+2014-03-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/TAopt.R (TA.info()): added function
+
+2014-02-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/colSubset.Rd: added file
+
+        * R/colSubset.R (colSubset): added function
+
+2014-02-21  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.31-2
+
+        * vignettes/An_overview.Rnw: added links to mailing lists
+
+        * man/optionData.Rd: removed call to 'data'
+
+2014-01-06  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/randomp.R (random.p): 'sketch' of general function for
+        creating random portfolios (not exported yet)
+
+2013-12-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.31-1
+
+        * vignettes/An_overview.Rnw: expanded overview vignette
+
+2013-12-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.31-0
+
+        * R/callMerton.R (callMerton): added implied vol computation
+
+        * vignettes/an_overview.Rnw: added vignette
+
+        * vignettes/LSselect.Rnw: updated (renamed variables)
+
+2013-12-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/callMerton.R (callMerton): added function
+
+2013-11-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.30-0
+
+        * R/bonds.R (y2df): removed
+        (duration): added function
+
+2013-11-02  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.29-2
+
+        * R/bonds.R (ytm): added argument 'offset'
+
+2013-10-31  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.29-1
+
+        * R/bonds.R (ytm): slightly faster
+
+        * inst/unitTests/unitTestsBonds.R (test.ytm):
+        added unit tests for 'ytm'
+
+2013-10-13  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.29-0
+
+        * R/drawdown.R: added drawdown
+
+2013-09-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/NMOF-package.Rd: added (sub)sections
+
+2013-09-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.28-2
+
+        * vignettes/LSselect.Rnw: reduced number of restarts
+
+        * vignettes/DEnss.Rnw: reduced number of restarts
+
+        * vignettes/PSlms.Rnw: small adjustments (style)
+
+        * R/options.R (vanillaOptionEuropean): removed old (commented)
+        code; changed upper integration limits for method 'heston' to
+        'Inf' (as in 'callCF')
+
+2013-07-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/qTable.Rd: added hint to use 'cat' in vignettes
+
+2013-07-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.28-1
+
+        * R/callCF.R (callCF): changed upper integration limits to 'Inf'
+
+        * R/callHestoncf.R (cfHeston): changed upper integration limits to
+        'Inf'
+
+        * inst/unitTests/unitTestscallCF.R (test.callCF): removed
+        'vanillaOptionEuropean' definition
+
+2013-06-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Suggests): removed snow
+
+2013-06-06  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/internals.R (mcList): updated mcList -- added
+        "mc.allow.recursive = TRUE" and changed "mc.cores" to
+        getOption("cores", 2L)"
+
+        * R/gridSearch.R (gridSearch): removed require("multicore")
+
+        * R/GAopt.R (GAopt): removed require("multicore")
+
+        * R/restartOpt.R: removed require("multicore")
+
+        * R/bracket.R (bracketing): removed require("multicore")
+
+        * R/mc.R (gbb): removed "mc" (for now) from exported functions
+
+        * DESCRIPTION (Depends): (>= 2.14)
+
+2013-06-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Suggests): removed 'multicore'
+
+        * inst/unitTests/runTests.R: corrected paths
+
+        * inst/NMOFex/README: added link to NMOF manual
+
+2013-05-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/mc.R: added file
+
+        * R/MC.R (gBrownianBridge): added implementation of geometric
+        Brownian bridge
+
+2013-05-23  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/MC.R (gBrownianMotion): added implementation of geometric
+        Brownian motion
+
+2013-05-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * .Rbuildignore: added file (mainly to exclude 'dev' directory)
+
+2013-04-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-5
+
+        * man/putCallParity.Rd: added examples
+
+        * R/internals.R (due): added helper function 'due' (_d_ividends
+        _u_ntil _e_xpiry)
+
+        * inst/unitTests/unitTests1.R (test.vanillaOptionEuropean): added
+        checks for dividends
+
+2013-04-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/doc/*.Rnw: increased number of runs ('nRuns') since
+        vignettes are built offline
+
+2013-04-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/bonds.Rd: added more examples
+
+2013-04-22  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-4
+
+        * R/options.R (vanillaOptionEuropean): fixed -- for BSM, a
+        parameter 'vol' can be passed via '...' (which is ignored if v is
+        specified)
+
+        * R/bonds.R (vanillaBond): does not use 'y2df' any more
+
+2013-02-06  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/repairMatrix.R (repairMatrix): added parameter eps
+
+2013-01-05  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/unitTests/unitTestsPCparity.R (test.putCallParity): added file
+
+        * NAMESPACE: added 'putCallParity'
+
+        * R/options.R (vanillaOptionEuropean): for BSM, a parameter 'vol'
+        can be passed via '...' (which is translated into 'v' by squaring)
+
+2013-01-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-3
+
+        * inst/unitTests/unitTestsRestartOpt.R: added (taken from
+        unitTests1.R)
+
+        * inst/unitTests/unitTestsMA.R: added (taken from unitTests1.R)
+
+        * R/callCF.R (callCF): removing useless comments and 'skeletons'
+        for greek computation
+
+2013-01-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-2
+
+        * man/options.Rd: updated docs
+
+        * man/bonds.Rd: fixed -- max number of iterations in 'ytm'
+        is 1000
+
+2013-01-02  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-1
+
+        * R/bonds.R (ytm): uses numerically-evaluated derivative (not
+        finite difference)
+
+2012-12-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/bonds.Rd: added
+
+        * NAMESPACE: added 'ytm' and 'vanillaBond'
+
+2012-12-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (vanillaOptionEuropean): experimental -- new
+        arguments 'model' (default is NULL) and '...'
+
+        * R/options.R (vanillaOptionEuropean): small
+        correction in check for 'q' and 'D'
+
+2012-12-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (putCallParity): added function
+
+        * R/MC.R (MCpricing): added several skeletons
+        for functions (BrownianMotion, BrownianBridge, MCpricing)
+
+        * R/bonds.R: added several functions for bond
+        pricing: vanillaBond, y2df (yields to
+        discountfactors) and ytm (yield-to-maturity)
+
+2012-11-29  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.27-0 (CRAN release candidate)
+
+        * R/qTable.R: added arguments funs,
+        tabular.format and skip. (To keep old
+        behaviour, set skip to FALSE.)
+
+2012-11-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/unitTests/unitTestsPSopt.R (OF): several
+        changes in unit tests
+
+2012-10-26  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/unitTests/unitTests1.R (test.vanillaOptionImpliedVol):
+        added initial interval for American options
+
+        * R/: in all option pricing functions, a returned value is now
+        named 'value' (and not 'price' or 'callPrice' as before)
+
+        * R/options.R (vanillaOptionE/A): cleaned up dividend checks
+
+2012-09-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/options.Rd: updated docs
+
+2012-09-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/options.R (vanillaOptionImpliedVolatility): added function
+
+2012-09-03  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/options.Rd: added functions
+        'vanillaOptionEuropean' and '-American'
+
+2012-08-27  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/..opt.R: functions returns 'initial.state'
+        (.Random.seed)
+
+2012-08-17  Enrico Schumann  <es@enricoschumann.net>
+
+        * man/NS.Rd: small correction in example
+
+        * man/PSopt.Rd: small changes in example
+
+2012-08-07  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/restartOpt.R (restartOpt): new argument
+        'best.only'; if TRUE, only the best run will be
+        reported. Default is FALSE:
+
+2012-08-04  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Suggests): added package
+        parallel
+
+        * R/restartOpt.R: with method "multicore" the
+        function first checks if package 'parallel' is
+        available; if not, it looks for package
+        multicore
+
+2012-08-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/gridSearch.R (gridSearch): with method
+        "multicore" the function first checks if
+        package 'parallel' is available; if not, it
+        looks for package multicore
+
+        * R/bracket.R (bracketing): with method
+        "multicore" the function first checks if
+        package 'parallel' is available; if not, it
+        looks for package multicore
+
+2012-07-20  Enrico Schumann  <es@enricoschumann.net>
+
+        * inst/doc/PSlms.Rnw: corrected comments
+
+        * inst/unitTests/unitTestsDEopt.R (OF): addded unit tests for
+        tests of vectorised evaluation of OF
+
+2012-07-19  Enrico Schumann  <es@enricoschumann.net>
+
+        * NEWS.Rd: removed
+
+2012-07-18  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/DEopt.R: added tests that vectorised
+        functions return objects of correct size
+
+2012-06-19  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * inst/doc: changed style in all vignettes
+
+2012-06-16  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/NS.R (NS, NSS): removed (useless)
+        assignment of result
+
+2012-06-05  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/TAopt.R (TAopt, LSopt): if 'x0' is not a
+        function, it is initialised with eval(x0);
+        thus, it can be an expression
+
+2012-05-22  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * man/LSopt.Rd: fixed small typo in greedy
+        neighbour definition; examples of LSopt
+        reworked
+
+2012-04-21  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/internals.R (repair1c): added vector 'Chapters'
+
+        * inst/unitTests/unitTests1.R: decreased num of restarts
+
+        * inst/unitTests/unitTests5.R: renamed into '...callCF.R'
+
+        * inst/unitTests/unitTests3.R: deleted. (TA applications moved to
+        manual).
+
+2012-04-18  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * man/LSopt.Rd: corrected error in greedy search example
+
+2012-04-17  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/showExample.R (showExample): added (also .Rd file)
+
+        * added /inst/book: all example files from book
+
+2012-04-13  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * inst/doc/: small changes in several vignettes
+
+        * inst/unitTests/unitTestsLSopt.R: moved tests for
+        'LSopt' from unitTests1.R to new file
+
+        * inst/unitTests/unitTestsTAopt.R.T: moved tests for
+        'TAopt' from unitTests1.R to new file
+
+2012-04-10  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * RELEASE (R-Forge) 0.24-0
+
+        * man/LSopt.Rd, TAopt.Rd: updated documentation on 'TAopt' and
+        'LSopt' (for 'algo$storeSolutions' and 'algo$storeF')
+
+        * R/PSopt.R: added 'algo$minmaxConstr'. If TRUE, 'algo$min' and
+        'algo$max' are considered constraints. Default is FALSE. (Like in
+        'DEopt'.)
+
+        * R/internals.R (repair1c): added function. Not exported.
+
+        * inst/unitTests/unitTestsPSopt.R: moved tests for 'PSopt' from
+        unitTests1.R to new file
+
+        * R/DEopt.R: added 'algo$minmaxConstr'. If TRUE, 'algo$min' and
+        'algo$max' are considered constraints. Default is FALSE.
+
+        * R/resampleC.R (resampleC): added function 'resampleC' and
+        documentation
+
+2012-03-23  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * RELEASE (R-Forge) 0.23-3
+
+        * R/restartOpt.R: Fixed: 'fun' (to be passed to *apply) is now
+        prepared initially as 'fun2(ignore)', not via a helper
+        function. (Before, an argument 'X' could not be passed with '...'
+        becaused it clashed with the 'X' argument in *apply functions.)
+
+2012-03-19  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * RELEASE (R-Forge) 0.23-2
+
+        * inst/unitTests/unitTests1.R (test.LSopt/test.TAopt): added tests
+        for 'xlist' for 'TAopt' and 'LSopt'
+
+2012-03-18  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/LSopt.R (N1): FIXED -- 'xlist' did not return 'new solution',
+        only 'current solution'
+
+        * R/TAopt.R (N1): FIXED -- 'xlist' did not return 'new solution',
+        only 'current solution'
+
+2012-03-16  Enrico Schumann  <enricoschumann@yahoo.de>
+
+        * R/TAopt.R (TAopt): added 'flush.console' during computation of
+        thresholds
