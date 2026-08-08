@@ -1,0 +1,937 @@
+---
+author:
+  - name: Viviane Philipps, Boris P. Hejblum, Mélanie Prague, Daniel Commenges, Cécile Proust-Lima
+#  - name:
+#    affiliation: ''
+title: "Robust and Efficient Optimization Using a Marquardt-Levenberg Algorithm with R Package marqLevAlg"
+abstract: >
+ Implementations in R of classical general-purpose algorithms generally have two major limitations which make them unusable in complex problems: too loose convergence criteria and too long calculation time. By relying on a Marquardt-Levenberg algorithm (MLA), a Newton-like method particularly robust for solving local optimization problems, we provide with marqLevAlg package an efficient and general-purpose local optimizer which (i) prevents convergence to saddle points by using a stringent convergence criterion based on the relative distance to minimum/maximum in addition to the stability of the parameters and of the objective function; and (ii) reduces the computation time in complex settings by allowing parallel calculations at each iteration. We demonstrate through a variety of cases from the literature that our implementation reliably and consistently reaches the optimum (even when other optimizers fail), and also largely reduce computational time in complex settings through the example of maximum likelihood estimation of different sophisticated statistical models.
+keywords:
+  formatted: [convergence criteria, Marquardt-Levenberg, Newton-Raphson, optimization, parallel computing, R]
+  plain:     [convergence criteria, Marquardt-Levenberg, Newton-Raphson, optimization, parallel computing, R]
+preamble: >
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+output: 
+  rmarkdown::html_vignette:
+    toc: true # table of content true
+    toc_depth : 2 
+vignette: >
+  %\VignetteIndexEntry{MLA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: mla.bib
+---
+\newpage
+
+# Introduction
+
+Optimization is an essential task in many computational problems. In statistical modelling for instance, in the absence of analytical solution, maximum likelihood estimators are often retrieved using iterative optimization algorithms which locally solve the problem from given starting values.
+
+Steepest descent algorithms are among the most famous general optimization algorithms. They generally consist in updating parameters according to the steepest gradient (gradient descent) possibly scaled by the Hessian in the Newton (Newton-Raphson) algorithm or an approximation of the Hessian based on the gradients in the quasi-Newton algorithms (e.g., Broyden-Fletcher-Goldfarb-Shanno \--- BFGS). Newton-like algorithms have been shown to provide good convergence properties [@joe_numerical_2003] and were demonstrated in particular to behave better than Expectation-Maximization (EM) algorithms in several contexts of Maximum Likelihood Estimation, such as the random-effect models [@lindstrom_newtonraphson_1988] or the latent class models [@proust_estimation_2005]. Among Newton methods, the Marquardt-Levenberg algorithm, initially proposed by Levenberg [@levenberg_method_1944] then Marquardt [@marquardt_algorithm_1963], combines BFGS and gradient descent methods to provide a more robust optimization algorithm. As other Newton methods, Marquardt-Levenberg algorithm is designed to find a local optimum of the objective function from given initial values. When dealing with multimodal objective functions, it can thus converge to local optimum, and needs to be combined with a grid search to retrieve the global optimum.
+
+The `R` software includes multiple solutions for optimization tasks (see CRAN task View on ''Optimization and Mathematical Programming'' [@optimization]). In particular the \code{optim} function in **base** `R` offers different algorithms for general purpose optimization, and so does \code{optimx} \--- a more recent package extending \code{optim}  [@nash_2011]. Numerous additional packages are available for different contexts, from nonlinear least square problems (including some exploiting Marquardt-Levenberg idea like **minpack.lm** [@elzhov_2016] and **nlmrt** [@nlmrt_2016]) to stochastic optimization and algorithms based on the simplex approach. However, `R` software could benefit from a general-purpose `R` implementation of Marquardt-Levenberg algorithm. 
+
+Moreover, while optimization can be easily achieved in small dimension, the increasing complexity of statistical models leads to critical issues. First, the large dimension of the objective function can induce excessively long computation times. Second, with complex objective functions, it is more likely to encounter flat regions, so that convergence cannot be assessed according to objective function stability anymore. 
+
+To address these two issues, we propose a `R` implementation of the Levenberg-Marquardt algorithm in the package **marqLevAlg** which relies on a stringent convergence criterion based on the first and second derivatives to avoid loosely convergence [@prague:hal-00717566] and includes (from version 2.0.1) parallel computations within each iteration to speed up convergence in complex settings. 
+
+Section 2 and 3 describe the algorithm and the implementation, respectively. Then Section 4 provides an example of call with the estimation of a linear mixed model. A benchmark of the package is reported in Section 5 with the performances of parallel implementation. Performances of Marquardt-Levenberg algorithm implementation are also challenged in Section 6 using a variety of simple and complex examples from the literature, and compared with other optimizers. Finally Section 7 concludes.
+
+
+# Methodology
+
+## The Marquardt-Levenberg algorithm
+
+The Marquardt-Levenberg algorithm (MLA) can be used for any problem where a function $\mathcal{F}(\theta)$ has to be minimized (or equivalently, function $\mathcal{L}(\theta)$= - $\mathcal{F}(\theta)$ has to be maximized) according to a set of $m$ unconstrained parameters $\theta$, as long as the second derivatives of $\mathcal{F}(\theta)$ exist. In statistical applications for instance, the objective function is the deviance to be minimized or the log-likelihood to be maximized. 
+
+Our improved MLA iteratively updates the vector $\theta^{(k)}$ from a starting point $\theta^{(0)}$ until convergence using the following formula at iteration $k+1$: 
+
+
+$$\theta^{(k+1)}=\theta^{(k)}-\delta_{k} (\tilde{H}(\mathcal{F}(\theta^{(k)})))^{-1}\nabla(\mathcal{F}(\theta^{(k)}))$$
+
+where $\theta^{(k)}$ is the set of parameters at iteration $k$, $\nabla(\mathcal{F}(\theta^{(k)}))$ is the gradient of the objective function at iteration $k$, and $\tilde{H}(\mathcal{F}(\theta^{(k)}))$ is the Hessian matrix $H(\mathcal{F}(\theta^{(k)}))$  where the diagonal terms are replaced by $\tilde{H}(\mathcal{F}(\theta^{(k)}))_{ii}=H(\mathcal{F}(\theta^{(k)}))_{ii}+\lambda_k[(1-\eta_k)|H(\mathcal{F}(\theta^{(k)}))_{ii}|+\eta_k \text{tr}(H(\mathcal{F}(\theta^{(k)})))]$. In the original MLA the Hessian matrix is inflated by a scaled identity matrix. Following @fletcher_modified_1971 we consider a refined inflation based on the curvature. The diagonal inflation of our improved MLA makes it an intermediate between the steepest descent method and the Newton method. The parameters $\delta_k$, $\lambda_k$ and $\eta_k$ are scalars specifically determined at each iteration $k$. Parameter $\delta_k$ is fixed to 1 unless the objective function is not reduced, in which case a line search determines the locally optimal step length. Parameters $\lambda_k$ and $\eta_k$ are internally modified in order to ensure that (i) $\tilde{H}(\mathcal{F}(\theta^{(k)}))$ be definite-positive at each iteration $k$, and (ii) $\tilde{H}(\mathcal{F}(\theta^{(k)}))$ approaches $H(\mathcal{F}(\theta^{(k)}))$ when $\theta^{(k)}$ approaches $\hat{\theta}$.
+
+When the problem encounters a unique solution, the minimum is reached whatever the chosen initial values.
+
+
+## Stringent convergence criteria {#sec:criteria}
+
+As in any iterative algorithm, convergence of MLA is achieved when convergence criteria are fullfilled. In **marqLevAlg** package, convergence is defined according to three criteria:
+
+- parameters stability: $\sum_{j=1}^{m} (\theta_{j}^{(k+1)}-\theta_{j}^{(k)})^2 < \epsilon_a$
+
+- objective function stability: $|\mathcal{F}^{(k+1)} - \mathcal{F}^{(k)}| < \epsilon_b$
+
+- relative distance to minimum/maximum (RDM):
+$\frac{\nabla(\mathcal{F}(\theta^{(k)})) (H(\mathcal{F}(\theta^{(k)})))^{-1} \nabla(\mathcal{F}(\theta^{(k)})) }{m} < \epsilon_d$
+
+The original Marquardt-Levenberg algorithm \citep{marquardt_algorithm_1963} and its implementations \citep{elzhov_2016,nlmrt_2016} consider the two first criteria, as well as a third one based on the angle between the objective function and its gradient. Yet none of these criteria, which are also used in many other iterative algorithms, ensure a convergence toward an actual optimum. They only ensure the convergence toward a saddle point. We thus chose to complement the parameter and objective function stability by the relative distance to minimum/maximum. As it requires the Hessian matrix to be invertible, it prevents from any convergence to a saddle point, and is thus essential to ensure that an optimum is truly reached. When the Hessian is not invertible, RDM is set to 1+$\epsilon_d$ and convergence criteria cannot be fullfilled. 
+
+Although it constitutes a relevant convergence criterion in any optimization context, RDM was initially designed for log-likelihood maximization problems, that is cases where $\mathcal{F}(\theta)$= - $\mathcal{L}(\theta)$ with $\mathcal{L}$ the log-likelihood. In that context, RDM can be interpreted as the ratio between the numerical error and the statistical error [@commenges_rvs_2006,@prague2013nimrod].
+
+The three thresholds $\epsilon_a$, $\epsilon_b$ and $\epsilon_d$ can be adjusted, but values around $0.0001$ are usually sufficient to guarantee a correct convergence. In some complex log-likelihood maximisation problems for instance, @prague2013nimrod showed that the RDM convergence properties remain acceptable providing $\epsilon_d$ is below 0.1 (although the lower the better).
+
+## Derivatives calculation
+
+MLA update relies on first ($\nabla(\mathcal{F}(\theta^{(k)}))$) and second ($H(\mathcal{F}(\theta^{(k)}))$) derivatives of the objective function $\mathcal{F}(\theta^{(k)})$ at each iteration k. The gradient and the Hessian may sometimes be calculated analytically but in a general framework, numerical approximation can become necessary. In **marqLevAlg** package, in the absence of analytical gradient computation, the first derivatives are computed by central finite differences. In the absence of analytical Hessian, the second derivatives are computed using forward finite differences. The step of finite difference for each derivative depends on the value of the involved parameter. It is set to $\max(10^{-7},10^{-4}|\theta_j|)$ for parameter $j$.
+
+When both the gradient and the Hessian are to be numerically computed, numerous evaluations of $\mathcal{F}$ are required at each iteration: 
+
+- $2\times m$ evaluations of $\mathcal{F}$ for the numerical approximation of the gradient function;
+
+- $\dfrac{m \times (m+1)}{2}$ evaluations of $\mathcal{F}$ for the numerical approximation of the Hessian matrix.
+
+The number of derivatives thus grows quadratically with the number $m$ of parameters and calculations are per se independent as done for different vectors of parameters $\theta$. 
+
+When the gradient is analytically calculated, only the second derivatives have to be approximated, requiring $2 \times m$ independent calls to the gradient function. In that case, the complexity thus linearly increases with $m$. 
+
+In both cases, and especially when each calculation of derivative is long and/or $m$ is large, parallel computations of independent $\mathcal{F}$ evaluations becomes particularly relevant to speed up the estimation process. 
+
+
+## Special case of a log-likelihood maximization {#sec:loglik}
+
+When the optimization problem is the maximization of the log-likelihood $\mathcal{L}(\theta)$ of a statistical model according to parameters $\theta$, the Hessian matrix of the $\mathcal{F}(\theta) = - \mathcal{L}(\theta)$ calculated at the optimum $\hat{\theta}$, $\mathcal{H}_{\hat{\theta}} = - \dfrac{\partial^2 \mathcal{L}(\theta)}{\partial \theta^2} |_{\theta = \hat{\theta}}$, provides an estimator of the Fisher Information matrix. The inverse of $\mathcal{H}_{\hat{\theta}}$ computed in the package thus provides an estimator of the variance-covariance matrix of the optimized vector of parameters $\hat{\theta}$.
+
+
+
+# Implementation
+
+## marqLevAlg function
+
+The call of the \code{marqLevAlg} function, or its shorcut \code{mla}, is the following :
+
+\begin{verbatim}
+marqLevAlg(b, m = FALSE, fn, gr = NULL, hess = NULL, maxiter = 500,
+  epsa = 0.0001, epsb = 0.0001, epsd = 0.0001, digits = 8,
+  print.info = FALSE, blinding = TRUE, multipleTry = 25, nproc = 1,
+  clustertype = NULL, file = "", .packages = NULL, minimize = TRUE, ...)
+\end{verbatim}
+
+
+Argument \code{b} is the set of initial parameters; alternatively its length \code{m} can be entered. \code{fn} is the function to optimize; it should take the parameter vector as first argument, and additional arguments are passed in \dots . Optional \code{gr} and \code{hess} refer to the functions implementing the analytical calculations of the gradient and the Hessian matrix, respectively. \code{maxiter} is the maximum number of iterations. Arguments \code{epsa}, \code{epsb} and \code{epsd} are the thresholds for the three convergence criteria defined in Section \ref{sec:criteria}. \code{print.info} specifies if details on each iteration should be printed; such information can be reported in a file if argument \code{file} is specified, and \code{digits} indicates the number of decimals in the eventually reported information during optimization. \code{blinding} is an option allowing the algorithm to go on even when the \code{fn} function returns NA, which is then replaced by the arbitrary value of $500,000$ (for minimization) and -$500,000$ (for maximization). Similarly, if an infinite value is found for the chosen initial values, the \code{multipleTry} option will internally reshape \code{b} (up to \code{multipleTry} times) until a finite value is get, and the algorithm can be correctly initialized. The parallel framework is first stated by the \code{nproc} argument which gives the number of cores and by the \code{clustertype} argument (see the next section). In the case where the \code{fn} function depends on `R` packages, these should be given as a character vector in the \code{.packages} argument. Finally, the \code{minimize} argument offers the possibility to minimize or maximize the objective function \code{fn}; a maximization problem is implemented as the minimization of the opposite function (\code{-fn}).
+
+## Implementation of parallel computations
+
+In the absence of analytical gradient calculation, derivatives are computed in the \code{deriva} subfunction with two loops, one for the first derivatives and one for the second derivatives. Both loops are parallelized. The parallelized loops are at most over $m*(m+1)/2$ elements for $m$ parameters to estimate which suggests that the performance could theoretically be improved with up to $m*(m+1)/2$ cores.
+
+When the gradient is calculated analytically, the \code{deriva} subfunction is replaced by the \code{deriva_grad} subfunction. It is parallelized in the same way but the parallelization being executed over $m$ elements, the performance should be bounded at $m$ cores.
+
+In all cases, the parallelization is achieved using the **doParallel** and **foreach** packages. The snow and multicore options of the \code{doParallel} backend are kept, making the parallel option of **marqLevAlg** package available on all systems. The user specifies the type of parallel environment among FORK, SOCK or MPI in argument \code{clustertype} and the number of cores in \code{nproc}. For instance, \code{clustertype = "FORK", nproc = 6} will use FORK technology and 6 cores. 
+
+# Example 
+
+```{r, results='hide', echo=FALSE, include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, comment = '', echo = TRUE)
+library("marqLevAlg")
+library("ggplot2")
+library("viridis")
+library("patchwork")
+```
+
+We illustrate how to use \code{marqLevAlg} function with the maximum likelihood estimation in a linear mixed model [@laird_random-effects_1982]. Function \code{loglikLMM} available in the package implements the log-likelihood of a linear mixed model for a dependent outcome vector ordered by subject (argument $Y$) explained according to a matrix of covariates (argument $X$) entered in the same order as $Y$ with a Gaussian individual-specific random intercept and Gaussian independent errors: 
+\begin{verbatim} 
+loglikLMM(b, Y, X, ni) 
+\end{verbatim}
+
+Argument $b$ specifies the vector of parameters with first the regression parameters (length given by the number of columns in $X$) and then the standard deviations of the random intercept and of the independent error. Finally argument $ni$ specifies the number of repeated measures for each subject. 
+
+We consider the dataset \code{dataEx} (available in the package) in which variable $Y$ is repeatedly observed at time $t$ for 500 subjects along with a binary variable $X1$ and a continuous variable $X3$. For the illustration, we specify a linear trajectory over time adjusted for $X1$, $X3$ and the interaction between $X1$ and time $t$. The vector of parameters to estimate corresponds to the intercept, 4 regression parameters and the 2 standard deviations. 
+
+We first define the quantities to include as argument in \code{loglikLMM} function: 
+
+```{r}
+Y <- dataEx$Y
+X <- as.matrix(cbind(1, dataEx[, c("t", "X1", "X3")], 
+                     dataEx$t * dataEx$X1))
+ni <- as.numeric(table(dataEx$i))
+```
+The vector of initial parameters to specify in \code{marqLevAlg} call is created with the trivial values of 0 for the fixed effects and 1 for the variance components.
+```{r}
+binit <- c(0, 0, 0, 0, 0, 1, 1)
+```
+
+The maximum likelihood estimation of the linear mixed model in sequential mode is then run using a simple call to \code{marqLevAlg} function for a maximization (with argument \code{minimize = FALSE}):
+```{r}
+estim <- marqLevAlg(b = binit, fn = loglikLMM, minimize = FALSE, 
+                    X = X, Y = Y, ni = ni)
+estim
+```
+
+The printed output \code{estim} shows that the algorithm converged in 18 iterations with convergence criteria of 3.2e-07, 4.35e-06 and 0 for parameters stability, objective function stability and RDM, respectively. The output also displays the list of coefficient values at the optimum. All this information can also be recovered in the \code{estim} object, where item \code{b} contains the estimated coefficients. 
+
+As mentioned in Section \ref{sec:loglik}, in log-likelihood maximization problems, the inverse of the Hessian given by the program provides an estimate of the variance-covariance matrix of the coefficients at the optimum. The upper triangular matrix of the inverse Hessian is thus systematically computed in object \code{v}. When appropriate, the \code{summary} function can output this information with option \code{loglik = TRUE}. With this option, the summary also includes the square root of these variances (i.e., the standards errors), the corresponding Wald statistic, the associated $p$ value and the 95\% confidence interval boundaries for each parameter:
+
+```{r}
+summary(estim, loglik = TRUE)
+```
+
+
+
+The exact same model can also be estimated in parallel mode (here with two cores): 
+
+```{r, warning=FALSE}
+estim2 <- marqLevAlg(b = binit, fn = loglikLMM, minimize = FALSE, 
+                     nproc = 2, X = X, Y = Y, ni = ni)
+```
+
+It can also be estimated by using analytical gradients (provided in gradient function \code{gradLMM} with the same arguments as \code{loglikLMM}):
+
+```{r}
+estim3 <- marqLevAlg(b = binit, fn = loglikLMM, gr = gradLMM, 
+                     minimize = FALSE, X = X, Y = Y, ni = ni)
+```
+
+In all three situations, the program converges to the same maximum as shown in Table \ref{tab:fit} for the estimation process and in Table \ref{tab:estim} for the parameter estimates. The iteration process is identical when using the either the sequential or the parallel code (number of iterations, final convergence criteria, etc). It necessarily differs slightly when using the analytical gradient, as the computations steps are not identical (e.g., here it converges in 15 iterations rather than 18) but all the final results are identical.
+
+```{r,echo=FALSE,results='asis'}
+res <- function(x, core, gradient){
+  res <- data.frame(core = core, gradient = gradient, loglik = x$fn, 
+                    iterations = x$ni,
+                    criterion1 = x$ca,
+                    criterion2 = x$cb,
+                    criterion3 = x$rdm)
+  rownames(res) <- paste("Object ", deparse(substitute(x)), sep = "")
+  colnames(res) <- c("Number of cores", "Analytical gradient", "Objective Function", "Number of iterations", "Parameter Stability", "Likelihood stability", "RDM")
+  return(t(res))
+}
+library("xtable")
+print(xtable(cbind(res(estim, 1, "no"), res(estim2, 2, "no"), res(estim3, 1, "yes")), digits = matrix(c(rep(0, 7), 0, 0, 2, 0, -1, -1, -1, 0, 0, 2, 0, -1, -1, -1, 0, 0, 2, 0, -1, -1, -1), 7, 4), label = "tab:fit",
+             caption = "Summary of the estimation process of a linear mixed model using marqLevAlg function run either in sequential mode with numerical gradient calculation (object estim), parallel mode with numerical gradient calculation (object estim2), or sequential mode with analytical gradient calculation (object estim3).", align = c("l", "r", "r", "r")), comment = FALSE)
+```
+
+
+
+  
+
+```{r,echo=FALSE,results='asis'}
+coef <- function(x){
+  coef <- cbind(x$b, sqrt(x$v[c(1, 3, 6, 10, 15, 21, 28)]))
+  colnames(coef) <- c(paste("Coef (", deparse(substitute(x)), ")", sep = ""),
+                  paste("SE (", deparse(substitute(x)), ")", sep = ""))
+  rownames(coef) <- paste("Parameter", 1:7)  
+  return(round(coef, digits = 4))
+}
+
+addtorow <- list()
+addtorow$pos <- list(-1, 0)
+addtorow$command <- c("\\hline & \\multicolumn{2}{r}{Object estim} & \\multicolumn{2}{r}{Object estim2} & \\multicolumn{2}{r}{Object estim3} \\\\", " & Coef & SE &  Coef & SE &  Coef & SE \\\\")
+
+print(xtable(cbind(coef(estim), coef(estim2), coef(estim3)),digits = 4,  label = "tab:estim",
+             caption = "Estimates (Coef) and standard error (SE) of the parameters of a linear mixed model fitted using marqLevAlg function run either in sequential mode with numerical gradient calculation (object estim), parallel mode with numerical gradient calculation (object estim2), or sequential mode with analytical gradient calculation (object estim3)."), comment = FALSE, add.to.row = addtorow, include.colnames = FALSE)
+```
+
+
+# Benchmark
+
+We aimed at evaluating and comparing the performances of the parallelization in some time consuming examples. We focused on three examples of sophisticated models from the mixed models area estimated by maximum likelihood. These examples rely on packages using three different languages, thus illustrating the behavior of **marqLevAlg** package with a program exclusively written in `R` (**JM**, @rizopoulos_jm_2010), and programs including  \proglang{Rcpp} (**CInLPN**, @tadde_dynmod) and \proglang{Fortran90} (**lcmm**, @proust-lima_lcmm_2017) languages widely used in complex situations.
+
+We first describe the generated dataset on which the benchmark has been realized. We then intoduce each statistical model and associated program. Finally, we detail the results obtained with the three programs. Each time, the model has been estimated sequentially and with a varying number of cores in order to provide the program speed-up. We used a Linux cluster with 32 cores machines and 100 replicates to assess the variability. Codes and dataset used in this section are available at \url{https://github.com/VivianePhilipps/marqLevAlgPaper.}
+
+
+## Simulated dataset
+
+We generated a dataset of $20,000$ subjects having repeated measurements of a marker \code{Ycens} (measured at times \code{t}) up to a right-censored time of event \code{tsurv} with indicator that the event occured \code{event}. The data were generated according to a 4 latent class joint model [@proust-lima_joint_2014]. This model assumes that the population is divided in 4 latent classes, each class having a specific trajectory of the marker defined according to a linear mixed model with specific parameters, and a specific risk of event defined according to a parametric proportional hazard model with specific parameters too. The class-specific linear mixed model included a basis of natural cubic splines with 3 equidistant knots taken at times 5, 10 and 15, associated with fixed and correlated random-effects. The proportional hazard model included a class-specific Weibull risk adjusted on 3 covariates: one binary (Bernoulli with 50\% probability) and two continous variables (standard Gaussian, and Gaussian with mean 45 and standard deviation 8). The proportion of individuals in each class is about 22\%, 17\%, 34\% and 27\% in the sample.
+
+Below are given the five first rows of the three first subjects:
+
+
+```{r, echo=FALSE}
+structure(list(i = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 
+3), class = c(2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3), X1 = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), X2 = c(0.647220467290558, 
+0.647220467290558, 0.647220467290558, 0.647220467290558, 0.647220467290558, 
+0.395484594958106, 0.395484594958106, 0.395484594958106, 0.395484594958106, 
+0.395484594958106, 1.06608365829076, 1.06608365829076, 1.06608365829076, 
+1.06608365829076, 1.06608365829076), X3 = c(43.4292026597267, 
+43.4292026597267, 43.4292026597267, 43.4292026597267, 43.4292026597267, 
+43.4605985147139, 43.4605985147139, 43.4605985147139, 43.4605985147139, 
+43.4605985147139, 42.0805667757557, 42.0805667757557, 42.0805667757557, 
+42.0805667757557, 42.0805667757557), t = c(0, 1, 2, 3, 4, 0, 
+1, 2, 3, 4, 0, 1, 2, 3, 4), Ycens = c(61.1063246971846, 60.7698831687246, 
+58.7261691593818, 56.7601531082037, 54.0455763709346, 37.9530151094344, 
+34.4865956424182, 31.3967930421455, 27.8142715666862, NA, 51.6087691810814, 
+53.8067070658917, 51.118399417372, 50.6433122329987, 50.8787321079207
+), tsurv = c(20, 20, 20, 20, 20, 3.76314836600959, 3.76314836600959, 
+3.76314836600959, 3.76314836600959, 3.76314836600959, 15.3969576458208, 
+15.3969576458208, 15.3969576458208, 15.3969576458208, 15.3969576458208
+), event = c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)), row.names = c(1L, 
+2L, 3L, 4L, 5L, 22L, 23L, 24L, 25L, 26L, 43L, 44L, 45L, 46L, 
+47L), class = "data.frame")
+```
+
+
+## Statistical models
+
+### Joint shared random effect model for a longitudinal marker and a time to event: package JM 
+
+The maximum likelihood estimation of joint shared random effect models has been made available in `R` with the **JM** package [@rizopoulos_jm_2010]. The implemented optimization functions are \code{optim} and \code{nlminb}. We added the \code{marqLevALg} function for the purpose of this example. 
+We considered a subsample of the simulated dataset, consisting in $5,000$ randomly selected subjects.
+
+The joint shared random effect model is divided into two submodels jointly estimated: 
+
+- a linear mixed submodel for the repeated marker $Y$ measured at different times $t_{ij}$ ($j=1,...,n_i$):
+$$\begin{split}
+Y_{i}(t_{ij})  &= \tilde{Y}_{i}(t_{ij}) + \varepsilon_{ij}\\
+&= X_i(t_{ij}) \beta + Z_i(t_{ij}) u_i + \varepsilon_{ij}
+\end{split}$$
+
+where, in our example, $X_i(t)$ contained the intercept, the class indicator, the 3 simulated covariates, a basis of natural cubic splines on time $t$ (with 2 internal knots at times 5 and 15) and the interactions between the splines and the time-invariant covariates, resulting in 20 fixed effects. $Z_i(t)$ contained the intercept and the same basis of natural cubic splines on time $t$, and was associated with $u_i$, the 4-vector of correlated Gaussian random effects.  $\varepsilon_{ij}$ was the independent Gaussian error.
+
+
+- a survival submodel for the right censored time-to-event: 
+\[
+ \alpha_i(t) = \alpha_0(t) \exp(X_{si}\gamma + \eta \tilde{Y}_{i}(t))
+\]
+
+where, in our example, the vector $X_{si}$, containing the 3 simulated covariates, was associated with the vector of parameters $\gamma$; the current underlying level of the marker $\tilde{Y}_{i}(t)$ was associated with parameter $\eta$ and the baseline hazard $\alpha_{0}(t)$ was defined using a basis of B-splines with 1 interior knot.
+
+
+The length of the total vector of parameters $\theta$ to estimate was 40 (20 fixed effects and 11 variance component parameters in the longitudinal submodel, and 9 parameters in the survival submodel). 
+
+
+One particularity of this model is that the log-likelihood does not have a closed form. It involves an integral over the random effects (here, of dimension 4) which is numerically computed using an adaptive Gauss-Hermite quadrature with 3 integration points for this example.
+
+As package **JM** includes an analytical computation of the gradient, we ran two estimations: one with the analytical gradient and one with the numerical approximation to compare the speed up and execution times.
+
+### Latent class linear mixed model: package lcmm
+
+The second example is a latent class linear mixed model, as implemented in the \code{hlme} function of the **lcmm** `R` package. The function uses a previous implementation of the Marquardt algorithm coded in \proglang{Fortran90} and in sequential mode. For the purpose of this example, we extracted the log-likelihood computation programmed in \proglang{Fortran90} to be used with **marqLevAlg** package. 
+
+The latent class linear mixed model consists in two submodels estimated jointly: 
+
+- a multinomial logistic regression for the latent class membership ($c_i$):
+
+$$\mathbb{P}(c_i = g) = \frac{\exp(W_{i} \zeta_g)}{\sum_{l=1}^G \exp(W_{i} \zeta_l)}  ~~~~~~~~~~~~~ \text{with      }  g=1,...,G $$
+where $\zeta_G=0$ for identifiability and $W_{i}$ contained an intercept and the 3 covariates. 
+
+- a linear mixed model specific to each latent class $g$ for the repeated outcome $Y$ measured at times $t_{ij}$ ($j=1,...,n_i$): 
+
+$$ Y_i(t_{ij} | c_i = g) =  X_i(t_{ij}) \beta_g + Z_i(t_{ij}) u_{ig} + \varepsilon_{ij}$$
+
+where, in this example, $X_i(t)$ and $Z_i(t)$ contained an intercept, time $t$ and quadratic time. The vector $u_{ig}$ of correlated Gaussian random effects had a proportional variance across latent classes, and $\varepsilon_{ij}$ were independent Gaussian errors.
+
+The log-likelihood of this model has a closed form but it involves the logarithm of a sum over latent classes which can become computationally demanding. We estimated the model on the total sample of $20,000$ subjects with 1, 2, 3 and 4 latent classes which corresponded to 10, 18, 26 and 34 parameters to estimate, respectively.
+
+
+### Multivariate latent process mixed model: package CInLPN
+
+The last example is provided by the **CInLPN** package, which relies on the \proglang{Rcpp} language. The function fits a multivariate linear mixed model combined with a system of difference equations in order to retrieve temporal influences between several repeated markers [@tadde_dynmod]. We used the data example provided in the package where three continuous markers \code{L_1}, \code{L_2}, \code{L_3} were repeatedly measured over time. The model related each marker $k$ ($k=1,2,3$) measured at observation times $t_{ijk}$ ($j=1,...,T$) to its underlying level $\Lambda_{ik}(t_{ijk})$ as follows: $$\text{L}_{ik}(t_{ijk}) = \eta_{0k}+ \eta_{1k} \Lambda_{ik}(t_{ijk}) +\epsilon_{ijk}$$
+where $\epsilon_{ijk}$ are independent Gaussian errors and $(\eta_0,\eta_1)$ parameters to estimate. Simultaneously, the structural model defines the initial state at time 0 ($\Lambda_{ik}(0)$) and the change over time at subsequent times $t$ with $\delta$ is a discretization step:
+
+$$
+\begin{split}
+ \Lambda_{ik}(0) &= \beta_{0k} + u_{ik}\\
+ \frac{\Lambda_{ik}(t+\delta) - \Lambda_{ik}(t)}{\delta} &= \gamma_{0k} + v_{ik}  + \sum_{l=1}^K a_{kl} \Lambda_{il}(t)
+\end{split} 
+$$
+
+where $u_{ik}$ and $v_{ik}$ are Gaussian random effects. 
+
+Again, the log-likelihood of this model that depends on 27 parameters has a closed form but it may involve complex calculations. 
+
+## Results
+
+```{r, echo=FALSE, results='hide'}
+load("res_JM_hlme_CInLPN.RData")
+
+table1 <- cbind(c(40, 16, 40, round(temps_JM_nhs5000_analyDeriv[1, 1]), round(res_JM_nhs5000_analyDeriv[-1, 1], 2)),
+  c(40, 16, 860, round(temps_JM_nhs5000_numeriDeriv[1, 1]), round(res_JM_nhs5000_numeriDeriv[-1, 1], 2)),
+  c(10, 30, 65, round(temps_hlme_G1[1, 1]), round(res_hlme_G1[-1, 1], 2)),
+  c(18, 30, 189, round(temps_hlme_G2[1, 1]), round(res_hlme_G2[-1, 1], 2)),
+  c(26, 30, 377, round(temps_hlme_G3[1, 1]), round(res_hlme_G3[-1, 1], 2)),
+  c(34, 30, 629, round(temps_hlme_G4[1, 1]), round(res_hlme_G4[-1, 1], 2)),
+  c(27, 13, 405, round(temps_CInLPN[1, 1]), round(res_CInLPN[-1, 1], 2)))
+rownames(table1) <- c("Number of parameters", "Number of iterations", "Number of elements in foreach loop", "Sequential time (seconds)",  "Speed up with 2 cores", "Speed up with 3 cores", "Speed up with 4 cores", "Speed up with 6 cores", "Speed up with 8 cores", "Speed up with 10 cores", "Speed up with 15 cores", "Speed up with 20 cores", "Speed up with 25 cores", "Speed up with 30 cores")
+```
+
+All the models have been estimated with 1, 2, 3, 4, 6, 8, 10, 15, 20, 25 and 30 cores. To fairly compare the execution times, we ensured that changing the number of cores did not affect the final estimation point or the number of iterations needed to converge. The mean of the speed up over the 100 replicates are reported in table  \ref{tab:perf} and plotted in Figure \ref{fig:speedup}. 
+
+```{r perf, results='asis', echo=FALSE}
+library("xtable")
+addtorow <- list()
+addtorow$pos <- list(-1, 0)
+addtorow$command <- c("\\hline & \\multicolumn{2}{c}{JM} & \\multicolumn{4}{c}{hlme} & CInLPN \\\\", " & analytic & numeric & G=1 & G=2 & G=3 & G=4 & \\\\")
+dig <- rbind(matrix(0, 4, 8), matrix(2, 10, 8))
+print(xtable(table1, align=c("l", rep("r", 7)), digits = dig, label = "tab:perf",
+             caption = "Estimation process characteristics for the 3 different programs (JM, hlme and CInLPN). Analytic and Numeric refer to the analytical and numerical computations of the gradient in JM; G refers to the number of latent classes."), 
+      size = "\\small",
+      comment = FALSE, add.to.row = addtorow, include.colnames = FALSE)
+```
+
+
+
+```{r speedup, echo=FALSE, results='hide', fig.width=11, fig.height=5.5, out.width='100%', fig.cap="Speed up performances for the 3 different programs (JM, hlme and CInLPN). Analytic and numeric refer to the analytical and numerical computations of the gradient in JM. The number of parameters was  40 for JM; 10, 18, 26, 34 for hlme with 1, 2, 3, 4 classes, respectively; 27 for CInLPN."}
+
+pJM <- ggplot(data = cbind.data.frame("ncores" = rep(c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), 2),
+                               "speedup" = c(res_JM_nhs5000_numeriDeriv[, 1],
+                                             res_JM_nhs5000_analyDeriv[, 1]),
+                               "method" = factor(rep(c("Numeric gradient", "Analytical gradient"), each = 11), 
+                                                 levels = c("Numeric gradient", "Analytical gradient"), ordered = TRUE),
+                               "lowbound" = c(res_JM_nhs5000_numeriDeriv[, 1] - 1.96 * res_JM_nhs5000_numeriDeriv[, 2],
+                                              res_JM_nhs5000_analyDeriv[, 1] - 1.96 * res_JM_nhs5000_analyDeriv[, 2]),
+                               "upbound" = c(res_JM_nhs5000_numeriDeriv[, 1] + 1.96 * res_JM_nhs5000_numeriDeriv[, 2], 
+                                             res_JM_nhs5000_analyDeriv[, 1] + 1.96 * res_JM_nhs5000_analyDeriv[, 2])
+                               ),  
+       aes(x = ncores)) +
+  geom_ribbon(aes(ymin = lowbound, ymax = upbound, fill = method), alpha = 0.4) +
+  geom_point(aes(y = speedup, colour = method)) +
+  geom_line(aes(y = speedup, colour = method)) +
+  theme_classic() +
+  scale_x_continuous(minor_breaks = c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), breaks = c(1, 5, 10, 15, 20, 25, 30)) +
+  theme(panel.grid.major.y = element_line(), 
+        panel.grid.minor.y = element_blank(),
+        axis.title = element_text(size = 16),
+        axis.text  = element_text(size = 14),
+        title = element_text(size = 17, face = "bold"),
+        legend.margin = margin(-30, 10, 10, 10),
+        legend.position = "bottom", legend.direction = "vertical",
+        legend.text = element_text(size = 14)) +
+  xlab("Number of cores") +
+  ylab("Speed-up") +
+  scale_color_manual("", values = rev(viridis::inferno(5)[3:4])) +
+  scale_fill_manual("", values = rev(viridis::inferno(5)[3:4])) +
+  ggtitle("JM") +
+  guides(fill="none") +
+  NULL
+
+phlme <- ggplot(data = cbind.data.frame("ncores" = rep(c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), 4),
+                               "speedup" = c(res_hlme_G1[, 1], res_hlme_G2[, 1],
+                                             res_hlme_G3[, 1], res_hlme_G4[, 1]),
+                               "nbclass" = factor(rep(c("1 class", "2 classes", "3 classes", "4 classes"), each = 11), 
+                                                 levels = c("1 class", "2 classes", "3 classes", "4 classes"), ordered = TRUE),
+                               "lowbound" = c(res_hlme_G1[, 1] - 1.96 * res_hlme_G1[, 2], res_hlme_G2[, 1] - 1.96 * res_hlme_G2[, 2],
+                                              res_hlme_G3[, 1] - 1.96 * res_hlme_G3[, 2], res_hlme_G4[, 1] - 1.96 * res_hlme_G4[, 2]),
+                               "upbound" = c(res_hlme_G1[, 1] + 1.96 * res_hlme_G1[, 2], res_hlme_G2[, 1] + 1.96 * res_hlme_G2[, 2],
+                                              res_hlme_G3[, 1] + 1.96 * res_hlme_G3[, 2], res_hlme_G4[, 1] + 1.96 * res_hlme_G4[, 2])
+                               ),  
+       aes(x = ncores)) +
+  geom_ribbon(aes(ymin = lowbound, ymax = upbound, fill = nbclass), alpha = 0.4) +
+  geom_point(aes(y = speedup, colour = nbclass)) +
+  geom_line(aes(y = speedup, colour = nbclass)) +
+  theme_classic() +
+  scale_x_continuous(minor_breaks = c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), breaks = c(1, 5, 10, 15, 20, 25, 30)) +
+  theme(panel.grid.major.y = element_line(), 
+        panel.grid.minor.y = element_blank(),
+        axis.title = element_text(size = 16),
+        axis.text  = element_text(size = 14),
+        title = element_text(size = 17, face = "bold"),
+        legend.margin = margin(-30, 10, 10, 10),
+        legend.position = "bottom", legend.direction = "vertical",
+        legend.text = element_text(size = 14)) +
+  xlab("Number of cores") +
+  ylab("Speed-up") +
+  scale_color_manual("", values = rev(viridis::viridis(5)[1:4])) +
+  scale_fill_manual("", values = rev(viridis::viridis(5)[1:4])) +
+  ggtitle("hlme") +
+  guides(fill = "none", color = guide_legend(ncol = 2)) +
+  NULL
+  
+
+pCInLPN <- ggplot(data = cbind.data.frame("ncores" = rep(c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), 1),
+                               "speedup" = res_CInLPN[, 1],
+                               "lowbound" = res_CInLPN[, 1] - 1.96 * res_CInLPN[, 2],
+                               "upbound" = res_CInLPN[, 1] + 1.96 * res_CInLPN[, 2]
+                               ),  
+       aes(x = ncores)) +
+  geom_ribbon(aes(ymin = lowbound, ymax = upbound, fill = "95% Conf. Int."), alpha = 0.4) +
+  geom_point(aes(y = speedup, color = "95% Conf. Int.")) +
+  geom_line(aes(y = speedup, color = "95% Conf. Int.")) +
+  theme_classic() +
+  scale_x_continuous(minor_breaks = c(1, 2, 3, 4, 6, 8, 10, 15, 20, 25, 30), breaks = c(1, 5, 10, 15, 20, 25, 30)) +
+  theme(panel.grid.major.y = element_line(), 
+        panel.grid.minor.y = element_blank(),
+        axis.title = element_text(size = 16),
+        axis.text  = element_text(size = 14),
+        title = element_text(size = 17, face = "bold"),
+        legend.margin = margin(-10, 10, 10, 10),
+        legend.position = "bottom",
+        legend.text = element_text(size = 14)) +
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = "black") +
+  xlab("Number of cores") +
+  ylab("Speed-up") +
+  ggtitle("CInLPN") +
+  NULL
+
+(pJM + ylim(0, 18)) + (phlme + ylim(0, 18)) + (pCInLPN + ylim(0, 18))
+```
+
+
+The joint shared random effect model (\code{JM}) converged in 16 iterations after 4279 seconds in sequential mode when using the analytical gradient. Running the algorithm in parallel on 2 cores made the execution 1.85 times shorter. Computational time was gradually reduced with a number of cores between 2 and 10 to reach a maximal speed up slightly above 4. With 15, 20, 25 or 30 cores, the performances were no more improved, the speed up showing even a slight reduction, probably due to the overhead. In contrast, when the program involved numerical computations of the gradient, the parallelization reduced the computation time by a factor of almost 8 at maximum. The better speed-up performances with a numerical gradient calculation were expected since the parallel loops iterate over more elements. 
+
+The second example, the latent class mixed model estimation (\code{hlme}), showed an improvement of the performances as the complexity of the models increased. The simple linear mixed model (one class model), like the joint models with analytical gradient, reached a maximum speed-up of 4 with 10 cores. The two class mixed model with 18 parameters, showed a maximum speed up of 7.71 with 20 cores. Finally the 3 and 4 class mixed models reached speed-ups of 13.33 and 17.89 with 30 cores and might still be improved with larger resources.
+
+The running time of the third program (CInLPN) was also progressively reduced with the increasing number of cores reaching the maximal speed-up of 8.36 for 20 cores. 
+
+
+In these 7 examples, the speed up systematically reached almost 2 with 2 cores, and it remained interesting with 3 or 4 cores although some variations in the speed-up performances began to be observed according to the complexity of the objective function computations. This hilights the benefit of the parallel implementation of MLA even on personal computers. As the number of cores continued to increase, the speed-up performances varied a lot. Among our examples, the most promising situation was the one of the latent class mixed model (with program in \proglang{Fortran90}) where the speed-up was up to 15 for 20 cores with the 4 class model. 
+
+
+
+# Comparison with other optimization algorithms
+
+## Other Marquardt-Levenberg implementations
+
+
+The Marquardt-Levenberg algorithm has been previouly implemented in the context of nonlinear least squares problems in **minpack.lm** and **nlmrt**. We ran the examples provided in these two packages with \code{marqLevAlg} and compared the algorithms in terms of final solution (that is the residual sum-of-squares) and runtime. Results are shown in supplementary material. Our implementation reached exactly the same value as the two others but performed slower in these simple examples.
+
+We also compared the sensitivity to initial values of \code{marqLevAlg} with **minpack.lm** using a simple example from **minpack.lm**. We ran the two implementations of MLA on 100 simulated datasets each one from 100 different starting points (see suppementary material). On the 10000 runs, \code{marqLevAlg} converged in 51.55\% of the cases whereas the **minpack.lm** converged in 65.98\% of the cases. However, 1660 estimations that converged according to nls.lm criteria were far from the effective optimum. This reduced the proportion of satisfying convergences with **minpack.lm** to 49.38\% (so similar rate as \code{marqLevAlg}) but more importantly illustrates the convergence to saddle points when using classical convergence criteria. In contrast, all the convergences with **marqLevAlg** were closed to the effective solution thanks to its stringent RDM convergence criterion.
+
+
+## Examples from the litterature
+
+We tested our algorithm on 35 optimization problems designed by \citet{more_1981} to test unconstrained optimization software, and compared the \code{marqLevAlg} performances with those of several other optimizers, namely Nelder-Mead, BFGS, conjugate gradients (CG) and L-BFGS-B implemented in the \code{optim} function, \code{optimParallel} which implements also the L-BFGS-B algorithm, and \code{nlminb}. Each problem consists of a function to optimize from given starting points. The results are presented in supplementary material in terms of bias between the real solution and the final value of the objective function. Our implementation of MLA converged in almost all the cases (31 out of 35), and provided almost no bias. Nelder-Mead and CG in contrast converged in less than the half of the 35 cases. BFGS and L-BFGS-B performed globally very well, and \code{nlminb} did not show any bias and had same convergence rate as MLA.
+
+
+## Example of complex optimization problem: Maximum Likelihood Estimation of a Joint model for longitudinal and time-to-event data
+
+Our implementation is particularly dedicated to complex problems involving many parameters and/or complex objective function calculation. We illustrate here its performances and compare them with other algorithms for the likelihood maximization of a joint model for longitudinal and time-to-event data.
+
+The **JM** package (@rizopoulos_jm_2010), dedicated to the maximum likelihood estimation of joint models, includes several optimization algorithms, namely the BFGS of \code{optim} function, and an expectation-maximization technique internally implemented. It thus offers a nice framework to compare the reliability of MLA to find the maximum likelihood in a complex setting with the reliability of other optimization algorithms. We used in this comparison the \code{prothro} dataset described in the **JM** package and elsewhere [@skrondal_generalized_2004,@andersen_statistical_1993]. It consists of a randomized trial in which 488 subjects were split into two treatment arms (prednisone *versus* placebo). Repeated measures of prothrombin ratio were collected over time as well as time to death. 
+The longitudinal part of the joint model included a linear trajectory with time in the study, an indicator of first measurement and their interaction with treatment group. Were also included correlated individual random effects on the intercept and the slope with time. The survival part was a proportional hazard model adjusted for treatment group as well as the dynamics of the longitudinal outcome either through the current value of the marker or its slope or both. The baseline risk function was approximated by B-splines with one internal knot. The total number of parameters to estimate was 17 or 18 (10 for the longitudinal submodel, and 7 for the survival submodel considering only the curent value of the marker or its slope or 8 for the survival model when both the current level and the slope were considered). The marker initially ranged from 6 to 176 (mean=79.0, sd=27.3). 
+
+To investigate the consistency of the results to different dimensions of the marker, we also considered cases where the marker was rescaled by a factor 0.1 or 10. In these cases, the log-likelihood was rescaled a posteriori to the original dimension of the marker to make the comparisons possible. The starting point was systematically set at the default initial value of the \code{jointModel} function, which is the estimation point obtained from the separated linear mixed model and proportional hazard model. 
+
+In addition to EM and BFGS included in \code{JM} package, we also compared the MLA performances with those of the parallel implementation of the L-BFGS-B algorithm provided by the **optimParallel** package.
+Codes and dataset used in this section are available at \url{https://github.com/VivianePhilipps/marqLevAlgPaper}.
+
+MLA and L-BFGS-B ran on 3 cores. MLA converged when the three criteria defined in section \ref{sec:criteria} were satisfied with tolerance 0.0001, 0.0001 and 0.0001 for the parameters, the likelihood and the RDM, respectively. BFGS converged when the convergence criterion on the log-likelihood was satisfied with the square root of the tolerance of the machine ($\approx 10^{-8}$). The EM algorithm converged when stability on the parameters or on the log-likelihood was satisfied with tolerance 0.0001 and around $10^{-8}$ (i.e., the square root of the tolerance of the machine), respectively.
+
+
+```{r prothro, results='asis', echo=FALSE, message = FALSE}
+table4 <- structure(list(dep = c("value", "value", "value", "value", "value", 
+"value", "value", "value", "value", "value", "value", "value", 
+"slope", "slope", "slope", "slope", "slope", "slope", "slope", 
+"slope", "slope", "slope", "slope", "slope", "both", "both", 
+"both", "both", "both", "both", "both", "both", "both", "both", 
+"both", "both"), algorithm = c("BFGS", "BFGS", "BFGS", "LBFGSB", 
+"LBFGSB", "LBFGSB", "EM", "EM", "EM", "marq", "marq", "marq", 
+"BFGS", "BFGS", "BFGS", "LBFGSB", "LBFGSB", "LBFGSB", "EM", "EM", 
+"EM", "marq", "marq", "marq", "BFGS", "BFGS", "BFGS", "LBFGSB", 
+"LBFGSB", "LBFGSB", "EM", "EM", "EM", "marq", "marq", "marq"), 
+    scaling = c("1", "0.1", "10", "1", "0.1", "10", "1", "0.1", 
+    "10", "1", "0.1", "10", "1", "0.1", "10", "1", "0.1", "10", 
+    "1", "0.1", "10", "1", "0.1", "10", "1", "0.1", "10", "1", 
+    "0.1", "10", "1", "0.1", "10", "1", "0.1", "10"), loglik = c(-13958.552128322, 
+    -13957.90622124, -13961.5374504883, -13958.4111218853, -13957.6945196808, 
+    NA, -13957.9100947483, -13957.7191984353, -13957.9440344384, 
+    -13957.6874738687, -13957.6874738698, -13957.6874848149, 
+    -13961.410640618, -13961.2310807281, -13980.9020870251, -13960.6947231745, 
+    -13960.6973319216, -13962.5562003806, -13960.6949103499, 
+    -13960.6924803934, -13960.7046002668, -13960.688478504, -13960.6884785188, 
+    -13960.6884780806, -13951.5986192875, -13949.8218569439, 
+    -13965.2487822678, -13950.0395615584, -13949.4178398458, 
+    -13985.7183851268, -13949.8221932589, -13949.4390888071, 
+    -13950.4644503565, -13949.4174388403, -13949.4174388401, 
+    -13949.4174398712), value = c(-3.73061827287826, -0.0141539186930607, 
+    -9.27594324673535, -3.55740885028042, -0.106768062409848, 
+    NA, -0.29330877747947, 0.140534649953885, -0.591117664733939, 
+    0, -0.000142338309807917, -0.00140558371611392, NA, NA, NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, 15.9710405532139, 2.65507149201079, 
+    40.3077266989259, -1.66621615271708, -0.014837370092208, 
+    67.325397659912, 4.10228091592489, 1.68353683871255, 10.6659991378836, 
+    0, -0.000170669856949751, 0.00419338230974572), slope = c(NA, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, -1.84843620399159, 
+    -1.3696438283896, -13.9825813428088, -0.149643379518137, 
+    -0.267844491004789, -2.86911721220401, 0.179854683531865, 
+    0.0260101270184876, 0.0817324481422286, 0, 0.000565059170089405, 
+    0.00258486458745339, -28.1732598640996, -4.62818306775129, 
+    -95.2646725814592, 7.10251223145208, 0.381619058329372, -147.296646571411, 
+    -7.22395309527721, -3.66247190442162, -16.3091118268196, 
+    0, 0.000488761569032907, -0.00982741352301927), iterations = c(120, 
+    490, 91, 289, 244, NA, 66, 104, 62, 7, 5, 15, 251, 391, 444, 
+    266, 206, 823, 169, 208, 156, 10, 10, 14, 164, 502, 52, 800, 
+    411, 18, 159, 156, 142, 10, 10, 22), time = c(29.319, 117.203, 
+    18.3049999999998, 80.644, 67.396999999999, NA, 57.64, 89.98, 
+    61.1, 36.0789999999997, 26.7719999999999, 72.5709999999999, 
+    52.4590000000001, 78.7809999999999, 86.6110000000003, 59.6179999999999, 
+    46.8199999999997, 179.600999999999, 143.2, 156.8, 138.04, 
+    46.0369999999998, 46.3680000000004, 63.634, 40.1879999999999, 
+    133.824, 10.8450000000003, 177.559, 91.6859999999997, 7.68400000000111, 
+    179.71, 148.23, 197.16, 51.2360000000003, 53.3180000000002, 
+    118.374)), row.names = c(NA, -36L), class = "data.frame")
+
+addtorow <- list()
+addtorow$pos <- list(-1, 0)
+addtorow$command <- c("\\hline  Nature of & Algorithm & Scaling & Rescaled log-& Variation of& Variation of& Number of & Time in\\\\",
+  " dependency & & factor & likelihood & value (\\%) & slope (\\%) & iterations & seconds \\\\")
+
+print(xtable(table4, align = rep("r", 9), digits = c(1, 2, 2, 1, 2, 2, 2, 0, 2), label = "tab:prothro",
+             caption = "Comparison of the convergence obtained by MLA, BFGS, L-BFGS-B and EM algorithms for the estimation of a joint model for prothrobin repeated marker (scaled by 1, 0.1 or 10) and time to death when considering a dependency on the current level of prothrobin ('value') or the current slope ('slope') or both ('both'). All the models converged correctly according to the algorithm outputs. We report the final log-likelihood rescaled to scaling factor 1 (for comparison), the  percentage of variation of the association parameters ('value' and 'slope' columns) compared to the one obtained with the overall maximum likelihood with scaling 1, the number of iterations and the running time in seconds. "),
+      comment = FALSE, include.rownames = FALSE, include.colnames = FALSE, add.to.row = addtorow, hline.after = c(0, nrow(table4)), size = "footnotesize")
+```
+
+
+
+
+Table \ref{tab:prothro} compares the convergence obtained by using the three optimization methods, when considering a pseudo-adaptive Gauss-Hermite quadrature with 15 points. All the algorithms converged correctly according to the programs except one with L-BFGS-B which gave an error (non-finite value) during optimization. Although the model for a given association structure is exactly the same, some differences were observed in the final maximum log-likelihood (computed in the original scale of prothrombin ratio). The final log-likelihood obtained by MLA was always the same whatever the outcome's scaling, showing its consistency. It was also higher than the one obtained using the two other algorithms, showing that BFGS, L-BFGS-B and, to a lesser extent, EM did not systematically converge toward the effective maximum. The difference could go up to 20 points of log-likelihood for BFGS in the example with the current slope of the marker as the association structure. The convergence also differed according to outcome's scaling with BFGS/L-BFSG-B and slightly with EM, even though in general the EM algorithm seemed relatively stable in this example. The less stringent convergence of BFGS/L-BFSG-B and, to a lesser extent, of EM had also consequences on the parameters estimates as roughly illustrated in Table \ref{tab:prothro} with the percentage of variation in the association parameters of prothrombin dynamics estimated in the survival model (either the current value or the current slope) in comparison with the estimate obtained using MLA which gives the overall maximum likelihood. 
+The better performances of MLA was not at the expense of the number of iterations since MLA converged in at most 22 iterations, whereas several hundreds of iterations could be required for EM or BFGS. Note however that one iteration of MLA is much more computationally demanding. 
+
+Finally, for BFGS, the problem of convergence is even more apparent when the outcome is scaled by a factor 10. Indeed, the optimal log-likelihood of the model assuming a bivariate association structure (on the current level and the current slope) is worse than the optimal log-likelihood of its nested model which assumes an association structure only on the current level (i.e., constraining the parameter for the current slope to 0). We faced the same situation with the L-BFGS-B algorithm when comparing the log-likelihoods with a bivariate association and an association through the current slope only.
+
+# Concluding remarks
+
+We proposed in this paper a general-purpose optimization algorithm based on a robust Marquardt-Levenberg algorithm. The program, written in `R` and \proglang{Fortran90}, is available in **marqLevAlg** `R` package. It provides a very nice alternative to other optimization packages available in `R` software such as **optim**, **roptim** [@pan_2020] or **optimx**  [@nash_2011] for addressing complex optimization problems. In particular, as shown in our examples, notably the estimation of joint models, it is more reliable than classical alternatives (EM and BFGS). This is due to the very good convergence properties of the Marquardt-Levenberg algorithm associated with very stringent convergence criteria based on the first and second derivatives of the objective function which avoids spurious convergence at saddle points [@commenges_rvs_2006]. 
+
+The Marquardt-Levenberg algorithm is known for its very computationally intensive iterations due to the computation of the first and second derivatives. However, first, compared to other algorithms, it converges in a very small number of iterations (usually less than 30 iterations). 
+This may not make MLA competitive in terms of running time in simple and rapid settings. However, the parallel computations of the derivatives can largely speed up the program and make it very competitive with
+alternatives in terms of running time in complex settings. 
+
+We chose in our implementation to rely on RDM criterion which is a very stringent convergence criteria. As it is based on the inverse of the Hessian matrix, it may cause non-convergence issues when some parameters are at the border of the parameter space (for instance 0 for a parameter contrained to be positive). In that case, we recommend to fix the parameter at the border of the parameter space and run again the optimization on the rest of the parameters. In cases where the stabilities of the log-likelihood and of the parameters are considered sufficient to ensure satisfactory convergence, the program outputs might be interpreted despite a lack of convergence according to the RDM, as would do other algorithms that only converge according to parameter and/or objective function stability.
+
+As any other optimization algorithm based on the steepest descent, MLA
+is a local optimizer. It does not ensure the convergence of multimodal objective functions toward
+the global optimum. In such a context we recommend the use of a grid search which consists in running the algorithm from a grid of (random) initial values and retaining the best result as the final solution. We illustrate in supplementary material how this technique succeeds in finding the global minimum with the Wild function of the \code{optim} help page.
+
+**marqLevAlg** is not the first optimizer to exploit parallel computations. Oyther R optimizers include a parallel mode, in particular stochastic optimization packages like **DEoptim** [@DEoptim_2011], **GA** [@ga_2017], **rgenoud** [@rgenoud_2011] or  **hydroPSO** [@hydroPSO_2020]. We compared these packages, the local optimizer of \code{optimParallel}, and **marqLevAlg** for the estimation of the liner mixed model described in section \ref{example}. For this specific problem \code{marqLevAlg} was the fastest, followed by \code{optimParallel} (results shown in supplementary files).
+
+With its parallel implementation of derivative calculations combined with very good convergence properties of MLA, **marqLevAlg** package provides a promising solution for the estimation of complex statistical models in `R`. We have chosen for the moment to parallelize the derivatives which is very useful for optimization problems involving many parameters. However we could also easily parallelize the computation of the objective function when the latter is decomposed into independent sub-computations as is the log-likelihood computed independently on the statistical units. This alternative is currently under development. 
+
+
+# Funding
+
+This work was funded by French National Research Agency [grant number ANR-18-CE36-0004-01 for project DyMES] and [grant number ANR-2010-PRPS-006 for project MOBYDIQ]. 
+
+# Acknowlegdments
+
+The computing facilities MCIA (Mésocentre de Calcul Intensif Aquitain) at the Université de Bordeaux and the Université de Pau et des Pays de l’Adour provided advice on parallel computing technologies, as well as computer time.
+
+# Appendix {-}
+
+## A1. Standard examples from the litterature {-}
+
+We assessed the performances of our implementation of the Marquardt-Levenberg algorithm by following the strategy of @more_1981 for testing algorithms in unconstrained problems. They provide a series of 35 objective functions along with initial values. We used for this purpose the R package funconstrain.
+The 35 problems were optimized with marqLevAlg and with 6 other usual methods: Nelder-Mead, BFGS, CG, L-BFGS-B (all 4 from the optim function), L-BFGS-B from optimParallel package, and nlminb.
+
+Table \ref{tab:table35ex} shows absolute differences between the real minimum of the objective function and the result obtain by each algorithm. Blanks indicate no convergence of the algorithm or error. The differences are also plotted in the log scale in figure \ref{fig:figure35ex}. 
+
+
+```{r table35ex, results='asis', echo=FALSE}
+res35 <- structure(c(0, 48.9842, 0, 0, 0, 124.362, 0, 0.00821487, 1.12793e-08, 
+87.9458, 0, 0, 0, 0, 0.000307505, 85822.2, 5.46489e-05, 0.00565565, 
+0.0401377, 0.00228767, 0, 0, 2.24997e-05, 9.37629e-06, 0, 0, 
+0, 0, 0, 0, 0, 55, 24.6268656716418, 26.1269035532995, 0, 1.87618871877924e-12, 
+48.98425367924, 0.000199128321049547, NA, 4.14317254580169e-09, 
+124.362182355615, 1.13631729762697e-13, 0.00821487730665518, 
+1.17468761108584e-08, NA, 3.38219856564872e-16, 5.4312102712489e-19, 
+1.1743985190355e-07, 2.42444029642598e-09, 0.0003075056187365, 
+85822.2016263563, 7.61203879381678e-05, 1.65238528179872e-05, 
+0.0401377363254047, 0.00228767005384086, 1.87618871877924e-11, 
+2.29157031370395e-08, 2.42209886146193e-05, 9.65998354126513e-06, 
+4.37806606239881e-14, 2.11438270538369e-05, 1.60901421938586e-09, 
+2.14800842450392e-05, 1.31364828665149e-17, 1.29064737058101e-16, 
+1.62956548532985e-13, 55, NA, NA, 8.35595331968899e-08, 8.82524109672275e-08, 
+48.9842546935397, 1.83335474057457e-06, 18271.0159051812, 1.05520907738501e-08, 
+124.362204017805, 4.57009423839009e-05, 0.00821516454802443, 
+1.12793459159837e-08, 75393.9659406469, 3.67333642595554e-08, 
+5.42227525207928e-06, 0.000209435347333077, 7.85491025410823, 
+0.000307505630501291, 85822.234058694, 0.000170546100925534, 
+NA, NA, NA, NA, NA, 2.99801340663387e-05, 9.78218148821597e-06, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 9.59495564376983e-18, 
+48.9842536792694, NA, 2.70327936402721e-18, 2.19271340244521e-17, 
+2020, 1.68355971775731e-24, 0.00821487777594039, 1.12793276961832e-08, 
+87.9475796104573, NA, 2.34530820183238e-18, 5.69463859377807e-12, 
+2.32803453449134e-27, 0.000307505636771332, 85822.2016263948, 
+5.46572759433473e-05, NA, 0.0401377362940383, 0.00228767059855416, 
+1.1893148975986e-17, 2.43176875116543e-12, 2.24998399746028e-05, 
+9.38623759503698e-06, 5.38580348117675e-24, 5.65488656566107e-06, 
+1.9618799083239e-19, 2.2784304098615e-18, 4.6666118897051e-18, 
+0.712527909909443, 2.68002493809021, 55, 24.6268656716418, 26.1269035532995, 
+9.84920930370854e-18, NA, NA, NA, NA, 3.93563638720758e-12, 2019.99999999998, 
+1.10735833513877e-12, NA, 1.12848417647101e-08, NA, NA, NA, NA, 
+NA, NA, 85822.2016263563, NA, NA, NA, NA, 1.76218812831914e-11, 
+6.87587025121152e-09, NA, 9.48100590055563e-06, 3.49131163666423e-16, 
+5.6551961239364e-06, 4.49315958784311e-09, NA, 9.9158643506394e-12, 
+5.53540480822016e-13, 3.07621820456769, 55.0000000000089, 24.6268656716418, 
+26.1269035532995, 1.7287601134023e-13, 2.26757730748798e-13, 
+48.98425367924, 0.135188173053538, 2.67318949581686e-13, 5.307639825275e-16, 
+NaN, 2.20396592803802e-12, 0.00821487730659092, 1.17672147196962e-08, 
+112123.437420832, 1.19657837212447e-13, 5.22580214770706e-12, 
+5.31786401687472e-09, 2.90763098419414e-12, 0.000307505621833634, 
+85822.2016328264, 7.69590012080293e-05, 0.0056556499292764, 0.0401381601297482, 
+0.00228767385880551, 1.8822193777221e-15, 3.27760934205846e-08, 
+2.4241662319424e-05, 9.76688350552292e-06, 6.19009291565613e-29, 
+5.65746195666815e-06, 4.40024298018673e-07, 1.30211792719787e-06, 
+2.50182345412151e-13, 7.92708598940424e-10, 1.09992042024496e-10, 
+55, 24.6268656716418, 26.1269035532995, 6.93472874538534e-12, 
+2.26757730748798e-13, 48.98425367924, 0.135188173053538, 2.67318949581686e-13, 
+5.307639825275e-16, NaN, 2.20396592803802e-12, 0.00821487730659092, 
+1.17672147196962e-08, 112123.437420832, 1.19657837212447e-13, 
+5.22580214770706e-12, 5.31786401687472e-09, 2.90763098419414e-12, 
+0.000307505621833634, 85822.2016328264, 7.69590012080293e-05, 
+0.0056556499292764, 0.0401381601297482, 0.00228767385880551, 
+1.8822193777221e-15, 3.27760934205846e-08, 2.4241662319424e-05, 
+9.76688350552292e-06, 6.19009291565613e-29, 5.65746195666815e-06, 
+4.40024298018673e-07, 1.30211792719787e-06, 2.50182345412151e-13, 
+7.92708598940424e-10, 1.09992042024496e-10, 55, 24.6268656716418, 
+26.1269035532995, 6.93472874538534e-12, 4.29181601069864e-22, 
+48.98425367924, NA, 2.435572005319e-15, 7.16313558591394e-25, 
+124.362182355615, 2.20496266766302e-21, 0.00821487730657919, 
+1.12793276963448e-08, NA, 1.30253053352066e-22, 1.88513240030002e-24, 
+6.41610074452284e-65, 4.87365404836244e-19, 0.000307505603849238, 
+85822.2016263564, 5.46489469748393e-05, 0.0056556499255002, 0.040137736293548, 
+0.00228767005355251, 2.19383106122565e-19, NA, 2.24997750089994e-05, 
+NA, 4.28526660285727e-25, 5.65488655145258e-06, 2.15800983612517e-23, 
+3.40619377023087e-21, 6.52598135156146e-18, 1.08847592592226e-16, 
+4.88039713600863e-21, 55, 24.6268656716418, 26.1269035532995, 
+5.81645784452508e-15), .Dim = c(35L, 8L), .Dimnames = list(c("rosen", 
+"freud_roth", "powell_bs", "brown_bs", "beale", "jenn_samp", 
+"helical", "bard", "gauss", "meyer", "gulf", "box_3d", "powell_s", 
+"wood", "kow_osb", "brown_den", "osborne_1", "biggs_exp6", "osborne_2", 
+"watson", "ex_rosen", "ex_powell", "penalty_1", "penalty_2", 
+"var_dim", "trigon", "brown_al", "disc_bv", "disc_ie", "broyden_tri", 
+"broyden_band", "linfun_fr", "linfun_r1", "linfun_r1z", "chebyquad"
+), c("solution", "marqLevAlg", "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", 
+"optimParallel", "nlminb")))
+
+deci <- matrix(3, 35, 8)
+deci[16, ] <- 1
+deci[4, 3] <- 0
+deci[10, 3] <- 0
+deci[6, 4:5] <- 0
+deci[10, 6:7] <- 0
+
+print(xtable(round(sweep(res35[,-c(1)], 1, res35[,1]),5), digits=deci, align = c("l", rep("r", 7)), label="tab:table35ex", caption="Absolute bias, for each of the 35 problems, between the real solution and the final optimum value at convergence point for 7 different algorithms : marqLevAlg, Nelder-Mead, BFGS, CG, L-BFGS-B, optimParallel and nlminb. An empty case means that the algorithm did not converged."), comment = FALSE, table.placement="h", floating=TRUE)
+```
+
+MarqLevAlg converged in 31 of the 35 cases and found the objective function with minimal bias. Except for nlminb which showed similar very good performances, the other algorithms converged at least once very far from the effective objective value. In addition, Nelder-Mead and CG algorithms converged only in approximately half of the cases. This illustrates the reliability of marLevAlg to find the optimum in different settings. 
+
+
+```{r figure35ex, echo=FALSE, results='hide', fig.width=11, fig.height=5.5, out.width='100%', fig.cap="Log-scaled bias between real solution and final optimum value at convergence point for 7 different algorithms : marqLevAlg, Nelder-Mead, BFGS, CG, L-BFGS-B, optimParallel and nlminb"}
+boxplot(log(1+round(sweep(res35[,-c(1)], 1, res35[,1]),5)), ylab="log(1 + bias)")
+```
+
+## A2. Marquardt-Levenberg implementations for nonlinear least square problems {-}
+
+Although not restricted to nonlinear least square problems, we compared our implementation of Marquardt-Levenberg algorithm with two other implementations dedicated to nonlinear least square problems in the R packages nlmrt and minpack.lm. We used the examples given in those two packages to compare our results to the one obtained by the two other implementations. We compared the implementations in terms of residual sum-of-squares (RSS) at convergence and runtime in microseconds (as the mean runtime over 100 replicates).
+
+Table \ref{tab:exnlmrt} summarizes the results of the three examples provided by the help page of nlmrt. The Hobbs problem has been run several times with different initial values, in a scaled or an unscaled version, and with an analytical gradient. The examples were tested with function nlxb (or nlfb when the analytical gradient was specified) and function marqLevAlg (in sequential mode). Table \ref{tab:exminpack} summarizes the results obtained on the two examples provided in the help of the nls.lm function from minpack.lm package. 
+
+These tests show that our implementation provides the same final RSS as the two other implementations in these examples. We note that one run did not converge with marqLevAlg. Our implementation was yet systematically longer than the two others. We did expect this as our implementation is not dedicated to such simple situations but rather to complex optimization problems as shown in other examples in the main manucript (e.g., linear mixed model, joint model, latent class model). 
+
+
+
+```{r exnlmrt, results="asis", echo=FALSE}
+res <- structure(c(8.92959881985513, 2.58727739533182, 2.5872773952842, 
+2.58727739529232, 2.58727739528418, 2.58727739632938, 2.58727739529231, 
+8.81335261136904e-20, 1731.04695, 13047.28143, 3522.30897, 7762.82791, 
+3615.17351, 16343.82488, 3421.8311, 1871.21691, 8.92959881985513, 
+NA, 2.58727754468569, 2.58727739554295, 2.58727789179372, 2.58727757727614, 
+2.58727739529978, 1.00457614105069e-10, 775.15143, 155910.19108, 
+34805.04655, 12019.77276, 9357.71489, 27588.33633, 13454.96472, 
+983.13773), .Dim = c(8L, 4L), .Dimnames = list(c("One parameter problem", 
+"Hobbs problem unscaled - start1", "Hobbs problem unscaled - easy", 
+"Hobbs problem scaled - start1", "Hobbs problem scaled - easy", 
+"Hobbs problem scaled - hard", "Hobbs problem scaled - start1 - gradient", 
+"Gabor Grothendieck problem"), c("objective function", "runtime", 
+"objective function", "runtime")))
+
+
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\hline   & \\multicolumn{2}{c}{nlxb/nlfb} & \\multicolumn{2}{c}{marqLevAlg}\\\\")
+
+print(xtable(res, digits=c(2,4,0,4,0), align=c("l", rep("r",4)), caption="Final objective function value and runtimes (in microseconds) of least squares problems solved with nlmrt and marqLevAlg packages.", label="tab:exnlmrt"), comment=FALSE, add.to.row=addtorow)
+```
+
+
+```{r exminpack, results="asis", echo=FALSE, message=FALSE}
+res <- structure(c(0.798577959615689, 79237.0726183538, 79237.0726183538, 
+312.6977, 2373.57642, 2388.32664, 0.798577959615706, 79237.0726183537, 
+79237.0726183563, 7061.93807, 38584.34017, 20306.92131), .Dim = 3:4, .Dimnames = list(
+    c("Example1", "Example2", "Example2 - gradient"), c("objective function", 
+    "runtime", "objective function", "runtime")))
+
+
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\hline   & \\multicolumn{2}{c}{nls.lm} & \\multicolumn{2}{c}{marqLevAlg}\\\\")
+
+print(xtable(res, digits=matrix(c(2,2,2, 4,0,0, 0,0,0, 4,0,0, 0,0,0), 3, 5), align=c("l", rep("r",4)), caption="Final objective function value and runtimes (in microseconds) of least squares problems solved with minpack.lm and marqLevAlg packages.", label="tab:exminpack"), comment=FALSE, add.to.row=addtorow)
+```
+
+
+
+## A3. Other parallelized optimization algorithms {-}
+
+Other optimizers are available in R with a parallel mode such as DEoptim, GA, rgenoud, hydroPSO and optimParallel [@Mullen_2014].
+Although these algorithms are dedicated to global optimization, we used them in a local optimization problem to contrast the performances of marqLevAlg with them. 
+We used the example of estimation of a linear mixed model presented in the Example section. We estimated the model with packages rgenoud, DEoptim, hydroPSO, GA and optimParallel using one and two cores. Runtimes are summarized in Table \ref{tab:parallel}. In this situation, our algorithm showed by far the minimum runtimes even though its speed up was slightly less (1.51) than others (>1.76). 
+
+\begin{table}[h]
+\begin{tabular}{lrrr}
+  \hline
+  R function & sequential runtime & parallel runtime & speed  up \\
+  \hline
+  marqLevAlg    &  21.89&  14.47&1.51 \\
+  genoud        & 650.11& 348.18&1.87 \\
+  DEoptim       & 318.50& 139.40&2.28 \\
+  hydroPSO      & 860.97& 393.07&2.19 \\
+  ga            &  94.49&  51.17&1.85 \\
+  optimParallel &  63.49&  36.02&1.76 \\
+  \hline
+\end{tabular}
+\caption{Mean runtimes over 10 replicates of the estimation of a linear mixed model using marqLevAlg, rgenoud, DEoptim, hydroPSO, GA and optimParallel packages in sequential mode and in parallel mode using two cores.}
+\label{tab:parallel}
+\end{table}
+
+
+
+## A4. Sensitivity to initial values {-}
+
+### Comparison with another Marquardt-Levenberg implementation
+
+We considered an example from the non-linear least squares area to compare convergence rates, objective function's final value, and sensitivity to initial values obtained by marqLevAlg in comparison with the Marquardt-Levenberg algorithm implementation of minpack.lm package with nls.lm function. 
+
+We estimated the 3-parameter model $y = a * \exp(x * b) + c$ using 100 starting values drawn uniformly between -10 and 10. The procedure was replicated on 100 datasets.
+
+Over the 10000 estimations, marqLevAlg converged in 51.55\% of the cases, whereas 65.98\% of the nls.lm models converged, as shown in table \ref{tab:VI}. For nls.lm, this mixes the three convergence criteria, namely according to the objective function stability (value info=1 in the code), to the parameters stability (info=2) or to both (info=3). A fourth convergence criterion based on the angle between the objective function and its gradient was avalaible (info=4) but was never used in the 10000 runs. 
+
+While the minimum value was effectively reached for all the convergences of marqLevAlg, 1660 estimations that converged according to nls.lm were far from the effective optimum. This reduced the proportion of satisfying convergences to 49.38\% (so similar rate as marqlevAlg) but more importantly illustrated the convergence to saddle points when using classical convergence criteria. These convergences to saddle points are illustrated in Figure  \ref{fig:figureVI}. The problem of spurious convergence was observed in all the types of convergence although it was particularly important when nls.lm converged with the paramater stability criterion (an extreme value was obtained in 443 and 16 runs for convergence on the parameters and on the function, respectively).
+
+
+\begin{table}[h]
+\begin{tabular}{ll|r|r|r}
+ & & \multicolumn{2}{c|}{marqLevAlg} \\
+  && convergence & non convergence & total \\
+  \hline
+ & convergence in function   &4262&  468  & \\
+nls.lm&convergence in parameters &  87& 1187 & 6598\\
+&convergence in both       & 591&    3 & \\
+\cline{2-5}
+&  non convergence           & 215& 3187 & 3402\\
+  \hline
+&  total & 5155 & 4845 & 10000
+\end{tabular}
+\caption{Summary of the convergence status of marqLevAlg and nls.lm over 10000 runs (100 simulated samples and 100 different starting points each).}
+\label{tab:VI}
+\end{table}
+
+```{r figureVI, echo=FALSE, results='hide', fig.width=11, fig.height=5.5, out.width='100%', fig.cap="Final value of the objective function at convergence for marqLevAlg algorithm and for nls.lm algorithm according to the type of convergence criterion met (1 for objective function, 2 for parameters, 3 for both). Are only reported the runs that converged, and results are in the log scale so that small differences are not blurred by some extreme differences. "}
+ok1 <- 0.906342494714588
+ok2 <- 0.0572998430141287
+ok3 <- 0.973063973063973
+okm <- 1
+
+h1 <- structure(list(breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 
+44, 45), counts = c(5155L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L), density = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), mids = c(0.5, 1.5, 2.5, 
+3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5, 13.5, 14.5, 
+15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 21.5, 22.5, 23.5, 24.5, 25.5, 
+26.5, 27.5, 28.5, 29.5, 30.5, 31.5, 32.5, 33.5, 34.5, 35.5, 36.5, 
+37.5, 38.5, 39.5, 40.5, 41.5, 42.5, 43.5, 44.5), xname = "log(1 + fmla[which(convmla == 1)])", 
+    equidist = TRUE), class = "histogram")
+
+h2 <- structure(list(breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 
+44, 45), counts = c(4287L, 0L, 0L, 0L, 0L, 0L, 443L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L), density = c(0.906342494714588, 0, 0, 0, 0, 0, 
+0.0936575052854123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0), mids = c(0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 
+9.5, 10.5, 11.5, 12.5, 13.5, 14.5, 15.5, 16.5, 17.5, 18.5, 19.5, 
+20.5, 21.5, 22.5, 23.5, 24.5, 25.5, 26.5, 27.5, 28.5, 29.5, 30.5, 
+31.5, 32.5, 33.5, 34.5, 35.5, 36.5, 37.5, 38.5, 39.5, 40.5, 41.5, 
+42.5, 43.5, 44.5), xname = "log(1 + fnls[which(convnls == 1)])", 
+    equidist = TRUE), class = "histogram")
+
+h3 <- structure(list(breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 
+44, 45), counts = c(73L, 0L, 0L, 0L, 0L, 0L, 18L, 10L, 14L, 19L, 
+37L, 37L, 41L, 39L, 43L, 49L, 40L, 31L, 38L, 35L, 40L, 53L, 45L, 
+37L, 41L, 34L, 35L, 41L, 40L, 42L, 45L, 28L, 44L, 45L, 30L, 28L, 
+28L, 27L, 26L, 16L, 16L, 8L, 1L, 0L, 0L), density = c(0.0572998430141287, 
+0, 0, 0, 0, 0, 0.0141287284144427, 0.00784929356357928, 0.010989010989011, 
+0.0149136577708006, 0.0290423861852433, 0.0290423861852433, 0.032182103610675, 
+0.0306122448979592, 0.0337519623233909, 0.0384615384615385, 0.0313971742543171, 
+0.0243328100470958, 0.0298273155416013, 0.0274725274725275, 0.0313971742543171, 
+0.0416012558869702, 0.0353218210361068, 0.0290423861852433, 0.032182103610675, 
+0.0266875981161695, 0.0274725274725275, 0.032182103610675, 0.0313971742543171, 
+0.032967032967033, 0.0353218210361068, 0.021978021978022, 0.0345368916797488, 
+0.0353218210361068, 0.0235478806907378, 0.021978021978022, 0.021978021978022, 
+0.0211930926216641, 0.0204081632653061, 0.0125588697017268, 0.0125588697017268, 
+0.00627943485086342, 0.000784929356357928, 0, 0), mids = c(0.5, 
+1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5, 
+13.5, 14.5, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 21.5, 22.5, 23.5, 
+24.5, 25.5, 26.5, 27.5, 28.5, 29.5, 30.5, 31.5, 32.5, 33.5, 34.5, 
+35.5, 36.5, 37.5, 38.5, 39.5, 40.5, 41.5, 42.5, 43.5, 44.5), 
+    xname = "log(1 + fnls[which(convnls == 2)])", equidist = TRUE), class = "histogram")
+
+h4 <- structure(list(breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
+12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 
+44, 45), counts = c(578L, 0L, 0L, 0L, 0L, 0L, 16L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 
+0L, 0L, 0L), density = c(0.973063973063973, 0, 0, 0, 0, 0, 0.0269360269360269, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), mids = c(0.5, 
+1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5, 
+13.5, 14.5, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 21.5, 22.5, 23.5, 
+24.5, 25.5, 26.5, 27.5, 28.5, 29.5, 30.5, 31.5, 32.5, 33.5, 34.5, 
+35.5, 36.5, 37.5, 38.5, 39.5, 40.5, 41.5, 42.5, 43.5, 44.5), 
+    xname = "log(1 + fnls[which(convnls == 3)])", equidist = TRUE), class = "histogram")
+
+
+par(mfrow=c(2,2), mgp=c(2,0.5,0), mar=c(5,4,2,2), tcl=-0.5, xpd=NA)
+plot(h1, col="grey", ylim=c(0,1), freq=FALSE, xlab="log(1+f)", main="marqLevAlg - istop=1 (N=5155)")
+text(0.7, okm+0.05, paste(round(okm*100),"%", sep=""))
+plot(h2, col="grey", ylim=c(0,1), freq=FALSE, xlab="log(1+f)", main="nls.lm - info=1 (N=4730)")
+text(0.7, ok1+0.05, paste(round(ok1*100,1),"%", sep=""))
+text(6.6, 1-ok1+0.05, paste(round((1-ok1)*100,1),"%", sep=""))
+plot(h3, col="grey", ylim=c(0,1), freq=FALSE, xlab="log(1+f)", main="nls.lm - info=2 (N=1274)")
+text(0.7, ok2+0.05, paste(round(ok2*100,1),"%", sep=""))
+plot(h4, col="grey", ylim=c(0, 1), freq=FALSE, xlab="log(1+f)", main="nls.lm - info=3 (N=594)")
+text(0.7, ok3+0.05, paste(round(ok3*100,1),"%", sep=""))
+text(6.5, 1-ok3+0.05, paste(round((1-ok3)*100,1),"%", sep=""))
+```
+
+
+
+### Global optimization using grid search
+
+The Marquardt-Levenbergh algorithm performs local optimization. In situations were a global minimum (or maximum) is sought, the algorithm can still be used with a grid search. It consists in running the algorithm with multiple different initial values and retaining the best result.
+
+We illustrate this with the Wild function plotted in Figure \ref{fig:figureWild} and defined as: $$fw(x) = 10 * \sin(0.3 * x) * \sin(1.3 * x^2) + 0.00001 * x^4 + 0.2 * x + 80$$
+This function is given as an example in the help page of the optim function for global optimization problem. 
+
+```{r figureWild, echo=FALSE, results='hide', fig.width=11, fig.height=5.5, out.width='100%', fig.cap="The Wild function of the help page of optim function. Global minimum appears in red."}
+fw <- function (x){ 10*sin(0.3*x)*sin(1.3*x^2) + 0.00001*x^4 + 0.2*x+80}
+plot(fw, -50, 50, n = 1000, ylab="fw")
+points(-15.81515, fw(-15.81515), col=2, lwd=3, pch=3)
+```
+
+We ran the marqLevAlg algorithm 200 times from starting points defined by a regular grid between values -50 and 50. The minimum value over the 200 trials did coincide with the results of the global optimization algorithm SANN as shown in table \ref{tab:resgridsearch}.
+
+```{r gridsearch, results="asis", echo=FALSE}
+resSANN <- optim(50, fw, method = "SANN",
+                 control = list(maxit = 20000, temp = 20, parscale = 20))
+res200 <- sapply(seq(-50,50, length.out=200), function(x){
+    z <- mla(b=x, fn=fw)
+    res <- c(NA, NA)
+    if(z$istop==1) res <- c(z$fn.value, z$b)
+    return(res)}) 
+
+res <- cbind(c(resSANN$value, resSANN$par), res200[,which.min(res200[1,])] )
+colnames(res) <- c("SANN", "grid search MLA")
+rownames(res) <- c("minimum", "param")
+```
+
+```{r resgridsearch, results="asis", echo=FALSE}
+print(xtable(res, digits=4, align=c("l", "r", "r"), caption="Optimization results on the Wild function with algorithm SANN and MLA", label="tab:resgridsearch"), comment=FALSE, table.placement="h!")
+```
+&nbsp;
+

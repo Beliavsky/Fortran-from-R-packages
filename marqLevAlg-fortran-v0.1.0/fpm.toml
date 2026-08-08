@@ -1,0 +1,14 @@
+name = "marqlevalg-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of marqLevAlg by Viviane Philipps et al."
+maintainer = "OpenAI translation"
+description = "Modern Fortran translation of the computational core of the R package marqLevAlg"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true

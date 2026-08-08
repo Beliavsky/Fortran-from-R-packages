@@ -1,0 +1,10 @@
+marqLevAlg-fortran v0.1.0
+
+This project is a modern Fortran translation of the computational code in the
+R package marqLevAlg 2.0.8 (source archive supplied as marqLevAlgParallel-master).
+The upstream DESCRIPTION declares "License: GPL (>= 2.0)".  Accordingly,
+translated code is distributed under GPL-2.0-or-later.  The complete supplied
+upstream source tree is preserved under original/marqLevAlgParallel-master/.
+
+R, foreach, doParallel, parallel-cluster orchestration, S3 print/summary methods,
+and file/console reporting are not required by the standalone Fortran library.
