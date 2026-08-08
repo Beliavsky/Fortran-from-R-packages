@@ -1,0 +1,22 @@
+name = "nfcp"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Thomas Aspinall et al.; Fortran translation by OpenAI"
+maintainer = ""
+description = "Modern Fortran computational translation of the NFCP R package"
+categories = ["finance", "statistics", "optimization"]
+keywords = ["commodity", "kalman-filter", "futures", "options", "monte-carlo"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+lbfgsb3 = { path = "dependencies/lbfgsb3" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
