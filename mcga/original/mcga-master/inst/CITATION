@@ -1,0 +1,24 @@
+citHeader("To cite mcga in publications use:")
+
+
+
+bibentry(
+  bibtype = "Article",
+  title        = "Machine Coded Genetic Algorithms For Real Parameter Optimization Problems",
+  author       = c(as.person("Mehmet Hakan Satman")),
+  journal      = "Gazi University Journal of Science",
+  year         = "2013",
+  volume       = "26",
+  number       = "1",
+  pages        = "85--95",
+  url          = "https://dergipark.org.tr/en/pub/gujs/issue/7426/97486",
+
+
+  textVersion  =
+  paste("Mehmet Hakan Satman (2013).",
+        "Machine Coded Genetic Algorithms For Real Parameter Optimization Problems",
+        "Gazi University Journal of Science, 26(1), 85-95.",
+        "URL https://dergipark.org.tr/en/pub/gujs/issue/7426/97486")
+)
+
+

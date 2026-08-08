@@ -1,0 +1,15 @@
+name = "mcga-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of mcga by OpenAI"
+maintainer = ""
+copyright = "Upstream mcga copyright retained; translation under GPL-2.0-or-later"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

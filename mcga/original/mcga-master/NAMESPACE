@@ -1,0 +1,9 @@
+# Export all names
+useDynLib(mcga)
+exportPattern("^[[:alpha:]]+")
+
+importFrom(Rcpp, evalCpp)
+importFrom("stats", "runif")
+import(GA)
+
+
