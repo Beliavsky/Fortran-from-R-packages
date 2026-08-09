@@ -1,0 +1,41 @@
+Package: limSolve
+Version: 2.0.3
+Title: Solving Linear Inverse Models
+Authors@R: c(person("Karline","Soetaert", role = c("aut","cre"), 
+                     email = "karline.soetaert@nioz.nl"),
+             person("Karel","Van den Meersche", role = "aut"),
+             person("Dick","van Oevelen", role = "aut", 
+                     email = "dick.vanoevelen@nioz.nl"),
+             person("Charles L.","Lawson", role = "ctb", 
+                     comment = "file inverse.f"),
+             person("Richard J.","Hanson", role = "ctb", 
+                     comment = "file inverse.f"),
+             person("Jack","Dongarra", role = "ctb", 
+                     comment = "files solve.f, inverse.f"),
+             person("Cleve","Moler", role = "ctb", 
+                     comment = "file solve.f")
+            )
+Author: Karline Soetaert [aut, cre],
+  Karel Van den Meersche [aut],
+  Dick van Oevelen [aut],
+  Charles L. Lawson [ctb] (file inverse.f),
+  Richard J. Hanson [ctb] (file inverse.f),
+  Jack Dongarra [ctb] (files solve.f, inverse.f),
+  Cleve Moler [ctb] (file solve.f)
+Maintainer: Karline Soetaert <karline.soetaert@nioz.nl>
+Depends: R (>= 2.10)
+Imports: quadprog, lpSolve, MASS
+Description: Functions that (1) find the minimum/maximum of a linear or quadratic function:
+  min or max (f(x)), where f(x) = ||Ax-b||^2 or f(x) = sum(a_i*x_i)
+  subject to equality constraints Ex=f and/or inequality constraints Gx>=h,
+  (2) sample an underdetermined- or overdetermined system Ex=f subject to Gx>=h, and if applicable Ax~=b,      
+  (3) solve a linear system Ax=B for the unknown x. It includes banded and tridiagonal linear systems. 
+License: GPL
+Copyright: inst/COPYRIGHTS
+LazyData: yes
+NeedsCompilation: yes
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Repository: CRAN
+Packaged: 2026-06-30 12:56:53 UTC; karlines
+Date/Publication: 2026-06-30 14:30:02 UTC

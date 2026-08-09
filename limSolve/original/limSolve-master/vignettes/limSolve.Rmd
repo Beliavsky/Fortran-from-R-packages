@@ -1,0 +1,874 @@
+---
+title: "Package limSolve: solving linear inverse models in R"
+author: "Karline Soetaert, Karel van den Meersche and Dick van Oevelen"
+date: "18 November 2022"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    number_sections: true
+    toc_float: true
+    code_folding: show
+    theme: flatly
+  pdf_document: default
+vignette: >
+  %\VignetteIndexEntry{Package limSolve, solving linear inverse models in R} 
+  %\VignetteEncoding{UTF-8}\n"
+  %\VignetteEngine{knitr::rmarkdown} 
+abstract: >
+  R package limSolve solves linear inverse models (LIM),
+  consisting of linear equality and or linear inequality conditions,
+  which may be supplemented with approximate linear equations, or a target
+  (cost, profit) function.
+  
+  Depending on the determinacy of these models, they can be solved by least
+  squares or linear programming techniques, by calculating ranges of unknowns
+  or by randomly sampling the feasible solution space.
+  
+  (ecology),   flux balance analysis (e.g. quantification of metabolic networks,
+  systems biology), compositional estimation (ecology, chemistry,...),
+  and operations research problems.
+  
+  Package limSolve contains examples of these four application domains.
+  In addition, limSolve also contains special-purpose solvers for sparse
+  linear equations (banded, tridiagonal, block diagonal).
+  Amongst the possible scientific applications are: food web quantification
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(limSolve)
+```
+
+# Introduction
+
+In matrix notation, linear inverse problems are defined as:
+\footnote{notations: vectors and matrices are in *bold*; scalars in normal font. Vectors are indicated with a small letter; matrices with capital letter. }
+
+\begin{align*}
+    \label{eq:1}
+    \mathbf{A}\cdot \mathbf{x}\simeq\mathbf{b} \qquad (1)\\
+    \mathbf{E}\cdot \mathbf{x}=\mathbf{f}      \qquad (2)\\
+    \mathbf{G}\cdot \mathbf{x}\geq\mathbf{h}   \qquad (3)
+  \end{align*}
+
+There are three sets of linear equations: equalities that have to be met
+as closely as possible (1), equalities that have to be met exactly (2)
+and inequalities (3).
+
+Depending on the active set of equalities (2) and constraints (3), the
+system may either be underdetermined, even determined, or
+overdetermined. Solving these problems requires different mathematical
+techniques.
+
+# Even determined systems
+
+An even determined problem has as many (independent and consistent)
+equations as unknowns. There is only one solution that satisfies the
+equations exactly.
+
+Even determined systems that do not comprise inequalities, can be solved
+with *R* function *solve*, or -more generally- with *limSolve* function
+*Solve*. The latter is based on the Moore-Penrose generalised inverse
+method, and can solve any linear system of equations.
+
+In case the model is even determined, and if *E* is square and positive
+definite, *Solve* returns the same solution as function *solve*. The
+function uses function *ginv* from package *MASS* (Venables & Ripley, 2002).
+
+Consider the following set of linear equations:
+
+$$
+      \begin{array} {*{20}l}
+        {3 \cdot x_1} & {+ 2 \cdot x_2} &{+ x_3}         &=& 2 \\
+        {x_1}         & { }             &{}              &=& 1 \\
+        {2 \cdot x_1} & {}              &{+ 2 \cdot x_3} &=& 8
+      \end{array}
+$$
+
+which, in matrix notation is: $$
+    \left[ {
+      \begin{array}{*{3}c}
+       3 & 2 & 1 \\
+       1 & 0 & 0 \\
+       2 & 0 & 2 \\
+      \end{array}}
+    \right] \cdot \mathbf{X}
+    =
+    \left[
+      {\begin{array}{*{3}c}
+         2  \\   1  \\   8  \\
+       \end{array}} \right]
+  $$ where $\mathbf{X} = [x_1,x_2,x_3]^T$.
+
+In *R*, we write:
+
+```{r}
+E <- matrix(nrow = 3, ncol = 3,
+            data = c(3, 1, 2, 2, 0, 0, 1, 0, 2))
+F <- c(2, 1, 8)
+
+solve(E, F)
+Solve(E, F)
+```
+
+In the next example, an additional equation, which is a linear
+combination of the first two is added to the model (i.e.
+$eq_4=eq_1+eq_2$).
+
+As one set of equations is redundant, this problem is equivalent to the
+previous one. It is even determined although it contains 4 equations and
+only 3 unknowns.
+
+As the input matrix is not square, this model can only be solved with
+function *Solve* $$
+    \left[ {
+      \begin{array}{*{3}c}
+       3 & 2 & 1 \\
+       1 & 0 & 0 \\
+       2 & 0 & 2 \\
+       4 & 2 & 1 \\
+     \end{array}}
+    \right] \cdot \mathbf{X}
+    =
+    \left[ {
+     \begin{array}{*{3}c}
+       2  \\   1  \\   8  \\  3 \\
+     \end{array}}
+    \right]
+  $$
+
+```{r}
+E2 <- rbind(E, E[1, ] + E[2, ])
+F2 <- c(F, F[1] + F[2])
+
+#solve(E2,F2) # error 'a' (4 x 3) must be square
+Solve(E2, F2)
+```
+
+# Overdetermined systems
+
+Overdetermined linear systems contain more independent equations than
+unknowns.
+
+In this case, there is only one solution in the least squares sense,
+i.e. a solution that satisfies:
+
+$$\min\limits_x\| \mathbf{A} \cdot \mathbf{x} - \mathbf{b} \|^2.$$
+
+The least squares solution can be singled out by function *lsei*
+(**l**east **s**quares with **e**qualities and **i**nequalities).
+
+If argument *fulloutput* is *TRUE*, this function also returns the
+parameter covariance matrix, which gives indication on the confidence
+interval and relations among the estimated unknowns.
+
+## Equalities only
+
+If there are no inequalities, then the least squares solution can also
+be estimated with *Solve*.
+
+The following problem: $$
+    \left[ {
+      \begin{array}{*{3}c}
+        3 & 2 & 1 \\
+        1 & 0 & 0 \\
+        2 & 0 & 2 \\
+        0 & 1 & 0 \\
+      \end{array}}
+       \right]
+       \cdot \mathbf{X}
+       =
+      \left[ {
+        \begin{array}{*{3}c}
+          2  \\   1  \\   8  \\ 3 \\
+        \end{array}}
+      \right]
+  $$
+
+is solved in *R* as follows:
+
+```{r}
+E <- matrix(nrow = 4, ncol = 3,
+            data = c(3, 1, 2, 0, 2, 0, 0, 1, 1, 0, 2, 0))
+F <- c(2, 1, 8, 3)
+
+lsei(A = E, B = F, fulloutput = TRUE, verbose = FALSE)
+```
+
+Here the *residualNorm* is the sum of absolute values of the
+residuals of the equalities that have to be met exactly
+($\mathbf{E} \cdot \mathbf{x} = \mathbf{f}$) and of the violated
+inequalities ($\mathbf{G} \cdot \mathbf{x} \geq \mathbf{h}$). As in this
+case, there are none of those, this quantity is 0.
+
+The *solutionNorm* is the value of the minimised quadratic function
+at the solution, i.e. the value of
+$\| \mathbf{A} \cdot \mathbf{x} - \mathbf{b} \| ^2$. As there are none of those, its value is 0 here.
+
+The *covar* is the variance-covariance matrix of the unknowns.
+*RankEq* and *RankApp* give the rank of the equalities and of
+the approximate equalities respectively.
+
+Alternatively, the problem can be solved by *Solve*:
+
+```{r}
+Solve(E, F)
+```
+
+## Equalities and inequalities
+
+If, in addition to the equalities, there are also inequalities, then
+*lsei* is the only method to find the least squares solution.
+
+With the following inequalities added: \begin{eqnarray*}
+     x_1 - 2 \cdot x_2 &<& 3 \\
+     x_1 - x_3 &>& 2
+  \end{eqnarray*} the R-code becomes:
+
+```{r}
+G <- matrix(nrow = 2, ncol = 3, byrow = TRUE,
+            data = c(-1, 2, 0, 1, 0, -1))
+H <- c(-3, 2)
+
+lsei(E = E, F = F, G = G, H = H, verbose = FALSE)
+```
+
+Where the *residualNorm* now includes the violated
+inequalities ($\mathbf{G} \cdot \mathbf{x} \geq \mathbf{h}$). 
+
+Note that the solution will be different if we require the equalities to be only approximately met:
+
+```{r}
+lsei(A = E, B = F, G = G, H = H, verbose = FALSE)
+```
+
+# Underdetermined systems
+
+Underdetermined linear systems contain less independent equations than
+unknowns. If the equations are consistent, there exist an infinite
+amount of solutions. 
+
+To solve such models, there are several options:
+
+ * *ldei* - finds the **l**east **d**istance" (or
+      parsimonious) solution, i.e. the one where the sum of squared unknowns
+      is minimal
+ * *lsei*- minimises some other set of linear functions
+      ($\mathbf{A}\cdot \mathbf{x} \simeq
+        \mathbf{b}$) in a least squares sense.
+ * *linp* - finds the solution where *one* linear
+      function (i.e. the sum of flows) is either minimized (a "cost"
+      function) or maximized (a "profit" function). Uses linear programming.
+ * *xranges* -  finds the possible ranges ([min,max]) for each
+      unknown.
+ * *xsample* -  randomly samples the solution space in a
+      Bayesian way. This method returns the conditional probability density
+      function for each unknown (Meersche et al., 2009).
+
+## Equalities only
+
+We start with an example including only equalities.
+
+$$
+      \begin{array} {*{20}l}
+        {3 \cdot x_1} & {+ 2 \cdot x_2} &{+ x_3}        &=& 2 \\
+        {x_1}         & { }          &{}      &=& 1
+      \end{array}
+$$
+
+Functions *Solve* and *ldei* retrieve the *parsimonious* solution, i.e.
+the solution for which $\sum x_i^2$ is minimal.
+
+```{r}
+E <- matrix(nrow = 2, ncol = 3,
+            data = c(3, 1, 2, 0, 1, 0))
+F <- c(2, 1)
+
+Solve(E, F)
+ldei(E = E, F = F)$X
+```
+
+It is slightly more complex to select the parsimonious solution using
+*lsei*. Here the approximate equations (*A*, the identity matrix, and
+*b*) have to be specified.
+
+```{r}
+lsei(E = E, F = F, A = diag(3), B = rep(0, 3), verbose = FALSE)$X
+```
+
+It is also possible to *randomly sample* the solution space. This
+demonstrates that all valid solutions of $x_2$ and $x_3$ are located on
+a line (figure @ref(fig:u1b)).
+
+```{r u1b, fig.cap="Fig: Random sample of the underdetermined system including only equalities."}
+xs <- xsample(E = E, F = F, iter = 500)$X
+plot(xs[ ,2], xs[ ,3])
+```
+
+## Equalities and inequalities
+
+Consider the following set of linear equations:
+
+$$
+      \begin{array} {*{20}l}
+      {3 \cdot x_1} & {+ 2 \cdot x_2} &{+ x_3}         &{+ 4 \cdot x_4} &=& 2 \\
+      {x_1}         & {+ x_2 }          &{+ x_3}         &{+ x_4}         &=& 2
+      \end{array}
+$$
+
+complemented with the inequalities:
+
+$$
+      \begin{array} {*{20}l}
+      {2 \cdot x_1} & {+ x_2}         &{+ x_3}         &{+ x_4} &\geq& -1 \\
+      {-1 \cdot x_1}& {+ 3 \cdot x_2} &{+ 2 \cdot x_3} &{+ x_4} &\geq& 2 \\
+      {-1 \cdot x_1} & {} &{+ x_3}         &{} &\geq& 1 \\
+      \end{array}
+$$
+
+As before, the *parsimonious* solution (that minimises the sum of
+squared flows) can be found by functions *ldei* and *lsei*.
+
+```{r}
+E <- matrix(ncol = 4, byrow = TRUE,
+            data = c(3, 2, 1, 4, 1, 1, 1, 1))
+F <- c(2, 2)
+
+G <-matrix(ncol = 4, byrow = TRUE,
+           data = c(2, 1, 1, 1, -1, 3, 2, 1, -1, 0, 1, 0))
+H <- c(-1, 2, 1)
+ldei(E, F, G = G, H = H)$X
+pars <- lsei(E, F, G = G, H = H, A = diag(nrow = 4), B = rep(0, 4))$X
+pars
+```
+
+We can also estimate the *ranges* (minimal and maximal values) of all
+unknowns using function *xranges*.
+
+```{r}
+(xr <- xranges(E, F, G = G, H = H))
+```
+
+The results are conveniently plotted using *R* function *dotchart*
+(figure @ref(fig:dc)). We plot the parsimonious solution as a point, the
+range as a horizontal line.
+
+```{r dc, fig.cap = "Fig: Parsimonious solution and ranges of the underdetermined system including equalities and inequalities."}
+dotchart(pars, xlim = range(c(pars,xr)), label = paste("x", 1:4, ""))
+segments(x0 = xr[ ,1], x1 = xr[ ,2], y0 = 1:nrow(xr), y1 = 1:nrow(xr))
+```
+
+A *random sample* of the infinite amount of solutions is generated by
+function *xsample* (Meersche et al., 2009). For small
+problems, the coordinates directions algorithm ("cda") is a good choice.
+
+```{r}
+xs <- xsample(E = E, F = F, G = G, H = H, type = "cda")$X
+```
+
+To visualise its output, we use *R* function *pairs*, with a density
+function on the diagonal, and without plotting the upper panel (figure
+@ref(fig:u2)). 
+
+```{r u2, fig.cap = "Fig: Random sample of the underdetermined system including equalities and inequalities."} 
+panel.dens <- function(x, ...) {
+    USR <- par("usr")
+    on.exit(par(usr = USR))
+    par(usr = c(USR[1:2], 0, 1.5) )
+    DD    <- density(x)
+    DD$y  <- DD$y/max(DD$y)
+    polygon(DD, col = "grey")
+}
+xs <- xsample(E = E, F = F, G = G, H = H,  
+              jmp = 0.5, sdB = 1)$X
+pairs(xs, pch = ".", cex = 2, 
+      upper.panel = NULL, diag.panel = panel.dens)
+```
+
+Assume that we define the following variable:
+$$v_1=x_1+2 \cdot x_2 - x_3 +x_4 +2$$
+
+We can use functions *varranges* and *varsample* to estimate its ranges
+and create a random sample respectively.
+
+Variables are written as a matrix equation:
+$$\mathbf{Va}\cdot \mathbf{x}=\mathbf{Vb}$$
+
+```{r}
+Va <- c(1, 2, -1, 1)
+Vb <- -2
+varranges(E, F, G = G, H = H, EqA = Va, EqB = Vb)
+summary(varsample(xs, EqA = Va, EqB = Vb))
+```
+
+## Equalities, inequalities and approximate equations
+
+The following problem
+
+$$
+      \begin{array} {*{50}l}
+      {3 \cdot x_1} & {+ 2 \cdot x_2} &{+ x_3}     &{+ 4 \cdot x_4} &=& 2 \\
+      {x_1}         & {+ x_2 }        &{+ x_3}     &{+ x_4}         &=& 2 \\
+      \\
+      {2 \cdot x_1} & {+ x_2}         &{+ x_3}     &{+ x_4} &\geq& -1 \\
+      {-1 \cdot x_1}& {+ 3 \cdot x_2} &{+ 2 \cdot x_3} &{+ x_4} &\geq& 2 \\
+      {-1 \cdot x_1} & {} &{+ x_3}         &{} &\geq& 1 \\
+      \\
+      {2 \cdot x_1} & {+2 \cdot x_2}  &{+ x_3}     &{+6 \cdot x_4} &\simeq&1 \\
+      {x_1} & {- x_2}         &{+ x_3}         &{- x_4} &\simeq&2
+      \end{array}
+$$
+
+is implemented and solved in *R* as:
+
+```{r}
+A <- matrix(ncol = 4, byrow = TRUE,
+            data = c(2, 2, 1, 6, 1, -1, 1, -1))
+B <- c(1, 2)
+
+lsei(E, F, G = G, H = H, A = A, B = B)$X
+```
+
+Function *xsample* randomly samples the underdetermined problem (using
+the metropolis algorithm), selecting likely values given the approximate
+equations. The probability distribution of the latter is assumed
+Gaussian, with given standard deviation (argument *sdB*, here assumed
+1). (Meersche et al., 2009)
+
+The jump length (argument *jmp*) is finetuned such that a sufficient
+number of trials (\~30%), but not too many, is accepted. Note how the
+ultimate distribution is determined both by the inequality constraints
+(the sharp edges) as well as by the approximate equations (figure
+@ref(fig:u3)).
+
+```{r u3, fig.cap = "Fig: Random sample of the underdetermined system including equalities, inequalities, and approximate equations"}
+xs <- xsample(E = E, F = F, G = G, H = H, A = A, B = B, 
+              jmp = 0.5, sdB = 1)$X
+pairs(xs, pch = ".", cex = 2, 
+      upper.panel = NULL, diag.panel = panel.dens)
+```
+
+## Equalities and inequalities and a target function
+
+Another way to single out one solution out of the infinite amount of
+valid solutions is by minimising or maximising a linear target function,
+using linear programming. For instance,
+
+$$
+      \min(x_1 + 2 \cdot x_2 - 1 \cdot x_3 + 4 \cdot x_4)
+$$
+
+subject to :
+
+$$
+      \begin{array} {*{50}l}
+      {3 \cdot x_1} & {+ 2 \cdot x_2} &{+ x_3}    &{+ 4 \cdot x_4} &=& 2 \\
+      {x_1}         & {+ x_2 }        &{+ x_3}    &{+ x_4}         &=& 2\\
+       \\
+      {2 \cdot x_1} & {+ x_2}         &{+ x_3}    &{+ x_4} &\geq& -1 \\
+      {-1 \cdot x_1}& {+ 3 \cdot x_2} &{+ 2 \cdot x_3} &{+ x_4} &\geq& 2 \\
+      {-1 \cdot x_1} & {} &{+ x_3}     &{} &\geq& 1 \\
+      \\
+      x_i  &\geq& 0 \qquad \forall i \\
+      \end{array}
+$$
+
+is implemented in *R* as:
+
+```{r}
+E <- matrix(ncol = 4, byrow = TRUE,
+            data = c(3, 2, 1, 4, 1, 1, 1, 1))
+F <- c(2, 2)
+
+G <-matrix(ncol = 4, byrow = TRUE,
+           data = c(2, 1, 1, 1, -1, 3, 2, 1, -1, 0, 1, 0))
+H <- c(-1, 2, 1)
+Cost <- c(1, 2, -1, 4)
+linp(E, F, G, H, Cost)
+```
+
+The positivity requirement ($x_i \geq 0$) is -by default- part of the
+linear programming problem, unless it is toggled off by setting argument
+*ispos* equal to *FALSE*.
+
+```{r}
+LP <- linp(E = E, F = F, G = G, H = H, Cost = Cost, ispos = FALSE)
+LP$X
+LP$solutionNorm
+```
+
+# solving sets of linear equations with sparse matrices
+
+*limSolve* contains special-purpose solvers to efficiently solve linear
+systems of equations $A x=B$ where the nonzero elements of matrix *A*
+are located near the diagonal.
+
+They include:
+
+ * *Solve.tridiag* when the A matrix is tridiagonal. i.e.
+      the non-zero elements are on the diagonal, below and above the diagonal.
+ * *Solve.banded* when the A matrix has nonzero elements in bands
+      on, above and below the diagonal.
+ * *Solve.block* when the A matrix is block-diagonal.
+
+## solve, Solve.tridiag, Solve.banded
+
+In the code below, a tridiagonal matrix is created first, and solved
+with the default *R* method *Solve*, followed by the banded matrix
+solver *Solve.band*, and the tridiagonal solver *Solve.tridiag*.
+
+The A matrix contains 500 rows and 500 columns, and the problem is
+solved for 10 different vectors B.
+
+We start by defining the non-zero bands on (*bb*), below (*aa*) and
+above (*cc*) the diagonal, required for input to the tridiagonal solver;
+we prepare the full matrix *A* necessary for the default solver and the
+banded matrix *abd*, required for the banded solver.
+
+```{r}
+nn   <- 500
+```
+
+Input for the tridiagonal system:
+
+```{r}
+aa <- runif(nn-1)
+bb <- runif(nn)
+cc <- runif(nn-1)
+```
+
+The full matrix has the nonzero elements on, above and below the
+diagonal
+
+```{r}
+A <-matrix(nrow = nn, ncol = nn, data = 0)
+A [cbind((1:(nn-1)),(2:nn))] <- cc
+A [cbind((2:nn),(1:(nn-1)))] <- aa
+diag(A) <- bb
+```
+
+The banded matrix representation is more compact; the elements above and
+below the diagonal need padding with $0$:
+
+```{r}
+abd <- rbind(c(0,cc), bb, c(aa,0))
+```
+
+Parts of the input are:
+
+```{r}
+A[1:5, 1:5]
+aa[1:5]
+bb[1:5]
+cc[1:5]
+abd[ ,1:5]
+```
+
+The right hand side consists of 10 vectors:
+
+```{r}
+B <- runif(nn)
+B <- cbind(B, 2*B, 3*B, 4*B, 5*B, 6*B, 7*B, 8*B, 9*B, 10*B)
+```
+
+The problem is then solved using the three different solvers. The
+duration of the computation is estimated and printed in
+milliseconds. "print(system.time()*1000)" does this.
+\footnote{Note that the banded and tridiagonal solver are so efficient
+  (on my computer) that these systems are solved quasi-instantaneously
+  even for 10000*10000 problems and the time returned = 0.}
+
+```{r}
+print(system.time(
+      Full <- solve(A, B) )
+     *1000)
+print(system.time(
+      Band <- Solve.banded(abd, nup = 1, nlow = 1, B))
+      *1000)
+print(system.time(
+      tri  <- Solve.tridiag(aa, bb, cc, B))
+      *1000)
+```
+
+The solvers return 10 solution vectors X, one for each right-hand side;
+we show the first 5:
+
+```{r}
+Full[1:5, 1:5]
+```
+
+Comparison of the different solutions (here only for the second vector)
+show that they yield the same result.
+
+```{r}
+head(cbind(Full=Full[,2],Band=Band[,2], Tri=tri[,2]))
+```
+
+## Banded matrices in the Matrix package
+
+The same can be done with functions from R-package *Matrix*
+(Bates et al., 2023).
+
+To create the tridiagonal matrix, the position of the non-zero bands
+relative to the diagonal must be specified; *k = -1:1* sets this to one
+band below, the band on and one band above the diagonal. The non-zero
+bands (*diag*) are then inputted as a *list*.
+
+Solving the linear system this way is only slightly slower. However,
+Matrix provides many more functions operating on sparse matrices than
+does *limSolve* !.
+
+```         
+SpMat <- bandSparse(nn, nn, k = -1:1, diag = list(aa, bb, cc))
+Tri  <- solve(SpMat, B)
+```
+
+## Solve.block
+
+A block diagonal system is one where the nonzero elements are in
+"blocks" near the diagonal.
+
+For the following A-matrix:
+
+$$
+    \left[ {
+      \begin{array}{*{13}c}
+  0.0  &-0.98& -0.79& -0.15&      &      &      &      &      &      &      &      &  Top \\
+ -1.00 & 0.25& -0.87&  0.35&      &      &      &      &      &      &      &      &  Top \\
+  0.78 & 0.31& -0.85&  0.89& -0.69& -0.98& -0.76& -0.82&      &      &      &      &  blk1\\
+  0.12 &-0.01&  0.75&  0.32& -1.00& -0.53& -0.83& -0.98&      &      &      &      &      \\
+ -0.58 & 0.04&  0.87&  0.38& -1.00& -0.21& -0.93& -0.84&      &      &      &      &      \\
+ -0.21 &-0.91& -0.09& -0.62& -1.99& -1.12& -1.21&  0.07&      &      &      &      &      \\
+       &     &      &      &  0.78& -0.93& -0.76&  0.48& -0.87& -0.14& -1.00& -0.59&  blk2\\
+       &     &      &      & -0.99&  0.21& -0.73& -0.48& -0.93& -0.91&  0.10& -0.89&      \\
+       &     &      &      & -0.68& -0.09& -0.58& -0.21&  0.85& -0.39&  0.79& -0.71&      \\
+       &     &      &      &  0.39& -0.99& -0.12& -0.75& -0.68& -0.99&  0.50& -0.88&      \\
+       &     &      &      &      &      &      &      &  0.71& -0.64&  0.0 &  0.48&  Bot \\
+       &     &      &      &      &      &      &      &  0.08& 100.0& 50.00& 15.00&  Bot \\
+     \end{array}
+     }
+    \right]
+$$
+
+```{r}
+#  0.0  -0.98 -0.79 -0.15                                                  Top
+# -1.00  0.25 -0.87  0.35                                                  Top
+#  0.78  0.31 -0.85  0.89 -0.69 -0.98 -0.76 -0.82                          blk1
+#  0.12 -0.01  0.75  0.32 -1.00 -0.53 -0.83 -0.98
+# -0.58  0.04  0.87  0.38 -1.00 -0.21 -0.93 -0.84
+# -0.21 -0.91 -0.09 -0.62 -1.99 -1.12 -1.21  0.07
+#                          0.78 -0.93 -0.76  0.48 -0.87 -0.14 -1.00 -0.59  blk2
+#                         -0.99  0.21 -0.73 -0.48 -0.93 -0.91  0.10 -0.89
+#                         -0.68 -0.09 -0.58 -0.21  0.85 -0.39  0.79 -0.71
+#                          0.39 -0.99 -0.12 -0.75 -0.68 -0.99  0.50 -0.88
+#                                                  0.71 -0.64  0.0   0.48  Bot
+#                                                  0.08 100.0 50.00 15.00  Bot
+```
+
+and the right hand side:
+
+```{r}
+B <- c(-1.92, -1.27, -2.12, -2.16, -2.27, -6.08, 
+       -3.03, -4.62, -1.02, -3.52, 0.55, 165.08)
+```
+
+The input to the block diagonal solver is as:.
+
+```{r}
+Top  <- matrix(nrow = 2, ncol = 4, byrow = TRUE, data =
+   c( 0.0,  -0.98, -0.79, -0.15, -1.00,  0.25, -0.87,  0.35))
+   
+Bot  <- matrix(nrow = 2, ncol = 4, byrow = TRUE, data =
+   c( 0.71, -0.64,   0.0,  0.48,  0.08, 100.0, 50.00, 15.00))
+   
+Blk1 <- matrix(nrow = 4, ncol = 8, byrow = TRUE, data =
+   c( 0.78,  0.31, -0.85,  0.89, -0.69, -0.98, -0.76, -0.82,
+      0.12, -0.01,  0.75,  0.32, -1.00, -0.53, -0.83, -0.98,
+     -0.58,  0.04,  0.87,  0.38, -1.00, -0.21, -0.93, -0.84,
+     -0.21, -0.91, -0.09, -0.62, -1.99, -1.12, -1.21,  0.07))
+     
+Blk2 <- matrix(nrow = 4, ncol = 8, byrow = TRUE, data =
+    c( 0.78, -0.93, -0.76,  0.48, -0.87, -0.14, -1.00, -0.59,
+      -0.99,  0.21, -0.73, -0.48, -0.93, -0.91,  0.10, -0.89,
+      -0.68, -0.09, -0.58, -0.21,  0.85, -0.39,  0.79, -0.71,
+       0.39, -0.99, -0.12, -0.75, -0.68, -0.99,  0.50, -0.88))
+AR <- array(dim = c(4,8,2), data = c(Blk1, Blk2))
+
+AR
+```
+
+The blocks overlap with 4 columns; the system is solved as:
+
+```{r}
+overlap <- 4
+Solve.block(Top, AR, Bot, B, overlap=4)
+```
+
+Without much loss of speed, this system can be solved for several
+right-hand sides; here we do this for 1000 (!) *B*-values
+
+```{r}
+B3 <- B
+for (i in 2:1000) B3 <- cbind(B3, B*i)
+
+print(system.time(
+  X <- Solve.block(Top, AR, Bot, B3, overlap = 4))
+  *1000)
+
+X[,c(1, 10, 100, 1000)]
+```
+
+Note: This implementation of block diagonal matrices differs from the
+implementation in the *Matrix* package.
+
+# datasets
+
+There are five example applications in package *limSolve*:
+
+ * *Blending*. In this underdetermined problem, an optimal
+      composition of a feeding mix is sought such that production costs
+      are minimised subject to minimal nutrient constraints.
+      The problem consists of one equality and 4 inequality conditions, and
+      a cost function. It is solved by linear programming (*linp*).
+      Feasible ranges are estimated (*xranges*) and feasible solutions
+      generated (*xsample*)
+ * *Chemtax*. This is an overdetermined linear inverse problem,
+      where the algal composition of a (field) sample is estimated based
+      on (experimentally-determined) pigment biomarkers (Mackey et al., 1996).
+      See also *R*-package *BCE* (Meersche et al., 2008).
+      The problem contains 8 unknowns; it consists of 1 equality, 12
+      approximate equations, and 8 inequalities. It is solved using
+      *lsei* and *xsample*.
+ * *Minkdiet*. This is another -underdetermined- compositional
+      estimation problem, where the diet composition of Southeast Alaskan
+      Mink is estimated, based on the C and N isotopic ratios of Mink and of
+      its prey items (Ben-David et al., 1997).
+      The problem consists of 7 unknowns, 3 equations, and 7 inequalities
+ * *RigaWeb*. This is a food web problem, where food web flows
+      of the Gulf of Riga planktonic food web in Spring are quantified
+      (Donali et al., 1999).
+      This underdetermined model comprises 26 unknowns, 14 equalities, and
+      45 inequalities.
+      It is solved by *lsei*, *xranges*, and *xsample*.
+ * *E_coli*. This is a flux balance problem, estimating the
+      core metabolic fluxes of Escherichia coli (Edwards et al., 2002).
+      It is the largest example included in *limSolve*. There are 70 unknowns, 54
+      equalities and 62 inequalities, and one function to maximise.
+      This model is solved using *lsei*, *linp*, *xranges*,
+      and *xsample*. Note that this problem is quite difficult to solve; it may not solve on all platforms.
+
+# Notes
+
+Package *limSolve* provides FORTRAN implementations of:
+
+ * the least distance algorithms from (Lawson and Hanson, 1974) 
+      (*ldp*, *ldei*, *nnls*).
+ * the least squares with equality and inequality algorithms from
+      (Haskell and Hanson, 1978) (*lsei*).
+ * a solver for banded linear systems from LAPACK (Dongarra et al. 1979).
+ * a solver for block diagonal linear systems from LAPACK (Dongarra et al. 1979).
+ * a solver for tridiagonal linear systems from LAPACK (Dongarra et al. 1979).
+
+In addition, the package provides a wrapper around the following functions:
+
+ * function *lp* from package *lpSolve* (Berkelaar et al., 2023)
+ * function *solve.QP* from package *quadprog* (Turlach and Weingessel, 2019)
+
+This way, similar input can be used to solve least distance, least
+squares and linear programming problems. Note that the packages
+*lpSolve* and *quadprog* provide more options than used here.
+
+For solving linear programming problems, *lp* from *lpSolve* is the
+only algorithm included. It is also the most robust linear programming
+algorithm we are familiar with.
+
+For quadratic programming, we added the code *lsei*, which in our
+experience often gives a valid solution whereas other functions
+(including *solve.QP*) may fail.
+
+More examples can be found in the demo of package *limSolve*
+("demo(limSolve)")
+
+Another *R*-package, *LIM* (Van Oevelen et al., 2009} is designed for
+reading and solving linear inverse models (LIM). The model problem is
+formulated in text files in a way that is natural and comprehensible.
+*LIM* then converts this input into the required linear equality and
+inequality conditions, which can be solved by the functions in package
+*limSolve*.
+
+A list of all functions in *limSolve* is in table (1).
+
+
+| Function      | Description |
+| ------------- | ----------- |
+|      Solve          |  Finds the generalised inverse solution of $A \cdot x = b$ |
+|      Solve.banded   |  Solves a banded system of linear equations |
+|      Solve.tridiag  |  Solves a tridiagonal system of linear equations |
+|      Solve.block    |  Solves a block diagonal system of linear equations |
+|      ldei           |  Least distance programming with equality and inequality conditions |
+|      ldp            |  Least distance programming (only inequality conditions) |
+|      linp           |  Linear programming |
+|      lsei           |  Least squares with equality and inequality conditions |
+|      nnls           |  Nonnegative least squares              |
+|      resolution     |  Row and column resolution of a matrix |
+|      xranges        |  Calculates ranges of unknowns         |
+|      varranges      |  Calculates ranges of variables (linear combinations of unknowns)    |
+|      xsample        |  Randomly samples a linear inverse problem for the unknowns          |
+|      varsample      |  Randomly samples a linear inverse problem for the inverse variables |
+
+\clearpage
+
+# Bibliography
+
+Bates D, Maechler M, Jagan M (2023). _Matrix: Sparse and Dense Matrix Classes and Methods_. R package version 1.6-1.1,
+  <https://CRAN.R-project.org/package=Matrix>.
+
+Ben-David, M and Hanley, TA and Klein, DR and Schell, DM (1997).
+Seasonal changes in diets of coastal and riverine mink: the role of spawning Pacific salmon, Canadian Journal of Zoology 75, 803-811.
+
+Berkelaar M, others (2023). _lpSolve: Interface to 'Lp_solve' v. 5.5 to Solve
+  Linear/Integer Programs_. R package version 5.6.20,
+  <https://CRAN.R-project.org/package=lpSolve>.
+  
+Donali, E., Olli, K., Heiskanen, A.S., Andersen, T. (1999). 
+Carbon flow patterns in the planktonic food web of the Gulf of Riga, the Baltic Sea: a reconstruction by the inverse method. Journal of Marine Systems 23, 251..268.
+
+ Dongarra, J.J.,  Bunch, J.R.,  Moler, C.B.and G.W. Stewart, (1979). LINPACK Users Guide, SIAM
+
+Edwards,J.S., Covert, M., and Palsson, B., (2002). Metabolic Modeling of Microbes: the Flux Balance Approach, Environmental Microbiology, 4(3): pp. 133-140.
+
+K. H. Haskell and R. J. Hanson, An algorithm for linear least squares problems with equality and nonnegativity constraints, Report SAND77-0552, Sandia Laboratories, June 1978.
+
+Lawson C.L.and Hanson R.J. 1974. Solving Least Squares Problems, Prentice-Hall
+
+Mackey, MD and Mackey, DJ and Higgins, HW and Wright, SW (1996).
+CHEMTAX - A program for estimating class abundances from chemical markers: Application to HPLC measurements of phytoplankton,
+Marine Ecology-Progress Series 144, 265-283.
+
+R Core Team (2023). _R: A Language and Environment for Statistical Computing_. R
+  Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
+
+Soetaert K., Van den Meersche, K., van Oevelen, D. (2009).  limSolve: Solving Linear Inverse Models.  R-package version
+  1.5.1
+  
+Turlach Berwin A. and Andreas Weingessel (2019). _quadprog: Functions to Solve Quadratic
+  Programming Problems_. R package version 1.5-8,
+  <https://CRAN.R-project.org/package=quadprog>.  
+
+Venables, W. N. & Ripley, B. D. (2002). Modern Applied Statistics with S. Fourth Edition. Springer, New York. ISBN
+  0-387-95457-0
+  
+Van den Meersche, K. and Soetaert, K. and  Middelburg, J. (2008).
+  A Bayesian compositional estimator for microbial taxonomy based on biomarkers,
+  Limnology and Oceanography Methods, 6, 190-199.
+
+Van den Meersche, K., Soetaert K., van Oevelen, D. (2009). xsample(): An R Function for Sampling Linear Inverse
+  Problems.  Journal of Statistical Software, Code Snippets, vol 30, 1-15  
+
+Van Oevelen D, Van den Meersche K, Meysman FJR Soetaert K, Middelburg JJ, Vezina AF.,
+  2010. Quantifying Food Web Flows Using Linear Inverse Models. Ecosystems 13, 32 45
+  

@@ -1,0 +1,239 @@
+Food web input file for: 
+
+The Gulf of Riga *SPRING* planktonic food web as described in:
+
+Donali, E., Olli, K., Heiskanen, A.S., Andersen, T., 1999. Carbon flow 
+patterns in the planktonic food web of the Gulf of Riga, the Baltic Sea: 
+a reconstruction by the inverse method. Journal of Marine Systems 23, 251–268.
+
+Originator: Dick van Oevelen and Karline Soetaert
+
+#####################################################################
+
+!==================================!
+! MEASURED CONCENTRATIONS, mgC/m3  !
+!==================================!
+! Values from table 2, p. 254
+
+
+
+## STOCK 
+
+ P1  =  IniP1     ! PicoAutotrophs
+ P2  =  IniP2     ! Non-picoAutotrophs
+ B   =  70.54     ! Bacteria
+ N   =  13.22     ! Heterotrophic nanoflagellates
+ Z   =  34.99     ! Zooplankton-heterotrophic nanoflagellates
+ D   =  632.03    ! Detritus + virus
+ DOC =  XNA       ! Dissolved organic carbon - not known
+
+## END STOCK
+
+## EXTERN
+
+CO2
+Sedimentation
+
+## END EXTERN
+
+## PARAMETER
+ Inip1           = 20.73  {mmol/m3}   ! PicoAutotrophs
+ Inip2           = 549.29 {mmol/m3}   ! Non-picoAutotrophs
+ MaintenanceResp = 0.1
+## END PARAMETER
+
+!===================!
+! NET INPUT VALUES  !
+!===================!
+
+## RATE 
+
+ P1  = 1.64      !(SE 0.45)		! PicoAutotrophs
+ P2  = 8.09      !(SE 46.94)	! Non-picoAutotrophs
+ N   = 0.15      !(SE 1.02)		! Heterotrophic nanoflagellates
+ Z   = 0.48      !(SE 1.73)		! Zooplankton-heterotrophic nanoflagellates
+ B   = 1.56      !(SE 0.71)		! Bacteria
+ D   = 52.94     !(SE 56.20)	! Detritus + virus
+ DOC = -176.92   !(SE 33.50)	! Dissolved organic carbon
+
+## END RATE
+
+!====================!
+! RATE OF CHANGES    !
+!====================! 
+
+! dP1=-Flow(p1,0) -Flow(P1,Z) -Flow(P1,N) -Flow(P1,DOC) +Flow(0,P1)
+! dP1=-Flow(p2,0) -Flow(P2,Z) -Flow(P2,N) -Flow(P2,DOC) +Flow(0,P2)
+! dZ =-Flow(z,0)  +Flow(P2,Z) +Flow(N,Z)  +Flow(D,Z) -Flow(Z,D)-Flow(Z,DOC)
+! dN =-Flow(N,0)  +Flow(P1,N) +Flow(B,N)  -Flow(N,Z) -Flow(N,DOC)
+! dD = Flow(P2,D) +Flow(Z,D) 
+! dB = Flow(DOC,B)-Flow(B,N) -Flow(B,0)
+! dDOC=Flow(N,DOC)+Flow(P1,DOC)+Flow(P2,DOC)+Flow(Z,DOC)+Flow(D,DOC)-Flow(DOC,B)
+
+
+## FLOW
+ 
+ ! Respiration fluxes
+ Flow(P1,CO2)        = ZeroOrder
+ Flow(P2,CO2)        = ZeroOrder
+ Flow(Z,CO2)         = ZeroOrder
+ Flow(N,CO2)         = ZeroOrder
+ Flow(B,CO2)         = ZeroOrder
+
+ ! Production fluxes
+ Flow(CO2,P1)        = ZeroOrder
+ Flow(CO2,P2)        = ZeroOrder
+
+ ! PicoAutotrophs
+ Flow(P1,Z)        = ZeroOrder
+ Flow(P1,N)        = ZeroOrder
+ Flow(P1,DOC)      = ZeroOrder
+ P1		->			Sedimentation
+
+ ! Non-Pico autotrophs
+ Flow(P2,DOC)      = ZeroOrder
+ Flow(P2,Z)        = ZeroOrder
+ Flow(P2,D)        = ZeroOrder
+ Flow(P2,Sedimentation)
+
+ ! Nanoflagellates
+ Flow(N,DOC)       = ZeroOrder
+ Flow(N,Z)         = ZeroOrder
+ 
+ ! Zooplankton
+ Flow(Z,DOC)       = ZeroOrder
+ Flow(Z,D)         = ZeroOrder
+ Flow(Z,Sedimentation)
+
+ ! Detritus
+ Flow(D,Z)         = ZeroOrder
+ Flow(D,DOC)       = ZeroOrder
+ D		->			Sedimentation
+
+ ! Bacteria
+ Flow(B,N)         = ZeroOrder
+ B		->			Sedimentation
+
+ ! DOC
+ Flow(DOC,B)       = ZeroOrder
+
+## END FLOW
+
+## VARIABLES
+
+ GrossProdP1         = Flow(CO2,p1)
+ RespirationP1       = Flow(p1,CO2)
+ DocReleaseP1        = Flow(P1,DOC)
+ SedP1               = Flow(P1,Sedimentation)
+
+ GrossProdP2         = Flow(CO2,p2)
+ RespirationP2       = Flow(p2,CO2)
+ DocReleaseP2        = Flow(P2,DOC)
+ SedP2               = Flow(P2,Sedimentation)
+
+ GrossPrimProd       = GrossProdP1 + GrossProdP2
+
+ Totalresp           = Flow(P1,CO2) +Flow(P2,CO2) +Flow(Z,CO2) +Flow(N,CO2) +Flow(B,CO2)
+
+ ZooDOCrelease       = Flow(Z,DOC)
+ ZooGrazing          = Flow(P1,Z) +Flow(P2,Z) +Flow(N,Z) +Flow(D,Z) 
+ ZooFoodIntake       = Zoograzing     ! DOCrelease is sloppy feeding
+ ZooFaeces           = Flow(Z,D) 
+ ZooFaecesSed		 = Flow(Z,Sedimentation)
+ ZooAssimilation     = ZooFoodIntake - ZooFaeces - ZooFaecesSed
+ ZooRespiration      = Flow(Z,CO2)
+
+ BactRespiration     = Flow(B,CO2)
+ BactAssimilation    = Flow(DOC,B)    ! 100% efficiency
+ SedB            	 = Flow(B,Sedimentation)
+
+ NanoRespiration     = Flow(N,CO2)
+ NanoGrazing         = Flow(B,N)+Flow(P1,N)
+ NanoGrazingBacteria = Flow(B,N)
+ NanoGrazingP1       = Flow(P1,N)
+
+ NanoAssimilation    = NanoGrazing    ! 100% efficiency
+
+ DetritusDOCrelease  = Flow(D,DOC)
+ SedD                = Flow(D,Sedimentation)
+
+
+## END VARIABLES
+
+
+!======================!
+! EQUALITY CONSTRAINTS !
+!======================!
+
+## EQUATION
+
+! Gross primary production
+  GrossPrimProd						=	138.63	!(SE 13.62)
+
+! Total respiration
+  Totalresp							=	210.26	!(SE 34.57)
+
+! Net bacterial production
+ BactAssimilation - BactRespiration =	10.59	!(SE 2.32)
+
+! Sedimentation
+ SedP1								=	0.12	!(SE 0.07)
+ SedP2								=	8.17	!(SE 2.21)
+ SedB + SedD						=	32.14	!(SE 4.51)
+ ZooFaecesSed						=	0.00	
+
+## END EQUATION
+
+
+!===================!
+! CONSTRAINTS       !
+!===================!
+
+
+## CONSTRAINT
+
+! Detritus DOC release
+!--------------------------
+ DetritusDOCrelease < 0.02* D
+
+! Gross primary production : mass-specific
+!--------------------------
+ GrossProdP1*P2  =GrossProdP2*P1*[1,2]
+
+! Grazing of nanoflagellates
+!----------------------------
+ NanoGrazingBacteria*P1 = [0.5,2]*NanoGrazingP1*B                 
+
+! Zooplankton grazing
+!--------------------------
+ -Flow(D,Z)*P1-Flow(D,Z)*P2+Flow(P1,Z)*D+Flow(P2,Z)*D   > 0
+
+! Zooplankton assimilation
+!--------------------------
+ ZooAssimilation = [0.4,0.8]*ZooFoodintake
+
+! Heterotroph respiration
+!--------------------------
+ ZooRespiration  > Z*MaintenanceResp + ZooAssimilation * 0.4 !not recoverable from calculated flows
+ BactRespiration > B*MaintenanceResp + BactAssimilation* 0.4
+ NanoRespiration > N*MaintenanceResp + NanoAssimilation* 0.4 !not recoverable from calculated flows
+
+! Autotroph respiration
+!--------------------------
+ RespirationP1=GrossProdP1*[0.05,0.55]
+ RespirationP2=GrossProdP2*[0.05,0.55]
+
+! Autotroph DOC release
+!--------------------------
+ DOCreleaseP1 > GrossProdP1 * 0.05
+ DOCreleaseP2 > GrossProdP2 * 0.05
+
+! Zooplankton DOC release
+!--------------------------
+ ZooDOCrelease > ZooGrazing*0.1       ! not recoverable from calculated flows
+
+! Sedimentation of bacteria
+!--------------------------
+ SedB < 0.02*BactAssimilation - 0.02*BactRespiration
+
+## END CONSTRAINT

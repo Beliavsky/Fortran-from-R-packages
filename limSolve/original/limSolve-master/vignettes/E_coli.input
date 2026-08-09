@@ -1,0 +1,230 @@
+
+*** Escherichia Coli Core Metabolism Model ***
+***              EMP Pathway
+*** source:    http://gcrg.ucsd.edu/Downloads/Flux_Balance_Analysis
+
+This file can be read with R-package LIM
+This package has created the A,B,G,H and maximisation function necessary
+to solve for the unknown fluxes in this linear inverse problem
+#################################################################################
+
+
+## REACTIONS
+!gene:  Reaction                                        enzyme                                              Gene              EC Number
+GLK1:  GLC + ATP -> G6P + ADP                    !      Glucokinase                                         glk     2.7.1.2
+PGI1:  G6P <-> F6P                               !      Phosphoglucose isomerase                            pgi     5.3.1.9
+PFKA:  F6P + ATP -> FDP + ADP                    !      Phosphofructokinase                                 pfkA        2.7.1.11
+FBP:   FDP -> F6P + PI                           !      Fructose-1,6-bisphosphatase                         fbp     3.1.3.11
+FBA:   FDP <-> T3P1 + T3P2                       !      Fructose-1,6-bisphosphatate aldolase                fba     4.1.2.13
+TPIA:  T3P2 <-> T3P1                             !      Triosphosphate Isomerase                            tpiA        5.3.1.1
+GAPA:  T3P1 + PI + NAD <->  NADH + 13PDG         !      Glyceraldehyde-3-phosphate dehydrogenase-A complex  gapA        1.2.1.12
+PGK:   13PDG + ADP <-> 3PG + ATP                 !      Phosphoglycerate kinase                             pgk     2.7.2.3
+GPMA:  3PG <-> 2PG                               !      Phosphoglycerate mutase 1                           gpmA        5.4.2.1
+ENO:   2PG <-> PEP                               !      Enolase                                             eno     4.2.1.11
+PPSA:  PYR + ATP -> PEP + AMP + PI               !      Phosphoenolpyruvate synthase                        ppsA        2.7.9.2
+PYKA:  PEP + ADP -> PYR + ATP                    !      Pyruvate Kinase II                                  pykA        2.7.1.40
+!      PYKF: PEP + ADP -> PYR + ATP              !      Pyruvate Kinase I                                   pykF        2.7.1.40
+ACEE:  PYR + COA + NAD -> NADH + CO2 + ACCOA     !      Pyruvate dehydrogenase                              lpdA, aceEF     1.2.4.1, 2.3.1.12, 1.8.6.4
+
+!Pentose Phosphate Pathway
+ZWF:   G6P + NADP <-> D6PGL + NADPH              !      Glucose 6-phosphate-1-dehydrogenase                 zwf     1.1.1.49
+PGL:   D6PGL -> D6PGC                            !      6-Phosphogluconolactonase                           pgl     3.1.1.31
+GND:   D6PGC + NADP -> NADPH + CO2 + RL5P        !      6-Phosphogluconate dehydrogenase (decarboxylating)  gnd     1.1.1.44
+RPIA:  RL5P <-> R5P                              !      Ribose-5-phosphate isomerase A                      rpiA        5.3.1.6
+RPE:   RL5P <-> X5P                              !      Ribulose phosphate 3-epimerase                      rpe     5.1.3.1
+TKTA1: R5P + X5P <-> T3P1 + S7P                  !      Transketolase I                                     tktA        2.2.1.1
+!  TKTB1: R5P + X5P <-> T3P1 + S7P               !      Transketolase II                                    tktB        2.2.1.1
+TKTA2: X5P + E4P <-> F6P + T3P1                  !      Transketolase I                                     tktA        2.2.1.1
+!  TKTB2: X5P + E4P <-> F6P + T3P1               !      Transketolase II                                    tktB        2.2.1.1
+TALA:  T3P1 + S7P <-> E4P + F6P                  !      Transaldolase A                                     talB        2.2.1.2
+
+!The Tricarboxylic Acid Cycle
+GLTA:  ACCOA + OA -> COA + CIT                   !      Citrate synthase                                    gltA        4.1.3.7
+ACNA:  CIT <-> ICIT                              !      Aconitase A                                         acnA        4.2.1.3
+ICDA:  ICIT + NADP <-> CO2 + NADPH + AKG         !      Isocitrate dehydrogenase                            icdA        1.1.1.42
+SUCA:  AKG + NAD + COA -> CO2 + NADH + SUCCOA    !      2-Ketoglutarate dehyrogenase                        sucAB, lpdA     1.2.4.2,2.3.1.61,1.8.1.4
+SUCC1: SUCCOA + ADP + PI <-> ATP + COA + SUCC    !      Succinyl-CoA synthetase                             sucCD       6.2.1.5
+SDHA1: SUCC + FAD -> FADH + FUM                  !      Succinate dehydrogenase                             sdhABCD     1.3.99.1
+FRDA:  FUM + FADH -> SUCC + FAD                  !      Fumurate reductase                                  frdABCD     1.3.99.1
+FUMA:  FUM <-> MAL                               !      Fumarase A                                          fumA        4.2.1.2
+MDH:   MAL + NAD <-> NADH + OA                   !      Malate dehydrogenase                                mdh     1.1.1.37
+
+!Pyruvate Metabolism
+DLD1:  PYR + NADH <-> NAD + LAC                  !      D-Lactate dehydrogenase 1                           dld     1.1.1.28
+ADHE2: ACCOA +2*NADH <-> ETH +2*NAD + COA        !      Acetaldehyde dehydrogenase                          adhE        1.2.1.10
+PFLA:  PYR + COA -> ACCOA + FOR                  !      Pyruvate formate lyase 1                            pflAB       2.3.1.54
+PTA:   ACCOA + PI <-> ACTP + COA                 !      Phosphotransacetylase                               pta     2.3.1.8
+ACKA:  ACTP + ADP <-> ATP + AC                   !      Acetate kinase A                                    ackA        2.7.2.1
+ACS:   ATP + AC + COA -> AMP + PPI + ACCOA       !      Acetyl-CoA synthetase                               acs     6.2.1.1
+
+!Anaplerotic Reactions
+PCKA:  OA + ATP -> PEP + CO2 + ADP               !      Phosphoenolpyruvate carboxykinase                   pckA        4.1.1.49
+PPC:   PEP + CO2 -> OA + PI                      !      Phosphoenolpyruvate carboxylase                     ppc     4.1.1.31
+MAEB:  MAL + NADP -> CO2 + NADPH + PYR           !      Malic enzyme (NADP)                                 maeB        1.1.1.40
+SFCA:  MAL + NAD -> CO2 + NADH + PYR             !      Malic enzyme (NAD)                                  sfcA        1.1.1.38
+ACEA:  ICIT -> GLX + SUCC                        !      Isocitrate lyase                                    aceA        4.1.3.1
+ACEB:  ACCOA + GLX -> COA + MAL                  !      Malate synthase A                                   aceB        4.1.3.2
+PPA:   PPI -> 2*PI                               !      Inorganic pyrophosphatase                           ppa     3.6.1.1
+GLPK:  GL + ATP -> GL3P + ADP                    !      Glycerol kinase                                     glpK        2.7.1.30
+GPSA1: GL3P + NADP <-> T3P2 + NADPH              !      Glycerol-3-phosphate-dehydrogenase-[NAD(P)+]        gpsA        1.1.1.94
+RBSK:  RIB + ATP -> R5P + ADP                    !      Ribokinase                                          rbsK        2.7.1.15
+
+!Respiration                Note: the P/O ratio is set to 1.5 currently
+NUOA:  NADH + Q -> NAD + QH2 +3.5*HEXT           !      NADH dehydrogenase I                                nuoABEFGHIJKLMN     1.6.5.3
+FDOH:  FOR + Q -> QH2 + CO2 +2*HEXT              !      Formate dehydrogenase-O                             fdoIHG      1.2.2.1
+GLPD:  GL3P + Q -> T3P2 + QH2                    !      Glycerol-3-phosphate dehydrogenase (aerobic)        glpD        1.1.99.5
+CYOA:  QH2 +0.5*O2 -> Q + 2.5*HEXT               !      Cytochrome oxidase bo3                              cyoABCD, cycBC, cydAB       1.10.2.2,1.9.3.1
+SDHA2: FADH + Q <-> FAD + QH2                    !      Succinate dehydrogenase complex                     sdhABCD     1.3.5.1
+PNT1A: NADPH + NAD -> NADP + NADH                !      Pyridine nucleotide transhydrogenase                pntAB       1.6.1.1
+PNT2A: NADP + NADH +2*HEXT -> NADPH + NAD        !      Pyridine nucleotide transhydrogenase                pntAB       1.6.1.1
+ATPA:  ATP <-> ADP + PI +4*HEXT                  !      F0F1-ATPase                                         atpABCDEFGHI        3.6.1.34
+
+!Membrane Transport
+GLCUP: GLCxt + HEXT -> GLC                       !      Glucose/galactose transporter                       gluP            Proton symport
+GLCPTS:GLCxt + PEP -> G6P + PYR                  !      Glucose                                             ptsG, crr       PTS
+GLUP:  GLxt <-> GL                               !      Glycerol                                            glpF            Facilitated Diffusion
+RIBUP: RIBxt + ATP <-> RIB + ADP + PI             !      Ribose                                              rbsABCD, xylH   BPD transport
+ACUP:  ACxt + HEXT <-> AC                        !      Acetate transport
+LACUP: LACxt + HEXT <-> LAC                      !      L-Lactate                                           lldP
+FORUP: FORxt <-> FOR                             !      Formate transport                                   focA        Uniport
+ETHUP: ETHxt + HEXT <-> ETH                      !      Ethanol transport                                               diffusion
+SUCCUP:SUCCxt + HEXT <-> SUCC                    !      Succinate transport                                 dcuAB       Proton Symport
+PYRUP: PYRxt + HEXT <-> PYR                      !      Pyruvate transport                                              Proton Symport
+PIUP:  PIxt <-> PI                               !      Phosphate transport                                 pitAB       Proton symport
+O2TX:  O2xt <-> O2                               !      Oxygen transport                                                Diffusion
+CO2TX: CO2xt <-> CO2                             !      Carbon dioxide transport                                        Diffusion
+
+ATPM: ATP -> ADP + PI                            !      ATP drain flux for constant maintanence requirements
+ADK:  ATP + AMP-> 2*ADP                          !      ADK
+
+
+Growth:                                                           &
+41.25*ATP +3.54*NAD +18.22*NADPH +0.2*G6P                         &
+ +0.07*F6P +0.89*R5P +0.36*E4P +0.12*T3P1                         &
+ +1.49*3PG +0.51*PEP +2.83*PYR +3.74*ACCOA  +1.78*OA +1.07*AKG    &
+ -> 3.74*COA +41.25* ADP +41.25* PI                               &
+ +3.54* NADH +18.22* NADP +1.00* Biomass
+ 
+
+### END REACTION
+
+## MAXIMISE
+
+Growth
+
+## END MAXIMISE
+
+### INEQUALITIES
+! Carbon sources...
+O2TX  = [0,20]    ! Oxygen input
+GLCUP = [0,10]    ! glucose input
+GLUP  = [-1000,0] ! glycerol
+RIBUP = [-1000,0] ! Ribose uptake   - strange!
+SUCCUP= [-1000,0] ! succinate
+ACUP  = [-1000,0] ! acetate
+LACUP = [-1000,0] ! lactate
+PYRUP = [-1000,0] ! pyruvate
+
+! Carbon byproducts
+FORup = [-1000,0] ! formate
+ETHup = [-1000,0] ! ethanol
+CO2TX = [-1000,0] ! CO2
+! phosphate
+PIUP = [-1000,1000]
+
+SDHA1  <100
+FRDA   <100
+FORup+ LACUP=[-10,-10]
+
+### END INEQUALITIES
+### EQUATIONS
+
+ ATPM = 5.87  ! Non-growth associated ATP drain flux for constant maintenance requirements
+! GLCpts=0
+!
+!glpk=0
+!RBSK=0
+!GLUP =0
+!RIBUP  =0
+### END EQUATIONS
+
+### COMPONENTS
+GLC     ! a-D-Glucose
+G6P     ! Glucose 6-phosphate
+F6P     ! Fructose 6-phosphate
+FDP     ! Fructose 1,6-diphosphate
+T3P2    ! /DHAP Dihydroxyacetone phosphate
+T3P1    ! Glyceraldehyde 3-phosphate
+13PDG   ! 1,3-bis-Phosphoglycerate
+3PG     ! 3-Phosphoglycerate
+2PG     ! 2-Phosphoglycerate
+PEP     ! Phosphoenolpyruvate
+PYR     ! Pyruvate
+ACCOA   ! Acetyl-CoA
+CIT     ! Citrate
+!  ACO    ! cis-Aconitate
+ICIT    ! Isocitrate
+AKG     ! a-Ketoglutarate
+SUCCOA  ! Succinate CoA
+SUCC    ! Succinate
+FUM     ! Fumarate
+MAL     ! Malate
+OA      ! Oxaloacetate
+!  ACAL ! Acetaldehyde
+ACTP    ! Acetyl-phosphate
+ETH     ! Ethanol
+AC      ! Acetate
+LAC     ! D-Lactate
+FOR     ! Formate
+D6PGL   ! D-6-Phosphate-glucono-delta-lactone
+D6PGC   ! D-6-Phosphate-gluconate
+RL5P    ! Ribulose 5-phosphate
+X5P     ! Xylulose-5-phosphate
+R5P     ! Ribose 5-phosphate
+S7P     ! sedo-Heptulose
+E4P     ! Erythrose 4-phosphate
+RIB     ! Ribose
+GLX     ! Glyoxylate
+NAD     ! Nicotinamide adenine dinucleotide
+NADH    ! Nicotinamide adenine dinucleotide (reduced)
+NADP    ! Dihydronicotinamide adenine dinucleotide phosphate
+NADPH   ! Dihydronicotinamide adenine dinucleotide phosphate (reduced)
+HEXT    ! External Hydrogen Ion (Proton)
+Q       ! Ubiquinone
+
+FAD     ! Flavin adenine dinucleotide
+FADH    ! Flavin adenine dinucleotide (reduced)
+AMP     ! Adenosine monophosphate
+ADP     ! Adenosine diphosphate
+ATP     ! Adenosine triphosphate
+GL3P    ! Glycerol 3-phosphate
+CO2     ! Carbon dioxide
+PI      ! Inorganic Phosphate
+PPI     ! Pyrophosphate
+
+
+O2      ! Oxygen
+COA
+GL
+QH2     !
+### END COMPONENTS
+
+### EXTERNALS
+
+Biomass
+GLCxt
+GLxt
+RIBxt
+ACxt
+LACxt
+FORxt
+ETHxt
+SUCCxt
+PYRxt
+PIxt
+O2xt
+CO2xt
+
+### END EXTERNALS
+
+

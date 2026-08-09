@@ -1,0 +1,6 @@
+version 1.5.4
+changed Depends to Imports (suggestion by Suraj Gupta)
+Solve.tridiag now converts B to double when calling fortran routine
+Changed (1) dimensioning into (*) 
+
+

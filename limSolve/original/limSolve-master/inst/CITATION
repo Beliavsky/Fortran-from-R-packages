@@ -1,0 +1,27 @@
+citHeader("To cite package 'limSolve' in publications use:")
+
+bibentry(bibtype="manual",
+  title = "limSolve: Solving Linear Inverse Models\n",
+  year = "2009",
+  author = c(person("Karline Soetaert"), person("Karel Van den Meersche"),
+  person("Dick van Oevelen")),
+  note = "R package 1.5.1",
+  textVersion =  paste("Soetaert K., Van den Meersche, K., van Oevelen, D. (2009).
+  limSolve: Solving Linear Inverse Models.
+  R-package version 1.5.1")
+         )
+
+bibentry(bibtype="article",
+  author =	"Karel Van den Meersche and Karline  Soetaert and Dick Van Oevelen",
+  title =	"xsample(): An R Function for Sampling Linear Inverse Problems",
+  journal =	"Journal of Statistical Software, Code Snippets",
+  volume =	"30",
+  number =	"1",
+  pages =	"1--15",
+  year = 	"2009",
+  CODEN =	"JSSOBK",
+  ISSN = 	"1548-7660",
+  textVersion = paste("Van den Meersche, K., Soetaert K., van Oevelen, D. (2009). xsample(): An R Function for Sampling Linear Inverse Problems.
+   Journal of Statistical Software, Code Snippets, vol 30, 1-15")  
+)
+citFooter("If you use function 'xsample' use the second reference")
