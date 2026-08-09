@@ -1,0 +1,367 @@
+TODO:
+         o    The vignettes R-analytic-derivatives.Rmd, nlsr-derivs.Rmd, and nlsr-devdoc.Rmd
+              still have some unresolved issues or missing examples. Help to complete these
+              is welcomed. Some of these are reflected in the nlsDerivEtcX.R script.
+              Issues are identified with a double question mark "??".
+
+         o    Class and attributes of print.nlsr, summary.nlsr etc. in nlsr.package.R??
+              Are there functions we could remove?
+
+         o    In order to run functional weights, a function like minpack.lm::wfct() is
+              needed. The underlying fitted, predict, and resid are now present.
+              Note a possibly related issue when wfct() is used in nls() or nlsLM()
+              with try(). This seems to be a bug in wfct().
+              Issues: nlsLM does eval(substitute(weights)) which will evaluate the 
+                 function. nlxb and nlfb use static weights.
+                      nlsLM also creates effectively a resfn that INCLUDES the weights
+                      and nls.lm does NOT have weights. nlfb() DOES. So there is some
+                      considerable change needed to bring in the weights as a function.??
+
+         o    Can we get a better explanation of the workings of 
+              codeDeriv, fnDeriv, nlsDeriv etc.?
+              JN: I do not feel confident I can explain these codes sufficiently well.
+
+         o    dot args, with tests to make sure they are working.
+              OR: Can we remove them? Is there any situation where needed?
+                  Are they required to mesh with some structure in R-base?
+              nlxb does NOT use dotargs (should it?)
+              Note nls() manpage says about dotargs that "None are used at present."
+	          Function model2rjfun.R DOES have dotargs. 
+	          Should make sure they function properly.??
+              nlfb() should probably use them. A test is needed. ??
+              model2rjfun() has ... also. ??
+
+         o    boot_nlsr would be nice, but perhaps use the tools from nlraa
+
+         o    compare numericDeriv and numericDerivR -- see inst/doc/development/nlsDerivEtcX.R
+              221109 NOT working fully?? Some documentation issues. This work was
+              mainly to understand the numericDeriv() function used by nls() and
+              minpack.lm::nlsLM() and is not critical to nlsr package.
+
+         o    Add nls2 like capability to have grid of starting values??
+
+
+230508
+         o    pnlm0() and pnls0() replaced with pnlslm() and pnls() for more informative
+              naming. pnlslm() gets correct iteration count reported.
+
+         o    Some cleanup of man files as reported by R CMD check.
+
+230212
+         o    Some cleanup of structure. Added 1-line reporting functions to save output
+              length.
+
+
+221123
+         o    moved development documents to inst/doc/development/ directory
+
+         o    print.nlsr() and summary.nlsr() fixed for problems where all parameters
+              masked.
+
+         o    Add Fernando Marquez and Arkajyoti Bhattacharjee as contributors.
+
+         o    Added prt() function to enable name of object being printed to be
+              displayed. See also nvec().
+
+         o    resid(), fitted() etc. seem to be working as at 20221121
+              resgr() modified to handle numerical approximations to Jacobian
+              but NOT Jacobian code in selfStart models (control "SSJac")
+
+         o    nlfb() has argument ctrlcopy which if TRUE uses controls from call, else
+              defaults. Examples now show backtrack search.
+
+         o    An "Intro to nlsr" vignette has been added.
+
+         o    Added SSlogisJN.R as a replacement for SSlogis.R in nls(). 
+              The latter function essentially solves the problem by a different
+              minimization algorithm. It therefore "starts" nls() with the
+              solution. 
+              Probably best to see if getInitial can be improved --> getStart
+              to add to some models
+
+         o    Minor revision and cleanup of tests. More could be added.
+
+         o    nlsrSS function added to simplify use of selfStart problems with nlsr
+
+         o    nlfb() examples now show how to force Hartley method by 
+              appropriate control vector settings
+
+         o    Added example of jacobian=FALSE to model2rjfun and model2expr
+              and gradient=FALSE in SSmod2rjfun
+
+220829  
+         o    Add Intro-to-nlsr.Rmd vignette 
+
+220819
+         o    wrapnlsr() revised to include subset and weights as well as bounds (automatically
+              calling "port" algorithm when bounds used). nlxb() is called first, then parameters
+              used in nls(). An issue with scoping was solved thanks to help from John Fox and
+              Noah Griefer. 
+
+         o    subset in nlxb() imposed by using 0 weights for observations not in the subset.
+              This appears to work for nls() also, though that does use the regular R modeling
+              mechanism for subset.         
+
+         o    added scaleOffset to controls to replace a fixed number in the relative offset
+              convergence criteria in nlfb(). NOTE: This is similar but NOT exactly the same 
+	      as the usage in nls() due to differences in program structure.
+
+         o    By specifying control$japprox="SSJac" with a formula that involves a selfStart
+              model, we can use gradient (Jacobian) code from that model.
+
+         o    SEs when masks invoked appears to be working correctly. 
+
+         o    Put trap in nlxb() to stop execution if "subset" argument present in call.
+
+         o    Showed how to put an R function in a model IF we set japprox control for nlxb
+
+         o    REMOVED 'masked' argument from nlxb() as a list of names of 
+              fixed (masked) parameters. Instead simply set lower bounds
+              equal to upper bounds when masking.
+              Similarly REMOVE 'maskidx' argument from nlfb() as an index
+              vector of fixed (masked parameters. Again use equal lower and
+              upper bounds for masked parameters.
+
+         o    Added generation of parameter names (p1, p2, etc.) in nlfb() if names
+              not provided
+
+         o    Control japprox can be NULL, for which nlxb() will then try to use
+              analytic or automatic derivatives, or it can be one of "jafwd", "jaback",
+              "jacentral" or "jand" to give numerical derivative approximations using
+              forward, backward, central or package numDeriv approximations.
+
+         o    Added SE output trap for "all parameters masked" situation.
+
+         o    parscale possibility documented in nlxb() and nlfb() but NOT implemented.
+
+         o    summary.nlsr() does NOT do a summary as per nls(). Possibly would be better
+              to call it postsol() for use in print.nlsr() and to develop different 
+              print/summary methods for different uses.
+
+         o    Added pshort() and pnls0() to give a 1-line summary of the results of a run.
+              pshort for nlxb() and nlfb(), while pnls0() is for nls() and minpack.lm functions.
+
+     	 o    Preliminary use of prtlvl control which allows finer control of intermediate
+              output. As of 220725 this is still under development.
+
+         0    Controls psi, phi and stepredn now part of nlfb(). These control how the Marquardt
+              stabilization is incorporated and the possibility of backtracking. 
+              When solving the Gauss-Newton-Marquardt equation for the step delta, we solve
+                    A delta  =  - gvec
+              Pure Gauss-Newton has A = J and gvec = g (the gradient). If there are n parameters,
+              then if psi > 0, we augment A with sqrt(psi * D) where D is the diagonal matrix where
+              the diagonal elements are those of J' * J. (Marquardt's scaled method.). gvec is 
+              augmented with n zeros.
+              If phi > 0 we we augment A with sqrt(psi * 1) where 1 is a unit diagonal matrix.
+              gvec is augmented with n zeros.
+              Either or both augmentations are possible. Default is psi=0, phi=1. (nlsr used 
+              psi=1 and phi=1 effectively)
+
+              If stepredn < 1, then we backtrack along delta with a stepsize that is reduced by
+              the value of stepredn until we get a smaller sum of squares or converge.
+
+         o    Solutions may be sensitive to derivative approximations, as illustrated by the 
+              example script hobbsuwt.R. 
+
+201228	 o    Using nls.R code from distribution of R (4.0.3), got self-start
+	          models running in nlxb().
+
+     	 o    Vignette includes section to explain how stabilized Marquardt 
+	          works
+
+201203   o    Changed requirement for Rvmmin to requirement for optimx, as
+              Rvmmin() and Rcgmin() now in that package.
+
+	     o    Put in jafwd, jaback, jacentral, jand for numerical jacobians
+
+190907   o    Had to remove vignette nlsr-nls-nlsLM as Windows fails to build.
+              Source of issue not yet found.
+
+190829   o    Due to changes in Ryacas, vignette nlsr-derivs required 
+              a small edit.
+
+190820   o    nlxb() and nlfb() do not follow nls() in the output
+              structure and hence the use of predict(). A new function
+              nlsr.predict() has been added.
+
+         o    Vignette nlsr-nls-nlsLM added to explain prediction and
+              differences between nlsr and related packages.
+
+180128   o    A minor fix to derivs.R to avoid a bug when multiple
+              partials are computed at once
+
+         o    isFALSE now becoming part of R, so nlsr::isFALSE has been
+              adjusted to be that code
+
+171004   o    Minor edits to note nlmrt (deprecated) origins, and
+              remove vignette dependency on that package         
+
+170618   o    Minor repairs to vignette examples with other packages
+         
+170320   o    Added Vignette Title fields to the three vignettes
+         
+170117   o    rename modeldoc to rjfundoc. It is not simple to add 
+              documentation to ssgrfun objects.
+
+170116   o    summary no longer invisible?
+
+         o    summary for nlxb and nlfb both now should work.
+              If there is no name for a parameter, the name p_(position)
+              is created.
+
+         o    weights should be working OK. Residuals will be weighted ones.
+
+         o    added resid.nlsr() function. However, predict.nlsr() is NOT
+              present, since we can create problems with residuals (e.g.,
+              nonlinear equations) that do not have a model structure
+
+170113   o    output of summary.nlsr is class = "summary.nlsr" like 
+              summary.nls is "summary.nls"?
+
+170110   o    weights (fixed) added and documented in nlsr-devdoc.Rmd
+         o    nlfb: sumsquares via crossprod needs to be as.numeric(). Done.
+
+170108   o    removed dot args from nlxb declaration and its internal
+              call to nlfb(), and fixed nlxb.Rd. Note nls() help says
+              of dot args "None are used at present."
+
+         o    moved model2rjfunx and .Rd file to inst/dev-files
+
+         o    Note that nlfb() can use functionally created weights,
+              but nls uses FIXED weights. We have added fixed weights to
+              nlxb() and pass them to nlfb() via its dot args.
+
+170107   o    expanded dex() examples to show object class of result.
+              Note that "language" class encompasses "expression".
+
+         o    made clear where the .MissingVal usage is to be found in
+              Rd file for nlsDeriv.
+
+         o    in nlsr-devdoc.Rmd added silly joe(x) example to show
+              possible trouble spot
+
+170102   o    Cleanup of package
+              New function dex() to prepare input for nlsDeriv()
+              Renamed Deriv to nlsDeriv.
+              New names codeDeriv and fnDeriv. 
+
+161222   o    newDeriv() now issues a warning if a derivative
+              definition is changed.
+              
+161019   o    Changed names nlsrxb and nlsrfb to nlxb and nlfb and removed
+              superfluous nlfb.
+
+161018   o    Problem with vignettes (why?). optimx is needed (why?)
+
+              BELOW ARE OUT OF DATE AND INCLUDED ONLY FOR HISTORICAL REASONS
+
+161007   o    Sort out nlsrxb to use Deriv vs deriv (vs Deriv from French)
+         o    More detailed build of rjfun to use approximations when derivs
+        	  not available.
+         o    Simple GN code needed to show what happens -- should be able
+              to write a VERY simple one for the vignette. Possibly 
+              not include in the code of nlsr.
+         o    Origin of NaN's in bounded examples. Can they be avoided?
+	          Handling of NaN in Jacfun. Need an example.
+         o    Does it make sense to have unconstrained version of nlfb
+     	      when there are no masks or bounds?
+         o    Rename modss, modgr to res2ss, res2gr
+         o    Option for numerical Jacobian -- control numJac = TRUE?, with
+	          routine in nlmrt.R 
+	          Way of using a "gradient" attribute when the model formula is
+              specified like  
+                 y ~ SpecialFn(xx, zz)
+              which would allow functions not differentiable by deriv()
+         o    Weighted least squares example, especially in nlxb.
+         o    Issue when npar = 1 -- does it work?
+         o    check and fix examples?  Partly done 140719 tests?
+         o    check impact of use of Deriv vs deriv and document!
+         o    make sure change to rjfun using "gradient" is clean in nlsrxb
+         o    partially linear nls models. How to incorporate? Note Rust and Oleary.
+         o    nlsr when it exceeds fn or jac count, returns bad solutions 
+              that won't print.
+
+
+Changes in nlsr version 2016-10.3
+        o   name change to nlsr and consequent changes
+        o   minor fixes
+
+
+Changes in nlsr version 2014-7.27
+   o    Deriv() etc.
+   o    model2rjfun() etc. 
+   o    changes to nlsrxb structure
+
+Changes in nlsr version 2014-7.19
+   o    The parameters MUST be named when setting up model2resfun etc.,
+	but the resulting function can be called with an un-named
+	vector of parameters.
+   o    Name reset to reflect intent to substitute for nls()
+   o    wrapnls replaced by wrapnlsr
+   o    use of ... args replaced with data = mydata (dataframe)
+   o    1-sided models which start with the tilde are now allowed in
+	nlsr functions.
+
+Changes in nlmrt version 2013-8.26
+   o    Relative offset convergence test (not exactly as in nls())
+        residual and jacobian in summary & print methods
+   o    coef() method in nlmrt.R so names carried through
+   o    summary() and print() cleanup
+   o    partial and minor documentation improvement
+
+Changes in nlmrt version 2013-8.10
+   o    fix line length issue in examples
+
+Changes in nlmrt version 2013-7.9
+   o    Added control list elements to .Rd files for nlxb and nlfb, 
+        with reference in wrapnls.
+   o    Put in a test for very small sum of squares in nlfb and nlxb.
+
+Changes in nlmrt version 2013-3.16
+   o    Result element coeffs changed to coefficients. 
+        This alters wrapnls.R code also.
+
+Changes in nlmrt version 2012-9.03
+
+   o    More features in summary().
+
+Changes in nlmrt version 2012-9.03
+
+   o    summary() for output from different functions.
+        Should display constraints if possible as per JNMWS codes.
+        Warnings / Notes fixed re: dependencies in vignette, methods.
+
+   o    Sort out display in vignette
+        Note warning "unstated dependencies in vignette"
+
+Changes in nlmrt version 2012-8.12
+
+   o    Bounds and masks examples in nlmrt-vignette.
+
+Changes in nlmrt version 2012-8.04
+   o    Vignette nlmrt-vignette updated.
+
+   o    Functions to convert expression to residual, Jacobian,
+        sum of squares and gradient functions (for use with optimx
+        or nlmrt:nlfb or minpack.lm:nls.lm
+
+   o    The examples in ./inst/examples/ are calling routines that
+        have been renamed. These have, I believe, been fixed.
+
+   o    nlfb() needs an explicit Jacobian function and needs a way
+        to compute numerical Jacobian if omitted. Fixed, I believe.
+
+Changes in nlmrt version 2012-6.01
+
+   o    Removed diagnostic printout of bdmsk in nlfb
+
+Changes in nlmrt version 2012-4.15 
+	   
+   o	Added nlfb to allow functions for residual and Jacobian.
+        These are developed from the expression for the residuals as
+	a model in nlxb. 
+
+   o	Bounds now in wrapnls.
+
+   o	Note misleading trace output in nls() runs with bounds.
+

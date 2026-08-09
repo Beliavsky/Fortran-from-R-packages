@@ -1,0 +1,221 @@
+---
+title: "Specifying and Using Fixed Parameters in Nonlinear Estimation"
+author: "John C. Nash"
+date: "`r Sys.Date()`"
+output: rmarkdown::pdf_document
+bibliography: ImproveNLS.bib
+vignette: >
+  %\VignetteIndexEntry{Specifying Fixed Parameters}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Motivation
+
+In finding optimal parameters in nonlinear optimization and nonlinear 
+least squares problems, we frequently wish to fix one or more parameters
+while allowing the rest to be adjusted to explore or optimize an objective 
+function. 
+
+This vignette discusses some ideas about specifying the fixed parameters. A 
+lot of the material is drawn from Nash J C (2014) **Nonlinear parameter 
+optimization using R tools** Chichester UK: Wiley, in particular chapters
+11 and 12. There is, however, additional material concerning ways to
+manage extensible models, as well as some update to the package `nlsr`. 
+The algorithm has been marginally altered to allow for
+different sub-variants to be used, and mechanisms
+for specifying parameter constraints and providing Jacobian
+approximations have been changed.
+
+
+## Background
+
+Here are some of the ways fixed parameters may be specified in R packages.
+
+Function `nlxb()` in package `nlsr` has argument `masked`:
+
+|   Character vector of quoted parameter names. These parameters will NOT be 
+|   altered by the algorithm.
+   
+This approach has a simplicity that is attractive, but introduces an extra argument to 
+calling sequences. (This approach was previously in defunct package `nlmrt`.)
+
+Simlarly, function `nlfb()` in `nlsr` has argument `maskidx`:
+
+|   Vector of indices of the parameters to be masked. These parameters will NOT 
+|   be altered by the algorithm. Note that the mechanism here is different from  
+|   that in nlxb which uses the names of the parameters.
+
+From `Rvmmin` and `Rcgmin` in package `optimx` the argument `bdmsk`:
+
+|   An indicator vector, having 1 for each parameter that is "free" or 
+|   unconstrained, and 0 for any parameter that is fixed or MASKED for the 
+|   duration of the optimization.
+
+Note that the function ``bmchk()`` in package `optimx` contains a much more
+extensive examination of the bounds on parameters. In particular, it considers 
+the issues of inadmissible bounds (lower > upper), when to convert a pair of bounds
+where upper["parameter"] - lower["parameter"] < tol to a
+fixed or masked parameter (`maskadded`) and whether parameters outside of bounds should be
+moved to the nearest bound (`parchanged`). It may be useful to use **inadmissible** 
+to refer to situations where a lower bound is higher than an upper bound and
+**infeasible** where a parameter value, especially in a given starting vector, 
+is outside the bounds.
+
+Further in package `optimx`, the function `optimr()` can call many different 
+"optimizers" (actually 
+function minimization methods that may include bounds and possibly masks).
+These may be specified by setting the lower and upper bounds equal for 
+the parameters to be fixed. This seems a simple method for specifying
+masks, but does pose some issues. For example, what happens when the
+upper bound is only very slightly greater than the lower bound? Also 
+should we stop or declare an error if starting values are NOT on the
+fixed value?
+
+Of these methods, my preference is now to use the last one -- setting
+lower and upper bounds equal, and furthermore requiring the starting
+value of such a parameter to this fixed value, otherwise declaring an error. 
+The approach 
+does not add any special argument for masking, and is relatively obvious
+to novice users. However, such users may be tempted to put in narrow 
+bounds rather than explicit equalities, and this could have deleterious
+consequences.
+
+In the revision to package `nlsr`, package `nlsr`, I have stopped using
+`masked` in `nlxb()` and `maskidx` in `nlfb()` (though the latter is a
+returned value). This is because I feel the use of equal lower and upper
+bounds is a better approach. Moreover, though it is not documented, it 
+appears to "mostly work" for the base R function `nls()` with the `algorithm="port"`
+option and with `minpack.lm::nlsLM()`.
+
+### Internal structures
+
+`bdmsk` is the internal structure used in `Rcgmin`, `Rvmmin` and `nlfb` to handle bounds 
+constraints as well as masks.
+There is one element of `bdmsk` for each parameter, and in `Rcgmin` and `Rvmmin`, 
+this is used on input to 
+specify parameter i as fixed or masked by setting `bdmsk[i] <- 0`. Free 
+parameters have their `bdmsk` element `1`,
+but during optimization in the presence of bounds, we can set other values. 
+The full set is as follows
+
+* 1 for a free or unconstrained parameter
+* 0 for a masked or fixed parameter
+* -0.5 for a parameter that is out of bounds high (> upper bound)
+* -1 for a parameter at its upper bound
+* -3 for a parameter at its lower bound
+* -3.5 for a parameter that is out of bounds low (< lower bound)
+
+Not all these possibilities will be used by all methods that use `bdmsk`.
+
+The -1 and -3 are historical, and arose in the development of BASIC 
+codes for @jnmws87 (This is now available for free download
+from archive.org. (https://archive.org/details/NLPE87plus). 
+In particular, adding 2 to the `bdmsk` element gives 1 for an upper bound 
+and -1 for a lower bound, 
+simplifying the expression to decide if an optimization trial step 
+will move away from a bound.
+
+
+## Proposed algorithmic approaches
+
+Because masks (fixed parameters) reduce the dimensionality of the 
+optimization problem, we can consider
+modifying the problem to the lower dimension space. This is Duncan 
+Murdoch's suggestion, using 
+
+*  `fn0(par0)` to be the initial user function of the full dimension 
+    parameter vector `par0`
+*  `fn1(par1)` to be the reduced or internal functin of the reduced dimension 
+    vector `par1`
+*  `par1 <- forward(par0)`
+*  `par0 <- inverse(par1)`
+
+The major advantage of this approach is explicit dimension reduction. The main disadvantage
+is the effort of transformation at every step of an optimization.
+
+An alternative is to use the `bdmsk` vector to **mask** 
+the optimization search or adjustment vector, 
+including gradients and (approximate) Hessian or Jacobian matrices. A 0 element of `bdmsk`
+"multiplies" any 
+adjustment. The principal difficulty is to ensure we do not essentially divide by 
+zero in applying
+any inverse Hessian. This approach avoids `forward`, `inverse` and `fn1`. However, 
+it may hide the
+reduction in dimension, and caution is necessary in using the function and its 
+derived gradient,
+Hessian and derived information.
+
+
+## Examples of use
+
+### For optimx
+
+```{r opx}
+require(optimx)
+sq<-function(x){
+   nn<-length(x)
+   yy<-1:nn
+   f<-sum((yy-x)^2)
+   f
+}
+sq.g <- function(x){
+   nn<-length(x)
+   yy<-1:nn
+   gg<- 2*(x - yy)
+}
+xx <- c(.3, 4)
+uncans <- Rvmmin(xx, sq, sq.g)
+proptimr(uncans)
+mybm <- c(0,1) # fix parameter 1
+cans <- Rvmmin(xx, sq, sq.g, bdmsk=mybm)
+proptimr(cans)
+require(nlsr)
+weed <- c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443,
+   38.558, 50.156, 62.948, 75.995, 91.972)
+ii <- 1:12
+wdf <- data.frame(weed, ii)
+weedux <- nlxb(weed~b1/(1+b2*exp(-b3*ii)), start=c(b1=200, b2=50, b3=0.3)) 
+weedux
+weedcx <- nlxb(weed~b1/(1+b2*exp(-b3*ii)), start=c(b1=200, b2=50, b3=0.3), masked=c("b1")) 
+weedcx
+rfn <- function(bvec, weed=weed, ii=ii){
+  res <- rep(NA, length(ii))
+  for (i in ii){
+    res[i]<- bvec[1]/(1+bvec[2]*exp(-bvec[3]*i))-weed[i]
+  }
+  res
+}
+weeduf <- nlfb(start=c(200, 50, 0.3),resfn=rfn,weed=weed, ii=ii,
+               control=list(japprox="jacentral"))
+weeduf
+weedcf <- nlfb(start=c(200, 50, 0.3),resfn=rfn,weed=weed, ii=ii, lower=c(200, 0, 0),
+               upper=c(200, 100,100), control=list(japprox="jacentral"))
+weedcf
+```
+
+### An extensible bell-curve model
+
+Package `nlraa` has a selfStart model `SSbell` (@ArchMiguez2013) of which the formula is
+
+$$ y \approx ymax * exp(a *(x - xc)^2 + b*(x-xc)^3) $$
+
+This is essentially the Gaussian bell curve with an additional cubic element in 
+the exponential
+function. If we **fix** $b = 0$, then we have the usual Gaussian, and we can use 
+the standard
+deviation $sigma$ of the variable $x$ with $xc$ equal to its mean and our 
+parameters will be given approximately by 
+
+$$ ymax = max(y)$$
+$$ a = -0.5/sigma^2$$
+$$ xc = mean(y) $$
+
+We illustrate this in the following example.
+
+```{r bellx, code=readLines("./BellX.R"), echo=TRUE}
+```
+
+
+# References
