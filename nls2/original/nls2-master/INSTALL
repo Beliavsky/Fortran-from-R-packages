@@ -1,0 +1,14 @@
+To install:
+
+  install.packages("nls2")
+
+or to install the development version:
+
+  library(devtools)
+  install_github("ggrothendieck/nls2")
+
+Note that the lhs package must be installed to use the Latin Hypercube Sampling
+algorithm of nls2.
+
+See the README file for an overview of the package and the ?nls2 help file
+for detailed documentation.

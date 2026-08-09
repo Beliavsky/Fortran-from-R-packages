@@ -1,0 +1,15 @@
+The nls2 package has a single function, nls2, which can be used to 
+sample an nls formula using grid, uniform random or Latin Hypercube sampling
+returning the best result or all of them.  This can be useful for
+generating starting values for nls.
+
+It can also evaluate an nls formula at a point where the Jacobian is singular
+(which cannot be done in nls).  This can be used to identify which parameters
+are troublesome.  (See example 4 in the nls2 help file.)
+
+It is easy to use for those familiar with nls since it has the same set of
+arguments plus all=.  The algorithm= and start= arguments are expanded to
+allow specificaiton of the additional functionality.
+
+See the INSTALL file for installation instructions and the ?nls2 help file
+for detailed documentation.
