@@ -1,0 +1,20 @@
+name = "quadprogxt-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Bob Harlow, Brian Koch; Fortran translation project"
+maintainer = "Fortran translation project"
+description = "Modern Fortran translation of quadprogXT with absolute-value quadratic programming"
+categories = ["optimization", "quadratic-programming"]
+keywords = ["quadratic programming", "absolute value", "L1", "quadprog"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[dependencies]
+quadprog-fortran = { path = "vendor/quadprog-fortran" }

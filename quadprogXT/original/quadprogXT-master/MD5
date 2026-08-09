@@ -1,0 +1,13 @@
+8b36d76dbf28f9051b9b1f34b20368b7 *DESCRIPTION
+83a42ef6315f0ed23ce523dfbad5eade *NAMESPACE
+1693964368c3d4089b17f5c885e4eded *R/convertToCompactQP.R
+81cc68e46ebbdf188a1c59de2710269a *R/normalizeConstraints.R
+23b682606b0a799dc6781f2b0c3710f2 *R/solveQPXT.R
+732968f242cafa11f7230682b2ba677a *inst/tinytest/test-convertToCompact.R
+fa74f01285bcc266581bc2fe26349e89 *inst/tinytest/test-normalizeConstraints.R
+c1bd6cbab9fa5e9d794b7645fe60808e *inst/tinytest/test-quadprogConsistency.R
+8c1759a2bd94feb5845e6eaec2fd8d1c *inst/tinytest/test-solveQPXT.R
+4b27bc5dd308a08452cccbba03f82861 *man/convertToCompact.Rd
+463a9bc9503fb6997f40018464897f39 *man/normalizeConstraints.Rd
+d59634adddde7d502331bc8b8cafa9ac *man/solveQPXT.Rd
+41889328a6172e8f663fe8fc3df8c2a9 *tests/tinytest.R
