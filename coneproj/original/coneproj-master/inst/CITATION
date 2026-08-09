@@ -1,0 +1,19 @@
+citHeader("To cite coneproj in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  title = "coneproj: An R Package for the Primal or Dual Cone Projections with Routines for Constrained Regression",
+  author = c(person("Xiyue", "Liao", role = c("aut", "cre")),
+                   person(c("Mary", "C."), "Meyer", role = c("aut"))),
+  journal = "Journal of Statistical Software",
+  year  = "2014",
+  volume = "61",
+  number = "12",
+  pages = "1--22",
+  textVersion  =
+  paste("Xiyue Liao, Mary C. Meyer (2014).",
+        "coneproj: An R Package for the Primal or Dual Cone Projections with Routines for Constrained Regression.",
+        "Journal of Statistical Software, 61(12), 1-22.")
+)
+
+

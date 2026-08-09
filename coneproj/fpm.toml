@@ -1,0 +1,17 @@
+name = "coneproj-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of coneproj"
+maintainer = ""
+description = "Cone projections, quadratic programming, and shape-restricted regression"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

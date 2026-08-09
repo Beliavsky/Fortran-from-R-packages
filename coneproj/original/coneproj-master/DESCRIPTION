@@ -1,0 +1,22 @@
+Package: coneproj
+Type: Package
+Title: Primal or Dual Cone Projections with Routines for Constrained
+        Regression
+Version: 1.23
+Date: 2026-1-5
+Authors@R: c(
+    person(c("Mary", "C."), "Meyer", email = "meyer@stat.colostate.edu", role = "aut"),
+    person("Xiyue", "Liao", email = "xliao@sdsu.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4508-9219")))
+Maintainer: Xiyue Liao <xliao@sdsu.edu>
+Description: Routines doing cone projection and quadratic programming, as well as doing estimation and inference for constrained parametric regression and shape-restricted regression problems. See Mary C. Meyer (2013)<doi:10.1080/03610918.2012.659820> for more details.
+License: GPL (>= 2)
+Depends: R(>= 4.4.0)
+Imports: Rcpp (>= 0.10.4)
+LinkingTo: RcppArmadillo, Rcpp
+NeedsCompilation: yes
+Suggests: stats, graphics, grDevices, utils
+Repository: CRAN
+Packaged: 2026-01-06 16:08:40 UTC; xliao
+Author: Mary C. Meyer [aut],
+  Xiyue Liao [aut, cre] (ORCID: <https://orcid.org/0000-0002-4508-9219>)
+Date/Publication: 2026-01-09 09:30:38 UTC

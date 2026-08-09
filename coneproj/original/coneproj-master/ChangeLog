@@ -1,0 +1,38 @@
+1.11
+* nrep in coneB reset as the minimum of n^2 and 1000
+* update 'a' again according to 'h' if nrep == the upper limit of iterations to the avoid size mismatch problem
+* sm reset to be 1e-5
+* add a line to set check = 1 in coneB if any edge in delta is chosen; otherwise set check = 0
+
+* change 'equal' to be in check_irred
+* set addrownums = FALSE in order to avoid row name errors in check_irred
+* scale b2 by length in while loop of coneB
+
+1.13
+* change & to be && change | to be || with () to pass Gcc test
+
+1.15
+* tail(., addrownums = FALSE) is deprecated. Use tail(., keepnums = FALSE) instead.
+
+1.16
+* update the eight shape constraint subroutines such that they are the same as those used in cgam
+
+1.17
+* add mixture variance-covariance matrix in constreg, c.i. for bhat, c.i. for fhat, a summary method, and a vcov method for this.
+
+1.18
+* change nrep to be n in coneBCpp, coneACpp, etc.
+* change solve to be solve(xmat * xmat.t(), xmat * ny, arma::solve_opts::fast)
+
+1.19
+* return pmat in coneA
+
+1.20
+* fix the error in the description of coneA: face is for polar cone.
+* not use arma::solve_opts::fast, which is not stable
+
+1.21
+* qprogCpp and coneACpp are changed s.t. they can take sparse matrices as inputs.
+
+1.22
+* change the precision number sm = 1e-8 back to be 1e-11 in the src file. 
