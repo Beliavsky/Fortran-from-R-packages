@@ -1,0 +1,14 @@
+name = "smoof-fortran"
+version = "0.1.0"
+license = "BSD-2-Clause"
+author = "Jakob Bossek; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of computational benchmark functions from smoof"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true

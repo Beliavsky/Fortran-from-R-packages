@@ -1,0 +1,44 @@
+#' @title
+#' MMF7 Function
+#' @encoding UTF-8
+#'
+#' @description
+#' Test problem from the set of "multi-modal multi-objective functions" as for
+#' instance used in the CEC2019 competition.
+#' 
+#' @references
+#' Caitong Yue, Boyang Qu, Kunjie Yu, Jing Liang, and Xiaodong Li, "A novel
+#' scalable test problem suite for multi-modal multi-objective optimization," in
+#' Swarm and Evolutionary Computation, Volume 48, August 2019, pp. 62–71, Elsevier.
+#' @return [\code{smoof_multi_objective_function}]
+#'  Returns an instance of the MMF7 function as a \code{smoof_multi_objective_function} object.
+#' @export
+makeMMF7Function = function() {
+  # C implementation
+  fn = function(x) {
+    checkNumericInput(x, 2L)
+    mof_cec2019_mmf7(x = x)
+  }
+
+  n.objectives = 2L
+  makeMultiObjectiveFunction(
+    name = "MMF7 function",
+    id = sprintf("MMF7-%id-%io", 2L, n.objectives),
+    description = "MMF7 function",
+    fn = fn,
+    par.set =  ParamHelpers::makeNumericParamSet(
+      len = 2L,
+      id = "x",
+      lower = c(1, -1),
+      upper = c(3, 1),
+      vector = TRUE
+    ),
+    minimize = rep(TRUE, n.objectives),
+    n.objectives = n.objectives
+  )
+}
+
+class(makeMMF7Function) = c("function", "smoof_generator")
+attr(makeMMF7Function, "name") = c("MMF7")
+attr(makeMMF7Function, "type") = c("multi-objective")
+attr(makeMMF7Function, "tags") = c("multi-objective")

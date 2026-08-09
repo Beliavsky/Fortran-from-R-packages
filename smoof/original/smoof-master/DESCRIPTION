@@ -1,0 +1,50 @@
+Package: smoof
+Type: Package
+Title: Single and Multi-Objective Optimization Test Functions
+Description: Provides generators for a high number of both single- and multi-
+    objective test functions which are frequently used for the benchmarking of
+    (numerical) optimization algorithms. Moreover, it offers a set of convenient
+    functions to generate, plot and work with objective functions.
+Version: 1.7.0
+Date: 2026-02-23
+Authors@R: c(
+  person(
+    given = "Jakob",
+    family = "Bossek",
+    email = "j.bossek@gmail.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-4121-4668")),
+  person(
+    given = "Pascal",
+    family = "Kerschke",
+    email = "pascal.kerschke@tu-dresden.de",
+    role = "ctb",
+    comment = c(ORCID = "0000-0003-2862-1418")),
+  person(
+    given = "Lennart",
+    family = "Schäpermeier",
+    email = "lennart.schaepermeier@tu-dresden.de",
+    role = "ctb",
+    comment = c(ORCID = "0000-0003-3929-7465")))
+Maintainer: Jakob Bossek <j.bossek@gmail.com>
+URL: https://jakobbossek.github.io/smoof/,
+        https://github.com/jakobbossek/smoof
+BugReports: https://github.com/jakobbossek/smoof/issues
+License: BSD_2_clause + file LICENSE
+Depends: ParamHelpers (>= 1.8), checkmate (>= 1.1)
+Imports: BBmisc (>= 1.6), ggplot2 (>= 3.0.0), Rcpp (>= 0.11.0),
+Suggests: testthat, MASS, plot3D, plotly, mco, RColorBrewer,
+        reticulate, covr
+ByteCompile: yes
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 7.3.3
+Encoding: UTF-8
+NeedsCompilation: yes
+Packaged: 2026-02-23 21:38:35 UTC; jakobbossek
+Author: Jakob Bossek [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-4121-4668>),
+  Pascal Kerschke [ctb] (ORCID: <https://orcid.org/0000-0003-2862-1418>),
+  Lennart Schäpermeier [ctb] (ORCID:
+    <https://orcid.org/0000-0003-3929-7465>)
+Repository: CRAN
+Date/Publication: 2026-02-24 06:20:09 UTC
