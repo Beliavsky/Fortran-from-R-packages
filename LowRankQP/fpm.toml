@@ -1,0 +1,17 @@
+name = "lowrankqp-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of LowRankQP by John T. Ormerod and Matt P. Wand"
+maintainer = ""
+copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true

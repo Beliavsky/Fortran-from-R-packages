@@ -1,0 +1,4 @@
+export(LowRankQP)
+useDynLib(LowRankQP)
+
+ 

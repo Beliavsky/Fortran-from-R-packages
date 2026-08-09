@@ -1,0 +1,17 @@
+Package: LowRankQP
+Version: 1.0.6
+Date: 2023-08-10
+Title: Low Rank Quadratic Programming
+Authors@R: c(person("John T.", "Ormerod", role = c("aut","cre"),
+                    email = "john.ormerod@sydney.edu.au"),
+             person("Matt P.", "Wand", role = c("aut"),
+                    email = "matt.wand@uts.edu.au"))
+Maintainer: John T. Ormerod <john.ormerod@sydney.edu.au>
+Description: Solves quadratic programming problems where the Hessian is represented as the product of two matrices. Thanks to Greg Hunt for helping getting this version back on CRAN. The methods in this package are described in: Ormerod, Wand and Koch (2008) "Penalised spline support vector classifiers: computational issues" <doi:10.1007/s00180-007-0102-8>.
+License: GPL (>= 2)
+NeedsCompilation: yes
+Packaged: 2023-08-10 06:15:40 UTC; johnormerod
+Author: John T. Ormerod [aut, cre],
+  Matt P. Wand [aut]
+Repository: CRAN
+Date/Publication: 2023-08-10 07:00:11 UTC
