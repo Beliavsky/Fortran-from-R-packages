@@ -1,0 +1,3 @@
+useDynLib(globalOptTests)
+export(goTest, getDefaultBounds, getProblemDimen, getGlobalOpt)
+

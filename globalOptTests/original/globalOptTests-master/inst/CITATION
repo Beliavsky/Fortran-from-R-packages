@@ -1,0 +1,19 @@
+citHeader("To cite globalOptTests in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Continuous Global Optimization in {R}",
+  author       = personList(as.person("Katharine M. Mullen")),
+  journal      = "Journal of Statistical Software",
+  year         = "2014",
+  volume       = "60",
+  number       = "6",
+  pages        = "1--45",
+  url          = "http://www.jstatsoft.org/v60/i06/",
+
+  textVersion  =
+  paste("Katharine M. Mullen (2014).",
+        "Continuous Global Optimization in R.",
+        "Journal of Statistical Software, 60(6), 1-45.",
+        "URL http://www.jstatsoft.org/v60/i06/.")
+)
+

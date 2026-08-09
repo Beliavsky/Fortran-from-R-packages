@@ -1,0 +1,12 @@
+Package: globalOptTests
+Version: 1.1
+Title: Objective functions for benchmarking the performance of global
+        optimization algorithms
+Author: Katharine Mullen
+Maintainer: Katharine Mullen <katharine.mullen@stat.ucla.edu>
+Description: This package makes available 50 objective functions for benchmarking the performance of global optimization algorithms 
+License: GPL (>= 3)
+Repository: CRAN
+Packaged: 2014-09-09 09:42:59 UTC; kmm
+NeedsCompilation: yes
+Date/Publication: 2014-09-09 14:18:29
