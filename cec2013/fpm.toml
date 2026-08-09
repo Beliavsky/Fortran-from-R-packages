@@ -1,0 +1,17 @@
+name = "cec2013-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "OpenAI translation; upstream authors Mauricio Zambrano-Bigiarini, Yasser Gonzalez-Fernandez, Jane Jing Liang"
+maintainer = "OpenAI translation"
+copyright = "Upstream and translation contributors; see original/ and NOTICE.md"
+description = "Modern Fortran translation of the cec2013 benchmark package"
+categories = ["optimization", "benchmark"]
+keywords = ["CEC2013", "global optimization", "benchmarks"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
