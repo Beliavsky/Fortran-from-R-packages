@@ -1,0 +1,11 @@
+useDynLib(cec2005benchmark)
+
+export(cec2005benchmark, cec2005benchmark1, cec2005benchmark2,
+       cec2005benchmark3, cec2005benchmark4, cec2005benchmark5,
+       cec2005benchmark6, cec2005benchmark7, cec2005benchmark8,
+       cec2005benchmark9, cec2005benchmark10, cec2005benchmark11,
+       cec2005benchmark12, cec2005benchmark13, cec2005benchmark14,
+       cec2005benchmark15, cec2005benchmark16, cec2005benchmark17,
+       cec2005benchmark18, cec2005benchmark19, cec2005benchmark20,
+       cec2005benchmark21, cec2005benchmark22, cec2005benchmark23,
+       cec2005benchmark24, cec2005benchmark25)

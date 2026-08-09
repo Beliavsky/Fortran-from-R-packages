@@ -1,0 +1,21 @@
+Changes in version 1.0.4 (February 8, 2015):
+
+  * Make CITATION readable without having the package installed.
+
+Changes in version 1.0.3 (March 3, 2013):
+
+  * Fixed a bug trying to read in numbers with more than 15 digits.
+
+Changes in version 1.0.2 (September 28, 2012):
+
+  * Added the github URL of the package.
+  * Using full names in the Author and Maintainer fields.
+
+Changes in version 1.0.1 (April 21, 2012):
+
+  * Removed an unneeded src/Makevars file.
+  * Added a inst/CITATION file.
+
+Changes in version 1.0.0 (April 15, 2012):
+
+  * First public release.

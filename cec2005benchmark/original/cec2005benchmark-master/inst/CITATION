@@ -1,0 +1,16 @@
+citHeader("To cite cec2005benchmark in publications use:")
+
+year <- sub("^([[:digit:]]{4})-[[:digit:]]{2}-[[:digit:]]{2}$", "\\1", meta$Date)
+version <- meta$Version
+
+citEntry(entry = "manual",
+         title = "cec2005benchmark: Benchmark for the CEC 2005 Special Session on Real-Parameter Optimization",
+         author = personList(person("Yasser", "Gonzalez-Fernandez"), person("Marta", "Soto")),
+         year = year,
+         note = paste("{R} package version", version),
+         url = "http://CRAN.R-project.org/package=cec2005benchmark",
+         textVersion = paste("Yasser Gonzalez-Fernandez and Marta Soto. (", year, ") ",
+                             "cec2005benchmark: Benchmark for the CEC 2005 Special Session on Real-Parameter Optimization. ",
+                             paste("R package version", version),
+                             ". URL http://CRAN.R-project.org/package=cec2005benchmark",
+                             ".", sep = ""))

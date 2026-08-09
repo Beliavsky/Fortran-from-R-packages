@@ -1,0 +1,16 @@
+name = "cec2005benchmark-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of cec2005benchmark"
+maintainer = "OpenAI"
+description = "Modern Fortran translation of the CEC 2005 real-parameter optimization benchmark suite"
+categories = ["optimization", "benchmarks"]
+keywords = ["CEC2005", "optimization", "benchmark"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
