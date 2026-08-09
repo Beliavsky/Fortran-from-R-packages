@@ -1,0 +1,22 @@
+bibentry(bibtype = "Misc",
+  title = "PIQP: A Proximal Interior-Point Quadratic Programming Solver",
+  author = c(person("Roland", "Schwan", role = c("aut")),
+             person("Yuning", "Jiang", role = c("aut")),
+             person("Daniel",  "Kuhn", role = c("aut")),
+	     person("Colin N.",  "Jones", role = c("aut"))),
+  year = "2023",
+  doi = "10.48550/arXiv.2304.00290",
+  header = "To cite piqp in publications use:"
+)
+
+bibentry(bibtype = "Misc",
+  title = "piqp: R Interface to Proximal Interior Point Quadratic Programming Solver",
+  author = c(person("Balasubramanian", "Narasimhan", role=c("aut", "cre"),
+	   	   email = "naras@stanford.edu"),
+             person("Roland", "Schwan", role = c("aut", "cph")),
+             person("Yuning", "Jiang", role = c("aut")),
+             person("Daniel",  "Kuhn", role = c("aut")),
+	     person("Colin N.",  "Jones", role = c("aut"))),
+  year = "2023",
+  header = "If you also use the R package, in addition use:"
+)

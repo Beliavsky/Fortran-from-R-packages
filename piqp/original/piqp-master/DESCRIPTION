@@ -1,0 +1,31 @@
+Package: piqp
+Title: R Interface to Proximal Interior Point Quadratic Programming
+        Solver
+Version: 0.6.2
+Authors@R: c(person("Balasubramanian", "Narasimhan", role=c("aut", "cre"),
+	   	   email = "naras@stanford.edu"),
+             person("Roland", "Schwan", role = c("aut", "cph")),
+             person("Yuning", "Jiang", role = c("aut")),
+             person("Daniel",  "Kuhn", role = c("aut")),
+	     person("Colin N.",  "Jones", role = c("aut")))		   
+Description: An embedded proximal interior point quadratic programming solver, which can solve dense and sparse quadratic programs, described in Schwan, Jiang, Kuhn, and Jones (2023) <doi:10.48550/arXiv.2304.00290>. Combining an infeasible interior point method with the proximal method of multipliers, the algorithm can handle ill-conditioned convex quadratic programming problems without the need for linear independence of the constraints. The solver is written in header only 'C++ 14' leveraging the 'Eigen' library for vectorized linear algebra. For small dense problems, vectorized instructions and cache locality can be exploited more efficiently. Allocation free problem updates and re-solves are also provided.
+License: BSD_2_clause + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+URL: https://predict-epfl.github.io/piqp-r/
+BugReports: https://github.com/PREDICT-EPFL/piqp-r/issues
+SystemRequirements: C++17
+LinkingTo: Rcpp, RcppEigen
+Suggests: knitr, rmarkdown, slam, tinytest
+VignetteBuilder: knitr
+Imports: Matrix, methods, Rcpp, S7
+NeedsCompilation: yes
+Packaged: 2026-02-18 18:56:07 UTC; naras
+Author: Balasubramanian Narasimhan [aut, cre],
+  Roland Schwan [aut, cph],
+  Yuning Jiang [aut],
+  Daniel Kuhn [aut],
+  Colin N. Jones [aut]
+Maintainer: Balasubramanian Narasimhan <naras@stanford.edu>
+Repository: CRAN
+Date/Publication: 2026-02-18 20:20:03 UTC

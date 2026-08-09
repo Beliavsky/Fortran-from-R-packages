@@ -1,0 +1,21 @@
+name = "piqp-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "PIQP authors; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran translation of the PIQP proximal interior-point quadratic programming solver"
+keywords = ["quadratic-programming", "interior-point", "proximal", "optimization", "sparse"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+matrix-fortran = { path = "vendor/Matrix-fortran" }

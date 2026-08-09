@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>PIQP Solver Interface</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">PIQP Solver Interface</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>1. Introduction</h2>
+<p>PIQP solves quadratic programs of the form</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; \frac{1}{2} x^\top P x + c^\top x \\
+\text {s.t.}\quad &amp; Ax=b, \\
+&amp; h_l \leq Gx \leq h_u, \\
+&amp; x_l \leq x \leq x_u
+\end{aligned}
+\]</span></p>
+<p>with primal decision variables <span class="math inline">\(x \in
+\mathbb{R}^n\)</span>, matrices <span class="math inline">\(P\in
+\mathbb{S}_+^n\)</span>, <span class="math inline">\(A \in \mathbb{R}^{p
+\times n}\)</span>, <span class="math inline">\(G \in \mathbb{R}^{m
+\times n}\)</span>, and vectors <span class="math inline">\(c \in
+\mathbb{R}^n\)</span>, <span class="math inline">\(b \in
+\mathbb{R}^p\)</span>, <span class="math inline">\(h_l
+\in \mathbb{R}^m\)</span>, <span class="math inline">\(h_u \in
+\mathbb{R}^m\)</span>, <span class="math inline">\(x_l \in
+\mathbb{R}^n\)</span>, and <span class="math inline">\(x_u \in
+\mathbb{R}^n\)</span>.</p>
+</div>
+<div id="the-problem-solver-interface" class="section level2">
+<h2>2. The Problem Solver Interface</h2>
+<p>Consider:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; \frac{1}{2} x^\top \begin{bmatrix} 6 &amp; 0 \\ 0
+&amp; 4 \end{bmatrix} x + \begin{bmatrix} -1 \\ -4 \end{bmatrix}^\top x
+\\
+\text {s.t.}\quad &amp; \begin{bmatrix} 1 &amp; -2 \end{bmatrix} x = 1,
+\\
+&amp; \begin{bmatrix} 1 &amp; -1 \\ 2 &amp; 0 \end{bmatrix} x \leq
+\begin{bmatrix} 0.2 \\ -1 \end{bmatrix}, \\
+&amp; -1 \leq x_1 \leq 1.
+\end{aligned}
+\]</span></p>
+<p>The data for this problem can be specified as below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">4</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>h_u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>x_l <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="cn">Inf</span>)  <span class="do">## 2 variables</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>x_u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">Inf</span>)    <span class="do">## 2 variables</span></span></code></pre></div>
+<p>The problem can now be solved via a call to
+<code>solve_piqp()</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(P, c, A, b, G, <span class="at">h_u =</span> h_u, <span class="at">x_l =</span> x_l, <span class="at">x_u =</span> x_u, <span class="at">backend =</span> <span class="st">&quot;auto&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;(Solution status, description): = (%d, %s)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>            sol<span class="sc">$</span>status, sol<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; (Solution status, description): = (1, solved)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, sol<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol<span class="sc">$</span>x[<span class="dv">1</span>], sol<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Objective: 6.160000, solution: (x1, x2) = (-0.600000, -0.800000)</span></span></code></pre></div>
+<p><code>sol</code> contains many components as <code>str(sol)</code>
+will display but the most important ones are:</p>
+<ul>
+<li><code>status</code> : 1 if all goes well (more below),</li>
+<li><code>x</code> : solution vector</li>
+<li><code>y</code> : dual solution for the equality constraints</li>
+<li><code>z_l</code> : dual solution for the lower inequality
+constraints</li>
+<li><code>z_u</code> : dual solution for the upper inequality
+constraints</li>
+<li><code>z_bl</code> : dual solution of lower bound box
+constraints</li>
+<li><code>z_bu</code> : dual solution of upper bound box
+constraints</li>
+<li><code>info$status_desc</code>: a descriptive string of the
+status</li>
+<li><code>info$primal_obj</code> : primal objective value</li>
+<li><code>info$run_time</code> : total runtime, if asked for in settings
+(see below).</li>
+</ul>
+<p>One can always construct the descriptive string for the status
+using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">status_description</span>(sol<span class="sc">$</span>status)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Solver solved problem up to given tolerance.&quot;</span></span></code></pre></div>
+<p>Note that PIQP can handle infinite box constraints well, i.e. when
+elements of <span class="math inline">\(x_l\)</span> or <span class="math inline">\(x_u\)</span> are <span class="math inline">\(-\infty\)</span> or <span class="math inline">\(\infty\)</span>, respectively. The inequality
+constraints now support double-sided bounds <span class="math inline">\(h_l \leq Gx \leq h_u\)</span>. For one-sided
+inequalities <span class="math inline">\(Gx \leq h\)</span>, simply pass
+<code>h_u = h</code> (the default <code>h_l</code> is
+<code>-Inf</code>).</p>
+</div>
+<div id="the-solver-model-object" class="section level2">
+<h2>3. The Solver Model Object</h2>
+<p>Users who wish to solve QP problems will mostly use the
+<code>solve_piqp()</code> function. Behind the scenes,
+<code>solve_piqp()</code> creates a solver object and calls methods on
+the object to obtain the solution. The solver object can be created
+explicitly using <code>piqp()</code> and provides more elaborate
+facilities for updating problem data and warm-starting subsequent
+solves, which can be very efficient when one is solving a sequence of
+related problems.</p>
+<p>The above problem could be solved using the solver model object
+thus:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">piqp</span>(P, c, A, b, G, <span class="at">h_u =</span> h_u, <span class="at">x_l =</span> x_l, <span class="at">x_u =</span> x_u)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>sol2 <span class="ot">&lt;-</span> <span class="fu">solve</span>(model)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">identical</span>(sol, sol2)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Indeed, this is exactly what <code>solve_piqp()</code> does. The
+generic functions <code>solve()</code>, <code>update()</code>,
+<code>get_settings()</code>, <code>get_dims()</code>, and
+<code>update_settings()</code> are available on the model object.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">get_dims</span>(model)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; $n</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; $p</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; $m</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div id="updating-problem-data-and-re-solving" class="section level3">
+<h3>Updating problem data and re-solving</h3>
+<p>The real advantage of the model object is the ability to update
+problem data and re-solve. When <code>update()</code> is called, only
+the changed data is passed to the solver, and the solver can warm-start
+from the previous solution. This is much more efficient than creating a
+new model from scratch each time.</p>
+<p>Suppose we want to tighten the inequality bounds and change the
+linear cost. We update the model in place and re-solve:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">update</span>(model, <span class="at">c =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">3</span>), <span class="at">h_u =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">1.5</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>sol3 <span class="ot">&lt;-</span> <span class="fu">solve</span>(model)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Status: %s</span><span class="sc">\n</span><span class="st">&quot;</span>, sol3<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Status: solved</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>            sol3<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol3<span class="sc">$</span>x[<span class="dv">1</span>], sol3<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; Objective: 7.840000, solution: (x1, x2) = (-0.800000, -0.900000)</span></span></code></pre></div>
+<p>We can continue updating. Here we relax the variable bounds and
+change the equality constraint:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">update</span>(model, <span class="at">A =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>), <span class="at">b =</span> <span class="dv">0</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>       <span class="at">x_l =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">2</span>), <span class="at">x_u =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>sol4 <span class="ot">&lt;-</span> <span class="fu">solve</span>(model)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Status: %s</span><span class="sc">\n</span><span class="st">&quot;</span>, sol4<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; Status: solved</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>            sol4<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol4<span class="sc">$</span>x[<span class="dv">1</span>], sol4<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; Objective: 6.562500, solution: (x1, x2) = (-0.750000, -0.750000)</span></span></code></pre></div>
+<p>Dimension mismatches are caught:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">update</span>(model, <span class="at">b =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Error in `update.piqp::piqp_model`:</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; ! Update parameters do not match original problem dimensions</span></span></code></pre></div>
+<p>Settings can also be updated between solves:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">update_settings</span>(model, <span class="at">new_settings =</span> <span class="fu">list</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">max_iter =</span> <span class="dv">100</span><span class="dt">L</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="dense-and-sparse-interfaces" class="section level2">
+<h2>4. Dense and Sparse Interfaces</h2>
+<p>PIQP supports dense and sparse problem formulations. For small and
+dense problems the dense interface is preferred since vectorized
+instructions and cache locality can be exploited more efficiently, but
+for sparse problems the sparse interface and result in significant
+speedups.</p>
+<p>Either interface can be requested explicitly via the
+<code>backend</code> parameter which can take on any value among
+<code>&quot;dense&quot;</code>, <code>&quot;sparse&quot;</code>, or <code>&quot;auto&quot;</code>, the
+default. The last value will automatically switch to a sparse interface
+if any of the supplied inputs (<span class="math inline">\(A\)</span>,
+<span class="math inline">\(P\)</span>, or <span class="math inline">\(G\)</span>) is a sparse matrix; otherwise it uses
+the dense interface.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>sparse_sol <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(P, c, A, b, G, <span class="at">h_u =</span> h_u, <span class="at">x_l =</span> x_l, <span class="at">x_u =</span> x_u, <span class="at">backend =</span> <span class="st">&quot;sparse&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">str</span>(sparse_sol)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; List of 12</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt;  $ status: int 1</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt;  $ x     : num [1:2] -0.6 -0.8</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;  $ y     : num -11.8</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;  $ z_l   : num [1:2] 0 0</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;  $ z_u   : num [1:2] 1.64e+01 8.96e-11</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;  $ z_bl  : num [1:2] 2.18e-10 0.00</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;  $ z_bu  : num [1:2] 1.55e-12 0.00</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;  $ s_l   : num [1:2] 1e+30 1e+30</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;  $ s_u   : num [1:2] 5.67e-12 2.00e-01</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt;  $ s_bl  : num [1:2] 4e-01 1e+30</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;  $ s_bu  : num [1:2] 1.6 1.0e+30</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;  $ info  :List of 32</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;   ..$ status_desc       : chr &quot;solved&quot;</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt;   ..$ iter              : num 7</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt;   ..$ rho               : num 1e-10</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt;   ..$ delta             : num 1e-10</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt;   ..$ mu                : num 5.02e-11</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;   ..$ sigma             : num 1e-06</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_step       : num 0.99</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_step         : num 0.99</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_res        : num 3.13e-13</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_res_rel    : num 1.96e-13</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_res          : num 1.5e-10</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_res_rel      : num 2.08e-11</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_res_reg    : num 3.13e-11</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_res_reg_rel: num 1.96e-11</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_res_reg      : num 1.5e-08</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_res_reg_rel  : num 2.08e-09</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_prox_inf   : num 0</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_prox_inf     : num 0</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt;   ..$ primal_obj        : num 6.16</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt;   ..$ dual_obj          : num 6.16</span></span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co">#&gt;   ..$ duality_gap       : num 3.27e-10</span></span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co">#&gt;   ..$ duality_gap_rel   : num 2.77e-11</span></span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#&gt;   ..$ factor_retires    : num 0</span></span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co">#&gt;   ..$ reg_limit         : num 1e-10</span></span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="co">#&gt;   ..$ no_primal_update  : num 1</span></span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co">#&gt;   ..$ no_dual_update    : num 0</span></span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a><span class="co">#&gt;   ..$ setup_time        : num 0</span></span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co">#&gt;   ..$ update_time       : num 0</span></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="co">#&gt;   ..$ solve_time        : num 0</span></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a><span class="co">#&gt;   ..$ kkt_factor_time   : num 0</span></span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co">#&gt;   ..$ kkt_solve_time    : num 3362704</span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a><span class="co">#&gt;   ..$ run_time          : num 0</span></span></code></pre></div>
+</div>
+<div id="another-example" class="section level2">
+<h2>5. Another Example</h2>
+<p>Suppose that we want to solve the following 2-dimensional quadratic
+programming problem:</p>
+<p><span class="math display">\[
+\begin{array}{ll} \text{minimize} &amp;  3x_1^2 + 2x_2^2 - x_1 - 4x_2\\
+\text{subject to} &amp;  -1 \leq x \leq 1, ~ x_1 = 2x_2
+\end{array}
+\]</span></p>
+<p>Since the solver expects the objective in the form <span class="math inline">\(\frac{1}{2}x^\top
+P x + c^\top x\)</span>, we define</p>
+<p><span class="math display">\[
+P = 2 \cdot \begin{bmatrix} 3 &amp; 0 \\ 0 &amp; 2\end{bmatrix}
+\mbox{ and }
+q = \begin{bmatrix} -1 \\ -4\end{bmatrix}.
+\]</span></p>
+<p>We have one equality constraint and box constraints. This leads to
+the following straight-forward formulation.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>x_l <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="fl">1.0</span>, <span class="dv">2</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>x_u <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">1.0</span>, <span class="dv">2</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(<span class="at">P =</span> P, <span class="at">c =</span> c, <span class="at">A =</span> A, <span class="at">b =</span> b, <span class="at">x_l =</span> x_l, <span class="at">x_u =</span> x_u)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;(Solution status, description): = (%d, %s)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>            sol<span class="sc">$</span>status, sol<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; (Solution status, description): = (1, solved)</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, sol<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol<span class="sc">$</span>x[<span class="dv">1</span>], sol<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; Objective: -0.642857, solution: (x1, x2) = (0.428571, 0.214286)</span></span></code></pre></div>
+<p>But we can also choose to move the upper box constraints into the
+inequalities.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">2</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>h_u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(<span class="at">P =</span> P, <span class="at">c =</span> c, <span class="at">A =</span> A, <span class="at">b =</span> b, <span class="at">G =</span> G, <span class="at">h_u =</span> h_u,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                  <span class="at">x_l =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">x_u =</span> <span class="fu">c</span>(<span class="cn">Inf</span>, <span class="cn">Inf</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;(Solution status, description): = (%d, %s)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>            sol<span class="sc">$</span>status, sol<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; (Solution status, description): = (1, solved)</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, sol<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol<span class="sc">$</span>x[<span class="dv">1</span>], sol<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; Objective: -0.642857, solution: (x1, x2) = (0.428571, 0.214286)</span></span></code></pre></div>
+<p>Or we can move both of them into the inequalities.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>G <span class="ot">&lt;-</span> Matrix<span class="sc">::</span><span class="fu">Matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>                    <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">sparse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>h_u <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(<span class="at">A =</span> A, <span class="at">b =</span> b, <span class="at">c =</span> c, <span class="at">P =</span> P, <span class="at">G =</span> G, <span class="at">h_u =</span> h_u)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;(Solution status, description): = (%d, %s)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>            sol<span class="sc">$</span>status, <span class="fu">status_description</span>(sol<span class="sc">$</span>status)))</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; (Solution status, description): = (1, Solver solved problem up to given tolerance.)</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, sol<span class="sc">$</span>info<span class="sc">$</span>primal_obj, sol<span class="sc">$</span>x[<span class="dv">1</span>], sol<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; Objective: -0.642857, solution: (x1, x2) = (0.428571, 0.214286)</span></span></code></pre></div>
+<p>All of them will yield the same result.</p>
+</div>
+<div id="solver-parameters" class="section level2">
+<h2>6. Solver parameters</h2>
+<p>PIQP has a number of parameters that control its behavior, including
+verbosity, tolerances, etc.; see help on <code>piqp_settings()</code>.
+As an example, in the last problem, we can reduce the number of
+iterations.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">solve_piqp</span>(<span class="at">P =</span> P, <span class="at">c =</span> c, <span class="at">A =</span> A, <span class="at">b =</span> b, <span class="at">G =</span> G, <span class="at">h_u =</span> h_u,</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>          <span class="at">settings =</span> <span class="fu">list</span>(<span class="at">max_iter =</span> <span class="dv">3</span>)) <span class="do">## Reduced number of iterations</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;(Solution status, description): = (%d, %s)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>            s<span class="sc">$</span>status, s<span class="sc">$</span>info<span class="sc">$</span>status_desc))</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; (Solution status, description): = (-1, max iterations reached)</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Objective: %f, solution: (x1, x2) = (%f, %f)</span><span class="sc">\n</span><span class="st">&quot;</span>, s<span class="sc">$</span>info<span class="sc">$</span>primal_obj, s<span class="sc">$</span>x[<span class="dv">1</span>], s<span class="sc">$</span>x[<span class="dv">2</span>]))</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; Objective: -0.642857, solution: (x1, x2) = (0.428564, 0.214282)</span></span></code></pre></div>
+<p>Note the different status, which should always be checked in
+code.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
