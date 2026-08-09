@@ -1,0 +1,26 @@
+SDIR = qpoases/src
+
+PKG_CPPFLAGS= -Iqpoases/include -DLINUX -D__USE_LONG_INTEGERS__ -D__USE_LONG_FINTS__ -DSOLVER_NONE -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__ -D__R__
+
+PKG_LIBS=$(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+QPOASES_OBJECTS = \
+	${SDIR}/SQProblem.o \
+	${SDIR}/QProblem.o \
+	${SDIR}/QProblemB.o \
+	${SDIR}/SQProblemSchur.o \
+	${SDIR}/Bounds.o \
+	${SDIR}/Constraints.o \
+	${SDIR}/SubjectTo.o \
+	${SDIR}/Indexlist.o \
+	${SDIR}/Flipper.o \
+	${SDIR}/Utils.o \
+	${SDIR}/Options.o \
+	${SDIR}/Matrices.o \
+	${SDIR}/MessageHandling.o \
+	${SDIR}/SparseSolver.o \
+	${SDIR}/SolutionAnalysis.o \
+	${SDIR}/OQPinterface.o
+
+OBJECTS=$(QPOASES_OBJECTS) qpoases.o RcppExports.o
+

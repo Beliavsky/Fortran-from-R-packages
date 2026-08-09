@@ -1,0 +1,19 @@
+name = "roi-plugin-qpoases-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of ROI.plugin.qpoases / qpOASES"
+maintainer = "OpenAI generated translation"
+copyright = "See original source and NOTICE.md"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
