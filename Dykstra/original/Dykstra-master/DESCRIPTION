@@ -1,0 +1,13 @@
+Package: Dykstra
+Type: Package
+Title: Quadratic Programming using Cyclic Projections
+Version: 1.0-0
+Date: 2018-02-09
+Author: Nathaniel E. Helwig <helwig@umn.edu>
+Maintainer: Nathaniel E. Helwig <helwig@umn.edu>
+Description: Solves quadratic programming problems using Richard L. Dykstra's cyclic projection algorithm. Routine allows for a combination of equality and inequality constraints. See Dykstra (1983) <doi:10.1080/01621459.1983.10477029> for details.
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2018-02-09 16:52:11 UTC; Nate
+Repository: CRAN
+Date/Publication: 2018-02-09 18:34:56 UTC

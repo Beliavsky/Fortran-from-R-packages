@@ -1,0 +1,15 @@
+name = "dykstra-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of Nathaniel E. Helwig's Dykstra package"
+maintainer = "OpenAI translation"
+copyright = "Upstream Dykstra package authors; translation contributors"
+description = "Modern Fortran translation of the computational core of the R Dykstra package"
+categories = ["optimization", "quadratic-programming"]
+keywords = ["dykstra", "quadratic-programming", "cyclic-projections"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
