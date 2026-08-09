@@ -1,0 +1,15 @@
+name = "onls-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of onls by OpenAI"
+maintainer = ""
+copyright = "See original/onls-master/DESCRIPTION and COPYING"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

@@ -1,0 +1,238 @@
+\documentclass[11pt, a4paper]{article}
+
+%\VignetteIndexEntry{Introduction}
+
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{fullpage}
+
+\title{{\color{blue}Orthogonal Nonlinear Least-Squares Regression in R}}
+\author{Andrej-Nikolai Spiess\\
+Soilytix GmbH, Hamburg, Germany\\
+\texttt{draspiess@gmail.com}
+}
+\date{\today}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\setkeys{Gin}{width=1.0\textwidth}
+@
+\maketitle
+
+\abstract
+{\footnotesize
+Orthogonal nonlinear least squares (ONLS) regression is a not so frequently applied and largely overlooked regression technique that comes into question when one encounters an "error in variables" problem. While classical nonlinear least squares (NLS) aims to minimize the sum of squared vertical residuals, ONLS minimizes the sum of squared orthogonal residuals. The method is based on finding points on the fitted line that are orthogonal to the data by minimizing for each $(x_i, y_i)$ the Euclidean distance $\|D_i\|$ to some point $(x_{0i}, y_{0i})$ on the fitted curve. There is a 25 year old FORTRAN implementation for ONLS available (ODRPACK, http://www.netlib.org/toms/869.zip), which has been included in the 'scipy' package for Python (http://docs.scipy.org/doc/scipy-0.14.0/reference/odr.html). Here, \texttt{onls} has been developed for easy future algorithm tweaking in R. The results obtained from \texttt{onls} are exactly similar to those found in [1, 4]. The implementation is based on an inner loop using \texttt{optimize} for each $(x_i, y_i)$ to find $\min \|D_i\|$ within some border $[x_{i-w}, x_{i+w}]$ and an outer loop for the fit parameters using \texttt{nls.lm} of the 'minpack' package.\par
+}
+
+\section*{Overview}
+The \texttt{onls} package offers orthogonal nonlinear least-squares regression in R.
+In a standard nonlinear regression setup, we estimate parameters $\boldsymbol{\beta}$ in a nonlinear model $y_i = f(x_i, \boldsymbol{\beta}) + \varepsilon_i$, with $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$, by minimizing the residual sum-of-squares of the vertical distances
+\begin{equation}
+\min_{\beta} \sum_{i=1}^{n}(y_i - f(x_i, \boldsymbol{\beta}))^2
+\end{equation}
+In contrast, orthogonal nonlinear regression aims to estimate parameters $\boldsymbol{\beta}$ in a nonlinear model $y_i = f(x_i + \delta_i, \boldsymbol{\beta}) + \varepsilon_i$, with $\varepsilon_i, \delta_i \sim \mathcal{N}(0, \sigma^2)$, by minimizing the sum-of-squares of the orthogonal distances
+\begin{equation}
+\min_{\boldsymbol{\beta}, \delta} \sum_{i=1}^{n}([y_i - f(x_i + \delta_i, \boldsymbol{\beta})]^2 + \delta_i^2)
+\end{equation}
+We do this by using the orthogonal distance $D_i$ from the point $(x_i, y_i)$ to some point $(x_{0i}, y_{0i})$ on the curve $f(x_i, \boldsymbol{\hat{\beta}})$ that minimizes the Euclidean distance 
+\begin{equation}
+\min\| D_i \| \equiv \min\sqrt{(x_i - x_{0i})^2 + (y_i - y_{0i})^2}
+\end{equation}
+The minimization of the Euclidean distance is conducted by using an inner loop on each $(x_i, y_i)$ with the \texttt{optimize} function that finds the corresponding $(x_{0i}, y_{0i})$ in some window $[a, b]$:
+\begin{equation}
+\mathop{\rm argmin}\limits_{x_{0i} \in [a, b]} \sqrt{(x_i - x_{0i})^2 + (y_i - {f(x_{0i}, \boldsymbol{\hat{\beta}}))^2}}
+\end{equation}
+
+\section*{Algorithm and Implementation}
+In detail, \texttt{onls} conducts the following steps:\\\\
+1) A normal (non-orthogonal) nonlinear model is fit by \texttt{nls.lm} to the data. This approach has been implemented because parameters of the orthogonal model are usually within a small window of the standard NLS model. The obtained parameters are passed to the ONLS routine, which is:\\
+2) \textcolor{red}{Outer loop}: Levenberg-Marquardt minimization of the orthogonal distance sum-of-squares $\sum_{i=1}^N \| D_i \|^2$ using \texttt{nls.lm}, optimization of $\boldsymbol{\beta}$.\\
+3) \textcolor{red}{Inner loop}: For each $(x_i, y_i)$, find $(x_{0i}, f(x_{0i}, \boldsymbol{\hat{\beta}}))$,  $x_{0i} \in [a, b]$, that minimizes $\| D_i \|$ using \texttt{optimize}. Return vector of orthogonal distances $\| \vec{D} \|$.\\\\
+The outer loop (\texttt{nls.lm}) scales with the number of parameters $p$ in the model, probably with $\mathcal{O}(p)$ for evaluating the 1-dimensional Jacobian and $\mathcal{O}(p^2)$ for the two-dimensional Hessian. The inner loop has $\mathcal{O}(n)$ for finding $\min \| D_i \|$, summing up to $\mathcal{O}(n(p + p^2))$. Simulations with different number of $n$ by fixed $p$ showed that the processor times scale exactly linearly.\\
+
+\newpage
+\section*{How to use}
+\subsection*{1. Building the model}
+As in the 'Examples' section of \texttt{nls} (here with 10\% added error), we supply a formula, data environment and starting parameters to the model:
+<<echo=true>>=
+library(onls)
+DNase1 <- subset(DNase, Run == 1)
+DNase1$density <- sapply(DNase1$density, function(x) rnorm(1, x, 0.1 * x))
+mod1 <- onls(density ~ Asym/(1 + exp((xmid - log(conc))/scal)), 
+             data = DNase1, start = list(Asym = 3, xmid = 0, scal = 1))
+@
+
+\subsection*{2. Looking at the model and checking orthogonality}
+\texttt{print}ing the model will give us the estimated coefficients, the (classical) vertical residual sum-of-squares, the orthogonal residual sum-of-squares, and \textbf{most importantly}, information on how many points $(x_i, y_i)$ are orthogonal to  $(x_{0i}, y_{0i})$ on the fitted curve $f(x_i + \delta_i, \boldsymbol{\beta}) + \varepsilon_i$. This is accomplished using the independent checking routine \texttt{check\_o} which calculates the angle between the slope $\mathrm{m}_i$ of the tangent obtained from the first derivative at $(x_{0i}, y_{0i})$ and the slope $\mathrm{n}_i$ of the \texttt{onls}-minimized Euclidean distance between $(x_{0i}, y_{0i})$ and $(x_i, y_i)$:
+\begin{equation}
+\begin{split}
+\tan(\alpha_i) = \left|\frac{\mathrm{m}_i - \mathrm{n}_i}{1 + \mathrm{m}_i \cdot \mathrm{n}_i}\right|, \,\, \mathrm{m}_i = \frac{df(x, \beta)}{dx_{0i}}, \,\, \mathrm{n}_i = \frac{y_i - y_{0i}}{x_i - x_{0i}} \\
+=> \alpha_i[^{\circ}] = \tan^{-1} \left( \left|\frac{\mathrm{m}_i - \mathrm{n}_i}{1 + \mathrm{m}_i \cdot \mathrm{n}_i}\right| \right) \cdot \frac{360}{2\pi}
+\end{split}
+\end{equation}
+which should be $90^{\circ}$, if the Euclidean distance has been minimized.
+
+<<echo=true>>=
+mod1
+@
+In this case, all points have been fitted orthogonal, giving the \texttt{PASSED} message and all is well. If a \texttt{FAILED} message is given, not all of the points are orthogonal and some tweaking is necessary, see next chapter.
+
+\subsection*{3. Tweaking the model in case of non-orthogonality}
+Two arguments to the \texttt{onls} function mainly influence the success of overall orthogonal fitting:\\\\
+\textbf{extend}: By default, it is set to \texttt{c(0.2, 0.2)}, which means that $(x_{0i}, y_{0i})$ in the inner loop are also optimized in an extended predictor value $x$ range of $[\min(x) - 0.2 \cdot \mathrm{range}(x), \max(x) + 0.2 \cdot \mathrm{range}(x)]$. This is important for the values at the beginning and end of the data, because the resulting model can display significantly different curvature if $(x_{0i}, y_{0i})$ are forced to be within the predictor range, often resulting in a loss of orthogonality at the end points.\\
+In the following, we will take an example from the ODRPACK implementation \cite{Boggs1}.
+
+<<echo=true>>=
+x <- c(0, 10, 20, 30, 40, 50, 60, 70, 80, 85, 90, 95, 100, 105)
+y <- c(4.14, 8.52, 16.31, 32.18, 64.62, 98.76, 151.13, 224.74, 341.35, 
+       423.36, 522.78, 674.32, 782.04, 920.01)
+DAT <- data.frame(x, y)
+mod4 <- onls(y ~ b1 * 10^(b2 * x/(b3 + x)), data = DAT, 
+             start = list(b1 = 1, b2 = 5, b3 = 100))
+@ 
+With
+<<echo=true>>=
+coef(mod4)
+@
+we get the same coefficients as in the ODRPACK implementation (4.4879/7.1882/221.8383) 
+and with
+<<echo=true>>=
+deviance_o(mod4) 
+@
+the same orthogonal residual sum-of-squares (15.263), as both given on page 363.\\
+However, if we \textbf{do not use} the (default) extended predictor range and set \texttt{extend = c(0, 0)}, $x_1$ and $x_{14}$ are non-orthogonal, as analyzed by the \texttt{check\_o} function. See $\alpha_1$ and $\alpha_{14}$:
+<<echo=true>>=
+mod5 <- onls(y ~ b1 * 10^(b2 * x/(b3 + x)), data = DAT, 
+             start = list(b1 = 1, b2 = 5, b3 = 100), extend = c(0, 0))
+check_o(mod5)
+@ 
+\textbf{window}: is the window $[x_{i - w}, x_{i + w}]$ in which \texttt{optimize} searches for $(x_{0i}, y_{0i})$ to minimize $\| D_i \|$. The default of \texttt{window = 12} works quite well with sample sizes $n > 25$, but may be tweaked, as in the following example when the $x$ values are very close in a region:
+<<echo=true>>=
+x <- 1:100
+y <- x^2
+set.seed(123)
+y <- sapply(y, function(a) rnorm(1, a, 0.1 * a))
+DAT <- data.frame(x, y)
+mod6 <- onls(y ~ x^a, data = DAT, start = list(a = 1))
+mod6
+@
+Here fitting fails, while it passes when using a larger window size:
+<<echo=true>>=
+mod7 <- onls(y ~ x^a, data = DAT, start = list(a = 10), window = 17)
+mod7
+@
+
+\subsection*{4. Analysing the orthogonal model with classical \texttt{nls} functions}
+\textbf{Plotting.} 
+<<echo=true>>=
+plot(mod1)
+@
+Due to different scaling of $x$- and $y$-axes, orthogonality is often not evident (Figure 1). Scaling both axes equally resolves this issue (Figure 2):
+<<echo=true>>=
+plot(mod1, xlim = c(0, 1), ylim = c(0, 1), asp = 1)
+@
+\textbf{Fit features and summaries.}\\
+The usual \textbf{summary} as in \texttt{summary.nls} but with information for \textit{vertical} and \textit{orthogonal} residual standard errors:
+<<echo=true>>=
+summary(mod1)
+@
+\textbf{Coefficients:}
+<<echo=true>>=
+coef(mod1)
+@
+\textbf{Variance-Covariance matrix:}
+<<echo=true>>=
+vcov(mod1)
+@
+\textbf{Response value prediction:}
+<<echo=true>>=
+predict(mod1, newdata = data.frame(conc = 6))
+@
+\textbf{Profiling confidence intervals:}
+<<echo=true>>=
+confint(mod1)
+@
+
+\subsection*{5. Extracting information based on vertical residuals}
+Models fitted with \texttt{onls} incorporate information with respect to the vertical residuals using the classical \texttt{S3} functions.\\\\
+\textbf{Vertical residuals:}
+<<echo=true>>=
+residuals(mod1)
+@
+\textbf{Fitted values corresponding to $x$:}
+<<echo=true>>=
+fitted(mod1)
+@
+\textbf{Vertical residual sum-of-squares:}
+<<echo=true>>=
+deviance(mod1)
+@
+\textbf{Log-likelihood of model using vertical residuals:}
+<<echo=true>>=
+logLik(mod1)
+@
+
+\subsection*{6. Extracting information based on orthogonal residuals}
+The following functions are meant to extract \texttt{S3}-type values based on orthogonal residuals. The naming convention is \texttt{function\_o}.\\\\
+\textbf{Orthogonal residuals:}
+<<echo=true>>=
+residuals_o(mod1)
+@
+\textbf{Orthogonal residual sum-of-squares:}
+<<echo=true>>=
+deviance_o(mod1)
+@
+\textbf{Log-likelihood of model using orthogonal residuals:}
+<<echo=true>>=
+logLik_o(mod1)
+@
+
+\subsection*{7. Extracting information about $x_{0i}$ and $y_{0i}$}
+Orthogonal fitting is based on finding some pair $(x_{0i}, y_{0i})$ on the fitted curve that is orthogonal to $(x_i, y_i)$. Values for $x_{0i}$ and $y_{0i}$ can be extracted with \texttt{x0} and \texttt{y0}:\\\\
+\textbf{Extracting} $\mathbf{x_{0i}}$:
+<<echo=true>>=
+x0(mod1)
+@
+\textbf{Extracting} $\mathbf{y_{0i}}$:
+<<echo=true>>=
+y0(mod1)
+@
+
+\newpage
+\begin{figure}
+\centering
+<<fig=true, width=5, height=5, results=hide, echo=false>>=
+plot(mod1)
+@
+\caption{Plot of \texttt{mod1} showing the $(x_i, y_i)$ values as black circles, $(x_{0i}, y_{0i})$} values as red circles and orthogonal lines in red. 
+\end{figure}
+\newpage
+\begin{figure}
+<<fig=true, width=4.5, height=5, results=hide, echo=false>>=
+plot(mod1, xlim = c(0, 0.25), ylim = c(0, 0.25), asp = 1)
+@
+\caption{Plot of \texttt{mod1} as in Figure 1 with equal scaling for better visualization of orthogonality.} 
+\end{figure}
+
+\cleardoublepage
+\begin{thebibliography}{2014}
+\bibitem{Boggs1} ALGORITHM 676 ODRPACK: Software for Weighted Orthogonal Distance Regression.\\
+Boggs PT, Donaldson JR, Byrd RH and Schnabel RB.\\
+ACM Trans Math Soft (1989), 15: 348-364.\\
+\url{http://dl.acm.org/citation.cfm?id=76913}.\\
+\bibitem{Ko1} Nonlinear Perpendicular Least-Squares Regression in Pharmacodynamics.\\
+Ko HC, Jusko WJ and Ebling WF.\\
+Biopharm Drug Disp (1997), 18: 711-716.\\
+\bibitem{Boggs2} Orthogonal Distance Regression.\\
+Boggs PT and Rogers JE.\\
+NISTIR (1990), 89-4197: 1-15.\\
+\url{http://docs.scipy.org/doc/external/odr_ams.pdf}.\\
+\bibitem{Boggs3} User's Reference Guide for ODRPACK Version 2.01\\
+Software for Weighted Orthogonal Distance Regression.\\
+Boggs PT, Byrd RH, Rogers JE and Schnabel RB.\\
+NISTIR (1992), 4834: 1-113.\\
+\url{http://docs.scipy.org/doc/external/odrpack/guide.pdf}.
+\end{thebibliography}
+
+\end{document}

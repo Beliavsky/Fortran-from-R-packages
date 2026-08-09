@@ -1,0 +1,39 @@
+## functions
+export(
+onls,
+x0,
+y0,
+deviance_o,
+residuals_o,
+logLik_o,
+check_o,
+NIST
+)
+
+importFrom("minpack.lm", nls.lm, nls.lm.control)
+importFrom("graphics", "lines", "par", "plot", "points")
+importFrom("stats", ".checkMFClasses", "approx", "as.formula", "coef",
+             "confint", "deviance", "fitted", "formula", "getInitial",
+             "model.weights", "napredict", "naprint", "numericDeriv",
+             "optimize", "printCoefmat", "profile", "pt", "qf", "qt",
+             "resid", "residuals", "spline", "symnum", "update")
+
+
+## S3 methods
+S3method(print, onls)
+S3method(plot, onls)
+S3method(logLik, onls)
+S3method(predict, onls)
+S3method(summary, onls)
+S3method(print, summary.onls)
+S3method(print, logLik.onls)
+S3method(print, logLik_o)
+S3method(residuals, onls)
+S3method(fitted, onls)
+S3method(deviance, onls)
+S3method(coef, onls)
+S3method(formula, onls)
+S3method(vcov, onls)
+S3method(df.residual, onls)
+S3method(confint, onls)
+

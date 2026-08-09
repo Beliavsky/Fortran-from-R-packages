@@ -1,0 +1,25 @@
+onls 0.1-4 (01-09-2025)
+
+* fixed a URL error to retain CRAN compatibility
+
+onls 0.1-3 (18-08-2025)
+
+* fixed some small bugs to retain CRAN compatibility
+
+onls 0.1-2 (31-10-2022)
+
+* changed some URLs
+* changed package maintainer
+* improved grammar and style in manual and vignette
+* removed <<- from onls.R
+* changed NIST.R as to not print to console
+* made the package more CRAN complient
+
+onls 0.1-1 (07-09-2015)
+
+* improved grammar and style in manual and vignette.
+* transferred .Rmw vignette into 'vignette' folder for auto-generation    
+
+onls 0.1-0 (26-07-2014)
+
+* first package version
