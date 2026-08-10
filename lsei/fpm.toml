@@ -1,0 +1,15 @@
+name = "lsei-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of lsei by Yong Wang, Lawson and Hanson"
+maintainer = ""
+description = "Modern Fortran translation of the computational core of the R package lsei"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
