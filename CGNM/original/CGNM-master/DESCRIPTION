@@ -1,0 +1,22 @@
+Package: CGNM
+Type: Package
+Title: Cluster Gauss-Newton Method
+Version: 0.9.3
+Author: Yasunori Aoki [aut, cre]
+Authors@R: person(given = "Yasunori",
+                    family = "Aoki",
+                    role = c("aut", "cre"),
+                    email = "yaoki@uwaterloo.ca")
+Maintainer: Yasunori Aoki <yaoki@uwaterloo.ca>
+Description: Find multiple solutions of a nonlinear least squares problem.  Cluster Gauss-Newton method does not assume uniqueness of the solution of the nonlinear least squares problem and compute multiple minimizers. Please cite the following paper when this software is used in your research: Aoki et al. (2020) <doi:10.1007/s11081-020-09571-2>. Cluster Gauss–Newton method. Optimization and Engineering, 1-31.  Please cite the following paper when profile likelihood plot is drawn with this software and used in your research: Aoki and Sugiyama (2024) <doi:10.1002/psp4.13055>. Cluster Gauss-Newton method for a quick approximation of profile likelihood: With application to physiologically-based pharmacokinetic models. CPT Pharmacometrics Syst Pharmacol.13(1):54-67. GPT based helper bot available at <https://chatgpt.com/g/g-684936db9e748191a2796debb00cd755-cluster-gauss-newton-method-helper-bot> .
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports: stats, ggplot2, MASS, shiny
+Suggests: knitr, rmarkdown
+RoxygenNote: 7.3.2
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2026-01-08 08:48:08 UTC; yaoki
+Depends: R (>= 3.5.0)
+Repository: CRAN
+Date/Publication: 2026-01-08 15:40:07 UTC

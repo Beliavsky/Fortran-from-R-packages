@@ -1,0 +1,245 @@
+---
+title: "CGNM: Cluster Gauss-Newton Method"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CGNM: Cluster Gauss-Newton Method}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(CGNM)
+library(knitr)
+```
+# When and when not to use CGNM
+
+## Use CGNM
+- Wish to fit relatively complex parameterized model/curve/function to the data; however, unsure of the appropriate initial guess (e.g., "start" argument in nls function). => CGNM searches the parameter from multiple initial guess so that the use can specify rough initial range instead of a point initial guess.
+- When the practical identifiability (if there is only one best fit parameter or not) is unknown. => CGNM will find multiple set of best fit parameters; hence if the parameter is not practically identifiable then the multiple best-fit parameters found by CGNM will not converge to a point.
+- When the model is a blackbox (i.e., cannot be explicitly/easily write out as a "formula") and the model may not be continuous with respect to the parameter. => CGNM makes minimum assumptions on the model so all user need to provide is a function that takes the model parameter and simulation (and what happen in the function, CGNM does not care).
+
+## Not to use CGNM
+- When the you already know where approximately the best fit parameter is and you just need to find one best fit parameter. => Simply use nls and that will be faster.
+- When the model is relatively simple and computation cost is not an issue. => CGNM is made to save the number of model evaluation during the parameter estimation, so may not see much advantage compared to the conventional multi-start methods (e.g.repeatedly using nls from various "start").
+
+# How to use CGNM
+To illustrate the use of CGNM here we illustrate how CGNM can be used to estimate two sets of the best fit parameters of the pharmacokinetics model when the drug is administered orally (known as flip-flop kinetics).  
+
+## Prepare the model ($\boldsymbol f$)
+```{r define the model function}
+model_function=function(x){
+
+  observation_time=c(0.1,0.2,0.4,0.6,1,2,3,6,12)
+  Dose=1000
+  F=1
+
+  ka=x[1]
+  V1=x[2]
+  CL_2=x[3]
+  t=observation_time
+
+  Cp=ka*F*Dose/(V1*(ka-CL_2/V1))*(exp(-CL_2/V1*t)-exp(-ka*t))
+
+  log10(Cp)
+}
+
+```
+
+## Prepare the data ($\boldsymbol y^*$)
+```{r}
+observation=log10(c(4.91, 8.65, 12.4, 18.7, 24.3, 24.5, 18.4, 4.66, 0.238))
+```
+
+## Run Cluster_Gauss_Newton_method
+Here we have specified the upper and lower range of the initial guess. 
+```{r, warning = FALSE}
+CGNM_result=Cluster_Gauss_Newton_method(nonlinearFunction=model_function,targetVector = observation,
+initial_lowerRange =rep(0.01,3),initial_upperRange =  rep(100,3),lowerBound = rep(0,3), saveLog=TRUE, num_minimizersToFind = 500, ParameterNames = c("Ka","V1","CL"))
+```
+
+## Obtain the approximate minimizers
+```{r}
+kable(head(acceptedApproximateMinimizers(CGNM_result)))
+```
+
+```{r}
+kable(table_parameterSummary(CGNM_result))
+```
+
+## Can run residual resampling bootstrap analyses using CGNM as well
+```{r}
+CGNM_bootstrap=Cluster_Gauss_Newton_Bootstrap_method(CGNM_result, nonlinearFunction=model_function)
+```
+```{r}
+kable(table_parameterSummary(CGNM_bootstrap))
+```
+
+## Visualize the CGNM modelfit analysis result
+To use the plot functions the user needs to manually load ggplot2.
+
+```{r}
+library(ggplot2)
+```
+
+### Inspect the distribution of SSR of approximate minimizers found by CGNM
+
+Despite the robustness of the algorithm not all approximate minimizers converge so here we visually inspect to see how many of the approximate minimizers we consider to have the similar SSR to the minimum SSR.  Currently the algorithm automatically choose "acceptable" approximate minimizer based on Grubbs' Test for Outliers.  If for whatever the reason this criterion is not satisfactly the users can manually set the indicies of the acceptable approximat minimizers.
+
+```{r, fig.width=6, fig.height=3.5}
+plot_Rank_SSR(CGNM_result)
+```
+
+```{r, fig.width=6, fig.height=3.5}
+plot_paraDistribution_byHistogram(CGNM_bootstrap, bins = 50)+scale_x_continuous(trans="log10")
+```
+
+
+### visually inspect goodness of fit of top 50 approximate minimizers
+```{r, fig.width = 7}
+plot_goodnessOfFit(CGNM_result, plotType = 1, independentVariableVector = c(0.1,0.2,0.4,0.6,1,2,3,6,12), plotRank = seq(1,50))
+```
+
+### plot model prediction with uncertainties based on residual resampling bootstrap analysis
+
+```{r, fig.width = 7}
+plot_goodnessOfFit(CGNM_bootstrap, plotType = 1, independentVariableVector = c(0.1,0.2,0.4,0.6,1,2,3,6,12))
+```
+
+### plot profile likelihood
+```{r, fig.width = 7}
+plot_profileLikelihood(c("CGNM_log","CGNM_log_bootstrap"))+scale_x_continuous(trans="log10")
+```
+```{r}
+kable(table_profileLikelihoodConfidenceInterval(c("CGNM_log","CGNM_log_bootstrap"), alpha = 0.25))
+```
+
+### plot profile likelihood surface
+```{r, fig.width = 7, fig.height = 6}
+plot_2DprofileLikelihood(CGNM_result, showInitialRange=FALSE, alpha = 0.05)+scale_x_continuous(trans="log10")+scale_y_continuous(trans="log10")
+```
+
+## Parallel computation
+
+Cluster Gauss Newton method implementation in CGNM package (above version 0.6) can use nonlinear function that takes multiple input vectors stored in matrix (each column as the input vector) and output matrix (each column as the output vector). This implementation was to be used to parallelize the computation. See below for the examples of parallelized implementation in various hardware.  Cluster Gauss Newton method is embarrassingly parallelizable so the computation speed is almost proportional to the number of computation cores used especially for the nonlinear functions that takes time to compute (e.g. models with numerical method to solve a large system of ODEs).
+
+```{r}
+model_matrix_function=function(x){
+  Y_list=lapply(split(x, rep(seq(1:nrow(x)),ncol(x))), model_function)
+  Y=t(matrix(unlist(Y_list),ncol=length(Y_list)))
+}
+
+testX=t(matrix(c(rep(0.01,3),rep(10,3),rep(100,3)), nrow = 3))
+print("testX")
+print(testX)
+print("model_matrix_function(testX)")
+print(model_matrix_function(testX))
+
+print("model_matrix_function(testX)-rbind(model_function(testX[1,]),model_function(testX[2,]),model_function(testX[3,]))")
+print(model_matrix_function(testX)-rbind(model_function(testX[1,]),model_function(testX[2,]),model_function(testX[3,])))
+
+```
+
+### an example of parallel implementation for Mac using parallel package
+```{r}
+
+# library(parallel)
+#
+# obsLength=length(observation)
+# 
+## Given CGNM searches through wide range of parameter combination, it can encounter
+## parameter combinations that is not feasible to evaluate. This try catch function
+## is implemented within CGNM for regular functions but for the matrix functions
+## user needs to implement outside of CGNM
+#
+# modelFunction_tryCatch=function(x_in){
+#  out=tryCatch({model_function(x_in)},
+#               error=function(cond) {rep(NA, obsLength)}
+#  )
+#  return(out)
+# }
+# 
+#  model_matrix_function=function(X){
+#   Y_list=mclapply(split(X, rep(seq(1:nrow(X)),ncol(X))), modelFunction_tryCatch,mc.cores = (parallel::detectCores()-1), mc.preschedule = FALSE)
+#
+#   Y=t(matrix(unlist(Y_list),ncol=length(Y_list)))
+# 
+#   return(Y)
+#  }
+
+```
+
+
+### an example of parallel implementation for Windows using foreach and doParllel packages
+```{r}
+#library(foreach)
+#library(doParallel)
+
+#numCore=8
+#registerDoParallel(numCore-1)
+#cluster=makeCluster(numCore-1, type = "PSOCK")
+#registerDoParallel(cl=cluster)
+
+# obsLength=length(observation)
+
+## Given CGNM searches through wide range of parameter combination, it can encounter
+## parameter combinations that is not feasible to evaluate. This try catch function
+## is implemented within CGNM for regular functions but for the matrix functions
+## user needs to implement outside of CGNM
+
+# modelFunction_tryCatch=function(x_in){
+#  out=tryCatch({model_function(x_in)},
+#               error=function(cond) {rep(NA, obsLength)}
+#  )
+#  return(out)
+# }
+
+#model_matrix_function=function(X){
+#  Y_list=foreach(i=1:dim(X)[1], .export = c("model_function", "modelFunction_tryCatch"))%dopar%{ #make sure to include all related functions in .export and all used packages in .packages for more information read documentation of dopar
+#      modelFunction_tryCatch((X[i,]))
+#    }
+  
+#  Y=t(matrix(unlist(Y_list),ncol=length(Y_list)))
+#}
+
+
+```
+
+```{r}
+CGNM_result=Cluster_Gauss_Newton_method(nonlinearFunction=model_matrix_function,
+targetVector = observation,
+initial_lowerRange =rep(0.01,3),initial_upperRange =  rep(100,3),lowerBound = rep(0,3), saveLog=TRUE, num_minimizersToFind = 500, ParameterNames = c("Ka","V1","CL"))
+
+
+#stopCluster(cluster) #make sure to close the created cluster if needed
+```
+
+```{r}
+unlink("CGNM_log", recursive=TRUE)
+unlink("CGNM_log_bootstrap", recursive=TRUE)
+```
+
+
+# What is CGNM?
+For the complete description and comparison with the conventional algorithm please see (https: //doi.org/10.1007/s11081-020-09571-2): 
+
+Aoki, Y., Hayami, K., Toshimoto, K., & Sugiyama, Y. (2020). Cluster Gauss–Newton method. Optimization and Engineering, 1-31. 
+
+## The mathematical problem CGNM solves
+Cluster Gauss-Newton method is an algorithm for obtaining multiple minimisers of nonlinear least squares problems 
+$$
+\min_{\boldsymbol{x}}|| \boldsymbol{f}(\boldsymbol x)-\boldsymbol{y}^*||_2^{\,2}
+$$
+which do not have a unique solution (global minimiser), that is to say, there exist $\boldsymbol x^{(1)}\neq\boldsymbol x^{(2)}$ such that
+$$
+\min_{\boldsymbol{x}}|| \boldsymbol{f}(\boldsymbol x)-\boldsymbol{y}^*||_2^{\,2}=|| \boldsymbol{f}(\boldsymbol x^{(1)})-\boldsymbol{y}^*||_2^{\,2}=|| \boldsymbol{f}(\boldsymbol x^{(2)})-\boldsymbol{y}^*||_2^{\,2} \,.
+$$
+Parameter estimation problems of mathematical models can often be formulated as nonlinear least squares problems.  Typically these problems are solved numerically using iterative methods.  The local minimiser obtained using these iterative methods usually depends on the choice of the initial iterate. Thus, the estimated parameter and subsequent analyses using it depend on the choice of the initial iterate.  One way to reduce the analysis bias due to the choice of the initial iterate is to repeat the algorithm from multiple initial iterates (i.e. use a multi-start method).  However, the procedure can be computationally intensive and is not always used in practice.  To overcome this problem, we propose the Cluster Gauss-Newton method (CGNM), an efficient algorithm for finding multiple approximate minimisers of nonlinear-least squares problems.  CGN simultaneously solves the nonlinear least squares problem from multiple initial iterates.  Then, CGNM iteratively improves the approximations from these initial iterates similarly to the Gauss-Newton method. However, it uses a global linear approximation instead of the Jacobian.  The global linear approximations are computed collectively among all the iterates to minimise the computational cost associated with the evaluation of the mathematical model.
+
+
