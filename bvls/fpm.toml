@@ -1,0 +1,16 @@
+name = "bvls-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of bvls 1.4"
+maintainer = "OpenAI translation"
+description = "Modern Fortran implementation of Stark-Parker bounded-variable least squares"
+categories = ["optimization", "least-squares"]
+keywords = ["bvls", "least-squares", "bounded", "active-set"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true

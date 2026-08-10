@@ -1,0 +1,7 @@
+export(bvls)
+
+S3method("print", "bvls")
+S3method("residuals", "bvls")
+S3method("fitted", "bvls")
+S3method("coef", "bvls")
+S3method("deviance", "bvls")
