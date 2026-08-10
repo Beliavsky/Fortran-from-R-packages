@@ -1,0 +1,14 @@
+name = "nnls-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of the R nnls package"
+maintainer = "OpenAI"
+description = "Modern Fortran implementation of Lawson-Hanson nonnegative and mixed-sign least squares"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true

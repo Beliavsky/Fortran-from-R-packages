@@ -1,0 +1,14 @@
+Version 1.6
+	o In DESCRIPTION, include author information in Authors@R format.
+	o In src/nnnpls.f and src/lawson_hanson_nnls.f, replace
+	  computed GO TO statements with select case statements 
+Version 1.4
+	o Add bvls, quadprog to Suggests
+	o In src/nnnpls.f and src/lawson_hanson_nnls.f,
+	  deal with Fortran 2018 deleted features:
+	  DO termination statement which is not END DO or CONTINUE, and
+	  Arithmetic IF statement
+	o In R/nnls.R, check that arguements are not NA, NaN, NULL or Inf, and
+	  have compatible dimensions; thanks to Jonas Freimuth for the
+	  bug report that motivated these checks
+	o Package title to title case
