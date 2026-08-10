@@ -1,0 +1,17 @@
+name = "nlsic-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Modern Fortran translation of nlsic by OpenAI; upstream by Serguei Sokol"
+maintainer = "OpenAI"
+description = "Constrained nonlinear least squares and supporting linear solvers translated from nlsic"
+categories = ["numerical", "optimization", "least-squares"]
+keywords = ["nonlinear-least-squares", "constraints", "least-norm", "ldp"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
