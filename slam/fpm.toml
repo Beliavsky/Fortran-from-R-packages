@@ -1,0 +1,19 @@
+name = "slam-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Modern Fortran translation of slam by Kurt Hornik, David Meyer, and Christian Buchta"
+maintainer = "Generated translation"
+description = "Modern Fortran translation of the computational core of R package slam 0.1-56"
+categories = ["sparse-matrix", "sparse-array", "linear-algebra"]
+keywords = ["sparse", "triplet", "matrix", "array"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

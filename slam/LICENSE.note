@@ -1,0 +1,14 @@
+This project is a clean modern-Fortran translation of the computational portions
+of the R package "slam" version 0.1-56.
+
+Original package authors:
+  Kurt Hornik
+  David Meyer
+  Christian Buchta
+
+Original package license: GPL-2
+This translation is distributed under GPL-2.0-only as well.  See COPYING.
+
+The original R package contains R and C implementations.  This translation
+preserves the algorithmic intent while replacing R's dynamic/S3 interfaces with
+statically typed Fortran APIs.
