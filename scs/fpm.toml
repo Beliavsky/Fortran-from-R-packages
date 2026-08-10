@@ -1,0 +1,17 @@
+name = "scs-fortran"
+version = "0.2.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of the R scs package and upstream SCS"
+copyright = "See LICENSE and licenses/"
+description = "Modern Fortran translation of the computational core of the R scs package"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
