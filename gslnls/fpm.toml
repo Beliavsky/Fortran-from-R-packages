@@ -1,0 +1,14 @@
+name = "gslnls-fortran"
+version = "0.1.0"
+license = "LGPL-3.0-only"
+author = "Modern Fortran translation of gslnls"
+maintainer = "OpenAI"
+description = "Standalone modern Fortran nonlinear least-squares algorithms translated from gslnls"
+categories = ["optimization", "least-squares", "statistics"]
+keywords = ["nonlinear least squares", "Levenberg-Marquardt", "dogleg", "robust regression", "multistart"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
