@@ -1,0 +1,9 @@
+#!/bin/sh
+
+(cd src/ecos;
+    if test -f Makefile; then
+       make purge
+    fi)
+
+rm -f src/ecos.ts src/*.o src/*.so src/*.dll src/ecos/__*
+

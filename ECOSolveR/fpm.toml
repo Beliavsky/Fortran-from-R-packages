@@ -1,0 +1,20 @@
+name = "ecosolver-fortran"
+version = "0.4.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of ECOSolveR/ECOS"
+maintainer = ""
+copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
+description = "Standalone modern Fortran conic solver compatible with the computational ECOSolveR API"
+categories = ["optimization", "conic-programming"]
+keywords = ["ECOS", "SOCP", "exponential-cone", "mixed-integer"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
