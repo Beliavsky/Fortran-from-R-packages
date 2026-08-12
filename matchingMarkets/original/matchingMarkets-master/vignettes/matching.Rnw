@@ -1,0 +1,99 @@
+\documentclass[article,nojss]{jss} %
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,bbm}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing,calc,decorations.text,plotmarks,topaths}
+\usepackage{enumitem}
+\usepackage{hvfloat}
+\usepackage{subcaption}
+\usepackage{verbatim}
+
+% Enable PDF compression when using pdfTeX
+\ifx\pdfcompresslevel\undefined\else
+  \pdfcompresslevel=9
+  \pdfobjcompresslevel=3
+\fi
+
+\newtheorem{myprop}{Proposition}[section]
+\newtheorem{proof}{Proof}[section]
+
+
+
+\author{Thilo Klein\thanks{I thank Christian Ahlin, Jiawei Chen, Augustine Kwanashie and Morten S{\o}rensen for their guidance and helpful discussions. All views and errors are mine.}\\ZEW -- Leibniz-Centre for European Economic Research, Mannheim}
+\Plainauthor{Thilo Klein}
+
+\title{Analysis of Stable Matchings in \proglang{R}: Package~\pkg{matchingMarkets}}
+\Plaintitle{Analysis of Stable Matchings in R: Package matchingMarkets}
+
+\Abstract{
+\noindent \proglang{R} package \pkg{matchingMarkets} implements structural estimators to correct for the sample selection bias from observed outcomes in matching markets. This includes one-sided matching of agents into groups as well as two-sided matching of students to schools. The package also contains algorithms to find stable matchings in the three most common matching problems: the stable roommates problem, the college admissions problem, and the house allocation problem.
+}
+
+\Keywords{market design, stable matching, matching algorithms, selection models, Bayesian methods, econometrics, \proglang{R}}
+\Plainkeywords{market design, stable matching, matching algorithms, selection models, Bayesian methods, econometrics, R}
+
+\Address{
+  Thilo Klein\\
+  ZEW -- Centre for European Economic Research\\
+  L7, 1\\
+  68161 Mannheim, Germany\\
+  E-mail: \email{thilo.klein@zew.de}\\
+  URL: \url{https://klein.uk}
+}
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+% Initialisation
+%\VignetteIndexEntry{Analysis of Stable Matchings}
+%\VignetteDepends{matchingMarkets,knitr}
+%\VignetteKeywords{market design, stable matching, endogeneity, selection models, Bayesian methods, econometrics, R}
+%\VignettePackage{matchingMarkets}
+%\VignetteEngine{knitr::knitr_notangle}
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(
+concordance=TRUE,
+highlight=FALSE,
+comment=NA,
+prompt=TRUE
+)
+options(replace.assign=TRUE, width=90, prompt="R> ")
+@
+
+<<external-code, cache=FALSE, echo=FALSE>>=
+knitr::read_chunk('./inputs/script.R')
+@
+
+\input{./Sections/1_Introduction.tex}
+%\input{./Sections/2_Example.tex}
+\input{./Sections/3_StructuralModel.tex}
+<<MC, child='./Sections/4_MonteCarloResults.Rnw'>>=
+@
+<<Application, child='./Sections/5_Application.Rnw'>>=
+@
+%\input{./Sections/6_Conclusion.tex}
+
+%\newpage
+
+\bibliography{matching}
+
+\newpage
+
+\appendix
+
+%\input{./Sections/AppendixA.tex}
+%\clearpage
+%<<AppendixB, child='./Sections/AppendixB.Rnw'>>=
+%@
+%\clearpage
+\input{./Sections/AppendixC.tex}
+\clearpage
+\input{./Sections/AppendixD.tex}
+\clearpage
+
+\end{document}
+
+

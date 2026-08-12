@@ -1,0 +1,162 @@
+\section{Introduction}
+
+Social scientists are often interested in understanding the outcomes of interactions. Applications range from the success of entrepreneurial teams or management boards \citep{Hoogendoorn2013} to the performance of bank mergers or credit groups \citep{Klein2015a}. More generally, these questions are at the core of  diversity debates on race and gender composition \citep{Herring2009}. %in the workplace  
+
+In the economics literature, the markets that describe these interactions are referred to as matching markets. Matching is concerned with who transacts with whom, and how. Economists further distinguish between one-sided and two-sided matching markets. The former are concerned with, for example, who forms a workgroup with whom. Two-sided matching markets consider problems such as who works at which job or which students go to which school, and so on. The empirical analysis of matching markets is naturally subject to sample selection problems. If agents match on characteristics unobserved to the analyst but correlated with both the exogenous variable and the outcome of interest, regression estimates will generally be biased.
+
+In response, \citet{Klein2015a} and \citet{Sorensen2007} present sample selection models to correct for this bias in one-sided and two-sided matching contexts, respectively. The identifying exclusion restriction in these models is that the characteristics of all agents in a market affect who matches with whom, but the outcome of a match is determined only by its own members. This exogenous variation is similar to an instrumental variable.
+
+The aim of this paper is to describe the \proglang{R}\footnote{The \proglang{R} project for statistical computing \citep{RCoreTeam2014} at https://www.r-project.org/.} package \code{matchingMarkets} \citep{Klein2015b} that contains \proglang{Java} code for matching algorithms and \proglang{C++} code for the estimation of structural models that correct for the sample selection bias of observed outcomes in both one-sided and two-sided matching markets. 
+Specifically, the \code{matchingMarkets} package contains
+\begin{enumerate}
+\item \textit{Bayes estimators}. The estimators implemented in function \code{stabit} and \code{stabit2} correct for the selection bias from endogenous matching. The current package version provides solutions for two commonly observed matching processes: 
+(i) the \textit{group formation problem} with fixed group sizes and
+(ii) the \textit{college admissions problem}.
+These processes determine which matches are observed -- and which are not -- and this is a sample selection problem.
+
+\item \textit{Post-estimation tools}. Function \code{mfx} computes marginal effects from coefficients in binary outcome and selection equations and \code{khb} implements the Karlson-Holm-Breen test for confounding due to sample selection \citep{Karlson2012}.
+
+\item \textit{Design matrix generation}. The estimators are based on characteristics of all feasible -- i.e.\ observed and counterfactual -- matches in the market. Generating the characteristics of all feasible matches from individual-level data is a combinatorial problem. The package returns design matrices based on pre-specified transformations to generate counterfactual matches.
+
+\item \textit{Algorithms}. The package also contains three matching algorithms that can be used to simulated matching data. \code{hri}: A constraint model \citep{Prosser2014} for the \href{https://en.wikipedia.org/wiki/Stable_marriage_problem}{stable marriage} and \href{https://en.wikipedia.org/wiki/Hospital_resident}{college admissions} problem, a.k.a. hospital/residents problem \citep[see][]{Gale1962}. \code{sri}: A constraint model for the \href{https://en.wikipedia.org/wiki/Stable_roommates_problem}{stable roommates problem} \citep[see][]{Gusfield1989}. \code{ttc}: The top-trading-cycles algorithm for the \href{https://en.wikipedia.org/wiki/Top_trading_cycle}{housing market problem}. These can be used to obtain stable matchings from simulated or real preference data \citep[see][]{Shapley1974}. 
+
+\item \textit{Data}. In addition to the \code{baac00} dataset from borrowing groups in Thailands largest agricultural lending program, the package provides functions \code{stabsim} and \code{stabsim2} to simulate one's own data from one-sided and two-sided matching markets. %\code{stabsim} generates individual-level data and the \code{stabit} function has an argument \code{simulation} which generates group-level data and determines which groups are observed in equilibrium based on equilibrium conditions derived in Appendix \ref{Appendix:Equilibrium} and in \citet{Klein2015a}.
+\end{enumerate}
+
+
+
+\begin{comment}
+
+\begin{table}
+\centering
+\small
+\caption{Implemented full likelihood estimators for structural matching models}
+\begin{tabular}{l|lllll}
+\hline\hline
+          &                &           & \multicolumn{3}{c}{Equilibrium assumptions} \\
+\cline{4-6}
+Market    & Functions      & Equations & Type 1         & Type 2                 & Type 3 \\
+\hline
+&&&&&\\
+Two-sided & \code{stabit2} & matching  & Klein (2017)   & \multicolumn{1}{c}{--} & Logan et al.\ (2008)  \\
+%&&&&&\\
+\cline{3-6}
+          &                & selection & Klein (2017)   & Sorensen (2007)        & \multicolumn{1}{c}{--} \\
+          &                &           &                & Park (2013)            &  \\
+          &                &           &                & Chen (2013)            &  \\
+%&&&&&\\
+\hline
+&&&&&\\
+One-sided & \code{stabit}  & selection & \multicolumn{1}{c}{--}& Klein (2015) & \multicolumn{1}{c}{--} \\
+%&&&&&\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+
+\citet{Sorensen2007};
+\citet{Chen2013}; 
+\citet{Park2013};
+\citet{Logan2008}
+
+
+Characterisation of model vis-a-vis the literature:
+\begin{itemize}
+ \item non-transferable utility. not equal: transferable utility
+ \item full likelihood models. not equal: inequality methods (Fox); logit methods (Dagsvik; Choo/Siow)
+ \item allows for selection-correction of outcome equations
+\end{itemize}
+
+Definition of types of equilibrium assumptions:
+\begin{itemize}
+ \item Type 1: matching is based on Gale Shapley algorithm and either Rank Order List (ROL) or an edgelist of all feasible equilibrium matchings is observed. This guarantes estimation of the observed matching when there are multiple equilibria.
+ \item Type 2: assumes that preferences are aligned, which guarantees the existence of a unique equilibrium. If this assumption holds then the method is equivalent to Type 1. However, in order to impose this assumption, preferences need to be estimated jointly and it is not possible to obtain separate student and college preferences.
+ \item Type 3: Large market assumption in Menzel (Econometrica, 2013).
+\end{itemize}
+
+Improvements over \code{matchingMarkets} package:
+\begin{enumerate}
+ \item estimators
+ \item allows for incomplete lists (some agents find certain agents unacceptable), which is crucial for the algorithm to be applicable to real data and realistic simulations
+ \item computes all stable matchings (not only the student and college optimal).
+ \item can generate preferences based on underlying stochastic models (not only purely random)
+\end{enumerate}
+
+
+\begin{table}
+\centering
+\small
+\caption{Implemented algorithms by type of matching market and application}
+\begin{tabular}{lc|llll}
+\hline\hline
+          &           &            & \multicolumn{3}{c}{Matching application}  \\
+\cline{4-6}
+Market    & Transfers & Functions  & One-to-one       & Many-to-one        & Many-to-many  \\
+\hline
+&&&&&\\
+Two-sided & no        & \multicolumn{4}{l}{\code{hri}: Hospital/Residents problem with Incomplete preferences (Prosser, 2014)} \\
+          &           &            & $\checkmark$ stable marriage  & $\checkmark$ college admissions & \multicolumn{1}{c}{--} \\
+%&&&&&\\
+\cline{3-6}
+          & no        & \multicolumn{4}{l}{\code{iaa}: Immediate Acceptance Algorithm (a.k.a.\ `Boston' mechanism) and} \\
+          &           & \multicolumn{4}{l}{\textcolor{white}{\code{iaa}:} Deferred Acceptance Algortihm (Gale/Shapley, 1962)}  \\
+          &           &            & \multicolumn{1}{c}{--} & $\checkmark$ college admissions & \multicolumn{1}{c}{--} \\
+%&&&&&\\
+%\cline{2-6}
+%          & yes       & \multicolumn{4}{l}{\code{asg}: Assignment Game (Shapley/Shubik, 1971)}\\
+%          &           &            & \multicolumn{1}{c}{--} & $\checkmark$ assignment game  & \multicolumn{1}{c}{--} \\
+%&&&&&\\          
+\hline
+&&&&&\\
+One-sided & no        & \multicolumn{4}{l}{\code{sri}: Stable Roommates problem with Incomplete preferences (Prosser, 2014)} \\
+          &           &            & $\checkmark$ stable roommates & \multicolumn{1}{c}{--} & $\checkmark$ stable fixtures \\
+%&&&&&\\
+\cline{3-6}
+          & no        & \multicolumn{4}{l}{\code{ttc}: Top-Trading-Cycles algorithm (Shapley/Scarf, 1974)} \\
+          &           &            & $\checkmark$ housing market   & $\checkmark$ college admissions & \multicolumn{1}{c}{--} \\
+          &           &            & $\checkmark$ kidney exchange  &    &  \\
+%&&&&&\\
+\cline{3-6}
+          & yes       & \multicolumn{4}{l}{\code{plp}: Partitioning Linear Programme (Quint, 1991)} \\
+          &           &            & $\checkmark$stable roommates & \multicolumn{1}{c}{--} & \multicolumn{1}{c}{--} \\
+%&&&&&\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\citet{Quint1991}; 
+\citet{Prosser2014};
+\citet{Gale1962};
+\citet{Shapley1974}
+
+\end{comment}
+
+
+\noindent Frequently Asked Questions
+\begin{itemize}
+\item \textit{Why can I not use the classic Heckman correction?}
+
+Estimators such as the \citet{Heckman1979} correction (in package \href{https://CRAN.R-project.org/package=sampleSelection}{sampleSelection}) or double selection models are inappropriate for this class of selection problems. To see this, note that a simple first stage discrete choice model assumes that an observed match reveals match partners' preferences over each other. In a matching market, however, agents can only choose from the set of partners who would be willing to form a match with them and we do not observe the players' relevant choice sets. 
+
+\item \textit{Do I need an instrumental variable to estimate the model?}
+
+Short answer: No. Long answer: The characteristics of other agents in the market serve as the source of exogenous variation necessary to identify the model. The identifying exclusion restriction is that characteristics of all agents in the market affect the matching, i.e., who matches with whom, but it is only the characteristics of the match partners that affect the outcome of a particular match once it is formed. No additional instruments are required for identification \citep{Sorensen2007}. 
+
+\item \textit{What are the main assumptions underlying the estimator?}
+
+The approach has certain limitations rooted in its restrictive economic assumptions. 
+\begin{enumerate}
+\item The matching models are \textit{complete information} models. That is, agents are assumed to have a perfect knowledge of the qualities of other market participants.
+\item The models are \textit{static equilibrium} models. This implies that (i) the observed matching must be an equilibrium, i.e., no two agents would prefer to leave their current partners in order to form a new match (definition of pairwise stability), and (ii) the equilibrium must be unique for the likelihood function of the model to be well defined \citep{Bresnahan1991}.
+\item Uniqueness results can be obtained in two ways. First, as is common in the industrial organization literature, by imposing suitable \textit{preference restrictions}. A necessary and sufficient condition for agents' preferences to guarantee a unique equilibrium is alignment \citep{Pycia2010}. In a group formation model, pairwise preference alignment requires that any two agents who belong to the same groups must prefer the same group over the other. A second means to guarantee uniqueness is by assigning matches based on matching algorithms that produce a unique stable matching, such as the well-studied \citet{Gale1962} deferred acceptance algorithm.
+\item Finally, the models assume \textit{bivariate normality} of the errors in selection and outcome equation. If that assumption fails, the estimator is generally inconsistent and can provide misleading inference in small samples \citep{Goldberger1983}.
+\end{enumerate}
+\end{itemize}
+
+\noindent The remainder of the paper is structured as follows. %Section \ref{Section:Example} clearly motivates the importance of correcting for sorting bias that arises from endogenous one-sided matching in group formation. For an example in a two-sided matching context, see \citet{Sorensen2007}. 
+Section \ref{Section:Multi-indexSS} outlines the multi-index sample selection problem, develops the structural model and discusses the identification strategy. Section \ref{Section:MonteCarloResults} presents Monte-Carlo evidence of the robustness of the estimator in small samples. Section \ref{Section:Application} provides replication code and data for an application of the method in microfinance group formation \citep[see][]{Klein2015a}. %Section \ref{Section:Conclusion} concludes.
+
+
+
+
+

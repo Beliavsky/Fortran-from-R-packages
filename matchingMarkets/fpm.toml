@@ -1,0 +1,19 @@
+name = "matchingmarkets-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Thilo Klein et al.; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of matchingMarkets computational algorithms"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[dependencies]
+matchingr-fortran = { path = "vendor/matchingr-fortran" }
+lpsolve-fortran = { path = "vendor/lpsolve-fortran" }

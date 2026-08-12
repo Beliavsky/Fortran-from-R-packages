@@ -1,0 +1,14 @@
+name = "matchingr-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Jan Tilly, Nick Janetos; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational algorithms in matchingR"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true

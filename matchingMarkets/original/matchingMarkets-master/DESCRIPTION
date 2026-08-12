@@ -1,0 +1,47 @@
+Package: matchingMarkets
+Version: 1.0-5
+Depends: R (>= 3.0.2)
+Imports: Rcpp (>= 0.12.12), RcppProgress (>= 0.2), lpSolve, lattice,
+        parallel, partitions, rJava, stats, utils
+SystemRequirements: Java
+LinkingTo: Rcpp, RcppProgress, RcppArmadillo
+Suggests: knitr, ggplot2, grDevices, graphics
+VignetteBuilder: knitr
+Title: Analysis of Stable Matchings
+Authors@R: c(person("Thilo", "Klein", role = c("aut", "cre", "cph"),
+                     email = "thilo@klein.uk"),
+              person("Robert", "Aue", role = "ctb"),
+              person("Fahiem", "Bacchus", role = "cph"),
+              person("Sven", "Giegerich", role = "ctb"),
+              person("Matthias", "Hericks", role = "ctb"),
+              person("Alexander", "Sauer", role = "ctb"),
+              person("Niklas", "Sorensson", role = "cph"))
+Maintainer: Thilo Klein <thilo@klein.uk>
+Description: Implements structural estimators to estimate preferences and correct for
+    the sample selection bias of observed outcomes in matching
+    markets. This includes one-sided matching of agents into groups 
+    (Klein, 2015) <doi:10.17863/CAM.5812> 
+    as well as two-sided matching of students to schools 
+    (Klein et al., 2024) <doi:10.1016/j.geb.2024.07.003>.
+    The package also contains algorithms to find stable matchings
+    in the three most common matching problems: the stable roommates
+    problem (Irving, 1985) <doi:10.1016/0196-6774(85)90033-1>, 
+    the college admissions problem (Gale and Shapley, 1962) <doi:10.2307/2312726>, 
+    and the house allocation problem (Shapley and Scarf, 1974) <doi:10.1016/0304-4068(74)90033-0>.
+URL: https://matchingMarkets.org, https://klein.uk
+BugReports: https://github.com/thiloklein/matchingMarkets/issues
+License: GPL (>= 2)
+RoxygenNote: 7.3.1
+Encoding: UTF-8
+Copyright: file COPYRIGHTS
+NeedsCompilation: yes
+Packaged: 2025-12-22 08:43:59 UTC; TKN
+Author: Thilo Klein [aut, cre, cph],
+  Robert Aue [ctb],
+  Fahiem Bacchus [cph],
+  Sven Giegerich [ctb],
+  Matthias Hericks [ctb],
+  Alexander Sauer [ctb],
+  Niklas Sorensson [cph]
+Repository: CRAN
+Date/Publication: 2025-12-22 10:40:02 UTC

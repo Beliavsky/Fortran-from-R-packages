@@ -1,0 +1,17 @@
+citHeader("To cite matchingMarkets in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  title        = "Analysis of Stable Matchings in {R}: Package {matchingMarkets}",
+  author       = person("Thilo", "Klein", role=c("aut","cre")),
+  journal      = "The Comprehensive R Archive Network",
+  year         = "2023",
+  url          = "https://CRAN.R-project.org/package=matchingMarkets",
+
+  textVersion  =
+  paste("Thilo Klein (2023).",
+        "Analysis of Stable Matchings in R: Package matchingMarkets.",
+        "The Comprehensive R Archive Network.",
+        "URL https://CRAN.R-project.org/package=matchingMarkets.")
+)
+
