@@ -1,7 +1,7 @@
 # Fortran from R packages
 
 This repository collects experimental modern Fortran translations and
-ports by ChatGPT on High mode of computational code in 273 package
+ports by ChatGPT on High mode of computational code in 298 package
 directories derived from R packages. Each subdirectory is an
 independent Fortran Package Manager (fpm) project with its own
 documentation, tests, provenance record, and license.
@@ -14,8 +14,10 @@ unless the documentation says otherwise.
 
 | Package | What it does | Upstream version · License |
 | --- | --- | --- |
+| [`ABCoptim`](ABCoptim/) | Performs artificial bee colony optimization. | `0.15.0` · `MIT` |
 | [`ACDm`](ACDm/) | Estimates and simulates autoregressive conditional duration models. | `1.1.0` · `GPL-3.0-or-later` |
 | [`actuar`](actuar/) | Provides actuarial distributions, loss models, credibility methods, and risk calculations. | `3.3-7` · `GPL-2.0-or-later` |
+| [`adagio`](adagio/) | Provides discrete and global optimization routines. | `0.9.2` · `GPL-3.0-or-later` |
 | [`ADGofTest`](ADGofTest/) | Performs the Anderson-Darling goodness-of-fit test. | `0.3` · `GPL` |
 | [`alabama`](alabama/) | Performs constrained nonlinear optimization. | `2025.1.0` · `GPL-2.0-or-later` |
 | [`ao`](ao/) | Performs alternating optimization. | `1.2.3` · `GPL-3.0-only` |
@@ -37,16 +39,20 @@ unless the documentation says otherwise.
 | [`cccp`](cccp/) | Solves cone-constrained convex optimization problems. | `0.3-3` · `GPL-3.0-or-later` |
 | [`cec2005benchmark`](cec2005benchmark/) | Provides the CEC 2005 real-parameter optimization benchmark suite. | `1.0.4` · `GPL-3.0-or-later` |
 | [`cec2013`](cec2013/) | Provides CEC 2013 optimization benchmark functions. | `0.1-5` · `GPL-3.0-or-later` |
+| [`CEoptim`](CEoptim/) | Performs optimization using the cross-entropy method. | `1.3` · `GPL-2.0-or-later` |
 | [`CGNM`](CGNM/) | Fits nonlinear models using the cluster Gauss-Newton method. | `0.9.3` · `MIT` |
 | [`CLA`](CLA/) | Implements the Markowitz critical line algorithm for portfolio optimization. | `0.96-3` · `GPL-3.0-or-later` |
 | [`clarabel`](clarabel/) | Provides a Fortran interface to the Clarabel conic interior-point solver. | `0.11.2` · `Apache-2.0` |
+| [`clue`](clue/) | Combines and analyzes cluster ensembles. | `0.3-68` · `GPL-2.0-only` |
 | [`cluster`](cluster/) | Provides clustering methods for finding groups in data. | `2.1.8.3` · `GPL-2.0-or-later` |
+| [`cmaes`](cmaes/) | Performs optimization using covariance-matrix adaptation evolution strategies. | `1.0-12` · `GPL-2.0-only` |
 | [`coneproj`](coneproj/) | Performs cone projections, quadratic programming, and shape-restricted regression. | `1.23` · `GPL-2.0-or-later` |
 | [`copula`](copula/) | Models multivariate dependence with common copula families. | `1.1-7` · `GPL-3.0-or-later` |
 | [`corpcor`](corpcor/) | Estimates covariance and partial-correlation matrices efficiently. | `1.6.10` · `GPL-3.0-or-later` |
 | [`corpmetrics`](corpmetrics/) | Provides corporate valuation, financial-metric, and modelling calculations. | `1.0` · `GPL-2.0-or-later` |
 | [`creditr`](creditr/) | Values credit-default swaps using the ISDA CDS Standard Model. | `0.6.2` · `GPL-3.0-only AND LicenseRef-ISDA-CDS-Standard-Model` |
 | [`cvar`](cvar/) | Computes value at risk and expected shortfall from distributions or samples. | `0.6` · `GPL-2.0-or-later` |
+| [`DEoptim`](DEoptim/) | Performs global optimization by differential evolution. | `2.2-8` · `GPL-2.0-or-later` |
 | [`deoptimr`](deoptimr/) | Performs global optimization using differential evolution. | `1.2-0` · `GPL-2.0-or-later` |
 | [`derivmkts`](derivmkts/) | Provides derivative pricing and financial-market calculations. | `0.2.5.1` · `MIT` |
 | [`dfoptim`](dfoptim/) | Provides derivative-free optimization algorithms. | `2023.1.0` · `GPL-2.0-or-later` |
@@ -58,6 +64,7 @@ unless the documentation says otherwise.
 | [`esback`](esback/) | Backtests expected-shortfall forecasts. | `0.3.1` · `GPL-3.0-only` |
 | [`etrm`](etrm/) | Values and analyzes energy-trading and risk-management instruments. | `1.0.2` · `MIT` |
 | [`evir`](evir/) | Performs extreme-value analysis for financial risk. | `1.7-4` · `GPL-2.0-or-later` |
+| [`expm`](expm/) | Computes matrix exponentials, logarithms, square roots, and related functions. | `1.0-0` · `GPL-3.0-or-later` |
 | [`extraDistr`](extraDistr/) | Provides additional univariate and multivariate probability distributions. | `1.10.0.5` · `GPL-2.0-only` |
 | [`fastcluster`](fastcluster/) | Performs fast hierarchical agglomerative clustering. | `1.3.0` · `BSD-2-Clause` |
 | [`fattailsr`](fattailsr/) | Provides Kiener distributions and fat-tail analytics. | `2.0.1` · `GPL-2.0-only` |
@@ -78,16 +85,19 @@ unless the documentation says otherwise.
 | [`fitdistrplus`](fitdistrplus/) | Fits parametric distributions to censored and uncensored data. | `1.2-6` · `GPL-2.0-or-later` |
 | [`fitHeavyTail`](fitHeavyTail/) | Estimates means and covariance matrices under heavy tails. | `0.2.0.9000` · `GPL-3.0-only` |
 | [`FKF`](FKF/) | Performs fast multivariate Kalman filtering and smoothing. | `0.2.6` · `GPL-2.0-or-later` |
+| [`FLSSS`](FLSSS/) | Solves subset-sum, multidimensional-knapsack, and generalized-assignment problems. | `9.2.8` · `GPL-3.0-only` |
 | [`fmbasics`](fmbasics/) | Provides foundational financial-market calculations. | `0.3.99` · `GPL-2.0-only` |
 | [`fmultivar`](fmultivar/) | Provides multivariate distributions and financial-data analysis. | `4031.84` · `GPL-2.0-or-later` |
 | [`fnonlinear`](fnonlinear/) | Models nonlinear and chaotic time series. | `4052.83` · `GPL-2.0-or-later` |
 | [`fportfolio`](fportfolio/) | Performs portfolio selection, optimization, risk analysis, and backtesting. | `4023.84` · `GPL-2.0-or-later` |
 | [`fracdiff`](fracdiff/) | Estimates, simulates, and analyzes fractionally differenced time-series models. | `1.5-4` · `GPL-2.0-or-later` |
 | [`frapo`](frapo/) | Provides financial risk modelling and portfolio optimization methods. | `0.4-2` · `GPL-3.0-or-later` |
+| [`GA`](GA/) | Performs optimization with genetic algorithms. | `3.2.5` · `GPL-2.0-or-later` |
 | [`GARCHIto`](GARCHIto/) | Estimates unified and realized GARCH-Ito volatility models. | `0.1.0` · `GPL-3.0-only` |
 | [`garchsk`](garchsk/) | Estimates GARCH models with conditional skewness and kurtosis. | `0.1.0` · `GPL-2.0-or-later` |
 | [`garchx`](garchx/) | Fits GARCH models with exogenous covariates. | `1.7` · `GPL-2.0-or-later` |
 | [`gcpm`](gcpm/) | Models credit-portfolio risk analytically and by Monte Carlo simulation. | `1.2.2` · `GPL-2.0-only` |
+| [`genalg`](genalg/) | Performs optimization with genetic algorithms. | `0.2.1` · `GPL-2.0-only` |
 | [`GenSA`](GenSA/) | Performs global optimization using generalized simulated annealing. | `1.1.15` · `GPL-2.0-only` |
 | [`ghyp`](ghyp/) | Evaluates, fits, and simulates generalized hyperbolic distributions. | `1.6.5` · `GPL-2.0-or-later` |
 | [`glmnet`](glmnet/) | Fits lasso and elastic-net regularized generalized linear models. | `5.0` · `GPL-2.0-only` |
@@ -104,6 +114,7 @@ unless the documentation says otherwise.
 | [`highOrderPortfolios`](highOrderPortfolios/) | Designs portfolios using mean, variance, skewness, and kurtosis. | `0.1.1` · `GPL-3.0-only` |
 | [`highs`](highs/) | Provides a Fortran interface to the HiGHS optimization solver. | `1.14.0-2` · `GPL-2.0-or-later` |
 | [`ICSNP`](ICSNP/) | Provides tools for multivariate nonparametric statistics. | `1.1-3` · `GPL-2.0-or-later` |
+| [`igraph`](igraph/) | Provides graph and network analysis algorithms. | `2.3.3` · `GPL-2.0-or-later` |
 | [`imputeFin`](imputeFin/) | Imputes missing values and outliers in financial time series. | `0.1.2.9000` · `GPL-3.0-only` |
 | [`IndGenErrors`](IndGenErrors/) | Tests independence between innovations of generalized-error models. | `0.1.6` · `GPL-3.0-only` |
 | [`INFOSET`](INFOSET/) | Computes informative distribution sets for asset returns. | `4.1.1` · `GPL-2.0-or-later` |
@@ -121,6 +132,7 @@ unless the documentation says otherwise.
 | [`lgarch`](lgarch/) | Simulates and estimates log-GARCH models. | `0.7` · `GPL-2.0-only` |
 | [`lifeinsurer`](lifeinsurer/) | Models traditional life-insurance contracts. | `1.0.1` · `GPL-2.0-or-later` |
 | [`limSolve`](limSolve/) | Solves linear inverse models with equality and inequality constraints. | `2.0.3` · `GPL` |
+| [`linprog`](linprog/) | Solves linear programming problems. | `0.9-6` · `GPL-2.0-or-later` |
 | [`lme4`](lme4/) | Fits linear, generalized linear, and nonlinear mixed-effects models. | `2.1-0` · `GPL-2.0-or-later` |
 | [`longmemo`](longmemo/) | Provides statistical methods for long-memory processes. | `1.1-4` · `GPL-2.0-or-later` |
 | [`LowRankQP`](LowRankQP/) | Solves low-rank quadratic programming problems. | `1.0.6` · `GPL-2.0-or-later` |
@@ -133,12 +145,15 @@ unless the documentation says otherwise.
 | [`markowitzr`](markowitzr/) | Performs statistical inference for Markowitz portfolios. | `1.0.2.0002` · `LGPL-3.0-or-later` |
 | [`marqLevAlg`](marqLevAlg/) | Performs parallelized Marquardt-Levenberg optimization. | `2.0.8` · `GPL-2.0-or-later` |
 | [`MASS`](MASS/) | Provides statistical methods from Venables and Ripley's MASS. | `7.3-66` · `GPL-3.0-only` |
+| [`matchingMarkets`](matchingMarkets/) | Analyzes stable matching markets. | `1.0-5` · `GPL-2.0-or-later` |
+| [`matchingR`](matchingR/) | Provides algorithms for stable and optimal matching. | `2.0.0` · `GPL-2.0-or-later` |
 | [`matlab`](matlab/) | Provides numerical and matrix utilities modelled after MATLAB functions. | `1.0.4.1` · `Artistic-2.0` |
 | [`Matrix`](Matrix/) | Provides dense and sparse matrix algorithms. | `1.7-6` · `GPL-3.0-only` |
 | [`MatrixExtra`](MatrixExtra/) | Provides additional methods for sparse matrices. | `0.1.15` · `GPL-3.0-only` |
 | [`maxLik`](maxLik/) | Performs maximum-likelihood estimation and related calculations. | `1.5-2.2` · `GPL-2.0-or-later` |
 | [`mcga`](mcga/) | Performs real-valued optimization with machine-coded genetic algorithms. | `3.0.9` · `GPL-2.0-or-later` |
 | [`mcrp`](mcrp/) | Constructs multiple-criteria risk-parity portfolios. | `0.0-1` · `GPL-3.0-only` |
+| [`metaheuristicOpt`](metaheuristicOpt/) | Provides population-based metaheuristic optimization algorithms. | `2.0.0` · `GPL-2.0-or-later` |
 | [`Metrics`](Metrics/) | Computes evaluation metrics for machine learning. | `0.1.4` · `BSD-3-Clause` |
 | [`mfGARCH`](mfGARCH/) | Fits mixed-frequency GARCH models. | `0.2.2` · `MIT` |
 | [`mgcv`](mgcv/) | Fits generalized additive models with automatic smoothness selection. | `1.9-4` · `GPL-2.0-or-later` |
@@ -148,6 +163,7 @@ unless the documentation says otherwise.
 | [`mize`](mize/) | Provides unconstrained numerical optimization algorithms. | `0.2.5.9000` · `BSD-2-Clause` |
 | [`moments`](moments/) | Computes moments, cumulants, skewness, kurtosis, and related tests. | `0.14.1` · `GPL-2.0-or-later` |
 | [`msgarch`](msgarch/) | Fits Markov-switching GARCH models. | `2.51` · `GPL-2.0-or-later` |
+| [`msm`](msm/) | Fits continuous-time multi-state and hidden Markov models. | `1.8.2` · `GPL-2.0-or-later` |
 | [`MTS`](MTS/) | Provides a toolkit for multivariate time-series analysis. | `1.2.1` · `Artistic-2.0` |
 | [`multiAssetOptions`](multiAssetOptions/) | Values European and American multi-asset options by finite differences. | `0.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`MultiATSM`](MultiATSM/) | Models multicountry term structures of interest rates. | `1.5.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
@@ -156,6 +172,7 @@ unless the documentation says otherwise.
 | [`neighbours`](neighbours/) | Provides neighbourhood functions for local-search algorithms. | `0.1-5` · `GPL-3.0-only` |
 | [`neldermead`](neldermead/) | Performs derivative-free optimization using Nelder-Mead methods. | `1.0-13` · `CeCILL-2.0` |
 | [`NFCP`](NFCP/) | Estimates term structures with N-factor commodity-pricing models. | `1.2.2` · `GPL-3.0-only` |
+| [`nilde`](nilde/) | Finds nonnegative integer solutions of linear Diophantine equations. | `1.1-7` · `GPL-2.0-or-later` |
 | [`NlcOptim`](NlcOptim/) | Solves nonlinear optimization problems with nonlinear constraints. | `0.6` · `GPL-3.0-only` |
 | [`nlme`](nlme/) | Fits linear and nonlinear mixed-effects models. | `3.1-170` · `GPL-2.0-or-later` |
 | [`nloptr`](nloptr/) | Provides nonlinear optimization methods inspired by the NLopt interface. | `2.2.1.9000` · `LGPL-3.0-or-later` |
@@ -174,6 +191,7 @@ unless the documentation says otherwise.
 | [`optimflex`](optimflex/) | Performs derivative-based optimization with user-defined convergence criteria. | `0.1.8` · `MIT` |
 | [`optimx`](optimx/) | Provides an expanded toolkit for general-purpose optimization. | `2025-4.9` · `GPL-2.0-only` |
 | [`optionpricing`](optionpricing/) | Prices options with efficient simulation algorithms. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`optmatch`](optmatch/) | Performs optimal distance-based matching for observational studies. | `0.10.8` · `MIT` |
 | [`osqp`](osqp/) | Solves convex quadratic programs using the OSQP algorithm. | `1.0.0` · `Apache-2.0` |
 | [`pa`](pa/) | Performs equity-portfolio performance attribution. | `1.2-4` · `GPL-2.0-only` |
 | [`parma`](parma/) | Provides portfolio allocation and risk-management applications. | `1.7` · `GPL-3.0-or-later` |
@@ -189,10 +207,13 @@ unless the documentation says otherwise.
 | [`PortfolioTesteR`](PortfolioTesteR/) | Tests investment strategies using an English-like specification. | `0.1.4` · `MIT` |
 | [`portvine`](portvine/) | Estimates portfolio risk with rolling ARMA-GARCH and vine-copula models. | `1.0.3.9000` · `GPL-3.0-only` |
 | [`ppcor`](ppcor/) | Computes partial and semi-partial correlations. | `1.1` · `GPL-2.0-only` |
+| [`ppso`](ppso/) | Performs particle-swarm optimization and dynamically dimensioned search. | `0.9-99994` · `Unlimited` |
 | [`pracma`](pracma/) | Provides practical numerical mathematics functions. | `2.4.6` · `GPL-3.0-or-later` |
 | [`pso`](pso/) | Performs particle-swarm optimization. | `1.0.4` · `LGPL-3.0-only` |
+| [`psoptim`](psoptim/) | Performs particle-swarm optimization. | `1.0` · `GPL-2.0-or-later` |
 | [`psqn`](psqn/) | Performs partially separable quasi-Newton optimization. | `0.3.2` · `Apache-2.0` |
 | [`PWEV`](PWEV/) | Builds weighted ensembles for volatility modelling using particle-swarm optimization. | `0.1.0` · `GPL-3.0-only` |
+| [`qap`](qap/) | Provides heuristics for the quadratic assignment problem. | `0.1-2` · `GPL-3.0-only` |
 | [`QCSIS`](QCSIS/) | Performs sure-independence screening using quantile correlation. | `0.1` · `GPL-2.0-only` |
 | [`qrmtools`](qrmtools/) | Provides quantitative risk-management tools and distribution calculations. | `0.0-19` · `GPL-3.0-or-later` |
 | [`quadprog`](quadprog/) | Solves quadratic programs with the Goldfarb-Idnani method. | `1.5-8` · `GPL-2.0-or-later` |
@@ -205,6 +226,7 @@ unless the documentation says otherwise.
 | [`RCEIM`](RCEIM/) | Performs optimization using a cross-entropy-inspired method. | `0.3` · `GPL-2.0-or-later` |
 | [`RcppNumerical`](RcppNumerical/) | Provides numerical optimization, integration, and linear-algebra algorithms. | `0.7-0` · `GPL-2.0-or-later` |
 | [`Rcsdp`](Rcsdp/) | Solves semidefinite programs using CSDP algorithms. | `0.1.57.6` · `CPL-1.0` |
+| [`Rdsdp`](Rdsdp/) | Solves semidefinite programs using DSDP algorithms. | `1.0.6` · `GPL-3.0-only AND LicenseRef-DSDP AND Apache-2.0` |
 | [`REN`](REN/) | Uses regularization ensembles for robust portfolio optimization. | `0.1.0` · `AGPL-3.0-or-later` |
 | [`R-fixedincome`](R-fixedincome/) | Provides fixed-income rates, curves, interpolation, and Nelson-Siegel models. | `0.0.5` · `MIT` |
 | [`rgenoud`](rgenoud/) | Performs genetic optimization with optional derivatives. | `5.9-0.3` · `GPL-3.0-only` |
@@ -213,6 +235,7 @@ unless the documentation says otherwise.
 | [`RiskPortfolios`](RiskPortfolios/) | Constructs portfolios using risk-based allocation methods. | `2.1.7` · `GPL-2.0-or-later` |
 | [`risksimul`](risksimul/) | Simulates rare portfolio losses under t-copulas with t or generalized-hyperbolic marginals. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`RM2006`](RM2006/) | Estimates conditional covariance using the RiskMetrics 2006 methodology. | `0.1.1` · `GPL-2.0-or-later` |
+| [`Rmalschains`](Rmalschains/) | Performs continuous optimization with memetic algorithms and local search chains. | `0.2-11` · `GPL-3.0-only` |
 | [`rmgarch`](rmgarch/) | Fits and analyzes multivariate GARCH models. | `1.4-2` · `GPL-3.0-only` |
 | [`rnd`](rnd/) | Extracts option-implied risk-neutral densities. | `1.2` · `GPL-2.0-or-later` |
 | [`RobStatTM`](RobStatTM/) | Provides robust statistical estimators and tests. | `1.0.11` · `GPL-3.0-or-later` |
@@ -232,6 +255,7 @@ unless the documentation says otherwise.
 | [`rvinecopulib`](rvinecopulib/) | Models pair copulas and D-vines. | `0.7.3.1.0` · `GPL-3.0-only` |
 | [`SACCR`](SACCR/) | Calculates counterparty credit risk under the standardized approach. | `3.4` · `GPL-3.0-only` |
 | [`sandwich`](sandwich/) | Computes robust sandwich covariance-matrix estimators. | `3.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`scip`](scip/) | Provides an interface to the SCIP optimization suite. | `1.10.0-3` · `Apache-2.0` |
 | [`scs`](scs/) | Solves convex cone problems using the splitting conic solver. | `3.2.7` · `GPL-3.0-only` |
 | [`sde`](sde/) | Simulates and performs inference for stochastic differential equations. | `2.0.21` · `GPL-2.0-or-later` |
 | [`segmented`](segmented/) | Fits regression models with estimated breakpoints and changepoints. | `2.2-1` · `GPL-2.0-or-later` |
@@ -270,6 +294,7 @@ unless the documentation says otherwise.
 | [`tserieschaos`](tserieschaos/) | Analyzes nonlinear and chaotic time series. | `0.1-13.1` · `GPL-2.0-only` |
 | [`tsgarch`](tsgarch/) | Fits, simulates, forecasts, and diagnoses univariate GARCH models. | `1.0.4` · `GPL-2.0-only` |
 | [`tsmarch`](tsmarch/) | Fits and forecasts multivariate ARCH models. | `1.0.3` · `GPL-2.0-only` |
+| [`TSP`](TSP/) | Provides algorithms and infrastructure for traveling-salesperson problems. | `1.2.7` · `GPL-3.0-only` |
 | [`tvgarch`](tvgarch/) | Fits time-varying GARCH models. | `2.4.3` · `GPL-2.0-or-later` |
 | [`tvGarchKF`](tvGarchKF/) | Fits time-varying GARCH models through a state-space representation. | `0.0.1` · `GPL-3.0-or-later` |
 | [`tvm`](tvm/) | Performs time-value-of-money and interest-rate calculations. | `0.5.2` · `MIT` |
