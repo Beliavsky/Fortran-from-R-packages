@@ -1,0 +1,28 @@
+bibentry(bibtype = "Article",
+  title        = "{CEoptim}: Cross-Entropy {R} Package for Optimization",
+  author       = c(person(given = "Tim",
+                          family = "Benham",
+                          email = "tim.j.benham@gmail.com"),
+                   person(given = "Qibin",
+                          family = "Duan",
+                          email = "q.duan@uq.edu.au"),
+                   person(given = c("Dirk", "P."),
+                          family = "Kroese",
+                          email = "kroese@maths.uq.edu.au"),
+                   person(given = "Beno\\^{i}t",
+                          family = "Liquet",
+                          email = "b.liquet@uq.edu.au")),
+  journal      = "Journal of Statistical Software",
+  year         = "2017",
+  volume       = "76",
+  number       = "8",
+  pages        = "1--29",
+  doi          = "10.18637/jss.v076.i08",
+
+  header       = "To cite CEoptim in publications use:",
+  textVersion  =
+  paste("Tim Benham, Qibin Duan, Dirk P. Kroese, Benoit Liquet (2017).",
+        "CEoptim: Cross-Entropy R Package for Optimization.",
+        "Journal of Statistical Software, 76(8), 1-29.",
+        "doi:10.18637/jss.v076.i08")
+)
