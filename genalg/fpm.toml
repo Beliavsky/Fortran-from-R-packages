@@ -1,0 +1,15 @@
+name = "genalg-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Fortran translation of genalg by Egon Willighagen and Michel Ballings"
+maintainer = ""
+copyright = "Original genalg authors and contributors"
+description = "Modern Fortran translation of the computational core of R package genalg"
+categories = ["optimization", "genetic-algorithm"]
+keywords = ["genetic algorithm", "binary", "real-valued", "optimization"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
