@@ -1,0 +1,14 @@
+name = "flsss-fortran"
+version = "0.4.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of FLSSS 9.2.8"
+maintainer = ""
+copyright = "Original FLSSS copyright retained under original/"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true

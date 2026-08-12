@@ -1,0 +1,11 @@
+export(FLSSS, FLSSSmultiset, GAP, mFLSSSpar,
+       mFLSSSparImposeBounds, mFLSSSparImposeBoundsIntegerized,
+       mFLSSSparIntegerized, mmKnapsack, mmKnapsackIntegerized,
+       auxGAPbb, auxGAPbbDp, auxKnapsack01dp, auxKnapsack01bb,
+       auxGAPga, decomposeMflsss, mFLSSSobjRun, arbFLSSS,
+	   decomposeArbFLSSS, arbFLSSSobjRun, ksumHash, addNumStrings)
+importFrom(Rcpp, evalCpp) 
+importFrom(RcppParallel, RcppParallelLibs)
+importFrom("stats", "aggregate", "cor", "runif")
+importFrom("utils", "tail")
+useDynLib(FLSSS, .registration = TRUE)

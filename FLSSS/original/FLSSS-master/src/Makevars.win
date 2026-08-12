@@ -1,0 +1,10 @@
+# CXX_STD = CXX11
+
+PKG_CXXFLAGS += -DRCPP_PARALLEL_USE_TBB=1
+
+PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "RcppParallel::RcppParallelLibs()")
+
+PKG_LIBS += -lgmp
+
+# PKG_CXXFLAGS += -ffast-math -ftree-vectorize -march=native
+
