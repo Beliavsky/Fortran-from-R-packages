@@ -1,0 +1,14 @@
+name = "deoptim-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "DEoptim authors; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational core of R package DEoptim"
+categories = ["optimization"]
+keywords = ["differential evolution", "global optimization", "DEoptim"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
