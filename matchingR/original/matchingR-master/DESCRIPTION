@@ -1,0 +1,30 @@
+Package: matchingR
+Type: Package
+Title: Matching Algorithms in R and C++
+Version: 2.0.0
+Date: 2025-09-22
+Authors@R: c(
+               person(given = "Jan", family = "Tilly", role = c("aut", "cre"), email = "jantilly@gmail.com"),
+               person(given = "Nick", family = "Janetos", role = "aut")
+           )
+Maintainer: Jan Tilly <jantilly@gmail.com>
+Description: Computes matching algorithms quickly using Rcpp.
+    Implements the Gale-Shapley Algorithm to compute the stable
+    matching for two-sided markets, such as the stable marriage
+    problem and the college-admissions problem. Implements Irving's
+    Algorithm for the stable roommate problem. Implements the top
+    trading cycle algorithm for the indivisible goods trading problem.
+License: GPL (>= 2)
+URL: https://github.com/jtilly/matchingR/
+BugReports: https://github.com/jtilly/matchingR/issues/
+Depends: Rcpp
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: testthat, knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.3
+NeedsCompilation: yes
+Packaged: 2025-09-22 21:13:29 UTC; runner
+Author: Jan Tilly [aut, cre],
+  Nick Janetos [aut]
+Repository: CRAN
+Date/Publication: 2025-09-23 05:10:02 UTC
