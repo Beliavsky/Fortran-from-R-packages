@@ -1,0 +1,50 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "scip: R Interface to the SCIP Optimization Suite",
+  author   = person("Balasubramanian", "Narasimhan"),
+  year     = "2026",
+  note     = "R package"
+)
+
+bibentry(
+  bibtype  = "TechReport",
+  title    = "The SCIP Optimization Suite 10.0",
+  author   = c(
+    person("Christopher", "Hojny"),
+    person("others")
+  ),
+  year     = "2025",
+  institution = "Optimization Online",
+  url      = "https://doi.org/10.48550/arXiv.2511.18580",
+  note     = "Technical Report"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "SCIP: Solving Constraint Integer Programs",
+  author   = person("Tobias", "Achterberg"),
+  journal  = "Mathematical Programming Computation",
+  year     = "2009",
+  volume   = "1",
+  number   = "1",
+  pages    = "1--41",
+  doi      = "10.1007/s12532-008-0001-1"
+)
+
+bibentry(
+  bibtype      = "InCollection",
+  title        = "Constraint Integer Programming: a New Approach to Integrate CP and MIP",
+  author       = c(
+    person("Tobias", "Achterberg"),
+    person("Timo", "Berthold"),
+    person("Thorsten", "Koch"),
+    person("Kati", "Wolter")
+  ),
+  booktitle    = "Integration of AI and OR Techniques in Constraint Programming for Combinatorial Optimization Problems",
+  series       = "Lecture Notes in Computer Science",
+  volume       = "5015",
+  pages        = "6--20",
+  year         = "2008",
+  publisher    = "Springer",
+  doi          = "10.1007/978-3-540-68155-7_4"
+)

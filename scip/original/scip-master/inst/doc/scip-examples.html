@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Solving Optimization Problems with SCIP</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Solving Optimization Problems with
+SCIP</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>scip</code> package provides an R interface to <a href="https://www.scipopt.org/">SCIP</a> (Solving Constraint Integer
+Programs), one of the fastest non-commercial solvers for mixed-integer
+programming (MIP) and mixed-integer nonlinear programming (MINLP). SCIP
+supports linear, quadratic, SOS, and indicator constraints with
+continuous, binary, and integer variables.</p>
+<p>This vignette demonstrates the package through examples adapted from
+the <a href="https://www.scipopt.org/doc/html/EXAMPLES.php">SCIP
+documentation and example suite</a> (Copyright 2002–2026 Zuse Institute
+Berlin, Apache-2.0 license).</p>
+<p>The package offers two interfaces:</p>
+<ul>
+<li><strong>One-shot interface</strong> (<code>scip_solve</code>): pass
+a constraint matrix and get a solution back in one call.</li>
+<li><strong>Model-building interface</strong> (<code>scip_model</code>,
+<code>scip_add_var</code>, etc.): build a model incrementally, useful
+for complex formulations.</li>
+</ul>
+</div>
+<div id="example-1-a-production-planning-lp" class="section level2">
+<h2>Example 1: A Production Planning LP</h2>
+<p>A company produces two products. Each unit of Product 1 yields $5
+profit and each unit of Product 2 yields $4 profit. Production is
+limited by labour (6 hours available) and materials (8 kg available).
+Product 1 requires 1 hour and 2 kg per unit; Product 2 requires 2 hours
+and 1 kg per unit.</p>
+<p><span class="math display">\[\max\; 5x_1 + 4x_2\]</span> subject to:
+<span class="math display">\[x_1 + 2x_2 \le 6
+\quad\text{(labour)}\]</span> <span class="math display">\[2x_1 + x_2
+\le 8 \quad\text{(materials)}\]</span> <span class="math display">\[x_1,
+x_2 \ge 0\]</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>              <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">## scip_solve minimizes, so negate the objective for maximization</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">scip_solve</span>(<span class="at">obj =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="sc">-</span><span class="dv">4</span>), <span class="at">A =</span> A, <span class="at">b =</span> b,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                  <span class="at">sense =</span> <span class="fu">c</span>(<span class="st">&quot;&lt;=&quot;</span>, <span class="st">&quot;&lt;=&quot;</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>res<span class="sc">$</span>status</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;optimal&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="sc">-</span>res<span class="sc">$</span>objval  <span class="co"># negate back to get the maximized profit</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>res<span class="sc">$</span>x</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; [1] 3.333333 1.333333</span></span></code></pre></div>
+</div>
+<div id="example-2-the-knapsack-problem" class="section level2">
+<h2>Example 2: The Knapsack Problem</h2>
+<p><em>Adapted from SCIP’s <code>solveknapsackexactly.c</code> unit test
+(Marc Pfetsch, Gregor Hendel, Zuse Institute Berlin).</em></p>
+<p>A hiker can carry at most 13 kg. Six items are available with weights
+7, 2, 7, 5, 1, and 3 kg, each with equal value. Which items should the
+hiker pack to carry as many as possible?</p>
+<p><span class="math display">\[\max\; \sum_{i=1}^{6} x_i\]</span>
+subject to: <span class="math display">\[7x_1 + 2x_2 + 7x_3 + 5x_4 + x_5
++ 3x_6 \le 13\]</span> <span class="math display">\[x_i \in
+\{0,1\}\]</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">scip_solve</span>(<span class="at">obj =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                  <span class="at">A =</span> A, <span class="at">b =</span> <span class="dv">13</span>, <span class="at">sense =</span> <span class="st">&quot;&lt;=&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                  <span class="at">vtype =</span> <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>res<span class="sc">$</span>status</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;optimal&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>items_packed <span class="ot">&lt;-</span> <span class="fu">which</span>(res<span class="sc">$</span>x <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>items_packed</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 5 6</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>total_weight <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">3</span>)[items_packed])</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>total_weight</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; [1] 13</span></span></code></pre></div>
+</div>
+<div id="example-3-n-queens-problem" class="section level2">
+<h2>Example 3: N-Queens Problem</h2>
+<p><em>Adapted from SCIP’s Queens example
+(<code>examples/Queens/src/queens.cpp</code>, Cornelius Schwarz,
+University of Bayreuth).</em></p>
+<p>Place <span class="math inline">\(n\)</span> queens on an <span class="math inline">\(n \times n\)</span> chessboard so that no two
+queens attack each other. This classic combinatorial problem is
+naturally modelled as a binary integer program.</p>
+<p>Let <span class="math inline">\(x_{i,j} \in \{0,1\}\)</span> indicate
+whether a queen is placed at row <span class="math inline">\(i\)</span>,
+column <span class="math inline">\(j\)</span>. The constraints are:</p>
+<ul>
+<li><strong>Rows</strong>: exactly one queen per row, <span class="math inline">\(\sum_j x_{i,j} = 1\)</span></li>
+<li><strong>Columns</strong>: exactly one queen per column, <span class="math inline">\(\sum_i x_{i,j} = 1\)</span></li>
+<li><strong>Diagonals</strong>: at most one queen per diagonal, <span class="math inline">\(\sum_{(i,j)\in D} x_{i,j} \le 1\)</span></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>solve_nqueens <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    m <span class="ot">&lt;-</span> <span class="fu">scip_model</span>(<span class="fu">paste0</span>(n, <span class="st">&quot;-queens&quot;</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="fu">scip_set_objective_sense</span>(m, <span class="st">&quot;maximize&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="do">## Create n*n binary variables x[i,j] with objective 1</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="do">## Variable (i,j) is stored at index (i-1)*n + j</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>    idx <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) (i <span class="sc">-</span> <span class="dv">1</span><span class="dt">L</span>) <span class="sc">*</span> n <span class="sc">+</span> j</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="fu">scip_add_vars</span>(m, <span class="at">obj =</span> <span class="fu">rep</span>(<span class="dv">1</span>, n <span class="sc">*</span> n), <span class="at">lb =</span> <span class="dv">0</span>, <span class="at">ub =</span> <span class="dv">1</span>, <span class="at">vtype =</span> <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                  <span class="at">names =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x%d_%d&quot;</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">each =</span> n), <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, n)))</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    <span class="do">## Row constraints: exactly one queen per row</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>        <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">idx</span>(i, <span class="dv">1</span><span class="sc">:</span>n), <span class="at">coefs =</span> <span class="fu">rep</span>(<span class="dv">1</span>, n),</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>                             <span class="at">lhs =</span> <span class="dv">1</span>, <span class="at">rhs =</span> <span class="dv">1</span>, <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;row_%d&quot;</span>, i))</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    }</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>    <span class="do">## Column constraints: exactly one queen per column</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>        <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">idx</span>(<span class="dv">1</span><span class="sc">:</span>n, j), <span class="at">coefs =</span> <span class="fu">rep</span>(<span class="dv">1</span>, n),</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>                             <span class="at">lhs =</span> <span class="dv">1</span>, <span class="at">rhs =</span> <span class="dv">1</span>, <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;col_%d&quot;</span>, j))</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>    }</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>    <span class="do">## Diagonal constraints: at most one queen per diagonal</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    <span class="do">## Down-right diagonals</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>    <span class="cf">for</span> (d <span class="cf">in</span> (<span class="sc">-</span>(n <span class="sc">-</span> <span class="dv">2</span>))<span class="sc">:</span>(n <span class="sc">-</span> <span class="dv">2</span>)) {</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>        rows <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="sc">+</span> d)<span class="sc">:</span><span class="fu">min</span>(n, n <span class="sc">+</span> d)</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>        cols <span class="ot">&lt;-</span> rows <span class="sc">-</span> d</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">length</span>(rows) <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>            <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">idx</span>(rows, cols),</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>                                 <span class="at">coefs =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(rows)),</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>                                 <span class="at">rhs =</span> <span class="dv">1</span>, <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;diag_down_%d&quot;</span>, d))</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>        }</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>    }</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>    <span class="do">## Down-left diagonals (anti-diagonals)</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>    <span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>        rows <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1</span>, s <span class="sc">-</span> n)<span class="sc">:</span><span class="fu">min</span>(n, s <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>        cols <span class="ot">&lt;-</span> s <span class="sc">-</span> rows</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">length</span>(rows) <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>            <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">idx</span>(rows, cols),</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>                                 <span class="at">coefs =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(rows)),</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>                                 <span class="at">rhs =</span> <span class="dv">1</span>, <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;diag_up_%d&quot;</span>, s))</span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>        }</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>    }</span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>    <span class="fu">scip_optimize</span>(m)</span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>    sol <span class="ot">&lt;-</span> <span class="fu">scip_get_solution</span>(m)</span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a>    <span class="do">## Extract queen positions</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>    x_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">round</span>(sol<span class="sc">$</span>x), <span class="at">nrow =</span> n, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a>    positions <span class="ot">&lt;-</span> <span class="fu">which</span>(x_mat <span class="sc">==</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a>    <span class="fu">colnames</span>(positions) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;row&quot;</span>, <span class="st">&quot;col&quot;</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">status =</span> <span class="fu">scip_get_status</span>(m),</span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a>         <span class="at">n_queens =</span> <span class="fu">as.integer</span>(sol<span class="sc">$</span>objval),</span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>         <span class="at">positions =</span> positions[<span class="fu">order</span>(positions[, <span class="st">&quot;row&quot;</span>]), ],</span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a>         <span class="at">board =</span> x_mat)</span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">solve_nqueens</span>(<span class="dv">8</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>result<span class="sc">$</span>status</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;optimal&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>result<span class="sc">$</span>n_queens</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>result<span class="sc">$</span>positions</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;      row col</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [1,]   1   4</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [2,]   2   6</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; [3,]   3   1</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [4,]   4   5</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; [5,]   5   2</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; [6,]   6   8</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [7,]   7   3</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [8,]   8   7</span></span></code></pre></div>
+<p>Visualize the board (<code>.</code> = empty, <code>Q</code> =
+queen):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>board_str <span class="ot">&lt;-</span> <span class="fu">apply</span>(result<span class="sc">$</span>board, <span class="dv">1</span>, <span class="cf">function</span>(row) {</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="fu">ifelse</span>(row <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;.&quot;</span>), <span class="at">collapse =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>})</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">cat</span>(board_str, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; . . . Q . . . .</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; . . . . . Q . .</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Q . . . . . . .</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; . . . . Q . . .</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; . Q . . . . . .</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; . . . . . . . Q</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; . . Q . . . . .</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; . . . . . . Q .</span></span></code></pre></div>
+</div>
+<div id="example-4-circle-packing-quadratic-constraints" class="section level2">
+<h2>Example 4: Circle Packing (Quadratic Constraints)</h2>
+<p><em>Adapted from SCIP’s CallableLibrary example
+(<code>examples/CallableLibrary/src/circlepacking.c</code>, Jose
+Salmeron and Stefan Vigerske, Zuse Institute Berlin).</em></p>
+<p>Pack <span class="math inline">\(n\)</span> circles with given radii
+into a rectangle of minimum area. For each circle <span class="math inline">\(i\)</span> with radius <span class="math inline">\(r_i\)</span>, find center coordinates <span class="math inline">\((x_i,
+y_i)\)</span>. The rectangle has width <span class="math inline">\(W\)</span> and height <span class="math inline">\(H\)</span>.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>Circles stay within the rectangle: <span class="math inline">\(r_i
+\le x_i \le W - r_i\)</span> and <span class="math inline">\(r_i \le y_i
+\le H - r_i\)</span></li>
+<li>Circles do not overlap: <span class="math inline">\((x_i - x_j)^2 +
+(y_i - y_j)^2 \ge (r_i + r_j)^2\)</span> for all <span class="math inline">\(i &lt; j\)</span></li>
+</ul>
+<p><strong>Objective:</strong> Minimize <span class="math inline">\(W
+\times H\)</span> (area).</p>
+<p>Since bilinear objectives are harder to handle, we use a simpler
+approach: minimize <span class="math inline">\(W + H\)</span> as a proxy
+and fix one dimension. Here we minimize the width given a fixed height,
+packing 3 circles.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>radii <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>, <span class="fl">0.8</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(radii)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fl">5.0</span>  <span class="co"># fixed height</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">scip_model</span>(<span class="st">&quot;circlepacking&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="do">## Variables: x_i, y_i for each circle, plus W</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>x_idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(n)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>y_idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(n)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    x_idx[i] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> <span class="dv">0</span>, <span class="at">lb =</span> radii[i], <span class="at">ub =</span> <span class="dv">100</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>                              <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x%d&quot;</span>, i))</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    y_idx[i] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> <span class="dv">0</span>, <span class="at">lb =</span> radii[i], <span class="at">ub =</span> H <span class="sc">-</span> radii[i],</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                              <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;y%d&quot;</span>, i))</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>}</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>w_idx <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> <span class="dv">1</span>, <span class="at">lb =</span> <span class="dv">0</span>, <span class="at">ub =</span> <span class="dv">100</span>, <span class="at">name =</span> <span class="st">&quot;W&quot;</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="do">## x_i &lt;= W - r_i  =&gt;  x_i - W &lt;= -r_i</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>    <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">c</span>(x_idx[i], w_idx), <span class="at">coefs =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>                         <span class="at">rhs =</span> <span class="sc">-</span>radii[i],</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>                         <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;fit_x_%d&quot;</span>, i))</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>}</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="do">## Non-overlap: (x_i - x_j)^2 + (y_i - y_j)^2 &gt;= (r_i + r_j)^2</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="do">## Expand: x_i^2 - 2*x_i*x_j + x_j^2 + y_i^2 - 2*y_i*y_j + y_j^2 &gt;= (r_i+r_j)^2</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> (i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>n) {</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>        min_dist_sq <span class="ot">&lt;-</span> (radii[i] <span class="sc">+</span> radii[j])<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>        <span class="fu">scip_add_quadratic_cons</span>(m,</span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>            <span class="at">quadvars1 =</span> <span class="fu">c</span>(x_idx[i], x_idx[i], x_idx[j], y_idx[i], y_idx[i], y_idx[j]),</span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>            <span class="at">quadvars2 =</span> <span class="fu">c</span>(x_idx[i], x_idx[j], x_idx[j], y_idx[i], y_idx[j], y_idx[j]),</span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>            <span class="at">quadcoefs =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>            <span class="at">lhs =</span> min_dist_sq,</span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>            <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;nooverlap_%d_%d&quot;</span>, i, j))</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>    }</span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>}</span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="fu">scip_optimize</span>(m)</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Status:&quot;</span>, <span class="fu">scip_get_status</span>(m), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="co">#&gt; Status: optimal</span></span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">scip_get_solution</span>(m)</span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>W_opt <span class="ot">&lt;-</span> sol<span class="sc">$</span>x[w_idx]</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Minimum width: %.3f (height fixed at %.1f)</span><span class="sc">\n</span><span class="st">&quot;</span>, W_opt, H))</span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt; Minimum width: 3.515 (height fixed at 5.0)</span></span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;  Circle %d (r=%.1f): center = (%.3f, %.3f)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>                i, radii[i], sol<span class="sc">$</span>x[x_idx[i]], sol<span class="sc">$</span>x[y_idx[i]]))</span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a>}</span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt;   Circle 1 (r=1.0): center = (1.000, 4.000)</span></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co">#&gt;   Circle 2 (r=1.5): center = (1.500, 1.500)</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co">#&gt;   Circle 3 (r=0.8): center = (2.715, 3.453)</span></span></code></pre></div>
+</div>
+<div id="example-5-facility-location-mixed-integer" class="section level2">
+<h2>Example 5: Facility Location (Mixed-Integer)</h2>
+<p><em>Adapted from SCIP’s SCFLP example
+(<code>examples/SCFLP/doc/xternal_scflp.c</code>, Zuse Institute
+Berlin).</em></p>
+<p>A company must decide which of <span class="math inline">\(p\)</span>
+potential warehouse locations to open. Each warehouse <span class="math inline">\(i\)</span> has a fixed opening cost <span class="math inline">\(f_i\)</span> and a capacity <span class="math inline">\(k_i\)</span>. Each of <span class="math inline">\(q\)</span> customers <span class="math inline">\(j\)</span> has a demand <span class="math inline">\(d_j\)</span> and a per-unit shipping cost <span class="math inline">\(c_{ij}\)</span> from warehouse <span class="math inline">\(i\)</span>. Minimize total cost.</p>
+<p><span class="math display">\[\min\; \sum_i f_i y_i + \sum_{i,j}
+c_{ij} x_{ij}\]</span> subject to: <span class="math display">\[\sum_i
+x_{ij} \ge d_j \quad\forall j \quad\text{(demand)}\]</span> <span class="math display">\[\sum_j x_{ij} \le k_i\, y_i \quad\forall i
+\quad\text{(capacity)}\]</span> <span class="math display">\[y_i \in
+\{0,1\},\; x_{ij} \ge 0\]</span></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="do">## Problem data</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># warehouses</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">4</span>  <span class="co"># customers</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>fixed_cost <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">120</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>capacity <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">40</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>demand <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">15</span>, <span class="dv">30</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="do">## Shipping cost matrix (warehouses x customers)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>ship_cost <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">6</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">4</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">8</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>), <span class="at">nrow =</span> p, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">scip_model</span>(<span class="st">&quot;facility_location&quot;</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="do">## Binary variables y_i: open warehouse i?</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>y_idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(p)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p) {</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>    y_idx[i] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> fixed_cost[i], <span class="at">vtype =</span> <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>                              <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;y%d&quot;</span>, i))</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>}</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="do">## Continuous variables x_ij: amount shipped from i to j</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>x_idx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span><span class="dt">L</span>, <span class="at">nrow =</span> p, <span class="at">ncol =</span> q)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p) {</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>q) {</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>        x_idx[i, j] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> ship_cost[i, j],</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>                                     <span class="at">lb =</span> <span class="dv">0</span>, <span class="at">ub =</span> <span class="fu">max</span>(capacity),</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>                                     <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x%d_%d&quot;</span>, i, j))</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>    }</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>}</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="do">## Demand constraints: sum_i x_ij &gt;= d_j</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>q) {</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>    <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> x_idx[, j], <span class="at">coefs =</span> <span class="fu">rep</span>(<span class="dv">1</span>, p),</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>                         <span class="at">lhs =</span> demand[j],</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>                         <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;demand_%d&quot;</span>, j))</span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>}</span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="do">## Capacity constraints: sum_j x_ij - k_i * y_i &lt;= 0</span></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p) {</span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a>    <span class="fu">scip_add_linear_cons</span>(m,</span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a>                         <span class="at">vars =</span> <span class="fu">c</span>(x_idx[i, ], y_idx[i]),</span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a>                         <span class="at">coefs =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, q), <span class="sc">-</span>capacity[i]),</span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a>                         <span class="at">rhs =</span> <span class="dv">0</span>,</span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a>                         <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;capacity_%d&quot;</span>, i))</span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a>}</span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="fu">scip_optimize</span>(m)</span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">scip_get_solution</span>(m)</span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Status:&quot;</span>, <span class="fu">scip_get_status</span>(m), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="co">#&gt; Status: optimal</span></span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Total cost:&quot;</span>, sol<span class="sc">$</span>objval, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a><span class="co">#&gt; Total cost: 600</span></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a>open_warehouses <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">round</span>(sol<span class="sc">$</span>x[y_idx]) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Open warehouses:&quot;</span>, open_warehouses, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co">#&gt; Open warehouses: 1 2</span></span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a>shipments <span class="ot">&lt;-</span> <span class="fu">matrix</span>(sol<span class="sc">$</span>x[x_idx], <span class="at">nrow =</span> p)</span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Shipment plan (rows=warehouses, cols=customers):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co">#&gt; Shipment plan (rows=warehouses, cols=customers):</span></span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="fu">rownames</span>(shipments) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;W&quot;</span>, <span class="dv">1</span><span class="sc">:</span>p)</span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="fu">colnames</span>(shipments) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>, <span class="dv">1</span><span class="sc">:</span>q)</span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(shipments, <span class="dv">1</span>))</span>
+<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a><span class="co">#&gt;    C1 C2 C3 C4</span></span>
+<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a><span class="co">#&gt; W1 20  0 15  0</span></span>
+<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a><span class="co">#&gt; W2  0 25  0 30</span></span>
+<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a><span class="co">#&gt; W3  0  0  0  0</span></span></code></pre></div>
+</div>
+<div id="example-6-indicator-constraints" class="section level2">
+<h2>Example 6: Indicator Constraints</h2>
+<p><em>Adapted from SCIP’s indicator test instances
+(<code>check/instances/Indicator/</code>, Zuse Institute
+Berlin).</em></p>
+<p>Indicator constraints model logical implications: “if a binary
+variable is 1, then a linear constraint must hold.” They are widely used
+in scheduling, network design, and disjunctive programming.</p>
+<p>Here we model a simple production problem with setup costs: a machine
+must be “turned on” (<span class="math inline">\(z_i = 1\)</span>)
+before it can produce. Turning on a machine costs $50. Each unit
+produced on machine <span class="math inline">\(i\)</span> earns revenue
+<span class="math inline">\(r_i\)</span>. Machine <span class="math inline">\(i\)</span> can produce at most <span class="math inline">\(u_i\)</span> units, but only if turned on.</p>
+<p><span class="math display">\[\max\; \sum_i (r_i x_i - 50
+z_i)\]</span> subject to: <span class="math display">\[z_i = 1 \implies
+x_i \le u_i \quad \text{(capacity when on)}\]</span> <span class="math display">\[z_i = 0 \implies x_i = 0 \quad \text{(nothing
+when off)}\]</span> <span class="math display">\[x_i \ge 0,\; z_i \in
+\{0,1\}\]</span></p>
+<p>We model <span class="math inline">\(z_i = 0 \implies x_i \le
+0\)</span> as an indicator constraint on the negated variable.
+Equivalently, we add the big-M constraint <span class="math inline">\(x_i \le u_i z_i\)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>revenue <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">15</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>max_prod <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">8</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>setup_cost <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">scip_model</span>(<span class="st">&quot;setup_production&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">scip_set_objective_sense</span>(m, <span class="st">&quot;maximize&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>z_idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">3</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>x_idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">3</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    z_idx[i] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> <span class="sc">-</span>setup_cost, <span class="at">vtype =</span> <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>                              <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;z%d&quot;</span>, i))</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    x_idx[i] <span class="ot">&lt;-</span> <span class="fu">scip_add_var</span>(m, <span class="at">obj =</span> revenue[i], <span class="at">lb =</span> <span class="dv">0</span>, <span class="at">ub =</span> max_prod[i],</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>                              <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;x%d&quot;</span>, i))</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="do">## x_i &lt;= max_prod[i] * z_i  =&gt;  x_i - max_prod[i] * z_i &lt;= 0</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="fu">scip_add_linear_cons</span>(m, <span class="at">vars =</span> <span class="fu">c</span>(x_idx[i], z_idx[i]),</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>                         <span class="at">coefs =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span>max_prod[i]),</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>                         <span class="at">rhs =</span> <span class="dv">0</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>                         <span class="at">name =</span> <span class="fu">sprintf</span>(<span class="st">&quot;link_%d&quot;</span>, i))</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>}</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="fu">scip_optimize</span>(m)</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>sol <span class="ot">&lt;-</span> <span class="fu">scip_get_solution</span>(m)</span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Status:&quot;</span>, <span class="fu">scip_get_status</span>(m), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; Status: optimal</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Profit:&quot;</span>, sol<span class="sc">$</span>objval, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; Profit: 250</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>    on <span class="ot">&lt;-</span> <span class="fu">round</span>(sol<span class="sc">$</span>x[z_idx[i]])</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>    prod <span class="ot">&lt;-</span> sol<span class="sc">$</span>x[x_idx[i]]</span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;  Machine %d: %s, produce %.0f units</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>                i, <span class="cf">if</span> (on) <span class="st">&quot;ON&quot;</span> <span class="cf">else</span> <span class="st">&quot;OFF&quot;</span>, prod))</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>}</span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt;   Machine 1: ON, produce 10 units</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt;   Machine 2: ON, produce 20 units</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt;   Machine 3: ON, produce 8 units</span></span></code></pre></div>
+</div>
+<div id="solver-controls" class="section level2">
+<h2>Solver Controls</h2>
+<p>Use <code>scip_control()</code> with the one-shot interface, or
+<code>scip_set_param()</code> with the model-building interface, to tune
+solver behavior.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">## One-shot: time limit and gap tolerance</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">scip_control</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">time_limit =</span> <span class="dv">60</span>, <span class="at">gap_limit =</span> <span class="fl">0.01</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="do">## Model-building: set SCIP parameters directly</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">scip_model</span>(<span class="st">&quot;tuning_example&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">scip_set_param</span>(m, <span class="st">&quot;display/verblevel&quot;</span>, <span class="dv">0</span><span class="dt">L</span>)   <span class="co"># suppress output</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">scip_set_param</span>(m, <span class="st">&quot;limits/time&quot;</span>, <span class="fl">60.0</span>)        <span class="co"># 60-second time limit</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">scip_set_param</span>(m, <span class="st">&quot;limits/gap&quot;</span>, <span class="fl">0.01</span>)         <span class="co"># 1% optimality gap</span></span></code></pre></div>
+<p>Common SCIP parameters:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>display/verblevel</code></td>
+<td>int</td>
+<td>Verbosity (0=silent, 5=max)</td>
+</tr>
+<tr class="even">
+<td><code>limits/time</code></td>
+<td>real</td>
+<td>Time limit in seconds</td>
+</tr>
+<tr class="odd">
+<td><code>limits/gap</code></td>
+<td>real</td>
+<td>Relative MIP gap tolerance</td>
+</tr>
+<tr class="even">
+<td><code>limits/nodes</code></td>
+<td>longint</td>
+<td>Maximum B&amp;B nodes</td>
+</tr>
+<tr class="odd">
+<td><code>limits/solutions</code></td>
+<td>int</td>
+<td>Stop after this many solutions</td>
+</tr>
+</tbody>
+</table>
+<p>See the <a href="https://www.scipopt.org/doc/html/PARAMETERS.php">SCIP parameter
+documentation</a> for the complete list.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li>SCIP Optimization Suite: <a href="https://www.scipopt.org/" class="uri">https://www.scipopt.org/</a></li>
+<li>Bestuzheva, K., Besançon, M., Chen, W.-K., Chmiela, A., Donkiewicz,
+T., van Doornmalen, J., et al. (2021). The SCIP Optimization Suite 8.0.
+<em>ZIB-Report</em> 21-41, Zuse Institute Berlin.</li>
+<li>Examples in this vignette are adapted from the SCIP example suite
+(Copyright 2002–2026 Zuse Institute Berlin, Apache-2.0 license),
+available at <code>examples/</code> in the <a href="https://github.com/scipopt/scip">SCIP source</a>.</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

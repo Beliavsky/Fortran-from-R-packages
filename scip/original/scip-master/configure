@@ -1,0 +1,92 @@
+#!/bin/sh
+
+: ${R_HOME=`R RHOME`}
+if test -n "${R_HOME}"; then
+  CC=`"${R_HOME}/bin/R" CMD config CC`
+fi
+: ${CC:=cc}
+
+# Detect compiler support for -ffp-contract=off (floating-point reproducibility).
+FP_FLAG=""
+if ${CC} -ffp-contract=off -x c -c /dev/null -o /dev/null 2>/dev/null; then
+  FP_FLAG="-ffp-contract=off"
+fi
+
+# Detect OpenMP support for SCIP's thread pool interface (TPI).
+# If available, SCIP is built with TPI=omp (OpenMP). Otherwise TPI=none.
+#
+# R-exts recommends $(SHLIB_OPENMP_CXXFLAGS) in Makevars when linking is by
+# C++. We also need to know at configure time whether to tell CMake to build
+# SCIP with TPI=omp or TPI=none, so we detect here as well.
+# OPENMP_FLAG is a fallback for linking when R's SHLIB_OPENMP_CXXFLAGS is empty.
+OPENMP_FLAG=""
+R_HAS_OPENMP=no
+
+# Method 1: R's own OpenMP configuration (preferred, per R-exts 1.2.1.1).
+# Use CXXFLAGS since linking is by C++ (CXX_STD = CXX17).
+OPENMP_CXXFLAGS=`"${R_HOME}/bin/R" CMD config SHLIB_OPENMP_CXXFLAGS 2>/dev/null` || OPENMP_CXXFLAGS=""
+if test -n "${OPENMP_CXXFLAGS}"; then
+  R_HAS_OPENMP=yes
+fi
+
+# Method 2: Compile test fallback (some R builds omit SHLIB_OPENMP_CXXFLAGS
+# even though the compiler supports OpenMP, e.g. r2u binary builds).
+# Try multiple flags to avoid tying to a single compiler family.
+if test "${R_HAS_OPENMP}" = "no"; then
+  CONFTEST=conftest_omp_$$
+  cat > ${CONFTEST}.c <<EOF
+#include <omp.h>
+int main(void) { return omp_get_num_threads(); }
+EOF
+  for omp_flag in -fopenmp -qopenmp -xopenmp; do
+    if ${CC} ${omp_flag} -o ${CONFTEST} ${CONFTEST}.c 2>/dev/null; then
+      OPENMP_FLAG="${omp_flag}"
+      break
+    fi
+  done
+  rm -f ${CONFTEST}.c ${CONFTEST}
+fi
+
+if test "${R_HAS_OPENMP}" = "yes" || test -n "${OPENMP_FLAG}"; then
+  TPI_MODE=omp
+  echo "OpenMP supported: using TPI=omp for SCIP thread pool"
+else
+  TPI_MODE=none
+  OPENMP_FLAG=""
+  echo "OpenMP not available: using TPI=none (no SCIP parallelism)"
+fi
+export TPI_MODE
+
+# Build SCIP + SoPlex from source via CMake
+R_SCIP_PKG_HOME=`pwd`
+bash inst/build_scip.sh || { echo "SCIP build failed!"; exit 1; }
+cd ${R_SCIP_PKG_HOME}
+
+# After CMake build, remove source trees if installing from tarball
+# (pre-built vignettes in inst/doc/ indicate tarball install).
+# This saves disk space in the installed package.
+if test -d inst/doc; then
+    rm -rf inst/scip inst/soplex inst/config
+fi
+
+R_SCIP_LIB_DIR=${R_SCIP_PKG_HOME}/src/sciplib
+R_SOPLEX_LIB_DIR=${R_SCIP_PKG_HOME}/src/soplexlib
+
+RSCIP_PKG_LIBS="-L${R_SCIP_LIB_DIR}/lib -lscip -L${R_SOPLEX_LIB_DIR}/lib -lsoplex"
+if test -d "${R_SCIP_LIB_DIR}/lib64"; then
+    RSCIP_PKG_LIBS="-L${R_SCIP_LIB_DIR}/lib64 -lscip ${RSCIP_PKG_LIBS}"
+fi
+if test -d "${R_SOPLEX_LIB_DIR}/lib64"; then
+    RSCIP_PKG_LIBS="${RSCIP_PKG_LIBS} -L${R_SOPLEX_LIB_DIR}/lib64 -lsoplex"
+fi
+
+sed -e "s|@FP_CONTRACT_FLAG@|${FP_FLAG}|g" \
+    -e "s|@OPENMP_FLAG@|${OPENMP_FLAG}|g" \
+    -e "s|@RSCIP_LIB_DIR@|${R_SCIP_LIB_DIR}|g" \
+    -e "s|@RSCIP_PKG_LIBS@|${RSCIP_PKG_LIBS}|g" \
+    src/Makevars.in > src/Makevars
+
+if [ -z "$(ls ${R_SCIP_LIB_DIR} 2>/dev/null | grep 'include')" ]; then
+    echo "SCIP libraries could not be found!"
+    exit 1
+fi

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Restore the source tree to a clean state (as if freshly cloned).
+# Called by R CMD build (twice: before and after vignette install)
+# and by R CMD INSTALL --clean.
+
+# CMake build artifacts from build_scip.sh
+rm -rf inst/scip/build
+rm -rf inst/soplex/build
+rm -rf src/sciplib
+rm -rf src/soplexlib
+
+# Generated Makevars
+rm -rf src/Makevars src/Makevars.win
+
+# Compiled objects and shared library
+find src -name "*.o" -delete 2>/dev/null
+find src -name "*.so" -delete 2>/dev/null
+find src -name "*.dylib" -delete 2>/dev/null
+find src -name "*.dll" -delete 2>/dev/null

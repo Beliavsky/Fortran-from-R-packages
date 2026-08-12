@@ -1,0 +1,17 @@
+name = "scip-fortran"
+version = "0.1.0"
+license = "Apache-2.0"
+author = "Fortran translation of the R package scip interface"
+maintainer = ""
+description = "Modern Fortran interface to the SCIP Optimization Suite, translated from R package scip 1.10.0-3"
+categories = ["optimization", "linear-programming", "mixed-integer-programming"]
+keywords = ["SCIP", "MIP", "MINLP", "Fortran"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+link = ["scipfortran_backend", "stdc++", "m"]
+
+[library]
+source-dir = "src"

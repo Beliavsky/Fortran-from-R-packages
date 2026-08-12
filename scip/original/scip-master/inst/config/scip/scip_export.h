@@ -1,0 +1,14 @@
+#ifndef SCIP_EXPORT_H
+#define SCIP_EXPORT_H
+
+#define SCIP_EXPORT
+#define SCIP_NO_EXPORT
+
+#ifndef SCIP_DEPRECATED
+#  define SCIP_DEPRECATED __attribute__ ((__deprecated__))
+#endif
+
+#define SCIP_DEPRECATED_EXPORT SCIP_EXPORT SCIP_DEPRECATED
+#define SCIP_DEPRECATED_NO_EXPORT SCIP_NO_EXPORT SCIP_DEPRECATED
+
+#endif

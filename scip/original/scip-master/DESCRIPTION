@@ -1,0 +1,32 @@
+Package: scip
+Title: Interface to the SCIP Optimization Suite
+Version: 1.10.0-3
+Authors@R: c(
+    person("Balasubramanian", "Narasimhan", email = "naras@stanford.edu",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5852-7639")),
+    person("SCIP Optimization Suite Authors", role = "cph",
+           comment = "SCIP, SoPlex, PaPILO libraries"))
+Description: Provides an R interface to SCIP (Solving Constraint Integer Programs), a framework for mixed-integer
+	     programming (MIP), mixed-integer nonlinear programming (MINLP), and constraint integer programming
+	     (2025, <doi:10.48550/arXiv.2511.18580>). Supports linear, quadratic, SOS, indicator, and knapsack
+	     constraints with continuous, binary, and integer variables. Includes a one-shot solver interface
+	     and a model-building API for incremental problem construction.
+License: Apache License (>= 2)
+URL: https://bnaras.github.io/scip/, https://scipopt.org/
+BugReports: https://github.com/bnaras/scip/issues
+Depends: R (>= 4.0)
+Imports: methods, Matrix
+Suggests: tinytest, slam, knitr, rmarkdown
+VignetteBuilder: knitr
+SystemRequirements: CMake (>= 3.11), GNU make, C++17
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+NeedsCompilation: yes
+Packaged: 2026-04-08 21:29:17 UTC; naras
+Author: Balasubramanian Narasimhan [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-5852-7639>),
+  SCIP Optimization Suite Authors [cph] (SCIP, SoPlex, PaPILO libraries)
+Maintainer: Balasubramanian Narasimhan <naras@stanford.edu>
+Repository: CRAN
+Date/Publication: 2026-04-10 08:20:02 UTC
