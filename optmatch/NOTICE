@@ -1,0 +1,11 @@
+This project is a modern Fortran translation of computational routines from:
+
+optmatch 0.10.8
+Functions for Optimal Matching
+Copyright (c) 2022 optmatch authors
+MIT License
+
+Upstream project: https://github.com/markmfredrickson/optmatch
+
+The translation retains upstream attribution and licensing.  It is not an
+official release of the upstream R package.

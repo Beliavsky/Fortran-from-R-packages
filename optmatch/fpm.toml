@@ -1,0 +1,17 @@
+name = "optmatch-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "optmatch authors; Fortran translation"
+maintainer = ""
+copyright = "Copyright (c) 2022 optmatch authors"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
