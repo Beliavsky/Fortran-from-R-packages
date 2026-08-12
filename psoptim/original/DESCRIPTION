@@ -1,0 +1,17 @@
+Package: psoptim
+Version: 1.0
+Date: 2016-01-30
+Title: Particle Swarm Optimization
+Depends: R (>= 2.0.0)
+Authors@R: c(person("Krzysztof", "Ciupke", role = c("aut", "cre"),
+		     email = "krzysztof.ciupke@polsl.pl")
+	      )
+Author: Krzysztof Ciupke [aut, cre]
+Maintainer: Krzysztof Ciupke <krzysztof.ciupke@polsl.pl>
+Description: Particle swarm optimization - a basic variant.
+License: GPL (>= 2.0)
+URL: https://www.r-project.org
+Packaged: 2016-01-30 18:13:12 UTC; kciupke
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2016-01-31 12:22:33

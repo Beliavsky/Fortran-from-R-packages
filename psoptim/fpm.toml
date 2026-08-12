@@ -1,0 +1,13 @@
+name = "psoptim-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Krzysztof Ciupke; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Original psoptim authors and contributors"
+description = "Modern Fortran translation of the computational core of the R package psoptim"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

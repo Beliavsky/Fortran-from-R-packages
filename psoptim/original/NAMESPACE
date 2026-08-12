@@ -1,0 +1,6 @@
+importFrom(stats, dbeta, dnorm, fft, quantile, var)
+importFrom("grDevices", "densCols")
+importFrom("graphics", "contour", "image", "legend", "lines", "plot",
+           "points")
+importFrom("stats", "runif") 
+export("psoptim")
