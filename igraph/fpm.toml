@@ -1,0 +1,16 @@
+name = "igraph-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "igraph contributors; Fortran translation"
+maintainer = "Fortran translation"
+description = "Native modern Fortran graph algorithms translated from the computational scope of R igraph"
+categories = ["graph", "network", "algorithms"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
