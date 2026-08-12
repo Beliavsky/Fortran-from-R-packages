@@ -1,0 +1,17 @@
+0ce2db5149a4301cdc57298086e5d042 *DESCRIPTION
+f9006cc79d773d23a96fa9df7c2c887a *NAMESPACE
+58a284df6188ec381d3a901ef5a2d0a2 *R/cmaes.R
+214dd16c828998118306a4c0a3778c30 *R/functions.R
+a1393f3a341c331cde979c6186afd7d4 *inst/unittests/runit-regr.R
+d9c89b18ae8a4aef700586c8f857c847 *inst/unittests/runit-simple.r
+1ef94e1b2df36aaa9e53b9d44b3ee82f *inst/unittests/runner.r
+b756dcc81e35b5634c31d4a5d18e61a6 *man/bias_function.Rd
+8f9b83697f03c75416852ef79a4562eb *man/cma_es.Rd
+dbdcd49d8f5aea7307d8aab32c61990c *man/extract_population.Rd
+e6b450c7eee2e762b0cdc9d9dda1ec3e *man/f_rand.Rd
+cc41bcf40e06bac5a0085a3fe840c47e *man/f_rastrigin.Rd
+5781a113ad7457d25717da661c55ac45 *man/f_rosenbrock.Rd
+de097efe96b36306ffceec33171d7fc6 *man/f_sphere.Rd
+a999fd9c0e7c8e83b9fb4af2e0f7bc3d *man/rotate_function.Rd
+42f6977e23f2ab5b717e0d8bde0d7d91 *man/shift_function.Rd
+1e9e82b702cdd489758db262891759d3 *tests/RUnit.R

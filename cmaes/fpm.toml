@@ -1,0 +1,14 @@
+name = "cmaes-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Fortran translation of cmaes by Heike Trautmann, Olaf Mersmann, and David Arnu"
+copyright = "Original cmaes authors; Fortran translation"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+link = ["lapack", "blas"]
+
+[library]
+source-dir = "src"
