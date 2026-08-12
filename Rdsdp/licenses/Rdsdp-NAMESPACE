@@ -1,0 +1,8 @@
+useDynLib(Rdsdp, .registration = TRUE)
+
+# Import all packages listed as Imports or Depends
+import("utils", "methods")
+
+export("dsdp", "dsdp.readsdpa")
+
+
