@@ -1,0 +1,265 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: clue 0.3-54\n"
+"POT-Creation-Date: 2017-08-07 11:31\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "Argument 'weights' must be compatible with 'x'."
+msgstr ""
+
+msgid "Argument 'weights' has negative elements."
+msgstr ""
+
+msgid "Argument 'weights' has no positive elements."
+msgstr ""
+
+msgid "Non-identical weights currently not supported."
+msgstr ""
+
+msgid "All given orders must be valid permutations."
+msgstr ""
+
+msgid "Iterative projection run: %d"
+msgstr ""
+
+msgid "Iterative reduction run: %d"
+msgstr ""
+
+msgid "Cannot coerce to 'cl_addtree'."
+msgstr ""
+
+msgid "Cannot mix partitions and hierarchies."
+msgstr ""
+
+msgid "All clusterings must have the same number of objects."
+msgstr ""
+
+msgid "Can only handle hard partitions."
+msgstr ""
+
+msgid "Can only determine classes of partitions or hierarchies."
+msgstr ""
+
+msgid "Cannot compute consensus of empty ensemble."
+msgstr ""
+
+msgid "AOS run: %d"
+msgstr ""
+
+msgid "Iteration: 0 *** value: %g"
+msgstr ""
+
+msgid "Iteration: %d *** value: %g"
+msgstr ""
+
+msgid "Minimum: %g"
+msgstr ""
+
+msgid "AOG run: %d"
+msgstr ""
+
+msgid "Parameter 'p' must be in [1/2, 1]."
+msgstr ""
+
+msgid "Cannot compute prototype distances."
+msgstr ""
+
+msgid "All elements must have the same number of objects."
+msgstr ""
+
+msgid "Generic '%s' not defined for \"%s\" objects."
+msgstr ""
+
+msgid "Wrong class."
+msgstr ""
+
+msgid "Plotting not available for elements %s of the ensemble."
+msgstr ""
+
+msgid "Value '%s' is not a valid abbreviation for a fuzziness method."
+msgstr ""
+
+msgid "Unary '%s' not defined for \"%s\" objects."
+msgstr ""
+
+msgid "Hierarchies must have the same number of objects."
+msgstr ""
+
+msgid "Dendrograms must have the same number of objects."
+msgstr ""
+
+msgid "Arguments 'x' and 'y' must have the same number of objects."
+msgstr ""
+
+msgid "Cannot compute meet of given clusterings."
+msgstr ""
+
+msgid "Cannot compute join of given clusterings."
+msgstr ""
+
+msgid "Join of given n-trees does not exist."
+msgstr ""
+
+msgid "x must be a matrix with nonnegative entries."
+msgstr ""
+
+msgid "x must not have more rows than columns."
+msgstr ""
+
+msgid "Argument 'x' must be a partition."
+msgstr ""
+
+msgid "Cannot compute medoid of empty ensemble."
+msgstr ""
+
+msgid "Cannot compute medoid partition of empty ensemble."
+msgstr ""
+
+msgid "Class ids:"
+msgstr ""
+
+msgid "Criterion:"
+msgstr ""
+
+msgid "Medoid ids:"
+msgstr ""
+
+msgid "k cannot be less than the number of classes in x."
+msgstr ""
+
+msgid "Cannot extract object dissimilarities"
+msgstr ""
+
+msgid "Cannot infer class ids from given object."
+msgstr ""
+
+msgid "A hard partition of %d objects."
+msgstr ""
+
+msgid "A partition of %d objects."
+msgstr ""
+
+msgid "Partitions must have the same number of objects."
+msgstr ""
+
+msgid "Class ids must be atomic."
+msgstr ""
+
+msgid "Not a valid membership matrix."
+msgstr ""
+
+msgid "Cannot coerce to 'cl_hard_partition'."
+msgstr ""
+
+msgid "No information on exponent in consensus method used."
+msgstr ""
+
+msgid "No information on dissimilarity in consensus method used."
+msgstr ""
+
+msgid "A hard partition of a cluster ensemble with %d elements into %d classes."
+msgstr ""
+
+msgid "A soft partition (degree m = %f) of a cluster ensemble with %d elements into %d classes."
+msgstr ""
+
+msgid "Cannot determine how to modify prototypes."
+msgstr ""
+
+msgid "Invalid function to modify prototypes."
+msgstr ""
+
+msgid "Cannot determine how to subset prototypes."
+msgstr ""
+
+msgid "Invalid function to subset prototypes."
+msgstr ""
+
+msgid "Pclust run: %d"
+msgstr ""
+
+msgid "A hard partition of %d objects into %d classes."
+msgstr ""
+
+msgid "A soft partition (degree m = %f) of %d objects into %d classes."
+msgstr ""
+
+msgid "Cannot make new predictions."
+msgstr ""
+
+msgid "Standardization is currently not supported."
+msgstr ""
+
+msgid "Cannot determine prototypes."
+msgstr ""
+
+msgid "Invalid consensus method '%s'."
+msgstr ""
+
+msgid "Invalid dissimilarity method '%s'."
+msgstr ""
+
+msgid "Invalid agreement method '%s'."
+msgstr ""
+
+msgid "SUMT run: %d"
+msgstr ""
+
+msgid "Iteration: 0 Rho: %g P: %g"
+msgstr ""
+
+msgid "Iteration: %d Rho: %g P: %g"
+msgstr ""
+
+msgid "Not a valid ultrametric."
+msgstr ""
+
+msgid "Given ensemble contains no dissimilarities."
+msgstr ""
+
+msgid "Outer iteration: %d"
+msgstr ""
+
+msgid "Change: u: %g L: %g"
+msgstr ""
+
+msgid "Iteration: %d"
+msgstr ""
+
+msgid "Term: %d"
+msgstr ""
+
+msgid "Change: %g"
+msgstr ""
+
+msgid "Overall change: u: %g L: %g"
+msgstr ""
+
+msgid "An object of virtual class '%s', with representation:"
+msgstr ""
+
+msgid        "An ensemble of %d partition of %d objects."
+msgid_plural "An ensemble of %d partitions of %d objects."
+msgstr[0]    ""
+msgstr[1]    ""
+
+msgid        "An ensemble of %d dendrogram of %d objects."
+msgid_plural "An ensemble of %d dendrograms of %d objects."
+msgstr[0]    ""
+msgstr[1]    ""
+
+msgid        "An ensemble of %d hierarchy of %d objects."
+msgid_plural "An ensemble of %d hierarchies of %d objects."
+msgstr[0]    ""
+msgstr[1]    ""
+
+msgid        "An ensemble with %d element."
+msgid_plural "An ensemble with %d elements."
+msgstr[0]    ""
+msgstr[1]    ""

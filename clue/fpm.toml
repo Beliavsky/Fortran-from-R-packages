@@ -1,0 +1,17 @@
+name = "clue-fortran"
+version = "0.1.1"
+license = "GPL-2.0-only"
+author = "Fortran translation of clue by OpenAI"
+maintainer = ""
+description = "Modern Fortran/FPM translation of the computational core of R package clue"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+lpsolve-fortran = { path = "vendor/lpsolve-fortran" }
