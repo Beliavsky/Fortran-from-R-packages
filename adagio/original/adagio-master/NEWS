@@ -1,0 +1,159 @@
+------------------------------------------------------------------------------
+  adagio                                                                NEWS
+------------------------------------------------------------------------------
+
+
+Changes in Version 0.9.2 (2023-10-26)
+
+  o change_making() solving the Change Making problem
+  o Improved Historize() and changed its ouput value considerably.
+
+Changes in Version 0.8.9 (2023-01-30)
+
+  o Corrected Nesterov's test functions and gradients, and
+    added another nonsmooth version Nesterov2().
+
+Changes in Version 0.8.7 (2022-12-18)
+
+  o count() added, with functionality similar to table().
+  o Corrected the help page for fnHald() where abs() was missing.
+
+Changes in Version 0.8.5 (2022-09-30)
+
+  o Historize() adds storage for variables and values of a function.
+
+Changes in Version 0.8.4 (2021-04-30)
+
+  o bpp_approx() solves the Bin Packing Problem approximately.
+
+Changes in Version 0.8.3 (2021-04-28)
+
+  o Small corrections in subsetsum(); added sss_test() -- no indices.
+    Changed default values of arguments for methods and sorting.
+  o occurs() finds index positions of subsequences in integer sequences.
+  o Removed inactive URL links (Hansen's homepage changed).
+
+Changes in Version 0.8.2 (2021-04-24)
+
+  o setcover() solves the Set Cover problem in discrete optimization.
+  o Added a one-line description for testfunction 'fnNesterov1'.
+  o Corrected help pages for 'knapsack()' and 'mknapsack()'.
+
+Changes in Version 0.8.1 (2021-04-22)
+
+  o Removed Fortran code for 'maxsub()' and 'maxsub2d()'.
+  o 'assignment()' uses 'lp.assign' from the 'lpSolve' package;
+    now numeric cost matrices are allowed, not only integer ones.
+  o 'mknapsack()': Fortran code replaced by a linear program;
+    also interchanged the weight and profit arguments.
+
+Changes in Version 0.8.0 (2021-04-21)
+
+  o Restart 'adagio' by avoiding Fortran code now and forever.
+  o Imports 'lpSolve' for treating mixed-integer linear programs.
+
+
+Changes in Version 0.7.2 (2019-12-12)
+
+    o Corrected maxsub2d() and Fortran, fix provided by Yogesh Bansal.
+
+Changes in Version 0.7.1 (2018-05-16)
+
+    o Removed 'adagio-package.Rd' on request of K. Hornick, CRAN.
+
+Changes in Version 0.7.0 (2017-06-28)
+
+    o pureCMAES() added a break statement, proposed by R. Biedrzycki.
+
+Changes in Version 0.6.9 (2017-02-07)
+
+	o nelmin(), nelminb() renamed to neldermead(), neldermeadb().
+	o hookejeeves() Hooke-Jeeves minimization (with bound constraints).
+	o Help page of knapsack() did not mention the interger requirement.
+
+Changes in Version 0.6.7 (2017-02-06)
+
+    o nelmin(), nelminb() now use an dimension-adaptive Nelder-Mead
+	  minimization by F. Gao and L. Han.
+	o simpleDE() returns the number of function evaluations.
+
+Changes in Version 0.6.5 (2016-05-29)
+
+    o corrected an error in grNesterov(), as indicated by John Nash.
+
+Changes in Version 0.6.3 (2015-12-06)
+
+    o hamiltonian() finds a Hamiltonian path or cycle in a graph given
+      as a vector of edges (see the 'igraph' package) or an edge list.
+
+Changes in Version 0.6.1 (2015-07-25)
+
+    o Reorganized test functions; removed genTestfn() and (re-)introduced
+      Rosenbrock, Nesterov, Rastrigin, Hald, Shor with their true names;
+      prepended with a 'fn' for the function, 'gr' for existing gradients.
+    o Removed linesearch_ww(), linesearch_sw(), and qpspecial() for now.
+    o trefethen(), wagon() renamed to fnTrefethen(), fnWagon().
+    o Corrected a call to maxempty() on the help page.
+
+Changes in Version 0.5.9 (2013-10-27)
+    o fminviz(), flineviz() visualize multivariate functions at (assumed) 
+      minima or along lines in multidimensional space.
+
+Changes in Version 0.5.7 (2013-09-12)
+    o pureCMAES() Covariance Matrix Adaptation Evolution Strategy
+      with applications to the Remez problem and L1 regression.
+
+Changes in Version 0.5.4 (2013-08-09)
+    o genTestfn() generates optimization test functions:
+      Hald, Nesterov, Nesterov1, Rastrigin, Rosenbrock, Shor.
+    o maxquad() Lemarechal's MAXQUAD test function generator.
+
+Changes in Version 0.5.1 (2013-06-30)
+    o linesearch_ww(), linesearch_sw() Wolfe's weak and strong line search.
+    o qpspecial() special quadratic programming solver.
+
+Changes in Version 0.4.3 (2012-11-11)
+    o nelmin(), nelminb() Nelder-Mead function minimization according to 
+      O'Neill (Fortran code) and J. Burghardt (Matlab code, LGPL licence).
+    o transfinite() transformation function between bounded and unbounded
+      (box constrained) regions.
+
+Changes in Version 0.3.9 (2012-06-19)
+    o simpleEA() and simpleDE() improved, with boundary conditions.
+    o simpleEA() speed improved, with new parameters and options.
+
+Changes in Version 0.3.7 (2012-03-24)
+    o simpleDE() simple differential evolution algorithm for
+      function minimization.
+
+Changes in Version 0.3.5 (2012-03-17)
+    o assignment() solves the linear (sum) assignment problem (LSAP)
+      for integer square cost matrices.
+
+Changes in Version 0.3.3 (2012-03-14)
+    o maxempty() solves the maximal empty rectangle problem.
+
+Changes in Version 0.3.1 (2012-03-12)
+    o mknapsack() solves the multiple knapsack problem, utilizing free
+      Fortran code from the NSCW library of Mathematics Subroutines.
+
+Changes in Version 0.2.8 (2012-02-16)
+    o knapsack() solves the 0-1 (binary) single knapsack problem
+      using the dynamic programming approach.
+    o subsetsum() now with 'greedy' and 'dynamic' methods.
+
+Changes in Version 0.2.5 (2012-01-25)
+    o maxsub2d() maximal sum subrectangle problem;
+      uses Fortran code to be able to handle 1000-by-1000 matrices.
+
+Changes in Version 0.2.0 (2012-01-14)
+    o maxsub() maximal sum subarray (with Ratfor and Fortran code).
+    o subsetsum() Subset sum routine written in R.
+
+Changes in Version 0.1.6 (2012-01-07)
+    o Set up as package on R-Forge, part of the Optimist project.
+
+Changes in Version 0.1.5 (2011-07-27)
+    o simpleEA(), simple evolutionary algorithm for minimum finding.
+    o Test functions trefethen() and wagon().
+    o Setting up the package structure and required files.

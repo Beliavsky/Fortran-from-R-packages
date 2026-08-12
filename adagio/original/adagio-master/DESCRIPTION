@@ -1,0 +1,21 @@
+Package: adagio
+Type: Package
+Title: Discrete and Global Optimization Routines
+Version: 0.9.2
+Date: 2023-10-26
+Authors@R: person("Hans W.", "Borchers", email = "hwborchers@googlemail.com",
+                  role = c("aut", "cre"))
+Maintainer: Hans W. Borchers <hwborchers@googlemail.com>
+Depends: R (>= 3.1.0)
+Imports: graphics, stats, lpSolve (>= 5.6.15)
+Description: 
+    The R package 'adagio' will provide methods and algorithms for
+    (discrete) optimization, e.g. knapsack and subset sum procedures,
+	derivative-free Nelder-Mead and Hooke-Jeeves minimization, and
+	some (evolutionary) global optimization functions.
+License: GPL (>= 3)
+NeedsCompilation: no
+Packaged: 2023-10-26 08:37:53 UTC; hwb
+Author: Hans W. Borchers [aut, cre]
+Repository: CRAN
+Date/Publication: 2023-10-26 13:30:03 UTC
