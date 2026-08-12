@@ -1,0 +1,36 @@
+2017-11-05  George G. Vega Yon (g.vegayon@gmail.com)
+	* Preparing CRAN release.
+
+2017-08-28  George G. Vega Yon (g.vegayon@gmail.com)
+	* R/abc_optim.R: New plot method and fixing ans from abc_cpp.
+	* src/abc.cpp: Returning simply a list.
+
+
+2017-08-25  George G. Vega Yon (g.vegayon@gmail.com)
+	* R/abc_optim.R: Added a new example + improve print method.
+	* R/ABCoptim-package.R: Added .registration=TRUE.
+
+
+2017-01-18  George G. Vega Yon (g.vegayon@gmail.com)
+	* R/abc_optim.R: Added fnscale and parscale.
+
+
+2017-01-17  George G. Vega Yon (g.vegayon@gmail.com)
+	* src/abc.cpp: Adding domain check + improving readability.
+
+2016-11-15  George G. Vega Yon (g.vegayon@gmail.com)
+	* R/abc_optim.R: Improving docs + creating class and changing  the algorithm a
+	  bit.
+	* src/abc.cpp: Now the algorithm has the same start point as abc_cpp.
+
+2016-11-08  George G. Vega Yon (g.vegayon@gmail.com)
+	* Added NEWS.md file.
+
+2016-11-04  George G. Vega Yon (g.vegayon@gmail.com)
+	* .travis.yml*: Added codecov.
+	* tests/*: Added testthat.
+
+2016-11-03  George G. Vega Yon (g.vegayon@gmail.com)
+	* R/*.R: Adding roxygen to the project.
+	* src/abc.cpp: Adding pure C++ version of the function
+	* playground/*: Cleaning up

@@ -1,0 +1,16 @@
+name = "ABCoptim-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "George G. Vega Yon; Fortran translation"
+maintainer = "Fortran translation generated from ABCoptim 0.15.0"
+description = "Modern Fortran translation of the computational core of the R package ABCoptim"
+categories = ["optimization"]
+keywords = ["artificial bee colony", "optimization", "ABC"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
