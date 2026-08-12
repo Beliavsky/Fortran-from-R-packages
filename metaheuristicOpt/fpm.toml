@@ -1,0 +1,15 @@
+name = "metaheuristicOpt-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of metaheuristicOpt authors' work"
+copyright = "See LICENSE and original package provenance"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

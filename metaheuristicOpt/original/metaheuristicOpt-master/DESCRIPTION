@@ -1,0 +1,28 @@
+Package: metaheuristicOpt
+Type: Package
+Title: Metaheuristic for Optimization
+Version: 2.0.0
+Authors@R: c(
+    person("Lala", "Septem Riza", email = "lala.s.riza@upi.edu", role = c("aut","cre")),
+    person("Iip", email = "iip@student.upi.edu", role = "aut"),
+    person("Eddy", "Prasetyo Nugroho", email = "eddypn@upi.edu", role = "aut"),
+    person("Muhammad Bima", "Adi Prabowo", email = "bimaadi419@student.upi.edu", role = "aut"),
+    person("Enjun", "Junaeti", email="enjun@upi.edu", role = "aut"),
+    person("Ade Gafar", "Abdullah", email="ade_gaffar@upi.edu", role="aut"))
+Author: Lala Septem Riza [aut, cre],
+  Iip [aut],
+  Eddy Prasetyo Nugroho [aut],
+  Muhammad Bima Adi Prabowo [aut],
+  Enjun Junaeti [aut],
+  Ade Gafar Abdullah [aut]
+Maintainer: Lala Septem Riza <lala.s.riza@upi.edu>
+Description: An implementation of metaheuristic algorithms for continuous optimization. Currently, the package contains the implementations of 21 algorithms, as follows: particle swarm optimization (Kennedy and Eberhart, 1995), ant lion optimizer (Mirjalili, 2015 <doi:10.1016/j.advengsoft.2015.01.010>), grey wolf optimizer (Mirjalili et al., 2014 <doi:10.1016/j.advengsoft.2013.12.007>), dragonfly algorithm (Mirjalili, 2015 <doi:10.1007/s00521-015-1920-1>), firefly algorithm (Yang, 2009 <doi:10.1007/978-3-642-04944-6_14>), genetic algorithm (Holland, 1992, ISBN:978-0262581110), grasshopper optimisation algorithm (Saremi et al., 2017 <doi:10.1016/j.advengsoft.2017.01.004>), harmony search algorithm (Mahdavi et al., 2007 <doi:10.1016/j.amc.2006.11.033>), moth flame optimizer (Mirjalili, 2015 <doi:10.1016/j.knosys.2015.07.006>, sine cosine algorithm (Mirjalili, 2016 <doi:10.1016/j.knosys.2015.12.022>),  whale optimization algorithm (Mirjalili and Lewis, 2016 <doi:10.1016/j.advengsoft.2016.01.008>), clonal selection algorithm (Castro, 2002 <doi:10.1109/TEVC.2002.1011539>), differential evolution (Das & Suganthan, 2011), shuffled frog leaping (Eusuff, Landsey & Pasha, 2006), cat swarm optimization (Chu et al., 2006), artificial bee colony algorithm (Karaboga & Akay, 2009), krill-herd algorithm (Gandomi & Alavi, 2012), cuckoo search (Yang & Deb, 2009), bat algorithm (Yang, 2012), gravitational based search (Rashedi et al., 2009) and black hole optimization (Hatamlou, 2013).
+Depends: R (>= 3.5.0)
+License: GPL (>= 2) | file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Packaged: 2019-06-19 10:05:01 UTC; HP
+Repository: CRAN
+Date/Publication: 2019-06-19 12:10:10 UTC
