@@ -1,0 +1,14 @@
+name = "rmalschains-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of Rmalschains/librealea computational path"
+maintainer = "OpenAI translation"
+description = "Modern Fortran implementation of the Rmalschains MA-LS-Chains optimization path"
+categories = ["optimization"]
+keywords = ["memetic algorithm", "MA-LS-Chains", "continuous optimization", "CMA-ES", "Solis-Wets"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
