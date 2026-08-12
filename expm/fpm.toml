@@ -1,0 +1,18 @@
+name = "expm-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of the R package expm"
+maintainer = "OpenAI translation"
+description = "Modern Fortran matrix exponential, logarithm, square root and related algorithms translated from expm"
+keywords = ["matrix exponential", "matrix logarithm", "frechet derivative", "matrix functions"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
