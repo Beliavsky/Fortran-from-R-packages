@@ -1,0 +1,142 @@
+
+R version 2.15.1 (2012-06-22) -- "Roasted Marshmallows"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( "linprog" )
+Loading required package: lpSolve
+> 
+> # min x1 + x2, s.t. x1 + 0.5 * x2 = 2
+> cvec <- c( 1, 1 )
+> Amat <- matrix( c( 1, 0.5 ), nrow = 1 )
+> bvec <- 2
+> a1 <- solveLP( cvec, bvec, Amat, const.dir = "=" )
+Warning message:
+In solveLP(cvec, bvec, Amat, const.dir = "=") :
+  solveLP() might return incorrect results if the model includes equality constraints and argument 'lpSolve' is 'FALSE'; please check if solveLP() returns the same results with argument 'lpSolve' equal to 'TRUE'; more information on this bug available at linprog's R-Forge site
+> print( a1 )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 0 
+
+Iterations in phase 1: 0
+Iterations in phase 2: 0
+Solution
+  opt
+1   0
+2   0
+
+Basic Variables
+    opt
+S 1   0
+
+Constraints
+  actual dir bvec free dual dual.reg
+1      2   =    2    0    0       NA
+
+All Variables (including slack variables)
+    opt cvec min.c max.c marg marg.reg
+1     0    1    99    77    1      Inf
+2     0    1    99    77    1      Inf
+S 1   0    0    NA    NA    0       NA
+
+> 
+> a2 <- solveLP( cvec, bvec, Amat, const.dir = "=", lpSolve = TRUE )
+> print( a2 )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Minimum): 2 
+
+Solution
+  opt
+1   2
+2   0
+
+Constraints
+  actual dir bvec free
+1      2   =    2    0
+
+> 
+> # max 27 * x1 + 9 * x2
+> # s.t. x1 - x2 = 8  &  x1 + x2 <= 74
+> cvec <- c( 27, 9 )
+> bvec <- c( 8, 74 )
+> Amat <- matrix( c( 1, 1, -1, 1 ), nrow = 2 ) 
+> b1 <- solveLP( cvec, bvec, Amat, maximum = TRUE, const.dir = c( "==", "<=" ) )
+Warning message:
+In solveLP(cvec, bvec, Amat, maximum = TRUE, const.dir = c("==",  :
+  solveLP() might return incorrect results if the model includes equality constraints and argument 'lpSolve' is 'FALSE'; please check if solveLP() returns the same results with argument 'lpSolve' equal to 'TRUE'; more information on this bug available at linprog's R-Forge site
+> print( b1 )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 1998 
+
+Iterations in phase 1: 0
+Iterations in phase 2: 1
+Solution
+  opt
+1  74
+2   0
+
+Basic Variables
+    opt
+1    74
+S 1   0
+
+Constraints
+  actual dir bvec free dual dual.reg
+1      8  ==    8    0    0       NA
+2     74  <=   74    0   27       74
+
+All Variables (including slack variables)
+    opt cvec min.c max.c marg marg.reg
+1    74   27     9   Inf   NA       NA
+2     0    9  -Inf    27  -18       74
+S 1   0    0  -Inf   Inf    0       NA
+S 2   0    0  -Inf    27  -27       74
+
+> 
+> b2 <- solveLP( cvec, bvec, Amat, maximum = TRUE, const.dir = c( "==", "<=" ),
++    lpSolve = TRUE )
+> print( b2 )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Maximum): 1404 
+
+Solution
+  opt
+1  41
+2  33
+
+Constraints
+  actual dir bvec free
+1      8  ==    8    0
+2     74  <=   74    0
+
+> 
+> proc.time()
+   user  system elapsed 
+  0.152   0.032   0.170 

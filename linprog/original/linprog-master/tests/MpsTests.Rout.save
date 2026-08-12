@@ -1,0 +1,254 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( linprog )
+Loading required package: lpSolve
+> 
+> ## example of Steinhauser, Langbehn and Peters (1992)
+> ## Production activities
+> cvec <- c(1800, 600, 600)  # gross margins
+> names(cvec) <- c("Cows","Bulls","Pigs")
+> 
+> ## Constraints (quasi-fix factors)
+> bvec <- c(40, 90, 2500)  # endowment
+> names(bvec) <- c("Land","Stable","Labor")
+> 
+> ## Needs of Production activities
+> Amat <- rbind( c(  0.7,   0.35,   0 ),
++                c(  1.5,   1,      3 ),
++                c( 50,    12.5,   20 ) )
+> 
+> ## solve the model
+> result1a <- solveLP( cvec, bvec, Amat, TRUE )
+> 
+> ## Write to a (virtual) MPS file
+> mpsFile <- file()
+> writeMps( mpsFile, cvec, bvec, Amat, "Steinhauser" )
+> 
+> ## write the lines of this file to the output file
+> mpsLines <- readLines( mpsFile )
+> close( mpsFile )
+> print( mpsLines )
+ [1] "NAME          Steinhauser"           
+ [2] "ROWS"                                
+ [3] " N  obj"                             
+ [4] " L  Land"                            
+ [5] " L  Stable"                          
+ [6] " L  Labor"                           
+ [7] "COLUMNS"                             
+ [8] "    Cows      obj               1800"
+ [9] "    Cows      Land               0.7"
+[10] "    Cows      Stable             1.5"
+[11] "    Cows      Labor               50"
+[12] "    Bulls     obj                600"
+[13] "    Bulls     Land              0.35"
+[14] "    Bulls     Stable               1"
+[15] "    Bulls     Labor             12.5"
+[16] "    Pigs      obj                600"
+[17] "    Pigs      Stable               3"
+[18] "    Pigs      Labor               20"
+[19] "RHS"                                 
+[20] "    RHS       Land                40"
+[21] "    RHS       Stable              90"
+[22] "    RHS       Labor             2500"
+[23] "ENDATA"                              
+> 
+> ## Write to a (virtual) MPS file again (for readMps)
+> mpsFile <- file()
+> writeMps( mpsFile, cvec, bvec, Amat, "Steinhauser" )
+> 
+> ## delete all LP objects
+> rm( cvec, bvec, Amat )
+> 
+> ## Read LP data from MPS file and solve it.
+> lpModel <- readMps( mpsFile, TRUE, TRUE )
+> close( mpsFile )
+> 
+> ## Print the model and its result
+> lpModel
+$name
+[1] "Steinhauser"
+
+$cvec
+ Cows Bulls  Pigs 
+ 1800   600   600 
+
+$bvec
+  Land Stable  Labor 
+    40     90   2500 
+
+$Amat
+       Cows Bulls Pigs
+Land    0.7  0.35    0
+Stable  1.5  1.00    3
+Labor  50.0 12.50   20
+
+$res
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 93600 
+
+Iterations in phase 1: 0
+Iterations in phase 2: 2
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+Basic Variables
+        opt
+Cows   44.0
+Bulls  24.0
+S Land  0.8
+
+Constraints
+       actual dir bvec free  dual dual.reg
+Land     39.2  <=   40  0.8   0.0      0.8
+Stable   90.0  <=   90  0.0 240.0     15.0
+Labor  2500.0  <= 2500  0.0  28.8   1375.0
+
+All Variables (including slack variables)
+          opt cvec min.c    max.c   marg marg.reg
+Cows     44.0 1800   900 2400.000     NA       NA
+Bulls    24.0  600   450 1200.000     NA       NA
+Pigs      0.0  600  -Inf 1296.000 -696.0     6.25
+S Land    0.8    0    NA  731.092    0.0       NA
+S Stable  0.0    0  -Inf  240.000 -240.0    15.00
+S Labor   0.0    0  -Inf   28.800  -28.8  1375.00
+
+
+> all.equal( result1a, lpModel$res )
+[1] TRUE
+> 
+> 
+> ## example 1.1.3 of Witte, Deppe and Born (1975)
+> ## Two types of Feed
+> cvec <- c(2.5, 2 )  # prices of feed
+> names(cvec) <- c("Feed1","Feed2")
+> 
+> ## Constraints (minimum (<0) and maximum (>0) contents)
+> bvec <- c(-10, -1.5, 12)
+> names(bvec) <- c("Protein","Fat","Fibre")
+> 
+> ## Matrix A
+> Amat <- rbind( c( -1.6,  -2.4 ),
++                c( -0.5,  -0.2 ),
++                c(  2.0,   2.0 ) )
+> 
+> ## solve the model
+> result2a <- solveLP( cvec, bvec, Amat )
+> 
+> ## Write to a (virtual) MPS file
+> mpsFile <- file()
+> writeMps( mpsFile, cvec, bvec, Amat, "Steinhauser" )
+> 
+> ## write the lines of this file to the output file
+> mpsLines <- readLines( mpsFile )
+> close( mpsFile )
+> print( mpsLines )
+ [1] "NAME          Steinhauser"           
+ [2] "ROWS"                                
+ [3] " N  obj"                             
+ [4] " L  Protein"                         
+ [5] " L  Fat"                             
+ [6] " L  Fibre"                           
+ [7] "COLUMNS"                             
+ [8] "    Feed1     obj                2.5"
+ [9] "    Feed1     Protein           -1.6"
+[10] "    Feed1     Fat               -0.5"
+[11] "    Feed1     Fibre                2"
+[12] "    Feed2     obj                  2"
+[13] "    Feed2     Protein           -2.4"
+[14] "    Feed2     Fat               -0.2"
+[15] "    Feed2     Fibre                2"
+[16] "RHS"                                 
+[17] "    RHS       Protein            -10"
+[18] "    RHS       Fat               -1.5"
+[19] "    RHS       Fibre               12"
+[20] "ENDATA"                              
+> 
+> ## Write to a (virtual) MPS file again (for readMps)
+> mpsFile <- file()
+> writeMps( mpsFile, cvec, bvec, Amat, "Steinhauser" )
+> 
+> ## delete all LP objects
+> rm( cvec, bvec, Amat )
+> 
+> ## Read LP data from MPS file and solve it.
+> lpModel <- readMps( mpsFile, TRUE )
+> close( mpsFile )
+> 
+> ## Print the model and its result
+> lpModel
+$name
+[1] "Steinhauser"
+
+$cvec
+Feed1 Feed2 
+  2.5   2.0 
+
+$bvec
+Protein     Fat   Fibre 
+  -10.0    -1.5    12.0 
+
+$Amat
+        Feed1 Feed2
+Protein  -1.6  -2.4
+Fat      -0.5  -0.2
+Fibre     2.0   2.0
+
+$res
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 10.4545 
+
+Iterations in phase 1: 2
+Iterations in phase 2: 0
+Solution
+          opt
+Feed1 1.81818
+Feed2 2.95455
+
+Basic Variables
+            opt
+Feed1   1.81818
+Feed2   2.95455
+S Fibre 2.45455
+
+Constraints
+           actual dir  bvec    free     dual dual.reg
+Protein -10.00000  <= -10.0 0.00000 0.568182  3.60000
+Fat      -1.50000  <=  -1.5 0.00000 3.181818  1.35000
+Fibre     9.54545  <=  12.0 2.45455 0.000000  2.45455
+
+All Variables (including slack variables)
+              opt cvec     min.c    max.c     marg marg.reg
+Feed1     1.81818  2.5 -3.666667 5.000000       NA       NA
+Feed2     2.95455  2.0 -3.000000 3.750000       NA       NA
+S Protein 0.00000  0.0 -0.568182      Inf 0.568182     3.60
+S Fat     0.00000  0.0 -3.181818      Inf 3.181818     1.35
+S Fibre   2.45455  0.0        NA 0.833333 0.000000       NA
+
+
+> all.equal( result2a, lpModel$res )
+[1] TRUE
+> 

@@ -1,0 +1,880 @@
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( linprog )
+Loading required package: lpSolve
+> 
+> ## Example 1
+> ## Steinhauser, Langbehn and Peters (1992)
+> cvec <- c(1800, 600, 600)  # gross margins
+> names(cvec) <- c("Cows","Bulls","Pigs")
+> bvec <- c(40, 90, 2500)  # endowment
+> names(bvec) <- c("Land","Stable","Labor")
+> Amat <- rbind( c(  0.7,   0.35,   0 ),
++                c(  1.5,   1,      3 ),
++                c( 50,    12.5,   20 ) )
+> result1a <- solveLP( cvec, bvec, Amat, TRUE, verbose = 1 )
+> print( result1a )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 93600 
+
+Iterations in phase 1: 0
+Iterations in phase 2: 2
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+Basic Variables
+        opt
+Cows   44.0
+Bulls  24.0
+S Land  0.8
+
+Constraints
+       actual dir bvec free  dual dual.reg
+Land     39.2  <=   40  0.8   0.0      0.8
+Stable   90.0  <=   90  0.0 240.0     15.0
+Labor  2500.0  <= 2500  0.0  28.8   1375.0
+
+All Variables (including slack variables)
+          opt cvec min.c    max.c   marg marg.reg
+Cows     44.0 1800   900 2400.000     NA       NA
+Bulls    24.0  600   450 1200.000     NA       NA
+Pigs      0.0  600  -Inf 1296.000 -696.0     6.25
+S Land    0.8    0    NA  731.092    0.0       NA
+S Stable  0.0    0  -Inf  240.000 -240.0    15.00
+S Labor   0.0    0  -Inf   28.800  -28.8  1375.00
+
+> # print summary results
+> summary( result1a )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 93600 
+
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+> # print all elements of the returned object
+> print.default( result1a )
+$status
+[1] 0
+
+$opt
+[1] 93600
+
+$iter1
+[1] 0
+
+$iter2
+[1] 2
+
+$allvar
+          opt cvec min.c     max.c   marg marg.reg
+Cows     44.0 1800   900 2400.0000     NA       NA
+Bulls    24.0  600   450 1200.0000     NA       NA
+Pigs      0.0  600  -Inf 1296.0000 -696.0     6.25
+S Land    0.8    0    NA  731.0924    0.0       NA
+S Stable  0.0    0  -Inf  240.0000 -240.0    15.00
+S Labor   0.0    0  -Inf   28.8000  -28.8  1375.00
+
+$basvar
+        opt
+Cows   44.0
+Bulls  24.0
+S Land  0.8
+
+$solution
+ Cows Bulls  Pigs 
+   44    24     0 
+
+$con
+       actual dir bvec free  dual dual.reg
+Land     39.2  <=   40  0.8   0.0      0.8
+Stable   90.0  <=   90  0.0 240.0     15.0
+Labor  2500.0  <= 2500  0.0  28.8   1375.0
+
+$Tab
+      Cows Bulls    Pigs S Land S Stable S Labor      P0
+Land     0     0  -0.952      1    -0.28 -0.0056     0.8
+Bulls    0     1   3.840      0     1.60 -0.0480    24.0
+Cows     1     0  -0.560      0    -0.40  0.0320    44.0
+Z-C      0     0 696.000      0   240.00 28.8000 93600.0
+
+$maximum
+[1] TRUE
+
+$lpSolve
+[1] FALSE
+
+$solve.dual
+[1] FALSE
+
+$maxiter
+[1] 1000
+
+attr(,"class")
+[1] "solveLP"
+> # also estimate the dual problem
+> result1aD <- solveLP( cvec, bvec, Amat, TRUE, verbose = 1, solve.dual = TRUE )
+> result1aD$con
+       actual dir bvec free  dual dual.reg dual.p
+Land     39.2  <=   40  0.8   0.0      0.8    0.0
+Stable   90.0  <=   90  0.0 240.0     15.0  240.0
+Labor  2500.0  <= 2500  0.0  28.8   1375.0   28.8
+> all.equal( result1a[-c(8,12)], result1aD[-c(8,10,13)] )
+[1] TRUE
+> 
+> # estimation with verbose = TRUE
+> result1b <- solveLP( cvec, bvec, Amat, TRUE, verbose = 4 )
+[1] "initial Tableau"
+          Cows   Bulls Pigs S Land S Stable S Labor   P0
+Land       0.7    0.35    0      1        0       0   40
+Stable     1.5    1.00    3      0        1       0   90
+Labor     50.0   12.50   20      0        0       1 2500
+Z-C    -1800.0 -600.00 -600      0        0       0    0
+
+Pivot Column: 1 ( Cows )
+Pivot Row: 3 ( Labor )
+
+       Cows    Bulls   Pigs S Land S Stable S Labor    P0
+Land      0    0.175  -0.28      1        0  -0.014     5
+Stable    0    0.625   2.40      0        1  -0.030    15
+Cows      1    0.250   0.40      0        0   0.020    50
+Z-C       0 -150.000 120.00      0        0  36.000 90000
+
+Pivot Column: 2 ( Bulls )
+Pivot Row: 2 ( Stable )
+
+      Cows Bulls    Pigs S Land S Stable S Labor      P0
+Land     0     0  -0.952      1    -0.28 -0.0056     0.8
+Bulls    0     1   3.840      0     1.60 -0.0480    24.0
+Cows     1     0  -0.560      0    -0.40  0.0320    44.0
+Z-C      0     0 696.000      0   240.00 28.8000 93600.0
+> all.equal( result1a, result1b )
+[1] TRUE
+> # also estimate the dual problem
+> result1bD <- solveLP( cvec, bvec, Amat, TRUE, verbose = 4, solve.dual = TRUE )
+[1] "initial Tableau"
+          Cows   Bulls Pigs S Land S Stable S Labor   P0
+Land       0.7    0.35    0      1        0       0   40
+Stable     1.5    1.00    3      0        1       0   90
+Labor     50.0   12.50   20      0        0       1 2500
+Z-C    -1800.0 -600.00 -600      0        0       0    0
+
+Pivot Column: 1 ( Cows )
+Pivot Row: 3 ( Labor )
+
+       Cows    Bulls   Pigs S Land S Stable S Labor    P0
+Land      0    0.175  -0.28      1        0  -0.014     5
+Stable    0    0.625   2.40      0        1  -0.030    15
+Cows      1    0.250   0.40      0        0   0.020    50
+Z-C       0 -150.000 120.00      0        0  36.000 90000
+
+Pivot Column: 2 ( Bulls )
+Pivot Row: 2 ( Stable )
+
+      Cows Bulls    Pigs S Land S Stable S Labor      P0
+Land     0     0  -0.952      1    -0.28 -0.0056     0.8
+Bulls    0     1   3.840      0     1.60 -0.0480    24.0
+Cows     1     0  -0.560      0    -0.40  0.0320    44.0
+Z-C      0     0 696.000      0   240.00 28.8000 93600.0
+[1] "initial Tableau"
+       Land Stable  Labor S Cows S Bulls S Pigs    P0
+Cows  -0.70   -1.5  -50.0      1       0      0 -1800
+Bulls -0.35   -1.0  -12.5      0       1      0  -600
+Pigs   0.00   -3.0  -20.0      0       0      1  -600
+Z-C   40.00   90.0 2500.0      0       0      0     0
+[1] "initial Tableau for Phase 1"
+         Land Stable  Labor S Cows S Bulls S Pigs M Cows M Bulls M Pigs    P0
+M Cows   0.70    1.5   50.0     -1       0      0      1       0      0  1800
+M Bulls  0.35    1.0   12.5      0      -1      0      0       1      0   600
+M Pigs   0.00    3.0   20.0      0       0     -1      0       0      1   600
+Z-C     40.00   90.0 2500.0      0       0      0      0       0      0     0
+M Z-C   -1.05   -5.5  -82.5      1       1      1      0       0      0 -3000
+
+Pivot Column: 3 ( Labor )
+Pivot Row: 3 ( M Pigs )
+
+         Land   Stable Labor S Cows S Bulls  S Pigs M Cows M Bulls   M Pigs
+M Cows   0.70   -6.000     0     -1       0   2.500      1       0   -2.500
+M Bulls  0.35   -0.875     0      0      -1   0.625      0       1   -0.625
+Labor    0.00    0.150     1      0       0  -0.050      0       0    0.050
+Z-C     40.00 -285.000     0      0       0 125.000      0       0 -125.000
+M Z-C   -1.05    6.875     0      1       1  -3.125      0       0    4.125
+            P0
+M Cows     300
+M Bulls    225
+Labor       30
+Z-C     -75000
+M Z-C     -525
+
+Pivot Column: 1 ( Land )
+Pivot Row: 1 ( M Cows )
+
+        Land    Stable Labor    S Cows S Bulls     S Pigs     M Cows M Bulls
+Land       1 -8.571429     0 -1.428571       0   3.571429   1.428571       0
+M Bulls    0  2.125000     0  0.500000      -1  -0.625000  -0.500000       1
+Labor      0  0.150000     1  0.000000       0  -0.050000   0.000000       0
+Z-C        0 57.857143     0 57.142857       0 -17.857143 -57.142857       0
+M Z-C      0 -2.125000     0 -0.500000       1   0.625000   1.500000       0
+           M Pigs          P0
+Land    -3.571429    428.5714
+M Bulls  0.625000     75.0000
+Labor    0.050000     30.0000
+Z-C     17.857143 -92142.8571
+M Z-C    0.375000    -75.0000
+
+Pivot Column: 4 ( S Cows )
+Pivot Row: 2 ( M Bulls )
+
+       Land        Stable Labor S Cows       S Bulls        S Pigs M Cows
+Land      1 -2.500000e+00     0      0 -2.857143e+00  1.785714e+00      0
+S Cows    0  4.250000e+00     0      1 -2.000000e+00 -1.250000e+00     -1
+Labor     0  1.500000e-01     1      0  0.000000e+00 -5.000000e-02      0
+Z-C       0 -1.850000e+02     0      0  1.142857e+02  5.357143e+01      0
+M Z-C     0  4.440892e-16     0      0  4.440892e-16 -2.220446e-16      1
+           M Bulls     M Pigs            P0
+Land      2.857143  -1.785714  6.428571e+02
+S Cows    2.000000   1.250000  1.500000e+02
+Labor     0.000000   0.050000  3.000000e+01
+Z-C    -114.285714 -53.571429 -1.007143e+05
+M Z-C     1.000000   1.000000 -8.526513e-14
+[1] "New starting Tableau for Phase II"
+       Land  Stable Labor S Cows    S Bulls    S Pigs             
+Land      1   -2.50     0      0  -2.857143  1.785714     642.8571
+S Cows    0    4.25     0      1  -2.000000 -1.250000     150.0000
+Labor     0    0.15     1      0   0.000000 -0.050000      30.0000
+Z-C       0 -185.00     0      0 114.285714 53.571429 -100714.2857
+
+Pivot Column: 2 ( Stable )
+Pivot Row: 2 ( S Cows )
+
+       Land Stable Labor      S Cows     S Bulls       S Pigs             
+Land      1      0     0  0.58823529 -4.03361345  1.050420168    731.09244
+Stable    0      1     0  0.23529412 -0.47058824 -0.294117647     35.29412
+Labor     0      0     1 -0.03529412  0.07058824 -0.005882353     24.70588
+Z-C       0      0     0 43.52941176 27.22689076 -0.840336134 -94184.87395
+
+Pivot Column: 6 ( S Pigs )
+Pivot Row: 1 ( Land )
+
+         Land Stable Labor S Cows S Bulls S Pigs         
+S Pigs 0.9520      0     0  0.560  -3.840      1    696.0
+Stable 0.2800      1     0  0.400  -1.600      0    240.0
+Labor  0.0056      0     1 -0.032   0.048      0     28.8
+Z-C    0.8000      0     0 44.000  24.000      0 -93600.0
+> all.equal( result1aD, result1bD )
+[1] TRUE
+> 
+> # estimation with lpSolve
+> result1c <- solveLP( cvec, bvec, Amat, TRUE, lpSolve = TRUE, verbose = 4 )
+> print( result1c )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Maximum): 93600 
+
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+Constraints
+       actual dir bvec free
+Land     39.2  <=   40  0.8
+Stable   90.0  <=   90  0.0
+Labor  2500.0  <= 2500  0.0
+
+> # print summary results
+> summary( result1c )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 93600 
+
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+> # print all elements of the returned object
+> print.default( result1c )
+$status
+[1] 0
+
+$lpStatus
+[1] 0
+
+$solution
+ Cows Bulls  Pigs 
+   44    24     0 
+
+$opt
+[1] 93600
+
+$con
+       actual dir bvec free
+Land     39.2  <=   40  0.8
+Stable   90.0  <=   90  0.0
+Labor  2500.0  <= 2500  0.0
+
+$maximum
+[1] TRUE
+
+$lpSolve
+[1] TRUE
+
+$solve.dual
+[1] FALSE
+
+$maxiter
+[1] 1000
+
+attr(,"class")
+[1] "solveLP"
+> # also estimate the dual problem
+> result1cD <- solveLP( cvec, bvec, Amat, TRUE, lpSolve = TRUE, solve.dual = TRUE )
+> result1cD$con
+       actual dir bvec free  dual
+Land     39.2  <=   40  0.8   0.0
+Stable   90.0  <=   90  0.0 240.0
+Labor  2500.0  <= 2500  0.0  28.8
+> all.equal( result1c[-c(5,8)], result1cD[-c(5,6,9)] )
+[1] TRUE
+> 
+> # using argument const.dir
+> const.dir <- c( ">=", ">=", ">=" )
+> result1d <- solveLP( cvec, -bvec, -Amat, maximum = TRUE, verbose = 1,
++    const.dir = const.dir )
+> print( result1d )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Maximum): 93600 
+
+Iterations in phase 1: 0
+Iterations in phase 2: 2
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+Basic Variables
+        opt
+Cows   44.0
+Bulls  24.0
+S Land  0.8
+
+Constraints
+        actual dir  bvec free  dual dual.reg
+Land     -39.2  >=   -40  0.8   0.0      0.8
+Stable   -90.0  >=   -90  0.0 240.0     15.0
+Labor  -2500.0  >= -2500  0.0  28.8   1375.0
+
+All Variables (including slack variables)
+          opt cvec min.c    max.c   marg marg.reg
+Cows     44.0 1800   900 2400.000     NA       NA
+Bulls    24.0  600   450 1200.000     NA       NA
+Pigs      0.0  600  -Inf 1296.000 -696.0     6.25
+S Land    0.8    0    NA  731.092    0.0       NA
+S Stable  0.0    0  -Inf  240.000 -240.0    15.00
+S Labor   0.0    0  -Inf   28.800  -28.8  1375.00
+
+> all.equal( result1a[-8], result1d[-8] )
+[1] TRUE
+> # also estimate the dual problem
+> result1dD <- solveLP( cvec, -bvec, -Amat, TRUE, verbose = 1,
++    const.dir = const.dir, solve.dual = TRUE )
+> result1dD$con
+        actual dir  bvec free  dual dual.reg dual.p
+Land     -39.2  >=   -40  0.8   0.0      0.8    0.0
+Stable   -90.0  >=   -90  0.0 240.0     15.0  240.0
+Labor  -2500.0  >= -2500  0.0  28.8   1375.0   28.8
+> all.equal( result1aD[-8], result1dD[-8] )
+[1] TRUE
+> 
+> # using argument const.dir and lpSolve
+> result1e <-solveLP( cvec, -bvec, -Amat, maximum = TRUE, verbose = 1,
++    const.dir = const.dir, lpSolve = TRUE )
+> print( result1e )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Maximum): 93600 
+
+Solution
+      opt
+Cows   44
+Bulls  24
+Pigs    0
+
+Constraints
+        actual dir  bvec free
+Land     -39.2  >=   -40  0.8
+Stable   -90.0  >=   -90  0.0
+Labor  -2500.0  >= -2500  0.0
+
+> all.equal( result1c[-5], result1e[-5] )
+[1] TRUE
+> # also estimate the dual problem
+> result1eD <- solveLP( cvec, -bvec, -Amat, TRUE, verbose = 1,
++    const.dir = const.dir, lpSolve = TRUE, solve.dual = TRUE )
+> result1eD$con
+        actual dir  bvec free  dual
+Land     -39.2  >=   -40  0.8   0.0
+Stable   -90.0  >=   -90  0.0 240.0
+Labor  -2500.0  >= -2500  0.0  28.8
+> all.equal( result1cD[-5], result1eD[-5] )
+[1] TRUE
+> 
+> 
+> ## Example 2
+> ## example 1.1.3 of Witte, Deppe and Born (1975)
+> cvec <- c(2.5, 2 )  # prices of feed
+> names(cvec) <- c("Feed1","Feed2")
+> bvec <- c( -10, -1.5, 12)
+> names(bvec) <- c("Protein","Fat","Fibre")
+> Amat <- rbind( c(-1.6,-2.4 ),
++                c(-0.5,-0.2 ),
++                c( 2.0, 2.0 ) )
+> result2a <- solveLP( cvec, bvec, Amat, verbose = 1 )
+> print( result2a )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 10.4545 
+
+Iterations in phase 1: 2
+Iterations in phase 2: 0
+Solution
+          opt
+Feed1 1.81818
+Feed2 2.95455
+
+Basic Variables
+            opt
+Feed1   1.81818
+Feed2   2.95455
+S Fibre 2.45455
+
+Constraints
+           actual dir  bvec    free     dual dual.reg
+Protein -10.00000  <= -10.0 0.00000 0.568182  3.60000
+Fat      -1.50000  <=  -1.5 0.00000 3.181818  1.35000
+Fibre     9.54545  <=  12.0 2.45455 0.000000  2.45455
+
+All Variables (including slack variables)
+              opt cvec     min.c    max.c     marg marg.reg
+Feed1     1.81818  2.5 -3.666667 5.000000       NA       NA
+Feed2     2.95455  2.0 -3.000000 3.750000       NA       NA
+S Protein 0.00000  0.0 -0.568182      Inf 0.568182     3.60
+S Fat     0.00000  0.0 -3.181818      Inf 3.181818     1.35
+S Fibre   2.45455  0.0        NA 0.833333 0.000000       NA
+
+> # print summary results
+> summary( result2a )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 10.45455 
+
+Solution
+           opt
+Feed1 1.818182
+Feed2 2.954545
+
+> # print all elements of the returned object
+> print.default( result2a )
+$status
+[1] 0
+
+$opt
+[1] 10.45455
+
+$iter1
+[1] 2
+
+$iter2
+[1] 0
+
+$allvar
+               opt cvec      min.c     max.c      marg marg.reg
+Feed1     1.818182  2.5 -3.6666667 5.0000000        NA       NA
+Feed2     2.954545  2.0 -3.0000000 3.7500000        NA       NA
+S Protein 0.000000  0.0 -0.5681818       Inf 0.5681818     3.60
+S Fat     0.000000  0.0 -3.1818182       Inf 3.1818182     1.35
+S Fibre   2.454545  0.0         NA 0.8333333 0.0000000       NA
+
+$basvar
+             opt
+Feed1   1.818182
+Feed2   2.954545
+S Fibre 2.454545
+
+$solution
+   Feed1    Feed2 
+1.818182 2.954545 
+
+$con
+            actual dir  bvec     free      dual dual.reg
+Protein -10.000000  <= -10.0 0.000000 0.5681818 3.600000
+Fat      -1.500000  <=  -1.5 0.000000 3.1818182 1.350000
+Fibre     9.545455  <=  12.0 2.454545 0.0000000 2.454545
+
+$Tab
+      Feed1 Feed2  S Protein     S Fat S Fibre           
+Feed2     0     1 -0.5681818  1.818182       0   2.954545
+Feed1     1     0  0.2272727 -2.727273       0   1.818182
+Fibre     0     0  0.6818182  1.818182       1   2.454545
+Z-C       0     0  0.5681818  3.181818       0 -10.454545
+
+$maximum
+[1] FALSE
+
+$lpSolve
+[1] FALSE
+
+$solve.dual
+[1] FALSE
+
+$maxiter
+[1] 1000
+
+attr(,"class")
+[1] "solveLP"
+> # also estimate the dual problem
+> result2aD <- solveLP( cvec, bvec, Amat, verbose = 1, solve.dual = TRUE )
+> result2aD$con
+            actual dir  bvec     free      dual dual.reg    dual.p
+Protein -10.000000  <= -10.0 0.000000 0.5681818 3.600000 0.5681818
+Fat      -1.500000  <=  -1.5 0.000000 3.1818182 1.350000 3.1818182
+Fibre     9.545455  <=  12.0 2.454545 0.0000000 2.454545 0.0000000
+> all.equal( result2a[-c(8,12)], result2aD[-c(8,10,13)] )
+[1] TRUE
+> 
+> # estimation with verbose = TRUE
+> result2b <- solveLP( cvec, bvec, Amat, verbose = 4 )
+[1] "initial Tableau"
+        Feed1 Feed2 S Protein S Fat S Fibre    P0
+Protein  -1.6  -2.4         1     0       0 -10.0
+Fat      -0.5  -0.2         0     1       0  -1.5
+Fibre     2.0   2.0         0     0       1  12.0
+Z-C       2.5   2.0         0     0       0   0.0
+[1] "initial Tableau for Phase 1"
+          Feed1 Feed2 S Protein S Fat S Fibre M Protein M Fat    P0
+M Protein   1.6   2.4        -1     0       0         1     0  10.0
+M Fat       0.5   0.2         0    -1       0         0     1   1.5
+Fibre       2.0   2.0         0     0       1         0     0  12.0
+Z-C         2.5   2.0         0     0       0         0     0   0.0
+M Z-C      -2.1  -2.6         1     1       0         0     0 -11.5
+
+Pivot Column: 2 ( Feed2 )
+Pivot Row: 1 ( M Protein )
+
+           Feed1 Feed2   S Protein S Fat S Fibre   M Protein M Fat         P0
+Feed2  0.6666667     1 -0.41666667     0       0  0.41666667     0  4.1666667
+M Fat  0.3666667     0  0.08333333    -1       0 -0.08333333     1  0.6666667
+Fibre  0.6666667     0  0.83333333     0       1 -0.83333333     0  3.6666667
+Z-C    1.1666667     0  0.83333333     0       0 -0.83333333     0 -8.3333333
+M Z-C -0.3666667     0 -0.08333333     1       0  1.08333333     0 -0.6666667
+
+Pivot Column: 1 ( Feed1 )
+Pivot Row: 2 ( M Fat )
+
+      Feed1 Feed2     S Protein         S Fat S Fibre  M Protein     M Fat
+Feed2     0     1 -5.681818e-01  1.818182e+00       0  0.5681818 -1.818182
+Feed1     1     0  2.272727e-01 -2.727273e+00       0 -0.2272727  2.727273
+Fibre     0     0  6.818182e-01  1.818182e+00       1 -0.6818182 -1.818182
+Z-C       0     0  5.681818e-01  3.181818e+00       0 -0.5681818 -3.181818
+M Z-C     0     0 -1.804112e-16  4.440892e-16       0  1.0000000  1.000000
+                 P0
+Feed2  2.954545e+00
+Feed1  1.818182e+00
+Fibre  2.454545e+00
+Z-C   -1.045455e+01
+M Z-C  1.110223e-16
+[1] "New starting Tableau for Phase II"
+      Feed1 Feed2  S Protein     S Fat S Fibre           
+Feed2     0     1 -0.5681818  1.818182       0   2.954545
+Feed1     1     0  0.2272727 -2.727273       0   1.818182
+Fibre     0     0  0.6818182  1.818182       1   2.454545
+Z-C       0     0  0.5681818  3.181818       0 -10.454545
+> all.equal( result1a, result1b )
+[1] TRUE
+> # also estimate the dual problem
+> result2bD <- solveLP( cvec, bvec, Amat, verbose = 4, solve.dual = TRUE )
+[1] "initial Tableau"
+        Feed1 Feed2 S Protein S Fat S Fibre    P0
+Protein  -1.6  -2.4         1     0       0 -10.0
+Fat      -0.5  -0.2         0     1       0  -1.5
+Fibre     2.0   2.0         0     0       1  12.0
+Z-C       2.5   2.0         0     0       0   0.0
+[1] "initial Tableau for Phase 1"
+          Feed1 Feed2 S Protein S Fat S Fibre M Protein M Fat    P0
+M Protein   1.6   2.4        -1     0       0         1     0  10.0
+M Fat       0.5   0.2         0    -1       0         0     1   1.5
+Fibre       2.0   2.0         0     0       1         0     0  12.0
+Z-C         2.5   2.0         0     0       0         0     0   0.0
+M Z-C      -2.1  -2.6         1     1       0         0     0 -11.5
+
+Pivot Column: 2 ( Feed2 )
+Pivot Row: 1 ( M Protein )
+
+           Feed1 Feed2   S Protein S Fat S Fibre   M Protein M Fat         P0
+Feed2  0.6666667     1 -0.41666667     0       0  0.41666667     0  4.1666667
+M Fat  0.3666667     0  0.08333333    -1       0 -0.08333333     1  0.6666667
+Fibre  0.6666667     0  0.83333333     0       1 -0.83333333     0  3.6666667
+Z-C    1.1666667     0  0.83333333     0       0 -0.83333333     0 -8.3333333
+M Z-C -0.3666667     0 -0.08333333     1       0  1.08333333     0 -0.6666667
+
+Pivot Column: 1 ( Feed1 )
+Pivot Row: 2 ( M Fat )
+
+      Feed1 Feed2     S Protein         S Fat S Fibre  M Protein     M Fat
+Feed2     0     1 -5.681818e-01  1.818182e+00       0  0.5681818 -1.818182
+Feed1     1     0  2.272727e-01 -2.727273e+00       0 -0.2272727  2.727273
+Fibre     0     0  6.818182e-01  1.818182e+00       1 -0.6818182 -1.818182
+Z-C       0     0  5.681818e-01  3.181818e+00       0 -0.5681818 -3.181818
+M Z-C     0     0 -1.804112e-16  4.440892e-16       0  1.0000000  1.000000
+                 P0
+Feed2  2.954545e+00
+Feed1  1.818182e+00
+Fibre  2.454545e+00
+Z-C   -1.045455e+01
+M Z-C  1.110223e-16
+[1] "New starting Tableau for Phase II"
+      Feed1 Feed2  S Protein     S Fat S Fibre           
+Feed2     0     1 -0.5681818  1.818182       0   2.954545
+Feed1     1     0  0.2272727 -2.727273       0   1.818182
+Fibre     0     0  0.6818182  1.818182       1   2.454545
+Z-C       0     0  0.5681818  3.181818       0 -10.454545
+[1] "initial Tableau"
+      Protein  Fat Fibre S Feed1 S Feed2  P0
+Feed1     1.6  0.5    -2       1       0 2.5
+Feed2     2.4  0.2    -2       0       1 2.0
+Z-C     -10.0 -1.5    12       0       0 0.0
+
+Pivot Column: 1 ( Protein )
+Pivot Row: 2 ( Feed2 )
+
+        Protein         Fat      Fibre S Feed1    S Feed2        P0
+Feed1         0  0.36666667 -0.6666667       1 -0.6666667 1.1666667
+Protein       1  0.08333333 -0.8333333       0  0.4166667 0.8333333
+Z-C           0 -0.66666667  3.6666667       0  4.1666667 8.3333333
+
+Pivot Column: 2 ( Fat )
+Pivot Row: 1 ( Feed1 )
+
+        Protein Fat      Fibre    S Feed1    S Feed2         P0
+Fat           0   1 -1.8181818  2.7272727 -1.8181818  3.1818182
+Protein       1   0 -0.6818182 -0.2272727  0.5681818  0.5681818
+Z-C           0   0  2.4545455  1.8181818  2.9545455 10.4545455
+> all.equal( result2aD, result2bD )
+[1] TRUE
+> 
+> # estimation with lpSolve
+> result2c <- solveLP( cvec, bvec, Amat, lpSolve = TRUE, verbose = 4 )
+> print( result2c )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Minimum): 10.4545 
+
+Solution
+          opt
+Feed1 1.81818
+Feed2 2.95455
+
+Constraints
+           actual dir  bvec    free
+Protein -10.00000  <= -10.0 0.00000
+Fat      -1.50000  <=  -1.5 0.00000
+Fibre     9.54545  <=  12.0 2.45455
+
+> # print summary results
+> summary( result2c )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 10.45455 
+
+Solution
+           opt
+Feed1 1.818182
+Feed2 2.954545
+
+> # print all elements of the returned object
+> print.default( result2c )
+$status
+[1] 0
+
+$lpStatus
+[1] 0
+
+$solution
+   Feed1    Feed2 
+1.818182 2.954545 
+
+$opt
+[1] 10.45455
+
+$con
+            actual dir  bvec     free
+Protein -10.000000  <= -10.0 0.000000
+Fat      -1.500000  <=  -1.5 0.000000
+Fibre     9.545455  <=  12.0 2.454545
+
+$maximum
+[1] FALSE
+
+$lpSolve
+[1] TRUE
+
+$solve.dual
+[1] FALSE
+
+$maxiter
+[1] 1000
+
+attr(,"class")
+[1] "solveLP"
+> # also estimate the dual problem
+> result2cD <- solveLP( cvec, bvec, Amat, lpSolve = TRUE, verbose = 4,
++    solve.dual = TRUE )
+> result2cD$con
+            actual dir  bvec     free      dual
+Protein -10.000000  <= -10.0 0.000000 0.5681818
+Fat      -1.500000  <=  -1.5 0.000000 3.1818182
+Fibre     9.545455  <=  12.0 2.454545 0.0000000
+> all.equal( result2c[-c(5,8)], result2cD[-c(5,6,9)] )
+[1] TRUE
+> 
+> # using argument const.dir
+> const.dir <- c( ">=", ">=", "<=" )
+> result2d <- solveLP( cvec, abs( bvec ), abs( Amat ), verbose = 1,
++    const.dir = const.dir )
+> print( result2d )
+
+
+Results of Linear Programming / Linear Optimization
+
+Objective function (Minimum): 10.4545 
+
+Iterations in phase 1: 2
+Iterations in phase 2: 0
+Solution
+          opt
+Feed1 1.81818
+Feed2 2.95455
+
+Basic Variables
+            opt
+Feed1   1.81818
+Feed2   2.95455
+S Fibre 2.45455
+
+Constraints
+          actual dir bvec    free     dual dual.reg
+Protein 10.00000  >= 10.0 0.00000 0.568182  3.60000
+Fat      1.50000  >=  1.5 0.00000 3.181818  1.35000
+Fibre    9.54545  <= 12.0 2.45455 0.000000  2.45455
+
+All Variables (including slack variables)
+              opt cvec     min.c    max.c     marg marg.reg
+Feed1     1.81818  2.5 -3.666667 5.000000       NA       NA
+Feed2     2.95455  2.0 -3.000000 3.750000       NA       NA
+S Protein 0.00000  0.0 -0.568182      Inf 0.568182     3.60
+S Fat     0.00000  0.0 -3.181818      Inf 3.181818     1.35
+S Fibre   2.45455  0.0        NA 0.833333 0.000000       NA
+
+> all.equal( result2a[-8], result2d[-8] )
+[1] TRUE
+> # also estimate the dual problem
+> result2dD <- solveLP( cvec, abs( bvec ), abs( Amat ), verbose = 1,
++    const.dir = const.dir, solve.dual = TRUE )
+> result2dD$con
+           actual dir bvec     free      dual dual.reg    dual.p
+Protein 10.000000  >= 10.0 0.000000 0.5681818 3.600000 0.5681818
+Fat      1.500000  >=  1.5 0.000000 3.1818182 1.350000 3.1818182
+Fibre    9.545455  <= 12.0 2.454545 0.0000000 2.454545 0.0000000
+> all.equal( result2aD[-8], result2dD[-8] )
+[1] TRUE
+> 
+> # using argument const.dir and lpSolve
+> result2e <- solveLP( cvec, abs( bvec ), abs( Amat ), verbose = 1,
++    const.dir = const.dir, lpSolve = TRUE )
+> print( result2e )
+
+
+Results of Linear Programming / Linear Optimization
+(using lpSolve)
+
+Objective function (Minimum): 10.4545 
+
+Solution
+          opt
+Feed1 1.81818
+Feed2 2.95455
+
+Constraints
+          actual dir bvec    free
+Protein 10.00000  >= 10.0 0.00000
+Fat      1.50000  >=  1.5 0.00000
+Fibre    9.54545  <= 12.0 2.45455
+
+> all.equal( result2c[-5], result2e[-5] )
+[1] TRUE
+> # also estimate the dual problem
+> result2eD <- solveLP( cvec, abs( bvec ), abs( Amat ), verbose = 1,
++    const.dir = const.dir, lpSolve = TRUE, solve.dual = TRUE )
+> result2eD$con
+           actual dir bvec     free      dual
+Protein 10.000000  >= 10.0 0.000000 0.5681818
+Fat      1.500000  >=  1.5 0.000000 3.1818182
+Fibre    9.545455  <= 12.0 2.454545 0.0000000
+> all.equal( result2cD[-5], result2eD[-5] )
+[1] TRUE
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.206   0.017   0.214 
