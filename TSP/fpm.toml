@@ -1,0 +1,17 @@
+name = "tsp-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Modern Fortran translation of TSP by Michael Hahsler and Kurt Hornik"
+maintainer = ""
+copyright = "Copyright (C) Michael Hahsler and Kurt Hornik; Fortran translation 2026"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

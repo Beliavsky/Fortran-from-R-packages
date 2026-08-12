@@ -1,0 +1,39 @@
+Package: TSP
+Type: Package
+Title: Infrastructure for the Traveling Salesperson Problem
+Version: 1.2.7
+Date: 2026-03-22
+Authors@R: 
+  c(person("Michael", "Hahsler", 
+    role = c("aut", "cre", "cph"),
+	email = "mhahsler@lyle.smu.edu",
+	comment = c(ORCID = "0000-0003-2716-1405")),
+    person("Kurt", "Hornik", 
+	role = c("aut", "cph"),
+	comment = c(ORCID = "0000-0003-4198-9911"))
+    )
+Description: Basic infrastructure and some algorithms for the traveling
+    salesperson problem (also traveling salesman problem; TSP).
+    The package provides some simple algorithms and
+    an interface to the Concorde TSP solver and its implementation of the
+    Chained-Lin-Kernighan heuristic. The code for Concorde
+    itself is not included in the package and has to be obtained separately.
+    Hahsler and Hornik (2007) <doi:10.18637/jss.v023.i02>.
+Classification/ACM: G.1.6, G.2.1, G.4
+URL: https://github.com/mhahsler/TSP
+BugReports: https://github.com/mhahsler/TSP/issues
+Depends: R (>= 3.5.0)
+Imports: graphics, foreach, utils, stats, grDevices
+Suggests: maps, doParallel, testthat
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+License: GPL-3
+Copyright: All code is Copyright (C) Michael Hahsler and Kurt Hornik.
+NeedsCompilation: yes
+Packaged: 2026-03-22 19:06:40 UTC; mhahsler
+Author: Michael Hahsler [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0003-2716-1405>),
+  Kurt Hornik [aut, cph] (ORCID: <https://orcid.org/0000-0003-4198-9911>)
+Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
+Repository: CRAN
+Date/Publication: 2026-03-23 06:40:20 UTC
