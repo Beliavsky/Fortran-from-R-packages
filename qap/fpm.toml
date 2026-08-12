@@ -1,0 +1,17 @@
+name = "qap-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Michael Hahsler, Franz Rendl; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Copyright (c) original qap authors and contributors"
+description = "Modern Fortran translation of the computational code in the R package qap"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
