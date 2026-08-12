@@ -1,0 +1,19 @@
+1.1-7
+* tsp_solver: fixed math rendering problems in the manual
+
+
+1.1-6 
+* tsp_solver: bug fixed with checking column-wise degree constraints  
+
+
+1.1-5
+* tsp_solver: lower_bound and upper_bounds can now be extracted as output values of the function
+
+
+
+1.1-4 
+
+* tsp_solver() function has been added. This solves a travelling salesperson problem via combining heuristics and a linear Diophantine equation relaxation. 
+
+* get.knapsack: a bug fixed with checking for 0-1 and bounded solutions
+

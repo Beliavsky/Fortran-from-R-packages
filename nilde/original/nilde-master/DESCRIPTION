@@ -1,0 +1,21 @@
+Encoding: UTF-8
+Package: nilde
+Version: 1.1-7
+Author: Natalya Pya Arnqvist[aut, cre], 
+        Vassilly Voinov [aut], 
+        Rashid Makarov [aut],
+        Yevgeniy Voinov [aut]
+Maintainer: Natalya Pya Arnqvist <nat.pya@gmail.com>
+Title: Nonnegative Integer Solutions of Linear Diophantine Equations
+        with Applications
+Date: 2022-08-16
+Description: Routines for enumerating all existing nonnegative integer solutions of a linear Diophantine equation. The package provides routines for solving 0-1, bounded and unbounded knapsack problems; 0-1, bounded and unbounded subset sum problems; additive partitioning of natural numbers; and one-dimensional bin-packing problem.
+Depends: R (>= 2.15.0)
+Imports: methods, stats
+Suggests: parallel, lpSolve, TSP
+License: GPL (>= 2)
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2022-08-16 07:45:34 UTC; natalya
+Repository: CRAN
+Date/Publication: 2022-08-16 10:10:02 UTC
