@@ -1,0 +1,38 @@
+Package: GA
+Version: 3.2.5
+Date: 2026-01-08
+Title: Genetic Algorithms
+Description: Flexible general-purpose toolbox implementing genetic 
+  algorithms (GAs) for stochastic optimisation. Binary, real-valued, and
+  permutation representations are available to optimize a fitness 
+  function, i.e. a function provided by users depending on their 
+  objective function. Several genetic operators are available and can be
+  combined to explore the best settings for the current task. 
+  Furthermore, users can define new genetic operators and easily 
+  evaluate their performances. Local search using general-purpose 
+  optimisation algorithms can be applied stochastically to exploit 
+  interesting regions. GAs can be run sequentially or in parallel, using
+  an explicit master-slave parallelisation or a coarse-grain islands 
+  approach. For more details see Scrucca (2013) 
+  <doi:10.18637/jss.v053.i04> and Scrucca (2017) 
+  <doi:10.32614/RJ-2017-008>.
+Authors@R: c(person("Luca", "Scrucca", role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0003-3826-0484"),
+                    email = "luca.scrucca@unibo.it"))
+Depends: R (>= 3.4), methods, foreach, iterators
+Imports: stats, graphics, grDevices, utils, cli, crayon, Rcpp
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: parallel, doParallel, doRNG (>= 1.6), knitr (>= 1.8),
+        rmarkdown (>= 2.0)
+License: GPL (>= 2)
+VignetteBuilder: knitr
+URL: https://luca-scr.github.io/GA/
+BugReports: https://github.com/luca-scr/GA/issues
+Repository: CRAN
+ByteCompile: true
+NeedsCompilation: yes
+Packaged: 2026-01-08 07:34:14 UTC; luca
+Author: Luca Scrucca [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-3826-0484>)
+Maintainer: Luca Scrucca <luca.scrucca@unibo.it>
+Date/Publication: 2026-01-08 13:10:08 UTC

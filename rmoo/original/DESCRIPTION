@@ -1,0 +1,49 @@
+Package: rmoo
+Title: Multi-Objective Optimization in R
+Version: 0.3.2
+Date: 2026-05-03
+Authors@R: 
+    c(person(given = "Francisco",
+             family = "Benitez",
+             role = c("aut", "cre"),
+             email = "benitezfj94@gmail.com"),
+      person(given = "Diego P.",
+             family = "Pinto-Roa",
+             role = "aut",
+             email = "dpinto@pol.una.py",
+             comment = c(ORCID = "0000-0003-2479-9876")))
+Description: The 'rmoo' package is a framework for multi- and many-objective
+        optimization, which allows researchers and users versatility
+        in parameter configuration, as well as tools for analysis, replication
+        and visualization of results. The 'rmoo' package was built as a fork of
+        the 'GA' package by Luca Scrucca(2017) <DOI:10.32614/RJ-2017-008> and
+        implementing the Non-Dominated Sorting Genetic Algorithms proposed
+        by K. Deb's.
+License: GPL (>= 2)
+Encoding: UTF-8
+Language: en
+LazyData: true
+RoxygenNote: 7.3.3
+Collate: 'AllClasses.R' 'associate.R' 'crowding_distance.R' 'data.R'
+        'generate_reference_points.R' 'geneticoperator.R'
+        'get_fixed_rowsum_integer_matrix.R' 'miscfun.R' 'AllGenerics.R'
+        'niching.R' 'non_dominated_fronts.R' 'parallel.R' 'utils.R'
+        'nsga.R' 'nsga2.R' 'nsga3.R' 'rnsga2.R'
+        'modified_crowding_distance.R' 'rmooControl.R'
+        'performance_metrics.R' 'reference_point_multi_layer.R'
+        'rmoo.R' 'rmoo_main.R' 'sharing.R' 'update_points.R' 'zzz.R'
+Imports: stats, utils, graphics, methods, foreach, GA, grDevices,
+        plotly, ggplot2, BBmisc
+URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/
+BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/
+Suggests: testthat, covr, rgl, ecr, emoa, cdata, dplyr, reshape2,
+        parallel, doParallel, doRNG (>= 1.6)
+Depends: R (>= 2.10)
+NeedsCompilation: no
+Packaged: 2026-05-03 21:27:26 UTC; Maria
+Author: Francisco Benitez [aut, cre],
+  Diego P. Pinto-Roa [aut] (ORCID:
+    <https://orcid.org/0000-0003-2479-9876>)
+Maintainer: Francisco Benitez <benitezfj94@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-05-04 00:00:02 UTC
