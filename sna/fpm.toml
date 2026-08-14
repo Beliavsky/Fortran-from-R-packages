@@ -1,0 +1,17 @@
+name = "sna-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Carter T. Butts; Fortran translation by OpenAI"
+copyright = "Copyright (C) 2005-2024 Carter T. Butts; Fortran translation 2026"
+description = "Modern Fortran translation of computational routines from the R sna package"
+keywords = ["social-network-analysis", "graphs", "centrality", "network-statistics"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

@@ -1,0 +1,684 @@
+CHANGELOG:
+v2.8
+   New Features:
+     rgbn now supports exogenous inhibition events, and can start with
+       a user-specified seed graph; new "density guard" feature allows
+       early termination at a target density (useful for ABC applications)
+   Changes:
+     C-level changes made for CRAN compliance
+v2.7-2
+   Bug Fixes:
+     Corrected a formatting issue that was generating a compile warning.
+v2.7-1
+   Changes:
+     gplot3d has been modified to comply with upcoming rgl changes [thanks
+       to Duncan Murdoch for the heads-up]; this shouldn't change much at
+       the user level, but some things may render slightly differently.
+   Bug Fixes:
+     Corrected documentation features that were not CRAN compliant
+v2.7
+   Changes:
+     rgnm should now be much, much faster on large sparse graphs
+     The default ncell value for the Fruchterman-Reingold layout has been
+       changed from N^0.4 to N^0.5; this produces nicer layouts, though it
+       does add to the computational cost.  If your layout is taking too
+       long, consider setting ncell accordingly using the layout.par
+       argument to gplot.  If you are seeing random outlying vertices,
+       or other anomalies, try increasing ncell further.
+   Bug Fixes:
+     rgnm was not handling loops properly [submitted by Gilad Ravid]
+     logSum returned NaN when called w/two leading -Inf values [submitted
+       by Fan Yin]
+     Changed man page code for CRAN compliance
+v2.6
+   New Functions:
+     simmelian - Compute Simmelian ties from an input digraph
+   Bug Fixes and New Functions:
+     gtrans produced warnings (and occasionally failed) with network
+       objects or lists thereof when use.adjacency=TRUE was set
+     redist was failing when called with a non-trivial seed partition
+     qaptest did not coerce inputs to sociomatrices when calculating the 
+       observed value of the test statistic, but then passed to rmperm which
+       did so for replications; this was usually harmless, but could in some
+       cases lead to problems for some input types and some statistics.  New
+       behavior is to always coerce to matrix form.
+     gplot.target produced spurious warning messages
+v2.5
+   New Features:
+     plot.sociomatrix now allows an arbitrary cell color function to be
+       supplied, and supports more label options
+   Bug Fixes:
+     Documentation for brokerage had "representative" and "gatekeeper" names
+       swapped; note that this did not affect the function itself [submitted
+       by Ho Young Yoon]
+     Annoying tracer messages have been removed from the component finding
+       algorithm.  (This was not originally seen as a bug, but became 
+       sufficiently aggravating to be viewed as one.)
+     rgnmix was not returning edgelists when asked to do so in some cases
+   Changes:
+     Class processing was modified to comply with upcoming R changes
+     Explcit registration now used for C-level functions, per CRAN dictum
+v2.4
+   New Functions:
+     component.size.byvertex - Compute component sizes by vertex
+     gilschmidt - Compute the Gil-Schmidt power centrality index
+   New Features:
+     netlogit now supports use of the z-statistic for QAP and CUG tests
+     closeness now computes the normalized Gil-Schmidt index.  (This was
+       previously advertised, but not actually supported.)
+     component.largest now allows subgraphs to be returned in edgelist form
+     is.isolate now processes more than one graph a time, if desired
+     reachability now supports edgelist output (this is usually recommended)
+       and removal of missing edges
+     Various component.* functions are now more efficient for large graphs
+       for many types of connectivity
+     Efficiency gains for isolates, is.isolate, reachability, and some other 
+       functions on large, sparse, graphs
+     geodist now supports an na.omit option
+     rgbn now supports satiation and truncated sibling effects
+   Bug Fixes:
+     kcycle.census and kpath.census were not propagating maxlen arguments when
+       called with lists of graphs
+     clique.census was producing a segfault when called with a matrix
+       containing NAs
+     event2dichot didn't preserve row/column names [reported by Katherina
+       Bohlecarbonell] 
+     geodist could produce a segfault when called with unignored negative
+       edge values (which was documented to be verboten, but was not 
+       internally checked); an error message is now returned  [submitted by
+       Skye Bender-deMoll]
+     Various fixes in bbnam, including: bbnam could fail when the number of
+       informants did not equal the number of nodes; errors could occur with
+       undirected models; and the code also now automatically overrides the
+       potential scale reduction measure argument when reps==1 (since this
+       cannot be computed with only one chain)
+     prestige did not handle the nodes argument correctly for some measures
+       [submitted by Skye Bender-deMoll]
+     netlogit and netlm had a bug leading CUG tests to fail in some cases
+       [submitted by Christian Steglich)
+     gtrans with measure=="rank" yielded incorrect results in some cases
+       [submitted by Chris Marcum]
+     as.edgelist.sna now accepts objects with multiple classes, which fixes
+       some errors with use in complex settings [submitted by Skye
+       Bender-deMoll]
+     closeness provided an incorrect tmaxdev for mode suminvundir [submitted
+       by John Skvoretz]
+     structdist could give incorrect results with gmode=="graph" [submitted
+       by John Skvoretz]
+  Changes:
+    Various NAMESPACE changes made, to comply with the ever-changing world
+       of CRAN  [contributed by Skye Bender-deMoll]
+    sna now Depends on network and statnet.common, resolving the %c% operator conflict
+       [suggested by Skye Bender-deMoll]
+    netlogit now uses the z statistic by default for Monte Carlo tests
+       (formerly, the coefficient was used)
+
+v2.3-2
+   Bug Fixes:
+     Documentation for brokerage had Representative and Gatekeeper roles
+       reversed.  (Actual program output was correctly labeled.)  [submitted
+       by Lorien Jasny and others]
+     gplot gave a harmless but annoying warning when invoked in R>3.0
+       [submitted by Gen Kobayashi]
+   Changes:
+     Per request from CRAN, the non-standard CONTRIBUTORS file has been
+       removed.  Major contributors are cited on the respective man pages,
+       and minor contributors (e.g., of bug fixes) in this ChangeLog.  If
+       there is strong interest in bringing the file back (I had no desire
+       to pull it!), please email me and I'll see what can be done
+
+v2.3
+   Bug Fixes:
+     Various changes to R caused installation and loading problems (including
+       invocation of the help browser on load) that have been fixed
+   Changes:
+     gtrans now attempts to perform reasonable triage when 
+       use.adjacency==TRUE; specifically, if it can easily identify the 
+       input data type, it will override the use of the adjacency method for 
+       cases in which its use would obviously be a very bad idea.  This will 
+       have no effect for those with smaller graphs, or who use 
+       use.adjacency==FALSE, but will improve performance for those with 
+       large, sparse graphs who never got around to noticing the 
+       use.adjacency argument
+     as.edgelist.sna uses new network package coercion option, the main 
+       effect of which is to ensure that missingness is preserved during 
+       coercion; previously, this information was lost (not exactly a bug, 
+       but an unfortunate and sometimes unexpected consequence of the way 
+       that the network package handled edgelist coercion and the fact that 
+       sna relied on it); network v1.7 or later is required for this 
+       functionality, with old behavior preserved for network <=v1.6
+     gplot now uses 50-sided vertices by default (except for two-mode data, 
+       which now by default uses a combination of 4 and 50 sided vertices
+     gplot now uses edge line types to alter the way lines are drawn
+       rather than borders, as before) [contributed by Alex Montgomery]
+     gplot now automagically scales objects based on the number of vertices
+       in the graph 
+   New Functions:
+     is.edgelist.sna - Check to see if a given object is an sna edgelist
+   New Features:
+     gplot now supports a feature (vertex.enclose) to enclose vertices 
+       within circles for greater visibility [contributed by Alex 
+       Montgomery]
+     gplot now supports an argument (thresh.absval) to control whether edge
+       values are thresholded by absolute (default) or signed value
+     gplot now allows edge border line types to be set differently for
+       positive and negative edges [contributed by Alex Montgomery]
+     grecip now supports a correlation-based measure inspired by the
+       work of David Dekker
+     gtrans now supports rank-order and correlation-based measures for
+       valued data (the last implementing a proposal of David Dekker) 
+
+v2.2 - Changes and Bug Fixes
+   Changes:
+     as.sociomatrix.sna should now handle the new network edgelist format
+       more gracefully; note, however, that edgelists for undirected graphs
+       are still handled differently in network and sna, so one is usually
+       better off coercing directly with as.edgelist.sna, rather than first
+       going through as.matrix
+     geodist now uses memory more efficiently, and should perform better on
+       large graphs
+     gplot now has some refinements to the placement of curved edges and to
+       arrow widths [contibuted by Alex Montgomery]
+     gplot.layout.fruchtermanreingold now uses an approximating backend
+       (ported from network) which can greatly reduce layout time in large
+       graphs (at some aesthetic cost); traditional results can still be
+       obtained by appropriate choice of layout parameters
+   Bug Fixes:
+     cutpoints failed with connected="strong" when called with a graph
+       containing loops [Submitted by Ben Madin]
+     gden could return twice the density when called with mode="graph"
+       [Submitted by Zack Almquist]
+     gvectorize was censoring the upper triangle when called with
+       censor.as.na=FALSE and mode="digraph" [Submitted by Zack Almquist]
+       
+v2.1 - New Features, Changes, and Bug Fixes
+   Changes:
+     as.sociomatrix.sna and as.edgelist.sna are now treated as user-level
+       functions (and are documented as such)
+     betweenness and closeness now consistently enforce undirected behavior 
+       with gmode=="graph" (this will not generally be visible to the end
+       user)
+     connectedness now uses sparse graph methods (and is much, much faster)
+     gplot now defaults to boxed.labels=FALSE
+     rgbn now uses (and enforces) finite maxiter values
+   New Features:
+     evcent now allows user control over the number of iterations used in the
+       internal eigenvector calculation (previously fixed), and supports an
+       option for calculation using R's eigen() routine
+   Bug Fixes:
+     betweenness was not treating gmode=="graph" consistently with tmaxdev
+       in both states (causing inaccurate centralization results) [Submitted
+       by Natalie Cotton]
+     brokerage.Rd would produce an installation error on some platforms for
+       unknown reasons (seems to be an R issue, but man page formatting has
+       been changed to be rid of it)
+     bicomponent.dist was failing on very large graphs
+     gplot was not plotting label positions correctly for pos=5; also fixed
+       a bug with interactive selection by component [Fix by Alex Montgomery]
+     kcores processed ignore.eval incorrectly [Submitted by mpezz@tiscali.it]
+     redist failed when called with a single graph and mode="graph" [Submitted
+       by Greg Bigwood]
+
+v2.0 - New Functions, New Data Sets, New Features, Changes, and Bug Fixes
+   Changes:
+     The following functions now natively use sna edgelist format (and will
+       in most cases benefit from being passed data in sparse graph format):
+       add.isolates, betweenness, brokerage, centralization, closeness, degree,
+       dyad.census, evcent, gden, geodist, gplot, gplot3d, grecip, gtrans,
+       kcycle.census, kpath.census, rgraph, stresscent, symmetrize, 
+       triad.census
+     Various backend modifications have been made which should improve
+       scalability and performance for many routines
+     bbnam routines now default to often-realistic informative priors rather
+       than to never-realistic uninformative ones, and no longer randomly
+       reorder MCMC draws on output; they can also accept data in a wider range
+       of formats
+     bbnam.bf now computes and displays results in log scale
+     centralization will now compute scores for all input networks (previously
+       computed scores for only one network, so this may break some code)
+     degree with gmode=="graph" now forces conventional graph theoretic degree,
+       as opposed to total degree (which was the prior default behavior).  This
+       may break some existing code (but hopefully not much), but produces more
+       conventional behavior in the undirected case.  Users desiring the old
+       behavior can obtain it by simply setting gmode=="digraph".  [Suggested
+       by Alex Montgomery]
+     evcent now uses a sparse matrix eigenvector calculation mechanism (which
+       should greatly enhance scalability)
+     gplot's label placement algorithm has been improved [Submitted by Alex
+       Montgomery]
+     gden now omits NA edges (previously, they were treated as simply absent)
+     gplot and gplot3d now pass edgelists to the gplot.layout.* and 
+       gplot3d.layout.* functions; all existing layout functions have been
+       modified to support this, but user-generated code may need to be
+       adjusted accordingly
+     gplot and gplot3d now force data into two-mode form when gmode="twomode",
+       regardless of original type; by default, vertex color (and, in gplot,
+       shape) are used to differentiate between row and column vertices. 
+       [Submitted by Alex Montgomery]
+     gplot.layout.fruchtermanreingold and gplot.layout.kamadakawai now use
+       edge values when placing points
+     rgbn has a new (much faster) backend implementation
+     rgraph now uses an accelerated generation mechanism in the homogeneous
+       case
+   New Functions:
+     as.edgelist.sna - Convert data to sna edgelist format
+     bicomponent.dist - Compute bicomponents and associated statistics
+     cug.test - Simplified univariate conditional uniform graph tests
+     cutpoints - Identify cutpoints in an input graph
+     clique.census - Calculate the clique census of an input graph
+     flowbet - Calculate the flow betweenness scores of network positions 
+     gt - "Graph transpose"; transposition of one or more networks
+     kcores - Calculate the k-core decomposition of a graph
+     loadcent - Calculate the load centrality scores of network positions
+     maxflow - Calculate maximum flows between vertices
+     redist - Find distances between positions based on regular equivalence
+     rgnmix - Generate mixing-conditioned random graphs
+   New Data Sets:
+     coleman - Coleman's high school friendship data
+   New Features:
+     New sna edgelist format now supported by almost all routines (see 
+       above for list of those which now have native support)
+     Bipartite extension to adjacency structures now supported for most sna
+       routines
+     Several functions now have the option to return their results in sna
+       edgelist format (useful to avoid adjacency matrix conversion for large
+       graphs).  These include add.isolates, read.nos, rewire.ud, rewire.ws,
+       rgbn, rgnm, rgraph, rguman, rgws, and symmetrize.
+     as.sociomatrix.sna - now supports force.bipartite, bipartite attribute
+     betweenness now has an option to use edge values when computing 
+       geodesics; several alternative measures have also been added
+     bn now takes lists of networks
+     closeness now has an option to use edge values when computing geodesics;
+       an alternative measure has also been added
+     degree now has an option to ignore edge values
+     gden now has an option to ignore edge values
+     geodist now supports valued edges; an option has been added to return
+       predecessor lists
+     gplot now has an option ("interact.bycomp") to interactively move entire
+       components (instead of individual vertices)  [Submitted by Alex
+       Montgomery]
+     grecip now supports an additional index
+     netlm now supports use of t-statistics for resampling tests (new default)
+     rgbn supports a new exact sampling method
+     stresscent now has an option to use edge values when computing geodesics
+   Bug Fixes:
+     rgbn was returning a redundant state
+
+v1.5 - New Functions, Changes, and Bug Fixes
+   New Functions:
+     component.largest - Extract the largest component from a graph
+     kcycle.census - Compute cycle census information for a graph
+     kpath.census - Compute path census information for a graph
+   Changes:
+     as.sociomatrix.sna now supports sparse matrices from the SparseM
+       package (assuming that said package is installed); such objects
+       should now be transparently supported by sna routines (albeit
+       not efficiently)
+   Bug Fixes:
+     An error in the Holland and Leinhardt citation in the dyad.census
+       documentation has been fixed [submitted by Ben Lind]
+     Disabled lnam example which was apparently taking a long time to run on
+       the CRAN test systems (but not on mine, for some reason)
+
+v1.4 - New Functions, Changes, and Bug Fixes
+   New Functions:
+     nacf - Network autocorrelation function
+     neighborhood - Return the matrix of n-th order neighbors for an input graph
+   Bug Fixes:
+     Likelihood computation in lnam was innaccurate in some cases [submitted by
+       Eric Neuman]
+   Changes:
+     A few remaining mva references were purged (see changes for v1.3)
+     lnam has been rewritten using a different optimization scheme; this should
+       prove more robust in some cases, but does change certain command-line
+       arguments (see the man page for details)
+
+v1.3 - New Features, Changes, and Bug Fixes
+   New Features:
+     lnam now allows the user to specify multiple AR and/or MA effects
+       simultaneously; network objects are also supported
+   Changes:
+     R version 2.0.0 is now required, due to the fact that mva has been
+       phased out, mva was required for earlier R versions, and R CMD check
+       now requires that any such package be mentioned on the "suggests" line
+       of DESCRIPTION (thus generating an error, since mva is defunct).  My
+       apologies to anyone out there who is clinging to 1.x for some reason;
+       I'd have left the support in, if that were feasible
+     gplot and gplot3d now have displaylabels set to !missing(label) by default;
+       this eliminates the need to manually set displaylabels when labels are
+       explicitly specified [suggested by Gabor Grothendieck]
+   Bug Fixes:
+     ask=TRUE changed to ask=dev.interactive() where applicable, to ensure
+       support for non-interactive devices [submitted by Kurt Hornik]
+     network has been added to "suggests" line in DESCRIPTION, to calm down
+       R check; it is helpful, but not essential
+
+v1.2 - New Functions, Changes, and Bug Fixes
+   New Functions:
+     ego.extract - Extract egocentric networks from complete network data
+   Changes:
+     Added a small tweak which improves performance of Romney-Batchelder model
+       (consensus) where corner solutions are initially obtained for competency
+       scores
+     brokerage has now been backended, with substantial performance gains
+     New backend functionality has been added for faster/more efficient graph
+       storage; this is not user-visible, but will eventually result in better
+       performance for many current routines (as it becomes integrated into
+       the underlying code)
+   Bug Fixes:
+     Man page for components erroneously referred to the symmetrize function in
+       place of component.dist
+     Removed an errant two-parameter atan reference which was broken by changes
+       in R >= 2.3
+
+v1.1 - New Functions, New Features, and Bug Fixes
+   New Functions:
+      brokerage, summary.brokerage, print.summary.brokerage - Perform a Gould-
+        Fernandez brokerage analysis
+      read.dot - Read data in DOT format
+   New Features:
+      The variant of the Romney-Batchelder model implemented by consensus was
+        not standard; consensus now also supports the canonical version.  
+        (Ironically, this variant seems slightly less effective, but is
+        compatible with the multinomial processing tree interpretation.)
+   Bug Fixes:
+      equiv.clust and sedist would fail with multiple graphs if g argument
+        was not explicitly set [submitted by Kieran Healy]
+      triad.classify was not returning the right values in certain cases
+
+v1.0 - New Functions, New Features, Changes, and Bug Fixes
+   New Functions:
+      bn.* - Estimation for biased net models
+      print.equiv.clust - Printing for equiv.clust objects
+      rgbn - Draw from a biased net model
+      structure.statistics - Return the structure statistics for one or more
+        graphs
+      write.dl - Write output in DL format
+      write.nos - Write output in NOS format
+   New Features:
+      Most functions now support networks objects (a la the network package)
+        and graph lists in a sensible way
+      blockmodel now takes hclust objects or block membership vectors as input
+      consensus now supports iterative reweighting (Romney-Batchelder model)
+      equiv.clust now supports user-supplied distance matrices
+      plot.sociomatrix can now suppress cell borders, and supports scaling of
+        label text [latter suggested by Mark Handcock]
+      triad.census and triad.classify now can now be set to obtain undirected
+        triad classifications using mode="graph"
+   Changes
+      addisolates is now defunct (was deprecated - use add.isolates instead)
+      grecip's output was confusing (edgewise measure was not what one might
+        expect).  grecip now gives a more conventional edgewise measure, with
+        the old measure available as "dyadic.nonnull". [suggested by Simone 
+        Gabbriellini]
+      netlm now uses more refined null hypotheses, and has been internally
+        streamlined; output has been modified slightly.  Modifications include
+        the use of Dekker et al.'s semi-partialling procedure as the QAP
+        default, and explicit compution of two-sided tests.
+      netlogit has been changed in a manner analogous to netlm.
+    Bug Fixes
+      bbnam plot methods were creating ugly labels/titles
+      equiv.clust and plot.equiv.clust were not fully compatible with recent
+        changes in hclust
+      gplot3d.arrow and gplot3d.loop (and hence gplot3d) were not drawing edge
+        attributes properly
+      print.blockmodel was failing under certain circumstances
+      gtrans was producing inaccurate results on some graphs [submitted by 
+        Jessica Flack]
+      plot.sociomatrix was generating annoying (albeit harmless) warning
+        messages
+      sedist was not considering all edges for mode=="graph" [submitted by 
+        Alex Montgomery]
+
+v0.51 - New Features and Bug Fixes
+   New Features:
+      gplot now supports vertex rotation, more refined label placement,
+        and improved loop positioning [submitted by Alex Montgomery]
+      gplot.layout.fruchtermanreingold, gplot.layout.kamadakawai, and their
+        three-dimensional counterparts now accept "seed" coordinates through
+        layout.par [suggested by Alex Montgomery]
+   Bug Fixes:
+      efficiency was producing incorrect values on some graphs
+      options()$expression was limiting the number of vertex relocations
+        in gplot's interactive mode
+      gplot3d was not returning z coordinate [submitted by Alex Montgomery]
+v0.5 - New Functions, Changes, and Bug Fixes
+   New Functions:
+      gplot.arrow - Custom arrow-drawing for gplot
+      gplot.layout.fruchtermanreingold - New layout method
+      gplot.layout.hall - New layout method
+      gplot.layout.kamadakawai - New layout method
+      gplot.layout.target - New layout method
+      gplot.loop - Custom loop-drawing for gplot
+      gplot.target - Draw "target diagrams" using gplot
+      gplot3d - Three-dimensional graph visualization
+      gplot3d.arrow - Draw three-dimensional "arrows"
+      gplot3d.layout.* - Layout functions for gplot3d
+      gplot3d.loop - Draw three-dimensional "loops"
+      is.connected - Determine whether or not one or more graphs is connected
+      rgmn - Draw from the G(N,M) graph distribution
+      rguman - Draw from the U|MAN graph distribution
+   Changes:
+      addisolates has been changed to add.isolates; addisolates is deprecated
+      geodist now uses Inf as the default inf.replace value (was N); note that
+        this may affect the default behavior of routines which use geodesic
+        distance matrices on disconnected graphs
+      gplot overhaul continues:
+        gplot aspect ratio now fixed at 1:1
+        gplot now uses Fruchterman-Reingold as its default layout method
+        gplot now supports manual setting of plot limits
+        gplot now uses red as the default vertex color
+        All plotting elements are now polygons; scaling is now performed
+          relative to fractions of the plotting region, and all elements
+          can be scaled.
+        Labels are no longer plotted by default (and can be switched off with
+          displaylabels)
+        Various other minor changes have been made; see ?gplot
+      Many routines (e.g., triad.classify, triad.census, geodist, etc.) now
+        have C backends.  This results in a tremendous performance boost (e.g.,
+        1-2 orders of magnitude) on large graphs.
+      Package code has been substantially reorganized
+      A cumulative list of contributors has been added to the package -- see the
+        CONTRIBUTORS file
+   Bug Fixes
+      betweenness no longer produces NaNs on disconnected vertex sets
+      lubness was producing incorrect values for some graphs
+v0.44 - New Functions, New Features, Changes, and Bug Fixes
+   New Functions:
+      %c% - Composition of two adjacency matrices
+      gapply - Apply functions over vertex neighborhoods.
+      gplot.layout.* - Layout functions for gplot
+      lnam - Fit a linear network autocorrelation model
+      plot.lnam - Plotting for lnam objects
+      print.lnam - Printing for lnam objects
+      print.summary.lnam - Printing for lnam summary objects
+      summary.lnam - Detailed printing for lnam objects
+   New Features:
+      consensus now supports union/intersection LAS and column/row 
+        raw report methods (useful for replicating "classic" CSS work)
+      gplot sports a wide range of new features, including:
+        An interactive mode, which allows for manual repositioning
+          of vertices.  (It's not pretty, but it works.)  
+        Silent return of the x,y coordinates for all vertices.  
+          This is useful for adding features to an existing plot, or for 
+          saving a given layout for later reuse.
+        Adjacency matrices can now be used as parameters to set 
+          edge widths, line types, and colors [submitted by Alex Montgomery]
+        Overplotting support [submitted by Alex Montgomery]
+        Support for loops (i.e., self-ties) [submitted by Alex Montgomery]
+        Curved edges, with adjustable curvature [submitted by Alex Montgomery]
+        Support for user-supplied layout methods
+        Expansion of existing layout methods, including new arguments
+   Changes:
+      triad.census now automatically removes the diagonal before 
+        calculating the triad census; a note on valued/unvalued data has 
+        also been added to the man page [suggested by Skye Bender-deMoll 
+        and Dan McFarland]
+      Vertex layouts for gplot are now generated externally, via 
+         the gplot.layout.* functions.  Arbitrary parameters may be 
+         passed to the layout functions via an argument list; further, 
+         since layout functions are identified with match.fun(), 
+         user-added functions can also be employed.  The default layout 
+         method is now segeo (spring embedder results were sometimes 
+         very good, but too uneven).
+   Bug Fixes:
+      degree was reporting incorrect tmaxdev values in some cases
+      triad.classify switched 111D and 111U [submitted by Dan McFarland and
+        Skye Bender-deMoll]
+v0.43 - Minor Changes, Updates, and New 
+Features
+   Changes:
+      Contact URL has been updated
+   Updates:
+      In keeping with the new rigorousness regarding data.frame structures in
+        1.8.0, many data.frames have been changed to lists.  This should be
+        transparent to the end user, but will avoid the generation of errors
+        under the new system.
+      Removed references to (deprecated) plot.hclust
+   New Features:
+      gplot now supports spring embedding.  Providing unsupported layout modes
+        now produces an error, rather than undefined behavior (as before).  
+        Options have also been added for suppressing the printing of axes,
+        and for placing opaque boxes behind vertex labels.
+v0.42 - Minor Changes
+   Changes:
+      Author contact information has been updated
+      plot.matrix is now plot.sociomatrix, in order to ensure compatibility
+         with the new method standards; all code should be updated to reflect
+	 this fact
+v0.41 - Updates, New Features, and Bug Fixes
+   Updates:
+      Deprecated function .Alias removed (was used in netlm, netlogit)
+      Changed keyword "network" to "math" in all help pages [as requested
+         by the Keepers of R]
+      Various internal changes to plot/print/summary methods, in order
+         to maintain consistency with their generic equivalents; these
+         will (hopefully) have no visible effect
+   New Features:
+      component.dist now supports weak, unilateral, strong, and recursive
+         component definitions
+   Bug Fixes:
+      component.dist was calculating recursively connected components for
+         connected="strong", instead of strongly connected components
+      pstar was dumping (internal) edge perturbation data to the screen,
+         which was harmless but very annoying; names for pstar coefficients
+         were not being recognized by glm
+
+v0.4 - New Features, Changes, and Fixes
+   New Functions:
+      connectedness - Find the Krackhardt connectedness of a graph or graph 
+         stack
+      dyad.census - Compute the Holland and Leinhardt MAN dyad census for a 
+         graph or graph stack
+      efficiency - Find the Krackhardt efficiency of a graph or graph stack
+      hierarchy - Find the hierarchy score of a graph or graph stack.
+      infocent - Find the information centrality scores of network positions
+         [submitted by David Barron]
+      lubness - Find Krackhardt's Least Upper Boundedness of a graph or graph 
+         stack
+      reachability - Find the reachability matrix of a graph.
+      triad.census - Conduct a Davis and Leinhardt triad census for a graph or 
+         graph stack
+      triad.classify - Return the Davis and Leinhardt classification of a given
+         triad
+   New Features:
+      gplot now adjusts line width for valued graphs, via the edge.lwd 
+         parameter, and allows users to set the vertex point type (using
+         vertex.pch.  gmode=="graph" now sets usearrows<-FALSE, and new
+         gmode "twomode" automagically plots two-mode data.  New display modes
+         have also been added: geodist (MDS of proximities); adj (MDS with 
+         adjacency as similarity); and seham (MDS of SE dist using Hamming 
+         method).
+      grecip now supports a "measure" option, which allows the user to choose
+         between "dyadic" reciprocity (aRb iff bRa) and "edgewise" reciprocity
+         (aRb if bRa).  The old version (and default) is the "dyadic" option,
+         which (as the above implies) takes null dyads into account; the 
+         "edgewise" definition omits null dyads from the calculation.
+      gtrans now supports a "measure" option, which allows the user to choose
+         between "weak" transitivity (aRc if aRb & bRc) and "strong" 
+         transitivity (aRc iff aRb & bRc).  The old version was strong-only, 
+         but much of the field prefers the weak version.  Each of these options
+         has a respective census variant ("weakcensus", "strongcensus") which 
+         returns a count of legal triads rather than a rate.
+      pstar now supports separate options for strong/weak transitivity scores,
+         and for strong/weak transitive triad counts.
+   Bug Fixes:
+      Labeling optimizers were not pre-sorting to guard against
+         mixed-up exchange lists (these are now checked, too).
+      Various centrality measures were not returning the correct
+         absolute maximum deviation with tmaxdev==TRUE.
+      gtrans was ignoring settings and counting diagonal entries [submitted by
+         David Barron]
+      pstar behaved badly when external predictors were unnamed [submitted by
+         Gindo Tampubolon]
+   Changes:
+      Comparable labelings are now _enforced_ where applicable.
+      lab.optimize.gumbel now just tries to scare you off, rather
+         than refusing you altogether.
+      Path-based indices (betweenness, closeness, stresscent,
+         graphcent, etc.) now automatically assume 
+         cmode=="undirected" whenever gmode="graph".
+      The default mode for gtrans is now "weak", to match the usage of W&F
+
+v0.3 - New Features, Changes, and Fixes
+   General:
+      All standard functions are now documented
+      R package format is now supported
+   New Functions:
+      component.dist - Find the distribution of (maximal) component sizes 
+         within a graph
+      components - Find the number of (maximal) components within a given graph
+      eval.edgeperturbation - Evaluate a function on a given graph with and 
+         without a given edge, returning the difference between the results in 
+         each case.
+      interval.graph - Construct one or more interval graphs (and 
+         exchangeability vectors) from a set of spells
+      mutuality - Find the number of mutual (i.e., reciprocated) edges in a 
+         graph
+      gscor - Computes the structural correlation between graphs
+      gscov - Computes the structural covariance between graphs
+      gtrans - Compute the transitivity of an input graph or graph stack.
+      lab.optimize - Optimize a bivariate graph statistic over a set of 
+         labelings
+      pstar - Fits a p* model using the logistic regression approximation 
+      read.nos - Reads input files in Neo-OrgStat format
+      rperm - Draw a random permutation vector with exchangability constraints
+   Features and Modifications:
+      diag.remove, upper.tri.remove, and lower.tri.remove now allow replacement
+         with any value
+      gplot now provides a slew of new parameters to change color, size, etc. 
+         of vertices, edges, and labels
+      gscor and gscov now delegate to lab.optimize
+      gscor, gscov, structdist now support exchange lists (via lab.optimize)
+
+v0.2 - New Features and Some Bug Fixes
+   New Functions:
+      blockmodel - Generate blockmodels based on partitions of network 
+         positions
+      blockmodel.expand - Generate a graph from a given blockmodel using 
+         particular expansion rules
+      bonpow - Find the Bonacich power centrality scores of network positions
+      equiv.clust - Find clusters of positions based on an equivalence relation
+      evcent - Find the eigenvector centralities of network positions
+      gdist.plotdiff - Plot differences in graph-level statistics against 
+         inter-graph distances
+      gdist.plotstats - Plot statistics associated with graphs against 
+         (projected) inter-graph distances
+      make.stochastic - Make a graph stack row, column, or row-column 
+         stochastic
+      plot.blockmodel - Plotting for blockmodel objects
+      plot.equiv.clust - Plotting for equivalence clustering objects
+      prestige - Find actor prestige scores from one of several measures
+      print.blockmodel - Printing for blockmodel objects
+      print.summary.blockmodel - Printing for blockmodel summary objects
+      sedist - Find distances between positions based on structural equivalence
+      stackcount -Find the number of matrices in a graph stack (matrix or array
+         data acceptable)
+      summary.blockmodel - Detailed printing for blockmodel objects
+   Features and Modifications:
+      All centrality routines can now be rescaled (division by maximum realized
+         value); default is always FALSE   
+   Bug Fixes:
+      Various centrality routines once again return values for the selected 
+         graph and vertices
+      
