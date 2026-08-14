@@ -1,0 +1,140 @@
+## DiceKriging 1.6.1
+## change / DiceKriging 1.6.0
+
+  * Bug fix: possible inconsistency between the final value returned by the optimization in kmEstimate and variables stored in envir [thanks to Charlie Sire for signaling the problem]
+  * Fixed check problem in documentation with RDevel [thanks to @MrFlick on StackOverflow] 
+  * New syntax for testthat 
+  * References updates
+  * Modification of the DESCRIPTION file to fit with new CRAN requirements
+
+## DiceKriging 1.6.0
+## change / DiceKriging 1.5.8
+
+  * Add multiple fold cross validation for a km object
+
+## DiceKriging 1.5.8
+## change / DiceKriging 1.5.7
+
+  * Fix problems in testthat
+  * Fix problem on trend.deltax [thanks to Rodolphe Le Riche for signaling the bug]
+
+## DiceKriging 1.5.7
+	
+	* Fix problem in the calls to ".C". The entry points of the DLL	should not be searched for by their name but by their registred	symbol. So the quotes are removed.
+	
+## DiceKriging 1.5.6
+## change / DiceKriging 1.5.5
+  
+  * Scaling [Thanks to Yann Richet]: 
+  	- Speed-up of computation with a scaling kernel
+	- Implementation of the derivative with respect to x  
+	- Now accepts zero nodes (then equivalent to regular kriging without scaling)
+	- Verification of names consistency in scaling, between knots and design
+	- Addition of tests for trustworthyness
+  * Bug corrected in initialization & multistart (parinit was not accepting matrices in kmNoNugget.init) [Thanks to Adrien Spagnol]
+  * A clear error message is returned if package 'rgenoud' is not found [Thanks to Clement Walter]
+  * Multistart now accounts for failed results [Thanks to David Ojeida]
+  * Correction of the doc of 'predict.km' for Tinv.c (transpose was missing in the previous version) [Thanks to Hao Wang]
+  * Modification of the NAMESPACE to fit with new CRAN requirements
+  
+## change / DiceKriging 1.5.4
+  * Deletion of the beta version of the replacement method 'coef<-', in order to avoid conflicts with GPlab
+  * Correction of a NOTE in CRAN Package Check Results: Registration of S3 methods for 'logLik.km', 'plot.km', 'predict.km'
+  * Bug corrected about the usage of 'diag(vn)', 'diag(noise.var)' when the dimension is 1 [Thanks to Sébastien Marmin]
+
+## change / DiceKriging 1.5.3
+  * Implementation of a multistart option for the BFGS optimizer, allowing to perform several optimizations from different initial starting points.
+  * Bug corrected in 'drop.response', that prevented users from removing intercept in trend formulas.
+  * Bug corrected in method 'simulate': 'newdata=NULL' is now also possible when 'cond=TRUE'
+  * Bug corrected in method 'update' about power-exponential covariance function.
+  * Undesirable printing removed in kmEstimate
+  * Minor improvement in speed about initialization for the noise-free case, when an initial point is provided.
+  * test added about prediction: comparison with Ornstein-Uhlenbeck in 1D and Kriging with 'exp' covariance.
+
+
+## change / DiceKriging 1.5.2
+  * Non-ASCII parameters removed in two help files
+  * Help file of scalingFun improved
+
+## change / DiceKriging 1.5.1
+
+	* creation of a coef method
+	* trend.deltax: Default value for h is now fixed to sqrt(.Machine$double.eps) instead of 1e-8.
+
+	* Internal: The cases for optimisation now explicitely depend on the way likelihood is concentrated. Expert users: Mind that the 3 character strings for the slot 'case' have changed.
+
+	* Internal: Reorganisation of methods, according to covariance classes (One file per covariance, containing all the related methods)
+ 
+
+## change / DiceKriging 1.5
+
+	* update method: It is now possible to reestimate the trend and/or the nugget effect when adding new points
+
+	* checkNames.R: correction of a bug in function checkNames (mistake in columns permutations) + addtion of a test function
+
+
+## change / DiceKriging 1.4.0 & 1.4.1
+	
+	* covMatrix: Now returns C and the vector vn, instead of the two matrices C0 and C.	
+
+	* update.km : new function/method.
+
+	* Leave-One-Out: implementation of the Dubrule's formula, see 'leaveOneOut.km'.
+	
+	* Estimation: 
+	- in addition to MLE, cross-validation (leave-one-out) is now available when there is no nugget effect nor noisy observations. 
+	- it is now possible to estimate the trend only (the covariance parameters being fixed)
+
+	* Prediction: The trend has been added to the output list. 
+
+	* Implementation of the derivative of the trend f(x) with respect to x, see 'trend.deltax'.
+
+	* Minor: modification of 'computeAuxVariables' to include the case where 'model@trend.coef' has not been computed yet (then only T, M are updated, and z is set to numeric(0)).
+
+
+## change / DiceKriging 1.3.3
+
+	* addition of the class "covUser", which allows the user to provide its 
+	own covariance kernel (with known parameters).
+	
+	* the user is now able to tune the optimization parameters of 'genoud' and 
+	'BFGS' by the argument 'control' in function 'km'. Compatibility with the 
+	previous 'control' option is ensured.
+	
+	* modification of the 'predict' method: 
+		- Creation of the argument 'bias.correct': Contrarily to 
+		DiceKriging<=1.3.2, the estimated (UK) variance and covariances 
+		are NOT multiplied by n/(n-p) by default.
+		- Creation of the argument 'light.return', that allows to save 
+		memory (expert usage)
+	
+	* merging of 'kmNoNugget', 'km1Nugget' and 'kmNuggets' in a single file, 
+	named 'kmEstimate'
+
+	* the auxiliary functions 'covparam2vect' and 'vect2covparam' are now defined as methods.
+
+
+## change / DiceKriging 1.3.2
+	
+	* the checkNames option is now TRUE by default, and produces a warning instead of an error. 
+	In the future, it will produce an error.
+
+
+## change / DiceKriging 1.3.
+
+	* extension of methods "simulate.km" and "plot.km" to noisy observations.
+	* addition of a consistency check between the input names in the design and in 
+	newdata. It can be used for prediction and simulation by turning the argument 
+	"checkNames" to TRUE. The checking stage is done in the new function "checkNames".  
+	* creation of the function "kmData", which allows the user to give the response and 
+	the design in a single "data" argument (as for lm). 
+	* modifications in the documentation of km (examples), predict.km and simulate.km 
+	(section warning + examples).
+
+
+## change / DiceKriging 1.2
+
+	* addition of the class "covScaling", corresponding to the general case of scaling 
+	(varying number of knots per dimension). Implementation of scalingFun and scalingGrad 
+	in C
+
