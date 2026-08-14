@@ -1,0 +1,59 @@
+name = "rebayes"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "REBayes authors; Fortran translation"
+maintainer = ""
+description = "Modern Fortran computational port of REBayes"
+
+[library]
+source-dir = "src"
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[[test]]
+name = "test_kw"
+source-dir = "test"
+main = "test_kw.f90"
+
+[[test]]
+name = "test_mixtures"
+source-dir = "test"
+main = "test_mixtures.f90"
+
+[[test]]
+name = "test_utils"
+source-dir = "test"
+main = "test_utils.f90"
+
+[[test]]
+name = "test_rlr"
+source-dir = "test"
+main = "test_rlr.f90"
+
+[[executable]]
+name = "rebayes_example"
+source-dir = "example"
+main = "basic.f90"
+
+[[test]]
+name = "test_kw_random"
+source-dir = "test"
+main = "test_kw_random.f90"
+
+[[test]]
+name = "test_repeated"
+source-dir = "test"
+main = "test_repeated.f90"
+
+[[test]]
+name = "test_medde"
+source-dir = "test"
+main = "test_medde.f90"
+
+[[test]]
+name = "test_special"
+source-dir = "test"
+main = "test_special.f90"

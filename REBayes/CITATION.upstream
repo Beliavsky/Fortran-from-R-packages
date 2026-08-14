@@ -1,0 +1,17 @@
+bibentry(bibtype = "Article",
+  title        = "{REBayes}: An {R} Package for Empirical Bayes Mixture Methods",
+  author       = c(person(given = "Roger",
+                          family = "Koenker",
+                          email = "rkoenker@uiuc.edu"),
+                   person(given = "Jiaying",
+                          family = "Gu")),
+  journal      = "Journal of Statistical Software",
+  year         = "2017",
+  volume       = "82",
+  number       = "8",
+  pages        = "1--26",
+  doi          = "10.18637/jss.v082.i08",
+
+  header       = "To cite REBayes in publications use:"
+)
+
