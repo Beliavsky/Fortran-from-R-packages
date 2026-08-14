@@ -1,0 +1,32 @@
+Package: caRamel
+Type: Package
+Title: Automatic Calibration by Evolutionary Multi Objective Algorithm
+Version: 1.5
+Date: 2026-05-07
+Authors@R: c(
+  person("Nicolas", "Le Moine", role = c("aut")),
+  person("Celine", "Monteil", role = c("aut")),
+  person("Frederic", "Hendrickx", role = c("ctb")),
+  person("Fabrice", "Zaoui", role = c("aut", "cre"), email = "fabrice.zaoui@edf.fr"),
+  person("Alban", "de Lavenne", role = c("ctb"))
+  )
+Author: Nicolas Le Moine [aut],
+  Celine Monteil [aut],
+  Frederic Hendrickx [ctb],
+  Fabrice Zaoui [aut, cre],
+  Alban de Lavenne [ctb]
+Maintainer: Fabrice Zaoui <fabrice.zaoui@edf.fr>
+Depends: geometry, parallel
+Suggests: markdown, rmarkdown, knitr, testthat
+Description: The caRamel optimizer has been developed to meet the requirement for an automatic calibration procedure that delivers a family of parameter sets
+     that are optimal with regard to a multi-objective target (Monteil et al. <doi:10.5194/hess-24-3189-2020>).
+License: GPL-3 | file LICENSE
+URL: https://github.com/fzao/caRamel
+BugReports: https://github.com/fzao/caRamel/issues
+Encoding: UTF-8
+NeedsCompilation: yes
+VignetteBuilder: knitr
+Repository: CRAN
+Config/roxygen2/version: 8.0.0
+Packaged: 2026-05-12 09:01:29 UTC; I21149
+Date/Publication: 2026-05-12 09:40:06 UTC
