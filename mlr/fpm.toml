@@ -1,0 +1,23 @@
+name = "mlr-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of mlr computational framework"
+maintainer = "OpenAI translation"
+description = "Computational core inspired by R mlr, with survival-fortran integration"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+survival-fortran = { path = "vendor/survival-fortran-v0.1.0" }

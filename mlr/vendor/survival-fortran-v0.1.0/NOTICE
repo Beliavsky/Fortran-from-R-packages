@@ -1,0 +1,13 @@
+survival-fortran
+================
+
+This project contains a modern Fortran translation of computational routines
+from R package survival 3.8-9. The survival-derived translation is provided
+under LGPL-2.0-or-later, matching the upstream DESCRIPTION declaration
+"LGPL (>= 2)".
+
+The local dependency vendor/splines-fortran-v0.1.0 is GPL-2.0-or-later and
+retains its own copyright/license notices. The linked default FPM target is
+therefore distributed under GPL-2.0-or-later compatible terms.
+
+No endorsement by the upstream authors or the R project is implied.
