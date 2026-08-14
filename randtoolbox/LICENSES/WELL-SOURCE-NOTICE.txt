@@ -1,0 +1,13 @@
+Notice carried by the upstream WELL C source files
+==================================================
+
+Copyright: Francois Panneton and Pierre L'Ecuyer, University of Montreal
+           Makoto Matsumoto, Hiroshima University
+
+Notice: This code can be used freely for personal, academic, or
+non-commercial purposes. For commercial purposes, please contact
+P. L'Ecuyer at: lecuyer@iro.UMontreal.ca
+
+The Fortran recurrence implementations in this project are translations of
+those WELL source files. This notice is preserved verbatim in substance and
+must be considered in addition to the rngWELL package's BSD-3-Clause metadata.

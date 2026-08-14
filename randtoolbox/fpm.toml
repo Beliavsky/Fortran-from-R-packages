@@ -1,0 +1,17 @@
+name = "randtoolbox-fortran"
+version = "0.1.0"
+license = "BSD-3-Clause AND LicenseRef-WELL-Upstream"
+author = "Fortran translation of randtoolbox contributors' code"
+maintainer = ""
+copyright = "See LICENSE and LICENSES/"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
