@@ -1,0 +1,57 @@
+useDynLib(DiceKriging, .registration = TRUE)
+
+import(methods)
+importFrom("graphics", "abline", "lines", "matplot", "par", "plot")
+importFrom("stats", "as.formula", "dist", "lm", "model.matrix",
+     "optim", "qnorm", "qqline", "qqnorm", "qt", "quantile",
+     "reformulate", "rnorm", "runif", "sd", "terms", "var",
+     "predict", "logLik", "coef", "coefficients", "simulate", "update")
+importFrom("utils", "unstack", "combn")
+
+
+## S4
+exportClasses(covTensorProduct, covIso, covScaling, covKernel, km, covUser)
+## All methods, for own or "foreign" generics:
+exportMethods(show, plot, predict, simulate, update, covMatrix, covMat1Mat2, 
+covMatrixDerivative, covVector.dx, covParametersBounds, covparam2vect, vect2covparam, coef, summary, inputnames, ninput, kernelname, nuggetvalue, "nuggetvalue<-", nuggetflag)
+
+## S3
+S3method(logLik, km)
+S3method(plot, km)
+S3method(predict, km)
+
+
+
+export(branin, 
+       camelback, 
+       checkNames,
+       checkNamesList,
+       computeAuxVariables,
+       covStruct.create,
+       cv,
+       drop.response,
+       goldsteinPrice, 
+       hartman3, 
+       hartman6, 
+       km,
+       kmEstimate,
+       kmData,
+       km1Nugget.init, 
+       kmNoNugget.init, 
+       kmNuggets.init, 
+       leaveOneOut.km,
+       leaveOneOutFun,
+       leaveOneOutGrad, 
+       logLik.km, 
+       logLikFun,
+       logLikGrad, 
+       plot.km, 
+       predict.km, 
+       SCAD.derivative, 
+       SCAD, 
+       scalingFun,
+       scalingFun1d,
+       scalingGrad,       
+       trend.deltax,
+       trendMatrix.update)
+
