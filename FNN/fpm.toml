@@ -1,0 +1,19 @@
+name = "FNN-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "FNN authors and FNN-fortran contributors"
+maintainer = "FNN-fortran contributors"
+description = "Modern Fortran numerical port of the FNN R package"
+categories = ["statistics", "machine-learning", "nearest-neighbor"]
+keywords = ["knn", "kd-tree", "entropy", "mutual-information", "classification", "regression"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
