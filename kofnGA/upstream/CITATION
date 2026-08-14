@@ -1,0 +1,19 @@
+bibentry(bibtype = "Article",
+  title        = "A Genetic Algorithm for Selection of Fixed-Size Subsets with Application to Design Problems",
+  author       = person(given = c("Mark", "A."),
+                        family = "Wolters",
+                        email = "mark@mwolters.com"),
+  journal      = "Journal of Statistical Software, Code Snippets",
+  year         = "2015",
+  volume       = "68",
+  number       = "1",
+  pages        = "1--18",
+  doi          = "10.18637/jss.v068.c01",
+  header       = "To cite kofnGA in publications use:",
+  textVersion  =
+  paste("Mark A. Wolters (2015).",
+        "A Genetic Algorithm for Selection of Fixed-Size Subsets with Application to Design Problems.",
+        "Journal of Statistical Software, 68(1), 1-18.",
+        "doi:10.18637/jss.v068.c01")
+)
+

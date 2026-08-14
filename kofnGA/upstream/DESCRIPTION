@@ -1,0 +1,22 @@
+Package: kofnGA
+Title: A Genetic Algorithm for Fixed-Size Subset Selection
+Version: 1.3
+Authors@R: person(c("Mark","A."), "Wolters", email = "mark@mwolters.com", 
+ role = c("aut", "cre"))
+Description: Provides a function that uses a genetic algorithm to search for a subset
+ of size k from the integers 1:n, such that a user-supplied objective function 
+ is minimized at that subset.  The selection step is done by tournament selection 
+ based on ranks, and elitism may be used to retain a portion of the best solutions 
+ from one generation to the next. Population objective function values may 
+ optionally be evaluated in parallel.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
+Imports: bigmemory
+NeedsCompilation: no
+Packaged: 2018-11-02 05:34:43 UTC; krams
+Author: Mark A. Wolters [aut, cre]
+Maintainer: Mark A. Wolters <mark@mwolters.com>
+Repository: CRAN
+Date/Publication: 2018-11-02 06:10:03 UTC
