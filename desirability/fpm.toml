@@ -1,0 +1,20 @@
+name = "desirability-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Modern Fortran translation of Max Kuhn's R desirability package"
+maintainer = ""
+copyright = "Original R package copyright its authors; Fortran translation preserves GPL-2"
+description = "Modern Fortran implementation of desirability functions"
+categories = ["statistics", "optimization"]
+keywords = ["desirability", "optimization", "derringer-suich"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
