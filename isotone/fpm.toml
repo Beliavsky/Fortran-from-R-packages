@@ -1,0 +1,19 @@
+name = "isotone-fortran"
+version = "0.1.0"
+license = "GPL-2.0"
+author = "Modern Fortran translation of the R isotone package"
+maintainer = "OpenAI"
+description = "Generalized PAVA, active-set isotone optimization, and inequality-restricted regression"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

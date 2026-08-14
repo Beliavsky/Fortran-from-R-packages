@@ -1,0 +1,19 @@
+citation(auto = meta)
+
+bibentry(bibtype = "Article",
+  title        = "Isotone Optimization in {R}: Pool-Adjacent-Violators Algorithm (PAVA) and Active Set Methods",
+  author       = c(person("Jan", "de Leeuw"),
+                   person("Kurt", "Hornik",
+                          email = "Kurt.Hornik@R-project.org",
+                          comment = c(ORCID = "0000-0003-4198-9911")),
+                   person("Patrick", "mair",
+                          email = "mair@fas.harvard.edu",
+                          comment = c(ORCID = "0000-0003-0100-6511"))),
+  journal      = "Journal of Statistical Software",
+  year         = "2009",
+  volume       = "32",
+  number       = "5",
+  pages        = "1--24",
+  url          = "https://doi.org/10.18637/jss.v032.i05"
+)
+

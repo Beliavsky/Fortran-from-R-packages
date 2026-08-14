@@ -1,0 +1,29 @@
+Package: isotone
+Type: Package
+Title: Active Set and Generalized PAVA for Isotone Optimization
+Version: 1.1-2
+Date: 2025-05-21
+Authors@R: c(person("Patrick", "Mair", role = c("aut", "cre"), email =
+    "mair@fas.harvard.edu"), person("Jan", "De Leeuw", role = "aut"),
+    person("Kurt", "Hornik", role = "aut"))
+Author: Patrick Mair [aut, cre],
+  Jan De Leeuw [aut],
+  Kurt Hornik [aut]
+Maintainer: Patrick Mair <mair@fas.harvard.edu>
+Description: Contains two main functions: one for
+        solving general isotone regression problems using the
+        pool-adjacent-violators algorithm (PAVA); another one provides
+        a framework for active set methods for isotone optimization
+        problems with arbitrary order restrictions. Various types of
+        loss functions are prespecified.
+Imports: graphics, stats, nnls
+Depends: R (>= 3.0.2)
+License: GPL-2
+URL: https://r-forge.r-project.org/projects/psychor/
+LazyData: yes
+LazyLoad: yes
+ByteCompile: yes
+NeedsCompilation: no
+Packaged: 2025-05-21 17:00:51 UTC; patrick
+Repository: CRAN
+Date/Publication: 2025-05-22 05:25:19 UTC

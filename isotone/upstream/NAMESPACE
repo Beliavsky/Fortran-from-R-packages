@@ -1,0 +1,31 @@
+import("stats", "graphics", "nnls")
+export(gpava)
+export(weighted.median)
+export(weighted.fractile)
+export(activeSet)
+export(aSolver)
+export(dSolver)
+export(eSolver)
+export(fSolver)
+export(hSolver)
+export(iSolver)
+export(lfSolver)
+export(lsSolver)
+export(mSolver)
+export(oSolver)
+export(pSolver)
+export(sSolver)
+export(mregnn)
+export(mregnnM)
+export(mregnnP)
+
+S3method(print, gpava)
+S3method(plot, gpava)
+S3method(print, activeset)
+S3method(summary, activeset)                           
+
+
+
+
+
+
