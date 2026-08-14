@@ -1,0 +1,20 @@
+name = "mclust-fortran"
+version = "0.1.2"
+license = "GPL-2.0-or-later"
+author = "mclust authors; Fortran translation"
+maintainer = ""
+copyright = "See UPSTREAM.md and source notices"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = true
+implicit-external = true
+source-form = "free"
+
+[library]
+source-dir = "src"
