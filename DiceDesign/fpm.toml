@@ -1,0 +1,18 @@
+name = "dicedesign-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "DiceDesign authors; Fortran translation"
+maintainer = ""
+copyright = "See upstream metadata and GPL-3 license"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
