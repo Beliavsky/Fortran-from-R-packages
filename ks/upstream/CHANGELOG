@@ -1,0 +1,566 @@
+Change log file for ks
+
+1.15.3
+-Fixed zero length arrows in plot(display="quiver").
+-Fixed bug in lcsv.mat().
+
+1.15.2
+-Allowed for all negative values and set 10 s.f. in as.kde() to ensure
+ exactly repeated coordinates.
+-Exported block.indices().
+-Added pkgdown generation of package website https://mvstat.net/ks.
+
+1.15.1
+-Fixed bug in transparency.col() (MacOS only).
+-Marked all 3D plots in examples as \donttest.  
+
+1.15.0
+-Fixed bug in pkde() with decreasing cumulative probabilities.  
+-Removed nlevels parameter from, and added approx=2 option to compute 
+ grid-based density contour levels for contourLevels S3 methods. 
+-Added name labels for eval.points field of k* objects.
+-Changed kdr.segment() so segments are ordered in decresing #points.
+-Changed short segment removal algorithm for kdr(). 
+-Added error catching for small grid sizes in kdr().  
+-Fixed bugs in plotkdde.2d(abs.cont).
+-Added more informative legend keys in plot.kde.loctest().
+-Set local random seeds in Hnm() and contourBreaks() to ensure
+ reproducibility. 
+-Fixed bug in col.diverging() for a single contour level.
+-Added patch in kdde() for eks <= 1.0.7.
+
+1.14.3
+-Made small changes to kdde.binned.nd() and binning() to better report small 
+ bandwidth errors.
+-Removed repeated contour levels in .filled.contour() call in plotkde.2d(). 
+-Fixed bug for empty contour regions in plot() method for kde.loctest 
+ objects.
+
+1.14.2
+-Moved plot3D from Imports to Suggests, so ks can run in environments which 
+ can't install its visual functionalities.
+
+1.14.1
+-Added weighted estimate for 1D kde(unit.interval=TRUE).
+-Fixed bug with decreasing cumulative probs in qkde(). 
+-Changed name plot.histde.*d() to plothistde.*d(), gamma.r*() to gamma_r*() to 
+ avoid S3 method clashes.
+
+1.14.0
+-Systematised code indentation (4 spaces). 
+-Further systematised default bandwidth calculation. 
+-Added new flag grid.clip which excludes data outside of xmin, xmax in
+ kde() etc. for binned estimation.
+-Fixed bug in kde(unit.interval=TRUE) for 1D data.
+
+1.13.5
+-Fixed inconsistency in code and help guide for kms().
+-Added kde(density=TRUE) option to force non-negative KDE values.
+-Fixed bug in 1D kcde(positive=TRUE). 
+
+1.13.4
+-Removed calls to zero.flag=FALSE.
+-Fixed in bug in kdr(y=y, pre=FALSE). 
+
+1.13.3
+-Fixed matrix inverse calculation in Hns.diag().
+-Added density ridge segmentation in kdr() and kdr.segment().
+-Fixed bug in kdde.grid.3d() which computed the same values for all 
+ derivatives. 
+-Added consistent alpha transparency and default colour scale behaviour for 
+ plots. 
+-Added 3D kernel support estimate in ksupp() and in plot.ksupp().
+-Added pre-sphered optimisation for "unconstr" and "dunconstr" pilots in Hpi() 
+ and Hscv() to resolve numerical optimisation difficulties. 
+-Added REPORT=1 to print out progress reports for each iteration for calls to
+ optim().
+-Changed to use "BFGS" rather than "Nelder-Mead" in optim() in 
+ psifun2.unconstr().
+-Fixed bug in Gunconstr.scv() so that Hscv(pilot="unconstr") and    
+ Hscv(pilot="dunconstr", deriv.order=0) give same bandwidth. 
+-Added note on help page that zero.flag in predict.kde() is deprecated.
+ 
+1.13.2
+-Fixed bug in ploting group colours in plot.kms(, display="plot3D").
+-Reinstated display="rgl" option for 3D KDEs in plot.kms().
+-Fixed bug with transposed coordinates in pracma::quiver in plot.kdde(, 
+ display="quiver")
+-Fixed bugs in kde.truncate(), kdde.truncate() for normalisation and for 
+ contour levels calculation. 
+-Fixed bugs in contourSizes(), contourProbs() which didn't allow for different
+ grid sizes. 
+-Added colour transparency parameter alpha for colour function in plot methods
+ for histde, kcde, kda, kdde, kde, kde.part, kms objects. 
+
+1.13.1
+-Added contourProbs to approximate probabilities of level set of KDE.
+-Changed from OceanView::quiver2D() to pracma::quiver() for quiver plot in 
+ plot(,display="quiver"). 
+-Added pracma to Imports. Removed OceanView from Suggests.  
+-Fixed bug for certain missing axis labels in plot.kdde().
+-Reduced number of considered mixture models in Hmn(), Hnm.diag(). 
+ 
+1.13.0
+-Changed default colour schemes to be based on hcl.colors().
+-Fixed bug in hlscv() in calling optimise(). 
+-Fixed bugs in plotkda.1d() and plotkda.2d().
+-Fixed bug in calculation of Abramsom bandwidth in kde.sp().
+-Fixed bug in kde.balloon.2d() in re-normalising density estimate.
+-Added pre-scaling option in kde.sp(), kdr(), Hpi.kcde().
+-Fixed bug in contour labels in plotkd(d)e.2d(,display="filled.contour").
+-Generated datasets quakesf, platesf as sf versions of quake, plate. 
+-Added variable names in output to kde.local.test().
+-Added S3 contourLevels method for kcde objects.
+-Added S3 predict method for kfs objects. 
+-Fixed bug in names field in output in kdr().
+-Changed in hlscv() the default minimiser function to stats::bw.ucv(), and 
+ default interval search limits. 
+
+1.12.0
+-Fixed bug in rkde() to take into account weighted KDE.
+-Fixed bug in contour level calcuations in plot.kde().
+-Added names field to kda object in kda().
+-Fixed bug in plot.kdde() which always used which.deriv.ind=1, and never passed
+ the col parameter to plot.kde().
+-Fixed bug in plot.kcde(display="filled.contour") which didn't apply col or
+ col.fun, and replaced filled.contour() by .filled.contour().
+-Fixed bug to reduce default binning grid limits in kde.loc.test().
+-Fixed bugs in kda() and plot.kda.*d() to handle correctly factor grouping
+ variables.
+-Fixed bug in kfs() and plot.kfs() for 1D Wald statistic.
+-Fixed name labels in plate dataset.
+-Added plot3D functionality plot(, display="plot3D") since RGL 3D plots face 
+ an uncertain future but remain for the moment acessible via plot(,
+ display="rgl"). 
+
+1.11.7
+-Fixed small bug in help files to comply with R 3.6.3 CMD check.
+
+1.11.6
+-Changed dkde() to be an alias for predict.kde().
+-Updated default.bgridsize() for d=4 to rep(15,4).
+-Fixed bug in kdde.binned.nd() to force when keval is a vector to be 1-row
+ matrix.
+
+1.11.5
+-Fixed bugs in kde.1d() passing eval.points parameter and which didn't allow
+ unequal class proportions.
+
+1.11.4
+-Fixed error report in kde() incorrectly asserting to set "binned=TRUE" for
+exact estimation.
+-Fixed bug in line colour in plot.kcde().
+-Fixed bug in kde.grid.nd() not passing verbose argument.
+
+1.11.3
+-Fixed bug to kda() which set prior.prob values to default sample proportion
+ even when set explicitly differently.
+-Fixed bug in partition plot for 2D plot.kda().
+
+1.11.2
+-Fixed error in predict.kda() incorrectly assigning class labels.
+-Replaced dnorm.deriv() by version from J.E.C to compute arbitrary derivatives.
+-Added verbose option to kde.points().
+
+1.11.1
+-Fixed missing passing of h, H parameters in kde.positive.1d() and
+ kde.positive.2d().
+-Fixed bug in kdecopula.de().
+-Fixed bug in partition colours in 2D plot.kda().
+-Changed default optim.fun="nlm" to optim.fun="optim" everywhere.
+-Moved rgl, misc3d, OceanView from Imports to Suggests, so ks can run in
+ environments which can't install these visual functionalities.
+-Fixed inconsistencies in gridsize and bgridsize default values in
+ ks.defaults().
+-Added varying.grid.interp.*d() in predict method for non-uniform grids.
+-Fixed bug in 1D predict.kde() with non-uniform grid (i.e. output from
+ kde(, positive=TRUE)).
+-Extended limits of grid plotting for in plot.histde().
+-Fixed bug in creating factor levels for estimated labels in kda().
+-Added air, cardio, hsct, plate, quake, tempb datasets.
+
+1.11.0
+-Added multivariate version of rkde().
+-Added histogram estimators histde().
+-Simplified calculation of default values in kde(), etc.
+-Changed default flag binned=FALSE to binned=default.bflag.
+-Fixed estimated group labels calculation in kda().
+-Fixed interpolation for d>3 in grid.interp() and predict.kde().
+-Added histogram density estimate histde().
+-Added kernel density estimate for bounded data kde.boundary().
+-Added truncated kernel density estimate kde.truncate().
+-Added kernel support estimate ksupp().
+-Added kernel partition plot plot.kde.part().
+-Added variable kernel density estimates vkde().
+-Added quiver plot to plot.kdde() for deriv.order=1.
+-Added kernel summary curvature kcurv() for deriv.order=2.
+-Added World Bank data data(worldbank).
+-Added any dim KDE in kde.grid.nd().
+-Changed display="filled.contour" for 2D plots to not give adjacent colour
+ scale bar.
+-Fixed bug in 1d kde.test() p-value to return scalar.
+-Fixed bug in interp1d in ks.C which had assigned values outside of estimation
+ array.
+
+1.10.7
+-Changed mvtnorm from `Depends' to `Imports' in DESCRIPTION.
+-Implemented per-block calculation for large sample sizes in kdde(, 
+ binned=TRUE).
+-Fixed small bug in col.fun for plot.kcde(, display="filled.contour2")
+-Swapped order of computation of CDFs in kroc to prevent possible segmentation
+ faults.
+-Fixed bug in default bandwidth for kcde().
+-Fixed bug in default estimation grid limits for kda.nd().
+-Corrected formulas for scalar pilots in gdscalar() to match those in book.
+-Added feature significance function kfs().
+
+1.10.6
+-Registered native C routines in src/ks.c.
+-Added kernel mean shift kms().
+-Fixed bug in predict.kdde() for vector x for d>2.
+
+1.10.5
+-Fixed bug in invisible return values for plot.kda(), plot.kcde(), plot.kdde(),
+ plot.kde().
+-Added more detail about eval.points in kde.Rd.
+-Changed default approx.cont=TRUE in plot methods.
+-Changed default to compute.cont=TRUE in estimation functions and
+ corresponding plot methods.
+-Fixed bug in contour plot colours in plot.kdde() for 2D.
+-Fixed bug in calculation of scalar pilot in gdscalar().
+-Fixed bug in calculation of unconstrained SCV pilot in Gunconstr.scv().
+
+1.10.4
+-Fixed bug in plot.kde(,display="slice",abs.cont=) not plotting contours
+ correctly.
+-Fixed bug in predict.kde(object, ..., x) by adding zero.flag which controls
+ behaviour when x is outside interpolation grid object$eval.points: TRUE = 0,
+ FALSE = object$estimate corr to nearest grid point.
+
+1.10.3
+-Fixed bugs in col specification in plot.kde(,disp="persp") and disp="image".
+-Approx computation in contourLevels(,approx=TRUE) is now default.
+-Boundary adjustments in binning() moved to C functions linbin*d.ks().
+-Grid interpolation functions renamed from find.nearest.gridpts() to
+ grid.interp() and coded in C to increase speed.
+-Reduced time complexity of loess smoother in kcopula().
+
+1.10.2
+-Improved speed for kde.points(), kdde.points().
+-Improved speed for compare().
+-Fixed missing xlab, ylab in plot.kde() for 2D KDE.
+
+1.10.1
+-Fixed small bug in find.nearest.gridpts when treating edge points.
+-Modified pre.scale, pre.sphere to use sweep().
+-Fixed lower edge interpolation in find.nearest.gridpts.1d().
+-Fixed incorrect derivative order in kfe calculation in gdscalar(,binned=TRUE).
+
+1.10.0
+-Implemented binned estimation via symconv.1d(), symconv.nd() with
+ unconstrained b/w for kde(), kdde(), kfe(), dmvnorm.deriv.sum(), Hlscv()
+ Hscv().
+-Added aliases Hucv(), Hcv.diag(), hucv() for Hlscv(), Hlscv.diag(), h.lscv().
+-Added predict method for kda objects.
+-Fixed inconsistency in plot.kde1d(,col=).
+-Added 3d exact estimation and 3d plot for kdde().
+-Adjusted calls to symconv.1d(), symconv.nd() in drvkde for feature library.
+-Included calls to RGL plots in help file examples in \donttest{}.
+-Moved dfltCounts(), drvkde() to feature library.
+
+1.9.5
+-Changed DESCRIPTION to comply with CRAN checks (e.g. imports etc.)
+-Fixed inconsistencies in graphical parameters in plot() functions (e.g.
+ ptcol, cont.col, ...)
+-Added raster graphics if available for display="image" and "filled.contour2"
+ plots.
+
+1.9.4
+-Removed explicit prior calculation of permutation derivative indices in
+ dmvnorm.deriv.sum().
+-Fixed small bug in contourLevels.kdde() to make explicit call to
+ predict.kde().
+
+1.9.3
+-Removed copula.grid() and hence dependence on copula package.
+-Fixed bug in displaying 2D contour level labels for plot.kde() and sorting
+ in contourSizes().
+-Added amise=TRUE option to hpi.kcde().
+-Modified kroc() to be line with updated mathematical definition.
+
+1.9.2
+-Changed binning=FALSE to binned=binned for Hpi(,pilot="dscalar"),
+ Hpi.diag(,pilot="dscalar").
+-Fixed bug in binning behaviour in gdscalar().
+
+1.9.1
+-Fixed typos in help files
+-Added new classes "kcopula" and "kcopula.de" for output from kcopula and
+ kcopula.de to distinguish them from "kcde" and "kde" objects.
+-Exported matrix.sqrt().
+-Added "exp" option for make.grid.ks().
+
+1.9.0
+-Added efficient recursive versions for dmvnorm.deriv(), Sdr(), Sdrv(),
+ nur(), nurs(), mur(), Qr() from Chacon & Duong (2014) Statist Comput.
+-Fixed bug in Hscv(,binned=TRUE), Hscv.diag(,binned=TRUE) which was still
+ computing unbinned estimators.
+-Fixed bug in 1-d KDA plot.
+-Added sensitivity, specificity as output to compare().
+-Made small changes to default selectors to be more consistent across
+ selectors.
+-Fixed bug in point colour in rug plot for plotkda.1d().
+-Added Hpi.diag.kcde().
+-Added Lpdiff() (Lp distance for two functions) and copula.grid (true copula
+ evaluated on a grid).
+-Fixed small bug in plotmixt(,draw=FALSE) to actually not draw plots.
+-Added predict method for kde objects to replace kde.approx().
+-Added option to compute 1-d KDE supported on [0,1] kde(,unit.interval=TRUE)
+ which calls kde.unit.interval().
+-Changed default axes limits when plotkde.3d(, drawpoints=FALSE) from data
+ range to mean of KDE evaluation range.
+-Fixed bug in default pilot selector for d>3 data in kda().
+-Changed ad hoc argument matching to match.arg().
+-Fixed bug in last line of lscv.mat().
+-Added binned estimation to Hbcv(), Hbcv.diag().
+-Added default binning flag function default.flag().
+
+1.8.13
+-Added boundary density estimator kde.boundary() for compactly supported
+ data.
+-Added kernel density of copula nd copula density, i.e. kcopula() and
+ kcopula.de().
+-Fixed small bug in plot.kcde(disp="slice", abs.cont=!missing), and
+ Hpi.kcde().
+-Changed smoothing spline in kroc() to be evaluated on equally spaced
+ grid.
+-Added thinning option for persp plots plot.kde(thin=), plot.kcde(thin=).
+
+1.8.12
+-Added kernel estimators for CDF kcde() and ROC curves kroc().
+-Added default plug-in bandwidths to kda(), kcde(), kde(), kdde(),
+ kde.local.test(), kroc(), kde.test().
+-Added warning when using non-diagonal bandwidths for binned estimation.
+-Added plot and contourLevel methods for kdde objects.
+-Modified plotmixt() to include derivatives.
+-Added 1-d plug-in selectors hpi(,deriv.order>0).
+-Merged kda() and kda.kde() into single kda() function.
+-Changed "kda.kde" object class name to "kda".
+
+1.8.11
+-Added progress bars to compare.kda.cv(), compare.kda.diag.cv().
+-Corrected critical df from d to 1 in kde.local.test().
+
+1.8.10
+-Fixed small bug in call to contourLevels(approx=) inside kde().
+
+1.8.9
+-Added kde.local.test() for local 2-sample test.
+-Replaced foreign call to .C("massdist", package="stats") requested by
+ B. Ripley by call to .C("massdist1d", package="ks").
+-Changed rug plot in plot.kda.kde() to rug-like plot, similar that in
+ plot.kde.loctest().
+
+1.8.8
+-Changed function header of Hpi.kfe() to be more consistent with Hpi().
+-Added option Hpi.kfe(, pilot="dscalar") to ensure scale invariance in
+ p-values. This becomes the default over the previous pilot="unconstr".
+-Added 1-d option in kde.test() and its required bandwidth hpi.kfe().
+-Modified binned=TRUE option in kde.test() so that it is applied only to
+ bandwidth selection, and not the test statistic and its p-value.
+-Removed default truncation in Hlscv(), Hlscv.diag() for deriv.order=0.
+
+1.8.7
+-Further improved speed of kfe(,Sdr.flag=FALSE) by computing unique
+ partial derivatives.
+-Removed unused function dkde.weights() to compute optimal deconvolution
+ weights, and hence dependence on the kernlab library.
+-Changed output from kfe(binned=TRUE) to be vector not 1-row matrix.
+
+1.8.6
+-Implemented calculation of Lebesgue measure of level sets of contours,
+ contourSizes().
+-Implemented probability contour plot for 1-d KDE plot, i.e. analogue
+ to existing 2-d, 3-d contour plot(,disp="slice").
+-Added recursive computations kfe(,Sdr.flag=FALSE) which don't compute
+ symmetriser matrices explicitly. These are then called in
+ Hpi(,Sdr.flag=TRUE) and Hscv(,Sdr.flag=FALSE).
+-Changed pilot="dunconstr" to direct computation rather than indirect
+ eta form. This means that Hpi(,pilot="dunconstr", deriv.order=0) and
+ Hpi(,pilot="unconstr") now give the same result.
+-Remove pilot="dsamse" option as this was more computation than
+ pilot="dscalar" but with little difference in the result.
+
+1.8.5
+-Fully unconstrained pilot selectors pilot="dunconstr" for Hscv(),
+ Hpi() for density derivative estimation.
+-Unconstrained Hlscv() selector for density derivative estimation.
+
+1.8.4
+-Reinstated psi.ns code (more efficient than eta.kfe.y) and SAMSE
+ pilot estimators Hpi(, pilot="samse").
+-Edited help manual.
+
+1.8.3
+-Added computationally efficient density derivative b/w selectors
+ Hpi(deriv.order=), Hscv(deriv.order=), and their diagonal counterparts
+ Hpi.diag(), Hlscv.diag().
+-Added computationally efficient kernel functional estimators in
+ eta.kfe.y() used in kde.test().
+-New pilot selectors for density derivatives.
+-Added abs.cont capability to plot(, disp="filled.contour").
+-Removed explicit expressions in psins() for d>2, replaced by
+ eta.kfe() evaluations.
+-Removed psins() and Theta6() evaluations in gsamse and gamse.scv.
+-Removed kfold arguments.
+
+1.8.2
+-Fixed bug in kde.points.sum() to avoid allocating large matrices for
+ unbalanced sample sizes for x and eval.points.
+-Fixed bug in dmvnorm.deriv.sum() which had excluded last partition
+ class for double.loop=FALSE.
+-Added binned options to kde.test().
+-Fixed bug for exact estimation in kfe().
+-Added plotting colours as function of z-value in plot.kde(,
+ disp="persp").
+-Added decoupled calculation for Hlscv().
+-Added optim.fun option to select optimiser function in Hpi, Hpi.diag,
+ Hlscv, Hlscv.diag, Hscv, Hscv.diag().
+
+1.8.1
+-Modified p-value calculation for large -ve Z-statistics.
+-Fixed bug for binned estimation for unconstrained bandwidths for kde().
+
+1.8.0
+-Added density derivative selectors Hpi(,deriv.order=r),
+ Hlscv(,deriv.order=r) for r>0 from J.E. Chacon.
+-Changed vech(H) terms to vec(H) in AMISE estimators.
+-Changed default binning gridsize for 3-d data from rep(51,3) to
+ rep(31,3).
+-Added verbose option to b/w selectors (in double sum) for tracking
+ progress.
+-Changed LSCV, SCV selectors optimisation from Nelder-Mead to BFGS.
+-Changed Fortran linear binning code to C (and fixed bugs in Fortran
+ code).
+-Added modification to linear binning for boundary points.
+-Removed explicit derivatives in BCV selector optimisation.
+
+1.7.4
+-Fixed small bug in partitioning method for kde.points.sum().
+
+1.7.3
+-Changed partitioning method for dmvnorm.deriv.sum() and
+ kde.points.sum().
+
+1.7.2
+-Changed p-value calculation for kde.test().
+
+1.7.1
+-Reinstated single partial derivative of mv normal for scalar variance
+ matrix dmvnorm.deriv.scalar.sum() for use in AMSE pilot plug-in
+ selectors.
+-More efficient form of kdde().
+
+1.7.0
+-Added KDE-based 2-sample test kde.test().
+-Modified output of plotmixt().
+-Added "double.loop" option to kfe() for large samples - increases
+ running time, reduces memory.
+-Modified dmvnorm.deriv.sum() to improve memory memory management for
+ large samples.
+-Cleaned up code for plug-in bandwidth selectors and kernel functional
+ estimators.
+-Cleaned up help files.
+-Disabled kfold b/w selectors.
+
+1.6.13
+-Added flag to automatically compute probability contour levels in kde().
+
+1.6.11
+-Added own version of filled contours as option disp="filled.contour2"
+ and different colours for disp="slice" contours.
+
+1.6.10
+-Added k-fold b/w selectors.
+
+1.6.9
+-Added approximate option in contourLevels().
+-Added kdde() kernel density derivative estimators.
+
+1.6.8
+-Added 1-d LSCV selector hlscv().
+
+1.6.7
+-Corrected ISE for normal mixtures, from J.E. Chacon.
+
+1.6.6
+-Added MISE, AMISE, ISE functions for normal mixtures derivatives.
+-Changed internal double sum calculations from J.E. Chacon.
+
+1.6.x
+-1-d binned KDE fix from M.P. Wand.
+-Streamlined code sharing with feature package (all binning code now
+ contained only in ks).
+-Reorganised and renamed internal bandwidth selection functions,
+ mostly double sums of normal densities .
+
+1.5.11
+-Fixed small bugs in drvkde, vech, Hpi(, pilot="unconstr")
+
+1.5.10
+-Added drvkde (kernel density derivative estimator 1-d) from feature
+ using M.P. Wand's code.
+
+1.5.x
+-Added normal mixture (A)MISE-optimal selectors: hamise.mixt,
+ hmise.mixt, Hamise.mixt, Hmise.mixt.
+-Added distribution functions for 1-d KDEs: dkde, pdke, qkde, rkde.
+-Added plug-in selectors for 1-d data (exactly the code for dpik from
+ KernSmooth). For KDE, this is hpi, for KDA, this is hkda(,
+ bw="plugin").
+-Made changes to specifying line colour (col rather than lcol) in
+ plot.kde, plot.kda.kde and partition class colour (partcol) in
+ plot.kda.kde.
+-Added plot3d() capabilities from rgl to 3-d plot - removing own axes
+ drawing functions.
+-New functions to compute pilot functional estimators
+ hat{psi}_r(g). These are exact, and are more efficient than binned
+ estimators for small samples (~100), and are available in d > 4.
+
+1.4.x
+-Vignette illustrating 2-d KDE added
+-Binned estimation implemented for KDE with diagonal selectors and
+ pilot functional estimation with diagonal selectors.
+-Filled contour plots added as disp=filled option in plot.kde().
+-compare.kda.cv() and compare.cv() modified to improve speed.
+-Hscv.diag() and Hbcv.diag() added for completeness.
+
+1.3.5
+-Fixed small bug in compare.kda.cv() and compare.kda.diag.cv().
+
+1.3.4
+-RGL-type plots added for 3-d data. Specification of 3-d contour
+ levels now same order as 2-d contours.
+
+1.3.x
+-Multivariate (for 3 to 6 dimensions inclusive) bandwidth selectors
+ added for Hpi(), Hpi.diag(), Hlscv(), Hlscv.diag() and Hscv(). NB:
+ because Hbcv() and Hbcv.diag()  performed poorly for 2-d, these
+ weren't implemented in higher dimensions.
+
+1.2.x
+-Package checked by CRAN testers and accepted on the CRAN website. To
+ pass all the necessary checks involved some internal programming
+ changes but has not affected the user interface.
+-The child mortality data set unicef is used in the examples.
+
+1.1.x
+-S3 type objects have been introduced.  The output from kde() are
+ `kde' objects. The output from kda.kde() and pda.pde() are `dade'
+ objects. Corresponding plot functions are called automatically by
+ invoking `plot'.
+-Kernel discriminant analysers are now available. Parametric (linear
+and quadratic) discriminant analysers are accessed using `pda'.
+-adapt library is no longer required. This was formerly used on the
+ functions for integrated squared error computations ise.mixt() and
+ iset.mixt().

@@ -1,0 +1,26 @@
+name = "ks-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Fortran translation of the R package ks"
+maintainer = ""
+copyright = "Original ks authors; Fortran translation preserves upstream licensing"
+description = "Modern Fortran computational port of ks kernel smoothing"
+categories = ["statistics", "kernel-density", "smoothing"]
+keywords = ["kde", "bandwidth", "kernel", "classification", "mean-shift"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+mvtnorm-fortran = { path = "vendor/mvtnorm-fortran" }
