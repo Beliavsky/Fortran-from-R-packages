@@ -1,0 +1,49 @@
+Package: KrigInv
+Type: Package
+Title: Kriging-Based Inversion for Deterministic and Noisy Computer
+        Experiments
+Version: 1.4.2
+Date: 2022-09-06
+Authors@R: 
+    c(person(given = "Clement",
+             family = "Chevalier",
+             role = c("aut"),
+             email = "clement.chevalier1@gmail.com"),
+      person(given = "Dario",
+             family = "Azzimonti",
+             role = c("aut","cre"),
+             email = "dario.azzimonti@gmail.com",
+             comment = c(ORCID = "0000-0001-5080-3061")),
+      person(given = "David",
+             family = "Ginsbourger",
+             role = c("aut"),
+             email = "ginsbourger@gmail.com",
+             comment = c(ORCID = "0000-0003-2724-2678")),
+      person(given = "Victor",
+             family = "Picheny",
+             role = c("aut"),
+             email = "victor.picheny@gmail.com",
+             comment = c(ORCID = "0000-0002-4948-5542")),
+      person(given = "Yann",
+             family = "Richet",
+             role = c("ctb"),
+             email = "yann.richet@irsn.fr",
+             comment = c(ORCID = "0000-0002-5677-8458")))
+Maintainer: Dario Azzimonti <dario.azzimonti@gmail.com>
+Depends: DiceKriging
+Imports: randtoolbox, rgenoud, pbivnorm, anMC, mvtnorm
+Suggests: testthat
+Description: Criteria and algorithms for sequentially estimating level sets of a multivariate numerical function, possibly observed with noise.
+URL: https://doi.org/10.1016/j.csda.2013.03.008
+License: GPL-3
+LazyLoad: yes
+Repository: CRAN
+RoxygenNote: 6.1.0
+NeedsCompilation: no
+Packaged: 2022-09-09 13:37:24 UTC; dario.azzimonti
+Author: Clement Chevalier [aut],
+  Dario Azzimonti [aut, cre] (<https://orcid.org/0000-0001-5080-3061>),
+  David Ginsbourger [aut] (<https://orcid.org/0000-0003-2724-2678>),
+  Victor Picheny [aut] (<https://orcid.org/0000-0002-4948-5542>),
+  Yann Richet [ctb] (<https://orcid.org/0000-0002-5677-8458>)
+Date/Publication: 2022-09-09 16:52:55 UTC

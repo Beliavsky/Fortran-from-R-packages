@@ -1,0 +1,45 @@
+import("DiceKriging")
+importFrom("pbivnorm", pbivnorm)
+importFrom("rgenoud", genoud)
+importFrom("randtoolbox", sobol)
+importFrom("grDevices","grey.colors")
+importFrom("graphics","abline","axis","contour","image","lines","mtext","par","plot.new","points")
+importFrom("stats","dnorm","model.matrix","pnorm","qnorm","runif")
+importFrom("anMC","conservativeEstimate")
+importFrom("mvtnorm","pmvnorm")
+
+export(
+bichon_optim,
+computeQuickKrigcov,
+computeRealVolumeConstant,
+EGI,
+EGIparallel,
+excursion_probability,
+integration_design,
+jn_optim_parallel,
+jn_optim_parallel2,
+max_infill_criterion,
+max_futureVol_parallel,
+max_sur_parallel,
+max_timse_parallel,
+max_vorob_parallel,
+precomputeUpdateData,
+predict_nobias_km,
+predict_update_km_parallel,
+print_uncertainty,
+print_uncertainty_1d,
+print_uncertainty_2d,
+print_uncertainty_nd,
+ranjan_optim,
+sur_optim_parallel,
+sur_optim_parallel2,
+timse_optim_parallel,
+timse_optim_parallel2,
+tmse_optim,
+tsee_optim,
+vorob_optim_parallel,
+vorob_optim_parallel2,
+vorob_threshold,
+vorobVol_optim_parallel,
+vorobVol_optim_parallel2)
+

@@ -1,0 +1,20 @@
+name = "KrigInv-fortran"
+version = "0.2.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of KrigInv by Clement Chevalier, Dario Azzimonti, David Ginsbourger, Victor Picheny and contributors"
+maintainer = "OpenAI translation workspace"
+description = "Modern Fortran translation of the computational core of the R package KrigInv"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
