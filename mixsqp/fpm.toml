@@ -1,0 +1,18 @@
+name = "mixsqp-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Fortran translation of mixsqp authors' computational code"
+maintainer = ""
+description = "Modern Fortran translation of mixsqp"
+categories = ["optimization", "statistics"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
