@@ -1,0 +1,19 @@
+name = "irlba-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of irlba by OpenAI; upstream authors Jim Baglama, Lothar Reichel, B. W. Lewis"
+maintainer = ""
+copyright = "Upstream copyrights retained"
+description = "Modern Fortran translation of the computational code in the R package irlba"
+categories = ["linear-algebra", "svd", "pca"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
