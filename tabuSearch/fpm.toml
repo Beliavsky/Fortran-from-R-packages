@@ -1,0 +1,18 @@
+name = "tabusearch-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI translation of upstream tabuSearch by Katarina Domijan"
+maintainer = ""
+description = "Modern Fortran translation of the computational core of the R package tabuSearch"
+categories = ["optimization", "metaheuristics"]
+keywords = ["tabu search", "binary optimization"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true

@@ -1,0 +1,21 @@
+Package: tabuSearch
+Title: Tabu Search Algorithm for Binary Configurations
+Version: 1.2.0
+Authors@R: 
+    person("Katarina", "Domijan", , "domijank@tcd.ie", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4268-2236"))
+Description: Tabu search algorithm for binary configurations. A basic version of the algorithm as described by Fouskakis and Draper (2007) <doi:10.1111/j.1751-5823.2002.tb00174.x>.
+License: GPL (>= 2)
+LazyLoad: yes
+URL: https://github.com/domijan/tabuSearch
+BugReports: https://github.com/domijan/tabuSearch/issues
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Imports: graphics, grDevices
+NeedsCompilation: no
+Packaged: 2026-01-15 14:17:59 UTC; katarina
+Author: Katarina Domijan [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-4268-2236>)
+Maintainer: Katarina Domijan <domijank@tcd.ie>
+Repository: CRAN
+Date/Publication: 2026-01-15 14:30:02 UTC
