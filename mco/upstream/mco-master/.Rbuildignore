@@ -1,0 +1,9 @@
+^dist
+^do
+^.dict.rds
+^examples
+^src/.*\.o
+^src/.*\.so
+README.md
+^CRAN-SUBMISSION$
+^cran-comments\.md$
