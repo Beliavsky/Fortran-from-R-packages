@@ -1,0 +1,8 @@
+export("choose.skewunit", "cuberoot", "dasin", "dtriang", "dJSB", "dsbeta",
+       "dskewunit", "dUquad", "estimate.skewunit", "pasin", "ptriang",
+       "pJSB", "psbeta", "pUquad", "pskewunit", "rasin", "rtriang", "rJSB", "rsbeta",
+       "rskewunit", "rUquad")
+importFrom("stats","coef","optim","pnorm","dnorm","rbeta","dbeta","pbeta",
+	"plogis","qnorm","runif","integrate")
+importFrom("pracma", "hessian")
+S3method(print, skewunit)

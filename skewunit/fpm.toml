@@ -1,0 +1,15 @@
+name = "skewunit-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Diego Gallardo, Emilio Gomez-Deniz, Osvaldo Venegas, Hector W. Gomez; Fortran port"
+maintainer = "Fortran port"
+copyright = "Copyright (c) skewunit authors"
+description = "Modern Fortran translation of the computational code in the R package skewunit"
+categories = ["statistics", "probability", "optimization"]
+keywords = ["skew-unit", "bounded distributions", "maximum likelihood", "AIC", "BIC"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false

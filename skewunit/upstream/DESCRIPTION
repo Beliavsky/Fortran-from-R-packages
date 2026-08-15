@@ -1,0 +1,27 @@
+Package: skewunit
+Type: Package
+Title: Estimation and Other Tools for Skew-Unit Models
+Version: 1.1
+Date: 2026-07-31
+Authors@R: c(person("Diego", "Gallardo", role = c("aut","cre"), email = "dgallardo@ubiobio.cl"),
+	person("Emilio", "Gomez-Deniz", role = c("aut"), email = "emilio.gomez-deniz@ulpgc.es"),
+	person("Osvaldo", "Venegas", role = c("aut"), email = "ovenegas@uct.cl"),
+	person("Hector W.", "Gomez", role = c("aut"), email = "ygomez@ubiobio.cl"))
+Author: Diego Gallardo [aut, cre],
+  Emilio Gomez-Deniz [aut],
+  Osvaldo Venegas [aut],
+  Hector W. Gomez [aut]
+Maintainer: Diego Gallardo <dgallardo@ubiobio.cl>
+Description: Provide estimation, simulation, and model selection tools for the skew-unit family
+		discussed based on Mukhopadhyay and Brani (1995) <doi:10.2307/2348710>. 
+		The family contains extensions for popular distributions such as the ArcSin 
+		discussed in Arnold and Groeneveld  (1980) <doi:10.1080/01621459.1980.10477449>, 
+		triangular, U-quadratic and Johnson-SB proposed in Cortina-Borja (2006) <doi:10.1111/j.1467-985X.2006.00446_12.x> 
+		distributions, among others.
+Depends: R (>= 4.0.0), stats
+Imports: pracma
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2026-07-30 23:53:50 UTC; Diego
+Repository: CRAN
+Date/Publication: 2026-07-31 00:20:02 UTC
