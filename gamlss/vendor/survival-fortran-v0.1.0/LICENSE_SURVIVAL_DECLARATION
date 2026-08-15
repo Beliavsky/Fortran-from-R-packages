@@ -1,0 +1,12 @@
+Upstream R package survival 3.8-9 declares in DESCRIPTION:
+
+    License: LGPL (>= 2)
+
+The survival-derived Fortran source files in src/ retain SPDX identifier
+LGPL-2.0-or-later. The supplied upstream archive did not contain a standalone
+COPYING or LICENSE file, so no missing upstream license text has been invented.
+
+The root package also links the separately supplied GPL-2.0-or-later
+splines-fortran dependency for pspline support. Therefore the combined linked
+FPM target is distributed under GPL-2.0-or-later compatible terms; see NOTICE
+and UPSTREAM_PROVENANCE.md.

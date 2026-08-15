@@ -1,0 +1,35 @@
+Package: gamlss
+Title: Generalized Additive Models for Location Scale and Shape
+Version: 5.5-0
+Date: 2025-08-19
+Authors@R: c(person("Mikis", "Stasinopoulos", role = c("aut", "cre", "cph"), 
+             email = "d.stasinopoulos@gre.ac.uk", comment = c(ORCID = "0000-0003-2407-5704")),
+           person("Robert", "Rigby", role = "aut", email = "r.rigby@gre.ac.uk", comment = c(ORCID = "0000-0003-3853-1707")),
+           person("Vlasios", "Voudouris", role = "ctb"),
+           person("Calliope", "Akantziliotou", role = "ctb"),
+           person("Marco", "Enea", role = "ctb"),
+           person("Daniil", "Kiose", role = "ctb", comment = c(ORCID = "0000-0002-3596-5748")),
+           person("Achim", "Zeileis", role = "ctb", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766"))
+           )
+Description: Functions for fitting the Generalized Additive Models for Location Scale and Shape introduced by Rigby and Stasinopoulos (2005), <doi:10.1111/j.1467-9876.2005.00510.x>. The models use a distributional regression approach where all the parameters of the conditional distribution of the response variable are modelled using explanatory variables.
+License: GPL-2 | GPL-3
+URL: https://www.gamlss.com/
+BugReports: https://github.com/gamlss-dev/gamlss/issues
+Depends: R (>= 4.1.0), graphics, stats, splines, utils, grDevices,
+        gamlss.data (>= 5.0-0), gamlss.dist (>= 4.3.1), nlme, parallel
+Imports: MASS, survival, methods
+Suggests: distributions3 (>= 0.2.1)
+LazyLoad: yes
+NeedsCompilation: yes
+Packaged: 2025-08-19 07:42:28 UTC; dimitriosstasinopoulos
+Author: Mikis Stasinopoulos [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0003-2407-5704>),
+  Robert Rigby [aut] (ORCID: <https://orcid.org/0000-0003-3853-1707>),
+  Vlasios Voudouris [ctb],
+  Calliope Akantziliotou [ctb],
+  Marco Enea [ctb],
+  Daniil Kiose [ctb] (ORCID: <https://orcid.org/0000-0002-3596-5748>),
+  Achim Zeileis [ctb] (ORCID: <https://orcid.org/0000-0003-0918-3766>)
+Maintainer: Mikis Stasinopoulos <d.stasinopoulos@gre.ac.uk>
+Repository: CRAN
+Date/Publication: 2025-08-19 11:10:02 UTC

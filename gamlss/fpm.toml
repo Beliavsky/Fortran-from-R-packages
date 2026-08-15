@@ -1,0 +1,27 @@
+name = "gamlss-fortran"
+version = "0.9.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of the gamlss computational core"
+maintainer = ""
+copyright = "2002-2025 gamlss authors; Fortran translation 2026"
+description = "Modern Fortran implementation of the computational core of R gamlss"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+gamlss-dist-fortran = { path = "vendor/gamlss-dist-fortran-v0.3.0" }
+splines-fortran = { path = "vendor/splines-fortran-v0.1.0" }
+nlme = { path = "vendor/nlme-fortran" }
+survival-fortran = { path = "vendor/survival-fortran-v0.1.0" }
