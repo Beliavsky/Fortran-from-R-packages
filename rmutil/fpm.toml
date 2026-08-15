@@ -1,0 +1,16 @@
+name = "rmutil-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "J.K. Lindsey, Bruce Swihart; modern Fortran translation by OpenAI"
+maintainer = "OpenAI translation artifact"
+description = "Modern Fortran computational translation of the R package rmutil"
+categories = ["statistics", "numerical-integration", "differential-equations", "pharmacokinetics"]
+keywords = ["distributions", "rmutil", "pkpd", "romberg", "gauss-hermite"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true

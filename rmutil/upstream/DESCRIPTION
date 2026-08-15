@@ -1,0 +1,32 @@
+Package: rmutil
+Version: 1.1.10
+Title: Utilities for Nonlinear Regression and Repeated Measurements
+        Models
+Authors@R: c(
+    person("Bruce", "Swihart", email="bruce.swihart@gmail.com", role=c("cre", "aut")),
+    person("Jim"  , "Lindsey", email="jlindsey@gen.unimaas.nl", role="aut", comment="Jim created this package, Bruce is maintaining the CRAN version"),
+    person("K.", "Sikorski", role=c("ctb", "cph"), comment="Wrote TOMS614/INTHP, https://calgo.acm.org/"),
+    person("F.", "Stenger", role=c("ctb", "cph"), comment="Wrote TOMS614/INTHP, https://calgo.acm.org/"),
+    person("J.", "Schwing", role=c("ctb", "cph"), comment="Wrote TOMS614/INTHP, https://calgo.acm.org/")
+        )
+Depends: R (>= 1.4)
+Description: A toolkit of functions for nonlinear regression and repeated
+    measurements not to be used by itself but called by other Lindsey packages such
+    as 'gnlm', 'stable', 'growth', 'repeated', and 'event' 
+    (available at <https://www.commanster.eu/rcode.html>).
+License: GPL (>= 2)
+URL: https://www.commanster.eu/rcode.html
+BugReports: https://github.com/swihart/rmutil/issues
+Encoding: UTF-8
+LazyLoad: true
+NeedsCompilation: yes
+Packaged: 2022-10-26 22:48:02 UTC; swihartbj
+Author: Bruce Swihart [cre, aut],
+  Jim Lindsey [aut] (Jim created this package, Bruce is maintaining the
+    CRAN version),
+  K. Sikorski [ctb, cph] (Wrote TOMS614/INTHP, https://calgo.acm.org/),
+  F. Stenger [ctb, cph] (Wrote TOMS614/INTHP, https://calgo.acm.org/),
+  J. Schwing [ctb, cph] (Wrote TOMS614/INTHP, https://calgo.acm.org/)
+Maintainer: Bruce Swihart <bruce.swihart@gmail.com>
+Repository: CRAN
+Date/Publication: 2022-10-27 04:32:35 UTC
