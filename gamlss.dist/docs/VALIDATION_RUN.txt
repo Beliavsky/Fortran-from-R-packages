@@ -1,0 +1,33 @@
+gamlss.dist-fortran v0.3.0 validation
+Date: 2026-08-14
+Compiler: GNU Fortran 14.2.0
+Flags: -std=f2018 -Werror=implicit-interface -fcheck=all -O0
+
+Clean-build tests:
+test_core: PASS
+test_fit: PASS
+test_v02: PASS
+test_v03: PASS
+
+Examples:
+basic
+BCT 95% quantile:   14.43630
+NBI P(Y <= 4):       0.80679
+
+v02_extended
+ST3 90% quantile:           2.419381
+SICHEL P(Y = 4):            0.081910
+SHASH CDF at x = 0.7:       0.660794
+
+v03_remaining
+GT 90% quantile:                 1.204457
+Double-binomial P(Y=3):         0.363325
+Zero-adjusted PIG P(Y=0):       0.200000
+Pareto-II 75% quantile:         1.816355
+
+Retained v0.2 independent Bessel-K grid check versus scipy.special.kv:
+max absolute error in log(K_nu(x)) = 2.21595541916e-09
+
+Fortran lines over 132 characters: 0
+FPM manifest: gamlss-dist-fortran 0.3.0, GPL-3.0-only
+FPM executable available in validation environment: no
