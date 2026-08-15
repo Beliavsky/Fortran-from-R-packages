@@ -1,0 +1,14 @@
+bibentry(bibtype     = "Manual",
+         textversion = NULL,
+         header      = paste("To cite the", sQuote("Delaporte"),
+                             "package in publications, please use:"),
+         author      = person(given = "Avraham", family = "Adler",
+                              role = c("aut", "cph", "cre"),
+                              email = "Avraham.Adler@gmail.com",
+                              comment = c(ORCID = "0000-0002-3039-0703")),
+         title        = "Delaporte: Statistical Functions for the Delaporte Distribution",
+         year         = "2013",
+         url          = "https://CRAN.R-project.org/package=Delaporte",
+         doi          = "10.32614/CRAN.package.Delaporte",
+         note         = "R package version 8.4.3"
+)

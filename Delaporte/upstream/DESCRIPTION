@@ -1,0 +1,33 @@
+Package: Delaporte
+Type: Package
+Title: Statistical Functions for the Delaporte Distribution
+Version: 8.4.3
+Date: 2026-01-08
+Authors@R: c(person(given="Avraham", family="Adler", role=c("aut", "cph", "cre"),
+    email="Avraham.Adler@gmail.com", comment = c(ORCID = "0000-0002-3039-0703")))
+Description: Provides probability mass, distribution, quantile, random-variate
+    generation, and method-of-moments parameter-estimation functions for the
+    Delaporte distribution with parameterization based on Vose (2008)
+    <isbn:9780470512845>. The Delaporte is a discrete probability distribution
+    which can be considered the convolution of a negative binomial distribution
+    with a Poisson distribution. Alternatively, it can be considered a counting
+    distribution with both Poisson and negative binomial components. It has been
+    studied in actuarial science as a frequency distribution which has more
+    variability than the Poisson, but less than the negative binomial.
+License: BSD_2_clause + file LICENSE
+URL: https://github.com/aadler/Delaporte
+BugReports: https://github.com/aadler/Delaporte/issues
+Depends: R (>= 3.6.0)
+Imports: stats, parallel
+Suggests: covr, tinytest
+ByteCompile: yes
+NeedsCompilation: yes
+UseLTO: yes
+SystemRequirements: A version of Fortran supporting the LOG_GAMMA
+        Intrinsic and the ieee_arithmetic module.
+Packaged: 2026-01-08 17:51:31 UTC; Parents
+Author: Avraham Adler [aut, cph, cre] (ORCID:
+    <https://orcid.org/0000-0002-3039-0703>)
+Maintainer: Avraham Adler <Avraham.Adler@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-01-09 09:31:23 UTC
