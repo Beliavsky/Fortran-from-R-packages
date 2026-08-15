@@ -1,0 +1,18 @@
+name = "laplacesdemon-fortran"
+version = "0.3.1"
+license = "MIT"
+author = "OpenAI translation; upstream LaplacesDemon authors retained in provenance"
+maintainer = "OpenAI translation"
+copyright = "2010-2015 Statisticat, LLC; translation 2026"
+description = "Modern Fortran computational port of core LaplacesDemon Bayesian inference algorithms"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
