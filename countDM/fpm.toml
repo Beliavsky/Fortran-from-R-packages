@@ -1,0 +1,15 @@
+name = "countDM-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI translation; upstream countDM authors Muhammad Imran, M.H. Tahir, Saima Shakoor"
+maintainer = "OpenAI translation"
+copyright = "Upstream countDM authors; Fortran translation 2026"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false

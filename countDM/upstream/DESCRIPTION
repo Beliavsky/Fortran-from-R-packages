@@ -1,0 +1,20 @@
+Package: countDM
+Type: Package
+Title: Estimation of Count Data Models
+Version: 0.1.0
+Authors@R: c(person( "Muhammad", "Imran", role = c("aut", "cre"), email = "imranshakoor84@yahoo.com" ),
+           person("M.H.", "Tahir", role = "aut", email = "mht@iub.edu.pk"),  person("Saima", "Shakoor", role = "aut", email = "saimashakoor500@gmail.com"))
+Author: Muhammad Imran [aut, cre],
+  M.H. Tahir [aut],
+  Saima Shakoor [aut]
+Maintainer: Muhammad Imran <imranshakoor84@yahoo.com>
+Depends: R (>= 4.0)
+Imports: lamW, stats, numbers, maxLik, miscTools
+Description: The maximum likelihood estimation (MLE) of the count data models along with standard error of the estimates and Akaike information model section criterion are provided. The functions allow to compute the MLE for the following distributions such as the Bell distribution, the Borel distribution, the Poisson distribution, zero inflated Bell distribution, zero inflated Bell Touchard distribution, zero inflated Poisson distribution, zero one inflated Bell distribution and zero one inflated Poisson distribution. Moreover, the probability mass function (PMF), distribution function (CDF), quantile function (QF) and random numbers generation of the Bell Touchard and zero inflated Bell Touchard distribution are also provided. 
+License: GPL (>= 2)
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2023-05-24 17:44:35 UTC; CRS
+Repository: CRAN
+Date/Publication: 2023-05-25 20:10:02 UTC
