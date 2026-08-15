@@ -1,249 +1,153 @@
 # actuar-fortran
 
-A dependency-free modern Fortran/FPM numerical-core port of selected reusable
-algorithms from the R package `actuar` 3.3-7.
+Modern Fortran/FPM translation of the computational core of the R package
+`actuar` 3.3-7.
 
-The port focuses on scalar probability laws, aggregate-loss calculations,
-phase-type distributions, credibility, grouped-data calculations, insurance
-coverage transformations, and selected risk-theory routines. It is not a
-mechanical translation of every R, C, documentation, plotting, data, or fitting
-facility in the upstream package.
+The upstream package is by Vincent Goulet and contributors and is licensed
+under GPL-2.0-or-later. This translation preserves that license and retains
+selected upstream R/C sources under `upstream/` for algorithm provenance.
 
-## Requirements
+## Scope of v0.3.0
 
-- A Fortran 2018 compiler
-- FPM for the normal build workflow
-- No BLAS, LAPACK, statistics, optimization, or special-function library
+v0.3 retains the v0.1-v0.2 distribution, aggregate-risk, ruin, grouped-data
+and credibility functionality and closes the principal computational gaps
+identified after v0.2.
 
-The validation scripts were exercised with GNU Fortran 14.2.0.
+### Minimum-distance estimation
 
-## Build and test
+The matrix-first MDE API translates the numerical objectives in upstream
+`mde()`:
+
+- `mde_cvm` for individual Cramer-von Mises fitting;
+- `mde_grouped_cvm` for grouped-data Cramer-von Mises fitting;
+- `mde_grouped_chisq` for the modified chi-square criterion;
+- `mde_grouped_las` for layer-average-severity fitting.
+
+The model CDF or limited-expected-value function is supplied as a Fortran
+procedure. Scalar/vector weights and parameter bounds are supported. A
+self-contained bounded Nelder-Mead optimizer is used in this release; the
+upstream R objective definitions themselves are preserved.
+
+### Coverage transformations
+
+`coverage_spec_t`, `coverage_cdf` and `coverage_pdf` implement the numerical
+behavior of upstream `coverage()` for combinations of:
+
+- ordinary or franchise deductibles;
+- policy limits;
+- coinsurance;
+- inflation;
+- per-loss or per-payment variables.
+
+`coverage_pdf` deliberately returns probability mass at the zero-payment and
+policy-limit endpoints when the transformed law is mixed, matching the R
+helper's density/mass convention.
+
+### Hachemeister barycenter model
+
+`hachemeister_barycenter_fit` implements the upstream barycenter variant:
+
+- average period weights across contracts;
+- weighted QR/orthogonalization of the regression design;
+- contract-specific weighted least-squares fits;
+- diagonal between-contract variance estimation in the orthogonal basis;
+- unbiased or iterative Buhlmann-Straub-style variance estimation;
+- diagonal credibility matrices;
+- transition of collective, individual and adjusted coefficients back to the
+  original design basis.
+
+The original-basis and orthogonal-basis coefficients are both retained in the
+result type.
+
+### Exact iterative hierarchical credibility
+
+`hierarc_exact_fit` is a direct Fortran translation of the numerical recursion
+split between upstream `R/hierarc.R` and compiled `src/hierarc.c`.
+
+It supports:
+
+- Buhlmann-Gisler structure-parameter estimators;
+- Ohlsson estimators;
+- the compiled iterative estimator;
+- arbitrary hierarchy depth from an integer classification matrix;
+- exact parent mappings, level weights, weighted means and credibility
+  factors;
+- recursively calculated credibility premiums.
+
+In the iterative method the Fortran port preserves the upstream compiled rule
+that aggregation uses a child's credibility factor when nonzero and otherwise
+falls back to its current/natural weight.
+
+### Hierarchical portfolio simulation
+
+`rcomphierarc_simulate` is the matrix/callback-driven Fortran counterpart of
+upstream `rcomphierarc()`.
+
+Instead of evaluating R expressions, users provide:
+
+- per-level node counts;
+- optional frequency mixing callbacks;
+- a terminal frequency callback;
+- optional severity mixing callbacks;
+- a terminal severity callback.
+
+The returned `hierarchical_portfolio_t` exposes terminal paths, frequencies,
+flattened claim severities, claim-to-node assignments and aggregate claims per
+terminal node. The callback interface propagates all previously generated
+mixing parameters down the appropriate hierarchy.
+
+## Existing functionality retained from v0.1-v0.2
+
+The package continues to include:
+
+- heavy-tailed loss families including Feller-Pareto, transformed-beta/gamma,
+  Burr, Pareto variants and inverse families;
+- raw and limited moments;
+- zero-truncated/zero-modified count laws and Poisson-inverse-Gaussian;
+- phase-type distributions;
+- Panjer recursion and exact aggregate convolution;
+- normal and normal-power aggregate approximations;
+- compound/mixture simulation;
+- VaR and CTE;
+- phase-type Cramer-Lundberg/Sparre-Andersen ruin algorithms;
+- Buhlmann-Straub, Bayesian, hierarchical and Hachemeister-origin credibility;
+- grouped moments, ogive, empirical LEV and grouped quantiles.
+
+The supplied `expint-fortran` translation remains a vendored FPM dependency
+for extended incomplete-gamma calculations.
+
+## Umbrella API
+
+```fortran
+use actuar
+```
+
+## Building
+
+With FPM:
 
 ```text
 fpm build
 fpm test
-fpm run actuar_demo
-fpm run --example loss_distributions
-fpm run --example aggregate_and_credibility
+fpm run --example v03_remaining
 ```
 
-Direct validation scripts are also provided:
+FPM was unavailable in the translation environment. The complete package and
+vendored dependency were therefore compiled directly with GNU Fortran using:
 
 ```text
-tools/validate.sh
+-std=f2018 -Werror=implicit-interface -Werror=trampolines -fcheck=all -O0
 ```
 
-or on Windows:
+No unlimited-free-form-line-length compiler option is required.
 
-```text
-tools\validate.bat
-```
+## Deliberate API differences
 
-## Main modules
+R S3 classes, formula evaluation, plotting, printing and expression evaluation
+are not replicated. `mde`, `coverage` and `rcomphierarc` therefore use explicit
+Fortran callbacks and arrays instead of R closures/calls. This keeps the
+numerical algorithms portable while preserving their statistical meaning.
 
-The simplest import is:
-
-```fortran
-use actuar
-```
-
-The umbrella module re-exports the public interfaces of these modules:
-
-- `actuar_continuous`: heavy-tailed and transformed continuous laws
-- `actuar_supplements`: moments, limited moments, and MGFs for common laws
-- `actuar_discrete`: logarithmic, zero-truncated, zero-modified, and PIG laws
-- `actuar_aggregate`: discretization, convolution, Panjer recursion, and risk
-- `actuar_phase_type`: phase-type probabilities, moments, and simulation
-- `actuar_credibility`: Buhlmann-Straub and conjugate Bayesian credibility
-- `actuar_grouped`: grouped observations and insurance coverage transforms
-- `actuar_risk`: adjustment coefficients and selected ruin probabilities
-- `actuar_special`, `actuar_rng`: native numerical support
-
-All floating-point calculations use:
-
-```fortran
-integer, parameter :: dp = kind(1.0d0)
-```
-
-## Continuous loss distributions
-
-The port includes density, distribution, quantile, random generation, moments,
-and limited moments where mathematically available for:
-
-- Pareto/Lomax
-- Pareto type I
-- Burr
-- generalized Pareto/beta-prime
-- loglogistic
-- inverse exponential
-- inverse gamma
-- inverse Weibull
-- transformed gamma
-- generalized beta
-- Gumbel
-- inverse Gaussian
-
-Examples:
-
-```fortran
-use actuar, only : dp, dpareto, ppareto, qpareto, levpareto
-
-real(dp) :: density, probability, quantile, limited_mean
-
-density = dpareto(2.0_dp, shape=3.0_dp, scale=4.0_dp)
-probability = ppareto(2.0_dp, shape=3.0_dp, scale=4.0_dp)
-quantile = qpareto(0.95_dp, shape=3.0_dp, scale=4.0_dp)
-limited_mean = levpareto(10.0_dp, order=1.0_dp, shape=3.0_dp, scale=4.0_dp)
-```
-
-Supplementary actuarial moments are available for exponential, normal, beta,
-gamma, Weibull, lognormal, uniform, and chi-square distributions.
-
-## Frequency distributions
-
-The following scalar PMF/CDF/quantile/random interfaces are included:
-
-- logarithmic
-- zero-truncated Poisson, geometric, binomial, and negative binomial
-- zero-modified Poisson, geometric, binomial, negative binomial, and logarithmic
-- Poisson-inverse Gaussian
-
-Example:
-
-```fortran
-use actuar, only : dp, dztpois, pztpois, qztpois
-
-print *, dztpois(3, 2.5_dp)
-print *, pztpois(3, 2.5_dp)
-print *, qztpois(0.95_dp, 2.5_dp)
-```
-
-## Aggregate-loss calculations
-
-Severity distributions can be discretized from a caller-supplied CDF. The
-resulting probability vector can be combined using direct convolution, exact
-compound summation, or Panjer recursion for Poisson, binomial, and negative
-binomial frequencies.
-
-```fortran
-use actuar
-
-real(dp), allocatable :: severity(:)
-type(aggregate_distribution) :: aggregate
-
-severity = [0.20_dp, 0.50_dp, 0.30_dp]
-aggregate = panjer_poisson(severity, lambda=2.0_dp, step=100.0_dp, max_n=40)
-
-if (.not. aggregate%ok) error stop trim(aggregate%message)
-
-print *, aggregate%mean()
-print *, aggregate%variance()
-print *, aggregate%quantile(0.99_dp)
-print *, aggregate_cte(aggregate, 0.99_dp)
-```
-
-Also included are compound simulation callbacks, aggregate VaR/CTE, and normal
-and normal-power approximations.
-
-## Phase-type distributions
-
-The module supports transient generator matrices and initial probabilities:
-
-```fortran
-use actuar
-
-real(dp) :: alpha(2), subintensity(2,2)
-
-alpha = [1.0_dp, 0.0_dp]
-subintensity = reshape([-2.0_dp, 0.0_dp, 2.0_dp, -3.0_dp], [2,2])
-
-print *, dphtype(1.0_dp, alpha, subintensity)
-print *, pphtype(1.0_dp, alpha, subintensity)
-print *, mphtype(1, alpha, subintensity)
-```
-
-A native scaling-and-squaring matrix exponential is used; no external linear
-algebra library is required.
-
-## Credibility
-
-Buhlmann-Straub credibility returns typed means, credibility weights, estimates,
-and process/structural variance estimates. Conjugate Bayesian credibility is
-provided for Poisson-gamma, Bernoulli-beta, and normal-normal models.
-
-```fortran
-use actuar
-
-type(credibility_result) :: fit
-real(dp) :: claims(3,4), weights(3,4)
-
-fit = buhlmann_straub(claims, weights)
-if (.not. fit%ok) error stop trim(fit%message)
-print *, fit%estimates
-```
-
-## Grouped data and policy coverage
-
-Grouped means, variances, quantiles, ogive values, empirical moments, limited
-moments, and common payment transformations are included. `apply_coverage`
-supports ordinary or franchise deductibles, policy limits, coinsurance, and
-inflation.
-
-## Risk theory
-
-The risk module includes:
-
-- generic adjustment-coefficient root solving from a severity MGF callback
-- a compound-Poisson adjustment-coefficient wrapper
-- the explicit exponential-claim Cramer-Lundberg ruin probability
-- a selected phase-type Cramer-Lundberg ruin calculation
-
-The phase-type ruin routine should be treated as a focused implementation, not
-as a replacement for every Sparre-Andersen and renewal-equation method exposed
-by upstream `ruin`.
-
-## Numerical conventions
-
-- APIs are scalar unless an array is explicitly part of the model.
-- Probabilities are lower-tail, ordinary-scale values.
-- Invalid parameters generally return IEEE NaN or a typed result with
-  `ok=.false.` rather than raising an R condition.
-- Random generators support deterministic seeding through `seed_rng` or the
-  higher-level seed arguments.
-- Boundary comparisons are explicit, which is why direct validation suppresses
-  GNU Fortran's warning for intentional real equality tests.
-
-## Deliberately excluded
-
-The current release does not claim complete coverage of the upstream package.
-Notable exclusions include:
-
-- the complete Feller-Pareto family and every Pareto II-IV alias
-- inverse Burr, inverse paralogistic, loggamma, and several related aliases
-- minimum-distance and empirical-moment estimation frameworks
-- Hachemeister and general hierarchical credibility
-- compound hierarchical simulation
-- the full `ruin` fixed-point/Sparre-Andersen framework
-- every vectorized/log-probability/tail flag supported by R's `d/p/q/r` API
-- R S3 grouped-data classes, extraction methods, plotting, and histograms
-- R conditions, formula handling, data frames, and serialization
-- compiled use of the bundled dental and Hachemeister data objects
-- integration through the upstream `expint` dependency
-
-See `COVERAGE.md` for the detailed mapping and `PORTING_NOTES.md` for numerical
-differences.
-
-## License and provenance
-
-The upstream package declares GNU GPL version 2 or later. This derivative work
-uses `GPL-2.0-or-later` and includes the complete GPLv2 text in `LICENSE`.
-
-- The unmodified upstream source is retained under `original/actuar-3.3-7`.
-- The supplied archive is retained under `provenance`.
-- SHA-256 manifests cover the supplied archive, retained source, and translated
-  release files.
-- Upstream authorship and contributor information is retained in the original
-  `DESCRIPTION` file and summarized in `NOTICE`.
-
-This project is an independent Fortran port and is not an official upstream
-release.
+The large computational targets listed after v0.2 are now represented. Any
+remaining gaps are primarily R convenience/dispatch layers and specialized
+aliases rather than distinct major numerical engines.

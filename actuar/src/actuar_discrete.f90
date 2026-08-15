@@ -1,687 +1,300 @@
-! SPDX-License-Identifier: GPL-2.0-or-later
 module actuar_discrete
-  use actuar_kinds, only : dp, huge_dp
-  use actuar_special, only : nan_dp
-  use actuar_rng, only : runif, rpois, rbinom, rnbinom, rinvgauss_rng
-  implicit none
-  private
-  public :: dlogarithmic, plogarithmic, qlogarithmic, rlogarithmic
-  public :: dztpois, pztpois, qztpois, rztpois
-  public :: dztgeom, pztgeom, qztgeom, rztgeom
-  public :: dztbinom, pztbinom, qztbinom, rztbinom
-  public :: dztnbinom, pztnbinom, qztnbinom, rztnbinom
-  public :: dzmpois, pzmpois, qzmpois, rzmpois
-  public :: dzmgeom, pzmgeom, qzmgeom, rzmgeom
-  public :: dzmbinom, pzmbinom, qzmbinom, rzmbinom
-  public :: dzmnbinom, pzmnbinom, qzmnbinom, rzmnbinom
-  public :: dzmlogarithmic, pzmlogarithmic, qzmlogarithmic, rzmlogarithmic
-  public :: dpoisinvgauss, ppoisinvgauss, qpoisinvgauss, rpoisinvgauss
-  public :: poisson_pmf, binomial_pmf, nbinomial_pmf
+    use actuar_kinds, only: dp
+    use actuar_special, only: poisson_pmf, poisson_cdf, poisson_quantile, &
+                              nbinom_pmf, nbinom_cdf, nbinom_quantile, &
+                              binom_pmf, binom_cdf, binom_quantile, &
+                              random_poisson, random_negative_binomial, random_binomial
+    implicit none
+    private
+    public :: dlogarithmic, plogarithmic, qlogarithmic, rlogarithmic
+    public :: dztpois, pztpois, qztpois, rztpois
+    public :: dztgeom, pztgeom, qztgeom, rztgeom
+    public :: dztnbinom, pztnbinom, qztnbinom, rztnbinom
+    public :: dztbinom, pztbinom, qztbinom, rztbinom
+    public :: dzmpois, pzmpois, qzmpois, rzmpois
+    public :: dzmgeom, pzmgeom, qzmgeom, rzmgeom
+    public :: dzmnbinom, pzmnbinom, qzmnbinom, rzmnbinom
+    public :: dzmbinom, pzmbinom, qzmbinom, rzmbinom
+    public :: dzmlogarithmic, pzmlogarithmic, qzmlogarithmic, rzmlogarithmic
+    public :: dpoisinvgauss, ppoisinvgauss, qpoisinvgauss, rpoisinvgauss
+
 contains
 
-  pure function is_integer_value(x) result(ok)
-    real(dp), intent(in) :: x
-    logical :: ok
-    ok = abs(x-anint(x)) <= 4.0_dp*epsilon(1.0_dp)*max(1.0_dp,abs(x))
-  end function is_integer_value
+    pure real(dp) function dlogarithmic(k,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob
+        real(dp)::a
+        if(k<1 .or. prob<0.0_dp .or. prob>=1.0_dp) then;p=0.0_dp;return;end if
+        if(prob==0.0_dp) then;p=merge(1.0_dp,0.0_dp,k==1);return;end if
+        a=-1.0_dp/log(1.0_dp-prob)
+        p=a*prob**k/real(k,dp)
+    end function dlogarithmic
 
-  pure function poisson_pmf(k, lambda) result(p)
-    integer, intent(in) :: k
-    real(dp), intent(in) :: lambda
-    real(dp) :: p
-    if (k < 0 .or. lambda < 0.0_dp) then
-      p = 0.0_dp
-    else if (lambda == 0.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==0)
-    else
-      p = exp(-lambda+real(k,dp)*log(lambda)-log_gamma(real(k+1,dp)))
-    end if
-  end function poisson_pmf
+    pure real(dp) function plogarithmic(k,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob
+        integer::j
+        if(k<1) then;p=0.0_dp;return;end if
+        p=0.0_dp
+        do j=1,k;p=p+dlogarithmic(j,prob);end do
+        p=min(1.0_dp,p)
+    end function plogarithmic
 
-  pure function poisson_cdf(k, lambda) result(p)
-    integer, intent(in) :: k
-    real(dp), intent(in) :: lambda
-    real(dp) :: p, term
-    integer :: i
-    if (k < 0) then
-      p = 0.0_dp; return
-    end if
-    term = exp(-lambda); p = term
-    do i = 1, k
-      term = term*lambda/real(i,dp)
-      p = p+term
-    end do
-    p = min(1.0_dp,p)
-  end function poisson_cdf
+    pure integer function qlogarithmic(q,prob) result(k)
+        real(dp),intent(in)::q,prob
+        if(q<=0.0_dp) then;k=1;return;end if
+        k=1
+        do while(plogarithmic(k,prob)<q .and. k<100000);k=k+1;end do
+    end function qlogarithmic
 
-  function poisson_quantile(prob, lambda) result(k)
-    real(dp), intent(in) :: prob, lambda
-    integer :: k
-    real(dp) :: cdf, term
-    if (prob <= 0.0_dp) then
-      k = 0; return
-    else if (prob >= 1.0_dp) then
-      k = huge(0); return
-    end if
-    k = 0; term = exp(-lambda); cdf = term
-    do while (cdf < prob .and. k < 10000000)
-      k = k+1
-      term = term*lambda/real(k,dp)
-      cdf = cdf+term
-    end do
-  end function poisson_quantile
+    integer function rlogarithmic(prob) result(k)
+        real(dp),intent(in)::prob
+        real(dp)::u
+        call random_number(u);k=qlogarithmic(u,prob)
+    end function rlogarithmic
 
-  pure function binomial_pmf(k, n, prob) result(p)
-    integer, intent(in) :: k, n
-    real(dp), intent(in) :: prob
-    real(dp) :: p
-    if (k < 0 .or. k > n .or. n < 0 .or. prob < 0.0_dp .or. prob > 1.0_dp) then
-      p = 0.0_dp
-    else if (prob == 0.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==0)
-    else if (prob == 1.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==n)
-    else
-      p = exp(log_gamma(real(n+1,dp))-log_gamma(real(k+1,dp))- &
-          log_gamma(real(n-k+1,dp))+real(k,dp)*log(prob)+ &
-          real(n-k,dp)*log(1.0_dp-prob))
-    end if
-  end function binomial_pmf
+    pure real(dp) function dztpois(k,lambda) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::lambda
+        real(dp)::z
+        if(k<1) then;p=0.0_dp;return;end if
+        if(lambda==0.0_dp) then;p=merge(1.0_dp,0.0_dp,k==1);return;end if
+        z=1.0_dp-exp(-lambda);p=poisson_pmf(k,lambda)/z
+    end function dztpois
+    pure real(dp) function pztpois(k,lambda) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::lambda
+        real(dp)::p0
+        if(k<1) then;p=0.0_dp;return;end if
+        if(lambda==0.0_dp) then;p=1.0_dp;return;end if
+        p0=exp(-lambda);p=(poisson_cdf(k,lambda)-p0)/(1.0_dp-p0);p=max(0.0_dp,min(1.0_dp,p))
+    end function pztpois
+    pure integer function qztpois(q,lambda) result(k)
+        real(dp),intent(in)::q,lambda
+        real(dp)::p0
+        if(lambda==0.0_dp) then;k=1;return;end if
+        p0=exp(-lambda);k=max(1,poisson_quantile(p0+(1.0_dp-p0)*q,lambda))
+    end function qztpois
+    integer function rztpois(lambda) result(k)
+        real(dp),intent(in)::lambda;real(dp)::u;call random_number(u);k=qztpois(u,lambda)
+    end function rztpois
 
-  pure function binomial_cdf(k, n, prob) result(p)
-    integer, intent(in) :: k, n
-    real(dp), intent(in) :: prob
-    real(dp) :: p
-    integer :: i
-    p = 0.0_dp
-    do i = 0, min(k,n)
-      p = p+binomial_pmf(i,n,prob)
-    end do
-    p = min(1.0_dp,p)
-  end function binomial_cdf
+    pure real(dp) function dztgeom(k,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob
+        if(k<1 .or. prob<=0.0_dp .or. prob>1.0_dp) then;p=0.0_dp;else;p=prob*(1.0_dp-prob)**(k-1);end if
+    end function dztgeom
+    pure real(dp) function pztgeom(k,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob
+        if(k<1) then;p=0.0_dp;else;p=1.0_dp-(1.0_dp-prob)**k;end if
+    end function pztgeom
+    pure integer function qztgeom(q,prob) result(k)
+        real(dp),intent(in)::q,prob
+        if(q<=0.0_dp) then;k=1;else if(q>=1.0_dp) then;k=huge(k);else;k=max(1,ceiling(log(1.0_dp-q)/log(1.0_dp-prob)));end if
+    end function qztgeom
+    integer function rztgeom(prob) result(k)
+        real(dp),intent(in)::prob;real(dp)::u;call random_number(u);k=qztgeom(u,prob)
+    end function rztgeom
 
-  function binomial_quantile(q, n, prob) result(k)
-    real(dp), intent(in) :: q, prob
-    integer, intent(in) :: n
-    integer :: k
-    if (q <= 0.0_dp) then
-      k = 0; return
-    end if
-    do k = 0, n
-      if (binomial_cdf(k,n,prob) >= q) return
-    end do
-    k = n
-  end function binomial_quantile
+    pure real(dp) function dztnbinom(k,size,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob
+        real(dp)::p0
+        if(k<1) then;p=0.0_dp;return;end if
+        if(size==0.0_dp) then;p=dlogarithmic(k,1.0_dp-prob);return;end if
+        p0=prob**size;p=nbinom_pmf(k,size,prob)/(1.0_dp-p0)
+    end function dztnbinom
+    pure real(dp) function pztnbinom(k,size,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob
+        real(dp)::p0
+        if(k<1) then;p=0.0_dp;return;end if
+        if(size==0.0_dp) then;p=plogarithmic(k,1.0_dp-prob);return;end if
+        p0=prob**size;p=(nbinom_cdf(k,size,prob)-p0)/(1.0_dp-p0);p=max(0.0_dp,min(1.0_dp,p))
+    end function pztnbinom
+    pure integer function qztnbinom(q,size,prob) result(k)
+        real(dp),intent(in)::q,size,prob
+        real(dp)::p0
+        if(size==0.0_dp) then;k=qlogarithmic(q,1.0_dp-prob);return;end if
+        p0=prob**size;k=max(1,nbinom_quantile(p0+(1.0_dp-p0)*q,size,prob))
+    end function qztnbinom
+    integer function rztnbinom(size,prob) result(k)
+        real(dp),intent(in)::size,prob;real(dp)::u;call random_number(u);k=qztnbinom(u,size,prob)
+    end function rztnbinom
 
-  pure function nbinomial_pmf(k, size, prob) result(p)
-    integer, intent(in) :: k
-    real(dp), intent(in) :: size, prob
-    real(dp) :: p
-    if (k < 0 .or. size <= 0.0_dp .or. prob <= 0.0_dp .or. prob > 1.0_dp) then
-      p = 0.0_dp
-    else if (prob == 1.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==0)
-    else
-      p = exp(log_gamma(real(k,dp)+size)-log_gamma(size)- &
-          log_gamma(real(k+1,dp))+size*log(prob)+real(k,dp)*log(1.0_dp-prob))
-    end if
-  end function nbinomial_pmf
+    pure real(dp) function dztbinom(k,n,prob) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob
+        real(dp)::p0
+        if(k<1) then;p=0.0_dp;return;end if
+        p0=(1.0_dp-prob)**n
+        if(p0>=1.0_dp) then;p=merge(1.0_dp,0.0_dp,k==1);else;p=binom_pmf(k,n,prob)/(1.0_dp-p0);end if
+    end function dztbinom
+    pure real(dp) function pztbinom(k,n,prob) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob
+        real(dp)::p0
+        if(k<1) then;p=0.0_dp;return;end if
+        p0=(1.0_dp-prob)**n
+        if(p0>=1.0_dp) then;p=1.0_dp;else;p=(binom_cdf(k,n,prob)-p0)/(1.0_dp-p0);end if
+    end function pztbinom
+    pure integer function qztbinom(q,n,prob) result(k)
+        real(dp),intent(in)::q,prob
+        integer,intent(in)::n
+        real(dp)::p0
+        p0=(1.0_dp-prob)**n
+        if(p0>=1.0_dp) then;k=1;else;k=max(1,binom_quantile(p0+(1.0_dp-p0)*q,n,prob));end if
+    end function qztbinom
+    integer function rztbinom(n,prob) result(k)
+        integer,intent(in)::n;real(dp),intent(in)::prob;real(dp)::u;call random_number(u);k=qztbinom(u,n,prob)
+    end function rztbinom
 
-  pure function nbinomial_cdf(k, size, prob) result(p)
-    integer, intent(in) :: k
-    real(dp), intent(in) :: size, prob
-    real(dp) :: p
-    integer :: i
-    p = 0.0_dp
-    do i = 0, k
-      p = p+nbinomial_pmf(i,size,prob)
-    end do
-    p = min(1.0_dp,p)
-  end function nbinomial_cdf
+    pure real(dp) function dzmpois(k,lambda,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::lambda,p0m
+        real(dp)::p0
+        if(k<0) then;p=0.0_dp;return;end if
+        if(k==0) then;p=p0m;return;end if
+        p0=exp(-lambda)
+        if(p0>=1.0_dp) then;p=merge(1.0_dp-p0m,0.0_dp,k==1);else;p=(1.0_dp-p0m)*poisson_pmf(k,lambda)/(1.0_dp-p0);end if
+    end function dzmpois
+    pure real(dp) function pzmpois(k,lambda,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::lambda,p0m
+        real(dp)::p0
+        if(k<0) then;p=0.0_dp;return;end if
+        if(k==0) then;p=p0m;return;end if
+        p0=exp(-lambda)
+        if(p0>=1.0_dp) then;p=1.0_dp;else;p=p0m+(1.0_dp-p0m)*(poisson_cdf(k,lambda)-p0)/(1.0_dp-p0);end if
+        p=min(1.0_dp,p)
+    end function pzmpois
+    pure integer function qzmpois(q,lambda,p0m) result(k)
+        real(dp),intent(in)::q,lambda,p0m
+        if(q<=p0m) then;k=0;else;k=qztpois((q-p0m)/(1.0_dp-p0m),lambda);end if
+    end function qzmpois
+    integer function rzmpois(lambda,p0m) result(k)
+        real(dp),intent(in)::lambda,p0m;real(dp)::u;call random_number(u);k=qzmpois(u,lambda,p0m)
+    end function rzmpois
 
-  function nbinomial_quantile(q, size, prob) result(k)
-    real(dp), intent(in) :: q, size, prob
-    integer :: k
-    if (q <= 0.0_dp) then
-      k = 0; return
-    end if
-    do k = 0, 10000000
-      if (nbinomial_cdf(k,size,prob) >= q) return
-    end do
-    k = huge(0)
-  end function nbinomial_quantile
+    pure real(dp) function dzmgeom(k,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=(1.0_dp-p0m)*dztgeom(k,prob);end if
+    end function dzmgeom
+    pure real(dp) function pzmgeom(k,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=p0m+(1.0_dp-p0m)*pztgeom(k,prob);end if
+    end function pzmgeom
+    pure integer function qzmgeom(q,prob,p0m) result(k)
+        real(dp),intent(in)::q,prob,p0m
+        if(q<=p0m) then;k=0;else;k=qztgeom((q-p0m)/(1.0_dp-p0m),prob);end if
+    end function qzmgeom
+    integer function rzmgeom(prob,p0m) result(k)
+        real(dp),intent(in)::prob,p0m;real(dp)::u;call random_number(u);k=qzmgeom(u,prob,p0m)
+    end function rzmgeom
 
-  pure function dlogarithmic(x, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    real(dp) :: p
-    integer :: k
-    if (prob < 0.0_dp .or. prob >= 1.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x < 1.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    if (prob == 0.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==1)
-    else
-      p = -prob**k/(real(k,dp)*log(1.0_dp-prob))
-    end if
-  end function dlogarithmic
+    pure real(dp) function dzmnbinom(k,size,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=(1.0_dp-p0m)*dztnbinom(k,size,prob);end if
+    end function dzmnbinom
+    pure real(dp) function pzmnbinom(k,size,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=p0m+(1.0_dp-p0m)*pztnbinom(k,size,prob);end if
+    end function pzmnbinom
+    pure integer function qzmnbinom(q,size,prob,p0m) result(k)
+        real(dp),intent(in)::q,size,prob,p0m
+        if(q<=p0m) then;k=0;else;k=qztnbinom((q-p0m)/(1.0_dp-p0m),size,prob);end if
+    end function qzmnbinom
+    integer function rzmnbinom(size,prob,p0m) result(k)
+        real(dp),intent(in)::size,prob,p0m;real(dp)::u;call random_number(u);k=qzmnbinom(u,size,prob,p0m)
+    end function rzmnbinom
 
-  pure function plogarithmic(x, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    real(dp) :: p, term
-    integer :: k, upper
-    if (prob < 0.0_dp .or. prob >= 1.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x < 1.0_dp) then
-      p = 0.0_dp; return
-    end if
-    upper = floor(x)
-    if (prob == 0.0_dp) then
-      p = 1.0_dp; return
-    end if
-    term = -prob/log(1.0_dp-prob); p = term
-    do k = 1, upper-1
-      term = term*prob*real(k,dp)/real(k+1,dp)
-      p = p+term
-    end do
-    p = min(1.0_dp,p)
-  end function plogarithmic
+    pure real(dp) function dzmbinom(k,n,prob,p0m) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=(1.0_dp-p0m)*dztbinom(k,n,prob);end if
+    end function dzmbinom
+    pure real(dp) function pzmbinom(k,n,prob,p0m) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=p0m+(1.0_dp-p0m)*pztbinom(k,n,prob);end if
+    end function pzmbinom
+    pure integer function qzmbinom(q,n,prob,p0m) result(k)
+        real(dp),intent(in)::q,prob,p0m
+        integer,intent(in)::n
+        if(q<=p0m) then;k=0;else;k=qztbinom((q-p0m)/(1.0_dp-p0m),n,prob);end if
+    end function qzmbinom
+    integer function rzmbinom(n,prob,p0m) result(k)
+        integer,intent(in)::n;real(dp),intent(in)::prob,p0m;real(dp)::u;call random_number(u);k=qzmbinom(u,n,prob,p0m)
+    end function rzmbinom
 
-  function qlogarithmic(q, prob) result(k)
-    real(dp), intent(in) :: q, prob
-    integer :: k
-    real(dp) :: p, term
-    if (q <= 0.0_dp) then
-      k = 1; return
-    else if (q >= 1.0_dp) then
-      k = huge(0); return
-    end if
-    if (prob == 0.0_dp) then
-      k = 1; return
-    end if
-    k = 1; term = -prob/log(1.0_dp-prob); p = term
-    do while (p < q .and. k < 10000000)
-      term = term*prob*real(k,dp)/real(k+1,dp)
-      k = k+1
-      p = p+term
-    end do
-  end function qlogarithmic
+    pure real(dp) function dzmlogarithmic(k,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=(1.0_dp-p0m)*dlogarithmic(k,prob);end if
+    end function dzmlogarithmic
+    pure real(dp) function pzmlogarithmic(k,prob,p0m) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::prob,p0m
+        if(k<0) then;p=0.0_dp;else if(k==0) then;p=p0m;else;p=p0m+(1.0_dp-p0m)*plogarithmic(k,prob);end if
+    end function pzmlogarithmic
+    pure integer function qzmlogarithmic(q,prob,p0m) result(k)
+        real(dp),intent(in)::q,prob,p0m
+        if(q<=p0m) then;k=0;else;k=qlogarithmic((q-p0m)/(1.0_dp-p0m),prob);end if
+    end function qzmlogarithmic
+    integer function rzmlogarithmic(prob,p0m) result(k)
+        real(dp),intent(in)::prob,p0m;real(dp)::u;call random_number(u);k=qzmlogarithmic(u,prob,p0m)
+    end function rzmlogarithmic
 
-  function rlogarithmic(prob) result(k)
-    real(dp), intent(in) :: prob
-    integer :: k
-    k = qlogarithmic(runif(),prob)
-  end function rlogarithmic
-
-  pure function dztpois(x, lambda) result(p)
-    real(dp), intent(in) :: x, lambda
-    real(dp) :: p, den
-    integer :: k
-    if (lambda < 0.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x < 1.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    if (lambda == 0.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==1)
-    else
-      den = 1.0_dp-exp(-lambda)
-      p = poisson_pmf(k,lambda)/den
-    end if
-  end function dztpois
-
-  pure function pztpois(x, lambda) result(p)
-    real(dp), intent(in) :: x, lambda
-    real(dp) :: p, p0
-    if (x < 1.0_dp) then
-      p = 0.0_dp
-    else if (lambda == 0.0_dp) then
-      p = 1.0_dp
-    else
-      p0 = exp(-lambda)
-      p = (poisson_cdf(floor(x),lambda)-p0)/(1.0_dp-p0)
-    end if
-  end function pztpois
-
-  function qztpois(q, lambda) result(k)
-    real(dp), intent(in) :: q, lambda
-    integer :: k
-    if (lambda == 0.0_dp) then
-      k = 1
-    else
-      k = poisson_quantile(exp(-lambda)+(1.0_dp-exp(-lambda))*q,lambda)
-      k = max(1,k)
-    end if
-  end function qztpois
-
-  function rztpois(lambda) result(k)
-    real(dp), intent(in) :: lambda
-    integer :: k
-    k = qztpois(runif(),lambda)
-  end function rztpois
-
-  pure function dztgeom(x, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    real(dp) :: p
-    integer :: k
-    if (prob <= 0.0_dp .or. prob > 1.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x < 1.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    p = prob*(1.0_dp-prob)**(k-1)
-  end function dztgeom
-
-  pure function pztgeom(x, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    real(dp) :: p
-    if (x < 1.0_dp) then
-      p = 0.0_dp
-    else
-      p = 1.0_dp-(1.0_dp-prob)**floor(x)
-    end if
-  end function pztgeom
-
-  pure function qztgeom(q, prob) result(k)
-    real(dp), intent(in) :: q, prob
-    integer :: k
-    if (q <= 0.0_dp .or. prob == 1.0_dp) then
-      k = 1
-    else if (q >= 1.0_dp) then
-      k = huge(0)
-    else
-      k = ceiling(log(1.0_dp-q)/log(1.0_dp-prob))
-      k = max(1,k)
-    end if
-  end function qztgeom
-
-  function rztgeom(prob) result(k)
-    real(dp), intent(in) :: prob
-    integer :: k
-    k = qztgeom(runif(),prob)
-  end function rztgeom
-
-  pure function dztbinom(x, n, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    integer, intent(in) :: n
-    real(dp) :: p, p0
-    integer :: k
-    if (x < 1.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x); p0 = (1.0_dp-prob)**n
-    if (p0 >= 1.0_dp) then
-      p = merge(1.0_dp,0.0_dp,k==1)
-    else
-      p = binomial_pmf(k,n,prob)/(1.0_dp-p0)
-    end if
-  end function dztbinom
-
-  pure function pztbinom(x, n, prob) result(p)
-    real(dp), intent(in) :: x, prob
-    integer, intent(in) :: n
-    real(dp) :: p, p0
-    if (x < 1.0_dp) then
-      p = 0.0_dp; return
-    end if
-    p0 = (1.0_dp-prob)**n
-    if (p0 >= 1.0_dp) then
-      p = 1.0_dp
-    else
-      p = (binomial_cdf(floor(x),n,prob)-p0)/(1.0_dp-p0)
-    end if
-  end function pztbinom
-
-  function qztbinom(q, n, prob) result(k)
-    real(dp), intent(in) :: q, prob
-    integer, intent(in) :: n
-    integer :: k
-    real(dp) :: p0
-    p0 = (1.0_dp-prob)**n
-    if (p0 >= 1.0_dp) then
-      k = 1
-    else
-      k = max(1,binomial_quantile(p0+(1.0_dp-p0)*q,n,prob))
-    end if
-  end function qztbinom
-
-  function rztbinom(n, prob) result(k)
-    integer, intent(in) :: n
-    real(dp), intent(in) :: prob
-    integer :: k
-    k = qztbinom(runif(),n,prob)
-  end function rztbinom
-
-  pure function dztnbinom(x, size, prob) result(p)
-    real(dp), intent(in) :: x, size, prob
-    real(dp) :: p, p0
-    integer :: k
-    if (x < 1.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x); p0 = prob**size
-    p = nbinomial_pmf(k,size,prob)/(1.0_dp-p0)
-  end function dztnbinom
-
-  pure function pztnbinom(x, size, prob) result(p)
-    real(dp), intent(in) :: x, size, prob
-    real(dp) :: p, p0
-    if (x < 1.0_dp) then
-      p = 0.0_dp; return
-    end if
-    p0 = prob**size
-    p = (nbinomial_cdf(floor(x),size,prob)-p0)/(1.0_dp-p0)
-  end function pztnbinom
-
-  function qztnbinom(q, size, prob) result(k)
-    real(dp), intent(in) :: q, size, prob
-    integer :: k
-    real(dp) :: p0
-    p0 = prob**size
-    k = max(1,nbinomial_quantile(p0+(1.0_dp-p0)*q,size,prob))
-  end function qztnbinom
-
-  function rztnbinom(size, prob) result(k)
-    real(dp), intent(in) :: size, prob
-    integer :: k
-    k = qztnbinom(runif(),size,prob)
-  end function rztnbinom
-
-  pure function zero_modified_pmf(base, p0, p0m, k) result(p)
-    real(dp), intent(in) :: base, p0, p0m
-    integer, intent(in) :: k
-    real(dp) :: p
-    if (k == 0) then
-      p = p0m
-    else
-      p = (1.0_dp-p0m)*base/(1.0_dp-p0)
-    end if
-  end function zero_modified_pmf
-
-  pure function dzmpois(x, lambda, p0m) result(p)
-    real(dp), intent(in) :: x, lambda, p0m
-    real(dp) :: p
-    integer :: k
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    if (lambda == 0.0_dp) then
-      if (k == 0) then; p = p0m
-      else if (k == 1) then; p = 1.0_dp-p0m
-      else; p = 0.0_dp
-      end if
-    else
-      p = zero_modified_pmf(poisson_pmf(k,lambda),exp(-lambda),p0m,k)
-    end if
-  end function dzmpois
-
-  pure function pzmpois(x, lambda, p0m) result(p)
-    real(dp), intent(in) :: x, lambda, p0m
-    real(dp) :: p, p0
-    if (x < 0.0_dp) then
-      p = 0.0_dp; return
-    else if (x < 1.0_dp) then
-      p = p0m; return
-    end if
-    if (lambda == 0.0_dp) then
-      p = 1.0_dp
-    else
-      p0 = exp(-lambda)
-      p = p0m+(1.0_dp-p0m)*(poisson_cdf(floor(x),lambda)-p0)/(1.0_dp-p0)
-    end if
-  end function pzmpois
-
-  function qzmpois(q, lambda, p0m) result(k)
-    real(dp), intent(in) :: q, lambda, p0m
-    integer :: k
-    if (q <= p0m) then
-      k = 0
-    else
-      k = qztpois((q-p0m)/(1.0_dp-p0m),lambda)
-    end if
-  end function qzmpois
-
-  function rzmpois(lambda, p0m) result(k)
-    real(dp), intent(in) :: lambda, p0m
-    integer :: k
-    k = qzmpois(runif(),lambda,p0m)
-  end function rzmpois
-
-  pure function dzmgeom(x, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    real(dp) :: p
-    integer :: k
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    if (k == 0) then
-      p = p0m
-    else
-      p = (1.0_dp-p0m)*prob*(1.0_dp-prob)**(k-1)
-    end if
-  end function dzmgeom
-
-  pure function pzmgeom(x, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    real(dp) :: p
-    if (x < 0.0_dp) then
-      p = 0.0_dp
-    else if (x < 1.0_dp) then
-      p = p0m
-    else
-      p = p0m+(1.0_dp-p0m)*pztgeom(x,prob)
-    end if
-  end function pzmgeom
-
-  pure function qzmgeom(q, prob, p0m) result(k)
-    real(dp), intent(in) :: q, prob, p0m
-    integer :: k
-    if (q <= p0m) then
-      k = 0
-    else
-      k = qztgeom((q-p0m)/(1.0_dp-p0m),prob)
-    end if
-  end function qzmgeom
-
-  function rzmgeom(prob, p0m) result(k)
-    real(dp), intent(in) :: prob, p0m
-    integer :: k
-    k = qzmgeom(runif(),prob,p0m)
-  end function rzmgeom
-
-  pure function dzmbinom(x, n, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    integer, intent(in) :: n
-    real(dp) :: p
-    integer :: k
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    p = zero_modified_pmf(binomial_pmf(k,n,prob),(1.0_dp-prob)**n,p0m,k)
-  end function dzmbinom
-
-  pure function pzmbinom(x, n, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    integer, intent(in) :: n
-    real(dp) :: p, p0
-    if (x < 0.0_dp) then
-      p = 0.0_dp; return
-    else if (x < 1.0_dp) then
-      p = p0m; return
-    end if
-    p0 = (1.0_dp-prob)**n
-    p = p0m+(1.0_dp-p0m)*(binomial_cdf(floor(x),n,prob)-p0)/(1.0_dp-p0)
-  end function pzmbinom
-
-  function qzmbinom(q, n, prob, p0m) result(k)
-    real(dp), intent(in) :: q, prob, p0m
-    integer, intent(in) :: n
-    integer :: k
-    if (q <= p0m) then
-      k = 0
-    else
-      k = qztbinom((q-p0m)/(1.0_dp-p0m),n,prob)
-    end if
-  end function qzmbinom
-
-  function rzmbinom(n, prob, p0m) result(k)
-    integer, intent(in) :: n
-    real(dp), intent(in) :: prob, p0m
-    integer :: k
-    k = qzmbinom(runif(),n,prob,p0m)
-  end function rzmbinom
-
-  pure function dzmnbinom(x, size, prob, p0m) result(p)
-    real(dp), intent(in) :: x, size, prob, p0m
-    real(dp) :: p
-    integer :: k
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    p = zero_modified_pmf(nbinomial_pmf(k,size,prob),prob**size,p0m,k)
-  end function dzmnbinom
-
-  pure function pzmnbinom(x, size, prob, p0m) result(p)
-    real(dp), intent(in) :: x, size, prob, p0m
-    real(dp) :: p, p0
-    if (x < 0.0_dp) then
-      p = 0.0_dp; return
-    else if (x < 1.0_dp) then
-      p = p0m; return
-    end if
-    p0 = prob**size
-    p = p0m+(1.0_dp-p0m)*(nbinomial_cdf(floor(x),size,prob)-p0)/(1.0_dp-p0)
-  end function pzmnbinom
-
-  function qzmnbinom(q, size, prob, p0m) result(k)
-    real(dp), intent(in) :: q, size, prob, p0m
-    integer :: k
-    if (q <= p0m) then
-      k = 0
-    else
-      k = qztnbinom((q-p0m)/(1.0_dp-p0m),size,prob)
-    end if
-  end function qzmnbinom
-
-  function rzmnbinom(size, prob, p0m) result(k)
-    real(dp), intent(in) :: size, prob, p0m
-    integer :: k
-    k = qzmnbinom(runif(),size,prob,p0m)
-  end function rzmnbinom
-
-  pure function dzmlogarithmic(x, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    real(dp) :: p
-    integer :: k
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    if (k == 0) then
-      p = p0m
-    else
-      p = (1.0_dp-p0m)*dlogarithmic(x,prob)
-    end if
-  end function dzmlogarithmic
-
-  pure function pzmlogarithmic(x, prob, p0m) result(p)
-    real(dp), intent(in) :: x, prob, p0m
-    real(dp) :: p
-    if (x < 0.0_dp) then
-      p = 0.0_dp
-    else if (x < 1.0_dp) then
-      p = p0m
-    else
-      p = p0m+(1.0_dp-p0m)*plogarithmic(x,prob)
-    end if
-  end function pzmlogarithmic
-
-  function qzmlogarithmic(q, prob, p0m) result(k)
-    real(dp), intent(in) :: q, prob, p0m
-    integer :: k
-    if (q <= p0m) then
-      k = 0
-    else
-      k = qlogarithmic((q-p0m)/(1.0_dp-p0m),prob)
-    end if
-  end function qzmlogarithmic
-
-  function rzmlogarithmic(prob, p0m) result(k)
-    real(dp), intent(in) :: prob, p0m
-    integer :: k
-    k = qzmlogarithmic(runif(),prob,p0m)
-  end function rzmlogarithmic
-
-  pure function dpoisinvgauss(x, mu, phi) result(p)
-    real(dp), intent(in) :: x, mu, phi
-    real(dp) :: p, pim2, pim1, a, b
-    integer :: k, i
-    if (mu <= 0.0_dp .or. phi <= 0.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x < 0.0_dp .or. .not. is_integer_value(x)) then
-      p = 0.0_dp; return
-    end if
-    k = nint(x)
-    p = exp((1.0_dp-sqrt(1.0_dp+2.0_dp*phi*mu*mu))/(phi*mu))
-    if (k == 0) return
-    pim2 = p
-    p = mu*p/sqrt(1.0_dp+2.0_dp*phi*mu*mu)
-    if (k == 1) return
-    pim1 = p
-    a = 1.0_dp/(1.0_dp+1.0_dp/(2.0_dp*phi*mu*mu))
-    b = mu*mu/(1.0_dp+2.0_dp*phi*mu*mu)
-    do i = 2, k
-      p = a*(1.0_dp-1.5_dp/real(i,dp))*pim1 + &
-          b*pim2/(real(i,dp)*real(i-1,dp))
-      pim2 = pim1; pim1 = p
-    end do
-  end function dpoisinvgauss
-
-  pure function ppoisinvgauss(x, mu, phi) result(p)
-    real(dp), intent(in) :: x, mu, phi
-    real(dp) :: p
-    integer :: i
-    if (x < 0.0_dp) then
-      p = 0.0_dp; return
-    end if
-    p = 0.0_dp
-    do i = 0, floor(x)
-      p = p+dpoisinvgauss(real(i,dp),mu,phi)
-    end do
-    p = min(1.0_dp,p)
-  end function ppoisinvgauss
-
-  function qpoisinvgauss(q, mu, phi) result(k)
-    real(dp), intent(in) :: q, mu, phi
-    integer :: k
-    if (q <= 0.0_dp) then
-      k = 0; return
-    else if (q >= 1.0_dp) then
-      k = huge(0); return
-    end if
-    do k = 0, 10000000
-      if (ppoisinvgauss(real(k,dp),mu,phi) >= q) return
-    end do
-    k = huge(0)
-  end function qpoisinvgauss
-
-  function rpoisinvgauss(mu, phi) result(k)
-    real(dp), intent(in) :: mu, phi
-    integer :: k
-    k = rpois(rinvgauss_rng(mu,phi))
-  end function rpoisinvgauss
+    pure real(dp) function dpoisinvgauss(k,mu,phi) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::mu,phi
+        integer::i
+        real(dp)::p0,p1,a,b,pm2,pm1,cur,two
+        if(k<0 .or. mu<=0.0_dp .or. phi<=0.0_dp) then;p=0.0_dp;return;end if
+        two=2.0_dp*phi
+        p0=exp((1.0_dp-sqrt(1.0_dp+two*mu*mu))/(phi*mu))
+        if(k==0) then;p=p0;return;end if
+        p1=mu*p0/sqrt(1.0_dp+two*mu*mu)
+        if(k==1) then;p=p1;return;end if
+        a=1.0_dp/(1.0_dp+1.0_dp/(two*mu*mu))
+        b=mu*mu/(1.0_dp+two*mu*mu)
+        pm2=p0;pm1=p1
+        do i=2,k
+            cur=a*(1.0_dp-1.5_dp/real(i,dp))*pm1+b*pm2/(real(i,dp)*real(i-1,dp))
+            pm2=pm1;pm1=cur
+        end do
+        p=pm1
+    end function dpoisinvgauss
+    pure real(dp) function ppoisinvgauss(k,mu,phi) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::mu,phi
+        integer::j
+        if(k<0) then;p=0.0_dp;return;end if
+        p=0.0_dp;do j=0,k;p=p+dpoisinvgauss(j,mu,phi);end do;p=min(1.0_dp,p)
+    end function ppoisinvgauss
+    pure integer function qpoisinvgauss(q,mu,phi) result(k)
+        real(dp),intent(in)::q,mu,phi
+        k=0;do while(ppoisinvgauss(k,mu,phi)<q .and. k<100000);k=k+1;end do
+    end function qpoisinvgauss
+    integer function rpoisinvgauss(mu,phi) result(k)
+        real(dp),intent(in)::mu,phi
+        real(dp)::v,y,x,u
+        v=mu*mu*phi
+        y=random_normal_local()**2
+        x=mu+0.5_dp*mu*v*y-0.5_dp*mu*sqrt(4.0_dp*v*y+v*v*y*y)
+        call random_number(u)
+        if(u>mu/(mu+x)) x=mu*mu/x
+        k=random_poisson(x)
+    end function rpoisinvgauss
+    real(dp) function random_normal_local() result(z)
+        real(dp)::u1,u2
+        call random_number(u1);call random_number(u2)
+        z=sqrt(-2.0_dp*log(max(u1,tiny(1.0_dp))))*cos(6.2831853071795864769_dp*u2)
+    end function random_normal_local
 
 end module actuar_discrete

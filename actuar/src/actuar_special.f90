@@ -1,358 +1,320 @@
-! SPDX-License-Identifier: GPL-2.0-or-later
 module actuar_special
-  use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
-  use actuar_kinds, only : dp, pi, sqrt2, huge_dp
-  implicit none
-  private
-  public :: nan_dp, clamp01, log1pexp, log1mexp
-  public :: normal_pdf, normal_cdf, normal_quantile
-  public :: regularized_gamma_p, regularized_gamma_q, gamma_quantile
-  public :: regularized_beta, beta_quantile, log_beta_fn
-  public :: bessel_k_integral, adaptive_simpson
-
-  abstract interface
-    pure function scalar_fun(x) result(y)
-      import dp
-      real(dp), intent(in) :: x
-      real(dp) :: y
-    end function scalar_fun
-  end interface
+    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_quiet_nan
+    use actuar_kinds, only: dp, pi
+    implicit none
+    private
+    public :: beta_fn, log_beta, reg_beta, inv_reg_beta
+    public :: reg_gamma_p, reg_gamma_q, normal_cdf, normal_quantile
+    public :: poisson_pmf, poisson_cdf, poisson_quantile
+    public :: nbinom_pmf, nbinom_cdf, nbinom_quantile
+    public :: binom_pmf, binom_cdf, binom_quantile
+    public :: random_normal, random_gamma, random_poisson, random_binomial
+    public :: random_negative_binomial, random_beta
 
 contains
 
-  pure function nan_dp() result(x)
-    real(dp) :: x
-    x = ieee_value(0.0_dp, ieee_quiet_nan)
-  end function nan_dp
+    pure real(dp) function log_beta(a, b) result(v)
+        real(dp), intent(in) :: a, b
+        v = log_gamma(a) + log_gamma(b) - log_gamma(a + b)
+    end function log_beta
 
-  pure function clamp01(x) result(y)
-    real(dp), intent(in) :: x
-    real(dp) :: y
-    y = max(0.0_dp, min(1.0_dp, x))
-  end function clamp01
+    pure real(dp) function beta_fn(a, b) result(v)
+        real(dp), intent(in) :: a, b
+        v = exp(log_beta(a, b))
+    end function beta_fn
 
-  pure function log1pexp(x) result(y)
-    real(dp), intent(in) :: x
-    real(dp) :: y
-    if (x > 35.0_dp) then
-      y = x + exp(-x)
-    else if (x < -35.0_dp) then
-      y = exp(x)
-    else
-      y = log(1.0_dp + exp(x))
-    end if
-  end function log1pexp
-
-  pure function log1mexp(x) result(y)
-    real(dp), intent(in) :: x
-    real(dp) :: y
-    if (x >= 0.0_dp) then
-      y = nan_dp()
-    else if (x < -log(2.0_dp)) then
-      y = log(1.0_dp - exp(x))
-    else
-      y = log(1.0_dp-exp(x))
-    end if
-  end function log1mexp
-
-  pure function normal_pdf(x) result(y)
-    real(dp), intent(in) :: x
-    real(dp) :: y
-    y = exp(-0.5_dp*x*x) / sqrt(2.0_dp*pi)
-  end function normal_pdf
-
-  pure function normal_cdf(x) result(y)
-    real(dp), intent(in) :: x
-    real(dp) :: y
-    y = 0.5_dp * erfc(-x/sqrt2)
-  end function normal_cdf
-
-  pure function normal_quantile(p) result(x)
-    real(dp), intent(in) :: p
-    real(dp) :: x, q, r
-    real(dp), parameter :: a(6) = [ &
-      -3.969683028665376e1_dp, 2.209460984245205e2_dp, &
-      -2.759285104469687e2_dp, 1.383577518672690e2_dp, &
-      -3.066479806614716e1_dp, 2.506628277459239_dp ]
-    real(dp), parameter :: b(5) = [ &
-      -5.447609879822406e1_dp, 1.615858368580409e2_dp, &
-      -1.556989798598866e2_dp, 6.680131188771972e1_dp, &
-      -1.328068155288572e1_dp ]
-    real(dp), parameter :: c(6) = [ &
-      -7.784894002430293e-3_dp, -3.223964580411365e-1_dp, &
-      -2.400758277161838_dp, -2.549732539343734_dp, &
-       4.374664141464968_dp, 2.938163982698783_dp ]
-    real(dp), parameter :: d(4) = [ &
-       7.784695709041462e-3_dp, 3.224671290700398e-1_dp, &
-       2.445134137142996_dp, 3.754408661907416_dp ]
-    real(dp), parameter :: plow = 0.02425_dp
-    real(dp), parameter :: phigh = 1.0_dp - plow
-
-    if (p <= 0.0_dp) then
-      x = -huge_dp
-      return
-    else if (p >= 1.0_dp) then
-      x = huge_dp
-      return
-    end if
-
-    if (p < plow) then
-      q = sqrt(-2.0_dp*log(p))
-      x = (((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6)) / &
-          ((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
-    else if (p <= phigh) then
-      q = p - 0.5_dp
-      r = q*q
-      x = (((((a(1)*r+a(2))*r+a(3))*r+a(4))*r+a(5))*r+a(6))*q / &
-          (((((b(1)*r+b(2))*r+b(3))*r+b(4))*r+b(5))*r+1.0_dp)
-    else
-      q = sqrt(-2.0_dp*log(1.0_dp-p))
-      x = -(((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6)) / &
-           ((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
-    end if
-
-    x = x - (normal_cdf(x)-p) / max(normal_pdf(x), tiny(1.0_dp))
-  end function normal_quantile
-
-  pure function regularized_gamma_p(a, x) result(p)
-    real(dp), intent(in) :: a, x
-    real(dp) :: p, sumv, del, ap, gln, b, c, d, h, an
-    integer :: n
-    real(dp), parameter :: eps = 4.0e-15_dp
-    real(dp), parameter :: fpmin = 1.0e-300_dp
-
-    if (a <= 0.0_dp .or. x < 0.0_dp) then
-      p = nan_dp()
-      return
-    end if
-    if (x <= 0.0_dp) then
-      p = 0.0_dp
-      return
-    end if
-    gln = log_gamma(a)
-    if (x < a + 1.0_dp) then
-      ap = a
-      sumv = 1.0_dp/a
-      del = sumv
-      do n = 1, 10000
-        ap = ap + 1.0_dp
-        del = del*x/ap
-        sumv = sumv + del
-        if (abs(del) <= abs(sumv)*eps) exit
-      end do
-      p = sumv*exp(-x+a*log(x)-gln)
-    else
-      b = x + 1.0_dp - a
-      c = 1.0_dp/fpmin
-      d = 1.0_dp/max(b, fpmin)
-      h = d
-      do n = 1, 10000
-        an = -real(n,dp)*(real(n,dp)-a)
-        b = b + 2.0_dp
-        d = an*d+b
+    pure real(dp) function beta_cf(a, b, x) result(cf)
+        real(dp), intent(in) :: a, b, x
+        integer, parameter :: maxit = 300
+        real(dp), parameter :: eps = 3.0e-15_dp, fpmin = 1.0e-300_dp
+        integer :: m, m2
+        real(dp) :: aa, c, d, del, h, qab, qam, qap
+        qab = a + b; qap = a + 1.0_dp; qam = a - 1.0_dp
+        c = 1.0_dp
+        d = 1.0_dp - qab*x/qap
         if (abs(d) < fpmin) d = fpmin
-        c = b+an/c
-        if (abs(c) < fpmin) c = fpmin
         d = 1.0_dp/d
-        del = d*c
-        h = h*del
-        if (abs(del-1.0_dp) <= eps) exit
-      end do
-      p = 1.0_dp - exp(-x+a*log(x)-gln)*h
-    end if
-    p = clamp01(p)
-  end function regularized_gamma_p
+        h = d
+        do m = 1, maxit
+            m2 = 2*m
+            aa = real(m,dp)*(b-real(m,dp))*x/((qam+real(m2,dp))*(a+real(m2,dp)))
+            d = 1.0_dp + aa*d; if (abs(d) < fpmin) d = fpmin
+            c = 1.0_dp + aa/c; if (abs(c) < fpmin) c = fpmin
+            d = 1.0_dp/d; h = h*d*c
+            aa = -(a+real(m,dp))*(qab+real(m,dp))*x/((a+real(m2,dp))*(qap+real(m2,dp)))
+            d = 1.0_dp + aa*d; if (abs(d) < fpmin) d = fpmin
+            c = 1.0_dp + aa/c; if (abs(c) < fpmin) c = fpmin
+            d = 1.0_dp/d; del = d*c; h = h*del
+            if (abs(del - 1.0_dp) <= eps) exit
+        end do
+        cf = h
+    end function beta_cf
 
-  pure function regularized_gamma_q(a, x) result(q)
-    real(dp), intent(in) :: a, x
-    real(dp) :: q
-    q = 1.0_dp - regularized_gamma_p(a, x)
-    q = clamp01(q)
-  end function regularized_gamma_q
-
-  function gamma_quantile(p, shape) result(x)
-    real(dp), intent(in) :: p, shape
-    real(dp) :: x, lo, hi, mid
-    integer :: iter
-    if (shape <= 0.0_dp .or. p < 0.0_dp .or. p > 1.0_dp) then
-      x = nan_dp(); return
-    end if
-    if (p <= 0.0_dp) then
-      x = 0.0_dp; return
-    else if (p >= 1.0_dp) then
-      x = huge_dp; return
-    end if
-    lo = 0.0_dp
-    hi = max(1.0_dp, shape + 8.0_dp*sqrt(shape) + 20.0_dp)
-    do while (regularized_gamma_p(shape, hi) < p)
-      hi = 2.0_dp*hi
-      if (hi > huge_dp/4.0_dp) exit
-    end do
-    do iter = 1, 160
-      mid = 0.5_dp*(lo+hi)
-      if (regularized_gamma_p(shape, mid) < p) then
-        lo = mid
-      else
-        hi = mid
-      end if
-      if (abs(hi-lo) <= 4.0e-14_dp*max(1.0_dp,mid)) exit
-    end do
-    x = 0.5_dp*(lo+hi)
-  end function gamma_quantile
-
-  pure function log_beta_fn(a, b) result(x)
-    real(dp), intent(in) :: a, b
-    real(dp) :: x
-    x = log_gamma(a) + log_gamma(b) - log_gamma(a+b)
-  end function log_beta_fn
-
-  pure function beta_cf(a, b, x) result(cf)
-    real(dp), intent(in) :: a, b, x
-    real(dp) :: cf, qab, qap, qam, c, d, h, aa, del
-    integer :: m, m2
-    real(dp), parameter :: eps = 4.0e-15_dp
-    real(dp), parameter :: fpmin = 1.0e-300_dp
-    qab = a+b
-    qap = a+1.0_dp
-    qam = a-1.0_dp
-    c = 1.0_dp
-    d = 1.0_dp-qab*x/qap
-    if (abs(d) < fpmin) d = fpmin
-    d = 1.0_dp/d
-    h = d
-    do m = 1, 10000
-      m2 = 2*m
-      aa = real(m,dp)*(b-real(m,dp))*x / &
-           ((qam+real(m2,dp))*(a+real(m2,dp)))
-      d = 1.0_dp+aa*d
-      if (abs(d) < fpmin) d = fpmin
-      c = 1.0_dp+aa/c
-      if (abs(c) < fpmin) c = fpmin
-      d = 1.0_dp/d
-      h = h*d*c
-      aa = -(a+real(m,dp))*(qab+real(m,dp))*x / &
-           ((a+real(m2,dp))*(qap+real(m2,dp)))
-      d = 1.0_dp+aa*d
-      if (abs(d) < fpmin) d = fpmin
-      c = 1.0_dp+aa/c
-      if (abs(c) < fpmin) c = fpmin
-      d = 1.0_dp/d
-      del = d*c
-      h = h*del
-      if (abs(del-1.0_dp) <= eps) exit
-    end do
-    cf = h
-  end function beta_cf
-
-  pure function regularized_beta(x, a, b) result(p)
-    real(dp), intent(in) :: x, a, b
-    real(dp) :: p, bt
-    if (a <= 0.0_dp .or. b <= 0.0_dp) then
-      p = nan_dp(); return
-    end if
-    if (x <= 0.0_dp) then
-      p = 0.0_dp; return
-    else if (x >= 1.0_dp) then
-      p = 1.0_dp; return
-    end if
-    bt = exp(log_gamma(a+b)-log_gamma(a)-log_gamma(b)+a*log(x)+b*log(1.0_dp-x))
-    if (x < (a+1.0_dp)/(a+b+2.0_dp)) then
-      p = bt*beta_cf(a,b,x)/a
-    else
-      p = 1.0_dp-bt*beta_cf(b,a,1.0_dp-x)/b
-    end if
-    p = clamp01(p)
-  end function regularized_beta
-
-  function beta_quantile(p, a, b) result(x)
-    real(dp), intent(in) :: p, a, b
-    real(dp) :: x, lo, hi, mid
-    integer :: iter
-    if (a <= 0.0_dp .or. b <= 0.0_dp .or. p < 0.0_dp .or. p > 1.0_dp) then
-      x = nan_dp(); return
-    end if
-    if (p <= 0.0_dp) then
-      x = 0.0_dp; return
-    else if (p >= 1.0_dp) then
-      x = 1.0_dp; return
-    end if
-    lo = 0.0_dp; hi = 1.0_dp
-    do iter = 1, 180
-      mid = 0.5_dp*(lo+hi)
-      if (regularized_beta(mid,a,b) < p) then
-        lo = mid
-      else
-        hi = mid
-      end if
-      if (hi-lo < 2.0e-14_dp) exit
-    end do
-    x = 0.5_dp*(lo+hi)
-  end function beta_quantile
-
-  function adaptive_simpson(f, a, b, tol, max_depth) result(value)
-    procedure(scalar_fun) :: f
-    real(dp), intent(in) :: a, b, tol
-    integer, intent(in), optional :: max_depth
-    real(dp) :: value, fa, fb, fm, whole
-    integer :: depth
-    depth = 20
-    if (present(max_depth)) depth = max_depth
-    fa = f(a); fb = f(b); fm = f(0.5_dp*(a+b))
-    whole = (b-a)*(fa+4.0_dp*fm+fb)/6.0_dp
-    value = simpson_rec(f,a,b,fa,fm,fb,whole,tol,depth)
-  end function adaptive_simpson
-
-  recursive function simpson_rec(f,a,b,fa,fm,fb,whole,tol,depth) result(v)
-    procedure(scalar_fun) :: f
-    real(dp), intent(in) :: a,b,fa,fm,fb,whole,tol
-    integer, intent(in) :: depth
-    real(dp) :: v,c,lm,rm,flm,frm,left,right,delta
-    c = 0.5_dp*(a+b)
-    lm = 0.5_dp*(a+c); rm = 0.5_dp*(c+b)
-    flm = f(lm); frm = f(rm)
-    left = (c-a)*(fa+4.0_dp*flm+fm)/6.0_dp
-    right = (b-c)*(fm+4.0_dp*frm+fb)/6.0_dp
-    delta = left+right-whole
-    if (depth <= 0 .or. abs(delta) <= 15.0_dp*tol) then
-      v = left+right+delta/15.0_dp
-    else
-      v = simpson_rec(f,a,c,fa,flm,fm,left,0.5_dp*tol,depth-1) + &
-          simpson_rec(f,c,b,fm,frm,fb,right,0.5_dp*tol,depth-1)
-    end if
-  end function simpson_rec
-
-  function bessel_k_integral(nu, z) result(k)
-    real(dp), intent(in) :: nu, z
-    real(dp) :: k, old, upper, h, t, y
-    integer :: n, i
-    if (z <= 0.0_dp) then
-      k = huge_dp
-      return
-    end if
-    upper = max(12.0_dp, log(80.0_dp/z + 1.0_dp) + 4.0_dp)
-    n = 128
-    old = -1.0_dp
-    do
-      if (mod(n,2) /= 0) n = n + 1
-      h = upper/real(n,dp)
-      k = exp(-z)
-      do i = 1, n-1
-        t = real(i,dp)*h
-        y = exp(-z*cosh(t))*cosh(nu*t)
-        if (mod(i,2) == 0) then
-          k = k + 2.0_dp*y
-        else
-          k = k + 4.0_dp*y
+    pure real(dp) function reg_beta(x, a, b) result(v)
+        real(dp), intent(in) :: x, a, b
+        real(dp) :: bt
+        if (a <= 0.0_dp .or. b <= 0.0_dp) then
+            v = ieee_value(0.0_dp, ieee_quiet_nan)
+            return
         end if
-      end do
-      k = h*k/3.0_dp
-      if (old > 0.0_dp) then
-        if (abs(k-old) <= 2.0e-11_dp*max(1.0_dp,abs(k))) exit
-      end if
-      if (n >= 1048576) exit
-      old = k
-      n = 2*n
-    end do
-  end function bessel_k_integral
+        if (x <= 0.0_dp) then
+            v = 0.0_dp; return
+        else if (x >= 1.0_dp) then
+            v = 1.0_dp; return
+        end if
+        bt = exp(log_gamma(a+b)-log_gamma(a)-log_gamma(b)+a*log(x)+b*log(1.0_dp-x))
+        if (x < (a+1.0_dp)/(a+b+2.0_dp)) then
+            v = bt*beta_cf(a,b,x)/a
+        else
+            v = 1.0_dp - bt*beta_cf(b,a,1.0_dp-x)/b
+        end if
+        v = max(0.0_dp, min(1.0_dp, v))
+    end function reg_beta
+
+    pure real(dp) function inv_reg_beta(p, a, b) result(x)
+        real(dp), intent(in) :: p, a, b
+        integer :: i
+        real(dp) :: lo, hi, mid
+        if (p <= 0.0_dp) then
+            x = 0.0_dp; return
+        else if (p >= 1.0_dp) then
+            x = 1.0_dp; return
+        end if
+        lo = 0.0_dp; hi = 1.0_dp
+        do i = 1, 100
+            mid = 0.5_dp*(lo+hi)
+            if (reg_beta(mid,a,b) < p) then
+                lo = mid
+            else
+                hi = mid
+            end if
+        end do
+        x = 0.5_dp*(lo+hi)
+    end function inv_reg_beta
+
+    pure real(dp) function reg_gamma_p(a, x) result(p)
+        real(dp), intent(in) :: a, x
+        integer, parameter :: maxit = 400
+        real(dp), parameter :: eps = 3.0e-15_dp, fpmin = 1.0e-300_dp
+        integer :: n
+        real(dp) :: ap, del, sum, b, c, d, h, an
+        if (a <= 0.0_dp .or. x < 0.0_dp) then
+            p = ieee_value(0.0_dp, ieee_quiet_nan); return
+        end if
+        if (x == 0.0_dp) then
+            p = 0.0_dp; return
+        end if
+        if (x < a + 1.0_dp) then
+            ap = a; sum = 1.0_dp/a; del = sum
+            do n = 1, maxit
+                ap = ap + 1.0_dp
+                del = del*x/ap
+                sum = sum + del
+                if (abs(del) < abs(sum)*eps) exit
+            end do
+            p = sum*exp(-x+a*log(x)-log_gamma(a))
+        else
+            b = x + 1.0_dp - a
+            c = 1.0_dp/fpmin
+            d = 1.0_dp/b
+            h = d
+            do n = 1, maxit
+                an = -real(n,dp)*(real(n,dp)-a)
+                b = b + 2.0_dp
+                d = an*d+b; if (abs(d)<fpmin) d=fpmin
+                c = b+an/c; if (abs(c)<fpmin) c=fpmin
+                d = 1.0_dp/d
+                del = d*c
+                h = h*del
+                if (abs(del-1.0_dp)<eps) exit
+            end do
+            p = 1.0_dp - exp(-x+a*log(x)-log_gamma(a))*h
+        end if
+        p = max(0.0_dp,min(1.0_dp,p))
+    end function reg_gamma_p
+
+    pure real(dp) function reg_gamma_q(a, x) result(q)
+        real(dp), intent(in) :: a, x
+        q = 1.0_dp - reg_gamma_p(a,x)
+    end function reg_gamma_q
+
+    pure real(dp) function normal_cdf(x) result(p)
+        real(dp), intent(in) :: x
+        p = 0.5_dp*erfc(-x/sqrt(2.0_dp))
+    end function normal_cdf
+
+    pure real(dp) function normal_quantile(p) result(x)
+        real(dp), intent(in) :: p
+        real(dp), parameter :: a1=-3.969683028665376e1_dp, a2=2.209460984245205e2_dp
+        real(dp), parameter :: a3=-2.759285104469687e2_dp, a4=1.383577518672690e2_dp
+        real(dp), parameter :: a5=-3.066479806614716e1_dp, a6=2.506628277459239_dp
+        real(dp), parameter :: b1=-5.447609879822406e1_dp, b2=1.615858368580409e2_dp
+        real(dp), parameter :: b3=-1.556989798598866e2_dp, b4=6.680131188771972e1_dp
+        real(dp), parameter :: b5=-1.328068155288572e1_dp
+        real(dp), parameter :: c1=-7.784894002430293e-3_dp, c2=-3.223964580411365e-1_dp
+        real(dp), parameter :: c3=-2.400758277161838_dp, c4=-2.549732539343734_dp
+        real(dp), parameter :: c5=4.374664141464968_dp, c6=2.938163982698783_dp
+        real(dp), parameter :: d1=7.784695709041462e-3_dp, d2=3.224671290700398e-1_dp
+        real(dp), parameter :: d3=2.445134137142996_dp, d4=3.754408661907416_dp
+        real(dp), parameter :: plow=0.02425_dp, phigh=1.0_dp-plow
+        real(dp) :: q, r
+        if (p <= 0.0_dp) then
+            x = -huge(1.0_dp); return
+        else if (p >= 1.0_dp) then
+            x = huge(1.0_dp); return
+        end if
+        if (p < plow) then
+            q = sqrt(-2.0_dp*log(p))
+            x = (((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1.0_dp)
+        else if (p <= phigh) then
+            q = p - 0.5_dp; r = q*q
+            x = (((((a1*r+a2)*r+a3)*r+a4)*r+a5)*r+a6)*q / (((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r+1.0_dp)
+        else
+            q = sqrt(-2.0_dp*log(1.0_dp-p))
+            x = -(((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6) / ((((d1*q+d2)*q+d3)*q+d4)*q+1.0_dp)
+        end if
+    end function normal_quantile
+
+    pure real(dp) function poisson_pmf(k, lambda) result(p)
+        integer, intent(in) :: k
+        real(dp), intent(in) :: lambda
+        if (k < 0 .or. lambda < 0.0_dp) then
+            p = 0.0_dp
+        else if (lambda == 0.0_dp) then
+            p = merge(1.0_dp,0.0_dp,k==0)
+        else
+            p = exp(-lambda + real(k,dp)*log(lambda)-log_gamma(real(k+1,dp)))
+        end if
+    end function poisson_pmf
+
+    pure real(dp) function poisson_cdf(k, lambda) result(p)
+        integer, intent(in) :: k
+        real(dp), intent(in) :: lambda
+        integer :: j
+        real(dp) :: term
+        if (k < 0) then; p=0.0_dp; return; end if
+        if (lambda == 0.0_dp) then; p=1.0_dp; return; end if
+        term = exp(-lambda); p = term
+        do j=1,k
+            term = term*lambda/real(j,dp); p=p+term
+        end do
+        p=min(1.0_dp,p)
+    end function poisson_cdf
+
+    pure integer function poisson_quantile(prob, lambda) result(k)
+        real(dp), intent(in) :: prob, lambda
+        real(dp) :: c, term
+        if (prob<=0.0_dp) then; k=0; return; end if
+        term=exp(-lambda); c=term; k=0
+        do while (c < prob .and. k < 100000)
+            k=k+1; term=term*lambda/real(k,dp); c=c+term
+        end do
+    end function poisson_quantile
+
+    pure real(dp) function nbinom_pmf(k, size, prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob
+        if(k<0 .or. size<=0.0_dp .or. prob<=0.0_dp .or. prob>1.0_dp) then
+            p=0.0_dp
+        else
+            p=exp(log_gamma(real(k,dp)+size)-log_gamma(size)-log_gamma(real(k+1,dp)) &
+                + size*log(prob)+real(k,dp)*log(1.0_dp-prob))
+        end if
+    end function nbinom_pmf
+
+    pure real(dp) function nbinom_cdf(k,size,prob) result(p)
+        integer,intent(in)::k
+        real(dp),intent(in)::size,prob
+        if(k<0) then; p=0.0_dp; else; p=reg_beta(prob,size,real(k+1,dp)); end if
+    end function nbinom_cdf
+
+    pure integer function nbinom_quantile(q,size,prob) result(k)
+        real(dp),intent(in)::q,size,prob
+        if(q<=0.0_dp) then;k=0;return;end if
+        k=0
+        do while(nbinom_cdf(k,size,prob)<q .and. k<100000); k=k+1; end do
+    end function nbinom_quantile
+
+    pure real(dp) function binom_pmf(k,n,prob) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob
+        if(k<0 .or. k>n .or. prob<0.0_dp .or. prob>1.0_dp) then;p=0.0_dp;return;end if
+        if(prob==0.0_dp) then;p=merge(1.0_dp,0.0_dp,k==0);return;end if
+        if(prob==1.0_dp) then;p=merge(1.0_dp,0.0_dp,k==n);return;end if
+        p=exp(log_gamma(real(n+1,dp))-log_gamma(real(k+1,dp))-log_gamma(real(n-k+1,dp)) &
+              +real(k,dp)*log(prob)+real(n-k,dp)*log(1.0_dp-prob))
+    end function binom_pmf
+
+    pure real(dp) function binom_cdf(k,n,prob) result(p)
+        integer,intent(in)::k,n
+        real(dp),intent(in)::prob
+        integer::j
+        if(k<0) then;p=0.0_dp;return;end if
+        if(k>=n) then;p=1.0_dp;return;end if
+        p=0.0_dp
+        do j=0,k; p=p+binom_pmf(j,n,prob); end do
+    end function binom_cdf
+
+    pure integer function binom_quantile(q,n,prob) result(k)
+        real(dp),intent(in)::q,prob
+        integer,intent(in)::n
+        k=0; do while(k<n .and. binom_cdf(k,n,prob)<q); k=k+1; end do
+    end function binom_quantile
+
+    real(dp) function random_normal() result(z)
+        real(dp) :: u1,u2
+        call random_number(u1); call random_number(u2)
+        u1=max(u1,tiny(1.0_dp)); z=sqrt(-2.0_dp*log(u1))*cos(2.0_dp*pi*u2)
+    end function random_normal
+
+    recursive real(dp) function random_gamma(shape, scale) result(x)
+        real(dp),intent(in)::shape,scale
+        real(dp)::d,c,z,u,v
+        if(shape<=0.0_dp .or. scale<=0.0_dp) then;x=ieee_value(0.0_dp, ieee_quiet_nan);return;end if
+        if(shape<1.0_dp) then
+            call random_number(u); x=random_gamma(shape+1.0_dp,scale)*u**(1.0_dp/shape); return
+        end if
+        d=shape-1.0_dp/3.0_dp; c=1.0_dp/sqrt(9.0_dp*d)
+        do
+            z=random_normal(); v=(1.0_dp+c*z)**3
+            if(v<=0.0_dp) cycle
+            call random_number(u)
+            if(u<1.0_dp-0.0331_dp*z**4) exit
+            if(log(u)<0.5_dp*z*z+d*(1.0_dp-v+log(v))) exit
+        end do
+        x=scale*d*v
+    end function random_gamma
+
+    integer function random_poisson(lambda) result(k)
+        real(dp),intent(in)::lambda
+        real(dp)::l,p,u
+        if(lambda<30.0_dp) then
+            l=exp(-lambda); p=1.0_dp; k=-1
+            do; k=k+1; call random_number(u); p=p*u; if(p<=l) exit; end do
+        else
+            k=max(0,nint(lambda+sqrt(lambda)*random_normal()))
+        end if
+    end function random_poisson
+
+    integer function random_binomial(n,prob) result(k)
+        integer,intent(in)::n
+        real(dp),intent(in)::prob
+        integer::i
+        real(dp)::u
+        k=0; do i=1,n; call random_number(u); if(u<prob) k=k+1; end do
+    end function random_binomial
+
+    integer function random_negative_binomial(size,prob) result(k)
+        real(dp),intent(in)::size,prob
+        real(dp)::lambda
+        lambda=random_gamma(size,(1.0_dp-prob)/prob)
+        k=random_poisson(lambda)
+    end function random_negative_binomial
+
+    real(dp) function random_beta(a,b) result(x)
+        real(dp),intent(in)::a,b
+        real(dp)::g1,g2
+        g1=random_gamma(a,1.0_dp); g2=random_gamma(b,1.0_dp); x=g1/(g1+g2)
+    end function random_beta
 
 end module actuar_special

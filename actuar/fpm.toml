@@ -1,9 +1,13 @@
-name = "actuar"
-version = "0.1.0"
+name = "actuar-fortran"
+version = "0.3.0"
 license = "GPL-2.0-or-later"
-author = "actuar authors and contributors; independent Fortran translation"
-copyright = "Copyright (C) actuar authors and contributors"
-description = "Modern Fortran numerical-core port of selected actuar algorithms"
+author = "Vincent Goulet et al.; Fortran translation by OpenAI"
+maintainer = "OpenAI translation"
+description = "Modern Fortran translation of the computational core of the R package actuar"
+keywords = ["actuarial-science", "loss-distributions", "risk-theory", "credibility", "panjer"]
+
+[library]
+source-dir = "src"
 
 [build]
 auto-executables = true
@@ -11,7 +15,5 @@ auto-examples = true
 auto-tests = true
 module-naming = false
 
-[fortran]
-implicit-typing = false
-implicit-external = false
-source-form = "free"
+[dependencies]
+expint-fortran = { path = "dependencies/expint-fortran" }
