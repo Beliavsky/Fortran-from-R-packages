@@ -1,0 +1,38 @@
+Package: distr
+Version: 2.9.7
+Date: 2025-01-11
+Title: Object Oriented Implementation of Distributions
+Description: S4-classes and methods for distributions.
+Authors@R: c(person("Florian", "Camphausen", role="ctb", comment="contributed as student in
+            the initial phase --2005"), person("Matthias", "Kohl", role=c("aut", "cph")),
+            person("Peter", "Ruckdeschel", role=c("cre", "cph"),
+            email="peter.ruckdeschel@uni-oldenburg.de"), person("Thomas", "Stabla",
+            role="ctb", comment="contributed as student in the initial phase --2005"),
+            person("R Core Team", role = c("ctb", "cph"), comment="for source file ks.c/
+            routines 'pKS2' and 'pKolmogorov2x'"))
+Depends: R(>= 3.4), methods, graphics, startupmsg(>= 1.0.0), sfsmisc
+Suggests: distrEx, svUnit (>= 0.7-11), knitr, distrMod, ROptEst
+Imports: stats, grDevices, utils, MASS
+Enhances: RobAStBase
+VignetteBuilder: knitr
+ByteCompile: yes
+Encoding: UTF-8
+License: LGPL-3
+URL: http://distr.r-forge.r-project.org/
+LastChangedDate: {$LastChangedDate: 2024-11-05 21:59:54 +0100 (Di, 05
+        Nov 2024) $}
+LastChangedRevision: {$LastChangedRevision: 1482 $}
+VCS/SVNRevision: 1482
+NeedsCompilation: yes
+Packaged: 2025-01-11 19:21:28 UTC; ruckdesc
+Author: Florian Camphausen [ctb] (contributed as student in the initial phase
+    --2005),
+  Matthias Kohl [aut, cph],
+  Peter Ruckdeschel [cre, cph],
+  Thomas Stabla [ctb] (contributed as student in the initial phase
+    --2005),
+  R Core Team [ctb, cph] (for source file ks.c/ routines 'pKS2' and
+    'pKolmogorov2x')
+Maintainer: Peter Ruckdeschel <peter.ruckdeschel@uni-oldenburg.de>
+Repository: CRAN
+Date/Publication: 2025-01-12 23:30:02 UTC

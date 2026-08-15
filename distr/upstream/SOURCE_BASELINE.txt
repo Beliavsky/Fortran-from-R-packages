@@ -1,0 +1,12 @@
+Upstream source baseline retained for provenance
+
+R package: distr 2.9.7
+Archive SHA-256: 9c68fbfdc1c7068dd4387ce03978afffc97e0f0d17d8c96f2e9b590d46e2b853
+
+Retained verbatim files:
+- DESCRIPTION
+- NAMESPACE
+- inst/CITATION (stored here as CITATION)
+- src/ks.c
+
+The complete uploaded source archive was used as the translation reference. Plotting and R-only infrastructure were not translated.

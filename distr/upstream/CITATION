@@ -1,0 +1,43 @@
+bibentry(
+  mheader = "To cite package distr in publications use:",
+  bibtype = "Article",
+  title = "S4 Classes for Distributions",
+  author = c(as.person("P. Ruckdeschel"),
+                 as.person("M. Kohl"),
+                 as.person("T. Stabla"),
+                 as.person("F. Camphausen")),
+  language = "English",
+  journal      = "R News",
+  year         = 2006,
+  volume       = 6,
+  number       = 2,
+  pages        = "2--6",
+  month        = "May",
+  pdf          = "https://CRAN.R-project.org/doc/Rnews/Rnews_2006-2.pdf",
+  textVersion  =
+  paste("Peter Ruckdeschel, Matthias Kohl, Thomas Stabla, Florian Camphausen (2006).",
+  "S4 Classes for Distributions.", "R News, 6(2), 2-6.",
+	"URL https://CRAN.R-project.org/doc/Rnews/")
+)
+
+bibentry(
+  mheader = "To cite package distr in publications use:",
+  bibtype =  "Article",
+  title        = "General Purpose Convolution Algorithm in {S}4 Classes by Means of FFT",
+  author       = c(as.person("Peter Ruckdeschel"),
+                  as.person("Matthias Kohl")),
+  journal      = "Journal of Statistical Software",
+  year         = "2014",
+  volume       = "59",
+  number       = "4",
+  pages        = "1--25",
+  doi          =  "10.18637/jss.v059.i04",
+  textVersion  =
+  paste("Peter Ruckdeschel, Matthias Kohl (2014).",
+        "General Purpose Convolution Algorithm in S4 Classes by Means of FFT.",
+        "Journal of Statistical Software, 59(4), 1-25.",
+        "URL https://www.jstatsoft.org/v59/i04/."),
+  header       = "If you employ convolution, please also cite:"
+)
+					
+					
