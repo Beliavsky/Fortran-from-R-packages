@@ -1,0 +1,80 @@
+### changes from version 1.1.2 to version 1.2.0 (August 4 2015)
+- new test!
+   + jointdigit.benftest
+### changes from version 1.1.1 to version 1.1.2 (June 29 2015)
+- updated documentation
+   + new maintainer email
+   + formulas in edist.benftest and usq.benftest fixed
+     (Thanks: S. van der Meer)
+- tweaked for improved speed
+   + jpsq.benftest
+   + usq.benftest
+### changes from version 1.1.0 to version 1.1.1 (November 04 2013)
+- meandigit.benftest
+   + Added asymptotic distribution
+   + "asymptotic" new default "pvalmethod"
+- Spell checked :D
+   + News
+   + Documentation
+### changes from version 1.0.2 to version 1.1.0 (October 10 2013)
+- added new functions (see documentation for details and usage)
+   + signifd.analysis
+   + simulateH0
+- updated documentation
+   + signifd.analysis
+   + simulateH0
+   + functions relying on the former
+
+### changes from version 1.0.1 to version 1.0.2 (August 20 2013)
+- updated documentation
+	+ equations now included
+	+ references now follow CRAN recommendations
+	+ references updated
+- fixed meandigit.benftest
+	+ is one-sided test, p-value calculation was wrong
+- removed pdf-manual from tarball
+	+ waste of space according to U.Ligges
+
+### changes from version 1.0.0  to version 1.0.1 (June 05 2013)
+- fixed memory leak associated with NULL-Distribution simulations
+
+### changes from version 0.5  to version 1.0 (May 14 2013)
+- changed names of tests to make them more consistent with naming in base package:
+	new name			            |	old name
+	----------------------------------------------------------------------
+	-chisq.benftest			   |	chi_square_benford
+		argument: first_digits	|		argument: digits
+	-ks.benftest			      |	K_S_benford
+		argument: first_digits	|		argument: digits
+	-mdist.benftest			   |	Chebyshev_dist_benford
+		argument: first_digits	|		argument: digits
+	-edist.benftest			   |	Euclidean_dist_benford
+		argument: first_digits	|		argument: digits
+	-usq.benftest			      |	Freedman_Watson_Usquare_benford
+		argument: first_digits 	|		argument: digits
+	-meandigit.benftest		   |	J_S_avg_dev_benford
+		argument: first_digits	|		argument: digits
+	-jpsq.benftest			      |	J_stat_squ_benford
+		argument: first_digits	|		argument: digits
+	-signifd			            |	leading_digits
+		argument: number	      |		argument: digits
+	-signifd.seq			      |	sequence_leading
+		argument: number	      |		argument: digits
+- removed ability to choose correlation type "kendall" and "spearman" for the jpsq.benftest (old: J_stat_squ_benford)
+	(alleviates some confusion as to what the J_P^2 statistic is, usage of Pearson correlation is most powerful anyways)
+
+- data name is now correctly printed by the S3 object for all tests.
+
+- meandigit.benftest should have been a two sided test. p-value calculation now reflects this.
+
+- simulation of NULL-hypothesis distribution is now accomplished by c code
+	faster by a very large factor. different for each test
+	Compare the following times on a i5 Pentium laptop for the chi square test
+	##old##
+	> system.time(compute_chisquare_H0_R(n=1000,pvalsims=10000))
+	   user  system elapsed 
+	   207.98    0.06  210.23 
+	##new##
+	> system.time(compute_chisquare_H0(n=1000,pvalsims=10000))
+	   user  system elapsed 
+	   0.37    0.00    0.39 

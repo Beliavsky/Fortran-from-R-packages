@@ -1,0 +1,22 @@
+Package: BenfordTests
+Type: Package
+Title: Statistical Tests for Evaluating Conformity to Benford's Law
+Version: 1.2.0
+Date: 2015-08-04
+Depends: R (>= 3.0.0), grDevices, graphics, stats
+Maintainer: Dieter William Joenssen <Dieter.Joenssen@googlemail.com>
+Authors@R: c(person("Dieter William", "Joenssen", role = c("aut", "cre", "cph"),
+                          email = "Dieter.Joenssen@googlemail.com"),
+            person("Thomas", "Muellerleile", role = "ctb",
+                     email = "Thomas.Muellerleile@TU-Ilmenau.de"))
+Description: Several specialized statistical tests and support functions 
+			for determining if numerical data could conform to Benford's law.
+License: GPL-3
+URL: https://cran.r-project.org/package=BenfordTests,
+        https://www.researchgate.net/profile/Dieter_Joenssen
+Packaged: 2015-08-04 15:24:52 UTC; Dieter
+Author: Dieter William Joenssen [aut, cre, cph],
+  Thomas Muellerleile [ctb]
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2015-08-04 18:25:11

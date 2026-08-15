@@ -1,0 +1,7 @@
+exportPattern("^[[:alpha:]]+")
+
+useDynLib(BenfordTests,.registration = TRUE)
+
+importFrom("grDevices", "colorRampPalette")
+importFrom("graphics", "abline", "axis", "lines", "mtext", "plot", "points", "polygon")
+importFrom("stats", "cor", "pchisq", "pnorm", "qnorm", "runif")
