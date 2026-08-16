@@ -1,0 +1,17 @@
+name = "numDeriv-fortran"
+version = "2016.8.1"
+license = "GPL-2.0-or-later"
+author = "Paul Gilbert, Ravi Varadhan; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "2006-2011 Bank of Canada; 2012-2016 Paul Gilbert"
+description = "Accurate numerical gradients, Jacobians, Hessians, and Bates-Watts D matrices"
+keywords = ["numerical-differentiation", "gradient", "jacobian", "hessian", "richardson", "complex-step"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

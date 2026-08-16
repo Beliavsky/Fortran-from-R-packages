@@ -1,0 +1,17 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "{gkwdist}: Generalized Kumaraswamy Distribution Family",
+  author   = person(given = "José Evandeilton",
+                    family = "Lopes",
+                    email = "evandeilton@gmail.com",
+                    comment = c(ORCID = "0009-0007-5887-4084")),
+  year     = "2025",
+  note     = "R package version 1.0.8",
+  url      = "https://github.com/evandeilton/gkwdist",
+  textVersion = paste(
+    "Lopes, J.E. (2025).",
+    "gkwdist: Generalized Kumaraswamy Distribution Family.",
+    "R package version 1.0.8.",
+    "https://github.com/evandeilton/gkwdist"
+  )
+)

@@ -1,0 +1,1187 @@
+---
+title: "On the Statistical Properties and Computational Inference of the Generalized Kumaraswamy Distribution Family"
+author: "José Evandeilton Lopes"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{On the Statistical Properties and Computational Inference of the Generalized Kumaraswamy Distribution Family}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**Abstract.** We present a comprehensive mathematical treatment of the Generalized Kumaraswamy (GKw) distribution, a five-parameter family for modeling continuous random variables on the unit interval by Carrasco et all (2010). We establish the hierarchical structure connecting GKw to several nested sub-models including the Beta and Kumaraswamy distributions, derive closed-form expressions for the log-likelihood function, score vector, and observed information matrix, and prove asymptotic properties of maximum likelihood estimators. All analytical derivatives are derived from the compositional structure of the distribution and written in a form suitable for stable numerical implementation. The theoretical results provide the foundation for efficient numerical routines in the R package `gkwdist`.
+
+**Keywords:** Bounded distributions, Beta distribution, Kumaraswamy distribution, Maximum likelihood estimation, Fisher information, Numerical stability
+
+---
+
+## 1. Introduction and Preliminaries
+
+### 1.1 Motivation and Background
+
+The analysis of continuous random variables constrained to the unit interval \((0,1)\) arises naturally in numerous statistical applications, including proportions, rates, percentages, and index measurements. The classical Beta distribution (Johnson et al., 1995) has long served as the canonical model for such data, offering analytical tractability and well-understood properties. However, its cumulative distribution function (CDF) involves the incomplete beta function, requiring numerical evaluation of special functions for quantile computation and simulation.
+
+Kumaraswamy (1980) introduced an alternative two-parameter family with closed-form CDF and quantile function, facilitating computational efficiency while maintaining comparable flexibility to the Beta distribution. Jones (2009) demonstrated that the Kumaraswamy distribution exhibits similar shape characteristics to the Beta family while offering superior computational advantages.
+
+Building upon these foundations, Cordeiro and de Castro (2011) developed the Generalized Kumaraswamy (GKw) distribution, a five-parameter extension incorporating both Beta and Kumaraswamy structures through nested transformations. This distribution encompasses a rich hierarchy of submodels, providing substantial flexibility for modeling diverse patterns in bounded data.
+
+Despite its theoretical appeal, a fully explicit and internally consistent analytical treatment of the GKw family—particularly for likelihood-based inference—has remained incomplete in the literature. This vignette fills this gap by providing a rigorous development, including validated expressions for all first and second derivatives of the log-likelihood function, written in a form convenient for implementation in the `gkwdist` R package.
+
+### 1.2 Mathematical Preliminaries
+
+We establish notation and fundamental results required for subsequent development.
+
+**Notation 1.1.** Throughout, we denote
+
+- \(\Gamma(\cdot)\): the gamma function
+- \(B(a,b) = \dfrac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}\): the beta function
+- \(I_z(a,b) = \dfrac{B_z(a,b)}{B(a,b)}\): the regularized incomplete beta function
+- \(\psi(x) = \Gamma'(x)/\Gamma(x) = (\ln\Gamma(x))'\): the digamma function
+- \(\psi_1(x) = \psi'(x) = (\ln\Gamma(x))''\): the trigamma function
+- \(\mathbf{1}_A\): the indicator function of a set \(A\)
+
+We recall basic derivatives of the beta function.
+
+**Lemma 1.1 (Derivatives of the beta function).** For \(a,b>0\),
+
+\[
+\begin{align}
+\frac{\partial}{\partial a}\ln B(a,b) &= \psi(a) - \psi(a+b), \tag{1.1}\\[3pt]
+\frac{\partial^2}{\partial a^2}\ln B(a,b) &= \psi_1(a) - \psi_1(a+b), \tag{1.2}\\[3pt]
+\frac{\partial^2}{\partial a\,\partial b}\ln B(a,b) &= -\psi_1(a+b). \tag{1.3}
+\end{align}
+\]
+
+*Proof.* Since
+\[
+\ln B(a,b) = \ln\Gamma(a) + \ln\Gamma(b) - \ln\Gamma(a+b),
+\]
+the identities follow immediately from the definitions of \(\psi\) and \(\psi_1\) and the chain rule. \(\square\)
+
+We will also repeatedly use the following cascade of transformations.
+
+**Lemma 1.2 (Cascade transformations).** Define, for \(x\in(0,1)\),
+
+\[
+\begin{align}
+v(x; \alpha) &= 1 - x^\alpha, \tag{1.4}\\
+w(x; \alpha, \beta) &= 1 - v(x;\alpha)^\beta = 1 - (1-x^\alpha)^\beta, \tag{1.5}\\
+z(x; \alpha, \beta, \lambda) &= 1 - w(x;\alpha,\beta)^\lambda
+  = 1 - [1-(1-x^\alpha)^\beta]^\lambda. \tag{1.6}
+\end{align}
+\]
+
+Then, for \(\alpha,\beta,\lambda>0\),
+
+\[
+\begin{align}
+\frac{\partial v}{\partial x} &=
+  -\alpha x^{\alpha-1}, \tag{1.7}\\[3pt]
+\frac{\partial w}{\partial x} &=
+  \alpha\beta x^{\alpha-1}(1-x^\alpha)^{\beta-1}, \tag{1.8}\\[3pt]
+\frac{\partial z}{\partial x} &=
+  \alpha\beta\lambda\,x^{\alpha-1}
+  (1-x^\alpha)^{\beta-1}\bigl[1-(1-x^\alpha)^\beta\bigr]^{\lambda-1}. \tag{1.9}
+\end{align}
+\]
+
+*Proof.* Direct differentiation and repeated application of the chain rule. \(\square\)
+
+For brevity we will often write \(v(x)\), \(w(x)\) and \(z(x)\) when the dependence on \((\alpha,\beta,\lambda)\) is clear from the context.
+
+---
+
+## 2. The Generalized Kumaraswamy Distribution and Its Subfamily
+
+### 2.1 Definition and Fundamental Properties
+
+We start from the five-parameter Generalized Kumaraswamy family.
+
+**Definition 2.1 (Generalized Kumaraswamy distribution).**  
+A random variable \(X\) has a Generalized Kumaraswamy distribution with parameter vector
+\[
+\boldsymbol{\theta} = (\alpha,\beta,\gamma,\delta,\lambda)^\top,
+\]
+denoted \(X \sim \mathrm{GKw}(\alpha,\beta,\gamma,\delta,\lambda)\), if its probability density function (pdf) is
+\[
+\boxed{
+f(x; \boldsymbol{\theta}) =
+  \frac{\lambda\alpha\beta}{B(\gamma,\delta+1)}\;
+  x^{\alpha-1} v(x)^{\beta-1} w(x)^{\gamma\lambda-1} z(x)^{\delta}
+  \,\mathbf{1}_{(0,1)}(x),
+}
+\tag{2.1}
+\]
+where
+\[
+v(x) = 1-x^\alpha,\qquad
+w(x) = 1-(1-x^\alpha)^\beta,\qquad
+z(x) = 1-w(x)^\lambda,
+\]
+and the parameter space is
+\[
+\Theta = \Bigl\{(\alpha,\beta,\gamma,\delta,\lambda)^\top :
+\alpha,\beta,\gamma,\lambda>0,\ \delta\ge 0\Bigr\}. \tag{2.2}
+\]
+
+Note that \(B(\gamma,\delta+1)\) is well-defined for all \(\gamma>0\) and \(\delta>-1\); we restrict to \(\delta\ge 0\) for convenience and consistency with the literature.
+
+We now verify that (2.1) defines a proper density.
+
+**Theorem 2.1 (Validity of the pdf).**  
+For any \(\boldsymbol{\theta} \in \Theta\), the function \(f(\cdot; \boldsymbol{\theta})\) in (2.1) is a valid probability density on \((0,1)\).
+
+*Proof.* Non-negativity is immediate from the definition. To prove normalization, consider the change of variable
+\[
+u = w(x)^\lambda,\qquad 0<u<1.
+\]
+From Lemma 1.2 and the chain rule,
+\[
+\frac{du}{dx}
+  = \lambda w(x)^{\lambda-1}\frac{\partial w(x)}{\partial x}
+  = \lambda \alpha\beta\,x^{\alpha-1} v(x)^{\beta-1} w(x)^{\lambda-1}.
+\]
+Hence
+\[
+dx = \frac{du}{\lambda\alpha\beta\,x^{\alpha-1} v(x)^{\beta-1} w(x)^{\lambda-1}}.
+\]
+
+Substituting into the integral of \(f\),
+\[
+\begin{align}
+\int_0^1 f(x;\boldsymbol{\theta})\,dx
+&= \frac{\lambda\alpha\beta}{B(\gamma,\delta+1)}
+   \int_0^1 x^{\alpha-1}v(x)^{\beta-1}w(x)^{\gamma\lambda-1}z(x)^\delta\,dx\\
+&= \frac{\lambda\alpha\beta}{B(\gamma,\delta+1)}
+   \int_0^1
+     x^{\alpha-1}v(x)^{\beta-1}w(x)^{\gamma\lambda-\lambda}w(x)^{\lambda-1}z(x)^\delta\,dx\\
+&= \frac{\lambda\alpha\beta}{B(\gamma,\delta+1)}
+   \int_0^1
+     w(x)^{\lambda(\gamma-1)} z(x)^\delta\,
+     \underbrace{x^{\alpha-1}v(x)^{\beta-1}w(x)^{\lambda-1} dx}_{du / (\lambda\alpha\beta)}\\
+&= \frac{1}{B(\gamma,\delta+1)}
+   \int_0^1 u^{\gamma-1}(1-u)^\delta\,du\\
+&= \frac{B(\gamma,\delta+1)}{B(\gamma,\delta+1)}=1,
+\end{align}
+\tag{2.3}
+\]
+because \(w(x)^{\lambda(\gamma-1)} = (w(x)^\lambda)^{\gamma-1} = u^{\gamma-1}\) and
+\(z(x)=1-w(x)^\lambda = 1-u\). \(\square\)
+
+The same change of variable yields the CDF.
+
+**Theorem 2.2 (Cumulative distribution function).**  
+If \(X\sim \mathrm{GKw}(\boldsymbol{\theta})\), then for \(x\in(0,1)\),
+\[
+\boxed{
+F(x; \boldsymbol{\theta})
+  = I_{w(x)^\lambda}(\gamma,\delta+1)
+  = I_{[1-(1-x^\alpha)^\beta]^\lambda}(\gamma,\delta+1).
+}
+\tag{2.4}
+\]
+
+*Proof.* From the same substitution as in (2.3),
+\[
+\begin{align}
+F(x)
+ &= \int_0^x f(t;\boldsymbol{\theta})\,dt\\
+ &= \frac{1}{B(\gamma,\delta+1)}
+    \int_0^{w(x)^\lambda} u^{\gamma-1}(1-u)^\delta\,du\\
+ &= I_{w(x)^\lambda}(\gamma,\delta+1).
+\end{align}
+\]
+At the endpoints, \(w(0^+)^\lambda = 0\) and \(w(1^-)^\lambda = 1\), so \(F(0)=0\) and \(F(1)=1\). \(\square\)
+
+### 2.2 The Hierarchical Structure
+
+The GKw family exhibits a rich nested structure. Several well-known bounded distributions arise as particular choices (and mild reparameterizations) of \(\boldsymbol{\theta}\).
+
+For a data point \(x\in(0,1)\) we will often write
+\[
+v = 1-x^\alpha,\quad
+w = 1-(1-x^\alpha)^\beta,\quad
+z = 1-w^\lambda.
+\]
+
+#### 2.2.1 Beta–Kumaraswamy distribution
+
+**Theorem 2.3 (Beta–Kumaraswamy distribution).**  
+Setting \(\lambda = 1\) in (2.1) yields the four-parameter Beta–Kumaraswamy (BKw) distribution with pdf
+\[
+\boxed{
+f_{\mathrm{BKw}}(x; \alpha,\beta,\gamma,\delta)
+  = \frac{\alpha\beta}{B(\gamma,\delta+1)}\;
+    x^{\alpha-1}(1-x^\alpha)^{\beta(\delta+1)-1}
+    \bigl[1-(1-x^\alpha)^\beta\bigr]^{\gamma-1},
+}
+\tag{2.5}
+\]
+and CDF
+\[
+\boxed{
+F_{\mathrm{BKw}}(x; \alpha,\beta,\gamma,\delta)
+  = I_{1-(1-x^\alpha)^\beta}(\gamma,\delta+1).
+}
+\tag{2.6}
+\]
+
+*Proof.* For \(\lambda=1\), we have \(z(x) = 1-w(x) = (1-x^\alpha)^\beta\), so from (2.1),
+\[
+\begin{align}
+f(x)
+ &= \frac{\alpha\beta}{B(\gamma,\delta+1)}\;
+    x^{\alpha-1}v^{\beta-1}w^{\gamma-1}z^\delta\\
+ &= \frac{\alpha\beta}{B(\gamma,\delta+1)}\;
+    x^{\alpha-1}(1-x^\alpha)^{\beta-1}
+    \bigl[1-(1-x^\alpha)^\beta\bigr]^{\gamma-1}
+    \bigl[(1-x^\alpha)^\beta\bigr]^\delta\\
+ &= \frac{\alpha\beta}{B(\gamma,\delta+1)}\;
+    x^{\alpha-1}(1-x^\alpha)^{\beta(\delta+1)-1}
+    \bigl[1-(1-x^\alpha)^\beta\bigr]^{\gamma-1},
+\end{align}
+\]
+which is (2.5). The CDF follows from Theorem 2.2 with \(\lambda=1\). \(\square\)
+
+#### 2.2.2 Kumaraswamy–Kumaraswamy distribution
+
+The KKw submodel is most naturally obtained via a mild reparameterization of \(\delta\).
+
+**Theorem 2.4 (Kumaraswamy–Kumaraswamy distribution).**  
+Fix \(\alpha,\beta,\lambda>0\) and \(\tilde\delta>0\). Consider the GKw submodel
+\[
+X \sim \mathrm{GKw}(\alpha,\beta,\gamma=1,\delta=\tilde\delta-1,\lambda),
+\quad\text{with }\tilde\delta\ge 1.
+\]
+Then \(X\) has pdf
+\[
+\boxed{
+f_{\mathrm{KKw}}(x; \alpha,\beta,\tilde\delta,\lambda)
+  = \tilde\delta\,\lambda\alpha\beta\;
+    x^{\alpha-1}v^{\beta-1}w^{\lambda-1}z^{\tilde\delta-1},
+}
+\tag{2.7}
+\]
+CDF
+\[
+\boxed{
+F_{\mathrm{KKw}}(x; \alpha,\beta,\tilde\delta,\lambda)
+  = 1 - z(x)^{\tilde\delta}
+  = 1 - \bigl[1-w(x)^\lambda\bigr]^{\tilde\delta},
+}
+\tag{2.8}
+\]
+and quantile function
+\[
+\boxed{
+Q_{\mathrm{KKw}}(p; \alpha,\beta,\tilde\delta,\lambda)
+  = \left\{
+      1-\left[
+           1-\Bigl(1-(1-p)^{1/\tilde\delta}\Bigr)^{1/\lambda}
+         \right]^{1/\beta}
+    \right\}^{1/\alpha},\quad 0<p<1.
+}
+\tag{2.9}
+\]
+
+*Proof.* Take \(\gamma=1\) and \(\delta=\tilde\delta-1\) in (2.1):
+\[
+f(x)
+  = \frac{\lambda\alpha\beta}{B(1,\tilde\delta)}
+      x^{\alpha-1}v^{\beta-1}w^{\lambda-1}z^{\tilde\delta-1}.
+\]
+Since \(B(1,\tilde\delta) = 1/\tilde\delta\), we obtain (2.7). From (2.4),
+\[
+F(x) = I_{w(x)^\lambda}(1,\tilde\delta) = 1 - \bigl(1-w(x)^\lambda\bigr)^{\tilde\delta} = 1 - z(x)^{\tilde\delta},
+\]
+which is (2.8). Inverting \(F(x)=p\) yields
+\[
+z(x) = (1-p)^{1/\tilde\delta},\quad
+w(x)^\lambda = 1-(1-p)^{1/\tilde\delta},\quad
+w(x) = \bigl[1-(1-p)^{1/\tilde\delta}\bigr]^{1/\lambda},
+\]
+and
+\[
+v(x)^\beta = 1 - w(x)
+            = 1 - \bigl[1-(1-p)^{1/\tilde\delta}\bigr]^{1/\lambda},
+\]
+leading to (2.9). \(\square\)
+
+For notational simplicity, in the remainder we drop the tilde and write \(\delta\) for the KKw shape parameter; the mapping to the GKw parameters is \(\delta_{\mathrm{GKw}} = \delta-1\).
+
+#### 2.2.3 Exponentiated Kumaraswamy distribution
+
+**Theorem 2.5 (Exponentiated Kumaraswamy distribution).**  
+Setting \(\gamma = 1\) and \(\delta = 0\) in (2.1) yields the three-parameter exponentiated Kumaraswamy (EKw) distribution
+\[
+\boxed{
+f_{\mathrm{EKw}}(x; \alpha,\beta,\lambda)
+  = \lambda\alpha\beta\;
+    x^{\alpha-1}(1-x^\alpha)^{\beta-1}
+    \bigl[1-(1-x^\alpha)^\beta\bigr]^{\lambda-1},
+}
+\tag{2.10}
+\]
+with CDF
+\[
+\boxed{
+F_{\mathrm{EKw}}(x; \alpha,\beta,\lambda)
+  = \bigl[1-(1-x^\alpha)^\beta\bigr]^\lambda,
+}
+\tag{2.11}
+\]
+and quantile function
+\[
+\boxed{
+Q_{\mathrm{EKw}}(p; \alpha,\beta,\lambda)
+  = \bigl[1-\bigl(1-p^{1/\lambda}\bigr)^{1/\beta}\bigr]^{1/\alpha},
+  \quad 0<p<1.
+}
+\tag{2.12}
+\]
+
+*Proof.* With \(\gamma=1\) and \(\delta=0\), we have \(B(1,1)=1\), \(z(x)^0=1\), and \(w(x)^{\gamma\lambda-1}=w(x)^{\lambda-1}\). Thus (2.1) reduces to (2.10). From (2.4),
+\[
+F(x) = I_{w(x)^\lambda}(1,1) = w(x)^\lambda
+      = \bigl[1-(1-x^\alpha)^\beta\bigr]^\lambda,
+\]
+yielding (2.11). Inverting \(F(x)=p\) gives \(w(x)=p^{1/\lambda}\) and then \(x\) as in (2.12). \(\square\)
+
+Note that the standard Kumaraswamy distribution appears as the special case \(\lambda=1\) of EKw.
+
+#### 2.2.4 McDonald distribution
+
+**Theorem 2.6 (McDonald distribution).**  
+Setting \(\alpha = \beta = 1\) in (2.1) yields the three-parameter McDonald distribution
+\[
+\boxed{
+f_{\mathrm{MC}}(x; \gamma,\delta,\lambda)
+  = \frac{\lambda}{B(\gamma,\delta+1)}\;
+    x^{\gamma\lambda-1}(1-x^\lambda)^{\delta},
+}
+\tag{2.13}
+\]
+with CDF
+\[
+\boxed{
+F_{\mathrm{MC}}(x; \gamma,\delta,\lambda)
+  = I_{x^\lambda}(\gamma,\delta+1).
+}
+\tag{2.14}
+\]
+
+*Proof.* For \(\alpha=\beta=1\) we have \(v(x)=1-x\), \(w(x)=x\), and \(z(x)=1-x^\lambda\). Substituting into (2.1) yields (2.13); the CDF follows from (2.4). \(\square\)
+
+#### 2.2.5 Kumaraswamy distribution
+
+**Theorem 2.7 (Kumaraswamy distribution).**  
+The standard two-parameter Kumaraswamy distribution is obtained from GKw by taking
+\[
+X \sim \mathrm{GKw}(\alpha,\beta,\gamma=1,\delta=0,\lambda=1),
+\]
+equivalently as the submodel EKw(\(\alpha,\beta,\lambda\)) with \(\lambda=1\). Its pdf is
+\[
+\boxed{
+f_{\mathrm{Kw}}(x; \alpha,\beta)
+  = \alpha\beta\;x^{\alpha-1}(1-x^\alpha)^{\beta-1},
+}
+\tag{2.15}
+\]
+with CDF
+\[
+\boxed{
+F_{\mathrm{Kw}}(x; \alpha,\beta)
+  = 1 - (1-x^\alpha)^\beta,
+}
+\tag{2.16}
+\]
+quantile function
+\[
+\boxed{
+Q_{\mathrm{Kw}}(p; \alpha,\beta)
+  = \bigl[1-(1-p)^{1/\beta}\bigr]^{1/\alpha},
+}
+\tag{2.17}
+\]
+and \(r\)-th moment
+\[
+\boxed{
+\mathbb{E}(X^r)
+  = \beta\, B\!\left(1+\frac{r}{\alpha},\beta\right)
+  = \frac{\beta\,\Gamma(1+r/\alpha)\Gamma(\beta)}
+           {\Gamma(1+r/\alpha+\beta)}.
+}
+\tag{2.18}
+\]
+
+*Proof.* With \(\gamma=1\), \(\delta=0\) and \(\lambda=1\), (2.1) reduces to (2.15) because \(B(1,1)=1\), \(w^{\gamma\lambda-1}=w^0=1\) and \(z^0=1\). Equations (2.16) and (2.17) follow from (2.11) with \(\lambda=1\). For the moment,
+\[
+\begin{align}
+\mathbb{E}(X^r)
+ &= \alpha\beta\int_0^1 x^{r+\alpha-1}(1-x^\alpha)^{\beta-1}\,dx\\
+ &\text{(let }u=x^\alpha,\ du=\alpha x^{\alpha-1}dx)\\
+ &= \beta\int_0^1 u^{r/\alpha}(1-u)^{\beta-1}\,du
+  = \beta B(1+r/\alpha,\beta),
+\end{align}
+\]
+which yields (2.18). \(\square\)
+
+#### 2.2.6 Beta distribution
+
+**Theorem 2.8 (Beta distribution).**  
+Setting \(\alpha=\beta=\lambda=1\) in (2.1) yields
+\[
+\boxed{
+f_{\mathrm{Beta}}(x; \gamma,\delta)
+  = \frac{x^{\gamma-1}(1-x)^{\delta}}{B(\gamma,\delta+1)},
+}
+\tag{2.19}
+\]
+with CDF
+\[
+\boxed{
+F_{\mathrm{Beta}}(x; \gamma,\delta)
+  = I_x(\gamma,\delta+1),
+}
+\tag{2.20}
+\]
+and \(r\)-th moment
+\[
+\boxed{
+\mathbb{E}(X^r)
+  = \frac{B(\gamma+r,\delta+1)}{B(\gamma,\delta+1)}
+  = \frac{\Gamma(\gamma+r)\Gamma(\gamma+\delta+1)}
+           {\Gamma(\gamma)\Gamma(\gamma+\delta+r+1)}.
+}
+\tag{2.21}
+\]
+
+*Proof.* For \(\alpha=\beta=\lambda=1\), we have \(v(x)=1-x\), \(w(x)=x\), and \(z(x)=1-x\). Substituting into (2.1) gives (2.19); the CDF and moment follow from standard Beta distribution theory with shape parameters \((\gamma,\delta+1)\). \(\square\)
+
+---
+
+## 3. Likelihood-Based Inference
+
+### 3.1 The Log-Likelihood Function
+
+Let \(\mathbf{X} = (X_1,\dots,X_n)^\top\) be an i.i.d. sample from \(\mathrm{GKw}(\boldsymbol{\theta})\), with observed values \(\mathbf{x}=(x_1,\dots,x_n)^\top\). For each \(i\), define
+\[
+v_i = v(x_i),\quad
+w_i = w(x_i),\quad
+z_i = z(x_i).
+\]
+
+**Definition 3.1 (Log-likelihood function).**  
+The log-likelihood is
+\[
+\ell(\boldsymbol{\theta};\mathbf{x})
+  = \sum_{i=1}^n \ln f(x_i;\boldsymbol{\theta}). \tag{3.1}
+\]
+
+**Theorem 3.1 (Decomposition of the log-likelihood).**  
+The log-likelihood can be written as
+\[
+\boxed{
+\ell(\boldsymbol{\theta})
+  = n\ln(\lambda\alpha\beta) - n\ln B(\gamma,\delta+1)
+    + \sum_{i=1}^n S_i(\boldsymbol{\theta}),
+}
+\tag{3.2}
+\]
+where
+\[
+S_i(\boldsymbol{\theta})
+  = (\alpha-1)\ln x_i
+    + (\beta-1)\ln v_i
+    + (\gamma\lambda-1)\ln w_i
+    + \delta\ln z_i.
+\tag{3.3}
+\]
+
+Equivalently,
+\[
+\ell(\boldsymbol{\theta})
+  = L_1 + L_2 + L_3 + L_4 + L_5 + L_6 + L_7 + L_8,
+\tag{3.4}
+\]
+where
+\[
+\begin{align}
+L_1 &= n\ln\lambda, \tag{3.5}\\
+L_2 &= n\ln\alpha, \tag{3.6}\\
+L_3 &= n\ln\beta, \tag{3.7}\\
+L_4 &= -n\ln B(\gamma,\delta+1), \tag{3.8}\\
+L_5 &= (\alpha-1)\sum_{i=1}^n \ln x_i, \tag{3.9}\\
+L_6 &= (\beta-1)\sum_{i=1}^n \ln v_i, \tag{3.10}\\
+L_7 &= (\gamma\lambda-1)\sum_{i=1}^n \ln w_i, \tag{3.11}\\
+L_8 &= \delta\sum_{i=1}^n \ln z_i. \tag{3.12}
+\end{align}
+\]
+
+*Proof.* Take logarithms of (2.1) and sum over \(i\). \(\square\)
+
+### 3.2 Maximum Likelihood Estimation
+
+**Definition 3.2 (Maximum likelihood estimator).**  
+The maximum likelihood estimator (MLE) is defined by
+\[
+\hat{\boldsymbol{\theta}}_n
+  = \arg\max_{\boldsymbol{\theta}\in\Theta}
+    \ell(\boldsymbol{\theta};\mathbf{x}).
+\tag{3.13}
+\]
+
+We will refer to the true parameter value as \(\boldsymbol{\theta}_0\in\Theta\).
+
+**Theorem 3.2 (Consistency and asymptotic normality).**  
+Assume the usual regularity conditions for likelihood inference hold (e.g. Lehmann and Casella, 1998; van der Vaart, 1998), in particular that \(\boldsymbol{\theta}_0\in\mathrm{int}(\Theta)\) and
+\[
+\mathcal{I}(\boldsymbol{\theta}_0)
+  = \mathbb{E}_{\boldsymbol{\theta}_0}
+       \Bigl[-\nabla^2 \ln f(X;\boldsymbol{\theta})\Bigr]
+\]
+is positive definite. Then
+\[
+\hat{\boldsymbol{\theta}}_n
+  \xrightarrow{p} \boldsymbol{\theta}_0, \qquad n\to\infty,
+\tag{3.14}
+\]
+and
+\[
+\sqrt{n}(\hat{\boldsymbol{\theta}}_n - \boldsymbol{\theta}_0)
+  \xrightarrow{d}
+  \mathcal{N}_5\bigl(\mathbf{0}, \mathcal{I}(\boldsymbol{\theta}_0)^{-1}\bigr),
+\qquad n\to\infty.
+\tag{3.15}
+\]
+
+*Proof.* The regularity conditions are satisfied for all \(x\in(0,1)\) and \(\boldsymbol{\theta}\in\mathrm{int}(\Theta)\): the support does not depend on \(\boldsymbol{\theta}\), \(f(x;\boldsymbol{\theta})\) is continuously differentiable in a neighborhood of \(\boldsymbol{\theta}_0\), the score has mean zero and finite second moment, and the Fisher information is non-singular. The result then follows from standard MLE asymptotic theory (see, e.g., van der Vaart, 1998). \(\square\)
+
+### 3.3 Likelihood Ratio Tests
+
+For nested models, likelihood ratio tests follow Wilks' theorem.
+
+**Theorem 3.3 (Wilks' theorem).**  
+Consider testing nested hypotheses
+\[
+H_0:\ \boldsymbol{\theta}\in\Theta_0
+\quad\text{vs.}\quad
+H_1:\ \boldsymbol{\theta}\in\Theta,
+\]
+where \(\Theta_0\subset\Theta\) is defined by \(r\) independent constraints. Let
+\[
+\Lambda_n
+  = 2\Bigl\{
+        \ell(\hat{\boldsymbol{\theta}}_n)
+       -\ell(\hat{\boldsymbol{\theta}}_{0,n})
+     \Bigr\},
+\tag{3.16}
+\]
+where \(\hat{\boldsymbol{\theta}}_n\) and \(\hat{\boldsymbol{\theta}}_{0,n}\) are the unconstrained and constrained MLEs, respectively. Under \(H_0\),
+\[
+\Lambda_n \xrightarrow{d} \chi^2_r,\qquad n\to\infty.
+\tag{3.17}
+\]
+
+*Proof.* Standard; see Casella and Berger (2002), Chapter 10. \(\square\)
+
+Within the GKw hierarchy we obtain the following tests.
+
+**Corollary 3.1 (LR tests within the GKw hierarchy).**  
+Under the usual regularity conditions and away from parameter boundaries, the following likelihood ratio tests are asymptotically \(\chi^2\):
+
+\[
+\begin{align}
+\text{GKw vs. BKw:}\quad
+  &H_0:\ \lambda = 1
+  &&\Rightarrow\ \Lambda_n \xrightarrow{d} \chi^2_1,
+  \tag{3.18}\\[3pt]
+\text{GKw vs. KKw:}\quad
+  &H_0:\ \gamma = 1
+  &&\Rightarrow\ \Lambda_n \xrightarrow{d} \chi^2_1,
+  \tag{3.19}\\[3pt]
+\text{BKw vs. Beta:}\quad
+  &H_0:\ \alpha = \beta = 1
+  &&\Rightarrow\ \Lambda_n \xrightarrow{d} \chi^2_2,
+  \tag{3.20}\\[3pt]
+\text{KKw vs. Kw:}\quad
+  &H_0:\ \delta = \lambda = 1
+  &&\Rightarrow\ \Lambda_n \xrightarrow{d} \chi^2_2.
+  \tag{3.21}
+\end{align}
+\]
+
+The precise mapping between \(\delta\) in KKw and \(\delta\) in GKw is as described in Theorem 2.4; the dimension reduction in each hypothesis is nevertheless \(r\) as indicated.
+
+---
+
+## 4. Analytical Derivatives and Information Matrix
+
+We now derive explicit expressions for the score vector and the observed information matrix in terms of the cascade transformations \(v,w,z\) and their derivatives.
+
+### 4.1 The Score Vector
+
+**Definition 4.1 (Score function).**  
+The score vector is
+\[
+U(\boldsymbol{\theta})
+  = \nabla_{\boldsymbol{\theta}}\ell(\boldsymbol{\theta})
+  = \left(
+       \frac{\partial\ell}{\partial\alpha},
+       \frac{\partial\ell}{\partial\beta},
+       \frac{\partial\ell}{\partial\gamma},
+       \frac{\partial\ell}{\partial\delta},
+       \frac{\partial\ell}{\partial\lambda}
+    \right)^\top.
+\tag{4.1}
+\]
+
+For the derivatives of \(v,w,z\) with respect to the parameters we will use
+\[
+\begin{align}
+\frac{\partial v_i}{\partial\alpha}
+  &= -x_i^\alpha\ln x_i,\\[2pt]
+\frac{\partial w_i}{\partial\alpha}
+  &= \beta v_i^{\beta-1} x_i^\alpha\ln x_i,\\[2pt]
+\frac{\partial w_i}{\partial\beta}
+  &= -v_i^\beta \ln v_i,\\[2pt]
+\frac{\partial z_i}{\partial\alpha}
+  &= -\lambda w_i^{\lambda-1}\frac{\partial w_i}{\partial\alpha},\\[2pt]
+\frac{\partial z_i}{\partial\beta}
+  &= -\lambda w_i^{\lambda-1}\frac{\partial w_i}{\partial\beta},\\[2pt]
+\frac{\partial z_i}{\partial\lambda}
+  &= -w_i^{\lambda}\ln w_i.
+\end{align}
+\]
+
+**Theorem 4.1 (Score components).**  
+The components of \(U(\boldsymbol{\theta})\) are
+
+\[
+\begin{align}
+\frac{\partial\ell}{\partial\alpha}
+ &= \frac{n}{\alpha}
+    + \sum_{i=1}^n \ln x_i
+    - \sum_{i=1}^n x_i^\alpha \ln x_i
+      \left[
+        \frac{\beta-1}{v_i}
+        - \frac{(\gamma\lambda-1)\beta v_i^{\beta-1}}{w_i}
+        + \frac{\delta\lambda\beta v_i^{\beta-1}w_i^{\lambda-1}}{z_i}
+      \right], \tag{4.2}\\[6pt]
+\frac{\partial\ell}{\partial\beta}
+ &= \frac{n}{\beta}
+    + \sum_{i=1}^n \ln v_i
+    - \sum_{i=1}^n v_i^\beta \ln v_i
+      \left[
+        \frac{\gamma\lambda-1}{w_i}
+        - \frac{\delta\lambda w_i^{\lambda-1}}{z_i}
+      \right], \tag{4.3}\\[6pt]
+\frac{\partial\ell}{\partial\gamma}
+ &= -n\bigl[\psi(\gamma) - \psi(\gamma+\delta+1)\bigr]
+    + \lambda\sum_{i=1}^n \ln w_i, \tag{4.4}\\[6pt]
+\frac{\partial\ell}{\partial\delta}
+ &= -n\bigl[\psi(\delta+1) - \psi(\gamma+\delta+1)\bigr]
+    + \sum_{i=1}^n \ln z_i, \tag{4.5}\\[6pt]
+\frac{\partial\ell}{\partial\lambda}
+ &= \frac{n}{\lambda}
+    + \gamma\sum_{i=1}^n \ln w_i
+    - \delta\sum_{i=1}^n \frac{w_i^\lambda \ln w_i}{z_i}. \tag{4.6}
+\end{align}
+\]
+
+*Proof.* We differentiate the decomposition (3.4)–(3.12) term by term.
+
+**(i) Derivative with respect to \(\alpha\).**  
+
+From (3.6) and (3.9),
+\[
+\frac{\partial L_2}{\partial\alpha} = \frac{n}{\alpha},
+\quad
+\frac{\partial L_5}{\partial\alpha} = \sum_{i=1}^n \ln x_i.
+\]
+Using \(\partial v_i/\partial\alpha = -x_i^\alpha\ln x_i\),
+\[
+\frac{\partial L_6}{\partial\alpha}
+  = (\beta-1)\sum_{i=1}^n
+      \frac{1}{v_i}\frac{\partial v_i}{\partial\alpha}
+  = -(\beta-1)\sum_{i=1}^n \frac{x_i^\alpha\ln x_i}{v_i}.
+\]
+Next, \(\partial w_i/\partial\alpha = \beta v_i^{\beta-1}x_i^\alpha\ln x_i\), so
+\[
+\frac{\partial L_7}{\partial\alpha}
+  = (\gamma\lambda-1)\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\alpha}
+  = (\gamma\lambda-1)\beta\sum_{i=1}^n
+      \frac{v_i^{\beta-1}x_i^\alpha\ln x_i}{w_i}.
+\]
+Similarly,
+\[
+\frac{\partial z_i}{\partial\alpha}
+  = -\lambda w_i^{\lambda-1}\frac{\partial w_i}{\partial\alpha}
+  = -\lambda\beta v_i^{\beta-1}w_i^{\lambda-1}x_i^\alpha\ln x_i,
+\]
+so
+\[
+\frac{\partial L_8}{\partial\alpha}
+  = \delta\sum_{i=1}^n
+      \frac{1}{z_i}\frac{\partial z_i}{\partial\alpha}
+  = -\delta\lambda\beta\sum_{i=1}^n
+      \frac{v_i^{\beta-1}w_i^{\lambda-1}x_i^\alpha\ln x_i}{z_i}.
+\]
+Collecting terms gives (4.2).
+
+**(ii) Derivative with respect to \(\beta\).**  
+
+From (3.7) and (3.10),
+\[
+\frac{\partial L_3}{\partial\beta} = \frac{n}{\beta},
+\quad
+\frac{\partial L_6}{\partial\beta} = \sum_{i=1}^n \ln v_i,
+\]
+since \(v_i\) does not depend on \(\beta\). Using \(\partial w_i/\partial\beta = -v_i^\beta\ln v_i\),
+\[
+\frac{\partial L_7}{\partial\beta}
+  = (\gamma\lambda-1)\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\beta}
+  = -(\gamma\lambda-1)\sum_{i=1}^n
+      \frac{v_i^\beta\ln v_i}{w_i}.
+\]
+Furthermore,
+\[
+\frac{\partial z_i}{\partial\beta}
+  = -\lambda w_i^{\lambda-1}\frac{\partial w_i}{\partial\beta}
+  = \lambda w_i^{\lambda-1}v_i^\beta\ln v_i,
+\]
+so
+\[
+\frac{\partial L_8}{\partial\beta}
+  = \delta\sum_{i=1}^n
+      \frac{1}{z_i}\frac{\partial z_i}{\partial\beta}
+  = \delta\lambda\sum_{i=1}^n
+      \frac{w_i^{\lambda-1}v_i^\beta\ln v_i}{z_i}.
+\]
+Combining terms yields (4.3).
+
+**(iii) Derivative with respect to \(\gamma\).**  
+
+Only \(L_4\) and \(L_7\) depend on \(\gamma\). From Lemma 1.1,
+\[
+\frac{\partial L_4}{\partial\gamma}
+  = -n\bigl[\psi(\gamma) - \psi(\gamma+\delta+1)\bigr],
+\qquad
+\frac{\partial L_7}{\partial\gamma}
+  = \lambda\sum_{i=1}^n \ln w_i,
+\]
+giving (4.4).
+
+**(iv) Derivative with respect to \(\delta\).**  
+
+Similarly,
+\[
+\frac{\partial L_4}{\partial\delta}
+  = -n\bigl[\psi(\delta+1) - \psi(\gamma+\delta+1)\bigr],
+\qquad
+\frac{\partial L_8}{\partial\delta}
+  = \sum_{i=1}^n \ln z_i,
+\]
+giving (4.5).
+
+**(v) Derivative with respect to \(\lambda\).**  
+
+We have
+\[
+\frac{\partial L_1}{\partial\lambda} = \frac{n}{\lambda},
+\qquad
+\frac{\partial L_7}{\partial\lambda}
+  = \gamma\sum_{i=1}^n \ln w_i,
+\]
+and
+\[
+\frac{\partial z_i}{\partial\lambda}
+  = -w_i^\lambda\ln w_i
+\quad\Rightarrow\quad
+\frac{\partial L_8}{\partial\lambda}
+  = \delta\sum_{i=1}^n \frac{1}{z_i}\frac{\partial z_i}{\partial\lambda}
+  = -\delta\sum_{i=1}^n \frac{w_i^\lambda\ln w_i}{z_i}.
+\]
+Together these yield (4.6). \(\square\)
+
+### 4.2 The Hessian and Observed Information Matrix
+
+We now consider second-order derivatives. Let
+\[
+H(\boldsymbol{\theta})
+  = \nabla^2\ell(\boldsymbol{\theta})
+  = \biggl[
+      \frac{\partial^2\ell}{\partial\theta_j\partial\theta_k}
+    \biggr]_{j,k=1}^5
+\]
+denote the Hessian matrix of the log-likelihood, where
+\(\boldsymbol{\theta} = (\alpha,\beta,\gamma,\delta,\lambda)^\top\).
+
+**Definition 4.2 (Observed information).**  
+The observed information matrix is defined as
+\[
+\mathcal{J}(\boldsymbol{\theta}) = -H(\boldsymbol{\theta})
+  = -\nabla^2\ell(\boldsymbol{\theta}). \tag{4.7}
+\]
+
+To keep the formulas compact, for each observation \(i\) and each transformation
+\(u_i\in\{v_i,w_i,z_i\}\) we define, for parameters \(\theta_j,\theta_k\),
+\[
+D^{u}_{jk}(i)
+  = \frac{
+      \dfrac{\partial^2 u_i}{\partial\theta_j\partial\theta_k}u_i
+      - \dfrac{\partial u_i}{\partial\theta_j}
+        \dfrac{\partial u_i}{\partial\theta_k}
+    }{u_i^2}
+  = \frac{\partial^2}{\partial\theta_j\partial\theta_k}\ln u_i.
+\]
+
+In particular,
+\[
+\frac{\partial^2}{\partial\theta_j^2}\ln u_i = D^u_{jj}(i).
+\]
+
+#### 4.2.1 Diagonal elements
+
+**Theorem 4.2 (Diagonal elements of the Hessian).**  
+The second derivatives of \(\ell\) with respect to each parameter are
+\[
+\begin{align}
+\frac{\partial^2\ell}{\partial\alpha^2}
+ &= -\frac{n}{\alpha^2}
+    + (\beta-1)\sum_{i=1}^n D^v_{\alpha\alpha}(i)
+    + (\gamma\lambda-1)\sum_{i=1}^n D^w_{\alpha\alpha}(i)
+    + \delta\sum_{i=1}^n D^z_{\alpha\alpha}(i), \tag{4.8}\\[6pt]
+\frac{\partial^2\ell}{\partial\beta^2}
+ &= -\frac{n}{\beta^2}
+    + (\gamma\lambda-1)\sum_{i=1}^n D^w_{\beta\beta}(i)
+    + \delta\sum_{i=1}^n D^z_{\beta\beta}(i), \tag{4.9}\\[6pt]
+\frac{\partial^2\ell}{\partial\gamma^2}
+ &= -n\bigl[\psi_1(\gamma) - \psi_1(\gamma+\delta+1)\bigr], \tag{4.10}\\[6pt]
+\frac{\partial^2\ell}{\partial\delta^2}
+ &= -n\bigl[\psi_1(\delta+1) - \psi_1(\gamma+\delta+1)\bigr], \tag{4.11}\\[6pt]
+\frac{\partial^2\ell}{\partial\lambda^2}
+ &= -\frac{n}{\lambda^2}
+    + \delta\sum_{i=1}^n D^z_{\lambda\lambda}(i). \tag{4.12}
+\end{align}
+\]
+
+Equivalently, one may write
+\[
+\begin{align}
+T_{\alpha\alpha}^{(7)}
+ &= (\gamma\lambda-1)\sum_{i=1}^n D^w_{\alpha\alpha}(i), \tag{4.13}\\
+T_{\alpha\alpha}^{(8)}
+ &= \delta\sum_{i=1}^n D^z_{\alpha\alpha}(i), \tag{4.14}\\
+T_{\beta\beta}^{(7)}
+ &= (\gamma\lambda-1)\sum_{i=1}^n D^w_{\beta\beta}(i), \tag{4.15}\\
+T_{\beta\beta}^{(8)}
+ &= \delta\sum_{i=1}^n D^z_{\beta\beta}(i), \tag{4.16}
+\end{align}
+\]
+so that (4.8)–(4.9) can be expressed in the same notation as in the original decomposition.
+
+*Proof.* Differentiate the score components (4.2)–(4.6) with respect to the same parameter. The term \(n\ln\alpha\) contributes \(-n/\alpha^2\) to \(\partial^2\ell/\partial\alpha^2\), and similarly for \(\beta\) and \(\lambda\). The contributions from \(L_6,L_7,L_8\) are precisely the second derivatives of \((\beta-1)\ln v_i\), \((\gamma\lambda-1)\ln w_i\) and \(\delta\ln z_i\), which yield the terms in \(D^u_{\alpha\alpha}(i)\) or \(D^u_{\beta\beta}(i)\).  
+
+For \(\gamma\) and \(\delta\), only \(L_4\) depends on these parameters through \(B(\gamma,\delta+1)\); the formulas (4.10)–(4.11) follow from Lemma 1.1. Finally, \(L_7\) does not depend on \(\lambda\) beyond the linear factor \(\gamma\lambda-1\), so \(\partial^2 L_7/\partial\lambda^2=0\), and the only contribution to (4.12) besides \(-n/\lambda^2\) comes from \(L_8=\delta\sum\ln z_i\), whose second derivative w.r.t. \(\lambda\) is \(\delta\sum D^z_{\lambda\lambda}(i)\). \(\square\)
+
+#### 4.2.2 Off-diagonal elements
+
+**Theorem 4.3 (Off-diagonal elements of the Hessian).**  
+For \(j\neq k\), the mixed second derivatives of \(\ell\) are:
+
+\[
+\begin{align}
+\frac{\partial^2\ell}{\partial\alpha\,\partial\beta}
+ &= \sum_{i=1}^n\left[
+      \frac{1}{v_i}\frac{\partial v_i}{\partial\alpha}
+      + (\gamma\lambda-1) D^w_{\alpha\beta}(i)
+      + \delta D^z_{\alpha\beta}(i)
+    \right], \tag{4.17}\\[6pt]
+\frac{\partial^2\ell}{\partial\gamma\,\partial\delta}
+ &= n\,\psi_1(\gamma+\delta+1), \tag{4.18}\\[6pt]
+\frac{\partial^2\ell}{\partial\gamma\,\partial\alpha}
+ &= \lambda\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\alpha}, \tag{4.19}\\[6pt]
+\frac{\partial^2\ell}{\partial\gamma\,\partial\beta}
+ &= \lambda\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\beta}, \tag{4.20}\\[6pt]
+\frac{\partial^2\ell}{\partial\delta\,\partial\alpha}
+ &= \sum_{i=1}^n
+      \frac{1}{z_i}\frac{\partial z_i}{\partial\alpha}, \tag{4.21}\\[6pt]
+\frac{\partial^2\ell}{\partial\delta\,\partial\beta}
+ &= \sum_{i=1}^n
+      \frac{1}{z_i}\frac{\partial z_i}{\partial\beta}, \tag{4.22}\\[6pt]
+\frac{\partial^2\ell}{\partial\lambda\,\partial\alpha}
+ &= \gamma\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\alpha}
+    + \delta\sum_{i=1}^n
+      \frac{\partial}{\partial\alpha}
+      \left(\frac{1}{z_i}\frac{\partial z_i}{\partial\lambda}\right), \tag{4.23}\\[6pt]
+\frac{\partial^2\ell}{\partial\lambda\,\partial\beta}
+ &= \gamma\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\beta}
+    + \delta\sum_{i=1}^n
+      \frac{\partial}{\partial\beta}
+      \left(\frac{1}{z_i}\frac{\partial z_i}{\partial\lambda}\right), \tag{4.24}\\[6pt]
+\frac{\partial^2\ell}{\partial\lambda\,\partial\gamma}
+ &= \sum_{i=1}^n \ln w_i, \tag{4.25}\\[6pt]
+\frac{\partial^2\ell}{\partial\lambda\,\partial\delta}
+ &= \sum_{i=1}^n
+      \frac{1}{z_i}\frac{\partial z_i}{\partial\lambda}. \tag{4.26}
+\end{align}
+\]
+
+*Proof.*  
+
+- Equation (4.18) follows by differentiating (4.4) with respect to \(\delta\); only the term involving \(\psi(\gamma+\delta+1)\) contributes a non-zero derivative, giving \(n\psi_1(\gamma+\delta+1)\).
+
+- Equations (4.19)–(4.22) follow from differentiating (4.4) and (4.5) with respect to \(\alpha\) or \(\beta\). For example,
+\[
+\frac{\partial^2\ell}{\partial\gamma\,\partial\alpha}
+  = \lambda\sum_{i=1}^n
+      \frac{\partial}{\partial\alpha}\ln w_i
+  = \lambda\sum_{i=1}^n
+      \frac{1}{w_i}\frac{\partial w_i}{\partial\alpha}.
+\]
+
+- Equation (4.17) is obtained by differentiating (4.2) with respect to \(\beta\); only the factor \((\beta-1)\ln v_i\) contributes the term \((\partial v_i/\partial\alpha)/v_i\), while the dependence of \(w_i,z_i\) on \(\beta\) is captured by \(D^w_{\alpha\beta}(i)\) and \(D^z_{\alpha\beta}(i)\).
+
+- For \(\lambda\), note from (4.6) that
+\[
+\frac{\partial\ell}{\partial\lambda}
+  = \frac{n}{\lambda}
+    + \gamma\sum_{i=1}^n \ln w_i
+    + \delta\sum_{i=1}^n
+        \frac{1}{z_i}\frac{\partial z_i}{\partial\lambda}.
+\]
+Differentiating with respect to \(\alpha\) or \(\beta\) yields (4.23)–(4.24); differentiating with respect to \(\gamma\) and \(\delta\) gives (4.25)–(4.26).
+
+Mixed derivatives commute by Schwarz's theorem, so the Hessian is symmetric. \(\square\)
+
+In practice, the resulting expressions for \(\mathcal{J}(\hat{\boldsymbol{\theta}})\) are evaluated numerically by plugging in the analytic first and second derivatives of \(v_i,w_i,z_i\), which follow recursively from the definitions of these transformations.
+
+### 4.3 Asymptotic Variance–Covariance Matrix
+
+Under the conditions of Theorem 3.2, the asymptotic variance–covariance matrix of the MLE is governed by the Fisher information.
+
+Let \(\mathcal{I}(\boldsymbol{\theta}_0)\) denote the **per-observation** Fisher information,
+\[
+\mathcal{I}(\boldsymbol{\theta}_0)
+  = \mathbb{E}_{\boldsymbol{\theta}_0}
+      \left[
+        -\nabla^2\ln f(X;\boldsymbol{\theta})
+      \right].
+\]
+
+For the full sample of size \(n\), the expected information is \(n\mathcal{I}(\boldsymbol{\theta}_0)\), while the observed information is \(\mathcal{J}(\hat{\boldsymbol{\theta}}_n)\).
+
+**Theorem 4.4 (Variance–covariance matrix of the MLE).**  
+Under the regularity assumptions of Theorem 3.2,
+\[
+\operatorname{Var}(\hat{\boldsymbol{\theta}}_n)
+  \approx \frac{1}{n}\mathcal{I}(\boldsymbol{\theta}_0)^{-1}
+  \approx \mathcal{J}(\hat{\boldsymbol{\theta}}_n)^{-1},
+\tag{4.27}
+\]
+and the asymptotic standard error of \(\hat\theta_j\) is approximated by
+\[
+\operatorname{SE}(\hat\theta_j)
+  = \sqrt{\bigl[\mathcal{J}(\hat{\boldsymbol{\theta}}_n)^{-1}\bigr]_{jj}}.
+\tag{4.28}
+\]
+
+*Proof.* The convergence \(\mathcal{J}(\hat{\boldsymbol{\theta}}_n)/n \xrightarrow{p} \mathcal{I}(\boldsymbol{\theta}_0)\) follows from a law of large numbers for the Hessian (Cox and Hinkley, 1974). Combining this with the asymptotic normality (3.15) yields (4.27)–(4.28). \(\square\)
+
+---
+
+## 5. Computational Aspects and Discussion
+
+### 5.1 Numerical Stability
+
+Direct evaluation of expressions such as \(v_i = 1-x_i^\alpha\) can suffer from catastrophic cancellation when \(x_i^\alpha \approx 1\) and from underflow when \(x_i^\alpha\) is very small. To mitigate these issues, the implementation in `gkwdist` works primarily in log-scale.
+
+For example, we compute \(\ln v_i\) via a numerically stable `log1mexp` transformation.
+
+**Algorithm 5.1 (Stable computation of \(\log(1-e^a)\) for \(a<0\)).**
+
+For \(a<0\), define
+\[
+\text{log1mexp}(a)
+  =
+  \begin{cases}
+    \ln\bigl(-\operatorname{expm1}(a)\bigr),
+      & a < -\ln 2,\\[4pt]
+    \ln\bigl(1 - e^a\bigr),
+      & \text{otherwise}.
+  \end{cases}
+\tag{5.1}
+\]
+Then
+\[
+\ln v_i = \text{log1mexp}(\alpha \ln x_i). \tag{5.2}
+\]
+
+This strategy ensures high relative accuracy across the full range \(a\in(-\infty,0)\) (see Mächler, 2012), and analogous transformations are used wherever expressions of the form \(\log(1 - \text{something})\) occur.
+
+### 5.2 Optimization
+
+The analytic score in Theorem 4.1 allows efficient use of quasi-Newton methods such as BFGS.
+
+**Algorithm 5.2 (Maximum likelihood estimation via BFGS).**
+
+**Input:** data \(\mathbf{x}\in(0,1)^n\).
+
+**Output:** MLE \(\hat{\boldsymbol{\theta}}_n\) and observed information \(\mathcal{J}(\hat{\boldsymbol{\theta}}_n)\).
+
+1. **Initialization.** Obtain starting values \(\boldsymbol{\theta}^{(0)}\) using method-of-moments, simple submodels (e.g. Beta or Kw), or a coarse grid search.
+2. **Quasi-Newton iteration.** For \(k=0,1,2,\dots\):
+   - Evaluate \(\ell(\boldsymbol{\theta}^{(k)})\) and \(U(\boldsymbol{\theta}^{(k)})\) using (3.2)–(3.3) and Theorem 4.1.
+   - Update
+     \[
+     \boldsymbol{\theta}^{(k+1)}
+       = \boldsymbol{\theta}^{(k)}
+         - \rho_k B_k^{-1} U(\boldsymbol{\theta}^{(k)}),
+     \]
+     where \(B_k\) is a positive-definite approximation of the Hessian and \(\rho_k\) is a step size obtained by line search.
+   - Update \(B_k\) using the standard BFGS formula.
+   - Stop when \(\|U(\boldsymbol{\theta}^{(k+1)})\|\) is below a specified tolerance.
+3. **Observed information.** At convergence, compute \(\mathcal{J}(\hat{\boldsymbol{\theta}}_n)=-H(\hat{\boldsymbol{\theta}}_n)\) using Theorems 4.2–4.3.
+4. **Return** \(\hat{\boldsymbol{\theta}}_n\) and \(\mathcal{J}(\hat{\boldsymbol{\theta}}_n)\).
+
+**Theorem 5.1 (Superlinear convergence).**  
+Under standard assumptions (Nocedal and Wright, 2006), if \(\boldsymbol{\theta}^{(0)}\) is sufficiently close to \(\hat{\boldsymbol{\theta}}_n\), the BFGS algorithm with exact analytical gradients achieves superlinear convergence:
+\[
+\|\boldsymbol{\theta}^{(k+1)} - \hat{\boldsymbol{\theta}}_n\|
+  = o\bigl(\|\boldsymbol{\theta}^{(k)} - \hat{\boldsymbol{\theta}}_n\|\bigr).
+\tag{5.3}
+\]
+
+In practice, the availability of exact gradients greatly improves both speed and robustness relative to numerical differentiation.
+
+### 5.3 Gradient Accuracy
+
+Numerical differentiation can be used to validate the analytic derivatives but is less efficient for routine computation.
+
+**Lemma 5.1 (Finite-difference error).**  
+Consider the central finite-difference approximation to \(\partial\ell/\partial\theta_j\) with step size \(h>0\):
+\[
+D_h
+  = \frac{\ell(\boldsymbol{\theta}+h\mathbf{e}_j)
+          - \ell(\boldsymbol{\theta}-h\mathbf{e}_j)}{2h}.
+\]
+Then
+\[
+\left|
+  D_h - \frac{\partial\ell}{\partial\theta_j}
+\right|
+  = O(h^2) + O\!\left(\frac{\epsilon}{h}\right),
+\tag{5.4}
+\]
+where \(\epsilon\) is machine precision (approximately \(2.22\times10^{-16}\) in double precision). The optimal step size is \(h^* \asymp (\epsilon/M)^{1/3}\), where \(M\) bounds the third derivative of \(\ell\) in a neighborhood of \(\boldsymbol{\theta}\).
+
+*Proof.* Standard finite-difference error analysis; see Nocedal and Wright (2006), Chapter 8. \(\square\)
+
+In contrast, the analytical gradients of Theorem 4.1 can be evaluated with accuracy limited essentially only by floating-point roundoff and require a single evaluation of \(f\) per data point, rather than \(2p\) evaluations per gradient component (\(p=5\) here) for central differences.
+
+### 5.4 Practical Recommendations
+
+**Guideline 5.1 (Model selection within the GKw hierarchy).**
+
+1. Start from the simplest two-parameter models:
+   - Beta\((\gamma,\delta+1)\),
+   - Kumaraswamy\((\alpha,\beta)\).
+2. If these are inadequate, consider three-parameter extensions:
+   - EKw\((\alpha,\beta,\lambda)\),
+   - McDonald\((\gamma,\delta,\lambda)\).
+3. For more complex patterns, move to four-parameter models:
+   - BKw\((\alpha,\beta,\gamma,\delta)\),
+   - KKw\((\alpha,\beta,\delta,\lambda)\).
+4. Use the full five-parameter GKw model only when the sample size is sufficiently large (e.g. \(n\gtrsim 500\)) to avoid over-parameterization and numerical instability.
+5. Compare candidate models using information criteria such as
+   \[
+   \mathrm{AIC} = -2\ell(\hat{\boldsymbol{\theta}}) + 2p,
+   \quad
+   \mathrm{BIC} = -2\ell(\hat{\boldsymbol{\theta}}) + p\ln n,
+   \]
+   where \(p\) is the number of free parameters.
+
+**Guideline 5.2 (Diagnostics).**
+
+1. **Q–Q plot.** Compare empirical quantiles with theoretical quantiles from the fitted model.
+2. **Probability integral transform.** The transformed values
+   \(\{F(x_i;\hat{\boldsymbol{\theta}})\}_{i=1}^n\) should be approximately i.i.d. \(\mathrm{Uniform}(0,1)\).
+3. **Conditioning of the information matrix.** Check \(\kappa(\mathcal{J}(\hat{\boldsymbol{\theta}}))\), the condition number of the observed information; large values (e.g. \(>10^8\)) indicate potential identifiability problems.
+4. **Positive definiteness.** All eigenvalues of \(\mathcal{J}(\hat{\boldsymbol{\theta}})\) should be strictly positive for valid standard error estimates.
+
+### 5.5 Discussion
+
+We have developed a rigorous mathematical framework for the Generalized Kumaraswamy (GKw) family, including:
+
+1. **Hierarchical embedding.**  
+   The GKw family neatly contains Beta, McDonald, Kumaraswamy, exponentiated Kumaraswamy, Beta–Kumaraswamy and Kumaraswamy–Kumaraswamy distributions as submodels, with explicit parameter mappings.
+
+2. **Likelihood theory.**  
+   We derived explicit expressions for the log-likelihood, the score vector and the full observed information matrix in terms of the cascade transformations \(v,w,z\), in a form suitable for stable numerical implementation.
+
+3. **Asymptotic properties.**  
+   Under standard regularity conditions, the MLEs are consistent and asymptotically normal, with variance–covariance matrix obtained from the inverse observed information.
+
+4. **Computational considerations.**  
+   Log-scale evaluations and carefully structured derivatives provide numerical stability and efficiency. In our C++ implementation via RcppArmadillo, analytical gradients and Hessians yield substantial speedups over finite-difference approximations, together with better numerical accuracy.
+
+Open problems and possible extensions include:
+
+- Closed-form expressions for moments of the full GKw distribution (currently only some sub-families, such as Kw and Beta, admit simple formulas).
+- Analytic inversion of the BKw CDF (solving \(I_y(\gamma,\delta+1)=p\) for \(y\), followed by inversion of the cascade).
+- Multivariate generalizations using copulas constructed from GKw marginals.
+- Fully Bayesian treatments with suitable priors on \((\alpha,\beta,\gamma,\delta,\lambda)\).
+
+The `gkwdist` R package implements all the theoretical results described in this vignette and provides a practical toolkit for likelihood-based inference in bounded continuous data models.
+
+---
+
+## References
+
+Carrasco, J. M. F., Ferrari, S. L. P., & Cordeiro, G. M. (2010). **A new generalized Kumaraswamy distribution.** *arXiv:1004.0911*. [arxiv.org/abs/1004.0911](https://arxiv.org/abs/1004.0911)
+
+Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd ed. Duxbury Press, Pacific Grove, CA.
+
+Cordeiro, G. M. and de Castro, M. (2011). A new family of generalized distributions. *J. Stat. Comput. Simul.* **81**, 883–898.
+
+Cox, D. R. and Hinkley, D. V. (1974). *Theoretical Statistics*. Chapman and Hall, London.
+
+Johnson, N. L., Kotz, S. and Balakrishnan, N. (1995). *Continuous Univariate Distributions*, Volume 2, 2nd ed. Wiley, New York.
+
+Jones, M. C. (2009). Kumaraswamy's distribution: A beta-type distribution with some tractability advantages. *Statist. Methodol.* **6**, 70–81.
+
+Kumaraswamy, P. (1980). A generalized probability density function for double-bounded random processes. *J. Hydrol.* **46**, 79–88.
+
+Lehmann, E. L. and Casella, G. (1998). *Theory of Point Estimation*, 2nd ed. Springer, New York.
+
+Mächler, M. (2012). Accurately computing \(\log(1-\exp(-|a|))\). R package vignette, https://CRAN.R-project.org/package=Rmpfr.
+
+Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer, New York.
+
+van der Vaart, A. W. (1998). *Asymptotic Statistics*. Cambridge University Press, Cambridge.
+
+---
+
+**Author's address:**
+
+J. E. Lopes  
+Laboratory of Statistics and Geoinformation (LEG)  
+Graduate Program in Numerical Methods in Engineering (PPGMNE)  
+Federal University of Paraná (UFPR)  
+Curitiba, PR, Brazil  
+E-mail: evandeilton@gmail.com
+

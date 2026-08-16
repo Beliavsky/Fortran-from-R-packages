@@ -1,0 +1,39 @@
+Package: gkwdist
+Title: Generalized Kumaraswamy Distribution Family
+Version: 1.1.4
+Authors@R: c(person(given = "José Evandeilton",
+                    family = "Lopes",
+                    role = c("aut", "cre"),
+                    email = "evandeilton@gmail.com",
+                    comment = c(ORCID = "0009-0007-5887-4084")))
+Description: Implements the five-parameter Generalized Kumaraswamy ('gkw') 
+    distribution proposed by 'Carrasco, Ferrari and Cordeiro (2010)' 
+    <doi:10.48550/arXiv.1004.0911> and its seven nested sub-families for 
+    modeling bounded continuous data on the unit interval (0,1). The 'gkw' 
+    distribution extends the Kumaraswamy distribution described by Jones (2009) 
+    <doi:10.1016/j.stamet.2008.04.001>. Provides density, distribution, 
+    quantile, and random generation functions, along with analytical 
+    log-likelihood, gradient, and Hessian functions implemented in 'C++' via 
+    'RcppArmadillo' for maximum computational efficiency. Suitable for modeling 
+    proportions, rates, percentages, and indices exhibiting complex features 
+    such as asymmetry, or heavy tails and other shapes not adequately captured by 
+    standard distributions like simple Beta or Kumaraswamy.
+License: MIT + file LICENSE
+URL: https://github.com/evandeilton/gkwdist,
+        https://evandeilton.github.io/gkwdist/
+BugReports: https://github.com/evandeilton/gkwdist/issues
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.3.3
+Imports: Rcpp, RcppArmadillo, magrittr, numDeriv
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+NeedsCompilation: yes
+VignetteBuilder: knitr
+Packaged: 2026-05-27 19:29:33 UTC; jlopes
+Author: José Evandeilton Lopes [aut, cre] (ORCID:
+    <https://orcid.org/0009-0007-5887-4084>)
+Maintainer: José Evandeilton Lopes <evandeilton@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-05-28 05:10:51 UTC
