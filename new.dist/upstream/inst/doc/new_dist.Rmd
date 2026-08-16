@@ -1,0 +1,19 @@
+---
+title: "new_dist"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{new_dist}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(new.dist)
+```

@@ -1,0 +1,13 @@
+VGAM-fortran
+============
+
+This project is a computational translation derived from VGAM 1.1-14 by
+Thomas W. Yee and other credited contributors. The upstream package metadata,
+license note, NEWS and ChangeLog are retained in original/.
+
+The package also vendors code from the supplied `splines-fortran-v0.1.0`
+translation. Its license and attribution are retained in vendor/splines/ and
+its source files retain their GPL-2.0-or-later SPDX headers.
+
+No endorsement by the original authors, the University of Auckland, R Core,
+or the authors of the R splines package is implied.

@@ -1,0 +1,47 @@
+Package: new.dist
+Title: Alternative Continuous and Discrete Distributions
+Version: 0.1.2
+Authors@R: c( 
+    person("Ramazan", "Akman",,"ramazanakman12345@gmail.com",role=c("cre","ctb"),
+        comment = "https://www.researchgate.net/profile/Ramazan-Akman"),
+    person("Coşkun", "Kuş",,"coskunkus@gmail.com",role=c("aut","ctb"),
+        comment = "https://www.selcuk.edu.tr/Person/Detail/coskun"),
+    person("Ihab", "Abusaif",,"censtat@gmail.com",role=c("aut","ctb"),
+        comment = "https://www.researchgate.net/profile/Ihab-Abusaif"))
+Maintainer: Ramazan Akman <ramazanakman12345@gmail.com>
+Description: The aim is to develop an R package, which is the 'new.dist'
+    package, for the probability (density) function, the
+    distribution function, the quantile function and the
+    associated random number generation function for discrete and
+    continuous distributions, which have recently been proposed
+    in the literature. This package implements the following
+    distributions: The Power Muth Distribution, a Bimodal Weibull
+    Distribution, the Discrete Lindley Distribution, The
+    Gamma-Lomax Distribution, Weighted Geometric Distribution, a
+    Power Log-Dagum Distribution, Kumaraswamy Distribution,
+    Lindley Distribution, the Unit-Inverse Gaussian Distribution,
+    EP Distribution, Akash Distribution, Ishita Distribution,
+    Maxwell Distribution, the Standard Omega Distribution,
+    Slashed Generalized Rayleigh Distribution, Two-Parameter
+    Rayleigh Distribution, Muth Distribution, Uniform-Geometric
+    Distribution, Discrete Weibull Distribution.
+License: GPL-3
+URL: https://github.com/akmn35/new.dist,
+        https://akmn35.github.io/new.dist/
+BugReports: https://github.com/akmn35/new.dist/issues
+Imports: VGAM, expint, pracma
+Suggests: knitr, rmarkdown, roxygen2, stats, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+RdMacros:
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2026-06-07 13:38:20 UTC; ramaz
+Author: Ramazan Akman [cre, ctb]
+    (https://www.researchgate.net/profile/Ramazan-Akman),
+  Coşkun Kuş [aut, ctb] (https://www.selcuk.edu.tr/Person/Detail/coskun),
+  Ihab Abusaif [aut, ctb]
+    (https://www.researchgate.net/profile/Ihab-Abusaif)
+Repository: CRAN
+Date/Publication: 2026-06-07 14:30:02 UTC
