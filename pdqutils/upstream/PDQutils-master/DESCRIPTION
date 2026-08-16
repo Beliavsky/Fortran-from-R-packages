@@ -1,0 +1,27 @@
+Package: PDQutils
+Maintainer: Steven E. Pav <shabbychef@gmail.com>
+Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
+    email="shabbychef@gmail.com"))
+Version: 0.1.6
+Date: 2017-03-17
+License: LGPL-3
+Title: PDQ Functions via Gram Charlier, Edgeworth, and Cornish Fisher
+        Approximations
+BugReports: https://github.com/shabbychef/PDQutils/issues
+Description: A collection of tools for approximating the 'PDQ' functions
+    (respectively, the cumulative distribution, density, and quantile) of
+    probability distributions via classical expansions involving moments and
+    cumulants.
+Depends: R (>= 3.0.2)
+Imports: orthopolynom, moments
+Suggests: ggplot2, reshape2, testthat, knitr
+URL: https://github.com/shabbychef/PDQutils
+VignetteBuilder: knitr
+Collate: 'cornish_fisher.r' 'edgeworth.r' 'gram_charlier.r' 'moments.r'
+        'PDQutils.r'
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2017-03-18 03:55:40 UTC; spav
+Author: Steven E. Pav [aut, cre]
+Repository: CRAN
+Date/Publication: 2017-03-18 08:37:53 UTC
