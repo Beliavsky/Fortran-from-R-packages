@@ -1,0 +1,15 @@
+name = "ccd-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI translation; upstream CCd by Michail Tsagris"
+maintainer = ""
+copyright = "2024 Michail Tsagris; 2026 translation contributors"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false

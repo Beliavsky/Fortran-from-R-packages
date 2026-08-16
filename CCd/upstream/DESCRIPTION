@@ -1,0 +1,17 @@
+Package: CCd
+Type: Package
+Title: The Cauchy-Cacoullos (Discrete Cauchy) Distribution
+Version: 1.1
+Date: 2024-12-07
+Authors@R: person("Michail", "Tsagris", role = c("aut", "cre"), email = "mtsagris@uoc.gr")
+Author: Michail Tsagris [aut, cre]
+Maintainer: Michail Tsagris <mtsagris@uoc.gr>
+Depends: R (>= 4.0)
+Imports: Rfast, stats
+Suggests: Rfast2, skellam
+Description: Maximum likelihood estimation of the Cauchy-Cacoullos (discrete Cauchy) distribution. Probability mass, distribution and quantile function are also included. The reference paper is: Papadatos N. (2022). "The Characteristic Function of the Discrete Cauchy Distribution in Memory of T. Cacoullos". Journal of Statistical Theory Practice, 16(3): 47. <doi:10.1007/s42519-022-00268-6>.
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2024-12-07 17:17:09 UTC; mtsag
+Repository: CRAN
+Date/Publication: 2024-12-07 19:20:01 UTC
