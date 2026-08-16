@@ -1,0 +1,50 @@
+
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library(zigg)
+> options(digits=6, scipen=99)
+> 
+> N <- 1e5
+> zsetseed(12345)
+> 
+> rn <- zrnorm(N)
+> round(summary(rn), digits=4)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-4.4937 -0.6785 -0.0014 -0.0013  0.6778  4.3587 
+> 
+> re <- zrexp(N)
+> round(summary(re), digits=4)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   0.290   0.694   1.017   1.385  13.653 
+> 
+> ru <- zrunif(N)
+> round(summary(ru), digits=4)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   0.251   0.501   0.501   0.752   1.000 
+> 
+> zsetseed(12345)
+> all.equal(rn, zrnorm(N))
+[1] TRUE
+> all.equal(re, zrexp(N))
+[1] TRUE
+> all.equal(ru, zrunif(N))
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+  0.919   0.032   0.155 
