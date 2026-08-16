@@ -1,0 +1,36 @@
+Package: mbbefd
+Type: Package
+Title: Maxwell Boltzmann Bose Einstein Fermi Dirac Distribution and
+        Destruction Rate Modelling
+Version: 0.8.14
+Authors@R: c(
+    person("Christophe", "Dutang", role = c("aut", "cre"), email = "dutangc@gmail.com", comment = c(ORCID = "0000-0001-6732-1501")),
+    person("Giorgio", "Spedicato", role = "aut", email = "spedicato_giorgio@yahoo.it", comment = c(ORCID = "0000-0002-0315-8888")),
+    person("Markus", "Gesmann", role = "ctb", email = "markus.gesmann@gmail.com"))
+Description: Distributions that are typically used for exposure rating in
+             general insurance, in particular to price reinsurance contracts.
+             The vignette shows code snippets to fit the distribution to
+             empirical data. See, e.g., Bernegger (1997) <doi:10.2143/AST.27.1.563208>
+             freely available on-line.
+License: GPL-2
+Depends: R (>= 3.6), fitdistrplus (>= 1.1-4), alabama, Rcpp (>=
+        0.12.18)
+ByteCompile: yes
+Suggests: testthat, pander, rmarkdown, knitr, lattice
+LinkingTo: Rcpp
+Imports: utils, actuar, MASS
+URL: https://github.com/spedygiorgio/mbbefd
+BugReports: https://github.com/spedygiorgio/mbbefd/issues
+VignetteBuilder: knitr
+SystemRequirements: GNU make
+NeedsCompilation: yes
+RoxygenNote: 6.0.1
+Packaged: 2026-01-19 22:02:22 UTC; dutang
+Author: Christophe Dutang [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-6732-1501>),
+  Giorgio Spedicato [aut] (ORCID:
+    <https://orcid.org/0000-0002-0315-8888>),
+  Markus Gesmann [ctb]
+Maintainer: Christophe Dutang <dutangc@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-01-20 08:30:07 UTC

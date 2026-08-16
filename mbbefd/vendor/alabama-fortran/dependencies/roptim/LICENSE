@@ -1,0 +1,8 @@
+This Fortran port is distributed under the GNU General Public License,
+version 2 or (at your option) any later version, matching the license of
+roptim 0.1.7.
+
+The bundled L-BFGS-B numerical kernel retains its separately distributed
+BSD-style license and notice. See LICENSES/LBFGSB-BSD-3-Clause.txt.
+
+The full GPL version 2 text is in LICENSES/GPL-2.0.txt.

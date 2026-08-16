@@ -1,0 +1,15 @@
+citHeader("To cite mbbefd in publications use:")
+
+year <- 2025
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "mbbefd: {Maxwell} {Boltzmann} {Bose} {Einstein} {Fermi} {Dirac} Distribution and Destruction Rate Modelling",
+         author = c(person("Christophe", "Dutang"), person("Giorgio", "Spedicato")),
+         year = year,
+         note = note,
+         url = "https://CRAN.R-project.org/package=mbbefd")
+      
+citFooter("Please cite both the package and R when using them for data analysis.",
+	  "See also", sQuote("citation()"),
+	  "for citing R.")

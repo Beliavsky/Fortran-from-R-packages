@@ -1,0 +1,17 @@
+actuar-fortran
+===============
+
+This project is a modern Fortran numerical-core translation derived from the
+R package actuar 3.3-7.
+
+Upstream package authors and contributors include Vincent Goulet, Christophe
+Dutang, Mathieu Pigeon, Jeffrey A. Ryan, Robert Gentleman, Ross Ihaka, the R
+Core Team, the R Foundation, and the other contributors recorded in the
+retained upstream DESCRIPTION file.
+
+The translated code is distributed under GNU GPL version 2 or later, matching
+the upstream package license. The complete supplied upstream source is retained
+under original/ and the supplied archive is retained under provenance/.
+
+This is an independent Fortran port. It is not an official release of the
+upstream actuar project.

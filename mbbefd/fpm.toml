@@ -1,0 +1,27 @@
+name = "mbbefd-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "mbbefd authors; modern Fortran translation"
+maintainer = ""
+copyright = "Copyright upstream mbbefd authors and translation contributors"
+description = "Modern Fortran computational port of the R mbbefd package"
+keywords = ["actuarial", "exposure-curves", "mbbefd", "destruction-rate", "distribution-fitting"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[library]
+source-dir = "src"
+
+[dependencies]
+fitdistrplus-fortran = { path = "vendor/fitdistrplus-fortran" }
+actuar = { path = "vendor/actuar-fortran" }
+alabama = { path = "vendor/alabama-fortran" }

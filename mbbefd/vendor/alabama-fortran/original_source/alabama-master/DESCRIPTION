@@ -1,0 +1,23 @@
+Package: alabama
+Type: Package
+Title: Constrained Nonlinear Optimization
+Description: Augmented Lagrangian Adaptive Barrier Minimization
+        Algorithm for optimizing smooth nonlinear objective functions
+        with constraints. Linear or nonlinear equality and inequality
+        constraints are allowed.
+Depends: R (>= 4.0), numDeriv
+Version: 2025.1.0
+Date: 2025-12-29
+Authors@R: person(given = "Ravi",
+                    family = "Varadhan",
+                    role = c("aut", "cre"),
+                    email = "ravi.varadhan@jhu.edu",
+                    comment = "with contributions from Gabor Grothendieck")
+Maintainer: Ravi Varadhan <ravi.varadhan@jhu.edu>
+License: GPL (>= 2)
+LazyLoad: yes
+Repository: CRAN
+Packaged: 2025-12-29 17:39:25 UTC; raviv
+NeedsCompilation: no
+Date/Publication: 2026-01-15 06:10:43 UTC
+Author: Ravi Varadhan [aut, cre] (with contributions from Gabor Grothendieck)

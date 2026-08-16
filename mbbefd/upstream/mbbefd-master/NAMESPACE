@@ -1,0 +1,72 @@
+importFrom("utils", packageDescription)
+
+#for graphics
+importFrom("graphics", abline, plot, points,image, legend, lines, pairs)
+importFrom("grDevices", colorRampPalette)
+
+#user-friendly version of the MBBEFD distribution
+export(dmbbefd, pmbbefd, qmbbefd, rmbbefd, ecmbbefd, mmbbefd, tlmbbefd)
+export(dMBBEFD, pMBBEFD, qMBBEFD, rMBBEFD, ecMBBEFD, mMBBEFD, tlMBBEFD)
+
+#for internal use (fitting process)
+export(dmbbefd1, dmbbefd2, dMBBEFD1, dMBBEFD2, dgbeta1)
+
+export(g2a) #backward compatibility
+
+#C++ version of the MBBEFD distribution (not exported - debug only)
+#export(mbbefdExposure, rmbbefdC, qmbbefdC, dmbbefd2, pmbbefd2, dG) #deprecated functions
+#export(rmbbefdCpp, rMBBEFDCpp)
+
+#R version of the MBBEFD distribution (no longer exported)
+#export(dmbbefdR, pmbbefdR, qmbbefdR, rmbbefdR, ecmbbefdR, mmbbefdR, tlmbbefdR)
+#export(dMBBEFDR, pMBBEFDR, qMBBEFDR, rMBBEFDR, ecMBBEFDR, mMBBEFDR, tlMBBEFDR)
+
+#Swiss Re curves
+export(swissRe)
+
+
+#finite-support distributions 
+importFrom("stats", dbeta, pbeta, qbeta, rbeta, 
+           dunif, punif, qunif, runif, 
+           rbinom, pgamma, 
+           optim, optimHess, constrOptim, integrate, optimize, 
+           cov2cor, median, quantile, var)
+importFrom("actuar", munif, levunif, mbeta, levbeta) #d,p,q,r functions in base R
+export(ecunif)
+export(ecbeta)
+#importFrom("gsl", dilog) #dilogarithm function used variance
+export(dstpareto, pstpareto, qstpareto, rstpareto, ecstpareto, mstpareto)
+export(dgbeta, pgbeta, qgbeta, rgbeta, ecgbeta, mgbeta)
+
+#one-inflated distributions (on the unit interval)
+export(doifun, poifun, qoifun, roifun, ecoifun, moifun, tloifun)
+export(doiunif, poiunif, qoiunif, roiunif, ecoiunif, moiunif, tloiunif)
+export(doibeta, poibeta, qoibeta, roibeta, ecoibeta, moibeta, tloibeta)
+export(doistpareto, poistpareto, qoistpareto, roistpareto, ecoistpareto, moistpareto, tloistpareto)
+export(doigbeta, poigbeta, qoigbeta, roigbeta, ecoigbeta, moigbeta, tloigbeta)
+
+#empirical total loss
+export(etl)
+
+#eecf class for empirical exposure curve function
+export(eecf)
+S3method(summary, eecf)
+S3method(print, eecf)
+S3method(print, summary.eecf)
+S3method(plot, eecf)
+S3method(lines, eecf)
+
+#new generic function for DR class similar to cdfcomp
+export(eccomp)
+
+#fitting methods
+importFrom("fitdistrplus", fitdist, mledist, mmedist)
+importFrom("alabama", constrOptim.nl) #only for MBBEFD
+export(fitDR) #fitDR class inheriting from fitdist class
+export(bootDR) #bootDR class inheriting from bootdist class
+
+#temporary 
+importFrom("MASS", kde2d)
+
+importFrom("Rcpp", sourceCpp)
+useDynLib(mbbefd, .registration=TRUE)

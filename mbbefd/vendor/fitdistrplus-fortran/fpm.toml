@@ -1,0 +1,47 @@
+name = "fitdistrplus-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "OpenAI translation; upstream fitdistrplus authors retained in NOTICE.md"
+maintainer = ""
+copyright = "Copyright upstream fitdistrplus contributors and translation contributors"
+description = "Modern Fortran computational port of fitdistrplus"
+keywords = ["distribution-fitting", "maximum-likelihood", "censoring", "bootstrap", "goodness-of-fit"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "demo_fitdistrplus"
+source-dir = "app"
+main = "demo_fitdistrplus.f90"
+
+[[test]]
+name = "test_distributions"
+source-dir = "test"
+main = "test_distributions.f90"
+
+[[test]]
+name = "test_fit_methods"
+source-dir = "test"
+main = "test_fit_methods.f90"
+
+[[test]]
+name = "test_censored"
+source-dir = "test"
+main = "test_censored.f90"
+
+[[test]]
+name = "test_stats"
+source-dir = "test"
+main = "test_stats.f90"
+
+[[test]]
+name = "test_bootstrap_custom"
+source-dir = "test"
+main = "test_bootstrap_custom.f90"
