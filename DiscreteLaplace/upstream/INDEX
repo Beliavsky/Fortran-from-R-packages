@@ -1,0 +1,17 @@
+DiscreteLaplace-package
+                        Discrete Laplace distributions
+Edlaplace               Moments of the discrete Laplace distribution
+Edlaplace2              First- and second-order moments of ADSL
+ddlaplace               Probability mass function, cumulative
+                        distribution function, quantile function and
+                        random generation of the DSL
+ddlaplace2              Probability mass function of the ADSL
+dlaplacelike2           Log-likelihood function for the ADSL
+                        distribution
+estdlaplace             Sample estimation for the DSL
+estdlaplace2            Sample estimation for the ADSL
+iFI                     Inverse of Fisher Information matrix
+iFI2                    Inverse of Fisher Information matrix
+ioFI2                   Inverse of the observed Fisher Information
+                        matrix
+loss                    Loss function for the method of moments

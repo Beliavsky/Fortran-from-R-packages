@@ -1,0 +1,21 @@
+name = "discrete_laplace"
+version = "0.1.0"
+license = "GPL"
+author = "Alessandro Barbiero, Riccardo Inchingolo; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of R DiscreteLaplace"
+keywords = ["discrete-laplace", "skew-distribution", "maximum-likelihood"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
