@@ -1,0 +1,2 @@
+importFrom("stats", "qgamma", "rgeom", "rpois")
+export(dPolyaAeppli,pPolyaAeppli,qPolyaAeppli,rPolyaAeppli)
