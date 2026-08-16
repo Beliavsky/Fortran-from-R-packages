@@ -1,0 +1,17 @@
+name = "polynom-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "OpenAI; based on polynom by Bill Venables, Kurt Hornik, and Martin Maechler"
+maintainer = "OpenAI"
+description = "Modern Fortran translation of the computational code in the R polynom package"
+categories = ["mathematics", "polynomials"]
+keywords = ["polynomial", "interpolation", "roots", "orthogonal-polynomials"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"

@@ -1,0 +1,30 @@
+
+import("polynom")
+importFrom("stats", "deriv", "predict")
+
+export( "jacobi.matrices",
+  "chebyshev.c.inner.products", "chebyshev.c.recurrences", "chebyshev.c.polynomials", "chebyshev.c.weight",
+  "chebyshev.s.inner.products", "chebyshev.s.recurrences", "chebyshev.s.polynomials", "chebyshev.s.weight",
+  "chebyshev.t.inner.products", "chebyshev.t.recurrences", "chebyshev.t.polynomials", "chebyshev.t.weight",
+  "chebyshev.u.inner.products", "chebyshev.u.recurrences", "chebyshev.u.polynomials", "chebyshev.u.weight",
+  "schebyshev.t.inner.products", "schebyshev.t.recurrences", "schebyshev.t.polynomials", "schebyshev.t.weight",
+  "schebyshev.u.inner.products", "schebyshev.u.recurrences", "schebyshev.u.polynomials", "schebyshev.u.weight",
+  "jacobi.p.inner.products", "jacobi.p.recurrences", "jacobi.p.polynomials", "jacobi.p.weight",
+  "jacobi.g.inner.products", "jacobi.g.recurrences", "jacobi.g.polynomials", "jacobi.g.weight",
+  "hermite.h.inner.products", "hermite.h.recurrences", "hermite.h.polynomials", "hermite.h.weight",
+  "hermite.he.inner.products", "hermite.he.recurrences", "hermite.he.polynomials", "hermite.he.weight",
+  "glaguerre.inner.products", "glaguerre.recurrences", "glaguerre.polynomials", "glaguerre.weight",
+  "laguerre.inner.products", "laguerre.recurrences", "laguerre.polynomials", "laguerre.weight",
+  "legendre.inner.products", "legendre.recurrences", "legendre.polynomials", "legendre.weight",
+  "slegendre.inner.products", "slegendre.recurrences", "slegendre.polynomials", "slegendre.weight",
+  "spherical.inner.products", "spherical.recurrences", "spherical.polynomials", "spherical.weight",
+  "gegenbauer.inner.products", "gegenbauer.recurrences", "gegenbauer.polynomials", "gegenbauer.weight",
+  "ultraspherical.inner.products", "ultraspherical.recurrences", "ultraspherical.polynomials", "ultraspherical.weight",
+  "ghermite.h.inner.products","ghermite.h.recurrences", "ghermite.h.polynomials", "ghermite.h.weight",
+  "lpochhammer", "pochhammer",
+  "monic.polynomial.recurrences", "monic.polynomials",
+  "orthogonal.polynomials", "orthonormal.polynomials",
+  "polynomial.coefficients", "polynomial.functions",
+  "polynomial.derivatives", "polynomial.integrals", "polynomial.orders", "polynomial.powers",
+  "polynomial.roots", "polynomial.values",
+  "scaleX" )

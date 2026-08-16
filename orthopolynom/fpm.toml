@@ -1,0 +1,20 @@
+name = "orthopolynom-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "OpenAI; based on orthopolynom by Frederick Novomestky"
+maintainer = "OpenAI"
+description = "Modern Fortran translation of the computational code in the R orthopolynom package"
+categories = ["mathematics", "polynomials"]
+keywords = ["orthogonal-polynomials", "recurrences", "jacobi", "chebyshev", "legendre"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+polynom-fortran = { path = "vendor/polynom-fortran" }
