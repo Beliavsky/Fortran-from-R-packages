@@ -1,0 +1,21 @@
+name = "pracma"
+version = "2.4.6"
+license = "GPL-3.0-or-later"
+author = "Hans W. Borchers; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of the R package pracma"
+keywords = ["numerical-analysis", "linear-algebra", "optimization", "integration", "ode", "special-functions"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

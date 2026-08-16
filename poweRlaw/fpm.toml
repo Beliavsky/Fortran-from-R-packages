@@ -1,0 +1,24 @@
+name = "powerlaw"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Colin Gillespie; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of R poweRlaw"
+keywords = ["power-law", "heavy-tail", "maximum-likelihood", "bootstrap", "KS"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+pracma = { path = "vendor/pracma-fortran" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
