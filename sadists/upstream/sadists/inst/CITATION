@@ -1,0 +1,20 @@
+
+pkg_year <- sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
+pkg_vers <- paste('R package version', meta$Version)
+
+fix_title <- meta$Title
+
+bibentry(
+	bibtype = "manual",
+	header = paste0("To cite the '",meta$Package,"' package in publications use:"),
+	key = paste0(meta$Package,"-Manual"),
+  title = paste0("{", meta$Package, "}: ", fix_title),
+  author = as.person(meta$Author),
+  year = pkg_year,
+  note = pkg_vers,
+  url = meta$URL,
+  textVersion = paste0("Steven E. Pav (", pkg_year, "). ", meta$Package, ": ", fix_title, ". ", pkg_vers, ".")
+)
+
+#for vim modeline: (do not edit)
+# vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

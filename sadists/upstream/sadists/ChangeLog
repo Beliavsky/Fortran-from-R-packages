@@ -1,0 +1,41 @@
+2026-07-16 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.6. on CRAN
+* fix missing vignette references.
+
+2025-12-25 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.5 on CRAN
+* fix issues with high df chisquare moments, closing #16
+
+2020-06-23 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.4 on CRAN
+* CRAN emergency release
+* no new functionality
+
+2017-03-19 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.3 on CRAN
+* product of normals
+* move github figures to location CRAN understands.
+
+2016-03-03 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.2 on CRAN
+* ggplot2 incompatibilities
+
+2015-08-25 Steven E. Pav <shabbychef@gmail.com>
+* work around bad rchisq when df=0=ncp
+
+2015-06-12 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.1 on CRAN
+* shiny app
+
+2015-04-01 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.0 on CRAN
+* doubly non-central Beta and Eta
+* sum of log chi-squares
+* product of chi-squares
+
+2015-03-07 Steven E. Pav <shabbychef@gmail.com>
+* 0.1.0 on CRAN
+
+2015-02-13 Steven E. Pav <shabbychef@gmail.com>
+* start work
+

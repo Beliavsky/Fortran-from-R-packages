@@ -1,0 +1,21 @@
+name = "sadists-fortran"
+version = "0.2.0"
+license = "LGPL-3.0-or-later"
+author = "Steven E. Pav; Fortran translation by OpenAI"
+maintainer = ""
+copyright = "Copyright (c) 2014-2026 Steven E. Pav; translation copyright 2026"
+description = "Modern Fortran translation of the computational code in the R package sadists"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+pdqutils-fortran = { path = "vendor/pdqutils-fortran" }
