@@ -1,0 +1,37 @@
+Package: DiscreteDists
+Title: Discrete Statistical Distributions
+Version: 1.1.2
+Authors@R: c(
+    person("Freddy", "Hernandez-Barajas", , "fhernanb@unal.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7459-3329")),
+    person("Fernando", "Marmolejo-Ramos", , "firthunandsster@gmail.com", role = c("aut"),
+           comment = c(ORCID = "0000-0003-4680-1287")),
+    person("Olga", "Usuga-Manco", , "olga.usuga@udea.edu.co", role = c("aut"),
+           comment = c(ORCID = "0000-0003-3062-1820")),
+    person("Jamiu", "Olumoh", , "jamiu.olumoh@aun.edu.ng", role = c("aut"),
+           comment = c(ORCID = "0000-0002-7371-3920")), 
+    person("Osho", "Ajayi", , "osho.ajayi@aun.edu.ng", role = c("aut"))
+           )
+Description: Implementation of new discrete statistical distributions. Each distribution includes the traditional functions as well as an additional function called the family function, which can be used to estimate parameters within the 'gamlss' framework.
+License: MIT + file LICENSE
+Imports: gamlss, gamlss.dist, pracma, Rcpp, COMPoissonReg, nleqslv
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Suggests: knitr, rmarkdown
+URL: https://github.com/fhernanb/DiscreteDists
+BugReports: https://github.com/fhernanb/DiscreteDists/issues
+Depends: R (>= 4.1)
+LazyData: true
+NeedsCompilation: yes
+Packaged: 2026-02-19 19:39:01 UTC; fhern
+Author: Freddy Hernandez-Barajas [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-7459-3329>),
+  Fernando Marmolejo-Ramos [aut] (ORCID:
+    <https://orcid.org/0000-0003-4680-1287>),
+  Olga Usuga-Manco [aut] (ORCID: <https://orcid.org/0000-0003-3062-1820>),
+  Jamiu Olumoh [aut] (ORCID: <https://orcid.org/0000-0002-7371-3920>),
+  Osho Ajayi [aut]
+Maintainer: Freddy Hernandez-Barajas <fhernanb@unal.edu.co>
+Repository: CRAN
+Date/Publication: 2026-02-19 20:00:13 UTC

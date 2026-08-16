@@ -1,0 +1,25 @@
+name = "discretedists-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "DiscreteDists authors; modern Fortran translation"
+maintainer = ""
+copyright = "See NOTICE.md and upstream LICENSE"
+description = "Modern Fortran computational port of the R package DiscreteDists"
+keywords = ["probability", "discrete-distributions", "gamlss", "count-data"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+compoissonreg-fortran = { path = "vendor/compoissonreg-fortran" }

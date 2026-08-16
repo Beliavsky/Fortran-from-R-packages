@@ -1,0 +1,111 @@
+# API map
+
+All 102 exports in the supplied R `NAMESPACE` are accounted for.
+
+| R export | Fortran mapping |
+|---|---|
+| `AR` | `ar` |
+| `BerG` | `berg` |
+| `COMPO` | `compo` |
+| `COMPO2` | `compo2` |
+| `DBH` | `dbh` |
+| `DGEII` | `dgeii` |
+| `DIKUM` | `dikum` |
+| `DLD` | `dld` |
+| `DMOLBE` | `dmolbe` |
+| `DPERKS` | `dperks` |
+| `DsPA` | `dspa` |
+| `F11` | `f11` |
+| `GGEO` | `ggeo` |
+| `HYPERPO` | `hyperpo` |
+| `HYPERPO2` | `hyperpo2` |
+| `POISXL` | `poisxl` |
+| `add` | `add_series` |
+| `dBerG` | `dberg` |
+| `dCOMPO` | `dcompo` |
+| `dCOMPO2` | `dcompo2` |
+| `dDBH` | `ddbh` |
+| `dDGEII` | `ddgeii` |
+| `dDIKUM` | `ddikum` |
+| `dDLD` | `ddld` |
+| `dDMOLBE` | `ddmolbe` |
+| `dDPERKS` | `ddperks` |
+| `dDsPA` | `ddspa` |
+| `dGGEO` | `dggeo` |
+| `dHYPERPO` | `dhyperpo` |
+| `dHYPERPO2` | `dhyperpo2` |
+| `dPOISXL` | `dpoisxl` |
+| `estim_mu_DBH` | `estim_mu_dbh` |
+| `estim_mu_DLD` | `estim_mu_dld` |
+| `estim_mu_POISXL` | `estim_mu_poisxl` |
+| `estim_mu_sigma_COMPO` | `estim_mu_sigma_compo` |
+| `estim_mu_sigma_DGEII` | `estim_mu_sigma_dgeii` |
+| `estim_mu_sigma_DIKUM` | `estim_mu_sigma_dikum` |
+| `estim_mu_sigma_DMOLBE` | `estim_mu_sigma_dmolbe` |
+| `estim_mu_sigma_DPERKS` | `estim_mu_sigma_dperks` |
+| `estim_mu_sigma_DsPA` | `estim_mu_sigma_dspa` |
+| `estim_mu_sigma_GGEO` | `estim_mu_sigma_ggeo` |
+| `estim_mu_sigma_HYPERPO` | `estim_mu_sigma_hyperpo` |
+| `estim_mu_sigma_HYPERPO2` | `estim_mu_sigma_hyperpo2` |
+| `logLik_DBH` | `loglik_dbh` |
+| `logLik_DGEII` | `loglik_dgeii` |
+| `logLik_DIKUM` | `loglik_dikum` |
+| `logLik_DLD` | `loglik_dld` |
+| `logLik_DMOLBE` | `loglik_dmolbe` |
+| `logLik_DPERKS` | `loglik_dperks` |
+| `logLik_DsPA` | `loglik_dspa` |
+| `logLik_GGEO` | `loglik_ggeo` |
+| `logLik_HYPERPO` | `loglik_hyperpo` |
+| `logLik_HYPERPO2` | `loglik_hyperpo2` |
+| `logLik_POISXL` | `loglik_poisxl` |
+| `mean_var_hp` | `mean_var_hp` |
+| `mean_var_hp2` | `mean_var_hp2` |
+| `obtaining_lambda` | `obtaining_lambda` |
+| `pBerG` | `pberg` |
+| `pCOMPO` | `pcompo` |
+| `pCOMPO2` | `pcompo2` |
+| `pDBH` | `pdbh` |
+| `pDGEII` | `pdgeii` |
+| `pDIKUM` | `pdikum` |
+| `pDLD` | `pdld` |
+| `pDMOLBE` | `pdmolbe` |
+| `pDPERKS` | `pdperks` |
+| `pDsPA` | `pdspa` |
+| `pGGEO` | `pggeo` |
+| `pHYPERPO` | `phyperpo` |
+| `pHYPERPO2` | `phyperpo2` |
+| `pPOISXL` | `ppoisxl` |
+| `plot_discrete_cdf` | omitted (plotting only) |
+| `qBerG` | `qberg` |
+| `qCOMPO` | `qcompo` |
+| `qCOMPO2` | `qcompo2` |
+| `qDBH` | `qdbh` |
+| `qDGEII` | `qdgeii` |
+| `qDIKUM` | `qdikum` |
+| `qDLD` | `qdld` |
+| `qDMOLBE` | `qdmolbe` |
+| `qDPERKS` | `qdperks` |
+| `qDsPA` | `qdspa` |
+| `qGGEO` | `qggeo` |
+| `qHYPERPO` | `qhyperpo` |
+| `qHYPERPO2` | `qhyperpo2` |
+| `qPOISXL` | `qpoisxl` |
+| `rBerG` | `rberg` |
+| `rCOMPO` | `rcompo` |
+| `rCOMPO2` | `rcompo2` |
+| `rDBH` | `rdbh` |
+| `rDGEII` | `rdgeii` |
+| `rDIKUM` | `rdikum` |
+| `rDLD` | `rdld` |
+| `rDMOLBE` | `rdmolbe` |
+| `rDPERKS` | `rdperks` |
+| `rDsPA` | `rdspa` |
+| `rGGEO` | `rggeo` |
+| `rHYPERPO` | `rhyperpo` |
+| `rHYPERPO2` | `rhyperpo2` |
+| `rPOISXL` | `rpoisxl` |
+| `simulate_hp` | `simulate_hp` |
+| `stopping` | `stopping` |
+
+The only intentionally omitted export is `plot_discrete_cdf`, which is graphics-only.
+R GAMLSS family closures map to functions returning `discrete_family_t`.
