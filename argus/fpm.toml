@@ -1,0 +1,20 @@
+name = "argus-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran port based on argus by Wolfgang Hoermann and Christoph Baumgarten"
+maintainer = ""
+copyright = "See LICENSES.md and upstream/DESCRIPTION"
+description = "Modern Fortran implementation of the Argus distribution"
+categories = ["statistics", "probability", "random-number-generation"]
+keywords = ["argus", "distribution", "rng", "fortran"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

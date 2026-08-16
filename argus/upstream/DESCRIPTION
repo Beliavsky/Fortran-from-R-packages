@@ -1,0 +1,22 @@
+Package: argus
+Type: Package
+Title: Random Variate Generator for the Argus Distribution
+Version: 0.1.1
+Authors@R: c(person("Wolfgang", "Hormann", email = "hormanngw@yahoo.com",
+                  role = c("aut", "cre")),
+				  person("Christoph","Baumgarten",role = c("aut")))
+Maintainer: Wolfgang Hormann <hormanngw@yahoo.com>
+Imports: Runuran
+Description: 
+  Random variate generation, density, CDF and quantile function 
+  for the Argus distribution. Especially, it includes for random variate generation a
+  flexible inversion method that is also fast in the varying parameter case.
+  A Ratio-of-Uniforms method is provided as second alternative.
+License: GPL (>= 2)
+LazyLoad: yes
+NeedsCompilation: yes
+Repository: CRAN
+Packaged: 2023-09-15 06:05:07 UTC; hormannw
+Author: Wolfgang Hormann [aut, cre],
+  Christoph Baumgarten [aut]
+Date/Publication: 2023-09-15 08:02:29 UTC

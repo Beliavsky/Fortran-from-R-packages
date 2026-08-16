@@ -1,0 +1,8 @@
+useDynLib(argus, .registration=TRUE, .fixes="C_")
+
+importFrom("stats", "pgamma", "qgamma", "runif", "splinefun")
+
+export("rargus")
+export("dargus")
+export("pargus")
+export("qargus")
