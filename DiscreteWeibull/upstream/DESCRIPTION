@@ -1,0 +1,15 @@
+Package: DiscreteWeibull
+Type: Package
+Title: Discrete Weibull Distributions (Type 1 and 3)
+Version: 1.1
+Date: 2015-10-15
+Author: Alessandro Barbiero
+Maintainer: Alessandro Barbiero <alessandro.barbiero@unimi.it>
+Description: Probability mass function, distribution function, quantile function, random generation and parameter estimation for the type I and III discrete Weibull distributions.
+License: GPL
+LazyLoad: yes
+Depends: Rsolnp, stats
+Packaged: 2015-10-17 08:36:21 UTC; Barbiero
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2015-10-18 01:21:16

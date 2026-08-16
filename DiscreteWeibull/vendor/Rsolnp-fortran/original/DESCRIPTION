@@ -1,0 +1,26 @@
+Package: Rsolnp
+Type: Package
+Title: General Non-Linear Optimization
+Version: 2.0.1
+Date: 2025-06-30
+Authors@R: c(person("Alexios", "Galanos", role = c("aut","cre","cph"), email = "alexios@4dscape.com", comment = c(ORCID = "0009-0000-9308-0457")), person("Stefan", "Theussl", role = c("ctb"), email = "Stefan.Theussl@R-project.org", comment = c(ORCID = "0000-0002-6523-4620")), person("Yinyu", "Ye", role = "aut", comment = "Original author of the solnp Matlab code, Stanford University"))
+Maintainer: Alexios Galanos <alexios@4dscape.com>
+Depends: R (>= 3.0.2)
+LinkingTo: Rcpp (>= 0.10.6), RcppArmadillo
+Imports: Rcpp, truncnorm, parallel, stats, numDeriv, future.apply
+Description: General Non-linear Optimization Using Augmented Lagrange Multiplier Method.
+LazyLoad: yes
+License: GPL-2
+Encoding: UTF-8
+NeedsCompilation: yes
+RoxygenNote: 7.3.2
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Packaged: 2025-06-30 03:33:57 UTC; alexios
+Author: Alexios Galanos [aut, cre, cph] (ORCID:
+    <https://orcid.org/0009-0000-9308-0457>),
+  Stefan Theussl [ctb] (ORCID: <https://orcid.org/0000-0002-6523-4620>),
+  Yinyu Ye [aut] (Original author of the solnp Matlab code, Stanford
+    University)
+Repository: CRAN
+Date/Publication: 2025-06-30 04:20:02 UTC

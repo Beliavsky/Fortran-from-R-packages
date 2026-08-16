@@ -1,0 +1,24 @@
+name = "DiscreteWeibull-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Alessandro Barbiero; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the R DiscreteWeibull package"
+keywords = ["discrete-weibull", "probability", "maximum-likelihood", "moments"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+Rsolnp-fortran = { path = "vendor/Rsolnp-fortran" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
