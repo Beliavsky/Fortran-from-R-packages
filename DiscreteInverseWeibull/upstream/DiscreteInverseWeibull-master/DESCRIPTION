@@ -1,0 +1,15 @@
+Package: DiscreteInverseWeibull
+Type: Package
+Title: Discrete Inverse Weibull Distribution
+Version: 1.0.2
+Date: 2016-04-29
+Author: Alessandro Barbiero, Riccardo Inchingolo, Mario Samigli
+Maintainer: Alessandro Barbiero <alessandro.barbiero@unimi.it>
+Description: Probability mass function, distribution function, quantile function, random generation and parameter estimation for the discrete inverse Weibull distribution.
+License: GPL
+LazyLoad: yes
+Depends: Rsolnp
+Packaged: 2016-04-30 07:58:00 UTC; Barbiero
+Repository: CRAN
+Date/Publication: 2016-05-01 00:44:40
+NeedsCompilation: no

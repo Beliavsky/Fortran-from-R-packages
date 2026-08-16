@@ -1,0 +1,3 @@
+exportPattern(".")
+import(Rsolnp)
+importFrom("stats", "ecdf", "lm", "optimize", "runif")

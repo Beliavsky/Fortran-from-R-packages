@@ -1,0 +1,24 @@
+name = "DiscreteInverseWeibull-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Alessandro Barbiero, Riccardo Inchingolo, Mario Samigli; Fortran translation"
+maintainer = "Fortran translation maintainers"
+description = "Modern Fortran translation of DiscreteInverseWeibull"
+keywords = ["discrete", "inverse-weibull", "maximum-likelihood", "moments"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+Rsolnp-fortran = { path = "vendor/Rsolnp-fortran" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
