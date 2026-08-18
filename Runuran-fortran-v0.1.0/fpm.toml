@@ -1,0 +1,19 @@
+name = "runuran-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of Runuran/UNU.RAN by OpenAI"
+maintainer = ""
+description = "Modern Fortran computational translation of Runuran and core UNU.RAN generators"
+categories = ["statistics", "random-number-generation"]
+keywords = ["UNU.RAN", "random variates", "Monte Carlo", "distributions"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
