@@ -1,0 +1,86 @@
+
+ 0.4.1 fixed documentation for metrop
+
+ 0.5   changed licence to X11 (was AFL, which apparently sucks)
+
+       changed to NAMESPACE
+       cleaned up latex in inst/doc, added Makefile
+       removed src/Makevars
+
+       had to get rid of R_IsNaNorNA in src/metrop.c
+
+       generally, lots of changes to get ready for CRAN
+
+       all of the tests/*.Rout.save redone because the digits
+       in numerical printing seem to have changed -- cannot get
+       bit for bit identical with earlier R (even before code changes).
+
+       changed first arg of metrop from "o" to "obj"
+
+ 0.5-1 changed package vignette to fix bogus MCSE calculation
+       (bogosity still admitted and explained in appendix).
+
+ 0.6   added initseq function
+
+ 0.7   added temper function -- not tested yet
+
+ 0.7-1 fix bug && to ||
+       much confusion about whether my_i and my_j were 0-origin or 1-origin
+       forgot to allocate debug_acceptd
+       confusion about dimension of state (nx + 1 vector if serial,
+           ncomp x nx matrix if parallel) and <= nx versus < nx in loop bounds
+       bug where my_swapped_proposal_log_dens was used twice when one should
+           have been my_swapped_coproposal_log_dens
+       bug in dimension of debug_state when parallel (last dim nx not nx + 1) 
+       accepted swap didn't actually swap, fixed
+       all the accept decisions when log_hastings_ratio < 0 were backwards
+       batch means accumulation has = instead of +=
+       batch means divided by nbatch rather than blen
+       accepti entries stored in wrong places in output structure
+       ripped out old system for caching lud values, put in new that caches all
+           (more efficient, but real reason was old was broken somehow)
+           of course, its first implementation had 0-origin vs 1-origin confuse
+       yet another instance 0-origin vs 1-origin confusion (my_i should be
+           my_i - 1
+       length of output structure (len_result) determined incorrectly, fixed
+       caching of current lud value broken in serial case (stored in i not j)
+       after all that, everything now checked even with --use-valgrind and
+           --use-gct
+
+ 0.7-3 add bugs section to initseq.Rd
+       fix example in temper.Rd to actually be for temper rather than metrop
+       fix comment in temper.c
+       add inst/doc/debug.Rnw a vignette about debugging and debug output
+
+ 0.7-4 some changes to /inst/doc/demo.Rnw
+
+ 0.7-5 add inst/doc/bfst.Rnw a vignette about Bayes factors and serial tempering
+
+ 0.8   earlier versions calculated the Hastings ratio wrong in doing serial
+       tempering, ignoring the number of neighbors each component had, hence
+       computing wrong answers when components differed in number of neighbors
+
+ 0.9   morph, morph.metrop functions and morph.pdf vignette
+       bumped required R version to 2.10.0 (required by xtable)
+
+ 0.9-1 added PACKAGE = "mcmc" where missing to .C and .Call
+
+ 0.9-3 move vignettes to vignettes directory
+       changed LICENCE file yet again as per CRAN requirements
+
+ 0.9-4 cleaned up some tests
+       import from stats, as required by R-3.3.0
+
+ 0.9-5 use registration of native routines described in Sections 5.4 and
+       6.15 of Writing R Extensions
+       add calls to cmpfun inside metrop and temper
+
+ 0.9-6 take out calls to cmpfun and requirement for R package compiler
+       (R now automagically does jit)
+
+       Fix problems found in CRAN static analysis
+
+ 0.9-7 add calls to R_CheckUserInterrupt in C functions mcmc and temper
+
+ 0.9-8 give intelligible error on zero length initial state vector
+       also change e-mail to geyer@umn.edu
