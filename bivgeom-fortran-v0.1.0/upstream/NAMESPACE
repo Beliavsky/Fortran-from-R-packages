@@ -1,0 +1,7 @@
+export(corbivgeomRoy,dbivgeomRoy,estbivgeomRoy,EyxbivgeomRoy,FbivgeomRoy,FyxbivgeomRoy,lambda1Roy,lambda2Roy,loglikgeomRoy,minuslogRoy,rbivgeomRoy,RelbivgeomRoy,S.n,SbivgeomRoy)
+import("methods")
+import("stats")
+import("utils")
+import("bbmle")
+import("copula")
+

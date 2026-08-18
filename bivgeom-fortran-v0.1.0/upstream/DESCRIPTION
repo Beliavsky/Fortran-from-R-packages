@@ -1,0 +1,14 @@
+Package: bivgeom
+Type: Package
+Title: Roy's Bivariate Geometric Distribution
+Version: 1.0
+Date: 2018-10-17
+Author: Alessandro Barbiero
+Maintainer: Alessandro Barbiero <alessandro.barbiero@unimi.it>
+Imports: methods, stats, utils, bbmle, copula
+Description: Implements Roy's bivariate geometric model (Roy (1993) <doi:10.1006/jmva.1993.1065>): joint probability mass function, distribution function, survival function, random generation, parameter estimation, and more.
+License: GPL
+NeedsCompilation: no
+Packaged: 2018-10-17 16:23:28 UTC; admin
+Repository: CRAN
+Date/Publication: 2018-10-26 15:20:06 UTC

@@ -1,0 +1,19 @@
+name = "bivgeom-fortran"
+version = "0.1.0"
+license = "GPL"
+author = "Alessandro Barbiero; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Upstream copyright retained"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
