@@ -1,0 +1,13 @@
+Package: MultiRNG
+Type: Package
+Title: Multivariate Pseudo-Random Number Generation
+Version: 1.2.4
+Date: 2021-03-05
+Author: Hakan Demirtas, Rawan Allozi, Ran Gao
+Maintainer: Ran Gao <rgao8@uic.edu>
+Description: Pseudo-random number generation for 11 multivariate distributions: Normal, t, Uniform, Bernoulli, Hypergeometric, Beta (Dirichlet), Multinomial, Dirichlet-Multinomial, Laplace, Wishart, and Inverted Wishart. The details of the method are explained in Demirtas (2004) <DOI:10.22237/jmasm/1099268340>.
+License: GPL-2 | GPL-3
+NeedsCompilation: no
+Packaged: 2021-03-05 17:34:19 UTC; rangao
+Repository: CRAN
+Date/Publication: 2021-03-05 18:10:05 UTC

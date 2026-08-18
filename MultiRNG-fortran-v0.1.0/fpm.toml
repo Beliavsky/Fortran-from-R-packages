@@ -1,0 +1,14 @@
+name = "multirng-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Hakan Demirtas, Rawan Allozi, Ran Gao; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Copyright (c) upstream MultiRNG authors"
+
+[library]
+source-dir = "src"
+
+[fortran]
+source-form = "free"
+implicit-typing = false
+implicit-external = false
