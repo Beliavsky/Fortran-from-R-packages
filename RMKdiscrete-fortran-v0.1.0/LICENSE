@@ -1,0 +1,13 @@
+RMKdiscrete-fortran is a translation of computational code from RMKdiscrete 0.1.
+
+Upstream package:
+  RMKdiscrete: Sundry Discrete Probability Distributions
+  Author/Maintainer: Robert M. Kirkpatrick
+  License: GPL (>= 2)
+
+This translation is distributed under the GNU General Public License,
+version 2 or (at your option) any later version (GPL-2.0-or-later).
+See COPYING for the GPL version 2 license text.
+
+The original authorship and license notices are retained. No change of
+license is intended by the translation from R/C to Fortran.

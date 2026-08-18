@@ -1,0 +1,11 @@
+Package: RMKdiscrete
+Version: 0.1
+Date: 2014-10-17
+Title: Sundry Discrete Probability Distributions
+Author: Robert M. Kirkpatrick <rkirkpatrick2@vcu.edu>
+Maintainer: Robert M. Kirkpatrick <rkirkpatrick2@vcu.edu>
+Description: Sundry discrete probability distributions and helper functions.
+Depends: stats, R (>= 2.15.0)
+NeedsCompilation: yes
+Repository: CRAN
+License: GPL (>= 2)
