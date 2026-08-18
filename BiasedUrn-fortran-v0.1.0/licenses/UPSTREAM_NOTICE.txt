@@ -1,0 +1,14 @@
+BiasedUrn-fortran is a computational translation of the CRAN package BiasedUrn.
+
+Upstream package:
+  BiasedUrn 2.0.12
+  Author and maintainer: Agner Fog
+  Copyright (c) 2002-2024 Agner Fog
+  License: GNU General Public License version 3 (GPL-3)
+  Upstream URLs: https://www.agner.org/random/ and https://www.r-project.org/
+
+The upstream C++ files identify the underlying stochastic-library code as
+Copyright 2002-2024 Agner Fog and licensed under GPL version 3.
+
+This Fortran translation is distributed under the same GPL-3 license.
+See ../LICENSE for the complete license text.

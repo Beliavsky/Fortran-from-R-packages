@@ -1,0 +1,15 @@
+name = "biasedurn-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Agner Fog; Fortran translation"
+maintainer = ""
+copyright = "Copyright (c) 2002-2024 Agner Fog"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
