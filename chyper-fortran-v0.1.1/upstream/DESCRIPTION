@@ -1,0 +1,16 @@
+Package: chyper
+Type: Package
+Title: Functions for Conditional Hypergeometric Distributions
+Version: 0.3.1
+Author: William Nickols
+Maintainer: William Nickols <willnickols@college.harvard.edu>
+Description: An implementation of the probability mass function, cumulative density function, quantile function, random number generator, maximum likelihood estimator, and p-value generator from a conditional hypergeometric distribution: the distribution of how many items are in the overlap of all samples when samples of arbitrary size are each taken without replacement from populations of arbitrary size.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.1.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2021-08-12 10:23:01 UTC; willn
+Repository: CRAN
+Date/Publication: 2021-08-13 09:20:05 UTC

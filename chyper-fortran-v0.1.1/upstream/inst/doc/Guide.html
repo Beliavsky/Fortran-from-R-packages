@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="William Nickols" />
+
+
+<title>Guide</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Guide</h1>
+<h4 class="author">William Nickols</h4>
+
+
+
+<div id="conditional-hypergeometric-story" class="section level2">
+<h2>Conditional hypergeometric story</h2>
+<p>Consider two overlapping populations 1 and 2 with <span class="math inline">\(n_1\)</span> people unique to population 1, <span class="math inline">\(n_2\)</span> people unique to population 2, and <span class="math inline">\(s\)</span> people in both populations (for a total population 1 size of <span class="math inline">\(n_1+s\)</span> and total population 2 size of <span class="math inline">\(n_2+s\)</span>). We then take a random sample of <span class="math inline">\(m_1\)</span> people from population 1 (all combinations equally likely) and a random sample of <span class="math inline">\(m_2\)</span> from population 2 (all combinations equally likely). Each sample is internally without replacement (i.e. the sample from population 1 can’t include the same person twice), but the same people can be chosen in both the sample from population 1 and the sample from population 2. We want the distribution of how many people will be in both the sample from population 1 and the sample from population 2, which we will call <span class="math inline">\(X_2\)</span> (the subscript “2” will make sense shortly).</p>
+</div>
+<div id="conditional-hypergeometric-pmf-for-2-populations" class="section level2">
+<h2>Conditional hypergeometric PMF for 2 populations</h2>
+<p>Looking first at the people sampled from population 1 (sample size <span class="math inline">\(m_1\)</span>), let <span class="math inline">\(X_1\)</span> represent the number of people in the sample who are also in population 2. Isometric to the distribution of how many white balls are chosen when taking <span class="math inline">\(m_1\)</span> balls from an urn of <span class="math inline">\(s\)</span> white balls and <span class="math inline">\(n_1\)</span> black balls, <span class="math inline">\(X_1\sim\textrm{HGeom}(s,n_1,m_1)\)</span>. Then, <span class="math inline">\(X_2\)</span> is just the number of people in the sample from the second population who were already sampled. That is, conditional on <span class="math inline">\(X_1\)</span>, we can treat the number of people already sampled (<span class="math inline">\(X_1\)</span>) as the white balls and everyone else in population 2 (<span class="math inline">\(n_2+s-X_1\)</span>) as the black balls, and we can then draw <span class="math inline">\(m_2\)</span> balls (the sample size from population 2). Therefore, the number of overlaps <span class="math inline">\(X_2\)</span> is distributed as <span class="math inline">\(X_2\sim\textrm{HGeom}(X_1,n_2+s-X_1,m_2)\)</span>. Then, we can get the PMF of <span class="math inline">\(X_2\)</span> by the law of total probability: <span class="math display">\[P(X_2=k)=\sum_{x_1}P(X_2=k|X_1=x_1)P(X_1=x_1)\]</span><span class="math display">\[=\sum_{x_1=k}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{k}}{{n_2+s-x_1}\choose{m_2-k}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\]</span> Here, we have just substituted in the hypergeometric PMFs with a summation from <span class="math inline">\(k\)</span> (at least <span class="math inline">\(k\)</span> people must be sampled from the intersection in sample 1 to have <span class="math inline">\(k\)</span> twice-sampled people) to whichever of <span class="math inline">\(m_1\)</span> or <span class="math inline">\(s\)</span> is lower (the number sampled in the intersection from sample 1 cannot exceed either the total number of people sampled from population 1 or the total number of people in the intersection).</p>
+</div>
+<div id="conditional-hypergeometric-extension-to-arbitrarily-many-populations" class="section level2">
+<h2>Conditional hypergeometric extension to arbitrarily many populations</h2>
+<p>This solution can be extended to the case of <span class="math inline">\(k\)</span> overlapping populations with <span class="math inline">\(n_i\)</span> people in population <span class="math inline">\(i\)</span> not in the intersection of all the populations and <span class="math inline">\(s\)</span> people in the intersection of all the populations. Note that some people included in <span class="math inline">\(n_i\)</span> might also be included in <span class="math inline">\(n_{i+1}\)</span> etc.; they just cannot be included in all other populations or they would go in <span class="math inline">\(s\)</span>. As before, let <span class="math inline">\(m_i\)</span> people be sampled from each population without replacement internally but with replacement between the sampling of each population. Let <span class="math inline">\(X_k\)</span> be the number of people chosen in all <span class="math inline">\(k\)</span> samples. Then, let <span class="math inline">\(X_1\)</span> be the number of people from <span class="math inline">\(s\)</span> in <span class="math inline">\(m_1\)</span>, <span class="math inline">\(X_2\)</span> be the number of people from <span class="math inline">\(X_1\)</span> in <span class="math inline">\(m_2\)</span>, <span class="math inline">\(X_3\)</span> be the number of people from <span class="math inline">\(X_2\)</span> in <span class="math inline">\(m_3\)</span>, and so on. Then, extending the law of total probability from earlier, <span class="math display">\[\begin{split}
+P(X_2=x_2) =&amp; \sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1) \\
+P(X_3=x_3) =&amp; \sum_{x_2}P(X_3=x_3|X_2=x_2)P(X_2=x_2)=\\
+&amp;\sum_{x_2}P(X_3=x_3|X_2=x_2)\Big[\sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1)\Big]\\
+...\\
+P(X_k=k) =&amp; \sum_{x_{k-1}}P(X_k=k|X_{k-1}=x_{k-1})\Big[\sum_{x_{k-2}}P(X_{k-1}=x_{k-1}|X_{k-2}=x_{k-2})\cdot\Big[...\cdot\\
+&amp;\Big[\sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1)\Big]...\Big]\Big]\\
+=&amp; \sum_{x_{k-1}=k}^{\textrm{min}(m_{k-1},s)}\frac{{{x_{k-1}}\choose{k}}{{n_k+s-x_{k-1}}\choose{m_k-k}}}{{{n_{k}+s}\choose{m_k}}}\cdot\Big[\sum_{x_{k-2}=k}^{\textrm{min}(m_{k-2},s)}\frac{{{x_{k-2}}\choose{x_{k-1}}}{{n_{k-1}+s-x_{k-2}}\choose{m_{k-1}-x_{k-1}}}}{{{n_{k-1}+s}\choose{m_{k-1}}}}\cdot\Big[...\cdot\\
+&amp;\Big[\sum_{x_1=k}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{k}}{{n_2+s-x_1}\choose{m_2-k}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\Big]...\Big]\Big]
+\end{split}\]</span></p>
+</div>
+<div id="computational-optimizations" class="section level2">
+<h2>Computational optimizations</h2>
+<p>While these sums of sums seem to pose an increasingly daunting computation task, there are actually two optimizations that can speed this computation up significantly. First, calculating this PMF can be optimized by storing all the <span class="math inline">\(P(X_i = x_i)\)</span> at each level because they are the same regardless of any level above them (i.e. <span class="math inline">\(P(X_1 = x_1)\)</span> does not depend on the value of <span class="math inline">\(k\)</span> in <span class="math inline">\(P(X_2=k)\)</span>). Therefore, by storing <span class="math inline">\(P(X_1=x_1)\)</span> for <span class="math inline">\(x_1\)</span> from <span class="math inline">\(0\)</span> to <span class="math inline">\(\textrm{min}(m_1,s)\)</span>, we can move to the <span class="math inline">\(P(X_2=x_2)\)</span> level without ever needing to recompute anything for the <span class="math inline">\(P(X_1=x_1)\)</span> level. This can be repeated with the <span class="math inline">\(P(X_2=x_2)\)</span> level versus the <span class="math inline">\(P(X_3=x_3)\)</span> level and so on.</p>
+<p>Second, the calculation can be further optimized by storing all the <span class="math inline">\(P(X_{i} = x_{i}|X_{i-1} = x_{i-1})\)</span> and updating from <span class="math inline">\(P(X_i = x_i|X_{i-1} = x_{i-1})\)</span> to <span class="math inline">\(P(X_i = x_i+1|X_{i-1} = x_{i-1})\)</span>. For example, looking at <span class="math inline">\(P(X_2=x_2)\)</span>, we initially have the equation <span class="math display">\[P(X_2=x_2)=\sum_{x_1=x_2}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\]</span> that we want to update to <span class="math display">\[P(X_2=x_2+1)=\sum_{x_1=x_2+1}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\]</span> Looking element-wise, we can keep the <span class="math inline">\(\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\)</span> term from <span class="math inline">\(P(X_1=x_1)\)</span> and just shift that as necessary to keep proper indexing. However, we need to solve <span class="math display">\[c\cdot\frac{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}{{{n_2+s}\choose{m_2}}} = \frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{n_2+s}\choose{m_2}}}\]</span><br />
+The solutions is <span class="math display">\[c=\frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}=\]</span><span class="math display">\[\frac{(x_1-x_2)!x_2!}{(x_1-(x_2+1))!(x_2+1)!}\cdot\frac{(n_2+s-x_1-(m_2-x_2))!(m_2-x_2)!}{(n_2+s-x_1-(m_2-(x_2+1)))!(m_2-(x_2+1))!}\]</span> <span class="math display">\[=\frac{(x_1-x_2)(m_2-x_2)}{(x_2+1)(n_2+s-x_1-(m_2-(x_2+1)))}\]</span> This holds for any level; that is, to get <span class="math inline">\(P(X_i=x_i+1|X_{i-1}=x_{i-1})\)</span> from <span class="math inline">\(P(X_i=x_i|X_{i-1}=x_{i-1})\)</span> we can always multiply <span class="math inline">\(P(X_i=x_i|X_{i-1}=x_{i-1})\)</span> by <span class="math display">\[\frac{(x_{i-1}-x_i)(m_i-x_i)}{(x_i+1)(n_i+s-x_{i-1}-(m_i-(x_i+1)))}\]</span> Storing <span class="math inline">\(P(X_i=x_i|X_{i-1}=x_{i-1})\)</span> and <span class="math inline">\(P(X_{i-1}=x_{i-1})\)</span> and updating them element-wise in the sum rather than recomputing the hypergeometric distribution dramatically speeds up computation time. In the rare cases where <span class="math inline">\(P(X_i=x_i|X_{i-1}=x_{i-1})\)</span> is so low that R rounds it to 0, it is necessary to recompute the hypergeometric value to make sure we are not erroneously trying to multiply by 0 to update the terms. However, once those terms become non-zero, the updating formula can be applied continuously. For more than two groups, this entire process is performed recursively (i.e. calculate <span class="math inline">\(P(X_1=x_1)\)</span>, use that to find <span class="math inline">\(P(X_2=x_2)\)</span>, use that to find <span class="math inline">\(P(X_3=x_3)\)</span> and so on).</p>
+</div>
+<div id="pmf-cdf-quantile-function-random-number-generator" class="section level2">
+<h2>PMF, CDF, quantile function, random number generator</h2>
+<p>The PMF of a hypergeometric distribution is implemented recursively with the optimizations as described above with the additional optimization that if only one value is requested, the top layer (<span class="math inline">\(P(X_k=k)\)</span>) only calculates that value rather than calculating <span class="math inline">\(P(X_k=0)\)</span> and applying the updating with the coefficient up to <span class="math inline">\(P(X_k=k)\)</span>. The CDF of a hypergeometric distribution is implemented by cumulatively summing the top layer (<span class="math inline">\(P(X_k=k)\)</span>) as above to the maximum input requested and then indexing from that stored vector to assign probabilities. The quantile function reverses the process of the CDF, calculating new probabilities up to the maximum input probability requested and then assigning outputs by indexing from that cumulative probability vector. The random number generator generates <span class="math inline">\(\textrm{Unif}(0,1)\)</span> random numbers and plugs them into the quantile function.</p>
+</div>
+<div id="maximum-likelihood-estimation" class="section level2">
+<h2>Maximum likelihood estimation</h2>
+<p>The likelihood function of a conditional hypergeometric (the product of the observations’ PMFs) with respect to the unknown overlap population size <span class="math inline">\(s\)</span> is either</p>
+<ul>
+<li>Monotonically decreasing from the largest observed overlap if the overlaps are small because the overlapping population must be at least as large as the largest observed overlap but any larger makes it unlikely to see such small observed overlaps.</li>
+<li>Or unimodal because the optimal value of <span class="math inline">\(s\)</span> is large enough that the samples pick from the overlapping population <span class="math inline">\(s\)</span> rather than the unique populations but not so large that the samples pick different people in the overlapping population</li>
+</ul>
+<p>The likelihood function with respect to <span class="math inline">\(n_i\)</span> is</p>
+<ul>
+<li>Monotonically increasing if there are no observed overlaps (because then the most likely population size is infinite)</li>
+<li>Unimodal if the observed overlaps are positive and moderate because there is an optimal value between a large <span class="math inline">\(n_i\)</span> where large observed overlaps would be unlikely and a low <span class="math inline">\(n_i\)</span> where low observed overlaps would be unlikely</li>
+<li>Or monotonically decreasing from <span class="math inline">\(m_i-s\)</span> if the observed overlaps are very high because that is the smallest population value that allows the sample to be taken but maximizes the chance that the samples are taken from the overlapping population rather than the unique population</li>
+</ul>
+<p>The likelihood function with respect to <span class="math inline">\(m_i\)</span> is</p>
+<ul>
+<li>Monotonically decreasing from the largest observed overlap if the observed overlaps are low because the sample size must be at least as big as the largest observed overlap but any bigger of a sample size makes the low observed overlaps unlikely</li>
+<li>Unimodal if the observed overlaps are positive and moderate because there is an optimal value between a large <span class="math inline">\(m_i\)</span> where the small observed overlaps would be unlikely and a low (but <span class="math inline">\(\geq\)</span> the maximum observed overlap) <span class="math inline">\(m_i\)</span> where the large observed overlaps would be unlikely</li>
+<li>Or monotonically increasing but bounded at <span class="math inline">\(s+n_i\)</span> if the observed overlaps are very large because this allows as many overlaps as possible to occur</li>
+</ul>
+<p>However, in all of these cases, there is never a global maximum after the first decrease, so the maximum likelihood estimator functions do the following:</p>
+<ul>
+<li>Deal with monotonically increasing likelihoods by returning <span class="math inline">\(\infty\)</span> for the population size or <span class="math inline">\(s+n_i\)</span> (the maximum sample size) for the sample size</li>
+<li>Deal with unimodal likelihoods by progressively calculating log likelihoods and returning the index before the first decrease</li>
+<li>Deal with monotonically decreasing likelihoods by returning the first valid number (i.e. the overlapping population size cannot be <span class="math inline">\(0\)</span> if one of the observed overlaps is <span class="math inline">\(2\)</span>)</li>
+</ul>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<p>Suppose there were <span class="math inline">\(n_1=300\)</span> people unique to population 1, <span class="math inline">\(n_2=500\)</span> people unique to population 2, <span class="math inline">\(s=50\)</span> people in both population 1 and population 2, <span class="math inline">\(m_1=56\)</span> people sampled from population 1, and <span class="math inline">\(m_2=14\)</span> people sampled from population 2. We can find the probability of getting <span class="math inline">\(1\)</span> observed overlap as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dchyper</span>(<span class="at">k =</span> <span class="dv">1</span>, <span class="at">s =</span> <span class="dv">50</span>, <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished 1 level...</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1692956</span></span></code></pre></div>
+<p>(Large sample sizes (over 10,000 or so) can take a long time so “Finished 1 level…” lets you know every time the function finishes finding all the probabilities for a certain probability level. You can suppress this with “verbose = F” as we will do for the rest.) If we wanted to visualize drawing from these populations with the same sample sizes 10,000 times and see what proportion of the draws were actually 1, we could run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> <span class="fu">rchyper</span>(<span class="dv">10000</span>, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), <span class="at">verbose =</span> F)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(draws, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">1</span>) <span class="sc">-</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sum</span>(draws<span class="sc">==</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">length</span>(draws))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1772</span></span></code></pre></div>
+<p>Likewise, if we want the probability we see 1 or fewer overlaps, we can run</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchyper</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9833006</span></span></code></pre></div>
+<p>which lines up with what we observe by simulation:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sum</span>(draws<span class="sc">&lt;=</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">length</span>(draws))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9836</span></span></code></pre></div>
+<p>Maybe we want to compare simulated and exact medians:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sort</span>(draws)[<span class="fu">length</span>(draws)<span class="sc">/</span><span class="dv">2</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qchyper</span>(<span class="fl">0.5</span>, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>Looks like more than half the values are 0! Maybe we observe <span class="math inline">\(1\)</span> overlap and want to check the chance that we would see <span class="math inline">\(1\)</span> or more overlaps from this distribution just due to chance. We can find this with:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pvalchyper</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), <span class="st">&quot;upper&quot;</span>, F)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1859951</span></span></code></pre></div>
+<p>If we only saw the outputs and didn’t know what our overlap size was, we could find the maximum likelihood estimator with</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mleS</span>(draws, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 52</span></span></code></pre></div>
+<p>Not bad for 10,000 samples! (The original was 50.) If we bump up the number of draws taken, we can get even more precise:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> <span class="fu">rchyper</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mleS</span>(draws, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 50</span></span></code></pre></div>
+<p>Spot on! Now, if we didn’t know the size of sample 1, we could run</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mleM</span>(<span class="dv">1</span>, draws, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), F)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 56</span></span></code></pre></div>
+<p>where the <span class="math inline">\(1\)</span> specifies we want the first sample and the <span class="math inline">\(0\)</span> in the last parameter could be any placeholder integer.</p>
+<p>Now, say we wanted to know the unique size of population 1. To find this, we can run:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mleN</span>(<span class="dv">1</span>, draws, <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">500</span>), <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">14</span>), F)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 299</span></span></code></pre></div>
+<p>where the <span class="math inline">\(1\)</span> specifies the first population and the <span class="math inline">\(0\)</span> in the population parameter could be any placeholder integer.</p>
+</div>
+<div id="applications" class="section level2">
+<h2>Applications</h2>
+<p>The most common use for this package will likely be in null distributions: finding the probability that you would see the observed number of overlaps or more just due to chance. For example, if you had two programs that were supposed to identify all the colors in a painting and very few of the colors they identified overlapped, you might use this to check whether the observed number of colors that <em>did</em> overlap were more than would be expected if each program was pulling random colors out of its database.</p>
+<p>However, this package could also be used with census statistics. For example, imagine there were two overlapping school districts such that administrators knew how many children lived in both and how many children lived only in one or the other. Then imagine each district had a random lottery admissions process for their magnet schools. This package could give the distribution of how many children are likely to be admitted into both districts’ magnet schools.</p>
+<p>But, even better, you can find a new use for it yourself!</p>
+</div>
+<div id="thank-yous" class="section level2">
+<h2>Thank-yous</h2>
+<p>I’d like to thank Srihari Ganesh and Skyler Wu for their help in reviewing and improving the two-population case; Max Li for his help in optimizing the PMF calculation; and Meghan Short and Kelsey Thompson for their help in reviewing the math behind the arbitrary-population-number extension.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

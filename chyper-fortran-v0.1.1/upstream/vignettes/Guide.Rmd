@@ -1,0 +1,161 @@
+---
+title: "Guide"
+author: "William Nickols"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(chyper)
+```
+
+## Conditional hypergeometric story
+
+Consider two overlapping populations 1 and 2 with $n_1$ people unique to population 1, $n_2$ people unique to population 2, and $s$ people in both populations (for a total population 1 size of $n_1+s$ and total population 2 size of $n_2+s$).  We then take a random sample of $m_1$ people from population 1 (all combinations equally likely) and a random sample of $m_2$ from population 2 (all combinations equally likely).  Each sample is internally without replacement (i.e. the sample from population 1 can't include the same person twice), but the same people can be chosen in both the sample from population 1 and the sample from population 2.  We want the distribution of how many people will be in both the sample from population 1 and the sample from population 2, which we will call $X_2$ (the subscript "2" will make sense shortly).
+
+## Conditional hypergeometric PMF for 2 populations
+
+Looking first at the people sampled from population 1 (sample size $m_1$), let $X_1$ represent the number of people in the sample who are also in population 2.  Isometric to the distribution of how many white balls are chosen when taking $m_1$ balls from an urn of $s$ white balls and $n_1$ black balls, $X_1\sim\textrm{HGeom}(s,n_1,m_1)$.  Then, $X_2$ is just the number of people in the sample from the second population who were already sampled.  That is, conditional on $X_1$, we can treat the number of people already sampled ($X_1$) as the white balls and everyone else in population 2 ($n_2+s-X_1$) as the black balls, and we can then draw $m_2$ balls (the sample size from population 2).  Therefore, the number of overlaps $X_2$ is distributed as $X_2\sim\textrm{HGeom}(X_1,n_2+s-X_1,m_2)$.  Then, we can get the PMF of $X_2$ by the law of total probability:
+$$P(X_2=k)=\sum_{x_1}P(X_2=k|X_1=x_1)P(X_1=x_1)$$$$=\sum_{x_1=k}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{k}}{{n_2+s-x_1}\choose{m_2-k}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}$$
+Here, we have just substituted in the hypergeometric PMFs with a summation from $k$ (at least $k$ people must be sampled from the intersection in sample 1 to have $k$ twice-sampled people) to whichever of $m_1$ or $s$ is lower (the number sampled in the intersection from sample 1 cannot exceed either the total number of people sampled from population 1 or the total number of people in the intersection).
+
+## Conditional hypergeometric extension to arbitrarily many populations
+This solution can be extended to the case of $k$ overlapping populations with $n_i$ people in population $i$ not in the intersection of all the populations and $s$ people in the intersection of all the populations.  Note that some people included in $n_i$ might also be included in $n_{i+1}$ etc.; they just cannot be included in all other populations or they would go in $s$.  As before, let $m_i$ people be sampled from each population without replacement internally but with replacement between the sampling of each population.  Let $X_k$ be the number of people chosen in all $k$ samples.  Then, let $X_1$ be the number of people from $s$ in $m_1$, $X_2$ be the number of people from $X_1$ in $m_2$, $X_3$ be the number of people from $X_2$ in $m_3$, and so on.  Then, extending the law of total probability from earlier,
+$$\begin{split}
+P(X_2=x_2) =& \sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1) \\
+P(X_3=x_3) =& \sum_{x_2}P(X_3=x_3|X_2=x_2)P(X_2=x_2)=\\
+&\sum_{x_2}P(X_3=x_3|X_2=x_2)\Big[\sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1)\Big]\\
+...\\
+P(X_k=k) =& \sum_{x_{k-1}}P(X_k=k|X_{k-1}=x_{k-1})\Big[\sum_{x_{k-2}}P(X_{k-1}=x_{k-1}|X_{k-2}=x_{k-2})\cdot\Big[...\cdot\\
+&\Big[\sum_{x_1}P(X_2=x_2|X_1=x_1)P(X_1=x_1)\Big]...\Big]\Big]\\
+=& \sum_{x_{k-1}=k}^{\textrm{min}(m_{k-1},s)}\frac{{{x_{k-1}}\choose{k}}{{n_k+s-x_{k-1}}\choose{m_k-k}}}{{{n_{k}+s}\choose{m_k}}}\cdot\Big[\sum_{x_{k-2}=k}^{\textrm{min}(m_{k-2},s)}\frac{{{x_{k-2}}\choose{x_{k-1}}}{{n_{k-1}+s-x_{k-2}}\choose{m_{k-1}-x_{k-1}}}}{{{n_{k-1}+s}\choose{m_{k-1}}}}\cdot\Big[...\cdot\\
+&\Big[\sum_{x_1=k}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{k}}{{n_2+s-x_1}\choose{m_2-k}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}\Big]...\Big]\Big]
+\end{split}$$
+
+## Computational optimizations
+While these sums of sums seem to pose an increasingly daunting computation task, there are actually two optimizations that can speed this computation up significantly.  First, calculating this PMF can be optimized by storing all the $P(X_i = x_i)$ at each level because they are the same regardless of any level above them (i.e. $P(X_1 = x_1)$ does not depend on the value of $k$ in $P(X_2=k)$).  Therefore, by storing $P(X_1=x_1)$ for $x_1$ from $0$ to $\textrm{min}(m_1,s)$, we can move to the $P(X_2=x_2)$ level without ever needing to recompute anything for the $P(X_1=x_1)$ level.  This can be repeated with the $P(X_2=x_2)$ level versus the $P(X_3=x_3)$ level and so on.  
+
+Second, the calculation can be further optimized by storing all the $P(X_{i} = x_{i}|X_{i-1} = x_{i-1})$ and updating from $P(X_i = x_i|X_{i-1} = x_{i-1})$ to $P(X_i = x_i+1|X_{i-1} = x_{i-1})$.  For example, looking at $P(X_2=x_2)$, we initially have the equation $$P(X_2=x_2)=\sum_{x_1=x_2}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}$$ that we want to update to $$P(X_2=x_2+1)=\sum_{x_1=x_2+1}^{\textrm{min}(m_1,s)}\frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{n_2+s}\choose{m_2}}}\cdot\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}$$ Looking element-wise, we can keep the $\frac{{{s}\choose{x_1}}{{n_1}\choose{m_1-x_1}}}{{{n_1+s}\choose{m_1}}}$ term from $P(X_1=x_1)$ and just shift that as necessary to keep proper indexing.  However, we need to solve 
+$$c\cdot\frac{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}{{{n_2+s}\choose{m_2}}} = \frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{n_2+s}\choose{m_2}}}$$  
+The solutions is
+$$c=\frac{{{x_1}\choose{x_2+1}}{{n_2+s-x_1}\choose{m_2-(x_2+1)}}}{{{x_1}\choose{x_2}}{{n_2+s-x_1}\choose{m_2-x_2}}}=$$$$\frac{(x_1-x_2)!x_2!}{(x_1-(x_2+1))!(x_2+1)!}\cdot\frac{(n_2+s-x_1-(m_2-x_2))!(m_2-x_2)!}{(n_2+s-x_1-(m_2-(x_2+1)))!(m_2-(x_2+1))!}$$
+$$=\frac{(x_1-x_2)(m_2-x_2)}{(x_2+1)(n_2+s-x_1-(m_2-(x_2+1)))}$$  This holds for any level; that is, to get $P(X_i=x_i+1|X_{i-1}=x_{i-1})$ from $P(X_i=x_i|X_{i-1}=x_{i-1})$ we can always multiply $P(X_i=x_i|X_{i-1}=x_{i-1})$ by 
+$$\frac{(x_{i-1}-x_i)(m_i-x_i)}{(x_i+1)(n_i+s-x_{i-1}-(m_i-(x_i+1)))}$$
+Storing $P(X_i=x_i|X_{i-1}=x_{i-1})$ and $P(X_{i-1}=x_{i-1})$ and updating them element-wise in the sum rather than recomputing the hypergeometric distribution dramatically speeds up computation time.  In the rare cases where $P(X_i=x_i|X_{i-1}=x_{i-1})$ is so low that R rounds it to 0, it is necessary to recompute the hypergeometric value to make sure we are not erroneously trying to multiply by 0 to update the terms.  However, once those terms become non-zero, the updating formula can be applied continuously.  For more than two groups, this entire process is performed recursively (i.e. calculate $P(X_1=x_1)$, use that to find $P(X_2=x_2)$, use that to find $P(X_3=x_3)$ and so on).
+
+## PMF, CDF, quantile function, random number generator
+The PMF of a hypergeometric distribution is implemented recursively with the optimizations as described above with the additional optimization that if only one value is requested, the top layer ($P(X_k=k)$) only calculates that value rather than calculating $P(X_k=0)$ and applying the updating with the coefficient up to $P(X_k=k)$.  The CDF of a hypergeometric distribution is implemented by cumulatively summing the top layer ($P(X_k=k)$) as above to the maximum input requested and then indexing from that stored vector to assign probabilities.  The quantile function reverses the process of the CDF, calculating new probabilities up to the maximum input probability requested and then assigning outputs by indexing from that cumulative probability vector.  The random number generator generates $\textrm{Unif}(0,1)$ random numbers and plugs them into the quantile function.
+
+## Maximum likelihood estimation
+The likelihood function of a conditional hypergeometric (the product of the observations' PMFs) with respect to the unknown overlap population size $s$ is either 
+
+- Monotonically decreasing from the largest observed overlap if the overlaps are small because the overlapping population must be at least as large as the largest observed overlap but any larger makes it unlikely to see such small observed overlaps.
+- Or unimodal because the optimal value of $s$ is large enough that the samples pick from the overlapping population $s$ rather than the unique populations but not so large that the samples pick different people in the overlapping population
+
+The likelihood function with respect to $n_i$ is 
+
+- Monotonically increasing if there are no observed overlaps (because then the most likely population size is infinite)
+- Unimodal if the observed overlaps are positive and moderate because there is an optimal value between a large $n_i$ where large observed overlaps would be unlikely and a low $n_i$ where low observed overlaps would be unlikely
+- Or monotonically decreasing from $m_i-s$ if the observed overlaps are very high because that is the smallest population value that allows the sample to be taken but maximizes the chance that the samples are taken from the overlapping population rather than the unique population
+
+The likelihood function with respect to $m_i$ is
+
+- Monotonically decreasing from the largest observed overlap if the observed overlaps are low because the sample size must be at least as big as the largest observed overlap but any bigger of a sample size makes the low observed overlaps unlikely
+- Unimodal if the observed overlaps are positive and moderate because there is an optimal value between a large $m_i$ where the small observed overlaps would be unlikely and a low (but $\geq$ the maximum observed overlap) $m_i$ where the large observed overlaps would be unlikely
+- Or monotonically increasing but bounded at $s+n_i$ if the observed overlaps are very large because this allows as many overlaps as possible to occur
+
+However, in all of these cases, there is never a global maximum after the first decrease, so the maximum likelihood estimator functions do the following:
+
+- Deal with monotonically increasing likelihoods by returning $\infty$ for the population size or $s+n_i$ (the maximum sample size) for the sample size
+- Deal with unimodal likelihoods by progressively calculating log likelihoods and returning the index before the first decrease
+- Deal with monotonically decreasing likelihoods by returning the first valid number (i.e. the overlapping population size cannot be $0$ if one of the observed overlaps is $2$)
+
+## Examples
+
+Suppose there were $n_1=300$ people unique to population 1, $n_2=500$ people unique to population 2, $s=50$ people in both population 1 and population 2, $m_1=56$ people sampled from population 1, and $m_2=14$ people sampled from population 2.  We can find the probability of getting $1$ observed overlap as follows:
+
+```{r}
+dchyper(k = 1, s = 50, n = c(300, 500), m = c(56, 14))
+```
+
+(Large sample sizes (over 10,000 or so) can take a long time so "Finished 1 level..." lets you know every time the function finishes finding all the probabilities for a certain probability level.  You can suppress this with "verbose = F" as we will do for the rest.)  If we wanted to visualize drawing from these populations with the same sample sizes 10,000 times and see what proportion of the draws were actually 1, we could run:
+
+```{r}
+set.seed(1)
+draws <- rchyper(10000, 50, c(300, 500), c(56, 14), verbose = F)
+hist(draws, breaks = seq(0,5,1) - 0.5)
+print(sum(draws==1)/length(draws))
+```
+
+Likewise, if we want the probability we see 1 or fewer overlaps, we can run
+
+```{r}
+pchyper(1, 50, c(300, 500), c(56, 14), F)
+```
+
+which lines up with what we observe by simulation:
+
+```{r}
+print(sum(draws<=1)/length(draws))
+```
+
+Maybe we want to compare simulated and exact medians:
+
+```{r}
+print(sort(draws)[length(draws)/2])
+qchyper(0.5, 50, c(300, 500), c(56, 14), F)
+```
+
+Looks like more than half the values are 0!  Maybe we observe $1$ overlap and want to check the chance that we would see $1$ or more overlaps from this distribution just due to chance.  We can find this with:
+
+```{r}
+pvalchyper(1, 50, c(300, 500), c(56, 14), "upper", F)
+```
+
+If we only saw the outputs and didn't know what our overlap size was, we could find the maximum likelihood estimator with
+
+```{r}
+mleS(draws, c(300, 500), c(56, 14), F)
+```
+
+Not bad for 10,000 samples! (The original was 50.)  If we bump up the number of draws taken, we can get even more precise:
+
+```{r}
+set.seed(1)
+draws <- rchyper(10^5, 50, c(300, 500), c(56, 14), F)
+mleS(draws, c(300, 500), c(56, 14), F)
+```
+
+Spot on!  Now, if we didn't know the size of sample 1, we could run
+
+```{r}
+mleM(1, draws, 50, c(300, 500), c(0, 14), F)
+```
+
+where the $1$ specifies we want the first sample and the $0$ in the last parameter could be any placeholder integer.
+
+Now, say we wanted to know the unique size of population 1.  To find this, we can run:
+
+```{r}
+mleN(1, draws, 50, c(0, 500), c(56, 14), F)
+```
+
+where the $1$ specifies the first population and the $0$ in the population parameter could be any placeholder integer.
+
+## Applications
+
+The most common use for this package will likely be in null distributions: finding the probability that you would see the observed number of overlaps or more just due to chance.  For example, if you had two programs that were supposed to identify all the colors in a painting and very few of the colors they identified overlapped, you might use this to check whether the observed number of colors that *did* overlap were more than would be expected if each program was pulling random colors out of its database.
+
+However, this package could also be used with census statistics.  For example, imagine there were two overlapping school districts such that administrators knew how many children lived in both and how many children lived only in one or the other.  Then imagine each district had a random lottery admissions process for their magnet schools.  This package could give the distribution of how many children are likely to be admitted into both districts' magnet schools.
+
+But, even better, you can find a new use for it yourself!
+
+## Thank-yous
+I'd like to thank Srihari Ganesh and Skyler Wu for their help in reviewing and improving the two-population case; Max Li for his help in optimizing the PMF calculation; and Meghan Short and Kelsey Thompson for their help in reviewing the math behind the arbitrary-population-number extension.

@@ -1,0 +1,16 @@
+name = "chyper-fortran"
+version = "0.1.1"
+license = "MIT"
+author = "William Nickols; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran implementation of conditional hypergeometric distributions"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
