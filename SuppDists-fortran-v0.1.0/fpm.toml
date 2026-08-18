@@ -1,0 +1,14 @@
+name = "suppdists-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Bob Wheeler; Thorsten Pohlert; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational core of R package SuppDists"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true

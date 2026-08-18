@@ -1,0 +1,9 @@
+Upstream project: SuppDists 1.1-9.9
+Authors: Bob Wheeler; Thorsten Pohlert (contributor/maintainer)
+Upstream license: GPL (>= 2)
+Source computational files translated: R/Dists.R, src/dists.cpp, src/dists.h,
+src/datatabs.h, and src/wheeler.h as relevant to exported computations.
+
+The static Friedman/Spearman probability data in suppdists_friedman_tables.f90
+is a mechanical conversion of the numerical tables in upstream datatabs.h and
+remains under the upstream GPL terms.
