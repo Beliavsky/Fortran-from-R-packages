@@ -1,0 +1,15 @@
+name = "poisson_binomial"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Florian Junge; Fortran translation by OpenAI"
+copyright = "Copyright (c) upstream authors; see UPSTREAM.md"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
