@@ -1,0 +1,19 @@
+name = "copula-fortran"
+version = "1.1.7"
+license = "GPL-3.0-or-later"
+author = "Marius Hofert, Ivan Kojadinovic, Martin Maechler, Jun Yan; modern Fortran translation"
+maintainer = ""
+copyright = "Copyright (C) 2012 copula authors"
+description = "Dependency-free modern Fortran numerical core for common copula models"
+keywords = ["copula", "dependence", "statistics", "simulation", "fortran"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

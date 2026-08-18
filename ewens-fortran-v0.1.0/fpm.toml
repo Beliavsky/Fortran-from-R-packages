@@ -1,0 +1,22 @@
+name = "ewens-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Chris Hanretty; modern Fortran translation"
+maintainer = ""
+copyright = "Copyright (c) 2026 Chris Hanretty"
+description = "Modern Fortran implementation of the Ewens sampling distribution"
+keywords = ["ewens", "chinese-restaurant-process", "pitman-yor", "gem", "statistics"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+copula-fortran = { path = "vendor/copula-fortran" }

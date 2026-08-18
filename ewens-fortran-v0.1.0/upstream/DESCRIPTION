@@ -1,0 +1,22 @@
+Package: ewens
+Title: Ewens Distribution
+Version: 0.1.0
+Authors@R: 
+    person("Chris", "Hanretty", , "chris.hanretty@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8932-9405"))
+Description: Implements the probability mass function of, and random draws from, the Ewens distribution, a probability distribution over partitions of integer, as described in Ewens (1972) <doi:10.1016/0040-5809(72)90035-4>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+URL: https://github.com/chrishanretty/ewens
+BugReports: https://github.com/chrishanretty/ewens/issues
+RoxygenNote: 7.3.2
+Imports: copula (>= 1.0)
+Suggests: knitr, quarto
+VignetteBuilder: quarto
+NeedsCompilation: yes
+Packaged: 2026-05-14 11:01:47 UTC; chanret
+Author: Chris Hanretty [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-8932-9405>)
+Maintainer: Chris Hanretty <chris.hanretty@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-05-19 09:30:14 UTC

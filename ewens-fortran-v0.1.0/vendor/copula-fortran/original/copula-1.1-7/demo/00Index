@@ -1,0 +1,13 @@
+fitting-tests       Tests of fitCopula
+estimation.gof	    Estimation and goodness-of-fit capabilities
+estimation_via_HAC  Estimation procedure from the HAC package
+gofCopula	    Goodness-of-fit test for copula models
+gof_graph	    Graphical goodness-of-fit based on pairwise Rosenblatt transforms
+G_ak		    Coefficients a_k for Gumbel's density derivatives, MLE, etc
+opC-demo	    Outer power copula (Clayton only, for now)
+polyGJ		    Investigating precision and run time of polyG and polyJ
+dDiag-plots	    Plotting dDiag() densities (over range of families, theta, d)
+dDiag-plots-part-2  Contiuation of above  'dDiag-plots'
+tail_compatibility  Demo accompanying the tail compatibility paper
+timings		    Using timing() to measure speed of basic Archimedean families
+retstable	    Computation of exponentially tilted stable random variates
