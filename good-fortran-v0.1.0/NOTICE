@@ -1,0 +1,12 @@
+good-fortran is a translation of the computational portions of the R package "good" version 1.0.2.
+
+Original package authors:
+Jordi Tur, Amanda Fernandez-Fontelo, David Morina, Pere Puig, Argimiro Arratia, Alejandra Cabana, and David Agis.
+
+Original package title: Good Regression
+Original license: GPL (>= 2)
+Original publication date in DESCRIPTION: 2024-05-17
+
+This translation preserves the GPL-2.0-or-later licensing requirement. The original DESCRIPTION and NAMESPACE are retained under original/ for attribution and provenance.
+
+The numerical implementation was rewritten in modern Fortran. R-specific formula parsing, S3 methods, printing, data frames, and dataset-loading infrastructure were intentionally omitted. No plotting code exists in the source package.

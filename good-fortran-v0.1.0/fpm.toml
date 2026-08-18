@@ -1,0 +1,14 @@
+name = "good-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Jordi Tur, David Morina, Pere Puig, Argimiro Arratia, Alejandra Cabana, David Agis, Amanda Fernandez-Fontelo; Fortran translation by OpenAI"
+maintainer = "OpenAI translation"
+copyright = "Original good package authors"
+description = "Modern Fortran translation of the computational core of the R package good"
+categories = ["statistics", "probability", "regression"]
+keywords = ["Good distribution", "count data", "maximum likelihood", "GLM"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = false

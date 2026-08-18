@@ -1,0 +1,48 @@
+Package: good
+Type: Package
+Title: Good Regression
+Version: 1.0.2
+Date: 2024-05-17
+Authors@R: c(person(given = "Jordi",
+                    family = "Tur",
+                    role = c("aut", "cre"),
+                    email = "jjtur@crm.cat"),
+             person(given = "David",
+                    family = "Moriña",
+                    role = "ctb"),
+             person(given = "Pere",
+                    family = "Puig",
+                    role = "ctb"),
+              person(given = "Argimiro",
+                    family = "Arratia",
+                    role = "ctb"),
+             person(given = "Alejandra",
+                    family = "Cabaña",
+                    role = "ctb"),
+             person(given = "David",
+                    family = "Agis",
+                    role = "ctb"),
+             person(given = "Amanda",
+                    family = "Fernández-Fontelo",
+                    role = "aut"))
+Description: Fit Good regression models to count data (Tur et al., 2021) <doi:10.48550/arXiv.2105.01557>. The package provides functions for model estimation and model prediction. Density, distribution function, quantile function and random generation for the Good distribution are also provided.
+License: GPL (>= 2)
+Imports: copula, maxLik, plyr
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+NeedsCompilation: no
+Author: Jordi Tur [aut, cre],
+  David Moriña [ctb],
+  Pere Puig [ctb],
+  Argimiro Arratia [ctb],
+  Alejandra Cabaña [ctb],
+  David Agis [ctb],
+  Amanda Fernández-Fontelo [aut]
+Maintainer: Jordi Tur <jjtur@crm.cat>
+Depends: R (>= 3.5.0)
+Packaged: 2024-05-17 11:03:29 UTC; dmorina
+Repository: CRAN
+Date/Publication: 2024-05-17 15:30:02 UTC
