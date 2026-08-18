@@ -1,0 +1,26 @@
+name = "MCMCpack-fortran"
+version = "0.2.0"
+license = "GPL-3.0-only"
+author = "Andrew D. Martin, Kevin M. Quinn, Jong Hee Park et al.; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of computational routines from the R package MCMCpack"
+keywords = ["bayesian", "mcmc", "regression", "probit", "logit", "poisson", "quantile"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+coda-fortran = { path = "vendor/coda-fortran" }
+mcmc-fortran = { path = "vendor/mcmc-fortran" }
+quantreg-fortran = { path = "vendor/quantreg-fortran" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

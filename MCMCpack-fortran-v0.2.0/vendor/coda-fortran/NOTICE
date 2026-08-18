@@ -1,0 +1,12 @@
+coda-fortran
+============
+
+This work is a modern Fortran translation of computational algorithms from
+coda 0.19-4.1, "Output Analysis and Diagnostics for MCMC".
+
+Original coda authors and contributors are listed in original/AUTHORS and
+original/DESCRIPTION. The original package is licensed GPL (>= 2). This
+translation is GPL-2.0-or-later.
+
+Plotting, interactive menus, and R-specific I/O/object infrastructure were
+not translated.

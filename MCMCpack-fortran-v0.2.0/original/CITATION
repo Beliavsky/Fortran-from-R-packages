@@ -1,0 +1,17 @@
+bibentry(
+     bibtype = "Article",
+     title = "{MCMCpack}: Markov Chain Monte Carlo in {R}",
+     author = c(
+        person(c("Andrew", "D."), "Martin", role = "aut"),
+	person(c("Kevin", "M."), "Quinn", role = "aut"),
+        person(c("Jong Hee"), "Park", role = c("aut", "cre"),
+         email = "jongheepark@snu.ac.kr")
+     ),
+     	year = "2011",
+     	journal      = "Journal of Statistical Software",
+       	year         = "2011",
+  	volume       = {42},
+  	number       = {9},
+  	pages        = {1--21},
+	Doi          = {"10.18637/jss.v042.i09"}	
+   )

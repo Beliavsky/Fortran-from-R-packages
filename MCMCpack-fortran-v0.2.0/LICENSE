@@ -1,0 +1,13 @@
+MCMCpack-fortran is a translation of computational code from MCMCpack 1.7-1.
+
+MCMCpack declares License: GPL-3. This translation is therefore distributed
+under the GNU General Public License version 3. See LICENSE.GPL-3 for the
+license text.
+
+Original MCMCpack authors and copyright holders include Andrew D. Martin,
+Kevin M. Quinn, Jong Hee Park, and the contributors/copyright holders listed
+in original/DESCRIPTION. Individual source files retain attribution comments
+where code or algorithms were directly translated.
+
+Vendored translated dependencies retain their own licenses as stated in their
+respective directories.

@@ -1,0 +1,449 @@
+0.19-4 Martyn Plummer <martyn.plummer@gmail.com>
+	- Fix cumuplot, affected by changes in matplot in R 4.0.0.
+
+0.19-3 Martyn Plummer <martyn.plummer@gmail.com>
+	- Obsolete documentation for .Coda.options removed.
+
+0.19-2 Martyn Plummer <martyn.plummer@gmail.com>
+	- Maintainer address update
+
+0.19-1 Martyn Plummer <plummerm@iarc.fr>
+
+	- gelman.plot() now avoids superfluous calculation of multivariate
+	diagnostic. Thanks to Gert van Valkenhoef.
+
+	- Fixed various issues with the histogram produced by densplot()
+	for discrete-valued distributions. Thanks to Robert Goudie.
+
+	- Obsolete INDEX file removed
+
+	- Dimnames bug in geweke.plot fixed. Thanks to Jiri Moravec
+
+0.18-1 Martyn Plummer <plummer@iarc.fr>
+
+	- Arni Magnusson is fully credited as coauthor
+
+	- Fixed bug in "varnames<-", which failed when the mcmc object was
+	not a matrix. Thanks to Evangelos Evangelou and Pavel Krivitsky.
+
+	- NAMESPACE file now includes imports of functions from base packages.
+
+	- codamenu no longer gives option to save mcmc object on exit.
+
+0.17-2 Martyn Plummer <plummerm@iarc.fr>
+
+	- Avoid redundant copies when subsetting mcmc.list objects
+
+0.17-1 Martyn Plummer <plummerm@iarc.fr>
+
+	- Moved lattice package from Depends to Imports in DESCRIPTION
+	file.  This means that you must load the lattice package to use
+	any of the lattice methods provided for mcmc objects.
+
+	- Russell Almond is fully credited as co-author
+
+	- Moved AUTHORS file into inst/ sub-directory
+
+	- Fixed bug that stopped trellis graphics from working with vector
+	mcmc objects (thinned chains). Thanks to Chris Andrews.
+
+	- Added additional arguments (...) to as.mcmc()
+
+	- coda.options() no longer writes to the global environment
+
+0.16-1
+- Fixed main title bug in densplot
+- Substitute spectrum0.ar for spectrum0 internally
+- densplot parameters fixed when drawing multiple plots
+
+0.15-3
+- Correct x axis labelling in xyplot. Thanks to Pavel Krivitsky.
+
+0.15-2
+- Allow default plotting parameters to be overridden in densplot and traceplot.
+- Stop overplotting of user-supplied title in densplot.
+- Fix xyplot for univariate chains. Thanks to Pavel Krivitsky.
+
+0.15-1
+- Use Authors@R field in DESCRIPTION
+- Fixe geweke.diag for long mcmc samples. Thanks to Philip Johnson
+
+0.14-7
+- In gelman.diag, the multivariate potential scale reduction factor
+  is now optional and can be turned off with the argument multivariate=FALSE.
+
+0.14-6
+- Removed deprecated top-level file COPYING
+
+0.14-5
+- Replaced defunct restart() function in codamenu with with try()
+- Changed as.ts.mcmc to be a method for generic function as.ts
+
+0.14-4
+- Arguments of gelman.plot are now consistent with gelman.diag.
+
+0.14-3
+- Fixed documentation errors in gelman.diag (Thanks to Peng Yu)
+- Added CITATION file
+
+0.14-2
+- Fix documentation bugs (Thanks to Kurt Hornik)
+
+0.14-1
+- traceplot and plot.mcmc no longer plot a smooth line by default,
+  although it can be added using smooth=TRUE
+- new head and tail methods for mcmc and mcmc.list objects
+
+0.13-1
+- as.mcmc.list generic and default method are exported in namespace
+
+0.12-1
+- Added further changes for S-PLUS from Dawn Woodward.
+
+0.11-3
+- Fixed documentation on subsetting methods for mcmc and mcmc.list objects
+
+0.11-2
+- The codamenu function has been modified so that it no longer works with
+  coda.dat and work.dat in the global environment, solving global binding
+  issues.
+- The sample size test at the beginning of codamenu has been corrected
+  for the case of multiple chains.
+  Thanks to Luwis Diya and Pablo G Goicoechea for these bug reports
+- Syntax errors fixed in help pages.
+- Description of Gelman and Rubin diagnostic corrected
+
+0.11-1
+- Added changes from Dawn Woodward for S-PLUS.
+- Fixed global binding problems 
+
+0.10-7
+- Documentation clarification for bugs2jags()
+- Made linearity test in codamenu less stringent.
+  Thanks to Bengt Sennblad.
+- Fixed rejectionRate() for single-variable chains.
+  Thanks to Rob Scharpf.
+
+0.10-6
+- Fixed HPDinterval() for univariate chains
+  Thanks to David LeBlond
+- Fixed optional parameters in as.data.frame method for mcmc objects
+
+0.10-5
+- Registered default method for as.mcmc in NAMESPACE
+  Thanks to Christian Grose
+
+0.10-4
+- fixed eternal loop in codamenu() when saving plot as PostScript.
+  Thanks to Bengt Sennblad.
+
+0.12-3
+- added 'data' in lattice generics for compatibility
+
+0.10-2
+- Import generics from lattice
+- In plotting functions, "ask" now defaults to dev.interactive(),
+  and not the default value in par(), as introduced in 0.9-2
+
+0.10-1
+
+- Added "mcmc" and "mcmc.list" methods for several lattice functions
+  (xyplot, qqmath, densityplot and acfplot (with generic here as
+  well)).  There's a levelplot method too, which is currently
+  experimental.  These are Trellis analogs of existing coda functions,
+  and may in future replace them.
+
+
+0.9-5
+
+- Fixed bug in summary.mcmc (safespec0 misspelled) which affected
+  univariate chains.
+
+0.9-4
+
+- Fixed documentation errors.
+
+0.9-3
+
+- Added date stamp check in read.openbugs to ensure files were created
+  at the same time.
+
+0.9-2
+- [RGA] Added an autoburnin flag (default) true to gelman.diag to suppress 
+  automatic windowing for burn in (so I can do it manually).
+- [RGA] Fixed a problem where summary.mcmc.list would not give correct
+  pooled standard errors.
+- [RGA] Fixed propagation of standard par and titles to plot.mcmc and
+  plot.mcmc.list.  Also fixed so that ask will default to value in
+  par(). 
+- [RGA] Fixed a problem where autocorr would apply thinning twice to
+  mcmc.list objects.
+- [RGA] Changed effectiveSize for mcmc.list to sum across all chains.
+  Original behavior can be recovered by using lapply(x,effectiveSize)
+- [RGA] Added autocorr.diag function.
+- [RGA] Patched summary.mcmc and summary.mcmc.list so it would give
+  standard error of NA when spectrum0 blows ups.
+- [RGA] Added a rejectionRate method.
+- [RGA] Added a batch Standard Error Function
+
+0.9-1 
+- spectrum0 function now has default max.length argument of 200.
+  This means that the output will be batched to a length between
+  100 and 200 before fitting the glm to the spectrogram. This
+  should improve robustness for chains with high autocorrelation,
+  or markedly non-gaussian distributions.
+- The read.bugs() function has been removed; read.coda() has been
+  modified to allow specification of both output and index files;
+  read.bugs.interactive() has been modified in the same way;
+  read.openbugs() is a new wrapper function around read.coda() for
+  OpenBUGS output.
+
+0.8-3
+- Fixed documentation errors in coda.menu.Rd and linepost.Rd
+
+0.8-2
+- Added generic function thin to list of exported functions
+
+0.8-1
+Continuing problems with namespace:
+- Addition of namespace requires new version number for coda,
+  as saved workspaces are not backwards compatible.
+- Ensured that mcmc attributes are not assumed for objects returned by
+  as.matrix.mcmc, as this now no longer returns an mcmc object.
+  This occurred in, for example, effectiveSize (which returned NA)
+  and gelman.diag (which dropped variable names).
+- Changed "[.mcmc.list" and "[.mcmc" so that they return an 
+  mcmc.list/mcmc object respectively when subsetting columns.
+  plot.mcmc() and plot.mcmc.list() now work again when there is
+  only one variable.
+- Imported the required time series generics from package stats.
+  Failure to do this may result in a saved workspace that cannot be reloaded.
+Other problems
+- Removed S compatibility (statements conditional on is.R and wrapper 
+  function coda.global.assign). Note that S compatibility never worked
+  at all, and I now have no intention of supporting it.
+- Fixed (old) bug in "[.mcmc" which made column subsets of mcmc objects
+  return invisibly.
+- Changed the plotting functions so it is no longer necessary to press
+  return to see the first page of plots.
+  
+0.7-3 (changes done by Andrew Martin <admartin@wustl.edu>)
+- Added NAMESPACE
+- export only functions that I think should have been exported (based on 
+  the documentation and common sense).
+- Registered all S3 methods.
+- Fixed documentation for non-exported functions.
+- Patched the "mcmc" function to deal with really big thinning intervals. 
+- Patched the "as.matrix.mcmc" function so it really returns matrices.
+- Fixed plot method, by having plot.mcmc pass an mcmc object
+  rather than a matrix, and by fixing the [.mcmc.list method so it 
+  returns an mcmc.list not a matrix.
+- Fixed "varnames<-" which was broken when the as.matrix method was 
+  fixed.
+- Fixed documentation mcmc.convert.Rd such that the usage is consistent 
+  with S3 class definition (this fixed an error thrown in the QC tools).
+
+0.7-2
+- The spectrum0() function now returns zero when it is given a constant
+  vector. summary.mcmc() (which calls spectrum0) now works correctly.
+
+0.7
+- Modified to run on R 1.9.0 with new organization of base library
+
+0.6-2
+- Fixed documentation bug in raftery.diag
+
+0.6-1
+- spectrum0.ar no longer crashes when the chain is a linear function
+  of the iteration number
+- codamenu automatically drops variables that are linear functions
+  of the iteration number
+- read.bugs renamed to read.coda. read.bugs exists as an alias.
+- initial support for JAGS: bugs2jags function converts WinBUGS
+  data to R dump format used by JAGS.
+- added cumuplot function (not yet in codamenu system)
+
+0.5-14
+- Fixed reporting of sample size in densplot(), for variables that are
+  in the range [0,1] or [0,Inf). Thanks to Roy Levy.
+
+0.5-13
+- mcmc() now works with data frames (provided that they contain only
+  numeric values).
+
+0.5-12
+- Documentation errors in coda.options.Rd and nchain.Rd fixed.
+  Thanks to Kurt Hornik.
+
+0.5-11
+- Fixed bug in mcmc() function that causes problems in Geweke diagnostic
+- Fixed geweke.plot so that it works with samples running from iteration
+  N to 2N.  These were previously mis-diagnosed as being too short.
+  Thanks to Vasco Leemans for finding both bugs.
+- In autocorr.plot, the `ask' argument was not used. Thanks to
+  Dennis A Wolf.
+
+0.5-10
+- Eliminated use of "=" for assignment operator.  This is a syntax error 
+  for R < 1.4.0 
+
+0.5-9
+- Further documentation bugs removed
+
+0.5-8
+- Removed further documentation bugs found by "R CMD check coda" using
+  R-1.4 (pre-release)
+
+0.5-7
+- Removed obsolete line.doc and line.old.doc files from data directory.
+- New spectrum0.ar provides model-based estimate of spectral density
+  at frequency zero.
+- New effectiveSize diagnostic gives effective sample size.
+- codamenu includes automatic check on effective sample size.
+
+0.5-6
+- Removed further documentation bugs found by "R CMD check coda" using
+  R-1.3 (pre-release) 
+
+0.5-5
+- Ironed out last warnings generated by "R CMD check coda"
+
+0.5-4
+
+- Provided documentation for all functions and datasets.
+  (Thanks to Kurt Hornik for the prompting)
+
+0.5-3
+
+- Fixed bug in example for mcmc.list. Row subsetting no longer preserves
+  mcmc objects (Thanks to Kurt Hornik).
+
+0.5-2
+
+- Fixed bug in gelman.transform which did not work for univariate chains
+  (Thanks to Mark A. Beaumont)
+- Fixed confidence limits in geweke.plot
+  (Thanks to Mark A. Beaumont)
+- Allow user to set ylim in densplot (Thanks to Niels Peter Baadsgaard)
+
+0.5-1
+
+- Replaced time series functions with functions from "ts" library
+  (R-base >= 0.65.0)
+- Removed calls to Version() (deprecated). Use is.R() instead.
+- Added new function read.yesno
+- Source files maintained using ESS
+- Allowed restart() in codamenu.options.plot.kernel
+- Simplified print.coda.options
+- Removed "onepage" option in coda.options() (Subsumed in user.layout)
+- Removed "mrows" and "mcols" options in coda.options (use par instead)
+
+Changes to Geweke's diagnostic
+- Uses new function spectrum0() to estimate spectral density at zero
+- Gelman-Rubin-Brooks plot never discards more than half the chain
+  to preserve necessary asymptotic conditions.
+
+Changes to Gelman and Rubin's diagnostic
+- Multivariate psrf added.
+- Documentation for Gelman-Rubin-Brooks plot update to give
+  clearer motivation.
+
+Changes to Heidelberger and Welch's diagnostic
+- Simplified formula for Cramer-von Mises statistic
+- Using new function spectrum0() to estimate spectral density at zero
+- Can set p-value threshold for passing convergence test.
+- p-value is printed in output, using new function pcramer().
+- Prints starting iteration of truncated chain instead of number
+  of iterations to discard.
+
+0.4-7
+
+Fixed bug in read.bugs.interactive() leading to failure when
+user enters both ".ind" and ".out" names (Thanks to John Logsdon).
+
+0.4-6
+
+Archive 0.4-5 was incorrectly compressed with "compress" instead
+of "gzip". Corrected by Friedrich Leisch.
+
+0.4-5
+
+Bug fixes
+- densplot failed with show.obs=TRUE when scale was "positive" or
+  "proportion".
+- as.matrix.mcmc failed to preserve start, end and thin.
+- codamenu did not tidy up on exit.
+
+0.4-4
+
+Started S3 compatibility
+Fixed bug which caused options menus to crash
+Fixed legend bug in gelman.plot
+Confirmed that these bugs are fixed:
+* densplot "missing" and "scale" bugs (Thanks to Greg Warnes)
+* autocorr "improper time series parameters" bug ("acf"
+  function rewritten by Paul Gilbert)
+* integer overflow bug in raftery.diag (Thanks to Morten
+  Frydenberg)
+* read.bugs.interactive will search for the files it needs
+  and print their names.
+codamenu now assigns default variable and chain names to
+data when these are NULL.
+
+0.4-3
+
+Fixed help page errors pointed out by Brian Ripley.
+Fixed coda.credits
+
+0.4-2
+
+Whoops. 0.4-1 was a mistake.
+
+0.4-1
+
+updated manual pages
+new class mcmc.list added to deal with multiple chains. ugrade.mcmc
+   function introduced to deal with old mcmc objects.
+plot functions changed to use the "ask" parameter instead of
+  "pause" functions.
+spec.pgram now handles matrix time-series.
+acf function now calculates cross-correlations. Thanks to Paul Gilbert.
+codamenu functions now use title argument in "menu"
+corrected spelling mistakes in help pages
+changed instances of "T" and "F" to "TRUE" and "FALSE" (R coding standards)
+densplot now recognizes discrete distributions and prints histogram ...
+... also prints histogram if IQR=0 (large mass on one point)
+fixed bug in mcmc which allowed non-integer thinning intervals
+Fixed manual pages with bad use of "alias" command.
+
+0.3-4
+
+Fixed bug in "tspar<-" which breaks much of the code in R-0.62
+
+0.3-3
+
+Package was in obsolete format. Corrected by Fritz.
+
+** Pre-release changes for R version
+
+Created class "mcmc" with associated constructor and extractor
+functions as well as plot, print and summary methods.
+
+Modified diagnostics so they all work on objects of class "mcmc"
+and can be called directly by the user. All diagnostics return
+objects with associated print methods. Renamed some functions
+and arguments for ease of use.
+
+Changed the menu driven interface - now called by the function
+"codamenu" - to avoid recursive calling of menu functions.
+
+Put frequently used code inside utility functions.
+
+Got rid of functions written by Mathsoft
+
+Wrote drop-in replacements for some time series functions which
+are found in S-PLUS but not R.
+
+The logfile facility has been removed. Sorry.
+
+Changed license terms to GPL.

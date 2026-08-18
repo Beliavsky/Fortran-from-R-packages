@@ -1,0 +1,10 @@
+coda-fortran is a translation of the computational code of the R package
+coda 0.19-4.1. The original package declares:
+
+    License: GPL (>= 2)
+
+Accordingly, this translation is distributed under the GNU General Public
+License, version 2 or (at your option) any later version.
+
+See COPYING for the GNU GPL version 2 text and original/DESCRIPTION for the
+original package license declaration.
