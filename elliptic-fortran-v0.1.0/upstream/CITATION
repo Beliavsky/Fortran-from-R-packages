@@ -1,0 +1,22 @@
+citHeader("To cite the elliptic package in publications use:")
+
+bibentry(bibtype = "Article",
+	 title = "{Introducing elliptic, an R package for elliptic
+	 and modular functions}",
+	 author = person("Robin K. S. Hankin"),
+	 journal = "Journal of Statistical Software",
+         year = "2006",
+	 month = "February",
+	 volume = "15",
+	 issue = "7",
+	 textVersion =
+             paste("R. K. S. Hankin",
+                   "2006.",
+                   "Introducing elliptic, an R package for elliptic
+	 and modular functions.",
+	     	   "Journal of Statistical Software",
+		   "15(7)"
+		   )
+        )
+
+
