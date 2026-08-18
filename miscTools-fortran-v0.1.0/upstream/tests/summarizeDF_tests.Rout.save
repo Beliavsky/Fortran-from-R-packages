@@ -1,0 +1,573 @@
+
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## testing summarizeDF()
+> library( "miscTools" )
+> data( "cars" )
+> 
+> summarizeDF( cars )
+Summary of data.frame
+number of observations: 50 
+number of variables: 2 
+MD5: f98a59010652c8e1ee062ed4c43f648e 
+
+variable: speed 
+MD5: 4eb3e01aee9abbc01e91d22b651be559 
+        [,1]
+Min.     4.0
+1st Qu. 12.0
+Median  15.0
+Mean    15.4
+3rd Qu. 19.0
+Max.    25.0
+   [,1]
+4     2
+7     2
+8     1
+9     1
+10    3
+11    2
+12    4
+13    4
+14    4
+15    3
+16    2
+17    3
+18    4
+19    3
+20    5
+22    1
+23    1
+24    4
+25    1
+
+variable: dist 
+MD5: be6c7701fccdd59b5e47c48881a2acae 
+          [,1]
+Min.      2.00
+1st Qu.  26.00
+Median   36.00
+Mean     42.98
+3rd Qu.  56.00
+Max.    120.00
+
+> 
+> summarizeDF( cars, maxLevel = 10 )
+Summary of data.frame
+number of observations: 50 
+number of variables: 2 
+MD5: f98a59010652c8e1ee062ed4c43f648e 
+
+variable: speed 
+MD5: 4eb3e01aee9abbc01e91d22b651be559 
+        [,1]
+Min.     4.0
+1st Qu. 12.0
+Median  15.0
+Mean    15.4
+3rd Qu. 19.0
+Max.    25.0
+
+variable: dist 
+MD5: be6c7701fccdd59b5e47c48881a2acae 
+          [,1]
+Min.      2.00
+1st Qu.  26.00
+Median   36.00
+Mean     42.98
+3rd Qu.  56.00
+Max.    120.00
+
+> 
+> summarizeDF( cars, printValues = FALSE )
+Summary of data.frame
+number of observations: 50 
+number of variables: 2 
+MD5: f98a59010652c8e1ee062ed4c43f648e 
+
+variable: speed 
+MD5: 4eb3e01aee9abbc01e91d22b651be559 
+
+variable: dist 
+MD5: be6c7701fccdd59b5e47c48881a2acae 
+
+> 
+> tmpFile <- file()
+> summarizeDF( cars, file = tmpFile )
+> tmpLines <- readLines( tmpFile )
+> close( tmpFile )
+> print( matrix( tmpLines, ncol = 1 ) )
+      [,1]                                    
+ [1,] "Summary of data.frame"                 
+ [2,] "number of observations: 50 "           
+ [3,] "number of variables: 2 "               
+ [4,] "MD5: f98a59010652c8e1ee062ed4c43f648e "
+ [5,] ""                                      
+ [6,] "variable: speed "                      
+ [7,] "MD5: 4eb3e01aee9abbc01e91d22b651be559 "
+ [8,] "        [,1]"                          
+ [9,] "Min.     4.0"                          
+[10,] "1st Qu. 12.0"                          
+[11,] "Median  15.0"                          
+[12,] "Mean    15.4"                          
+[13,] "3rd Qu. 19.0"                          
+[14,] "Max.    25.0"                          
+[15,] "   [,1]"                               
+[16,] "4     2"                               
+[17,] "7     2"                               
+[18,] "8     1"                               
+[19,] "9     1"                               
+[20,] "10    3"                               
+[21,] "11    2"                               
+[22,] "12    4"                               
+[23,] "13    4"                               
+[24,] "14    4"                               
+[25,] "15    3"                               
+[26,] "16    2"                               
+[27,] "17    3"                               
+[28,] "18    4"                               
+[29,] "19    3"                               
+[30,] "20    5"                               
+[31,] "22    1"                               
+[32,] "23    1"                               
+[33,] "24    4"                               
+[34,] "25    1"                               
+[35,] ""                                      
+[36,] "variable: dist "                       
+[37,] "MD5: be6c7701fccdd59b5e47c48881a2acae "
+[38,] "          [,1]"                        
+[39,] "Min.      2.00"                        
+[40,] "1st Qu.  26.00"                        
+[41,] "Median   36.00"                        
+[42,] "Mean     42.98"                        
+[43,] "3rd Qu.  56.00"                        
+[44,] "Max.    120.00"                        
+[45,] ""                                      
+> 
+> 
+> data( "iris" )
+> 
+> summarizeDF( iris )
+Summary of data.frame
+number of observations: 150 
+number of variables: 5 
+MD5: d3c5d071001b61a9f6131d3004fd0988 
+
+variable: Sepal.Length 
+MD5: b2bce49565d07c62a84d53cee81d8569 
+            [,1]
+Min.    4.300000
+1st Qu. 5.100000
+Median  5.800000
+Mean    5.843333
+3rd Qu. 6.400000
+Max.    7.900000
+
+variable: Sepal.Width 
+MD5: 35bd921d86f4fe19d5cadc03c687f538 
+            [,1]
+Min.    2.000000
+1st Qu. 2.800000
+Median  3.000000
+Mean    3.057333
+3rd Qu. 3.300000
+Max.    4.400000
+
+variable: Petal.Length 
+MD5: e610b9d68cb18ce39b1c0ac098e38bea 
+         [,1]
+Min.    1.000
+1st Qu. 1.600
+Median  4.350
+Mean    3.758
+3rd Qu. 5.100
+Max.    6.900
+
+variable: Petal.Width 
+MD5: 5f70e007e1a5054816b90e5846c14467 
+            [,1]
+Min.    0.100000
+1st Qu. 0.300000
+Median  1.300000
+Mean    1.199333
+3rd Qu. 1.800000
+Max.    2.500000
+
+variable: Species 
+MD5: f7e071c073ca18cd4d0d7cf86d961dd1 
+
+    setosa versicolor  virginica 
+        50         50         50 
+
+> 
+> summarizeDF( iris, printValues = FALSE )
+Summary of data.frame
+number of observations: 150 
+number of variables: 5 
+MD5: d3c5d071001b61a9f6131d3004fd0988 
+
+variable: Sepal.Length 
+MD5: b2bce49565d07c62a84d53cee81d8569 
+
+variable: Sepal.Width 
+MD5: 35bd921d86f4fe19d5cadc03c687f538 
+
+variable: Petal.Length 
+MD5: e610b9d68cb18ce39b1c0ac098e38bea 
+
+variable: Petal.Width 
+MD5: 5f70e007e1a5054816b90e5846c14467 
+
+variable: Species 
+MD5: f7e071c073ca18cd4d0d7cf86d961dd1 
+
+> 
+> tmpFile <- file()
+> summarizeDF( iris, file = tmpFile )
+> tmpLines <- readLines( tmpFile )
+> close( tmpFile )
+> print( matrix( tmpLines, ncol = 1 ) )
+      [,1]                                    
+ [1,] "Summary of data.frame"                 
+ [2,] "number of observations: 150 "          
+ [3,] "number of variables: 5 "               
+ [4,] "MD5: d3c5d071001b61a9f6131d3004fd0988 "
+ [5,] ""                                      
+ [6,] "variable: Sepal.Length "               
+ [7,] "MD5: b2bce49565d07c62a84d53cee81d8569 "
+ [8,] "            [,1]"                      
+ [9,] "Min.    4.300000"                      
+[10,] "1st Qu. 5.100000"                      
+[11,] "Median  5.800000"                      
+[12,] "Mean    5.843333"                      
+[13,] "3rd Qu. 6.400000"                      
+[14,] "Max.    7.900000"                      
+[15,] ""                                      
+[16,] "variable: Sepal.Width "                
+[17,] "MD5: 35bd921d86f4fe19d5cadc03c687f538 "
+[18,] "            [,1]"                      
+[19,] "Min.    2.000000"                      
+[20,] "1st Qu. 2.800000"                      
+[21,] "Median  3.000000"                      
+[22,] "Mean    3.057333"                      
+[23,] "3rd Qu. 3.300000"                      
+[24,] "Max.    4.400000"                      
+[25,] ""                                      
+[26,] "variable: Petal.Length "               
+[27,] "MD5: e610b9d68cb18ce39b1c0ac098e38bea "
+[28,] "         [,1]"                         
+[29,] "Min.    1.000"                         
+[30,] "1st Qu. 1.600"                         
+[31,] "Median  4.350"                         
+[32,] "Mean    3.758"                         
+[33,] "3rd Qu. 5.100"                         
+[34,] "Max.    6.900"                         
+[35,] ""                                      
+[36,] "variable: Petal.Width "                
+[37,] "MD5: 5f70e007e1a5054816b90e5846c14467 "
+[38,] "            [,1]"                      
+[39,] "Min.    0.100000"                      
+[40,] "1st Qu. 0.300000"                      
+[41,] "Median  1.300000"                      
+[42,] "Mean    1.199333"                      
+[43,] "3rd Qu. 1.800000"                      
+[44,] "Max.    2.500000"                      
+[45,] ""                                      
+[46,] "variable: Species "                    
+[47,] "MD5: f7e071c073ca18cd4d0d7cf86d961dd1 "
+[48,] ""                                      
+[49,] "    setosa versicolor  virginica "     
+[50,] "        50         50         50 "     
+[51,] ""                                      
+> 
+> 
+> data( "swiss" )
+> 
+> summarizeDF( swiss )
+Summary of data.frame
+number of observations: 47 
+number of variables: 6 
+MD5: 4c43fa8a4d8f0cbf65353e397f37338c 
+
+variable: Fertility 
+MD5: 86e625283202d9a9909f099fadc690ad 
+            [,1]
+Min.    35.00000
+1st Qu. 64.70000
+Median  70.40000
+Mean    70.14255
+3rd Qu. 78.45000
+Max.    92.50000
+
+variable: Agriculture 
+MD5: 5e7bdeff4cbf3e796e073fffe2b8b1f7 
+            [,1]
+Min.     1.20000
+1st Qu. 35.90000
+Median  54.10000
+Mean    50.65957
+3rd Qu. 67.65000
+Max.    89.70000
+
+variable: Examination 
+MD5: 76a910ec1c2c22996f75a051a3f90192 
+            [,1]
+Min.     3.00000
+1st Qu. 12.00000
+Median  16.00000
+Mean    16.48936
+3rd Qu. 22.00000
+Max.    37.00000
+
+variable: Education 
+MD5: fb32a176f9e7160350a18f3f58290cc6 
+            [,1]
+Min.     1.00000
+1st Qu.  6.00000
+Median   8.00000
+Mean    10.97872
+3rd Qu. 12.00000
+Max.    53.00000
+   [,1]
+1     1
+2     3
+3     4
+5     2
+6     4
+7     7
+8     4
+9     3
+10    2
+11    1
+12    5
+13    3
+15    1
+19    1
+20    1
+28    1
+29    2
+32    1
+53    1
+
+variable: Catholic 
+MD5: efd14fbc7763a0ff759d5eb0b4756845 
+             [,1]
+Min.      2.15000
+1st Qu.   5.19500
+Median   15.14000
+Mean     41.14383
+3rd Qu.  93.12500
+Max.    100.00000
+
+variable: Infant.Mortality 
+MD5: 79534798b7c50423d07bc9522f11c3e4 
+            [,1]
+Min.    10.80000
+1st Qu. 18.15000
+Median  20.00000
+Mean    19.94255
+3rd Qu. 21.70000
+Max.    26.60000
+
+> 
+> summarizeDF( swiss, maxLevel = 10 )
+Summary of data.frame
+number of observations: 47 
+number of variables: 6 
+MD5: 4c43fa8a4d8f0cbf65353e397f37338c 
+
+variable: Fertility 
+MD5: 86e625283202d9a9909f099fadc690ad 
+            [,1]
+Min.    35.00000
+1st Qu. 64.70000
+Median  70.40000
+Mean    70.14255
+3rd Qu. 78.45000
+Max.    92.50000
+
+variable: Agriculture 
+MD5: 5e7bdeff4cbf3e796e073fffe2b8b1f7 
+            [,1]
+Min.     1.20000
+1st Qu. 35.90000
+Median  54.10000
+Mean    50.65957
+3rd Qu. 67.65000
+Max.    89.70000
+
+variable: Examination 
+MD5: 76a910ec1c2c22996f75a051a3f90192 
+            [,1]
+Min.     3.00000
+1st Qu. 12.00000
+Median  16.00000
+Mean    16.48936
+3rd Qu. 22.00000
+Max.    37.00000
+
+variable: Education 
+MD5: fb32a176f9e7160350a18f3f58290cc6 
+            [,1]
+Min.     1.00000
+1st Qu.  6.00000
+Median   8.00000
+Mean    10.97872
+3rd Qu. 12.00000
+Max.    53.00000
+
+variable: Catholic 
+MD5: efd14fbc7763a0ff759d5eb0b4756845 
+             [,1]
+Min.      2.15000
+1st Qu.   5.19500
+Median   15.14000
+Mean     41.14383
+3rd Qu.  93.12500
+Max.    100.00000
+
+variable: Infant.Mortality 
+MD5: 79534798b7c50423d07bc9522f11c3e4 
+            [,1]
+Min.    10.80000
+1st Qu. 18.15000
+Median  20.00000
+Mean    19.94255
+3rd Qu. 21.70000
+Max.    26.60000
+
+> 
+> summarizeDF( swiss, printValues = FALSE )
+Summary of data.frame
+number of observations: 47 
+number of variables: 6 
+MD5: 4c43fa8a4d8f0cbf65353e397f37338c 
+
+variable: Fertility 
+MD5: 86e625283202d9a9909f099fadc690ad 
+
+variable: Agriculture 
+MD5: 5e7bdeff4cbf3e796e073fffe2b8b1f7 
+
+variable: Examination 
+MD5: 76a910ec1c2c22996f75a051a3f90192 
+
+variable: Education 
+MD5: fb32a176f9e7160350a18f3f58290cc6 
+
+variable: Catholic 
+MD5: efd14fbc7763a0ff759d5eb0b4756845 
+
+variable: Infant.Mortality 
+MD5: 79534798b7c50423d07bc9522f11c3e4 
+
+> 
+> tmpFile <- file()
+> summarizeDF( swiss, file = tmpFile )
+> tmpLines <- readLines( tmpFile )
+> close( tmpFile )
+> print( matrix( tmpLines, ncol = 1 ) )
+      [,1]                                    
+ [1,] "Summary of data.frame"                 
+ [2,] "number of observations: 47 "           
+ [3,] "number of variables: 6 "               
+ [4,] "MD5: 4c43fa8a4d8f0cbf65353e397f37338c "
+ [5,] ""                                      
+ [6,] "variable: Fertility "                  
+ [7,] "MD5: 86e625283202d9a9909f099fadc690ad "
+ [8,] "            [,1]"                      
+ [9,] "Min.    35.00000"                      
+[10,] "1st Qu. 64.70000"                      
+[11,] "Median  70.40000"                      
+[12,] "Mean    70.14255"                      
+[13,] "3rd Qu. 78.45000"                      
+[14,] "Max.    92.50000"                      
+[15,] ""                                      
+[16,] "variable: Agriculture "                
+[17,] "MD5: 5e7bdeff4cbf3e796e073fffe2b8b1f7 "
+[18,] "            [,1]"                      
+[19,] "Min.     1.20000"                      
+[20,] "1st Qu. 35.90000"                      
+[21,] "Median  54.10000"                      
+[22,] "Mean    50.65957"                      
+[23,] "3rd Qu. 67.65000"                      
+[24,] "Max.    89.70000"                      
+[25,] ""                                      
+[26,] "variable: Examination "                
+[27,] "MD5: 76a910ec1c2c22996f75a051a3f90192 "
+[28,] "            [,1]"                      
+[29,] "Min.     3.00000"                      
+[30,] "1st Qu. 12.00000"                      
+[31,] "Median  16.00000"                      
+[32,] "Mean    16.48936"                      
+[33,] "3rd Qu. 22.00000"                      
+[34,] "Max.    37.00000"                      
+[35,] ""                                      
+[36,] "variable: Education "                  
+[37,] "MD5: fb32a176f9e7160350a18f3f58290cc6 "
+[38,] "            [,1]"                      
+[39,] "Min.     1.00000"                      
+[40,] "1st Qu.  6.00000"                      
+[41,] "Median   8.00000"                      
+[42,] "Mean    10.97872"                      
+[43,] "3rd Qu. 12.00000"                      
+[44,] "Max.    53.00000"                      
+[45,] "   [,1]"                               
+[46,] "1     1"                               
+[47,] "2     3"                               
+[48,] "3     4"                               
+[49,] "5     2"                               
+[50,] "6     4"                               
+[51,] "7     7"                               
+[52,] "8     4"                               
+[53,] "9     3"                               
+[54,] "10    2"                               
+[55,] "11    1"                               
+[56,] "12    5"                               
+[57,] "13    3"                               
+[58,] "15    1"                               
+[59,] "19    1"                               
+[60,] "20    1"                               
+[61,] "28    1"                               
+[62,] "29    2"                               
+[63,] "32    1"                               
+[64,] "53    1"                               
+[65,] ""                                      
+[66,] "variable: Catholic "                   
+[67,] "MD5: efd14fbc7763a0ff759d5eb0b4756845 "
+[68,] "             [,1]"                     
+[69,] "Min.      2.15000"                     
+[70,] "1st Qu.   5.19500"                     
+[71,] "Median   15.14000"                     
+[72,] "Mean     41.14383"                     
+[73,] "3rd Qu.  93.12500"                     
+[74,] "Max.    100.00000"                     
+[75,] ""                                      
+[76,] "variable: Infant.Mortality "           
+[77,] "MD5: 79534798b7c50423d07bc9522f11c3e4 "
+[78,] "            [,1]"                      
+[79,] "Min.    10.80000"                      
+[80,] "1st Qu. 18.15000"                      
+[81,] "Median  20.00000"                      
+[82,] "Mean    19.94255"                      
+[83,] "3rd Qu. 21.70000"                      
+[84,] "Max.    26.60000"                      
+[85,] ""                                      
+> 
+> proc.time()
+   user  system elapsed 
+  0.113   0.034   0.140 

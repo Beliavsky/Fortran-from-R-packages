@@ -1,0 +1,76 @@
+
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## testing stdEr() methods
+> library( "miscTools" )
+> data( "cars" )
+> 
+> # lm()
+> lmRes <- lm(dist ~ speed, data=cars)
+> summary( lmRes )
+
+Call:
+lm(formula = dist ~ speed, data = cars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.069  -9.525  -2.272   9.215  43.201 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -17.5791     6.7584  -2.601   0.0123 *  
+speed         3.9324     0.4155   9.464 1.49e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 15.38 on 48 degrees of freedom
+Multiple R-squared:  0.6511,	Adjusted R-squared:  0.6438 
+F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12
+
+> round( stdEr( lmRes ), 4 )
+(Intercept)       speed 
+     6.7584      0.4155 
+> 
+> # nls()
+> nlsRes <- nls( dist ~ b0 + b1 * speed^b2, start = c( b0=0, b1=1, b2=1 ),
++    data = cars )
+> tmp <- summary( nlsRes )
+> tmp$convInfo$finTol <- round( tmp$convInfo$finTol, 4 )
+> print( tmp )
+
+Formula: dist ~ b0 + b1 * speed^b2
+
+Parameters:
+   Estimate Std. Error t value Pr(>|t|)   
+b0   5.4878    10.6846   0.514  0.60992   
+b1   0.2612     0.4847   0.539  0.59248   
+b2   1.7875     0.5553   3.219  0.00233 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 15.19 on 47 degrees of freedom
+
+Number of iterations to convergence: 7 
+Achieved convergence tolerance: 0
+
+> round( stdEr( nlsRes ), 3 )
+    b0     b1     b2 
+10.685  0.485  0.555 
+> 
+> proc.time()
+   user  system elapsed 
+  0.118   0.032   0.143 

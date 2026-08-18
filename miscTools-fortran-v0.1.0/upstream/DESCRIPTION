@@ -1,0 +1,29 @@
+Package: miscTools
+Version: 0.6-30
+Date: 2026-01-19
+Title: Miscellaneous Tools and Utilities
+Authors@R: c(
+  person( given = "Arne", family = "Henningsen", role = c( "aut", "cre" ),
+    email = "arne.henningsen@gmail.com" ),
+  person( given = "Ott", family = "Toomet", role = "aut" ) )
+Author: Arne Henningsen [aut, cre],
+  Ott Toomet [aut]
+Maintainer: Arne Henningsen <arne.henningsen@gmail.com>
+Depends: R (>= 2.14.0)
+Imports: digest
+Suggests: Ecdat (>= 0.1-5)
+Description: Miscellaneous small tools and utilities.
+   Many of them facilitate the work with matrices,
+   e.g. inserting rows or columns, creating symmetric matrices,
+   or checking for semidefiniteness.
+   Other tools facilitate the work with regression models,
+   e.g. extracting the standard errors,
+   obtaining the number of (estimated) parameters,
+   or calculating R-squared values.
+License: GPL (>= 2)
+URL: https://github.com/arne-henningsen/miscTools
+BugReports: https://github.com/arne-henningsen/miscTools/issues
+NeedsCompilation: no
+Packaged: 2026-01-19 13:56:45 UTC; gsl324
+Repository: CRAN
+Date/Publication: 2026-01-20 06:10:14 UTC

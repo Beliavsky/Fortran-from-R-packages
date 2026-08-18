@@ -1,0 +1,21 @@
+name = "miscTools-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Arne Henningsen and Ott Toomet; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of R miscTools"
+keywords = ["matrix", "statistics", "semidefinite", "utilities"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
