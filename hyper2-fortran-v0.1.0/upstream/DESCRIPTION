@@ -1,0 +1,33 @@
+Package: hyper2
+Type: Package
+Title: The Hyperdirichlet Distribution, Mark 2
+Version: 3.2-3
+Authors@R: person(given=c("Robin", "K. S."), family="Hankin", role = c("aut","cre"), email="hankin.robin@gmail.com", comment = c(ORCID = "0000-0001-5982-0415"))
+Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
+Description: A suite of routines for the hyperdirichlet distribution
+   and reified Bradley-Terry; supersedes the 'hyperdirichlet' package;
+   uses 'disordR' discipline <doi:10.48550/ARXIV.2210.03856>.  To cite
+   in publications please use Hankin 2017 <doi:10.32614/rj-2017-061>,
+   and for Generalized Plackett-Luce likelihoods use Hankin 2024
+   <doi:10.18637/jss.v109.i08>.
+License: GPL (>= 2)
+LazyData: yes
+Depends: R (>= 4.1.0)
+Suggests: abind, ape, bookdown, covr, igraph, knitr, markdown,
+        pdftools, phangorn, PlackettLuce, pracma, prefmod, qcc,
+        rmarkdown, rticles, stringr, Ternary, testthat
+VignetteBuilder: knitr
+Imports: alabama, calibrator, cubature, disordR (>= 0.0-9), frab,
+        magrittr, methods, partitions, Rcpp (>= 1.0-7), Rdpack, crayon
+LinkingTo: Rcpp
+URL: https://github.com/RobinHankin/hyper2,
+        https://robinhankin.github.io/hyper2/
+BugReports: https://github.com/RobinHankin/hyper2/issues
+RoxygenNote: 7.1.1
+RdMacros: Rdpack
+NeedsCompilation: yes
+Packaged: 2026-06-23 07:02:58 UTC; rhankin
+Author: Robin K. S. Hankin [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-5982-0415>)
+Repository: CRAN
+Date/Publication: 2026-06-23 10:00:09 UTC

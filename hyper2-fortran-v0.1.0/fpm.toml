@@ -1,0 +1,21 @@
+name = "hyper2-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of hyper2 3.2-3 computational code"
+maintainer = ""
+copyright = "See LICENSE.md and UPSTREAM.md"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+cubature-fortran = { path = "dependencies/cubature-fortran" }
+partitions-fortran = { path = "dependencies/partitions-fortran" }
