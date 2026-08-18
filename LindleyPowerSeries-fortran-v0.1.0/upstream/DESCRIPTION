@@ -1,0 +1,15 @@
+Package: LindleyPowerSeries
+Type: Package
+Title: Lindley Power Series Distribution
+Version: 1.0.1
+Author: Saralees Nadarajah & Yuancheng Si, Peihao Wang
+Maintainer: Yuancheng Si <siyuanchengman@gmail.com>
+Description: Computes the probability density function, the cumulative distribution function, the hazard rate function, the quantile function and random generation for Lindley Power Series distributions, see Nadarajah and Si (2018) <doi:10.1007/s13171-018-0150-x>.
+License: GPL (>= 2)
+Encoding: UTF-8
+RoxygenNote: 7.1.1
+Imports: stats, lamW(>= 1.3.0)
+NeedsCompilation: no
+Packaged: 2021-07-10 13:16:35 UTC; siyua
+Repository: CRAN
+Date/Publication: 2021-07-10 16:50:02 UTC

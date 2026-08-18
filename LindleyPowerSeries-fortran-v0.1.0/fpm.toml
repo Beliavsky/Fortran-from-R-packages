@@ -1,0 +1,14 @@
+name = "LindleyPowerSeries-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Saralees Nadarajah, Yuancheng Si, Peihao Wang; Fortran translation by OpenAI"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational routines in the R package LindleyPowerSeries"
+categories = ["statistics", "probability", "distributions"]
+keywords = ["lindley", "power-series", "probability", "statistics"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
