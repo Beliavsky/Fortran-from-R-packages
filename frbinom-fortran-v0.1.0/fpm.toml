@@ -1,0 +1,21 @@
+name = "frbinom-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Jeonghwa Lee and Daniel Gernander; modern Fortran translation"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the R frbinom package"
+keywords = ["fractional-binomial", "generalized-bernoulli", "long-range-dependence"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
