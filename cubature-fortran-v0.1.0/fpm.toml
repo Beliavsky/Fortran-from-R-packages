@@ -1,0 +1,17 @@
+name = "cubature-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of cubature 2.1.4-1 computational code"
+maintainer = ""
+copyright = "See UPSTREAM.md and LICENSE"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
