@@ -1,0 +1,32 @@
+Package: hermite
+Type: Package
+Title: Generalized Hermite Distribution
+Version: 1.2.1
+Date: 2026-07-27
+Encoding: UTF-8
+Authors@R: c(person(given = "David",
+                        family = "Moriña Soler",
+                        role = c("aut", "cre"),
+                        email = "david.morina@uab.cat"),
+                 person(given = "Manuel",
+                        family = "Higueras",
+                        role = "aut"),
+                 person(given = "Pedro",
+                        family = "Puig",
+                        role = "aut"),
+                 person(given = "María",
+                        family = "Oliveira",
+                        role = "aut"))
+Maintainer: David Moriña Soler <david.morina@uab.cat>
+Description: Probability functions and other utilities for the generalized Hermite distribution.
+Depends: R (>= 2.15.0), maxLik
+LazyData: true
+Repository: CRAN
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2026-07-27 07:16:56 UTC; dmorina
+Author: David Moriña Soler [aut, cre],
+  Manuel Higueras [aut],
+  Pedro Puig [aut],
+  María Oliveira [aut]
+Date/Publication: 2026-07-27 07:50:02 UTC

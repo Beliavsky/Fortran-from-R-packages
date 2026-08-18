@@ -1,0 +1,14 @@
+exportPattern("^[[:alpha:]]+")
+
+S3method(print, summary.glm.hermite)
+S3method(summary, glm.hermite)
+
+importFrom("stats", "contrasts", "dnorm", "glm", "glm.fit",
+             "is.empty.model", "logLik", "make.link", "model.matrix",
+             "model.response", "optim", "pchisq", "pnorm", "poisson",
+             "qnorm", "quantile", "rpois", "var", "vcov")
+
+# Import all packages listed as Imports or Depends
+import(
+  maxLik
+)
