@@ -1,0 +1,23 @@
+Package: nbconv
+Title: Evaluate Arbitrary Negative Binomial Convolutions
+Version: 1.0.1
+Authors@R: 
+    person(
+      "Gregory", "Bedwell",
+      email = "gregoryjbedwell@gmail.com", 
+      role = c("aut", "cre", "cph"),
+      comment = c(ORCID = "0000-0003-0456-0032") )
+URL: https://github.com/gbedwell/nbconv
+BugReports: https://github.com/gbedwell/nbconv/issues
+Imports: parallel, matrixStats, stats
+Description: Three distinct methods are implemented for evaluating the sums of arbitrary negative binomial distributions. These methods are: Furman's exact probability mass function (Furman (2007) <doi:10.1016/j.spl.2006.06.007>), saddlepoint approximation, and a method of moments approximation. Functions are provided to calculate the density function, the distribution function and the quantile function of the convolutions in question given said evaluation methods. Functions for generating random deviates from negative binomial convolutions and for directly calculating the mean, variance, skewness, and excess kurtosis of said convolutions are also provided.
+Encoding: UTF-8
+RoxygenNote: 7.2.0
+License: GPL (>= 3)
+NeedsCompilation: no
+Packaged: 2023-07-06 18:01:40 UTC; gbedwell
+Author: Gregory Bedwell [aut, cre, cph]
+    (<https://orcid.org/0000-0003-0456-0032>)
+Maintainer: Gregory Bedwell <gregoryjbedwell@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-07-06 18:20:02 UTC
