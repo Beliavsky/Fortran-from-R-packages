@@ -1,0 +1,20 @@
+name = "BivGeo-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Ricardo Puziol de Oliveira, Jorge Alberto Achcar; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran translation of the computational code in the R package BivGeo"
+
+[library]
+source-dir = "src"
+
+[fortran]
+source-form = "free"
+implicit-typing = false
+implicit-external = false
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
