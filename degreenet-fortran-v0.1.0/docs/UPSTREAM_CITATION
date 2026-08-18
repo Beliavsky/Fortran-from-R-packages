@@ -1,0 +1,24 @@
+citHeader("'degreenet' is part of the Statnet suite of packages.\n If you are using 'degreenet' for research that will be published, we request that you acknowledge this by citing the following.\n For BibTeX format, use toBibtex(citation('degreenet')).")
+
+bibentry(bibtype="Manual",
+         title = paste(meta$Package,": ", meta$Title, sep=""),
+  author = structure(list(
+   list(given = "Mark S.", family = "Handcock", role = c("aut", "cre"), email = "handcock@stat.ucla.edu",
+        comment = c(ORCID = "0000-0002-9985-2785"))), class="person"),
+         year         = substr(meta$Date,1,4),
+         note         = paste("R package version ", meta$Version, sep=""),
+         note         = paste("R package version ", meta$Version, ". Project home page at http://statnet.org",sep=""),
+         address      = "Los Angeles, CA",
+         url          = "https://CRAN.R-project.org/package=degreenet",
+         
+         textVersion = 
+         paste("Mark S. Handcock (2003) ", 
+               paste(meta$Package,": ", meta$Title, sep=""),
+               ", Version ", meta$Version, ". Project home page at http://statnet.org",
+               ",", " URL https://CRAN.R-project.org/package=degreenet.",
+               sep="")
+         )
+
+citFooter("We have invested a lot of time and effort in creating the",
+          "'degreenet' package for use by other researchers.",
+          "Please cite it in all papers where it is used.")

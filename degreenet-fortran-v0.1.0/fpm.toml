@@ -1,0 +1,55 @@
+name = "degreenet-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Mark S. Handcock; Fortran translation"
+maintainer = "Fortran translation generated from degreenet 1.3-7"
+copyright = "2003-2026 Mark S. Handcock and statnet Development Team"
+description = "Modern Fortran translation of the computational core of R package degreenet"
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_distributions"
+source-dir = "test"
+main = "test_distributions.f90"
+
+[[test]]
+name = "test_cmp_pln"
+source-dir = "test"
+main = "test_cmp_pln.f90"
+
+[[test]]
+name = "test_compound"
+source-dir = "test"
+main = "test_compound.f90"
+
+[[test]]
+name = "test_fit"
+source-dir = "test"
+main = "test_fit.f90"
+
+[[test]]
+name = "test_grouped"
+source-dir = "test"
+main = "test_grouped.f90"
+
+[[test]]
+name = "test_graph"
+source-dir = "test"
+main = "test_graph.f90"
+
+[[example]]
+name = "fit_degree_models"
+source-dir = "example"
+main = "fit_degree_models.f90"
+
+[[test]]
+name = "test_observed_fit"
+source-dir = "test"
+main = "test_observed_fit.f90"
+
+[[test]]
+name = "test_simulation"
+source-dir = "test"
+main = "test_simulation.f90"
