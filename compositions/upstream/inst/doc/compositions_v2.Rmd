@@ -1,0 +1,219 @@
+---
+title: "'compositions' v2.0: R classes for compositional analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{'compositions' v2.0: R classes for compositional analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## The "compositions" package
+
+The package "compositions" was released in 2005 to enable R users the analysis of compositional data in R. The main goals were twofold: to provide functions for the logratio analysis of compositions, and the facilitation of the comparison of results and interpretation among several analysis paradigms, in a transparent and consistent way. These paradigms correspond to different statistical scales for the data, thus for different geometries of the underlying sample space (the *simplex*). Each geometry was encoded in an S3 class. The following table summarizes these classes. Details on how to choose a class, and how to work with them can be found in [UsingCompositions.pdf](UsingCompositions.pdf). Readers new to "compositions" are recommended to start there, as this vignette rather focuses on what has changed and how to do certain advanced analysis with the new functionality.
+
+```{r geometries, echo=FALSE}
+tbl = matrix(c("no", "no", "no", "no", "yes", "no",  "no", "no", "yes", "yes", "yes", "--",   
+               "no", "yes","no", "yes","yes", "no",
+               "real compositional", "relative compositional", "real amounts", "relative amounts", "count multinomial", "real multivariate",
+               "rcomp", "acomp", "rplus", "aplus", "ccomp", "rmult"), ncol=5)
+colnames(tbl) = c("counts?", "total?", "relative?", "geometry", "class")
+knitr::kable(tbl)
+```
+In this table, the first three columns correspond to three binary questions that guide you in choosing the right geometry for your data
+
+* are your data inherently counts, or can they be understood to be continuous data (even if they are discretized)?
+* do your data carry information about a total sum, or is their sum irrelevant/a non-informative artifact?   
+* is the scale of your data a relative one (also know as *ratio scale*) or rather an absolute one (aka. *interval scale*)?
+
+
+## Compositional classes, old and new
+
+Once you have chosen your geometry (or a couple of them that you want to compare), you can load "compositions" with
+```{r setup}
+library(compositions)
+```
+and load your data with any data reading function (`read.csv()`, `read_delim()`, `read_excel()`, etc). Here we use for illustration purposes the data set "Hydrochem"
+```{r setupData}
+data("Hydrochem")
+dim(Hydrochem)
+colnames(Hydrochem)
+```
+having 5 descriptive variables and 14 chemical components (from `H` to `TOC`). These last form a composition, which we preliminarily consider of an *aplus* geometry
+```{r dataPreliminaries}
+xp = aplus(Hydrochem[, c("Ca","K", "Na", "Mg")])
+summary(xp)
+```
+```{r dataPreliminaryFig, fig.height=10, fig.asp=1}
+plot(xp, col=Hydrochem$River, cex=0.5)
+```
+
+
+The object is of course an "aplus" object
+
+```{r}
+is.aplus(xp)    # check with S3 paradigm
+is(xp, "aplus") # check with S4 paradigm
+```
+but it is also an amounts object
+```{r}
+is(xp, "amounts") # only S4 paradigm
+```
+The "amounts" class is an abstract superclass, that cannot be created directly.
+Also objects of class "rplus" and "ccomp" are amounts
+```{r}
+is(rplus(xp), "amounts")
+is(ccomp(xp), "amounts")
+```
+
+If we consider the total sum of each row to be irrelevant, the appropriate class is an "acomp"
+
+```{r compPreliminaries}
+xc = acomp(Hydrochem[, c("Ca","K", "Na", "Mg")])
+summary(xc)
+```
+```{r compPreliminaryFig, fig.height=10, fig.asp=1}
+plot(xc, col=Hydrochem$River, cex=0.5)
+```
+
+
+This can be thus checked  
+```{r}
+is.acomp(xc)    # check with S3 paradigm
+is(xc, "acomp") # check with S4 paradigm
+```
+There is also an abstract superclass for compositional objects, i.e. those where the total is irrelevant or an artifact
+```{r}
+is(xc, "compositional") 
+```
+that contains objects of class "acomp", "rcomp" and "ccomp"
+```{r}
+is(rcomp(xc), "compositional")
+is(ccomp(xc), "compositional")
+```
+
+Additionally, all comopostional classes have natural ways to be automatically converted to "data.frame" and to "structure" classes. This works like this
+```{r, eval=FALSE}
+as(xc, "data.frame")
+as(xc, "structure")
+```
+
+and it allows S4 classes with slots expecting a "data.frame" or one of "vector", "matrix" or "array" to accept a compositional object. This will be discussed in the last section of this vignette. 
+
+
+
+## Subsetting and transformations
+
+Compositional data sets react now to the dollar notation. Since compositions v2 you can extract one particular variable with 
+```{r}
+summary(xp$Ca)
+```
+As discussed in [UsingCompositions.pdf](UsingCompositions.pdf), the key idea of compositional analysis is to transform the data prior to the analysis. All transformations are now accessible using the dollar notation
+```{r}
+summary(xp$clr)
+```
+This includes each of `alr`, `ilr`, `clr`, `log`, `ilt`, `iit`, `apt`, `ipt`, `cpt`, their generic versions `cdt` and `idt`, as well as all their inverses (e.g. `cptInv` or `alrInv`). Also `raw`, `clo`, `unclass` and `pwlr` resp. `pwlrInv` (pairwise logratio and its inverse) work with this trick
+```{r}
+summary(xp)
+summary(cdt(xp))
+summary(xp$cdt)
+summary(xp$cdt$cdtInv)
+```
+
+Another (potentially conflictive) novelty is the `[`-subsetting, in particular for closed classes ("acomp" and "rcomp"). In compositions-v1, subseting invariably destroyed the class, returning the selected rows or columns in a matrix, or even in a vector if only one row or one column was selected. From compositions-v2 on, the nature of the subsetting depends on class of the parent object and the number of selected elements:
+
+* selecting rows returns an object of the same class as the parent object; if only one row is chosen, the output will be a vector of the parent class;
+```{r}
+xp0 = xp[1:5,]
+xp0
+xc0 = xc[1:5,]
+xc0
+xc[10,]
+```
+* selecting columns in classes "rmult", "ccomp", "aplus" and "rplus" invariably return an object of that class, with the columns selected;
+```{r}
+xp0[,"Ca"]
+xp0[,c("Ca","K")]
+```
+* selecting two or more columns of objects of class "acomp" or "rcomp" returns the selected subcomposition, that is, another object of the parent class with the selected components reclosed to sum to 1
+```{r}
+xc0[,c("Ca","K")]
+```
+* selecting one single column returns that individual column as a vector; the same happens with the dollar notation; both destroy the class
+```{r}
+xc0$Ca
+xc0[,"Ca"]
+xp0[,"Ca"]
+```
+* you can override this special bevavior and return to the behavior of compositions v1 by specifying the extra argument `drop=TRUE` in the subsetting, or globally by calling `setStickyClassOption(FALSE)`
+```{r}
+xc0[,c("Ca","K"), drop=TRUE]
+xp0[,"Ca", drop=TRUE]
+```
+You can check which is the current status of sticky classes with `getStickyClassOption()`.
+
+
+
+## Compositions as columns
+
+Matrix-like compositions can be embedded in other data containers, typically "data.frame"s or tibbles. For this, we just need to define an extra column
+```{r}
+Hydrochem$comp <- xc
+head(Hydrochem)
+dim(Hydrochem)
+```
+This composition can be then recovered with the dollar notation, and also used in further calls to statistical methods, e.g.
+```{r, lm_example}
+head(Hydrochem$comp)
+codalm = lm(alr(comp)~River, data=Hydrochem) 
+summary(codalm)
+```
+
+The transformation can even be called with the dollar notation, and transformed data keep the information necessary to construct their back-transformation.
+```{r, lm_predict}
+codalm = lm(comp$idt~River, data=Hydrochem) 
+head(predict(codalm)$idtInv)
+```
+To recover the column names in the backtransformation you might need to make use of the `orig` argument of the explicit transformation (that is, without the dollar notation)
+```{r, lm_predict2}
+head(idtInv(predict(codalm), orig=xc))
+```
+
+Note as well the existence of the new function `backtransform`, which will take an "rmult" object and return its expression in the appropriate original components. This can even be allowed to be controlled by a third object through an extra argument `as`
+```{r, selfbacktrafo}
+head(backtransform(idt(xp)))
+head(backtransform(predict(codalm), as=codalm$residuals))
+```
+
+In the case of tibbles, the column names of the embedded object are even preserved, so that 
+```{r, eval=FALSE}
+tbHydro = tibble::as_tibble(Hydrochem)
+tbHydro$comp = xc
+tbHydro$comp$Ca
+```
+would return the same as `xc$Ca`. This is not included here to reduce the dependencies of this package. Note that this trick does not work with "data.frame" objects, because `[<-` takes care of removing the column names of the composition before attaching it.
+
+
+This property of *self-back-transformability* is the single most important addition to "compositions" v2, and will experiment improvements in the future. In particular, we strive to make the recovery of column names automatic in the near future.
+
+
+## Embedding in S4 objects
+
+The final addition to compositions v2 is the ability of compositional data to *fake* to be "data.frame"s or "structure"s themselves. This allows them to be embedded in S3 elements and S4 classes in slots expecting one of these objects, keeping their additional attributes (hence their compositional nature, backtransformability and so on).  This is an example of how this could work, for instance in a spatial data frame of package "sp". As before, this is not actually included here to avoid including one extra package. Readers are invited to check how it works. Packages "gstat" and "sp" are necessary
+```{r, eval=FALSE}
+data("jura", package="gstat")
+coords = jura.pred[, 1:2]
+compo = jura.pred[, 7:13]
+xc = cdt(acomp(compo))
+spcompo = SpatialPointsDataFrame(coords=coords, data=xc)
+summary(spcompo@data)
+class(spcompo@data)
+```
+
+For an S4 class to admit compositional classes in their slots for "data.frame", "vector", "matrix" or "array" objects, though, there is a condition: validity checks must be made after `as(x,"data.frame")`, `as(x,"matrix")` or equivalent is applied.

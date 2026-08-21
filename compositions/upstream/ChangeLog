@@ -1,0 +1,125 @@
+Version 2.0-9
+   * manpages: links to functions in other packages corrected
+
+Version 2.0-8
+   * test files report all warnings, as `options(warn=1)` has been included in
+each one; numerical results have been rounded to three digits, to ease comparison;
+warnings intended for end-users have been suppressed with a human-readable marking.
+   * plot.acomp() produced a funny warning by accummulating par() arguments; this
+has been programmed more cleanly.
+
+Version 2.0-7
+   * test result files stored as requested by cran standards
+
+Version 2.0-6
+   * All .C() calls include symbols and not string names of the called C routines
+
+Version 2.0-5
+   * Adapted to new rgl 1.0.1 interface
+
+Version 2.0-4
+   * F77_ calling conventions adapted from fixed length strings to length parameter in BLAS calls
+   * fitDirichlet returned loglikehood fixed (by adding a "-" in front of n)
+   * as.matrix.rmult method returns now a matrix with the rmult class stripped; in this way, derivate functions of `lm()` work properly (e.g. `anova`, `summary.manova`, `MASS::lda`)
+	
+
+Version 2.0-3
+  * kernel density estimation on the simplex with Dirichlet kernels (kdeDirichlet)
+
+Version 2.0-2.9000
+  * own implementation of dDirichlet
+
+Version 2.0.2 and Version 2.0-1.9001
+
+Minor changes / Bugfixes:
+  * functions that do not work with sticky classes are now wrapped 
+  (e.g. `anova()`)
+
+
+Version 2.0-1.9000
+
+Major change: sticky classes! 
+  * Now objects of compositional classes do not miss their class 
+  when subsetting. For example, if `x` is an "acomp" object,
+  x[1:2,] will also be an "acomp" object. Selection of columns work 
+  as well, but it is a bit more tricky. Check ?`[.acomp` for
+  details. You can get this behaviour skipped by setting
+  setStickyClassOption(FALSE). 
+  * The dollar notation `$` also works for subsetting columns.
+
+Added:
+  * Limited support for using compositions classes as formal S4 
+  classes, for instance in slots of S4 classes expecting a 
+  "data.frame" or a "structure" (matrix or array).
+  * self-invertibility: now "rmult" objects created by any 
+  transformation (cdt, clr, cpt, idt, ilr, ipt, iit, ilt, alr,
+  apt) remember the original data and the transformation between
+  them, and can be back-transformed with `backtransform`.
+  * added cdt and idt methods for objects of class "factor" (returning
+  the contrasts and their ipt transformation), and for "data.frame"
+  objects (exploiting the attribute "origClass" if they have it).
+  * `pwlr()`: pairwise logratio transformation (and inverse: `pwlrInv()`)
+  * `pwlrPlot()`: pairwise logratio plots vs covariables, both as explained 
+   and as explanatory variables. This makes use of the ability of plot(x~y)
+  to react to the nature of `x` and `y` to create scatterplots, boxplots
+  and spineplots.
+  * transformation functions between variation and clrvar: variation2clrvar
+  and clrvar2variation
+  * `split()` methods for compositional classes
+  * new panels for filling `pairs()` plots with boxplots, densities, 
+  kde2d-densities, etc...: check ?vp.kde2dplot
+  
+Minor Changes:
+  * the function to fit linear models of coregionalisation is now called
+  `fit.lmc()`; use full name specification with it! `compositions::fit.lmc()`
+  
+Bugfixes:
+  * bug in subsetting of one-column rmult object corected
+  
+
+
+-----------------------------------------
+Version 0.92-1 (R (>= 2.2.0), rgl, tensorA, robustBase)
+
+Added:	Robustness: see robustnessInCompositions (robust= parameter)
+	Outlier classification: see outliersInCompositions 
+	advanced treatment of Missings: see missigsInCompositions
+	CodaDendrogram (Tolosana)
+	A replot functionallity, changing plot parameters on the fly
+	A onlyPanel Parameter to zoom individual panels of highdimensional
+	 plots
+	ternaryAxis
+	A new coordinate subsystem
+	
+Changed:
+	*.row *.col and *.inv replaces by *Row, *Col, *Inv to
+	ensure compatibility wiht R>=2.7
+	added NAMESPACE: most gsi. functions are now hidden.
+	If you need them use attach(gsi) 
+	
+Bugfixes: "s" and "m" warnings 
+	  wrong axis-labels in logarithmic pairs plots fixed
+	  log option in boxplot.rplus now shows really logodds rather than
+	  log relative portions.
+	  Labeling in plots, missing treatment in plots.
+
+------------------------------------	
+Version 0.91-6  ( R >= 2.2.0 , rgl )
+
+Added:	plot3d, biplot3d, 
+	Basic treatment of missings
+
+
+Version 0.9-11 ( R >= 2.2.0 beta)
+
+Added: 
+	read.geoeas, read.geoEAS (Tolosana)
+	isoPortionlines, isoProportionLines (Boogaart)
+	kingTetrahedron (Bren)
+
+Version 0.9-10 (R > 2.0.0 )
+
+Was the first complete version 
+
+
+	

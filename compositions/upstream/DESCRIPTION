@@ -1,0 +1,33 @@
+Package: compositions
+Version: 2.0-9
+Date: 2025-08-20
+Title: Compositional Data Analysis
+Authors@R: c(person(given = c("K.", "Gerald"),
+                      family = "van den Boogaart",
+                      role = c("aut", "cre"),
+                      email = "support@boogaart.de"),
+               person(given = "Raimon",
+                      family = "Tolosana-Delgado",
+                      role = "aut"),
+               person(given = "Matevz",
+                      family = "Bren",
+                      role = "aut"))
+Depends: R (>= 3.6)
+Imports: methods, utils, grDevices, stats, tensorA, robustbase, bayesm,
+        graphics, MASS
+Suggests: rgl (>= 1.0.1), combinat, energy, knitr, rmarkdown
+Description: Provides functions for the consistent analysis of compositional 
+  data (e.g. portions of substances) and positive numbers (e.g. concentrations) 
+  in the way proposed by J. Aitchison and V. Pawlowsky-Glahn.
+License: GPL (>= 2)
+URL: http://www.stat.boogaart.de/compositions/
+VignetteBuilder: knitr
+RoxygenNote: 7.1.1
+NeedsCompilation: yes
+Packaged: 2025-08-20 15:18:34 UTC; tolosana
+Author: K. Gerald van den Boogaart [aut, cre],
+  Raimon Tolosana-Delgado [aut],
+  Matevz Bren [aut]
+Maintainer: K. Gerald van den Boogaart <support@boogaart.de>
+Repository: CRAN
+Date/Publication: 2025-08-21 08:40:24 UTC

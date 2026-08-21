@@ -1,0 +1,17 @@
+name = "compositions-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Translation of compositions package computational code"
+maintainer = "OpenAI"
+description = "Modern Fortran/FPM translation of the computational core of R package compositions"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+link = ["lapack", "blas"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

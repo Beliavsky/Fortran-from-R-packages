@@ -1,0 +1,198 @@
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> options(warn=1)
+> # ad-hod function for comparing numbers
+> qround <- function(x) round(x, dig=3)
+> 
+> library("compositions")
+Welcome to compositions, a package for compositional data analysis.
+Find an intro with "? compositions"
+
+
+Attaching package: ‘compositions’
+
+The following objects are masked from ‘package:stats’:
+
+    anova, cor, cov, dist, var
+
+The following object is masked from ‘package:graphics’:
+
+    segments
+
+The following objects are masked from ‘package:base’:
+
+    %*%, norm, scale, scale.default
+
+> set.seed(1334345)
+> data(SimulatedAmounts)
+> par(pch=20)
+> mydata <- simulateMissings(sa.groups5,dl=0.01,knownlimit=TRUE,MAR=0.05,MNARprob=0.05,SZprob=0.05)
+> 
+> 
+> # standard way of creating a compositional dataset
+> # (cdata <- acomp(mydata))
+> 
+> # In this file we suppress unnecessary warnings targeting end-users
+> # Human: if you want to see them, replace suppressWarnings() by I()
+> cdata <- suppressWarnings( acomp(mydata) )
+> suppressWarnings( qround( mean(cdata) ) )
+     Cu      Zn      Pb      Cd      Co 
+"0.137" "0.650" "0.193" "0.012" "0.007" 
+attr(,"class")
+[1] "acomp"
+> qround( mean(acomp(sa.groups5)) )
+     Cu      Zn      Pb      Cd      Co 
+"0.142" "0.660" "0.190" "0.005" "0.003" 
+attr(,"class")
+[1] "acomp"
+> plot(acomp(sa.groups5))
+> suppressWarnings( plot(mean(cdata),add=T,col="red") )
+> plot(mean(acomp(sa.groups5)),add=T,col="green")
+> suppressWarnings( qround( mean(cdata - mean(cdata)) ) )
+    Cu     Zn     Pb     Cd     Co 
+" 0.2" " 0.2" " 0.2" " 0.2" " 0.2" 
+attr(,"class")
+[1] "acomp"
+> 
+> mm  <- suppressWarnings( mean(cdata) )
+> erg <- suppressWarnings(  var(cdata) )
+> 
+> print(erg)
+           Cu          Zn         Pb          Cd         Co
+Cu  1.4584600  1.65184942 -1.3766795 -0.33655679 -1.3970731
+Zn  1.6518494  2.68214514 -2.5332217  0.03317017 -1.8339431
+Pb -1.3766795 -2.53322167  5.4296947 -2.08907090  0.5692774
+Cd -0.3365568  0.03317017 -2.0890709  1.63133485  0.7611227
+Co -1.3970731 -1.83394307  0.5692774  0.76112267  1.9006161
+> lapply(lapply(svd(erg), abs), qround)
+$d
+[1] 8.412 4.202 0.312 0.176 0.000
+
+$u
+      [,1]  [,2]  [,3]  [,4]  [,5]
+[1,] 0.308 0.342 0.699 0.316 0.447
+[2,] 0.500 0.337 0.454 0.481 0.447
+[3,] 0.747 0.414 0.225 0.142 0.447
+[4,] 0.189 0.541 0.367 0.580 0.447
+[5,] 0.250 0.553 0.347 0.558 0.447
+
+$v
+      [,1]  [,2]  [,3]  [,4]  [,5]
+[1,] 0.308 0.342 0.699 0.316 0.447
+[2,] 0.500 0.337 0.454 0.481 0.447
+[3,] 0.747 0.414 0.225 0.142 0.447
+[4,] 0.189 0.541 0.367 0.580 0.447
+[5,] 0.250 0.553 0.347 0.558 0.447
+
+> 
+> ellipses(mm,erg)
+> suppressWarnings(
++   ellipses(mean(acomp(sa.groups5)),var(acomp(sa.groups5)))
++   )
+> 
+> # cdata <- acomp(mydata)
+> # plot(cdata)
+> suppressWarnings( plot(cdata) )
+> suppressWarnings( plot(mm,add=T,col="blue") )
+> suppressWarnings( plot(mean(acomp(sa.groups5)),add=T,col="green") )
+> suppressWarnings( mean(cdata - mean(cdata)) )
+    Cu     Zn     Pb     Cd     Co 
+" 0.2" " 0.2" " 0.2" " 0.2" " 0.2" 
+attr(,"class")
+[1] "acomp"
+> # mm <-mean(cdata)
+> # erg <-var(cdata)
+> # svd(erg)
+> suppressWarnings( ellipses(mm,erg) )
+> suppressWarnings( ellipses(mm,erg,r=2) )
+> 
+> 
+> 
+> #cdata <- rcomp(mydata)
+> #cdata
+> 
+> #mean(cdata)
+> #mean(rcomp(sa.groups5))
+> #plot(rcomp(sa.groups5))
+> #plot(mean(cdata),add=T,col="red",pch=20)
+> #plot(mean(rcomp(sa.groups5)),add=T,col="green",pch=20)
+> #mean(cdata - mean(cdata)) # Nonsense because the difference is noncompositional
+> 
+> 
+> cdata <- aplus(mydata)
+> # cdata
+> qround( mean(cdata) )
+[1] " 5.969" "26.965" " 8.239" " 0.574" " 0.326"
+attr(,"class")
+[1] "aplus"
+> qround( mean(aplus(sa.groups5)) )
+      Cu       Zn       Pb       Cd       Co 
+" 6.119" "28.498" " 8.230" " 0.231" " 0.123" 
+attr(,"class")
+[1] "aplus"
+> plot(aplus(sa.groups5))
+> plot(mean(cdata),add=T,col="red",pch=20)
+> plot(mean(aplus(sa.groups5)),add=T,col="green",pch=20)
+> mean(cdata - mean(cdata))
+[1] "   1" "   1" "   1" "   1" "   1"
+attr(,"class")
+[1] "aplus"
+> 
+> cdata <- rplus(mydata)
+> # cdata
+> suppressWarnings( qround(  mean(cdata) ) )
+[1] " 12.809" "107.744" " 32.008" "  7.252" "  1.039"
+attr(,"class")
+[1] "rplus"
+> qround(  mean(rplus(sa.groups5)) )
+       Cu        Zn        Pb        Cd        Co 
+" 13.183" "121.516" " 31.863" "  6.997" "  1.399" 
+attr(,"class")
+[1] "rplus"
+> plot(rplus(sa.groups5))
+> 
+> # Attention: next row should send a warning and produce no result. 
+> # Human: uncomment if you want to check that manually
+> # plot(mean(cdata),add=T,col="red",pch=20)
+> 
+> plot(mean(rplus(sa.groups5)),add=T,col="green",pch=20)
+> # Attention: next row should send a warning and produce no result
+> # Human: uncomment if you want to check that manually
+> # mean(cdata - mean(cdata)) # Nonsense because the difference is non compositonal
+> 
+> 
+> suppressWarnings( plot(acomp(mydata)) )
+> plot(aplus(mydata))
+> suppressWarnings( plot(rcomp(mydata)) )
+> plot(rplus(mydata))
+> 
+> suppressWarnings( boxplot(acomp(mydata)) )
+> boxplot(aplus(mydata))
+> suppressWarnings( boxplot(rcomp(mydata)) )
+> boxplot(rplus(mydata))
+> 
+> suppressWarnings( barplot(acomp(mydata)) )
+> barplot(aplus(mydata))
+> suppressWarnings( barplot(rcomp(mydata)) )
+> barplot(rplus(mydata))
+> 
+> proc.time()
+   user  system elapsed 
+ 13.745   1.062  13.928 

@@ -1,0 +1,21 @@
+name = "bayesm-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Peter E. Rossi and bayesm contributors; Fortran translation"
+maintainer = "Fortran translation generated from bayesm 3.1-7"
+description = "Modern Fortran translation of the computational core of the R package bayesm"
+categories = ["statistics", "bayesian", "mcmc"]
+keywords = ["bayesian", "mcmc", "mixture", "probit", "logit"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+source-form = "free"
+implicit-typing = false
+implicit-external = false
+
+[library]
+source-dir = "src"

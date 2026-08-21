@@ -1,0 +1,11 @@
+name = "robustbase-modern-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+description = "Modern Fortran numerical translation of core robustbase functionality"
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+link = ["lapack", "blas"]
