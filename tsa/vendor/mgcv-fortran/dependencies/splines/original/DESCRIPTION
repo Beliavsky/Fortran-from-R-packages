@@ -1,0 +1,8 @@
+Package: splines
+Version: 2.0-7
+Authors: Douglas M. Bates <bates@stat.wisc.edu> and
+         William N. Venables <Bill.Venables@cmis.csiro.au>
+Description: Functions and classes for defining B-spline representations
+         or polynomial spline representations of regression splines or
+         interpolation splines.
+License: GPL version 2 or newer

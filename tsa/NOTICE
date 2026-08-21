@@ -1,0 +1,31 @@
+TSA-fortran v0.5.0
+
+This is a source translation of computational routines from the R package TSA
+version 1.3.1, by Kung-Sik Chan and Brian Ripley. TSA is distributed under
+GPL (>= 2). The complete original package used for this translation is retained
+verbatim under upstream/TSA-1.3.1.
+
+TSA's arima/arimax R source states that it is based on R's stats::arima code and
+contains the R Core Team GPL notice. Those original files are preserved verbatim
+under upstream/TSA-1.3.1/R/arima.R and upstream/TSA-1.3.1/R/arimax.R.
+
+The user-supplied modern Fortran translations of leaps, locfit, mgcv, and tseries
+are retained under vendor/ with their original licenses and attribution files.
+The compiled TSA source reuses the required leaps and tseries modules under
+src/dependencies/ so that this FPM package builds standalone. Those files are
+copied without changing their upstream translation licenses.
+
+TSA imports locfit and mgcv only in lagplot(), a graphical routine. Because this
+translation intentionally omits plotting code, locfit and mgcv are preserved in
+vendor/ for provenance but are not compiled into the library.
+
+The combined bundle may be redistributed under GPL version 2 or GPL version 3;
+see LICENSE, LICENSE-GPL-2, LICENSE-GPL-3, and component license files.
+No warranty is provided.
+
+Versions 0.3.0 through 0.5.0 additionally translate computational behavior
+delegated by TSA to R's stats package, notably diffuse ARIMA state-space
+likelihood, the default Gardner/AS154 covariance initializer, BFGS/Hessian
+behavior, `spec.pgram`, `spec.ar`, and compact spectral-kernel calculations. R
+source used as a parity reference is GPL-2-or-later; no additional R source file
+is vendored beyond the copies already present in upstream TSA.

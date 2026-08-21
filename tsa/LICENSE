@@ -1,0 +1,11 @@
+TSA-fortran bundle licensing
+============================
+
+The translated TSA source is derived from TSA 1.3.1, which is licensed under
+GPL (>= 2). The bundled tseries Fortran dependency is licensed under either
+GPL version 2 only or GPL version 3 only. Therefore this combined source bundle
+may be redistributed under either GPL version 2 or GPL version 3, subject to
+the notices and licenses of the individual components.
+
+See LICENSE-GPL-2 and LICENSE-GPL-3 for the full license texts, and NOTICE for
+component provenance. Each vendored dependency retains its own license files.

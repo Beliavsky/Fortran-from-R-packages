@@ -1,0 +1,16 @@
+mgcv-fortran is a modern Fortran port of selected computational portions of
+mgcv 1.9-4 by Simon N. Wood and contributors.
+
+Original package:
+  Package: mgcv
+  Version: 1.9-4
+  License: GPL (>= 2)
+
+The local splines dependency is a modern Fortran translation of the R splines
+package and is licensed GPL-2.0-or-later.
+
+This is an independent language port. It is not maintained or endorsed by the
+original mgcv author or the R Core Team. The original source files are retained
+in original/ for license traceability. The Fortran implementation does not
+claim complete behavioral compatibility with R mgcv; see docs/API_MAP.md and
+docs/PORTING_NOTES.md.

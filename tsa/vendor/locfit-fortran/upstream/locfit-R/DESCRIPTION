@@ -1,0 +1,24 @@
+Package: locfit
+Version: 1.5-9.12
+Title: Local Regression, Likelihood and Density Estimation
+Date: 2025-03-05
+Authors@R: c(person("Catherine", "Loader", role = "aut"),
+             person("Jiayang", "Sun", role = "ctb"),
+             person("Lucent Technologies", role = "cph"),
+             person("Andy", "Liaw", role = "cre", 
+                    email="andy_liaw@merck.com"))
+Author: Catherine Loader [aut],
+  Jiayang Sun [ctb],
+  Lucent Technologies [cph],
+  Andy Liaw [cre]
+Maintainer: Andy Liaw <andy_liaw@merck.com>
+Description: Local regression, likelihood and density estimation methods as described in the 1999 book by Loader.
+Depends: R (>= 4.1.0)
+Imports: lattice
+Suggests: interp, gam
+License: GPL (>= 2)
+SystemRequirements: USE_C17
+NeedsCompilation: yes
+Packaged: 2025-03-05 14:42:44 UTC; liawand
+Repository: CRAN
+Date/Publication: 2025-03-05 15:20:02 UTC

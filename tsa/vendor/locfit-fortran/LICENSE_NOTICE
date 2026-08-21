@@ -1,0 +1,15 @@
+locfit-fortran is derived from the R package locfit 1.5-9.12.
+
+The upstream package DESCRIPTION declares: License: GPL (>= 2).
+The upstream source contains copyright notices including:
+  Copyright (c) 1996-2001 Lucent Technologies.
+
+The upstream README explains that earlier locfit releases used a more
+restrictive license and that the CRAN distribution was relicensed by
+Prof. Catherine Loader in 2005.
+
+This translation is distributed under the GNU General Public License,
+version 2 or (at your option) any later version. See COPYING.
+
+The complete unmodified upstream R package used for this translation is
+retained under upstream/locfit-R/ for provenance and license attribution.

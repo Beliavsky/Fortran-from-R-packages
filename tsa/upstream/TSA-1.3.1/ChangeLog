@@ -1,0 +1,87 @@
+9/9/2020:
+Fix a typo in spec and a typo in the help manual of gbox
+
+6/14/2018:
+
+1. Revised the arimax function to fix a bug related to io. Now IO can be specified either by, e.g., io=c(57) or xreg=data.frame(IO.57=seq(x)==57), assuming x is the time series.
+
+2. Fixed a bug in the prewhiten function.
+
+3. 1. Fix a bug in the tar function so that is.constant1 and is.constant2 work properly
+
+4. Fix namespace problems.
+
+11/12/2012:
+
+1. revised the arimax (arima) function by using the atanh transformation of the pacf, as implemented by stats:::arima.
+
+2. Function arimax defaults to stats:arima when io, xtransf and transfer are all missing. This speeds up the calculation.  
+
+3. Clear up some useless codes in arimax. 
+
+
+10/26/2012:
+
+1. revised versions of arima and arimax; fix the order of armafilter function so that the AR operators are applied first in order to avoid creating many NAs. 
+
+2. Fix the warning problem in tsdiag.Arima and tsdiag.TAR.
+
+
+9/9/2012:
+1. arima and arimax functions temporarily removed from the package; new versions are planned to be released.
+
+2. acf and plot1.acf substantially rewritten to avoid foreign functions are called.
+
+3. arima.boot function rewritten to avoid copyright issues.
+
+4. fitted.arimax changed to fitted.arima (manual accordingly changed)
+
+5. Minor fixes to many functions to avoid warnings from partial argument matching problem.
+ 
+9/7/2012:
+1. Replace the .Internal function cat in tar and tsdiag.TAR by calling cat directly.
+
+7/31/2010:
+1. fix some bugs in the help manuals.
+2. Fix a typo in harmony.R function:
+ In the first line,
+if (!ts(x) || (2 * m) > frequency(x))
+is replaced by
+if (!is.ts(x) || (2 * m) > frequency(x))
+
+
+2/15/08:
+ fixed periodogram so that I(1/2) is correct, i.e., it equals
+the sample spectral density at 1/2, whereas for other frequencies, it
+is twice the sample spectral density. 
+
+changes made in version 0.96
+
+1. Fixed the output of the acf function within tsdiag.Arima
+
+
+
+2. Bug fix for arima and arimax so that ill-conditioned covariates are
+properly handled, just as done by the arima function in the stat package.
+
+3. R codes of plot.Arima function revised so that the user can set plotting
+options for how the predicted values are plotted.
+An example follows. 
+
+data(hare)
+m1.hare=arima(sqrt(hare),order=c(3,0,0))
+plot(m1.hare, n.ahead=25,type='b',xlab='Year',ylab='Sqrt(hare)',pch=19)
+abline(h=coef(m1.hare)[names(coef(m1.hare))=='intercept'])
+
+Here, the predicted values are plotted as solid diamonds. If the pch option
+is not specified, the default is to plot all observed and predicted values
+as open circles. 
+
+
+4. R codes of arima and arimax revised to allow xreg not necessarily a data.frame.
+
+5. The default labelling in season for quarterly data is changed to
+1Q, 2Q, 3Q and 4Q. The older version has Q1, Q2, Q3 and Q4.
+
+6. The default of y.name in the armasubsets funciton is changed to "Y".
+
