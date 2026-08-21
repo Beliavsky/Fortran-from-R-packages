@@ -1,0 +1,15 @@
+splines-fortran
+===============
+
+This package is a modern Fortran translation of computational routines from:
+
+  splines 2.0-7
+  Authors: Douglas M. Bates and William N. Venables
+  Copyright (C) 1998 Douglas M. Bates and William N. Venables
+
+The original software is licensed under GNU GPL version 2 or later. This
+translation is a derivative work and is distributed under the same terms.
+Original source files are included in the original/ directory.
+
+The translation does not imply endorsement by the original authors or by the
+R project.

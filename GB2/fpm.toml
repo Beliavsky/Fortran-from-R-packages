@@ -1,0 +1,23 @@
+name = "GB2-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Monique Graf, Desislava Nedyalkova; Fortran translation"
+description = "Modern Fortran translation of the computational core of R GB2"
+keywords = ["GB2", "generalized-beta", "inequality", "poverty", "mixture", "survey"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+survey-fortran = { path = "vendor/survey-fortran" }

@@ -1,0 +1,31 @@
+Package: GB2
+Type: Package
+Version: 2.1.2
+Date: 2025-08-17
+Title: Generalized Beta Distribution of the Second Kind: Properties,
+        Likelihood, Estimation
+Authors@R: c(person(given = "Monique",
+                        family = "Graf",
+                        role = "aut",
+                        email = "monique.p.n.graf@bluewin.ch"),
+                 person(given = "Desislava",
+                        family = "Nedyalkova.",
+                        role = "aut",
+                        email = "desislava.nedyalkova@gmail.com"),
+                 person(given = "Desislava",
+                        family = "Nedyalkova",
+                        role = "cre",
+                        email = "desislava.nedyalkova@gmail.com"))
+License: GPL (>= 2)
+Depends: R (>= 4.0.0)
+Imports: cubature, hypergeo, laeken, numDeriv, stats, survey
+Suggests: simFrame
+Description: The GB2 package explores the Generalized Beta distribution of the second kind. Density, cumulative distribution function, quantiles and moments of the distribution are given. Functions for the full log-likelihood, the profile log-likelihood and the scores are provided. Formulas for various indicators of inequality and poverty under the GB2 are implemented. The GB2 is fitted by the methods of maximum pseudo-likelihood estimation using the full and profile log-likelihood, and non-linear least squares estimation of the model parameters. Various plots for the visualization and analysis of the results are provided. Variance estimation of the parameters is provided for the method of maximum pseudo-likelihood estimation. A mixture distribution based on the compounding property of the GB2 is presented (denoted as "compound" in the documentation). This mixture distribution is based on the discretization of the distribution of the underlying random scale parameter. The discretization can be left or right tail. Density, cumulative distribution function, moments and quantiles for the mixture distribution are provided. The compound mixture distribution is fitted using the method of maximum pseudo-likelihood estimation. The fit can also incorporate the use of auxiliary information. In this new version of the package, the mixture case is complemented with new functions for variance estimation by linearization and comparative density plots. 
+NeedsCompilation: no
+Packaged: 2025-08-20 13:37:19 UTC; Desi
+Author: Monique Graf [aut],
+  Desislava Nedyalkova. [aut],
+  Desislava Nedyalkova [cre]
+Maintainer: Desislava Nedyalkova <desislava.nedyalkova@gmail.com>
+Repository: CRAN
+Date/Publication: 2025-08-20 14:30:08 UTC

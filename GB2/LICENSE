@@ -1,0 +1,7 @@
+GB2-fortran is a translation of the computational code of the R package GB2
+2.1.2. The upstream package declares "GPL (>= 2)". The translated GB2 source
+is therefore distributed under the GNU General Public License, version 2 or
+(at your option) any later version (SPDX: GPL-2.0-or-later).
+
+See licenses/GPL-2.0.txt and licenses/GPL-3.0.txt for complete license texts.
+Upstream source and metadata are retained under upstream/GB2-2.1.2/.
