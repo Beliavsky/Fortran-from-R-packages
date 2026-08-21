@@ -1,0 +1,14 @@
+name = "bzinb-fortran"
+version = "0.2.0"
+license = "GPL-2.0-only"
+author = "Fortran translation of bzinb by OpenAI"
+maintainer = ""
+description = "Modern Fortran translation of the computational core of R package bzinb"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
