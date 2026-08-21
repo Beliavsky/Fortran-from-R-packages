@@ -1,0 +1,20 @@
+name = "survey-fortran"
+version = "0.2.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Thomas Lumley et al.; Fortran translation"
+description = "Modern Fortran translation of the computational core of R survey"
+keywords = ["survey", "sampling", "weights", "replicate-weights", "calibration", "glm", "survival"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+survival-fortran = { path = "vendor/survival-fortran" }
+minqa = { path = "vendor/minqa" }
+numDeriv-fortran = { path = "vendor/numDeriv-fortran" }

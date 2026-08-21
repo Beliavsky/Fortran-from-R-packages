@@ -1,0 +1,14 @@
+name = "survival-fortran"
+version = "3.8.9"
+license = "LGPL-2.0-or-later"
+author = "Terry M. Therneau et al.; Fortran translation"
+description = "Modern Fortran translation of the computational core of R survival"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"

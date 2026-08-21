@@ -1,0 +1,149 @@
+The survey package has benefited from code, bug reports, and feature 
+requests from users, including:
+  Justin Allen
+  Daniel Almirall
+  Guiseppe Antonaci
+  Vincent Arel-Bundock
+  Pedro Luis Baldoni
+  Joel Barnes
+  Robert Baskin
+  Asia Bento
+  Maciej Beręsewicz
+  Brad Biggerstaff
+  Milan Bouchet-Valat
+  Adrienne Bradford
+  Norman Breslow
+  Arthur Burke
+  Zeb Burke-Conte
+  Ron Burns
+  Trent Buskirk
+  Stefano Calza
+  Shelby Chartkoff
+  Henry Chiem
+  David Collins
+  Anthony Damico
+  Wade Davis
+  Qiaolan Deng
+  Neil Diamond
+  Michael Donohue
+  Rex Dwyer
+  Melanie Edwards
+  Adam Elder
+  Hannah Evans
+  Francisco Fabuel
+  Boris Fazio
+  Bob Fay
+  Daniel Fernandes
+  Greg Freedman
+  Ben French
+  Jacques Ferrez
+  Natalie Gallagher
+  Daniella Gollinelli
+  Barry Graubard
+  Alistair Gray
+  James Greiner
+  Zachary Grinspan
+  Brian Guay
+  Alois Haslinger
+  Kieran Healy
+  Lucia Hindorff
+  Jeffery Hughes
+  Beat Hulliger
+  Steven Johnston
+  David Eduardo Jorquera Petersen
+  Lauren Kennedy
+  Ehsan Kharim
+  Ward Kinkade
+  Stas Kolenikov
+  Franziska Kößler
+  Scott Kostyshak
+  Alex Kowarik
+  Pavel Krivitsky
+  Michael Laviolette
+  Thomas Leeper
+  Richard Li
+  Thomas Loughlin
+  Chandler McClellan
+  Klaus Ignacio Lehmann Melendez
+  David Molina
+  Benmei Liu
+  Sebastien Lucie
+  Jean Paul Lucas
+  Lisa McShane
+  Ana Patricia Martins
+  Tapan Mehta
+  Isabelle Michaud
+  Daryl Morris
+  Joey Morris
+  Kirill Mueller
+  Durga Nagori
+  Daniel Oehm
+  Jean Opsomer
+  Raymond Pan
+  Gonzalo Perez
+  Djalma Pessoa
+  Molly Petersen
+  Elizabeth Purdom
+  Ana Quiterio
+  Gillian Raab
+  Christian Raschke
+  Michael Reiss
+  Brian Ripley
+  Fred Rohde
+  Steve Roberts
+  Andrew Robinson
+  Ángel Rodríguez Laso
+  Mark Rosenstein
+  Benjamin Schneider
+  Dirk Schumacher
+  Dan Simpson
+  Pam Shaw
+  Bryan Shepherd
+  Keiran Shao
+  Lee Sieswerda
+  Phil Smith
+  Matthew Soldner
+  Corey Sparks
+  Elena Stern
+  Ingmar Sturm
+  Terry Therneau
+  Takahiro Tsuchiya
+  Richard Valliant
+  Tobias Verbeke
+  Renzo Vettori
+  Chris Webb
+  David Wilson
+  Justin Wishart
+  Steve White
+  Jasper Yang
+  Zhiwen Yao
+  Thomas Yokota
+  Diego Zardetto
+  Alan Zaslavsky
+  Stephanie Zimmer
+  Jing Zhang
+  Yilin Zhang
+  Tomasz Żółtak
+and from dicussions with Chris Wild and Alastair Scott. 
+
+Some work on the package while I was on sabbatical was funded by
+Fondation Leducq through a grant to the LINAT collaboration and by the
+Marsden Fund through a grant to the University of Auckland.
+
+Much of the new methodology from 2009 to 2016 was supported by the Marsden Fund,
+in particular the developments of the Rao-Scott likelihood
+
+Patrick Aboyoun did the S-PLUS port of version 3.6-8
+
+John Preston provided an example of the multistage rescaled bootstrap for testing.
+
+The svyolr() code and the likelihood-based confidence intervals are largely ripped from
+the MASS package of Venables & Ripley, and parts of the code for svycoxph() are modified 
+from Therneau's survival package.
+
+The C++ code for variances was contributed by Ben Schneider
+
+The small-area estimation code calls the SUMMER package, and comes from Peter Gao,
+Jon Wakefield, and Richard Li.
+
+Daniel Oehm at the Australian Bureau of Statistics wrote some improvements for calibrate()

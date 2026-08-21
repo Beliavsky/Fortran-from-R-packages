@@ -1,0 +1,22 @@
+name = "matrixextra-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "MatrixExtra authors; Fortran translation"
+maintainer = "Fortran translation project"
+copyright = "2020-2026 MatrixExtra authors and contributors"
+description = "Modern Fortran sparse matrix extensions translated from the R MatrixExtra package"
+keywords = ["sparse", "csr", "csc", "coo", "matrix", "linear-algebra"]
+
+[dependencies]
+matrix-fortran = { path = "vendor/Matrix-fortran" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
