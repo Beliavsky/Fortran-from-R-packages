@@ -1,0 +1,15 @@
+name = "mnb-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of MNB by OpenAI; upstream MNB authors retained in provenance"
+maintainer = ""
+copyright = "See LICENSES.md"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
