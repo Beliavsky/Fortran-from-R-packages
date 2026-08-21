@@ -1,0 +1,22 @@
+Package: AdequacyModel
+Type: Package
+Title: Adequacy of Probabilistic Models and General Purpose
+        Optimization
+Authors@R: c(person(given = "Pedro Rafael", family = "Diniz Marinho",
+        role = c("aut", "cre"), email =
+        "pedro.rafael.marinho@gmail.com"), person(given = "Marcelo",
+        family = "Bourguignon", role = c("aut","ctb"), email =
+        "m.p.bourguignon@gmail.com"), person(given = "Cicero Rafael",
+        family = "Barros Dias", role = c("aut","ctb"), email =
+        "cicerorafael@gmail.com"))
+Author: Pedro Rafael Diniz Marinho [aut, cre], Marcelo Bourguignon [aut, ctb], Cicero Rafael Barros Dias [aut, ctb]
+Version: 2.0.0
+Maintainer: Pedro Rafael Diniz Marinho <pedro.rafael.marinho@gmail.com>
+Description: The main application concerns to a new robust optimization package with two major contributions. The first contribution refers to the assessment of the adequacy of probabilistic models through a combination of several statistics, which measure the relative quality of statistical models for a given data set. The second one provides a general purpose optimization method based on meta-heuristics functions for maximizing or minimizing an arbitrary objective function.
+URL: http://www.r-project.org
+License: GPL (>= 2)
+NeedsCompilation: no
+Imports: methods, stats, graphics
+Repository: CRAN
+Packaged: 2016-05-19 18:32:35 UTC; pedrorafael
+Date/Publication: 2016-05-20 01:15:58

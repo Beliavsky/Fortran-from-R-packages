@@ -1,0 +1,8 @@
+export(goodness.fit)
+export(descriptive)
+export(pso)
+export(TTT)
+importFrom("methods", "missingArg")
+importFrom("graphics", "hist", "lines", "plot")
+importFrom("stats", "integrate", "ks.test", "median", "optim", "pnorm",
+             "qnorm", "runif", "var")
