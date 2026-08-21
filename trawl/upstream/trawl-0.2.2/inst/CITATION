@@ -1,0 +1,10 @@
+citHeader("To cite the `trawl` package in publications, please use:")
+citEntry(entry="article",
+         title="Modeling, simulation and inference for multivariate time series of counts using trawl processes",
+	 author=personList(as.person("Almut E. D. Veraart")),
+         year=2019,
+	 journal = "Journal of Multivariate Analysis",
+        volume={169},
+        pages={110-129},
+	 textVersion="Almut E. D. Veraart (2019). Modeling, simulation and inference for multivariate time series of counts using trawl processes. Journal of Multivariate Analysis, 169, 110-129."
+	)

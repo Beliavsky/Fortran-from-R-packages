@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Almut E. D. Veraart" />
+
+<meta name="date" content="2021-02-22" />
+
+<title>Simulation from the bivariate negative binomial and bi- and trivariate logarithmic series distribution</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Simulation from the bivariate negative binomial and bi- and trivariate logarithmic series distribution</h1>
+<h4 class="author">Almut E. D. Veraart</h4>
+<h4 class="date">2021-02-22</h4>
+
+
+
+<div id="the-multivariate-negative-binomial-distribution." class="section level2">
+<h2>The multivariate negative binomial distribution.</h2>
+<p>Recall that a random variable <span class="math inline">\(X\)</span> has (univariate) negative binomial law with parameters <span class="math inline">\(\kappa&gt;0, 0&lt;p&lt;1\)</span>, i.e., <span class="math inline">\(X\sim \text{NB}(\kappa, p)\)</span> if its probability mass function is given by <span class="math display">\[
+P(X=x) = {\kappa+x-1 \choose x} p^x(1-p)^{\kappa}, \quad x \in \{0,1,\ldots\}.
+\]</span></p>
+<p>A random vector <span class="math inline">\({\bf X}=(X_1,\dots,X_n)&#39;\)</span> is said to follow the multivariate negative binomial distribution with parameters <span class="math inline">\(\kappa, p_1, \dots, p_n\)</span> if its probability mass function is given by <span class="math display">\[
+P({\bf X}={\bf x})=\frac{\Gamma(x_1+\cdots+x_n+\kappa)}{x_1! \cdots x_n! \Gamma(\kappa)}p_1^{x_1}\cdots p_n^{x_n}(1-p_1-\cdots-p_n)^{\kappa},
+\]</span> where, for <span class="math inline">\(i=1,\dots,n\)</span>, <span class="math inline">\(x_i\in\{0,1,\dots\}\)</span>, <span class="math inline">\(0&lt;p_i&lt;1\)</span> such that <span class="math inline">\(\sum_{i=1}^np_i&lt;1\)</span> and <span class="math inline">\(\kappa&gt;0\)</span>.</p>
+<p>We note that the function <code>stats::rnbinom</code> can be used to simulate from the univariate negative binomial distribution. The <code>trawl</code> package introduces the function <code>Bivariate_NBsim</code> which generates samples from the bivariate negative binomial distribution. The simulation algorithm proceeds in two steps: First, we simulate <span class="math inline">\(X_1\)</span> from the univariate negative binomial distribution NB(<span class="math inline">\(\kappa\)</span>,<span class="math inline">\(p_1/(1-p_2)\)</span>). Second, we simulate <span class="math inline">\(X_2|X_1=x_1\)</span> from the univariate negative binomial distribution NB(<span class="math inline">\(\kappa+x_1,p_2\)</span>), see for instance <span class="citation">(Dunn 1967)</span>.</p>
+<p>###Example</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kappa<span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p1<span class="sc">+</span>p2</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Simulate from the bivariate negative binomial distribution</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> trawl<span class="sc">::</span><span class="fu">Bivariate_NBsim</span>(N,kappa,p1,p2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the empirical and theoretical mean of the first component</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.9653</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>kappa<span class="sc">*</span>p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the empirical and theoretical variance of the first component</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 18.0047</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>kappa<span class="sc">*</span>p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p2)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 18</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the empirical and theoretical mean of the second component</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 50.9742</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>kappa<span class="sc">*</span>p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 51</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the empirical and theoretical variance of the second component</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 926.3358</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>kappa<span class="sc">*</span>p2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 918</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare the empirical and theoretical correlation between the two components</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cor</span>(y[,<span class="dv">1</span>],y[,<span class="dv">2</span>])</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7891007</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>(p1<span class="sc">*</span>p2<span class="sc">/</span>(p0<span class="sc">+</span>p1)<span class="sc">*</span>(p0<span class="sc">+</span>p2))<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7141428</span></span></code></pre></div>
+</div>
+<div id="the-multivariate-logarithmic-series-distribution" class="section level2">
+<h2>The multivariate logarithmic series distribution</h2>
+<p>We say that a vector <span class="math inline">\({\bf X}=(X_1,\dots,X_n)&#39;\)</span> follows the multivariate logarithmic series distribution (LSD), see, e.g., <span class="citation">(Patil and Bildikar 1967)</span>. <span class="math inline">\({\bf X} \sim \text{LSD}(p_1,\ldots,p_n)\)</span>, where <span class="math inline">\(0&lt;p_i&lt;1, p:=\sum_{i=1}^np_i &lt;1\)</span> if for <span class="math inline">\({\bf x}\in \mathbb{N}_0^n \setminus \{{\bf 0} \}\)</span>, if its probability mass function is given by <span class="math display">\[
+P({\bf X}={\bf x})=\frac{\Gamma(x_1+\cdots+x_n)}{x_1! \cdots x_n!}\frac{p_1^{x_1}\cdots p_n^{x_n}}{\{-\ln(1-p)\}}.
+\]</span> Note that each component <span class="math inline">\(X_i\)</span> follows the modified univariate logarithmic distribution with parameters <span class="math inline">\(\tilde p_i = p_i/(1-p+p_i)\)</span> and <span class="math inline">\(\delta_i= \ln(1-p+p_i)/\ln(1-p)\)</span>, i.e., <span class="math inline">\(X_i\sim\text{ModLSD}(\tilde p_i, \delta_i)\)</span> with <span class="math display">\[
+P(X_i =x_i) = \left\{ \begin{array}{ll} \delta_i, &amp; \text{for } x_i=0\\
+(1-\delta_i) \frac{1}{x_i}\frac{\tilde p_i^{x_i}}{\{-\ln(1-\tilde p_i)\}}, &amp; \text{for } x_i \in \mathbb{N}. \end{array} \right.
+\]</span> Simulations from the univariate LSD can be carried out using the function <code>Runuran::urlogarithmic</code>. The <code>trawl</code> package implements the functions <code>Bivariate_LSDsim</code> and <code>Trivariate_LSDsim</code> to simulate from both the bivariate and the trivariate logarithmic series distribution.</p>
+<div id="simulating-from-the-bivariate-logarithmic-series-distribution" class="section level3">
+<h3>Simulating from the bivariate logarithmic series distribution</h3>
+<p>The function <code>Bivariate_NBsim</code> can be used to simulate from the bivariate logarithmic series distribution. To this end, note that the probability mass function of a random vector <span class="math inline">\({\bf X}=(X_1,X_2)&#39;\)</span> following the bivariate logarithmic series distribution with parameters <span class="math inline">\(0&lt;p_1, p_2&lt;1\)</span> with <span class="math inline">\(p:=p_1+p_2&lt;1\)</span> is given by <span class="math display">\[P(X_1=x_1,X_2=x_2)=\frac{\Gamma(x_1+x_2)}{x_1!x_2!}
+\frac{p_1^{x_1}p_2^{x_2}}{\{-\ln(1-p)\}},\]</span> for <span class="math inline">\(x_1,x_2=0,1,2,\dots\)</span> such that <span class="math inline">\(x_1+x_2&gt;0\)</span>.</p>
+<p>The simulation proceeds in two steps: First, <span class="math inline">\(X_1\)</span> is simulated from the modified logarithmic distribution with parameters <span class="math inline">\(\tilde p_1=p_1/(1-p_2)\)</span> and <span class="math inline">\(\delta_1=\ln(1-p_2)/\ln(1-p)\)</span>. Then we simulate <span class="math inline">\(X_2\)</span> conditional on <span class="math inline">\(X_1\)</span>. We note that <span class="math inline">\(X_2|X_1=x_1\)</span> follows the logarithmic series distribution with parameter <span class="math inline">\(p_2\)</span> when <span class="math inline">\(x_1=0\)</span>, and the negative binomial distribution with parameters <span class="math inline">\((x_1,p_2)\)</span> when <span class="math inline">\(x_1&gt;0\)</span>.</p>
+<div id="example" class="section level4">
+<h4>Example</h4>
+<p>Next we provide an example of a simulation from the bivariate LSD and we showcase the functions <code>ModLSD_Mean</code>, <code>ModLSD_Var</code>, <code>BivLSD_Cor</code> and <code>BivLSD_Cov</code> which compute the mean and the variance of the univariate modified LSD and the correlation and covariance of the bivariate LSD, respectively.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span><span class="fl">0.15</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span><span class="fl">0.3</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">10000</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Simulate N realisations from the bivariate LSD </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span>trawl<span class="sc">::</span><span class="fu">Bivariate_LSDsim</span>(N, p1, p2)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical mean of the first component</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4575</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Mean</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p2)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2),p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.45619</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical mean of the second component</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8995</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Mean</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2),p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.91238</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical variance of the first component</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3686306</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Var</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p2)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2),p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3724961</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical variance of the second component</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5690567</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Var</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2),p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1))</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5776045</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="do">##Compute the empirical and theoretical correlation between the two components</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cor</span>(y[,<span class="dv">1</span>],y[,<span class="dv">2</span>])</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.3961486</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivLSD_Cor</span>(p1,p2)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.3608673</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="do">##Compute the empirical and theoretical covariance between the two components</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cov</span>(y[,<span class="dv">1</span>],y[,<span class="dv">2</span>])</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.1814394</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivLSD_Cov</span>(p1,p2)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.1673877</span></span></code></pre></div>
+</div>
+</div>
+<div id="simulating-from-the-trivariate-logarithmic-series-distribution" class="section level3">
+<h3>Simulating from the trivariate logarithmic series distribution</h3>
+<p>The function <code>Trivariate_NBsim</code> can be used to simulate from the trivariate logarithmic series distribution. The simulation proceeds in two steps: First, <span class="math inline">\(X_1\)</span> is simulated from the modified logarithmic distribution with parameters <span class="math inline">\(\tilde  p_1=p_1/(1-p_2-p_3)\)</span> and <span class="math inline">\(\delta_1=\ln(1-p_2-p_3)/\ln(1-p)\)</span>. Then we simulate <span class="math inline">\((X_2,X_3)&#39;\)</span> conditional on <span class="math inline">\(X_1\)</span>. We note that <span class="math inline">\((X_2,X_3)&#39;|X_1=x_1\)</span> follows the bivariate logarithmic series distribution with paramaters <span class="math inline">\((p_2,p_3)\)</span> when <span class="math inline">\(x_1=0\)</span>, and the bivariate negative binomial distribution with parameters <span class="math inline">\((x_1,p_2,p_3)\)</span> when <span class="math inline">\(x_1&gt;0\)</span>.</p>
+<div id="example-1" class="section level4">
+<h4>Example</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">&lt;-</span><span class="fl">0.15</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">&lt;-</span><span class="fl">0.25</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">&lt;-</span><span class="fl">0.55</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Simulate N realisations from the bivariate LSD </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span>trawl<span class="sc">::</span><span class="fu">Trivariate_LSDsim</span>(N, p1, p2, p3)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical mean of the first component</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.0152</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Mean</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p2<span class="sc">-</span>p3)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2<span class="sc">-</span>p3))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.001425</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical mean of the second component</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.6857</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Mean</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p3)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p3))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.669041</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical mean of the third component</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">mean</span>(y[,<span class="dv">3</span>])</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.7275</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Mean</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p3<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.67189</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical variance of the first component</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">1</span>])</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.999069</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Var</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p2<span class="sc">-</span>p3)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2<span class="sc">-</span>p3))</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.002847</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical variance of the second component</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">2</span>])</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.255041</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Var</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p3)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p3))</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.228548</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the empirical and theoretical variance of the third component</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">var</span>(y[,<span class="dv">3</span>])</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30.87613</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">ModLSD_Var</span>(base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3),p3<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2))</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30.5799</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the bivariate covariances and correlations</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co">#Cor(X1,X2):</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p3)<span class="sc">/</span>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>hatp1 <span class="ot">&lt;-</span>p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p3)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>hatp2<span class="ot">&lt;-</span>p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p3)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cov</span>(y[,<span class="dv">1</span>],y[,<span class="dv">2</span>])</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.316309</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cov</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.335704</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cor</span>(y[,<span class="dv">1</span>],y[,<span class="dv">2</span>])</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7109545</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cor</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6041258</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="co">#Cor(X1,X3):</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p2)<span class="sc">/</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>hatp1 <span class="ot">&lt;-</span>p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2)</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>hatp2<span class="ot">&lt;-</span>p3<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p2)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cov</span>(y[,<span class="dv">1</span>],y[,<span class="dv">3</span>])</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.287671</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cov</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.338549</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cor</span>(y[,<span class="dv">1</span>],y[,<span class="dv">3</span>])</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7573281</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cor</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7220044</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="co">#Cor(X2,X3):</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">/</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p1<span class="sc">-</span>p2<span class="sc">-</span>p3)</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>hatp1 <span class="ot">&lt;-</span>p2<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1)</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>hatp2<span class="ot">&lt;-</span>p3<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p1)</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cov</span>(y[,<span class="dv">2</span>],y[,<span class="dv">3</span>])</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12.31899</span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cov</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12.23092</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">cor</span>(y[,<span class="dv">2</span>],y[,<span class="dv">3</span>])</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8230829</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>trawl<span class="sc">::</span><span class="fu">BivModLSD_Cor</span>(delta,hatp1,hatp2)</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7969081</span></span></code></pre></div>
+<p>##References</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Dunn1967" class="csl-entry">
+Dunn, James E. 1967. <span>“Characterization of the Bivariate Negative Binomial Distribution.”</span> <em>Journal of the Arkansas Academy of Science</em> 21.
+</div>
+<div id="ref-GB1967" class="csl-entry">
+Patil, Ganapati P., and Sheela Bildikar. 1967. <span>“Multivariate Logarithmic Series Distribution as a Probability Model in Population and Community Ecology and Some of Its Statistical Properties.”</span> <em>Journal of the American Statistical Association</em> 62 (318): 655–74.
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

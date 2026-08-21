@@ -1,0 +1,18 @@
+name = "trawl-fortran"
+version = "0.2.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of Almut E. D. Veraart's trawl package"
+maintainer = ""
+copyright = "Original trawl package copyright its authors"
+description = "Modern Fortran translation of the computational code in the R package trawl"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
