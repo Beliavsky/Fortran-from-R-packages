@@ -1,0 +1,24 @@
+name = "rootsolve"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Karline Soetaert and rootSolve contributors; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern free-format Fortran/FPM translation of the computational core of R rootSolve"
+categories = ["numerical", "root-finding", "steady-state"]
+keywords = ["Newton-Raphson", "Jacobian", "steady-state", "ODE", "PDE", "sparse"]
+
+[fortran]
+source-form = "free"
+implicit-typing = false
+implicit-external = false
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
+
+[dependencies]
+desolve = { path = "vendor/desolve" }
