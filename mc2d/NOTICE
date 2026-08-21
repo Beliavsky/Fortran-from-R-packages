@@ -1,0 +1,14 @@
+mc2d-fortran is a modern Fortran translation of the computational code in the
+R package mc2d 0.2.2.
+
+Upstream mc2d metadata declares: License: GPL (>= 2). Accordingly, the
+translation is distributed under GPL-2.0-or-later. The original package
+metadata, namespace, R source files, citation file, and the exact input archive
+used for this translation are retained under provenance/.
+
+The vendored mvtnorm-fortran dependency was supplied with the translation task
+and is retained unmodified under vendor/mvtnorm-fortran. Its own license and
+copyright notices apply to that subtree; its fpm.toml declares GPL-2.0-only.
+The exact supplied mvtnorm archive is retained under provenance/ as well.
+
+Plotting and graphics-only code from mc2d was intentionally not translated.

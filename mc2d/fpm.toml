@@ -1,0 +1,22 @@
+name = "mc2d-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of mc2d contributors"
+maintainer = "mc2d-fortran contributors"
+description = "Modern Fortran translation of the computational core of R package mc2d 0.2.2"
+categories = ["monte-carlo", "statistics", "probability"]
+keywords = ["monte-carlo", "uncertainty", "variability", "distributions"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+mvtnorm-fortran = { path = "vendor/mvtnorm-fortran" }

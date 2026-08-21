@@ -1,0 +1,31 @@
+Package: mc2d
+Type: Package
+Title: Tools for Two-Dimensional Monte-Carlo Simulations
+Version: 0.2.2
+Date: 2026-05-12
+Authors@R: c(person("Regis", "Pouillot", role = c("aut", "cre"), email = "rpouillot@yahoo.fr", comment = c(ORCID = "0000-0002-6107-5212")),
+			person("Marie-Laure", "Delignette-Muller", role = "ctb", email= "ml.delignette@vetagro-sup.fr", comment = c(ORCID = "0000-0001-5453-3994")),
+			person("Jean-Baptiste", "Denis", role = "ctb", email = "jbdenis@jouy.inra.fr"),
+			person("Yu", "Chen", role = "ctb", email = "chen0099yu@gmail.com"),
+			person("Arie", "Havelaar", role = "ctb", email = "ariehavelaar@ufl.edu", comment = c(ORCID = "0000-0002-6456-5460")))
+Suggests: fitdistrplus, survival, testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+Depends: R (>= 2.10.0), mvtnorm
+Imports: stats, grDevices, graphics, utils, ggplot2, ggpubr
+Description: A complete framework to build and study Two-Dimensional Monte-Carlo simulations, aka Second-Order Monte-Carlo simulations. Also includes various distributions (pert, triangular, Bernoulli, empirical discrete and continuous).
+License: GPL (>= 2)
+NeedsCompilation: no
+Encoding: UTF-8
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
+Packaged: 2026-06-01 17:05:17 UTC; rpoui
+Author: Regis Pouillot [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-6107-5212>),
+  Marie-Laure Delignette-Muller [ctb] (ORCID:
+    <https://orcid.org/0000-0001-5453-3994>),
+  Jean-Baptiste Denis [ctb],
+  Yu Chen [ctb],
+  Arie Havelaar [ctb] (ORCID: <https://orcid.org/0000-0002-6456-5460>)
+Maintainer: Regis Pouillot <rpouillot@yahoo.fr>
+Repository: CRAN
+Date/Publication: 2026-06-01 19:10:08 UTC
