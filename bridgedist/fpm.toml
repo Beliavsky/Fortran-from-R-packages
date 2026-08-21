@@ -1,0 +1,14 @@
+name = "bridgedist-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of bridgedist by Bruce Swihart"
+maintainer = ""
+copyright = "Original bridgedist copyright holders; Fortran translation contributors"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
