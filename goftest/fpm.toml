@@ -1,0 +1,14 @@
+name = "goftest-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of goftest by OpenAI"
+maintainer = ""
+description = "Modern Fortran translation of the computational core of the R goftest package"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true

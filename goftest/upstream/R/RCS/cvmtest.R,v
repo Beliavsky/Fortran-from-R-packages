@@ -1,0 +1,249 @@
+head	1.7;
+access;
+symbols;
+locks
+	adrian:1.7; strict;
+comment	@# @;
+
+
+1.7
+date	2018.06.06.08.25.46;	author adrian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2018.06.06.08.09.39;	author adrian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2018.06.06.08.05.35;	author adrian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2014.06.24.02.13.27;	author adrian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2014.06.24.01.54.26;	author adrian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2014.06.08.11.32.51;	author adrian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.06.08.11.05.58;	author adrian;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Summary: tweak
+@
+text
+@##
+## cvmtest.R
+##
+## Cramer-von Mises test
+##
+## $Revision: 1.6 $ $Date: 2018/06/06 08:09:39 $
+##
+
+cvm.test <- function(x, null="punif", ..., estimated=FALSE, nullname) {
+  xname <- deparse(substitute(x))
+  nulltext <- deparse(substitute(null))
+  if(is.character(null)) nulltext <- null
+  if(missing(nullname) || is.null(nullname)) {
+    reco <- recogniseCdf(nulltext)
+    nullname <- if(!is.null(reco)) reco else 
+                paste("distribution", sQuote(nulltext))
+  }
+  stopifnot(is.numeric(x))
+  x <- as.vector(x)
+  n <- length(x)
+  F0 <- getCdf(null)
+  U <- F0(x, ...)
+  if(any(U < 0 | U > 1))
+    stop("null distribution function returned values outside [0,1]")
+  if(!estimated || n <= 4) {
+    #' simple null hypothesis
+    z <- do.goftest.CvM(U)
+    PVAL <- z$pvalue
+    STATISTIC <- z$omega2
+    names(STATISTIC) <- "omega2"
+  } else {
+    #' composite - use Braun (1980)
+    first <- sample(n, ceiling(n/2), replace=TRUE)
+    z1 <- do.goftest.CvM(U[first])
+    z2 <- do.goftest.CvM(U[-first])
+    PVAL <- 1 - (1 - z1$pvalue) * (1 - z2$pvalue)
+    STATISTIC <- max(z1$omega2, z2$omega2)
+    names(STATISTIC) <- "omega2max"
+  }
+  METHOD <- c("Cramer-von Mises test of goodness-of-fit",
+              if(estimated) "(with Braun's adjustment)" else NULL,
+              paste("Null hypothesis:", nullname))
+
+  extras <- list(...)
+  parnames <- intersect(names(extras), names(formals(F0)))
+  if(length(parnames) > 0) {
+    pars <- extras[parnames]
+    pard <- character(0)
+    for(i in seq_along(parnames))
+      pard[i] <- paste(parnames[i], "=", paste(pars[[i]], collapse=" "))
+    pard <- paste("with",
+                  ngettext(length(pard), "parameter", "parameters"),
+                  "  ", 
+                  paste(pard, collapse=", "))
+    METHOD <- c(METHOD, pard)
+  }
+
+  coda <- paste("Parameters assumed to",
+                if(estimated) "have been estimated from data" else "be fixed")
+  METHOD <- c(METHOD, coda)
+
+  out <- list(statistic = STATISTIC,
+               p.value = PVAL,
+               method = METHOD,
+               data.name = xname)
+  class(out) <- "htest"
+  return(out)
+}
+
+#' not exported
+
+do.goftest.CvM <- function(U) {
+  U <- sort(U)
+  n <- length(U)
+  k <- seq_len(n)
+  omega2 <- 1/(12 * n) + sum((U - (2*k - 1)/(2*n))^2)
+  pvalue <- pCvM(omega2, n=n, lower.tail=FALSE)
+  return(list(omega2=omega2, pvalue=pvalue))
+}
+@
+
+
+1.6
+log
+@Summary: d'oh
+@
+text
+@d6 1
+a6 1
+## $Revision: 1.5 $ $Date: 2018/06/06 08:05:35 $
+d58 2
+a59 2
+  coda <- paste("Parameters assumed to be",
+                if(estimated) "estimated from data" else "fixed")
+@
+
+
+1.5
+log
+@Summary: handles composite case using Braun 1980
+@
+text
+@d6 1
+a6 1
+## $Revision: 1.4 $ $Date: 2014/06/24 02:13:27 $
+d59 1
+a59 1
+                if(!estimated) "estimated from data" else "fixed")
+d62 1
+a62 1
+  out <- list(statistic = omega2,
+@
+
+
+1.4
+log
+@polished output
+@
+text
+@d6 1
+a6 1
+## $Revision: 1.3 $ $Date: 2014/06/24 01:54:26 $
+d9 1
+a9 1
+cvm.test <- function(x, null="punif", ..., nullname) {
+d21 1
+a21 3
+  F0 <- if(is.function(null)) null else
+        if(is.character(null)) get(null, mode="function") else
+        stop("Argument 'null' should be a function, or the name of a function")
+d25 15
+a39 5
+  U <- sort(U)
+  k <- seq_len(n)
+  omega2 <- 1/(12 * n) + sum((U - (2*k - 1)/(2*n))^2)
+  PVAL <- pCvM(omega2, n=n, lower.tail=FALSE)
+  names(omega2) <- "omega2"
+d41 1
+d43 1
+d57 5
+d70 10
+@
+
+
+1.3
+log
+@recognises standard distributions
+@
+text
+@d6 1
+a6 1
+## $Revision: 1.2 $ $Date: 2014/06/08 11:32:51 $
+d33 14
+a46 1
+              paste("to", nullname))
+@
+
+
+1.2
+log
+@minor
+@
+text
+@d6 1
+a6 1
+## $Revision: 1.1 $ $Date: 2014/06/08 11:05:58 $
+d13 3
+a15 2
+  if(missing(nullname))
+    nullname <- if(identical(null, "punif")) "uniform distribution" else
+d17 1
+d30 1
+a30 1
+  PVAL <- pcvm(omega2, n=n, lower.tail=FALSE)
+d32 2
+a33 2
+  METHOD <- paste("Cramer-von Mises test of", nullname)
+  ALTERN <- paste("Not the", nullname)
+a35 1
+               alternative = ALTERN,
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d6 1
+a6 1
+## $Revision$ $Date$
+d10 2
+a11 2
+  xname <- short.deparse(substitute(x))
+  nulltext <- short.deparse(substitute(null))
+@

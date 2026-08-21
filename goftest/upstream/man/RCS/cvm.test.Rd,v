@@ -1,0 +1,199 @@
+head	1.6;
+access;
+symbols;
+locks
+	adrian:1.6; strict;
+comment	@# @;
+
+
+1.6
+date	2018.06.06.08.15.38;	author adrian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2018.06.06.08.04.55;	author adrian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2018.03.29.13.57.31;	author adrian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2014.06.09.08.37.47;	author adrian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2014.06.09.04.42.32;	author adrian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.06.08.11.23.23;	author adrian;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@Summary: minor
+@
+text
+@\name{cvm.test}
+\alias{cvm.test}
+\title{
+  Cramer-Von Mises Test of Goodness-of-Fit
+}
+\description{
+  Performs the
+  \ifelse{latex}{\out{Cram\'er}}{Cramer}-von Mises test
+  of goodness-of-fit to a specified continuous univariate
+  probability distribution.
+}
+\usage{
+cvm.test(x, null = "punif", ..., estimated=FALSE, nullname)
+}
+\arguments{
+  \item{x}{
+    Numeric vector of data values.
+  }
+  \item{null}{
+    A function, or a character string giving the name of a function,
+    to compute the cumulative distribution function for the
+    null distribution.
+  }
+  \item{\dots}{
+    Additional arguments for the cumulative distribution function.
+  }
+  \item{estimated}{
+    Logical value indicating whether the parameters of the distribution
+    were estimated using the data \code{x} (composite null hypothesis),
+    or were fixed in advance (simple null hypothesis, the default).
+  }
+  \item{nullname}{
+    Optional character string describing the null distribution.
+    The default is \code{"uniform distribution"}.
+  }
+}
+\details{
+  This command performs the
+  \ifelse{latex}{\out{Cram\'er}}{Cramer}-von Mises test
+  of goodness-of-fit to the distribution specified by the argument
+  \code{null}. It is assumed that the values in \code{x} are
+  independent and identically distributed random values, with some
+  cumulative distribution function \eqn{F}.
+  The null hypothesis is that \eqn{F} is the function
+  specified by the argument \code{null}, while the alternative
+  hypothesis is that \eqn{F} is some other function.
+
+  By default, the test assumes that all the parameters of the null
+  distribution are known in advance (a \emph{simple} null hypothesis).
+  This test does not account for the effect of estimating the parameters.
+
+  If the parameters of the distribution were estimated (that is,
+  if they were calculated from the same data \code{x}),
+  then this should be indicated by setting the argument \code{estimated=TRUE}.
+  The test will then use the adjustment method of Braun (1980)
+  to allow for parameter estimation. Braun's method involves randomly
+  dividing the data into two equally-sized subsets, so the \eqn{p}-value
+  is not the same if the test is repeated.
+}
+\value{
+  An object of class \code{"htest"} representing the result of
+  the hypothesis test.
+}
+\references{
+  Braun, H. (1980)
+  A simple method for testing goodness-of-fit in the presence of
+  nuisance parameters.
+  \emph{Journal of the Royal Statistical Society} \bold{42}, 53--63.
+
+  \ifelse{latex}{\out{Cs\"org\H{o}}}{Csorgo}, S. and Faraway, J.J. (1996)
+  The exact and asymptotic distributions of
+  \ifelse{latex}{\out{Cram\'er}}{Cramer}-von Mises statistics.
+  \emph{Journal of the Royal Statistical Society, Series B}
+  \bold{58}, 221--234.
+}
+\author{
+  Adrian Baddeley.
+}
+\seealso{
+  \code{\link{pCvM}} for the null distribution of the test statistic.
+}
+\examples{
+x <- rnorm(10, mean=2, sd=1)
+cvm.test(x, "pnorm", mean=2, sd=1)
+cvm.test(x, "pnorm", mean=mean(x), sd=sd(x), estimated=TRUE)
+}
+\keyword{htest}
+
+@
+
+
+1.5
+log
+@Summary: new argument
+@
+text
+@d56 3
+a58 1
+  to allow for parameter estimation.
+@
+
+
+1.4
+log
+@Summary: added message about simple null
+@
+text
+@d13 1
+a13 1
+cvm.test(x, null = "punif", ..., nullname)
+d27 5
+d48 9
+a56 3
+  This version of the test assumes that all the parameters of the null
+  distribution are known (a \emph{simple} null hypothesis). It does not
+  account for the effect of estimating the parameters.
+d63 5
+d83 1
+@
+
+
+1.3
+log
+@minor
+@
+text
+@d42 4
+@
+
+
+1.2
+log
+@name change
+@
+text
+@d61 2
+a62 2
+x <- runif(10)
+cvm.test(x)
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d58 1
+a58 1
+  \code{\link{pcramer}} for the null distribution of the test statistic.
+@
