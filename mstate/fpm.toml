@@ -1,0 +1,19 @@
+name = "mstate-fortran"
+version = "0.4.0"
+license = "GPL-2.0-or-later"
+author = "mstate authors; Fortran translation"
+maintainer = ""
+description = "Modern Fortran translation of computational algorithms from the R package mstate"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
