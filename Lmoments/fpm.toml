@@ -1,0 +1,15 @@
+name = "lmoments-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Juha Karvanen, Santeri Karppinen; Fortran port"
+maintainer = "Fortran port"
+copyright = "Original Lmoments package authors and contributors"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
