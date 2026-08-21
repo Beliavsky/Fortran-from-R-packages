@@ -1,0 +1,23 @@
+Title: Circular Statistics, from "Topics in Circular Statistics" (2001)
+Package: CircStats
+Version: 0.2-7
+Authors@R: c(person(given = "Ulric",
+                      family = "Lund",
+                      role = "aut",
+                      email = "ulund@calpoly.edu"),
+               person(given = "Claudio",
+                      family = "Agostinelli",
+                      role = c("aut", "cre"),
+                      email = "claudio.agostinelli@unitn.it"))
+Maintainer: Claudio Agostinelli <claudio.agostinelli@unitn.it>
+Date: 2025-06-19
+Description: Circular Statistics, from "Topics in Circular Statistics"
+        (2001) S. Rao Jammalamadaka and A. SenGupta, World Scientific.
+Depends: MASS, boot
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2025-06-19 08:53:30 UTC; claudio
+Author: Ulric Lund [aut],
+  Claudio Agostinelli [aut, cre]
+Repository: CRAN
+Date/Publication: 2025-06-19 09:40:02 UTC
