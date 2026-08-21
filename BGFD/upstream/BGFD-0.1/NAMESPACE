@@ -1,0 +1,12 @@
+#useDynLib(BGFD, .registration = TRUE)
+
+importFrom("AdequacyModel", goodness.fit, TTT)
+importFrom("graphics", curve, hist, legend, par)
+importFrom("stats", ecdf, runif)
+
+
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")
+
+
+

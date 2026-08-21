@@ -1,0 +1,27 @@
+Package: BGFD
+Type: Package
+Title: Bell-G and Complementary Bell-G Family of Distributions
+Version: 0.1
+Date: 2023-04-06
+Authors@R: c(
+           person( "Michail", "Tsagris", role = c("aut", "cre"), email = "mtsagris@uoc.gr" ),
+           person( "Muhammad", "Imran", role = "aut", email = "imranshakoor84@yahoo.com" ),
+           person("M.H.", "Tahir", role = "ctb", email = "mht@iub.edu.pk") )
+Author: Michail Tsagris [aut, cre],
+  Muhammad Imran [aut],
+  M.H. Tahir [ctb]
+Maintainer: Michail Tsagris <mtsagris@uoc.gr>
+Depends: R (>= 4.0)
+Imports: AdequacyModel, graphics, stats
+Description: Evaluates the probability density function, cumulative distribution function, quantile function, random numbers, survival function, hazard rate function, and maximum likelihood estimates for the following distributions: Bell exponential, Bell extended exponential, Bell Weibull, Bell extended Weibull, Bell-Fisk, Bell-Lomax, Bell Burr-XII, Bell Burr-X, complementary Bell exponential, complementary Bell extended exponential, complementary Bell Weibull, complementary Bell extended Weibull, complementary Bell-Fisk, complementary Bell-Lomax, complementary Bell Burr-XII and complementary Bell Burr-X distribution. Related work includes:
+     a) Fayomi A., Tahir M. H., Algarni A., Imran M. and Jamal F. (2022). "A new useful exponential model with applications to quality control and 
+        actuarial data". Computational Intelligence and Neuroscience, 2022. <doi:10.1155/2022/2489998>.
+     b) Alanzi, A. R., Imran M., Tahir M. H., Chesneau C., Jamal F. Shakoor S. and Sami, W. (2023). "Simulation analysis, 
+        properties and applications on a new Burr XII model based on the Bell-X functionalities". AIMS Mathematics, 8(3): 6970-7004. <doi:10.3934/math.2023352>.
+     c) Algarni A. (2022). "Group Acceptance Sampling Plan Based on New Compounded Three-Parameter Weibull Model". Axioms, 11(9): 438. <doi:10.3390/axioms11090438>.
+License: GPL (>= 2)
+RoxygenNote: 7.1.1
+NeedsCompilation: no
+Packaged: 2023-04-06 12:15:43 UTC; Michail
+Repository: CRAN
+Date/Publication: 2023-04-07 08:50:13 UTC
