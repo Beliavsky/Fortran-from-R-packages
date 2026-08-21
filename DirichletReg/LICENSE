@@ -1,0 +1,12 @@
+DirichletReg Fortran port
+
+This port is distributed under the GNU General Public License, version 2 or
+(at your option) any later version, matching the upstream R package declaration
+"GPL (>= 2)".
+
+The original package is DirichletReg 0.7-2 by Marco Johannes Maier.
+See upstream/DESCRIPTION for the original metadata and attribution.
+
+A copy of GPL-2.0 is normally available on GNU/Linux systems as
+/usr/share/common-licenses/GPL-2. The authoritative license text is also at
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt

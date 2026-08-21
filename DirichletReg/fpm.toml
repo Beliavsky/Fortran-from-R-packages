@@ -1,0 +1,18 @@
+name = "dirichletreg"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Marco Johannes Maier; Fortran port"
+maintainer = "Fortran port generated from DirichletReg 0.7-2"
+copyright = "Copyright (c) DirichletReg contributors"
+description = "Modern Fortran computational port of the R package DirichletReg"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
