@@ -1,0 +1,432 @@
+ % -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+\documentclass[nojss]{jss}
+\usepackage{dsfont}
+\usepackage{bbm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algpseudocode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\DeclareMathOperator*{\ketten}{K}
+\newcommand{\Fmn}[2]{\ensuremath{\operatorname{{}_{#1}F_{#2}}}}
+\newcommand{\ft}{\ensuremath{\Fmn{2}{1}}}
+\newcommand{\fall}[2]{\left(#1\right)_{#2}}
+\newcommand{\rise}[2]{\left(#1\right)^{#2}}
+\newcommand{\ams}[1]{$\left(#1\right)$}
+
+
+%% just as usual
+\author{Robin K. S. Hankin\\Auckland University of Technology}
+\title{Numerical evaluation of the Gauss hypergeometric function with
+  the \pkg{hypergeo} package}
+
+%\VignetteIndexEntry{The hypergeo package}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Robin K. S. Hankin}
+\Plaintitle{The hypergeo package}
+
+
+\Keywords{Hypergeometric functions, numerical evaluation, complex
+  plane,  \proglang{R}, residue theorem}
+\Plainkeywords{Hypergeometric functions, numerical evaluation, complex
+  plane,  R, residue theorem}
+
+\Abstract{This paper introduces the \pkg{hypergeo} package of R
+  routines, for numerical calculation of hypergeometric functions.
+  The package is focussed on efficient and accurate evaluation of the
+  hypergeometric function over the whole of the complex plane within
+  the constraints of fixed-precision arithmetic.  The hypergeometric
+  series is convergent only within the unit circle, so analytic
+  continuation must be used to define the function outside the unit
+  circle.  This short document outlines the numerical and conceptual
+  methods used in the package; and justifies the package philosophy,
+  which is to maintain transparent and verifiable links between the
+  software and AMS-55.  The package is demonstrated in the context of
+  game theory.  }
+
+%% publication information
+%% NOTE: This needs to filled out ONLY IF THE PAPER WAS ACCEPTED.
+%% If it was not (yet) accepted, leave them commented.
+%% \Volume{13}
+%% \Issue{9}
+%% \Month{September}
+%% \Year{2004}
+%% \Submitdate{2004-09-29}
+%% \Acceptdate{2004-09-29}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+Robin K. S. Hankin\\
+Auckland University of Technology\\
+New Zealand\\
+  E-mail: \email{hankin.robin@gmail.com}\\
+}
+
+%% need no \usepackage{Sweave.sty}
+\SweaveOpts{}
+
+\begin{document}
+
+
+<<set_calculate_from_scratch, echo=FALSE,print=FALSE>>=
+calculate_from_scratch <- FALSE
+@ 
+
+\section{Introduction}
+The {\em geometric} series~$\sum_{k=0}^\infty t_k$ with~$t_k=z^k$ may
+be characterized by its first term and the constant ratio of
+successive terms~$t_{k+1}/t_k=z$, giving the familiar
+identity~$\sum_{k=0}^\infty z^k=\left(1-z\right)^{-1}$.  Observe that
+while the series has unit radius of convergence, the right hand side
+is defined over the whole complex plane except for~$z=1$ where it has
+a pole.  Series of this type may be generalized to a {\em
+  hypergeometric} series in which the ratio of successive terms is a
+rational function of~$k$:
+
+\[
+\frac{t_{k+1}}{t_k}=\frac{P(k)}{Q(k)}
+\]
+
+where~$P(k)$ and~$Q(k)$ are polynomials.  If both numerator and
+denominator have been completely factored we would write
+
+\[
+\frac{t_{k+1}}{t_k} = \frac{(k+a_1)(k+a_2)\cdots(k+a_p)}{(k+b_1)(k+b_2)\cdots(k+b_q)(k+1)}z
+\]
+
+\noindent (the final term in the denominator is due to historical
+reasons), and if we require~$t_0=1$ then we write
+
+\begin{equation}\label{genhypergeo_definition}
+\sum_{k=0}^\infty t_kz^k=
+\Fmn{a}{b}\left[{
+    a_1, a_2, \ldots,a_p\atop
+    b_1, b_2, \ldots,b_q}
+    ; z\right]
+\end{equation}
+
+when defined.  An absent factor is indicated with a dash; thus
+$\Fmn{0}{0}\left[\begin{array}{l}-\\-\end{array};z\right]=e^z$.  In
+most cases of interest one finds that~$p=2$, $q=1$ suffices.
+Writing~$a,b,c$ for the two upper and one lower argument respectively,
+the resulting function~$\ft\left(a,b;c;z\right)$ is known as {\em the}
+hypergeometric function.  Many functions of elementary analysis are of
+this form; examples would include logarithmic and trigonometric
+functions, Bessel functions, etc.  For example,
+$\ft\left(\frac{1}{2},1;\frac{3}{2};-z^2\right)=z^{-1}\operatorname{\arctan}
+z$.
+
+\citet{michel2008} state that physical applications are ``plethora''.
+In addition, naturally-occuring combinatorial series frequently have a
+sum expressible in terms of hypergeometric functions and an example
+from the author's work in the field game theory is given below.
+
+\subsection{Equivalent forms}
+The hypergeometric function's series representation, namely
+\begin{equation}\label{series}\tag{15.1.1}
+  \ft\left(a,b;c;z\right)=\sum_{k=0}^\infty\frac{\fall{a}{k}\fall{b}{k}}{\fall{c}{k}k!}z^k,\qquad
+\fall{a}{k}=\Gamma(a+k)/\Gamma(a)
+\end{equation}
+
+\noindent has unit radius of convergence by the ratio test but the
+integral form
+
+\begin{equation}\label{integral}\tag{15.3.1}
+  \ft\left(a,b;c;z\right)=
+  \frac{\Gamma(c)}{\Gamma(b)\Gamma(c-b)}\int_{t=0}^1
+  t^{b-1}(1-t)^{c-b-1}(1-tz)^{-a}\,dt,
+\end{equation}
+
+\noindent due to Gauss, furnishes analytic continuation; it is usual
+to follow Riemann and define a cut along the positive real axis
+from~$1$ to~$\infty$ and specify continuity from below [NB: equations
+  with three-part numbers, as \ref{series} and \ref{integral} above,
+  are named for their reference in~\citet{abramowitz1965}].  This is
+implemented as \code{f15.3.1()} in the package and exhibits
+surprisingly accurate evaluation.
+
+Gauss also provided a continued fraction form for the hypergeometric
+function [implemented as~\code{hypergeo_contfrac()} in the package]
+which has superior convergence rates for parts of the complex plane at
+the expense of more complicated convergence
+properties~\citep{cuyt2008}.
+
+\section{The hypergeo package}
+The \pkg{hypergeo} package provides some functionality for the
+hypergeometric function; the emphasis is on fast vectorized
+\proglang{R}-centric code, complex~$z$ and moderate real values for
+the auxiliary parameters~$a,b,c$.  The package is released under
+GPL-2.
+
+Observing the slow convergence of the series
+representation~\ref{series}, the complex behaviour of the continued
+fraction representation, and the heavy computational
+expense of the integral representation~\ref{integral}, it is clear
+that non-trivial numerical techniques are required for a production
+package.
+
+The package implements a generalization of the method
+of~\citet{forrey1997} to the complex case.  It utilizes the
+observation that the ratio of successive terms approaches~$z$, and
+thus the strategy adopted is to seek a transformation which reduces
+the modulus of~$z$ to a minimum.  \citeauthor{abramowitz1965} give the
+following transformations:
+
+\newcommand{\four}[4]{\frac{\Gamma\left(#1\right)\Gamma\left(#2\right)}{\Gamma\left(#3\right)\Gamma\left(#4\right)}}
+
+\begin{align}
+\ft\left(a,b;c;z\right)
+&= \left(1-z\right)^{-a}\ft\left(a,c-b;c;\frac{z}{z-1}\right)\tag{15.3.4}\label{15.3.4}\\
+&= \left(1-z\right)^{-b}\ft\left(a,c-a;c;\frac{z}{z-1}\right)\tag{15.3.5}\label{15.3.5}\\
+&= \four{c}{c-a-b}{c-a}{c-b}\ft\left(a,b;a+b-c+1;1-z\right)\nonumber\\
+&{}\qquad+ (1-z)^{c-a-b}\four{c}{a+b-c}{a}{b}\ft\left(c-a,c-b;c-a-b+1;1-z\right)\label{15.3.6}\tag{15.3.6}\\
+&= \four{c}{b-a}{b}{c-a}\left(-z\right)^{-a}\ft\left(a,1-c+a;1-b+a;\frac{1}{z}\right)\nonumber\\
+&{}\qquad+\four{c}{a-b}{a}{c-b}\left(-z\right)^{-b}\ft\left(b,1-c+b;1-a+b;\frac{1}{z}\right)\label{15.3.7}\tag{15.3.7}\\
+&= (1-z)^{-a}\four{c}{b-a}{b}{c-a}\ft\left(a,c-b;a-b+1;\frac{1}{1-z}\right)\nonumber\\
+&{}\qquad+(1-z)^{-b}\four{c}{a-b}{a}{c-b}\ft\left(b,c-a;b-a+1;\frac{1}{1-z}\right)\label{15.3.8}\tag{15.3.8}\\
+&=\four{c}{c-a-b}{c-a}{c-b}z^{-a}\ft\left(a,a-c+1;a+b-c+1;1-\frac{1}{z}\right)\nonumber\\
+&{}\qquad+\four{c}{a+b-c}{a}{b}(1-z)^{c-a-b}z^{a-c}\ft\left(c-a,1-a;c-a-b+1;1-\frac{1}{z}\right)\label{15.3.9}\tag{15.3.9}.
+\end{align}
+
+Observing that the
+set~$\left\{z,\frac{z}{z-1},1-z,\frac{1}{z},\frac{1}{1-z},1-\frac{1}{z}\right\}$
+forms a group under functional composition\footnote{It is the
+  anharmonic subgroup of the M\"{o}bius transformations, generated
+  by~$z\longrightarrow 1/z$ and~$z\longrightarrow 1-z$.  It is
+  isomorphic to~$S_3$, the symmetric group on~3 elements.} we may
+apply each of the transformations to the primary argument~$z$ and
+choose the one of smallest absolute value to evaluate.
+
+Given the appropriate transformation, the right hand side is evaluated
+using direct summation.  If~$\left|z\right|<1$, the series is
+convergent by the ratio test, but may require a large number of terms
+to achieve acceptable numerical precision.  Summation is dispatched to
+\code{genhypergeo_series()} which evaluates the generalized
+hypergeometric function~\ref{genhypergeo_definition}; the \proglang{R}
+implementation uses multiplication by repeatedly incremented upper and
+lower indices~$a_i,b_i$.
+
+%\begin{algorithmic}\label{alt}
+%  \State $\mathit{fac}\gets 1$
+%  \State $\mathit{temp}\gets\mathit{fac}$
+%  \State $\mathit{series}\gets\mathit{ZXCVXCVDFADF}$
+%  \While {$\mathit{series}\neq\mathit{temp}$}
+%  \State $\mathit{fac}\gets
+%  \mathit{fac}\times\frac{a_1\times\cdots\times a_p}{b_1\times\cdots\times b_q}\times z$
+%  \State $a_1\gets a_1+1,\ldots, b_q\gets b_q+1$
+%  \State $temp\gets \mathit{series}$
+%  \State $\mathit{series}\gets \mathit{series}+\mathit{fac}$
+% \EndWhile
+%\end{algorithmic}
+
+%(lower indices~$b_i$ are appended with a ``$+1$'').
+
+Thus for example if $(1-z)^{-1}$ is small in absolute value we would
+use function \code{f13.3.8()}:
+
+\begin{Schunk}
+\begin{Sinput}
+> require("hypergeo")
+> f15.3.8
+\end{Sinput}
+\begin{Soutput}
+function(A,B,C,z,tol=0,maxiter=2000){
+ jj <- i15.3.8(A,B,C)
+  jj[1]*(1-z)^(-A)*genhypergeo(U=c(A,C-B),L=A-B+1,z=1/(1-z),tol=tol,maxiter=maxiter) + 
+  jj[2]*(1-z)^(-B)*genhypergeo(U=c(B,C-A),L=B-A+1,z=1/(1-z),tol=tol,maxiter=maxiter)
+}
+\end{Soutput}
+\end{Schunk}
+
+\noindent (slightly edited in the interests of visual clarity).  This
+is a typical internal function of the package and like all similar
+functions is named for its equation number in~\cite{abramowitz1965}.
+Note the helper function \code{i15.3.9()}, which calculates the Gamma
+coefficients of the two hypergeometric terms in the identity.  This
+structure allows transparent checking of the code.
+
+\subsection{Special cases}
+The methods detailed above are not applicable for all values of the
+parameters~$a,b,c$.  If, for example, $c=a+b\pm m$, $m\in\mathbb{N}$
+(a not uncommon case), then equation~\ref{15.3.6} is not useful
+because each term has a pole; and it is numerically difficult to
+approach the limit.  In this case the package dispatches to
+\code{hypergeo_cover1()} which uses~\ref{15.3.4} through~\ref{15.3.9}
+but with~\ref{15.3.6} replaced with suitable limiting forms such as
+
+\begin{equation}\tag{15.3.11}\label{15.3.11}
+  \ft\left(a,b;a+b+m;z\right)=\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}
+\sum_{n=0}^\infty\frac{(a)_n(b)_n}{(n!)^2}\left[
+  2\psi(n+1)-\psi(a+n)-\psi(b+n)-\log(1-z)\right](1-z)^n,\qquad\pi<\left|\operatorname{\arg}(1-z)\right|<\pi,\left|1-z\right|<1
+\end{equation}
+
+(\citeauthor{abramowitz1965} give a similar expression for
+negative~$m$).  This equation is comparable to~\ref{15.3.6} in terms
+of computational complexity but requires evaluation of the digamma
+function~$\psi$.  Equation~\ref{15.3.11} is evaluated in the package
+using an algorithm similar to that for \code{genhypergeo_series()} but
+includes a runtime option which specifies whether to
+evaluate~$\psi\left(\cdot\right)$ \emph{ab initio} each time it is
+needed, or to use the recurrence
+relation~$\psi\left(z+1\right)=\psi\left(z\right)+1/z$ at each
+iteration after the first.  These two options appear to be comparable
+in terms of both numerical accuracy and speed of execution, but
+further work would be needed to specify which is preferable in this
+context.
+
+A similar methodology is used for the case~$b=a\pm m$,
+$m=0,1,2,\ldots$ in which case the package dispatches to
+\code{hypergeo_cover2()}.
+
+However, the case~$c-a=0,1,2,\ldots$ is not covered
+by~\cite{abramowitz1965} and the package dispatches
+to~\code{hypergeo_cover3()} which uses formulae taken from the Wolfram
+functions site~\citep{wolfram2014}.  For example
+\code{w07.23.06.0026.01()} gives a straightforwardly implementable
+numerical expression for~$\Fmn{2}{1}$ as a sum of two {\em finite}
+series and a generalized hypergeometric function~$\Fmn{3}{2}$ with
+primary argument~$z^{-1}$.
+
+In all these cases, the limiting behaviour is problematic.  For
+example, if~$a+b-c$ is close to, but not exactly equal to, an integer
+then equation~\ref{15.3.11} is not applicable.  The analytic value of
+the hypergeometric function in these circumstances is typically of
+moderate modulus, but both terms of equation~\ref{15.3.6} have large
+amplitude and numerics are susceptible to cancellation errors.
+
+\subsection{Critical points}
+All the above methods fail when~$z=\frac{1}{2}\pm\frac{i\sqrt{3}}{2}$,
+because none of the transformations~\ref{15.3.6}-\ref{15.3.9} change
+the modulus of~$z$ from 1.  The function is convergent at these points
+but numerical evaluation is difficult.  This issue does not arise in
+the real case considered by~\citet{forrey1997}.
+
+These points were considered by \cite{buhring1987} who presented a
+computational method for these values; however, his method is not
+suitable for finite-precision arithmetic (a brief discussion is
+presented at \code{?buhring}) and the package employs either an
+iterative scheme due to Gosper~\citep{mpmath}, or the residue theorem
+if~$z$ is close to either of these points.
+
+\section{Package testing suite}
+The package comes with an extensive test suite in the \code{tests/}
+directory.  The tests fall into two main categories, firstly
+comparison with either \proglang{Maple} or \proglang{Mathematica}
+output (although~\cite{becken2000} caution that \proglang{Mathematica}
+routines cannot be used as reference values); and secondly,
+verification of identities which appear in AMS-55 as named equations.
+
+\section{The package in use}
+The \pkg{hypergeo} package offers direct numerical functionality to
+the \proglang{R} user on the command line.  One example from the
+author's current work is in game theory.  Consider a game in which a
+player is given~$n$ counters each of which she must allocate into one
+of two boxes, $A$ or $B$.  At times $t = 1,2,3\ldots$ a box is
+identified at random and, if it is not empty, a counter removed from
+it; box~$A$ is chosen with probability~$p$ and box~$B$ with
+probability~$1-p$.  The object of the game is to remove all counters
+as quickly as possible.  If the player places~$a$ counters in box~$A$
+and~$b$ in~$B$, then the probability mass function of removing the
+final counter at time~$t=a+b+r$ is
+
+<<loadpackages,echo=FALSE>>=
+require("hypergeo")
+require("elliptic")
+@ 
+
+\begin{equation}
+ p^a(1-p)^b\left[ {a+b+r-1 \choose a-1,
+      b+r}(1-p)^r+
+    {a+b+r-1 \choose a+r, b-1}p^r \right],\qquad r=0,1,2,\ldots.
+\end{equation}
+
+The two terms correspond to the final counter being removed from box~$A$
+or~$B$ respectively.  This PMF has expectation
+
+\begin{align}
+  p^a(1-p)^b\left[
+    p {a+b\choose a+1,b-1}\,\ft\left(a+b+1,2;a+2;p\right)+\right.\nonumber\\ \left.
+    (1-p){a+b\choose a-1,b+1}\,\ft\left(a+b+1,2;b+2;1-p\right)
+    \right]\label{expectation}
+\end{align}
+
+with \proglang{R} idiom:
+<<R_expectation>>=
+expected <- function(a,b,p){
+  Re(
+  choose(a+b,b) * p^a * (1-p)^b * (
+     p *b/(1+a) * hypergeo(a+b+1,2,a+2,  p) +
+  (1-p)*a/(1+b) * hypergeo(a+b+1,2,b+2,1-p) ))
+}
+@ 
+
+Thus if~$p=0.8$ and given~$n=10$ counters we might wonder whether it
+is preferable to allocate them~$(8,2)$ or~$(9,1)$:
+
+<<useit>>=
+c(expected(8,2,0.8),expected(9,1,0.8))
+@ 
+
+showing that the latter allocation is preferable in expectation.
+
+The package is designed for use with \proglang{R} and
+Figure~\ref{complexhypergeometricplot} shows the package being used to
+visualize~$\ft\left(2,\frac{1}{2};\frac{2}{3};z\right)$ over a region of
+the complex plane.
+
+%% Thanks to Dario Strbenac for the following structure
+<<hypergeo_figure_file,echo=FALSE>>=   
+png("hypergeometric_plot.png",width=800,height=800)
+@ 
+
+<<label=wp_figure_plot,echo=FALSE>>=
+x <- seq(from=0,to=2,len=200)
+y <- seq(from=-1,to=1,len=200)
+z <- outer(x,1i*y,"+")
+hz <- hypergeo(2,1/2,2/3,z)
+par(pty='s')
+view(x,y,hz,levels=seq(from=-4,to=4),xlab='Real',ylab='Imag')
+@ 
+
+<<label=wp_figure_close,echo=FALSE>>=
+null <- dev.off()
+@ 
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics{hypergeometric_plot.png}
+    \caption{View of the\label{complexhypergeometricplot}
+      function~$\ft\left(2,\frac{1}{2};\frac{2}{3};z\right)$ evaluated
+      over a part of the complex plane using the \pkg{hypergeo}
+      package.  Function visualization following \cite{thaller1998}
+      and the \pkg{elliptic} package~\citep{hankin2006}; hue
+      corresponds to argument and saturation to modulus. Solid contour
+      lines correspond to real function values and dotted to imaginary
+      function values.  Note the cut line along the real axis starting
+      at~$\left(1,0\right)$, made visible by an abrupt change in hue}
+  \end{center}
+\end{figure}
+
+\subsection{Conclusions and further work}
+Evaluation of the hypergeometric function is hard, as evidenced by the
+extensive literature concerning its numerical
+evaluation~\citep{becken2000,michel2008,forrey1997,buhring1987}.  The
+\pkg{hypergeo} package is presented as a partial implementation,
+providing reasonably accurate evaluation over a large portion of the
+complex plane and covering moderate real values of the auxiliary
+parameters~$a,b,c$.  Difficulties arise when~$b-a$ or~$c-b-a$ become
+close to, but not exactly, integers because the terms in
+equations~\ref{15.3.6} through~\ref{15.3.9} become large and
+cancellation errors become important.
+
+Further work might include extension to complex auxiliary parameters
+but \citeauthor{michel2008} caution that this is not straightforward.
+
+\bibliography{hypergeometric}
+\end{document}

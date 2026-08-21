@@ -1,0 +1,3 @@
+exportPattern("^[^\\.]")
+useDynLib(contfrac, .registration = TRUE)
+

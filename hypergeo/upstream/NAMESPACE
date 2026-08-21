@@ -1,0 +1,4 @@
+exportPattern("^[^\\.]")
+importFrom(elliptic, view, integrate.segments, myintegrate, residue)
+importFrom(contfrac, GCF)
+importFrom(deSolve,ode)

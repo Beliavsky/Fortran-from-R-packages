@@ -1,0 +1,27 @@
+name = "hypergeo-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Robin K. S. Hankin (upstream hypergeo package); Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern free-format Fortran translation of the computational core of R hypergeo"
+categories = ["mathematics", "special-functions"]
+keywords = ["hypergeometric", "2F1", "complex", "special-functions"]
+
+[fortran]
+source-form = "free"
+implicit-typing = false
+implicit-external = false
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+elliptic-fortran = { path = "dependencies/elliptic-fortran" }
+contfrac-fortran = { path = "dependencies/contfrac-fortran" }
+desolve = { path = "dependencies/desolve" }
