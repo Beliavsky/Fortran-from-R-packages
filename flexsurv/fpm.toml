@@ -1,0 +1,17 @@
+name = "flexsurv-fortran"
+version = "0.3.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of the flexsurv computational layer"
+maintainer = ""
+copyright = "See upstream and vendor license files"
+description = "Modern Fortran/FPM computational translation of R package flexsurv"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
