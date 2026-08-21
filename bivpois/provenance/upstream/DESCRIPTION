@@ -1,0 +1,17 @@
+Package: bivpois
+Type: Package
+Title: Bivariate Poisson Distribution
+Version: 1.2
+Date: 2026-03-26
+Authors@R: person("Michail", "Tsagris", role = c("aut", "cre"), email = "mtsagris@uoc.gr")
+Author: Michail Tsagris [aut, cre]
+Maintainer: Michail Tsagris <mtsagris@uoc.gr>
+Depends: R (>= 4.0)
+Imports: Rfast, stats
+Suggests: Rfast2
+Description: Maximum likelihood estimation, random values generation, density computation and other functions for the bivariate Poisson distribution. References include: Kawamura K. (1984). "Direct calculation of maximum likelihood estimator for the bivariate Poisson distribution". Kodai Mathematical Journal, 7(2): 211--221. <doi:10.2996/kmj/1138036908>. Kocherlakota S. and Kocherlakota K. (1992). "Bivariate discrete distributions". CRC Press. <doi:10.1201/9781315138480>. Karlis D. and Ntzoufras I. (2003). "Analysis of sports data by using bivariate Poisson models". Journal of the Royal Statistical Society: Series D (The Statistician), 52(3): 381--393. <doi:10.1111/1467-9884.00366>.
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2026-03-26 12:31:39 UTC; mtsag
+Repository: CRAN
+Date/Publication: 2026-03-26 14:30:14 UTC

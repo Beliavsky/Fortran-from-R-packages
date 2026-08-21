@@ -1,0 +1,16 @@
+name = "bivpois-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of bivpois by OpenAI"
+maintainer = ""
+copyright = "Upstream bivpois copyright retained; translation 2026"
+description = "Modern Fortran translation of the computational code in the R package bivpois"
+keywords = ["bivariate-poisson", "statistics", "maximum-likelihood", "monte-carlo"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
