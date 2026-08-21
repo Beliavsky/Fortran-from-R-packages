@@ -1,0 +1,14 @@
+test_distributions: PASS
+test_family: PASS
+test_fit: PASS
+test_identities: PASS
+test_rng: PASS
+BER density =   1.39943007
+BER cdf     =   0.43512766
+BER q(.73)  =   0.59821812
+
+Compiler:
+GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Flags:
+-std=f2018 -O2 -Wall -Wextra -Werror -fcheck=all

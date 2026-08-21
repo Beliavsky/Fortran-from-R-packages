@@ -1,0 +1,26 @@
+Package: ZeroOneDists
+Title: One Zero Statistical Distributions
+Version: 1.0.0
+Authors@R: c(
+    person("Freddy", "Hernandez-Barajas", , "fhernanb@unal.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7459-3329")),
+        person("Olga", "Usuga-Manco", , "olga.usuga@udea.edu.co", role = c("aut"),
+           comment = c(ORCID = "0000-0003-3062-1820"))       
+           )
+Description: Implementation of new statistical distributions in (0, 1) interval. Each distribution includes the traditional functions as well as an additional function called the family function, which can be used to estimate parameters using Generalized Additive
+    Models for Location, Scale and Shape, GAMLSS by Rigby & Stasinopoulos
+    (2005) <doi:10.1111/j.1467-9876.2005.00510.x>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+URL: https://github.com/fhernanb/ZeroOneDists
+BugReports: https://github.com/fhernanb/ZeroOneDists/issues
+Imports: gamlss, gamlss.dist
+NeedsCompilation: no
+Packaged: 2026-03-03 12:36:25 UTC; fhern
+Author: Freddy Hernandez-Barajas [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-7459-3329>),
+  Olga Usuga-Manco [aut] (ORCID: <https://orcid.org/0000-0003-3062-1820>)
+Maintainer: Freddy Hernandez-Barajas <fhernanb@unal.edu.co>
+Repository: CRAN
+Date/Publication: 2026-03-06 18:10:07 UTC
