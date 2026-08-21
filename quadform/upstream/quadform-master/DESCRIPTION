@@ -1,0 +1,22 @@
+Package: quadform
+Type: Package
+Title: Efficient Evaluation of Quadratic Forms
+Version: 0.0-4
+Authors@R: person(given=c("Robin", "K. S."), family="Hankin", role = c("aut","cre"), email="hankin.robin@gmail.com", comment = c(ORCID = "0000-0001-5982-0415"))
+Depends: R (>= 3.0.1)
+Suggests: testthat
+Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
+Description: 
+ A range of quadratic forms are evaluated, using efficient methods.
+ Unnecessary transposes are not performed.  Complex values are handled
+ consistently.
+License: GPL
+URL: https://github.com/RobinHankin/quadform
+BugReports: https://github.com/RobinHankin/quadform/issues
+RoxygenNote: 7.3.2
+NeedsCompilation: no
+Packaged: 2025-11-11 08:00:41 UTC; rhankin
+Author: Robin K. S. Hankin [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-5982-0415>)
+Repository: CRAN
+Date/Publication: 2025-11-11 09:50:02 UTC
