@@ -1,7 +1,7 @@
 # Fortran from R packages
 
 This repository collects experimental modern Fortran translations and
-ports by ChatGPT on High mode of computational code in 383 package
+ports by ChatGPT on High mode of computational code in 414 package
 directories derived from R packages. Each subdirectory is an
 independent Fortran Package Manager (fpm) project with its own
 documentation, tests, provenance record, and license.
@@ -18,6 +18,7 @@ unless the documentation says otherwise.
 | [`ACDm`](ACDm/) | Estimates and simulates autoregressive conditional duration models. | `1.1.0` · `GPL-3.0-or-later` |
 | [`actuar`](actuar/) | Provides actuarial distributions, aggregate-loss and ruin models, coverage transformations, credibility methods, and minimum-distance estimation. | `3.3-7` · `GPL-2.0-or-later` |
 | [`adagio`](adagio/) | Provides discrete and global optimization routines. | `0.9.2` · `GPL-3.0-or-later` |
+| [`AdequacyModel`](AdequacyModel/) | Assesses probabilistic-model adequacy and provides general-purpose optimization routines. | `2.0.0` · `GPL-2.0-or-later` |
 | [`ADGofTest`](ADGofTest/) | Performs the Anderson-Darling goodness-of-fit test. | `0.3` · `GPL` |
 | [`alabama`](alabama/) | Performs constrained nonlinear optimization. | `2025.1.0` · `GPL-2.0-or-later` |
 | [`anMC`](anMC/) | Computes high-dimensional orthant probabilities. | `0.2.5` · `GPL-3.0-only` |
@@ -33,15 +34,21 @@ unless the documentation says otherwise.
 | [`bcc1997`](bcc1997/) | Prices European options with stochastic volatility, rates, and jumps. | `0.1.1` · `GPL-2.0-or-later` |
 | [`BEKKs`](BEKKs/) | Estimates and analyzes BEKK multivariate conditional-volatility models. | `1.4.7` · `MIT` |
 | [`BenfordTests`](BenfordTests/) | Tests whether data conform to Benford's law. | `1.2.0` · `GPL-3.0-only` |
+| [`betafunctions`](betafunctions/) | Works with two- and four-parameter beta distributions and psychometric classification analysis. | `1.9.0` · `CC0-1.0` |
 | [`betategarch`](betategarch/) | Estimates Beta-t-EGARCH volatility models. | `3.4` · `GPL-2.0-only` |
+| [`BGFD`](BGFD/) | Provides Bell-G and complementary Bell-G families of probability distributions. | `0.1` · `GPL-2.0-or-later` |
 | [`BiasedUrn`](BiasedUrn/) | Provides Fisher and Wallenius noncentral hypergeometric distributions. | `2.0.12` · `GPL-3.0-only` |
 | [`bidask`](bidask/) | Estimates bid-ask spreads efficiently from OHLC prices. | `2.1.5` · `MIT` |
 | [`BivGeo`](BivGeo/) | Provides the Basu-Dhar bivariate geometric distribution. | `2.1.1` · `GPL-2.0-or-later` |
 | [`bivgeom`](bivgeom/) | Provides Roy's bivariate geometric distribution. | `1.0` · `GPL` |
+| [`bivpois`](bivpois/) | Provides distribution, estimation, and simulation methods for the bivariate Poisson distribution. | `1.2` · `GPL-2.0-or-later` |
 | [`blmodel`](blmodel/) | Computes Black-Litterman posterior distributions. | `1.0.2` · `GPL-3.0-only` |
 | [`bondAnalyst`](bondAnalyst/) | Performs fixed-income valuation and yield, spread, and duration calculations. | `1.0.1` · `GPL-3.0-only` |
 | [`BondValuation`](BondValuation/) | Values fixed-coupon bonds with odd coupon periods and multiple day-count conventions. | `0.1.1` · `GPL-3.0-only` |
+| [`boot`](boot/) | Provides bootstrap methods and functions. | `1.3-32` · `Unlimited` |
+| [`bridgedist`](bridgedist/) | Implements the bridge distribution with a logit link. | `0.1.3` · `GPL-2.0-or-later` |
 | [`bvls`](bvls/) | Solves bounded-variable least-squares problems with the Stark-Parker algorithm. | `1.4` · `GPL-2.0-or-later` |
+| [`bzinb`](bzinb/) | Estimates bivariate zero-inflated negative-binomial models. | `1.0.8` · `GPL-2.0-only` |
 | [`calibrar`](calibrar/) | Automates parameter estimation for complex models. | `0.9.0` · `GPL-2.0-only` |
 | [`caRamel`](caRamel/) | Performs multi-objective evolutionary optimization. | `1.5` · `GPL-3.0-only` |
 | [`cccp`](cccp/) | Solves cone-constrained convex optimization problems. | `0.3-3` · `GPL-3.0-or-later` |
@@ -51,6 +58,7 @@ unless the documentation says otherwise.
 | [`CEoptim`](CEoptim/) | Performs optimization using the cross-entropy method. | `1.3` · `GPL-2.0-or-later` |
 | [`CGNM`](CGNM/) | Fits nonlinear models using the cluster Gauss-Newton method. | `0.9.3` · `MIT` |
 | [`chyper`](chyper/) | Provides conditional hypergeometric distributions. | `0.3.1` · `MIT` |
+| [`CircStats`](CircStats/) | Provides methods for circular statistics. | `0.2-7` · `GPL-2.0-only` |
 | [`CLA`](CLA/) | Implements the Markowitz critical line algorithm for portfolio optimization. | `0.96-3` · `GPL-3.0-or-later` |
 | [`clarabel`](clarabel/) | Provides a Fortran interface to the Clarabel conic interior-point solver. | `0.11.2` · `Apache-2.0` |
 | [`clue`](clue/) | Combines and analyzes cluster ensembles. | `0.3-68` · `GPL-2.0-only` |
@@ -58,6 +66,7 @@ unless the documentation says otherwise.
 | [`cmaes`](cmaes/) | Performs optimization using covariance-matrix adaptation evolution strategies. | `1.0-12` · `GPL-2.0-only` |
 | [`coda`](coda/) | Analyzes and diagnoses Markov-chain Monte Carlo output. | `0.19-4.1` · `GPL-2.0-or-later` |
 | [`COMPoissonReg`](COMPoissonReg/) | Fits Conway-Maxwell-Poisson regression models. | `0.8.2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`compositions`](compositions/) | Analyzes compositional and positive data. | `2.0-9` · `GPL-2.0-or-later` |
 | [`coneproj`](coneproj/) | Performs cone projections, quadratic programming, and shape-restricted regression. | `1.23` · `GPL-2.0-or-later` |
 | [`contfrac`](contfrac/) | Evaluates and manipulates continued fractions. | `1.1-12` · `GPL-2` |
 | [`copula`](copula/) | Models multivariate dependence with common copula families. | `1.1-7` · `GPL-3.0-or-later` |
@@ -77,6 +86,8 @@ unless the documentation says otherwise.
 | [`dfoptim`](dfoptim/) | Provides derivative-free optimization algorithms. | `2023.1.0` · `GPL-2.0-or-later` |
 | [`DiceDesign`](DiceDesign/) | Constructs designs for computer experiments. | `1.10` · `GPL-3.0-only` |
 | [`DiceKriging`](DiceKriging/) | Fits Gaussian-process models for computer experiments. | `1.6.1` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`DirichletReg`](DirichletReg/) | Fits Dirichlet regression models. | `0.7-2` · `GPL-2.0-or-later` |
+| [`dirmult`](dirmult/) | Estimates Dirichlet-multinomial distributions. | `0.1.3-5` · `GPL-2.0-or-later` |
 | [`DiscreteDists`](DiscreteDists/) | Provides discrete statistical distributions. | `1.1.2` · `MIT` |
 | [`DiscreteInverseWeibull`](DiscreteInverseWeibull/) | Provides the discrete inverse Weibull distribution. | `1.0.2` · `GPL-2.0-only` |
 | [`DiscreteLaplace`](DiscreteLaplace/) | Provides discrete Laplace distributions. | `1.1.1` · `GPL` |
@@ -114,6 +125,7 @@ unless the documentation says otherwise.
 | [`fitdistrplus`](fitdistrplus/) | Fits parametric distributions to censored and uncensored data. | `1.2-6` · `GPL-2.0-or-later` |
 | [`fitHeavyTail`](fitHeavyTail/) | Estimates means and covariance matrices under heavy tails. | `0.2.0.9000` · `GPL-3.0-only` |
 | [`FKF`](FKF/) | Performs fast multivariate Kalman filtering and smoothing. | `0.2.6` · `GPL-2.0-or-later` |
+| [`flexsurv`](flexsurv/) | Fits flexible parametric survival and multi-state models. | `2.3.2` · `GPL-2.0-or-later` |
 | [`FLSSS`](FLSSS/) | Solves subset-sum, multidimensional-knapsack, and generalized-assignment problems. | `9.2.8` · `GPL-3.0-only` |
 | [`fmbasics`](fmbasics/) | Provides foundational financial-market calculations. | `0.3.99` · `GPL-2.0-only` |
 | [`fmultivar`](fmultivar/) | Provides multivariate distributions and financial-data analysis. | `4031.84` · `GPL-2.0-or-later` |
@@ -129,6 +141,7 @@ unless the documentation says otherwise.
 | [`GARCHIto`](GARCHIto/) | Estimates unified and realized GARCH-Ito volatility models. | `0.1.0` · `GPL-3.0-only` |
 | [`garchsk`](garchsk/) | Estimates GARCH models with conditional skewness and kurtosis. | `0.1.0` · `GPL-2.0-or-later` |
 | [`garchx`](garchx/) | Fits GARCH models with exogenous covariates. | `1.7` · `GPL-2.0-or-later` |
+| [`GB2`](GB2/) | Provides properties, likelihoods, and estimation for generalized beta distributions of the second kind. | `2.1.2` · `GPL-2.0-or-later` |
 | [`gcpm`](gcpm/) | Models credit-portfolio risk analytically and by Monte Carlo simulation. | `1.2.2` · `GPL-2.0-only` |
 | [`genalg`](genalg/) | Performs optimization with genetic algorithms. | `0.2.1` · `GPL-2.0-only` |
 | [`GenBinomApps`](GenBinomApps/) | Computes generalized-binomial probabilities and Clopper-Pearson confidence intervals. | `1.2.1` · `GPL-3.0-only` |
@@ -138,6 +151,7 @@ unless the documentation says otherwise.
 | [`glmnet`](glmnet/) | Fits lasso and elastic-net regularized generalized linear models. | `5.0` · `GPL-2.0-only` |
 | [`globalOptTests`](globalOptTests/) | Provides objective functions for benchmarking global optimization methods. | `1.1` · `GPL-3.0-or-later` |
 | [`gnorm`](gnorm/) | Evaluates and simulates generalized normal distributions. | `1.0.2` · `GPL-2.0-or-later` |
+| [`goftest`](goftest/) | Performs classical goodness-of-fit tests for univariate distributions. | `1.2-3` · `GPL-2.0-or-later` |
 | [`gogarch`](gogarch/) | Fits generalized orthogonal GARCH models. | `0.7-6` · `GPL-2.0-or-later` |
 | [`good`](good/) | Fits Good regression models. | `1.0.2` · `GPL-2.0-or-later` |
 | [`GPareto`](GPareto/) | Uses Gaussian processes for Pareto-front estimation and optimization. | `1.1.9` · `GPL-3.0-only` |
@@ -152,6 +166,7 @@ unless the documentation says otherwise.
 | [`highOrderPortfolios`](highOrderPortfolios/) | Designs portfolios using mean, variance, skewness, and kurtosis. | `0.1.1` · `GPL-3.0-only` |
 | [`highs`](highs/) | Provides a Fortran interface to the HiGHS optimization solver. | `1.14.0-2` · `GPL-2.0-or-later` |
 | [`hyper2`](hyper2/) | Provides hyperdirichlet distributions and likelihood calculations. | `3.2-3` · `GPL-3.0-or-later` |
+| [`hypergeo`](hypergeo/) | Computes the Gauss hypergeometric function. | `1.2-14` · `GPL-2.0-only` |
 | [`ICSNP`](ICSNP/) | Provides tools for multivariate nonparametric statistics. | `1.1-3` · `GPL-2.0-or-later` |
 | [`igraph`](igraph/) | Provides graph and network analysis algorithms. | `2.3.3` · `GPL-2.0-or-later` |
 | [`imputeFin`](imputeFin/) | Imputes missing values and outliers in financial time series. | `0.1.2.9000` · `GPL-3.0-only` |
@@ -174,12 +189,15 @@ unless the documentation says otherwise.
 | [`LaplacesDemon`](LaplacesDemon/) | Provides Bayesian inference and Markov-chain Monte Carlo algorithms. | `16.1.8` · `MIT` |
 | [`lbfgs`](lbfgs/) | Performs limited-memory BFGS and orthant-wise optimization. | `1.2.1.2` · `GPL-2.0-or-later` |
 | [`ldhmm`](ldhmm/) | Fits hidden Markov models based on lambda distributions. | `0.6.1` · `Artistic-2.0` |
+| [`leaps`](leaps/) | Performs regression subset selection. | `3.2` · `GPL-2.0-or-later` |
 | [`lgarch`](lgarch/) | Simulates and estimates log-GARCH models. | `0.7` · `GPL-2.0-only` |
 | [`lifeinsurer`](lifeinsurer/) | Models traditional life-insurance contracts. | `1.0.1` · `GPL-2.0-or-later` |
 | [`limSolve`](limSolve/) | Solves linear inverse models with equality and inequality constraints. | `2.0.3` · `GPL` |
 | [`LindleyPowerSeries`](LindleyPowerSeries/) | Provides Lindley power-series distributions. | `1.0.1` · `GPL-2.0-or-later` |
 | [`linprog`](linprog/) | Solves linear programming problems. | `0.9-6` · `GPL-2.0-or-later` |
 | [`lme4`](lme4/) | Fits linear, generalized linear, and nonlinear mixed-effects models. | `2.1-0` · `GPL-2.0-or-later` |
+| [`Lmoments`](Lmoments/) | Computes L-moments and fits probability distributions using them. | `1.3-2` · `GPL-2.0-only` |
+| [`locfit`](locfit/) | Performs local regression, likelihood, and density estimation. | `1.5-9.12` · `GPL-2.0-or-later` |
 | [`longmemo`](longmemo/) | Provides statistical methods for long-memory processes. | `1.1-4` · `GPL-2.0-or-later` |
 | [`LowRankQP`](LowRankQP/) | Solves low-rank quadratic programming problems. | `1.0.6` · `GPL-2.0-or-later` |
 | [`lpSolve`](lpSolve/) | Solves linear and integer programming problems. | `5.6.23.9000` · `LGPL-2.0-only` |
@@ -198,6 +216,7 @@ unless the documentation says otherwise.
 | [`MatrixExtra`](MatrixExtra/) | Provides additional methods for sparse matrices. | `0.1.15` · `GPL-3.0-only` |
 | [`maxLik`](maxLik/) | Performs maximum-likelihood estimation and related calculations. | `1.5-2.2` · `GPL-2.0-or-later` |
 | [`mbbefd`](mbbefd/) | Provides Maxwell-Boltzmann, Bose-Einstein, and Fermi-Dirac distributions. | `0.8.14` · `GPL-2.0-only` |
+| [`mc2d`](mc2d/) | Provides tools for two-dimensional Monte Carlo simulations. | `0.2.2` · `GPL-2.0-or-later` |
 | [`mcga`](mcga/) | Performs real-valued optimization with machine-coded genetic algorithms. | `3.0.9` · `GPL-2.0-or-later` |
 | [`mclust`](mclust/) | Performs Gaussian-mixture modelling and model-based clustering. | `6.1.3` · `GPL-2.0-or-later` |
 | [`mcmc`](mcmc/) | Provides Markov-chain Monte Carlo algorithms. | `0.9-8` · `MIT` |
@@ -216,9 +235,12 @@ unless the documentation says otherwise.
 | [`mize`](mize/) | Provides unconstrained numerical optimization algorithms. | `0.2.5.9000` · `BSD-2-Clause` |
 | [`mlr`](mlr/) | Provides computational infrastructure and native learners for machine learning. | `2.19.3` · `GPL-2.0-or-later` |
 | [`mlrMBO`](mlrMBO/) | Performs model-based and Bayesian optimization. | `1.1.6` · `GPL-3.0-only` |
+| [`MM`](MM/) | Provides the multiplicative multinomial distribution. | `1.7-0` · `GPL-2.0-only` |
+| [`MNB`](MNB/) | Provides diagnostics for multivariate negative-binomial regression models. | `1.2.0` · `GPL-2.0-or-later` |
 | [`moments`](moments/) | Computes moments, cumulants, skewness, kurtosis, and related tests. | `0.14.1` · `GPL-2.0-or-later` |
 | [`msgarch`](msgarch/) | Fits Markov-switching GARCH models. | `2.51` · `GPL-2.0-or-later` |
 | [`msm`](msm/) | Fits continuous-time multi-state and hidden Markov models. | `1.8.2` · `GPL-2.0-or-later` |
+| [`mstate`](mstate/) | Prepares data and estimates and predicts multi-state models. | `0.3.3` · `GPL-2.0-or-later` |
 | [`MTS`](MTS/) | Provides a toolkit for multivariate time-series analysis. | `1.2.1` · `Artistic-2.0` |
 | [`multiAssetOptions`](multiAssetOptions/) | Values European and American multi-asset options by finite differences. | `0.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`MultiATSM`](MultiATSM/) | Models multicountry term structures of interest rates. | `1.5.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
@@ -263,8 +285,10 @@ unless the documentation says otherwise.
 | [`performanceanalytics`](performanceanalytics/) | Provides econometric tools for performance and risk analysis. | `2.1.0` · `GPL-2.0-or-later` |
 | [`PINstimation`](PINstimation/) | Estimates the probability of informed trading. | `0.2.0` · `GPL-3.0-or-later` |
 | [`piqp`](piqp/) | Solves quadratic programs with a proximal interior-point method. | `0.6.2` · `GPL-3.0-only` |
+| [`pmultinom_fortran`](pmultinom_fortran/) | Computes one-sided multinomial probabilities. | `1.0.0` · `AGPL-3.0-only` |
 | [`PMwR`](PMwR/) | Provides portfolio accounting, return analysis, attribution, and backtesting tools. | `1.2-0` · `GPL-3.0-only` |
 | [`poibin`](poibin/) | Provides the Poisson-binomial distribution. | `1.6` · `GPL-2.0-only` |
+| [`poilog`](poilog/) | Provides Poisson-lognormal and bivariate Poisson-lognormal distributions. | `0.4.2.1` · `GPL-3.0-only` |
 | [`PoissonBinomial`](PoissonBinomial/) | Computes ordinary and generalized Poisson-binomial distributions. | `1.2.8` · `GPL-3.0-only` |
 | [`polyaAeppli`](polyaAeppli/) | Provides the Polya-Aeppli distribution. | `2.0.2` · `GPL-2.0-or-later` |
 | [`polynom`](polynom/) | Provides arithmetic and calculations for univariate polynomials. | `1.4-1` · `GPL-2.0-only` |
@@ -283,6 +307,7 @@ unless the documentation says otherwise.
 | [`qap`](qap/) | Provides heuristics for the quadratic assignment problem. | `0.1-2` · `GPL-3.0-only` |
 | [`QCSIS`](QCSIS/) | Performs sure-independence screening using quantile correlation. | `0.1` · `GPL-2.0-only` |
 | [`qrmtools`](qrmtools/) | Provides quantitative risk-management tools and distribution calculations. | `0.0-19` · `GPL-3.0-or-later` |
+| [`quadform`](quadform/) | Evaluates quadratic forms efficiently. | `0.0-4` · `GPL` |
 | [`quadprog`](quadprog/) | Solves quadratic programs with the Goldfarb-Idnani method. | `1.5-8` · `GPL-2.0-or-later` |
 | [`quadprogXT`](quadprogXT/) | Solves quadratic programs with absolute-value constraints. | `0.0.6` · `GPL-2.0-or-later` |
 | [`QuantBondCurves`](QuantBondCurves/) | Values bonds and swaps and calibrates interest-rate curves. | `0.3.3` · `GPL-3.0-or-later` |
@@ -296,6 +321,7 @@ unless the documentation says otherwise.
 | [`Rcsdp`](Rcsdp/) | Solves semidefinite programs using CSDP algorithms. | `0.1.57.6` · `CPL-1.0` |
 | [`Rdsdp`](Rdsdp/) | Solves semidefinite programs using DSDP algorithms. | `1.0.6` · `GPL-3.0-only AND LicenseRef-DSDP AND Apache-2.0` |
 | [`REBayes`](REBayes/) | Provides empirical-Bayes and nonparametric maximum-likelihood methods. | `2.60` · `GPL-2.0-or-later` |
+| [`relsurv`](relsurv/) | Performs relative-survival analysis. | `2.3-3` · `GPL-2.0-or-later` |
 | [`REN`](REN/) | Uses regularization ensembles for robust portfolio optimization. | `0.1.0` · `AGPL-3.0-or-later` |
 | [`Rfast`](Rfast/) | Provides efficient statistical, mathematical, and data-analysis routines. | `2.1.5.2` · `GPL-2.0-or-later` |
 | [`R-fixedincome`](R-fixedincome/) | Provides fixed-income rates, curves, interpolation, and Nelson-Siegel models. | `0.0.5` · `MIT` |
@@ -315,6 +341,7 @@ unless the documentation says otherwise.
 | [`RobStatTM`](RobStatTM/) | Provides robust statistical estimators and tests. | `1.0.11` · `GPL-3.0-or-later` |
 | [`robustbase`](robustbase/) | Provides fundamental robust statistical methods. | `0.99-7` · `GPL-2.0-or-later` |
 | [`ROI.plugin.qpoases`](ROI.plugin.qpoases/) | Provides qpOASES quadratic programming methods for optimization infrastructure. | `1.0-3` · `GPL-3.0-only` |
+| [`rootSolve`](rootSolve/) | Finds nonlinear roots, equilibria, and steady states of ordinary differential equations. | `1.8.2.4` · `GPL-2.0-or-later` |
 | [`roptim`](roptim/) | Provides Nelder-Mead, BFGS, conjugate-gradient, L-BFGS-B, and simulated-annealing optimization. | `0.1.7` · `GPL-2.0-or-later` |
 | [`RPEGLMEN`](RPEGLMEN/) | Fits Gamma and exponential generalized linear models with elastic-net regularization. | `1.1.4` · `GPL-2.0-or-later` |
 | [`RPEIF`](RPEIF/) | Computes influence functions for risk and performance measures. | `1.2.5` · `GPL-3.0-or-later` |
@@ -360,6 +387,7 @@ unless the documentation says otherwise.
 | [`StReg`](StReg/) | Fits static and dynamic Student-t regression models. | `1.1` · `GPL-2.0-only` |
 | [`subplex`](subplex/) | Performs unconstrained optimization using the Subplex algorithm. | `1.9` · `GPL-3.0-only` |
 | [`SuppDists`](SuppDists/) | Provides supplemental probability distributions and rank-statistic calculations. | `1.1-9.9` · `GPL-2.0-or-later` |
+| [`survey`](survey/) | Analyzes complex survey samples. | `4.5` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`survival`](survival/) | Provides core methods for survival analysis. | `3.8-9` · `GPL-2.0-or-later` |
 | [`svdnf`](svdnf/) | Performs discrete nonlinear filtering for stochastic-volatility models. | `0.1.11` · `GPL-3.0-only` |
 | [`tabuSearch`](tabuSearch/) | Performs tabu search over binary configurations. | `1.2.0` · `GPL-2.0-or-later` |
@@ -367,9 +395,11 @@ unless the documentation says otherwise.
 | [`timsac`](timsac/) | Provides time-series analysis, prediction, and control methods. | `1.3.8-6` · `GPL-2.0-or-later` |
 | [`tolerance`](tolerance/) | Computes statistical tolerance intervals and regions. | `3.0.0` · `GPL-2.0-or-later` |
 | [`Trading`](Trading/) | Provides trading, correlation, beta, and betting calculations. | `3.2` · `GPL-3.0-only` |
+| [`trawl`](trawl/) | Estimates and simulates trawl processes. | `0.2.2` · `GPL-3.0-only` |
 | [`treasuryTR`](treasuryTR/) | Generates Treasury total returns from yield data. | `0.1.6` · `MIT` |
 | [`trust`](trust/) | Performs trust-region optimization. | `0.1-9` · `MIT` |
 | [`trustOptim`](trustOptim/) | Performs trust-region optimization for functions with sparse Hessians. | `0.8.7.4` · `MPL-2.0` |
+| [`tsa`](tsa/) | Provides time-series analysis methods. | `1.3.1` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`tscopula`](tscopula/) | Fits and simulates time-series copula models. | `0.3.9` · `GPL-3.0-only` |
 | [`tsdistributions`](tsdistributions/) | Provides standardized distributions for time-series modelling. | `1.0.4` · `GPL-2.0-only` |
 | [`tsdyn`](tsdyn/) | Fits nonlinear time-series models with regime switching. | `11.0.5.2` · `GPL-2.0-or-later` |
@@ -396,6 +426,7 @@ unless the documentation says otherwise.
 | [`YieldCurve`](YieldCurve/) | Models and estimates yield curves. | `5.1` · `GPL-2.0-or-later` |
 | [`yieldcurves`](yieldcurves/) | Fits, analyzes, and decomposes yield curves. | `0.1.0` · `MIT` |
 | [`yrnd`](yrnd/) | Extracts risk-neutral densities from financial prices and rates. | `0.1.5` · `GPL-3.0-only` |
+| [`ZeroOneDists`](ZeroOneDists/) | Provides statistical distributions with support on the zero-one interval. | `1.0.0` · `MIT` |
 | [`zigg`](zigg/) | Generates pseudorandom numbers using the Ziggurat method. | `0.0.2` · `GPL-2.0-or-later` |
 
 The repository is an aggregate of separately licensed projects; there is no
