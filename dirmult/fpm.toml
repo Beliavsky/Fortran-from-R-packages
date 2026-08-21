@@ -1,0 +1,14 @@
+name = "dirmult-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of Torben Tvedebrink's dirmult package"
+maintainer = ""
+copyright = "See LICENSE and provenance/upstream/DESCRIPTION"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true

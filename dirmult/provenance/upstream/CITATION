@@ -1,0 +1,18 @@
+citHeader("To cite the 'dirmult' package in publications use:")
+
+citEntry(entry="Article",
+         title = "Overdispersion in allelic counts and theta-correction in forensic genetics",
+         author = personList(as.person("Torben Tvedebrink")),
+	 journal = "Theoretical Population Biology",
+         year = "2010",
+         volume = "78",
+         number = "3",
+         pages = "200--210",
+         url = "http://dx.doi.org/10.1016/j.tpb.2010.07.002",
+         
+         textVersion =
+         paste("Torben Tvedebrink (2010).",
+               "Overdispersion in allelic counts and theta-correction in forensic genetics.",
+               "Theoretical Population Biology, 78(3), 200-210.",
+               "URL http://dx.doi.org/10.1016/j.tpb.2010.07.002.")
+)
