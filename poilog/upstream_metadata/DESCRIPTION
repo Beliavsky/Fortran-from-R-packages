@@ -1,0 +1,23 @@
+Package: poilog
+Type: Package
+Title: Poisson Lognormal and Bivariate Poisson Lognormal Distribution
+Version: 0.4.2.1
+Date: 2022-10-07
+Authors@R: c(person(given = "Vidar",
+                    family = "Grotan",
+                    role = c("aut", "cre"),
+                    email = "vidar.grotan@ntnu.no"),
+             person(given = "Steinar",
+                    family = "Engen",
+                    role = "aut"))
+Description: Functions for obtaining the density, random deviates 
+             and maximum likelihood estimates of the Poisson lognormal 
+             distribution and the bivariate Poisson lognormal distribution.
+License: GPL-3
+NeedsCompilation: yes
+Packaged: 2024-11-04 17:51:06 UTC; hornik
+Repository: CRAN
+Date/Publication: 2024-11-04 18:35:29 UTC
+Author: Vidar Grotan [aut, cre],
+  Steinar Engen [aut]
+Maintainer: Vidar Grotan <vidar.grotan@ntnu.no>

@@ -1,0 +1,4 @@
+useDynLib(poilog)
+export(dpoilog,dbipoilog,rpoilog,rbipoilog,bipoilogMLE,poilogMLE)
+importFrom("stats", "optim", "rnorm", "rpois", "dnorm", "dpois", "integrate")
+importFrom("utils", "write.table")

@@ -1,0 +1,12 @@
+poilog-fortran is a Fortran translation of the computational code in the R
+package poilog 0.4.2.1.
+
+Original authors:
+  Vidar Grotan
+  Steinar Engen
+
+Upstream package license: GPL-3
+Upstream package title: Poisson Lognormal and Bivariate Poisson Lognormal Distribution
+
+This derivative translation preserves the GPL-3 license. Plotting code and
+R-specific presentation infrastructure were intentionally not translated.
