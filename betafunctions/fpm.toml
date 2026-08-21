@@ -1,0 +1,16 @@
+name = "betafunctions"
+version = "0.1.0"
+license = "CC0-1.0"
+author = "Fortran port of Haakon Eidem Haakstad's betafunctions R package"
+maintainer = ""
+copyright = "Public domain dedication / CC0; see LICENSE and upstream source"
+description = "Modern Fortran translation of the computational core of the R package betafunctions"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[install]
+library = true
