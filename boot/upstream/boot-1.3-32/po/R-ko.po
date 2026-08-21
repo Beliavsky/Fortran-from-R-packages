@@ -1,0 +1,282 @@
+# Korean translation for R boot package
+# Recommended/boot/po/R-ko.po
+# Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
+#
+# This file is distributed under the same license as the R boot package.
+# Chel Hee Lee <chl948@mail.usask.ca>, 2013-2015.
+#
+# Reviewing process is completed (26-JAN-2015)
+# The original source code is reviewed (26-JAN-2015)
+# QC: PASS
+# Freezing on 06-FEB-2015 for R-3.1.3
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: boot 1.3-6\n"
+"POT-Creation-Date: 2018-04-07 21:19\n"
+"PO-Revision-Date: 2015-02-06 21:56-0600\n"
+"Last-Translator:Chel Hee Lee  <chl948@mail.usask.ca>\n"
+"Language-Team: Chel Hee Lee  <chl948@mail.usask.ca>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"'simple=TRUE' is only valid for 'sim=\"ordinary\", stype=\"i\", n=0', so "
+"ignored"
+msgstr ""
+"'simple=TRUE'은 오로지 'sim=\"ordinary\", stype=\"i\", n=0'의 경우에만 유효하"
+"게 사용할 수 있으므로 무시됩니다."
+
+msgid "no data in call to 'boot'"
+msgstr "'boot'에 호출중인 데이터가 없습니다."
+
+msgid "negative value of 'm' supplied"
+msgstr "'m'에 음수가 입력되었습니다."
+
+msgid "length of 'm' incompatible with 'strata'"
+msgstr "'m'의 길이가 'strata'의 개수와 일치하지 않습니다."
+
+msgid "dimensions of 'R' and 'weights' do not match"
+msgstr "'R'과 'weights'의 차원이 서로 일치하지 않습니다."
+
+msgid "arguments are not all the same type of \"boot\" object"
+msgstr "입력된 인자들 중 적어도 하나 이상이 \"boot\" 클래스의 객체가 아닙니다."
+
+msgid "index array not defined for model-based resampling"
+msgstr ""
+"모델기반의 리샘플링(model-based resampling)을 위하여 정의된 인덱스 배열"
+"(index array)가 아닙니다."
+
+msgid "boot.array not implemented for this object"
+msgstr "boot.array 함수는 이 객체를 위하여 구현된 것이 아닙니다."
+
+msgid "array cannot be found for parametric bootstrap"
+msgstr "모수적 붓스트랩(parameteric bootstrap)을 위한 배열을 찾을 수 없습니다."
+
+msgid "%s distribution not supported: using normal instead"
+msgstr "%s 분포가 지원되지 않기 때문에 정규분포를 대신 사용합니다."
+
+#, fuzzy
+msgid "unknown type of \"boot\" object"
+msgstr "입력된 인자들 중 적어도 하나 이상이 \"boot\" 클래스의 객체가 아닙니다."
+
+msgid "only first element of 'index' used"
+msgstr "'index'의 첫번째 요소만이 사용되었습니다."
+
+msgid "'K' outside allowable range"
+msgstr "'K'는 허용범위 밖에 존재합니다."
+
+msgid "'K' has been set to %f"
+msgstr "'K'는 %f로 설정되었습니다."
+
+msgid "'t' and 't0' must be supplied together"
+msgstr "'t'와 't0'는 반드시 함께 입력되어야 합니다."
+
+msgid "index out of bounds; minimum index only used."
+msgstr ""
+"인덱스의 범위를 벗어났기 때문에 인덱스가 가지는 가장 작은 값(minimum index)"
+"을 사용합니다."
+
+msgid "'t' must of length %d"
+msgstr "'t'의 길이는 반드시 %d이어야 합니다."
+
+msgid "bootstrap variances needed for studentized intervals"
+msgstr ""
+"스튜던트화된 구간(studentized intervals)에 필요한 붓스트랩 분산(boostrap "
+"variances)입니다."
+
+msgid "BCa intervals not defined for time series bootstraps"
+msgstr ""
+"시계열 붓스트랩(time series bootstraps)을 위하여 정의된 BCa 구간(intervals)"
+"이 아닙니다."
+
+msgid "bootstrap output object or 't0' required"
+msgstr "붓스트랩으로부터 생성된 객체 또는 't0'가 필요합니다."
+
+msgid "unable to calculate 'var.t0'"
+msgstr "'var.t0'를 계산할 수 없습니다."
+
+msgid "extreme order statistics used as endpoints"
+msgstr ""
+"종점(endpoints)으로 사용된 극단적 순서통계량(extreme order statistics)입니다."
+
+msgid "variance required for studentized intervals"
+msgstr "스튜던트화된 구간(studentized intervals)에 요구되는 분산입니다."
+
+msgid "estimated adjustment 'w' is infinite"
+msgstr "추정된 보정값(adjustment) 'w'가 유한하지 않습니다."
+
+msgid "estimated adjustment 'a' is NA"
+msgstr "추정된 보정값(adjustment) 'a'이 유한하지 않습니다."
+
+msgid "only first element of 'index' used in 'abc.ci'"
+msgstr "'index'의 첫번째 요소만이 'abc.ci'에 사용되었습니다."
+
+msgid "missing values not allowed in 'data'"
+msgstr "'data'에는 결측치가 있어서는 안됩니다."
+
+msgid "unknown value of 'sim'"
+msgstr "'sim'의 값을 알 수 없습니다."
+
+msgid "'data' must be a matrix with at least 2 columns"
+msgstr "'data'는 반드시 적어도 2개의 열을 가지는 행렬이어야 합니다."
+
+msgid "'index' must contain 2 elements"
+msgstr "'index'는 반드시 2개의 요소를 가지고 있어야 합니다."
+
+msgid "only first 2 elements of 'index' used"
+msgstr "오로지 'index'의 첫번째 2개 요소들만을 사용합니다."
+
+msgid "indices are incompatible with 'ncol(data)'"
+msgstr "인덱스의 길이가 'ncol(data)'와 일치하지 않습니다."
+
+msgid "sim = \"weird\" cannot be used with a \"coxph\" object"
+msgstr ""
+"sim 인자는 \"coxph\"라는 객체를 입력받는 경우에 \"weird\"이라는 값을 가질 수 "
+"없습니다."
+
+msgid "only columns %s and %s of 'data' used"
+msgstr "'data'의 %s와 %s 번째 열만이 사용되었습니다."
+
+msgid "no coefficients in Cox model -- model ignored"
+msgstr "Cox 모델에 계수(coefficients)들이 없으므로 모델이 무시되었습니다"
+
+msgid "'F.surv' is required but missing"
+msgstr "'F.surv'이 필요한데 이를 찾을 수 없습니다."
+
+msgid "'G.surv' is required but missing"
+msgstr "'G.surv'가 필요한데 이를 찾을 수 없습니다."
+
+msgid "'strata' of wrong length"
+msgstr "'strata'의 길이가 올바르지 않습니다."
+
+msgid "influence values cannot be found from a parametric bootstrap"
+msgstr ""
+"모수적 붓스트랩(parametric bootstrap)으로부터 영향치(influence values)들을 찾"
+"을 수 없습니다."
+
+msgid "neither 'data' nor bootstrap object specified"
+msgstr "'data'와 붓스트랩 객체 모두 입력되지 않았습니다."
+
+msgid "neither 'statistic' nor bootstrap object specified"
+msgstr "'statistic'과 붓스트랩 객체 모두 입력되지 않았습니다."
+
+msgid "'stype' must be \"w\" for type=\"inf\""
+msgstr "type 인자가 \"inf\"을 가지는 경우 'stype'는 반드시 \"w\"이어야 합니다."
+
+msgid "input 't' ignored; type=\"inf\""
+msgstr "입력 't'가 무시되었으며 type=\"inf\"가 적용됩니다."
+
+msgid "bootstrap object needed for type=\"reg\""
+msgstr "type 인자가 \"reg\"를 가지는 경우 붓스트랩 객체가 필요합니다."
+
+msgid "input 't' ignored; type=\"jack\""
+msgstr "입력 't'가 무시되었으며 type=\"jack\"가 적용됩니다."
+
+msgid "input 't' ignored; type=\"pos\""
+msgstr "입력 't'가 무시되었으며 type=\"pos\"가 적용됩니다."
+
+msgid "input 't0' ignored: neither 't' nor 'L' supplied"
+msgstr "'t'와 'L' 두 가지 모두가 입력되지 않아 입력 't0'는 무시되었습니다."
+
+msgid "bootstrap output matrix missing"
+msgstr "붓스트랩의 결과를 담고 있는 행렬을 찾을 수 없습니다."
+
+msgid "use 'boot.ci' for scalar parameters"
+msgstr "스칼라 파라미터(scalar parameters)인 경우 'boot.ci'를 사용하세요"
+
+msgid "unable to achieve requested overall error rate"
+msgstr "요청한 전체적인 오류률(overall error rate)을 계산할 수 없습니다."
+
+msgid "unable to find multiplier for %f"
+msgstr "%f에 대한 계수(multiplier)를 찾을 수 없습니다."
+
+msgid "'theta' or 'lambda' required"
+msgstr "'theta' 또는 'lambda'가 필요합니다."
+
+msgid "0 elements not allowed in 'q'"
+msgstr "'q'의 구성요소는 0 값일 수 없습니다."
+
+msgid "bootstrap replicates must be supplied"
+msgstr "붓스트랩 반복수(bootstrap replicates)는 반드시 주어져야 합니다."
+
+msgid "either 'boot.out' or 'w' must be specified."
+msgstr "'boot.out' 또는 'w' 중 하나는 반드시 주어져야 합니다."
+
+msgid "only first column of 't' used"
+msgstr "오로지 't'의 첫번째 열만이 사용됩니다."
+
+msgid "invalid value of 'sim' supplied"
+msgstr "'sim'에 주어진 값이 올바르지 않습니다."
+
+msgid "'R' and 'theta' have incompatible lengths"
+msgstr "'R'과 'theta'의 길이가 서로 맞지 않습니다."
+
+msgid "R[1L] must be positive for frequency smoothing"
+msgstr ""
+"빈도 스무딩(frequency smoothing)을 사용하기 위해서는 반드시 R[1L]의 값은 양수"
+"이어야 합니다."
+
+msgid "'R' and 'alpha' have incompatible lengths"
+msgstr "'R'과 'alpha'의 길이가 서로 맞지 않습니다."
+
+msgid "extreme values used for quantiles"
+msgstr "분위수(quantiles)에 사용된 극단값(extreme values)들입니다."
+
+msgid "'theta' must be supplied if R[1L] = 0"
+msgstr "만약 R[1L] = 0이라면 'theta'의 값이 반드시 주어져야 합니다."
+
+msgid "'alpha' ignored; R[1L] = 0"
+msgstr "입력된 'alpha'의 값이 무시되었으며 R[1L] = 0이 적용됩니다."
+
+msgid "control methods undefined when 'boot.out' has weights"
+msgstr ""
+"'boot.out'가 가중치(weights)를 가지는 경우에 대한 제어방법(control methods)"
+"가 정의되지 않았습니다."
+
+msgid "number of columns of 'A' (%d) not equal to length of 'u' (%d)"
+msgstr "'A'의 열의 개수 (%d)가 'u'의 길이 (%d)와 일치하지 않습니다."
+
+msgid "either 'A' and 'u' or 'K.adj' and 'K2' must be supplied"
+msgstr ""
+"'A'와 'u' 또는 'K.adj'와 'K2' 둘 중의 한 쌍은 반드시 제공되어야 합니다."
+
+msgid "this type not implemented for Poisson"
+msgstr "본 유형(type)은 포아송(Poisson)의 경우에는 아직 구현되지 않았습니다."
+
+msgid "this type not implemented for Binary"
+msgstr ""
+"본 유형(type)은 이진데이터(Binary)의 경우에는 아직 구현되지 않았습니다."
+
+msgid "one of 't' or 't0' required"
+msgstr "'t' 또는 't0' 중 하나가 필요합니다."
+
+msgid "function 'u' missing"
+msgstr "함수 'u'가 입력되지 않았습니다."
+
+msgid "'u' must be a function"
+msgstr "'u'는 반드시 함수이어야 합니다."
+
+msgid "unable to find range"
+msgstr "범위(range)를 구할 수 없습니다."
+
+msgid "'R' must be positive"
+msgstr "'R'은 반드시 양수이어야 합니다."
+
+msgid "invalid value of 'l'"
+msgstr "'l'의 값이 올바르지 않습니다."
+
+msgid "unrecognized value of 'sim'"
+msgstr "'sim'의 값을 알 수 없습니다."
+
+msgid "multivariate time series not allowed"
+msgstr "다변량 시계열(multivariate time series)는 허용되지 않습니다."
+
+msgid "likelihood never exceeds %f"
+msgstr "우도(likelhiood)가 %f를 절대로 넘지 않습니다."
+
+msgid "likelihood exceeds %f at only one point"
+msgstr "우도(likelihood)가 오로지 한 점에서만 %f를 넘어섭니다."

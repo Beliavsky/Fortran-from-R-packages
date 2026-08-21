@@ -1,0 +1,15 @@
+name = "boot-fortran"
+version = "0.1.0"
+license = "Unlimited"
+author = "Angelo Canty, Brian Ripley, Alessandra R. Brazzale; Fortran translation"
+maintainer = "OpenAI translation"
+description = "Modern Fortran computational-core translation of R package boot"
+categories = ["statistics", "bootstrap", "numerical"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
