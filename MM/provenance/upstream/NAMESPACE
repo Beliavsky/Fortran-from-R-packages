@@ -1,0 +1,20 @@
+exportPattern("^[^\\.]")
+
+S3method(print, gunter)
+S3method(print, gunter_MB)
+S3method(print, Lindsey_output)
+S3method(print, suffstats)
+S3method(print, summary.suffstats)
+
+S3method(as.array, MB)
+S3method(as.array, gunter_MB)
+S3method(summary, suffstats)
+
+importFrom("magic", "minmax")
+importFrom("quadform", "quad.form","quad.ttrace","quad.tdiag")
+importFrom("stats", "glm", "nlm", "optim", "poisson", "runif")
+importFrom("partitions","compositions")
+importFrom("Oarray","is.Oarray","as.Oarray","Oarray")
+
+import(abind)
+import(methods)

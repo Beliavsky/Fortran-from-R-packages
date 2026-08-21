@@ -1,0 +1,26 @@
+Package: MM
+Type: Package
+Title: The Multiplicative Multinomial Distribution
+Description: Various utilities for the Multiplicative Multinomial distribution.
+Version: 1.7-0
+Depends: R (>= 2.10.0)
+Imports: magic (>= 1.5-6), abind, quadform (>= 0.0-2), methods,
+        partitions (>= 1.9-14), Oarray
+Authors@R: c(person(given = c("Robin", "K.", "S."),
+                      family = "Hankin",
+                      role = c("aut", "cre"),
+                      email = "hankin.robin@gmail.com"),
+               person(given = c("P.", "M.", "E."),
+                      family = "Altham",
+                      role = "aut"))
+Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
+License: GPL-2
+LazyLoad: yes
+NeedsCompilation: no
+Repository: CRAN
+URL: https://github.com/RobinHankin/MM
+BugReports: https://github.com/RobinHankin/MM/issues
+Packaged: 2026-04-10 13:00:23 UTC; rhankin
+Author: Robin K. S. Hankin [aut, cre],
+  P. M. E. Altham [aut]
+Date/Publication: 2026-04-11 09:20:19 UTC

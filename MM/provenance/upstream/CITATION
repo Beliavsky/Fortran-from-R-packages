@@ -1,0 +1,20 @@
+citHeader("To cite the MM package in publications use:")
+
+bibentry(bibtype = "Article",
+  title          = "Multivariate Generalizations of the Multiplicative Binomial Distribution: Introducing the {MM} Package",
+  author       = c(person("Pat M. E. Altham"),
+                   person("Robin K. S. Hankin")),
+  journal      = "Journal of Statistical Software",
+  year         = "2012",
+  volume       = "46",
+  number       = "12",
+  pages        = "1--23",
+  doi          = "10.18637/jss.v046.i12",
+  textVersion  =
+  paste("Pat M. E. Altham, Robin K. S. Hankin (2012).",
+        "Multivariate Generalizations of the Multiplicative Binomial Distribution: Introducing the MM Package.",
+        "Journal of Statistical Software, 46(12), 1-23.",
+        "DOI 10.18637/jss.v046.i12"
+        )
+  )
+
