@@ -1,0 +1,20 @@
+Package: relsurv
+Type: Package
+Title: Relative Survival
+Version: 2.3-3
+Date: 2025-08-08
+Authors@R: c(person(c("Maja","Pohar","Perme"),role=c("aut"),email="maja.pohar@mf.uni-lj.si"), person(c("Damjan","Manevski"),role=c("aut", "cre"),email="damjan.manevski@mf.uni-lj.si"))
+Author: Maja Pohar Perme [aut],
+  Damjan Manevski [aut, cre]
+Maintainer: Damjan Manevski <damjan.manevski@mf.uni-lj.si>
+Description: Contains functions for analysing relative survival data, including nonparametric estimators of net (marginal relative) survival, relative survival ratio, crude mortality, methods for fitting and checking additive and multiplicative regression models, transformation approach, methods for dealing with population mortality tables. Work has been described in Pohar Perme, Pavlic (2018) <doi:10.18637/jss.v087.i08>.
+Depends: R (>= 4.1.0), survival (>= 3.1)
+Imports: splines, ggplot2, pammtools, scales, Rcpp (>= 1.0.10)
+License: GPL (>= 2)
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 7.3.2
+LazyData: true
+NeedsCompilation: yes
+Repository: CRAN
+Packaged: 2025-08-18 10:43:50 UTC; dmanevski
+Date/Publication: 2025-08-18 11:10:09 UTC

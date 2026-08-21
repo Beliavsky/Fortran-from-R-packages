@@ -1,0 +1,15 @@
+name = "relsurv-fortran"
+version = "0.2.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of relsurv computational code"
+maintainer = "OpenAI"
+description = "Modern Fortran/FPM translation of the computational core of R package relsurv"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
