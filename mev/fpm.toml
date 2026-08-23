@@ -1,0 +1,19 @@
+name = "mev-fortran"
+version = "0.3.0"
+license = "GPL-3.0-only"
+author = "mev authors; Fortran translation"
+maintainer = ""
+copyright = "See NOTICE.md"
+
+[library]
+source-dir = "src"
+
+[dependencies]
+nleqslv-fortran = { path = "vendor/nleqslv-fortran" }
+expint-fortran = { path = "vendor/expint-fortran" }
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+link = ["lapack", "blas"]

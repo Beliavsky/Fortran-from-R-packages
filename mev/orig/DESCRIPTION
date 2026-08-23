@@ -1,0 +1,44 @@
+Package: mev
+Type: Package
+Title: Modelling of Extreme Values
+Version: 2.2
+Authors@R: c(
+   person(given="Leo", family="Belzile", role = c("aut", "cre"), email = "belzilel@gmail.com", comment = c(ORCID = "0000-0002-9135-014X")), 
+   person(given="Jennifer L.", family="Wadsworth", role=c("aut")), 
+   person(given="Paul J.", family="Northrop", role=c("aut"), comment = c(ORCID = "0000-0002-1992-4882")), 
+   person(given="Raphael", family="Huser", role=c("aut"), comment = c(ORCID = "0000-0002-1228-2071")),
+   person(given="Scott D.", family="Grimshaw", role=c("aut"), comment = c(ORCID = "0000-0002-6326-9360")), 
+   person(given="Jin", family="Zhang", role=c("ctb")), 
+   person(given="Michael A.", family="Stephens", role=c("ctb")), 
+   person(given="Art B.", family="Owen", role=c("ctb"))
+   )
+Description: Various tools for the analysis of univariate, multivariate and functional extremes. Exact simulation from max-stable processes (Dombry, Engelke and Oesting, 2016, <doi:10.1093/biomet/asw008>, R-Pareto processes for various parametric models, including Brown-Resnick (Wadsworth and Tawn, 2014, <doi:10.1093/biomet/ast042>) and Extremal Student (Thibaud and Opitz, 2015, <doi:10.1093/biomet/asv045>). Threshold selection methods, including Wadsworth (2016) <doi:10.1080/00401706.2014.998345>, and Northrop and Coleman (2014) <doi:10.1007/s10687-014-0183-z>. Multivariate extreme diagnostics. Estimation and likelihoods for univariate extremes, e.g., Coles (2001) <doi:10.1007/978-1-4471-3675-0>.
+License: GPL-3
+URL: https://lbelzile.github.io/mev/, https://github.com/lbelzile/mev/
+BugReports: https://github.com/lbelzile/mev/issues/
+Depends: R (>= 3.5)
+Imports: alabama, methods, nleqslv, numDeriv, Rcpp (>= 0.12.16),
+        Rsolnp, stats,
+Suggests: boot, cobs, evd, expint, knitr, MASS, mvPot (>= 0.1.4),
+        mvtnorm, gmm, revdbayes, rmarkdown, ismev, tinytest,
+        TruncatedNormal (>= 1.1)
+LinkingTo: Rcpp, RcppArmadillo
+LazyData: true
+RoxygenNote: 7.3.3
+VignetteBuilder: knitr
+Encoding: UTF-8
+ByteCompile: true
+NeedsCompilation: yes
+Packaged: 2026-04-14 20:02:31 UTC; lbelzile
+Author: Leo Belzile [aut, cre] (ORCID: <https://orcid.org/0000-0002-9135-014X>),
+  Jennifer L. Wadsworth [aut],
+  Paul J. Northrop [aut] (ORCID: <https://orcid.org/0000-0002-1992-4882>),
+  Raphael Huser [aut] (ORCID: <https://orcid.org/0000-0002-1228-2071>),
+  Scott D. Grimshaw [aut] (ORCID:
+    <https://orcid.org/0000-0002-6326-9360>),
+  Jin Zhang [ctb],
+  Michael A. Stephens [ctb],
+  Art B. Owen [ctb]
+Maintainer: Leo Belzile <belzilel@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-04-15 06:30:09 UTC

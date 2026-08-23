@@ -1,0 +1,12 @@
+name = "nleqslv-fortran"
+version = "0.1.1"
+license = "GPL-2.0-or-later"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+link = ["lapack", "blas"]
