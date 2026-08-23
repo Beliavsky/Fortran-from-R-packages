@@ -10,6 +10,9 @@ These projects are unofficial and are not endorsed by the original package
 authors, CRAN, or the R Foundation. They have not been validated by a human
 unless the documentation says otherwise.
 
+Browse the [project index](PROJECT_INDEX.md) to find packages by category or
+keyword.
+
 ## Packages and licenses
 
 | Package | What it does | Upstream version · License |
