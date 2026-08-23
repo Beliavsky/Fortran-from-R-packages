@@ -1,0 +1,16 @@
+name = "ecpdist-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Ana Abreu, Ivo Sousa-Ferreira; Fortran translation"
+maintainer = "Fortran translation"
+description = "Modern Fortran computational port of the R package ecpdist"
+keywords = ["statistics", "distribution", "survival", "extended-chen-poisson"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
