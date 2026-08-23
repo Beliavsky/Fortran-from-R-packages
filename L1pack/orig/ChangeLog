@@ -1,0 +1,69 @@
+0.62-4 (Feb 18, 2026)
+ * Estimation of the variance of the median of residuals required for the evaluation 
+   of the standard error of LAD coefficients using the method of McKean and Schrader 
+   (1987) was included.
+
+0.62 (Jan 14, 2026 - Today is my daughter's birthday)
+ * Minor corrections have been made to the 'LaplaceFit' and 'envelope.Laplace'
+   functions.
+
+0.60 (Jul 08, 2025)
+ * We have added a function for the computation of the L1 concordance correlation 
+   coefficient.
+
+0.52 (Mar 17, 2025)
+  * Function to display QQ-plot with simulated envelopes has been added.
+
+0.50 (Sep 07, 2024)
+  * Funtion for estimation of the generalized spatial median has been added.
+  * Deprecated declarations of Calloc and Free are not longer used in the package.
+
+0.41-245 (Apr 23, 2024)
+  * Function LaplaceFit for the estimation of mean and covariance in multivariate
+    analysis has been added.
+  * Wilson-Hilferty transformation for goodness of fit under the multivariate 
+    Laplace distribution.
+  * Underlying code of dmLaplace function is now moved to C and computation of 
+    log-density has been corrected.
+  * Estimated EM weights at convergence of the algorithm have been corrected.
+
+0.41-24 (May 19, 2023)
+  * Function rmLaplace was modified according to algorithm described by Gomez et 
+    al. (1998), doi: 10.1080/03610929808832115
+  * Function for the evaluation of the multivariate Laplace distribution density 
+    has been added.
+  * Minor modifications of dpqr-functions for the univariate Laplace distribution.
+
+0.41-2 (Oct 19, 2022)
+  * Several R and C functions were recoded/improved.
+
+0.41 (Aug 15, 2022)
+  * Documentation of functions 'confint' and 'vcov' for lad objects were included.
+
+0.40 (Apr 21, 2022)
+  * Deprecated legacy S constants were fixed.
+
+0.38.196 (Oct 15, 2020)
+  * C code to obtain certain matrix computations and decompositions is now provided
+    by 'fastmatrix' R package.
+  * Minor clean-ups in C and R.
+
+0.38.19 (Nov 14, 2017)
+  * Added confint and vcov methods for lad objects.
+  * Corrected error in computation of the standard error for the coefficients.
+
+0.38.1 (Aug 16, 2017)
+  * Added summary method for lad objects.
+  * Authors field at DESCRIPTION file was corrected.
+
+0.38 (Feb 20, 2017)
+  * Added routines to evaluate density, cumulative distribution, quantile functions
+    and generation of random deviates from the univariate Laplace distribution.
+  * Added S3 logLik, predict, plot and simulate methods for lad objects (contributed
+    by Tymoteusz Wolodzko).
+  * Internal code for computation of log-likelihood function was corrected.
+  * Changes to NAMESPACE file to compliance with guidelines described in
+    'Writing R Extensions' Section 1.5.
+
+0.3 (Apr 13, 2015)
+  * Initial release of the L1pack on CRAN.

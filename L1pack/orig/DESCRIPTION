@@ -1,0 +1,30 @@
+Package: L1pack
+Type: Package
+Title: Routines for L1 Estimation
+Version: 0.62-4
+Date: 2026-02-18
+Authors@R: c(person("Felipe", "Osorio", role = c("aut", "cre"),
+                    email = "faosorios.stat@gmail.com",
+                    comment = c(ORCID = "0000-0002-4675-5201")),
+             person("Tymoteusz", "Wolodzko", role = "aut"))
+Maintainer: Felipe Osorio <faosorios.stat@gmail.com>
+Description: L1 estimation for linear regression using Barrodale and Roberts' method
+    <doi:10.1145/355616.361024> and the EM algorithm <doi:10.1023/A:1020759012226>.
+    Estimation of mean and covariance matrix using the multivariate Laplace distribution,
+    density, distribution function, quantile function and random number generation
+    for univariate and multivariate Laplace distribution <doi:10.1080/03610929808832115>.
+    Implementation of Naik and Plungpongpun <doi:10.1007/0-8176-4487-3_7> for the 
+    Generalized spatial median estimator is included.
+Depends: R(>= 3.5.0), fastmatrix
+LinkingTo: fastmatrix
+Imports: stats, grDevices, graphics
+License: GPL-3
+URL: https://github.com/faosorios/L1pack
+NeedsCompilation: yes
+LazyLoad: yes
+Packaged: 2026-02-18 16:28:25 UTC; root
+Author: Felipe Osorio [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-4675-5201>),
+  Tymoteusz Wolodzko [aut]
+Repository: CRAN
+Date/Publication: 2026-02-18 17:00:02 UTC
