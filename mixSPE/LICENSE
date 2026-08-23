@@ -1,0 +1,6 @@
+This combined translation is distributed under GPL-2.0-only because it vendors
+code from the supplied mvtnorm-fortran translation, which is GPL-2.0-only.
+
+The original mixSPE package declares "License: GPL (>= 2)" and therefore permits
+distribution under GPL version 2. The complete GPL-2.0 license text for the
+vendored mvtnorm component is retained at vendor/mvtnorm/LICENSE.

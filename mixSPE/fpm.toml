@@ -1,0 +1,17 @@
+name = "mixspe-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "mixSPE authors; Fortran translation"
+description = "Modern Fortran translation of mixSPE"
+keywords = ["power-exponential", "skew-power-exponential", "mixture-model", "clustering"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
