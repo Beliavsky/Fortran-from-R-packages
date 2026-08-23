@@ -1,0 +1,8 @@
+name = "compare-fracdiff"
+version = "0.1.0"
+[dependencies]
+fracdiff = { path = "../../fracdiff" }
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false

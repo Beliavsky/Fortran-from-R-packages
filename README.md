@@ -13,6 +13,12 @@ unless the documentation says otherwise.
 Browse the [project index](PROJECT_INDEX.md) to find packages by category or
 keyword.
 
+The [R versus Fortran comparison suite](comparisons/) runs deterministic
+correctness checks and exploratory kernel timings against installed R packages.
+It currently covers probability distributions, fractional time-series methods,
+clustering, and the separate `mixtools` mixture-model comparison. These checks
+are evidence for selected operations, not validation of every translated API.
+
 ## Packages and licenses
 
 | Package | What it does | Upstream version · License |

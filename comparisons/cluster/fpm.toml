@@ -1,0 +1,8 @@
+name = "compare-cluster"
+version = "0.1.0"
+[dependencies]
+cluster-fortran = { path = "../../cluster" }
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false
