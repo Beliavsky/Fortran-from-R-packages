@@ -1,0 +1,22 @@
+Package: skewt
+Version: 1.0
+Date: 2021-12-10
+Title: The Skewed Student-t Distribution
+Authors@R: 
+  c(person(given="Robert",family="King",
+      role=c("aut","cre"),
+      email="Robert.King.newcastle@gmail.com",
+      comment=c(ORCID="0000-0001-7495-6599")),
+    person(given="Emily",family="Anderson",role="aut")
+    )
+Description: Density, distribution function, quantile function and
+        random generation for the skewed t distribution of Fernandez
+        and Steel.
+License: GPL
+NeedsCompilation: no
+Packaged: 2021-12-09 23:57:40 UTC; rober
+Author: Robert King [aut, cre] (<https://orcid.org/0000-0001-7495-6599>),
+  Emily Anderson [aut]
+Maintainer: Robert King <Robert.King.newcastle@gmail.com>
+Repository: CRAN
+Date/Publication: 2021-12-10 12:00:02 UTC

@@ -1,0 +1,15 @@
+name = "skewt-fortran"
+version = "0.1.0"
+license = "GPL"
+author = "Fortran translation of Robert King and Emily Anderson's skewt package"
+maintainer = ""
+copyright = "See NOTICE.md"
+description = "Modern Fortran implementation of the Fernandez-Steel skewed Student-t distribution"
+categories = ["statistics", "probability"]
+keywords = ["skew-t", "student-t", "distribution"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
