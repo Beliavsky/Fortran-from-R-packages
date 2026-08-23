@@ -1,0 +1,13 @@
+name = "rspectra-fortran"
+version = "0.1.0"
+license = "MPL-2.0"
+author = "Fortran port of RSpectra by Yixuan Qiu et al."
+maintainer = ""
+copyright = "See LICENSES.md"
+description = "Modern Fortran large-scale eigenvalue and SVD solvers with an RSpectra-like API"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+link = ["arpack", "lapack", "blas"]
