@@ -1,0 +1,14 @@
+name = "psdistr-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of Piotr Sulewski's PSDistr"
+maintainer = ""
+copyright = "See NOTICE.md"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
