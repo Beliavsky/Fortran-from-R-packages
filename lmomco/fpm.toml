@@ -1,0 +1,14 @@
+name = "lmomco"
+version = "0.1.0"
+license = "GPL"
+author = "Fortran translation of William H. Asquith's lmomco"
+maintainer = ""
+copyright = "See upstream package metadata"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
