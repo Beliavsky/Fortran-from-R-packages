@@ -1,0 +1,14 @@
+name = "rnanoflann"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Manos Papadakis, Jose Luis Blanco; Fortran port"
+maintainer = "Fortran port"
+description = "Modern Fortran computational port of Rnanoflann nearest-neighbor search"
+categories = ["numerical", "statistics"]
+keywords = ["nearest-neighbor", "knn", "distances", "nanoflann"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
