@@ -6,8 +6,8 @@ program compare_fracdiff
  call get_command_argument(1,out); if(len_trim(out)==0)out='fortran_results.csv'
  open(newunit=u,file=trim(out),status='replace'); write(u,'(a)')'case,value,seconds,abs_tol,rel_tol'
  do i=1,n; x(i)=sin(.017_dp*i)+.35_dp*cos(.0031_dp*i)+.0002_dp*i; end do
- call cpu_time(t0); do j=1,10; call diffseries(x,.25_dp,dx,st); v=wcheck(dx); end do; call cpu_time(t1); call emit('diffseries_d025',v,t1-t0,1e-5_dp)
- call cpu_time(t0); do j=1,10; call diffseries(x,.70_dp,dx,st); v=wcheck(dx); end do; call cpu_time(t1); call emit('diffseries_d070',v,t1-t0,1e-5_dp)
+ call cpu_time(t0); do j=1,100; call diffseries(x,.25_dp,dx,st); v=wcheck(dx); end do; call cpu_time(t1); call emit('diffseries_d025',v,t1-t0,1e-5_dp)
+ call cpu_time(t0); do j=1,100; call diffseries(x,.70_dp,dx,st); v=wcheck(dx); end do; call cpu_time(t1); call emit('diffseries_d070',v,t1-t0,1e-5_dp)
  call cpu_time(t0); do j=1,30; est=fd_gph(x); v=est%d; end do; call cpu_time(t1); call emit('gph_d',v,t1-t0,1e-7_dp)
  call cpu_time(t0); do j=1,30; est=fd_sperio(x); v=est%d; end do; call cpu_time(t1); call emit('sperio_d',v,t1-t0,1e-7_dp)
  close(u)

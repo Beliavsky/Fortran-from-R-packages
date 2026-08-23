@@ -134,7 +134,7 @@ contains
 
    pure function inverse_regularized_gamma_p(a, p) result(x)
       real(dp), intent(in) :: a, p
-      real(dp) :: x, lo, hi, mid
+      real(dp) :: x, lo, hi, candidate, value, density, step, slope, z, base
       integer :: i
 
       if (p <= 0.0_dp) then
@@ -145,20 +145,47 @@ contains
          return
       end if
 
+      ! Start from a lower-tail power approximation or the Wilson-Hilferty
+      ! approximation, then use safeguarded Halley steps.  The former fixed
+      ! 120-step bisection spent almost all qged time evaluating the gamma CDF.
+      if (p < 0.5_dp) then
+         x = (p*gamma(a+1.0_dp))**(1.0_dp/a)
+      else
+         z = normal_quantile(p)
+         base = 1.0_dp - 1.0_dp/(9.0_dp*a) + z/(3.0_dp*sqrt(a))
+         if (base > 0.0_dp) then
+            x = a*base**3
+         else
+            x = max(0.1_dp, a)
+         end if
+      end if
       lo = 0.0_dp
-      hi = max(1.0_dp, a)
+      hi = max(1.0_dp, a, 1.25_dp*x)
       do while (regularized_gamma_p(a,hi) < p .and. hi < 1.0e12_dp)
          hi = 2.0_dp*hi
       end do
-      do i = 1, 120
-         mid = 0.5_dp*(lo+hi)
-         if (regularized_gamma_p(a,mid) < p) then
-            lo = mid
+      x = max(tiny(1.0_dp), min(hi, x))
+      do i = 1, 20
+         value = regularized_gamma_p(a,x)
+         if (value < p) then
+            lo = x
          else
-            hi = mid
+            hi = x
          end if
+         if (abs(value-p) <= 8.0_dp*epsilon(p)*max(p,1.0_dp-p)) exit
+         density = exp((a-1.0_dp)*log(x)-x-log_gamma(a))
+         if (density > tiny(1.0_dp)) then
+            step = (value-p)/density
+            slope = (a-1.0_dp)/x-1.0_dp
+            step = step/(1.0_dp-0.5_dp*step*slope)
+            candidate = x-step
+         else
+            candidate = 0.5_dp*(lo+hi)
+         end if
+         if (.not. (candidate > lo .and. candidate < hi)) candidate=0.5_dp*(lo+hi)
+         x = candidate
       end do
-      x = 0.5_dp*(lo+hi)
+      x = max(0.0_dp,x)
    end function inverse_regularized_gamma_p
 
    pure function beta_cont_frac(a, b, x) result(value)
@@ -257,7 +284,7 @@ contains
 
    pure elemental function student_t_quantile(p, nu) result(x)
       real(dp), intent(in) :: p, nu
-      real(dp) :: x, lo, hi, mid
+      real(dp) :: x, lo, hi, candidate, value, density, step, z, z2
       integer :: i
 
       if (p <= 0.0_dp) then
@@ -271,23 +298,46 @@ contains
          return
       end if
 
-      lo = -1.0_dp
-      hi = 1.0_dp
+      if (nu <= 0.0_dp) then
+         x = huge(1.0_dp)
+         return
+      end if
+
+      ! A Cornish-Fisher expansion gives a close initial value for ordinary
+      ! degrees of freedom.  Safeguarded Newton steps then retain the robust
+      ! bracketing of the old 100-evaluation bisection.
+      z = normal_quantile(p)
+      z2 = z*z
+      x = z + z*(z2+1.0_dp)/(4.0_dp*nu) + &
+          z*(5.0_dp*z2*z2+16.0_dp*z2+3.0_dp)/(96.0_dp*nu*nu) + &
+          z*(3.0_dp*z2**3+19.0_dp*z2*z2+17.0_dp*z2-15.0_dp)/(384.0_dp*nu**3)
+      lo = min(-1.0_dp,1.25_dp*x)
+      hi = max( 1.0_dp,1.25_dp*x)
       do while (student_t_cdf(lo,nu) > p)
-         lo = 2.0_dp*lo
+         lo=2.0_dp*lo
       end do
       do while (student_t_cdf(hi,nu) < p)
-         hi = 2.0_dp*hi
+         hi=2.0_dp*hi
       end do
-      do i = 1, 100
-         mid = 0.5_dp*(lo+hi)
-         if (student_t_cdf(mid,nu) < p) then
-            lo = mid
+      x=max(lo,min(hi,x))
+      do i = 1, 16
+         value=student_t_cdf(x,nu)
+         if (value < p) then
+            lo=x
          else
-            hi = mid
+            hi=x
          end if
+         if (abs(value-p) <= 8.0_dp*epsilon(p)*max(p,1.0_dp-p)) exit
+         density=student_t_pdf(x,nu)
+         if (density > tiny(1.0_dp)) then
+            step=(value-p)/density
+            candidate=x-step
+         else
+            candidate=0.5_dp*(lo+hi)
+         end if
+         if (.not. (candidate > lo .and. candidate < hi)) candidate=0.5_dp*(lo+hi)
+         x=candidate
       end do
-      x = 0.5_dp*(lo+hi)
    end function student_t_quantile
 
 end module rugarch_math

@@ -17,7 +17,7 @@ program compare_rugarch
   call cpu_time(t1); call emit(trim(names(k))//'_density',value,t1-t0)
   call cpu_time(t0); do j=1,reps; do i=1,n; y(i)=distribution_cdf(x(i),kinds(k),shapes(k),skews(k)); end do; value=wcheck(y); end do
   call cpu_time(t1); call emit(trim(names(k))//'_cdf',value,t1-t0)
-  reps=50; if(k==1 .or. k==4)reps=2000
+  reps=500; if(k==1 .or. k==4)reps=2000
   call cpu_time(t0); do j=1,reps; do i=1,n; y(i)=distribution_quantile(p(i),kinds(k),shapes(k),skews(k)); end do; value=wcheck(y); end do
   call cpu_time(t1); call emit(trim(names(k))//'_quantile',value,t1-t0)
  end do

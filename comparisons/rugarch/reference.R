@@ -12,7 +12,7 @@ for(nm in names(specs)) {
       density=function() ddist(nm,x,shape=shape,skew=skew),
       cdf=function() pdist(nm,x,shape=shape,skew=skew),
       quantile=function() qdist(nm,p,shape=shape,skew=skew))
-    reps <- if(op == "quantile" && nm %in% c("norm","snorm")) 2000 else if(op == "quantile") 50 else 1000
+    reps <- if(op == "quantile" && nm %in% c("norm","snorm")) 2000 else if(op == "quantile") 500 else 1000
     tm <- system.time(for(i in seq_len(reps)) value <- wcheck(fun()))[["elapsed"]]
     rows[[length(rows)+1]] <- data.frame(case=paste(nm,op,sep="_"),value=value,
       seconds=tm,abs_tol=5e-5,rel_tol=2e-7)

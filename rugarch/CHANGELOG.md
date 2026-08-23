@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Replaced fixed 100- and 120-step bisections in Student-t and generalized
+  error distribution quantiles with bracketed, safeguarded Newton/Halley
+  iterations. The R comparison suite retains agreement through the tested
+  tails while removing the major quantile performance regressions.
+- Added inverse-CDF round-trip coverage over probabilities from `1e-10` to
+  `1-1e-10` and multiple Student-t and GED shape parameters.
+
 ## 0.4.0-experimental - 2026-07-22
 
 - Added mean external regressors, two-step ARCH-in-mean, variance regressors,
