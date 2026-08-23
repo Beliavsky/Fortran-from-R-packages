@@ -77,6 +77,14 @@ data and report files are ignored by Git. Both R scripts require the CRAN
 reading the observations, fitting the mixture, and total startup-through-fit
 time.
 
+In a reproducible run on 2026-08-23, the R and Fortran fits had log-likelihoods
+of `-1982.23050557` and `-1982.230505951`, respectively, with fitted parameters
+agreeing to about `5e-5` or better. The measured EM fit times were `2.695228`
+seconds for R and `0.024856` seconds for Fortran, approximately a `108x`
+speedup in this single run. This is an encouraging cross-validation result,
+not a general benchmark. See [TESTING.md](TESTING.md) for the environment,
+full timing breakdown, and limitations.
+
 ## Minimal example
 
 ```fortran
