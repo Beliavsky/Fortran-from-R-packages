@@ -1,0 +1,14 @@
+name = "kernsmooth-fortran"
+version = "0.1.0"
+license = "Unlimited"
+author = "Matt Wand; Brian Ripley; Fortran port"
+maintainer = ""
+description = "Modern Fortran port of R KernSmooth numerical routines"
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_kernsmooth"
+source-dir = "test"
+main = "test_kernsmooth.f90"
