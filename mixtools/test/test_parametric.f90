@@ -31,6 +31,7 @@ program test_parametric
   call mvnormalmixEM(mvx,2,mvfit,ctl)
   call check(mvfit%status==0.or.mvfit%status==MIXTOOLS_NOT_CONVERGED,"MV normal mixture")
   call check(size(mvfit%sigma,3)==2,"MV covariance count")
+  call check(mvfit%iterations>1,"MV normal EM performs multiple iterations")
 
   ycat=reshape([8.0_dp,1.0_dp,1.0_dp,7.0_dp,2.0_dp,1.0_dp,9.0_dp,1.0_dp,0.0_dp, &
     6.0_dp,3.0_dp,1.0_dp,1.0_dp,2.0_dp,7.0_dp,0.0_dp,1.0_dp,9.0_dp,2.0_dp,1.0_dp,7.0_dp,1.0_dp,1.0_dp,8.0_dp],[8,3])

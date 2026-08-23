@@ -36,6 +36,47 @@ fpm run
 
 The manifest uses a plain semantic version (`2.0.0`) accepted by FPM.
 
+## R and Fortran multivariate-mixture comparison
+
+From the `mixtools` directory, generate a reproducible mixture of two
+bivariate normal distributions, fit it with the R package, and fit the same
+observations with the Fortran translation:
+
+```text
+Rscript example\generate_mvnormal_mixture.R
+Rscript example\fit_mvnormal_mixture.R
+fpm run --example fit_mvnormal_mixture
+```
+
+On Windows, the same workflow can be run with:
+
+```text
+run_mvnormal_comparison.bat
+```
+
+On Linux, macOS, WSL, or Git Bash, use:
+
+```text
+bash run_mvnormal_comparison.sh
+```
+
+From Windows `cmd` with Git Bash installed, use:
+
+```text
+bash mixtools/run_mvnormal_comparison.sh
+```
+
+Both runners create the observation file only if it does not already exist.
+Their `fpm run` command compiles or rebuilds the Fortran program when needed.
+
+The generator writes `example/mvnormal_mixture_data.txt`. The fitting programs
+write `example/mvnormal_mixture_fit_r.txt` and
+`example/mvnormal_mixture_fit_fortran.txt`, respectively. These reproducible
+data and report files are ignored by Git. Both R scripts require the CRAN
+`mixtools` package. Each fit report includes elapsed wall-clock seconds for
+reading the observations, fitting the mixture, and total startup-through-fit
+time.
+
 ## Minimal example
 
 ```fortran

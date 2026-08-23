@@ -241,12 +241,17 @@ contains
   contains
     subroutine estep(outll)
       real(dp),intent(out),optional::outll
-      ll=0.0_dp;status=MIXTOOLS_SUCCESS
+      real(dp)::evaluated_ll
+      evaluated_ll=0.0_dp;status=MIXTOOLS_SUCCESS
       do i=1,n
         do j=1,k;lw(j)=log(max(lambda(j),tiny(1.0_dp)))+logdmvnorm(x(i,:),mu(:,j),sigma(:,:,j),status);if(status/=0)return;end do
-        call normalize_logweights(lw,post(i,:),ln);ll=ll+ln
+        call normalize_logweights(lw,post(i,:),ln);evaluated_ll=evaluated_ll+ln
       end do
-      if(present(outll))outll=ll
+      if(present(outll))then
+        outll=evaluated_ll
+      else
+        ll=evaluated_ll
+      end if
     end subroutine estep
   end subroutine mvnormalmix_em
 
