@@ -1,0 +1,15 @@
+name = "cbinom-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Dan Dalthorp; Fortran translation"
+maintainer = ""
+description = "Modern Fortran implementation of the continuous binomial distribution"
+categories = ["statistics", "probability"]
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_cbinom"
+source-dir = "test"
+main = "test_cbinom.f90"
