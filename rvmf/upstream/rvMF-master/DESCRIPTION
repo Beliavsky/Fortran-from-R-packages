@@ -1,0 +1,27 @@
+Package: rvMF
+Title: Fast Generation of von Mises-Fisher Distributed Pseudo-Random
+        Vectors
+Version: 0.1.2
+Authors@R: c(
+  person("Seungwoo", "Kang", email = "kangsw@skku.edu", role = c("aut", "cre"), comment=c(ORCID="0000-0001-8082-0794")),
+  person("Hee-Seok", "Oh", email = "heeseok@stats.snu.ac.kr", role = c("aut")))
+Description: Generates pseudo-random vectors that follow an arbitrary von Mises-Fisher distribution on a sphere. This method is fast and efficient when generating a large number of pseudo-random vectors. Functions to generate random variates and compute density for the distribution of an inner product between von Mises-Fisher random vector and its mean direction are also provided. Details are in Kang and Oh (2024) <doi:10.1007/s11222-024-10419-3>.
+URL: https://github.com/seungwoo-stat/rvMF
+BugReports: https://github.com/seungwoo-stat/rvMF/issues
+License: GPL (>= 3)
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+LinkingTo: Rcpp
+Imports: Bessel (>= 0.6-0), Rcpp (>= 1.0.10), Rfast (>= 2.0.6),
+SystemRequirements: gmp (>= 4.2.3), mpfr (>= 3.0.0)
+SystemRequirementsNote: 'MPFR' (MP Floating-Point Reliable Library,
+        https://www.mpfr.org/) and 'GMP' (GNU Multiple Precision
+        library, https://gmplib.org/)
+NeedsCompilation: yes
+Packaged: 2026-04-09 01:49:47 UTC; SeungwooKang
+Author: Seungwoo Kang [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-8082-0794>),
+  Hee-Seok Oh [aut]
+Maintainer: Seungwoo Kang <kangsw@skku.edu>
+Repository: CRAN
+Date/Publication: 2026-04-10 08:20:10 UTC

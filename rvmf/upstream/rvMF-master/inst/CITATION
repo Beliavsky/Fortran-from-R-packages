@@ -1,0 +1,14 @@
+bibentry("Manual",
+         other = unlist(citation(auto = meta), recursive = FALSE))
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Novel sampling method for the von {M}ises--{F}isher distribution",
+  author   = "Seungwoo Kang and Hee-Seok Oh",
+  journal  = "Statistics and Computing",
+  year     = 2024,
+  volume   = 34,
+  number   = 3,
+  pages    = 106,
+  doi      = "10.1007/s11222-024-10419-3"
+)
