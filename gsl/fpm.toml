@@ -1,0 +1,15 @@
+name = "gsl-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Fortran translation of Robin K. S. Hankin's R gsl package"
+maintainer = ""
+copyright = "See LICENSES.md"
+description = "Modern Fortran interface corresponding to the CRAN gsl wrapper for GNU GSL"
+categories = ["numerical", "special-functions"]
+keywords = ["gsl", "special-functions", "rng", "quasi-random"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+link = ["gsl", "gslcblas", "m"]
