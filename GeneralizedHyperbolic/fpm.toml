@@ -1,0 +1,11 @@
+name = "generalized_hyperbolic"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of David Scott's GeneralizedHyperbolic R package"
+maintainer = ""
+description = "Modern Fortran implementation of generalized hyperbolic and related distributions"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
