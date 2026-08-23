@@ -1,0 +1,16 @@
+name = "directional-fortran"
+version = "0.5.0"
+license = "GPL-2.0-or-later"
+author = "Fortran port of the Directional R package"
+maintainer = ""
+description = "Modern Fortran numerical core of CRAN Directional"
+copyright = "Upstream authors and contributors"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = true
+module-naming = false

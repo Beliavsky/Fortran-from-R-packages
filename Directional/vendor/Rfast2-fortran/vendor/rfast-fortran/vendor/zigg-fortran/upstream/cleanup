@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rm -f src/*.o src/*.so src/*.dll *~ */*~ inst/examplePackages/*/src/*.o inst/examplePackages/*/src/*.so

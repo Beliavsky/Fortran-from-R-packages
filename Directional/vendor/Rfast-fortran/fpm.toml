@@ -1,0 +1,17 @@
+name = "rfast-fortran"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Rfast authors; Fortran translation by OpenAI"
+maintainer = ""
+description = "Expanded modern Fortran computational-core translation of the Rfast R package"
+categories = ["statistics", "numerical", "linear-algebra"]
+keywords = ["statistics", "regression", "matrix", "mle", "distance"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+zigg-fortran = { path = "vendor/zigg-fortran" }
