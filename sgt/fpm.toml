@@ -1,0 +1,18 @@
+name = "sgt-fortran"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Fortran translation of Carter Davis's sgt package"
+maintainer = ""
+copyright = "Upstream sgt copyright retained"
+description = "Modern Fortran implementation of the skewed generalized t distribution"
+categories = ["statistics", "probability"]
+keywords = ["skewed generalized t", "sgt", "distribution", "mle"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
