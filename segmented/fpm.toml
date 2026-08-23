@@ -5,6 +5,7 @@ author = "Vito M. R. Muggeo and contributors; modern Fortran computational port"
 maintainer = "Vivek Rao"
 description = "Modern Fortran implementation of segmented and stepmented regression models"
 keywords = ["segmented-regression", "changepoint", "mixed-effects", "breakpoint"]
+categories = ["time-series", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

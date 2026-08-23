@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of lsei by Yong Wang, Lawson and Hanson"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package lsei"
+categories = ["optimization", "numerical"]
+keywords = ["constrained-optimization", "least-squares", "optimization", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = false

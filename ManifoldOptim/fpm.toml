@@ -3,6 +3,8 @@ version = "0.2.0"
 license = "GPL-2.0-or-later"
 author = "Fortran translation of ManifoldOptim / ROPTLIB computational interface"
 copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
+categories = ["optimization"]
+keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]
 auto-executables = false

@@ -5,6 +5,7 @@ author = "Alessandro Barbiero; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R DiscreteWeibull package"
 keywords = ["discrete-weibull", "probability", "maximum-likelihood", "moments"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

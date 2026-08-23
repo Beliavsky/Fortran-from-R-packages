@@ -4,6 +4,8 @@ license = "MIT"
 author = "William Nickols; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran implementation of conditional hypergeometric distributions"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "hypergeometric-distribution", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

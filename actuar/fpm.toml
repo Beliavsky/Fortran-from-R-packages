@@ -5,6 +5,7 @@ author = "Vincent Goulet et al.; Fortran translation by OpenAI"
 maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the R package actuar"
 keywords = ["actuarial-science", "loss-distributions", "risk-theory", "credibility", "panjer"]
+categories = ["actuarial", "probability", "statistics"]
 
 [library]
 source-dir = "src"

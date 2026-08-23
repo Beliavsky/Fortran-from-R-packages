@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Fortran translation of BenfordTests by Dieter William Joenssen and contributors"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package BenfordTests"
+categories = ["statistics", "numerical"]
+keywords = ["statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Thilo Klein et al.; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of matchingMarkets computational algorithms"
+categories = ["finance", "optimization", "numerical"]
+keywords = ["combinatorial-optimization", "finance", "optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

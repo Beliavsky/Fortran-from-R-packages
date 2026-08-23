@@ -5,6 +5,7 @@ author = "Avraham Adler; standalone Fortran adaptation by OpenAI"
 copyright = "Copyright (c) 2013 Avraham Adler"
 description = "Modern Fortran implementation of the Delaporte distribution"
 keywords = ["statistics", "probability", "delaporte", "distribution"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = false

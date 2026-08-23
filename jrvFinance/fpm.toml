@@ -5,6 +5,7 @@ author = "Jayanth R. Varma; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the computational core of jrvFinance"
 keywords = ["npv", "irr", "annuity", "bond", "black-scholes"]
+categories = ["actuarial", "finance", "numerical"]
 
 [library]
 source-dir = "src"

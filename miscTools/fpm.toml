@@ -5,6 +5,7 @@ author = "Arne Henningsen and Ott Toomet; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R miscTools"
 keywords = ["matrix", "statistics", "semidefinite", "utilities"]
+categories = ["optimization", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

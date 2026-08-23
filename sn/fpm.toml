@@ -6,6 +6,7 @@ maintainer = "Modern Fortran port contributors"
 copyright = "Copyright (C) upstream and port contributors"
 description = "Modern Fortran implementation of skew-normal, skew-t, skew-Cauchy, multivariate and SUN distributions"
 keywords = ["statistics", "skew-normal", "skew-t", "SUN", "maximum-likelihood"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = true

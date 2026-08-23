@@ -5,6 +5,7 @@ author = "Ze Vinicius and Daniel P. Palomar; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in spectralGraphTopology"
 keywords = ["graphs", "laplacian", "spectral", "optimization", "clustering"]
+categories = ["optimization", "time-series", "machine-learning"]
 
 [library]
 source-dir = "src"

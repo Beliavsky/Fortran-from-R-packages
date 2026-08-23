@@ -5,6 +5,7 @@ author = "PIQP authors; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the PIQP proximal interior-point quadratic programming solver"
 keywords = ["quadratic-programming", "interior-point", "proximal", "optimization", "sparse"]
+categories = ["optimization", "numerical"]
 
 [build]
 auto-executables = false

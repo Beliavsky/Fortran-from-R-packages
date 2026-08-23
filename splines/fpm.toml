@@ -5,6 +5,8 @@ author = "Fortran translation of Douglas M. Bates and William N. Venables' splin
 maintainer = ""
 copyright = "1998 Douglas M. Bates and William N. Venables; Fortran translation 2026"
 description = "Modern Fortran translation of the computational routines in the R splines package"
+categories = ["numerical"]
+keywords = ["smoothing", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

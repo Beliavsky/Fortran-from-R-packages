@@ -4,6 +4,8 @@ license = "GPL-3.0-or-later"
 author = "Fortran translation of joker"
 maintainer = ""
 copyright = ""
+categories = ["probability", "statistics"]
+keywords = ["estimation", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

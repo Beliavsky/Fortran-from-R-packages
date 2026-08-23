@@ -4,6 +4,8 @@ license = "GPL-2.0-only OR GPL-3.0-only"
 author = "Fortran translation of COMPoissonReg contributors"
 maintainer = ""
 copyright = "See NOTICE.md and upstream/DESCRIPTION"
+categories = ["statistics", "numerical"]
+keywords = ["regression", "estimation", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

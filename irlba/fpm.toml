@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Upstream copyrights retained"
 description = "Modern Fortran translation of the computational code in the R package irlba"
 categories = ["linear-algebra", "svd", "pca"]
+keywords = ["dimension-reduction", "singular-value-decomposition", "linear-algebra", "svd", "pca", "numerical-methods"]
 
 [build]
 auto-executables = false

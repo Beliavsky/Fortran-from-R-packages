@@ -5,6 +5,7 @@ author = "Horst Lewitschnig and David Lenzi; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R GenBinomApps package"
 keywords = ["poisson-binomial", "generalized-binomial", "clopper-pearson", "confidence-interval"]
+categories = ["probability", "numerical", "statistics"]
 
 [library]
 source-dir = "src"

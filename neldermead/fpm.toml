@@ -5,6 +5,8 @@ author = "Fortran translation of neldermead by Sebastien Bihorel and Michael Bau
 maintainer = ""
 copyright = "Upstream copyrights preserved; see LICENSE and original/"
 description = "Modern Fortran translation of the computational algorithms in the R package neldermead"
+categories = ["optimization", "numerical"]
+keywords = ["derivative-free-optimization", "numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

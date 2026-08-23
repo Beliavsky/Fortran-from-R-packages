@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "2020-2025 PINstimation authors and contributors"
 description = "Modern Fortran computational translation of the PINstimation R package"
 keywords = ["market-microstructure", "PIN", "MPIN", "AdjPIN", "VPIN", "Fortran"]
+categories = ["finance", "probability", "statistics"]
 
 [build]
 auto-executables = true

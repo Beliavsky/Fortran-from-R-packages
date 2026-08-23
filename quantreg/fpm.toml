@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of quantreg contributors"
 maintainer = ""
 copyright = "See UPSTREAM_PROVENANCE.md"
+categories = ["probability", "statistics", "numerical"]
+keywords = ["regression", "estimation", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

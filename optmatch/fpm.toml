@@ -4,6 +4,8 @@ license = "MIT"
 author = "optmatch authors; Fortran translation"
 maintainer = ""
 copyright = "Copyright (c) 2022 optmatch authors"
+categories = ["optimization"]
+keywords = ["combinatorial-optimization", "optimization", "numerical-methods"]
 
 [build]
 auto-executables = false

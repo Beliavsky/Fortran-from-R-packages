@@ -5,6 +5,7 @@ author = "Alessandro Barbiero, Riccardo Inchingolo; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R DiscreteLaplace"
 keywords = ["discrete-laplace", "skew-distribution", "maximum-likelihood"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

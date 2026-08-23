@@ -5,6 +5,8 @@ author = "Fortran translation of the flexsurv computational layer"
 maintainer = ""
 copyright = "See upstream and vendor license files"
 description = "Modern Fortran/FPM computational translation of R package flexsurv"
+categories = ["statistics", "numerical"]
+keywords = ["survival-analysis", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = false

@@ -4,6 +4,8 @@ license = "GPL-3.0-only AND LicenseRef-DSDP AND Apache-2.0"
 author = "Rdsdp/DSDP authors; modern Fortran translation by OpenAI"
 maintainer = ""
 copyright = "See LICENSE and licenses/"
+categories = ["optimization"]
+keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]
 auto-executables = true

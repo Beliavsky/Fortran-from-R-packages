@@ -5,6 +5,7 @@ author = "Ramazan Akman, Coskun Kus, Ihab Abusaif; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational code in R package new.dist"
 keywords = ["probability", "distributions", "random-generation"]
+categories = ["probability", "numerical", "statistics"]
 
 [library]
 source-dir = "src"

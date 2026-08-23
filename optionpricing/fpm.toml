@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright Wolfgang Hormann; original authors Wolfgang Hormann and Kemal Dingec"
 description = "Modern Fortran translation of numerical routines from the R OptionPricing package"
 keywords = ["options", "asian options", "monte carlo", "quasi monte carlo", "greeks"]
+categories = ["finance", "simulation", "numerical"]
 
 [build]
 auto-executables = true

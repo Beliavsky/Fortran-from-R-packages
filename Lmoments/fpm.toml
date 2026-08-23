@@ -4,6 +4,8 @@ license = "GPL-2.0-only"
 author = "Juha Karvanen, Santeri Karppinen; Fortran port"
 maintainer = "Fortran port"
 copyright = "Original Lmoments package authors and contributors"
+categories = ["probability", "statistics"]
+keywords = ["estimation", "l-moments", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

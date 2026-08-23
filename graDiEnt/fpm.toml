@@ -5,6 +5,8 @@ author = "Brendan Matthew Galdo; Fortran translation by OpenAI"
 maintainer = ""
 copyright = "Copyright (c) 2022 Brendan Galdo"
 description = "Modern Fortran translation of the computational code in the R package graDiEnt"
+categories = ["optimization", "probability", "numerical"]
+keywords = ["gradient-methods", "numerical-differentiation", "optimization", "probability", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -5,6 +5,7 @@ author = "Daniel P. Palomar, Rui Zhou, Xiwen Wang, Frederic Pascal, and Esa Olli
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package fitHeavyTail"
 keywords = ["statistics", "heavy-tails", "student-t", "covariance", "robust-estimation"]
+categories = ["statistics", "numerical"]
 
 [library]
 source-dir = "src"

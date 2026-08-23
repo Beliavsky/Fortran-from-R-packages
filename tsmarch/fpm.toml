@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Copyright upstream authors and translation contributors"
 description = "Modern Fortran translation of the computational core of tsmarch"
 keywords = ["garch", "dcc", "copula", "gogarch", "ica", "finance"]
+categories = ["finance", "time-series", "probability"]
 
 [build]
 auto-executables = false

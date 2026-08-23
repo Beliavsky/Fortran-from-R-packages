@@ -5,6 +5,8 @@ author = "Original evir authors; Fortran translation by OpenAI"
 maintainer = "Vivek Rao"
 copyright = "Copyright original evir authors"
 description = "Modern Fortran translation of the computational algorithms in the R package evir"
+categories = ["finance", "numerical"]
+keywords = ["extreme-value", "finance", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

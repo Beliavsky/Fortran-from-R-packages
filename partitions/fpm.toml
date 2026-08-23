@@ -5,6 +5,8 @@ author = "Robin K. S. Hankin; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Upstream authors; see upstream/DESCRIPTION"
 description = "Modern Fortran translation of the computational code in the R package partitions"
+categories = ["numerical"]
+keywords = ["combinatorics", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

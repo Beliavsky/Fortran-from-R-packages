@@ -5,6 +5,7 @@ author = "Original nlme authors; modern Fortran computational port"
 maintainer = "Vivek Rao"
 description = "Modern Fortran implementation of the computational core of R nlme"
 keywords = ["mixed-effects", "gls", "lme", "nonlinear", "correlation"]
+categories = ["statistics", "numerical"]
 
 [library]
 source-dir = "src"

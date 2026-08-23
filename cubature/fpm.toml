@@ -4,6 +4,8 @@ license = "GPL-3.0-or-later"
 author = "Fortran translation of cubature 2.1.4-1 computational code"
 maintainer = ""
 copyright = "See UPSTREAM.md and LICENSE"
+categories = ["statistics", "numerical"]
+keywords = ["multivariate-statistics", "numerical-integration", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

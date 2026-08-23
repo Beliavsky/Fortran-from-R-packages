@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Original contfrac copyright holders"
 description = "Modern Fortran translation of the computational core of the R package contfrac"
 keywords = ["continued-fractions", "numerical-analysis", "complex-arithmetic"]
+categories = ["numerical"]
 
 [build]
 auto-executables = true

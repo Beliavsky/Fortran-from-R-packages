@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (c) 2026 Chris Hanretty"
 description = "Modern Fortran implementation of the Ewens sampling distribution"
 keywords = ["ewens", "chinese-restaurant-process", "pitman-yor", "gem", "statistics"]
+categories = ["simulation", "probability", "statistics"]
 
 [build]
 auto-executables = false

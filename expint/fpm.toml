@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 copyright = "Copyright (C) 2016-2026 Vincent Goulet; GSL-derived code copyright respective authors"
 description = "Modern Fortran translation of the computational core of the R package expint"
 keywords = ["exponential-integral", "incomplete-gamma", "special-functions"]
+categories = ["numerical"]
 
 [library]
 source-dir = "src"

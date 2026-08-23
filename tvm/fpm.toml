@@ -6,6 +6,7 @@ maintainer = "Modern Fortran translation contributors"
 copyright = "Copyright (c) 2014 Juan Manuel Truppia"
 description = "Modern Fortran translation of the numerical routines in the R tvm package"
 keywords = ["finance", "time-value-of-money", "cashflow", "interest-rate", "yield-curve"]
+categories = ["finance", "numerical"]
 
 [build]
 auto-executables = true

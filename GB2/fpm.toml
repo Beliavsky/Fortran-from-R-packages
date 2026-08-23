@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Monique Graf, Desislava Nedyalkova; Fortran translation"
 description = "Modern Fortran translation of the computational core of R GB2"
 keywords = ["GB2", "generalized-beta", "inequality", "poverty", "mixture", "survey"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = false

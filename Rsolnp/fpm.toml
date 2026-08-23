@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Rsolnp authors and contributors"
 description = "Augmented-Lagrangian nonlinear optimization with equality, inequality, and box constraints"
 keywords = ["optimization", "nonlinear-programming", "augmented-lagrangian", "SQP", "multistart"]
+categories = ["optimization"]
 
 [build]
 auto-executables = true

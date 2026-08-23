@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "2015 Seongho Kim"
 description = "Partial and semi-partial correlations in modern Fortran"
 keywords = ["statistics", "correlation", "partial-correlation", "spearman", "kendall"]
+categories = ["statistics", "numerical"]
 
 [build]
 auto-executables = true

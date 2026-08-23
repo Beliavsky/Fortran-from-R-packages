@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Ricardo Puziol de Oliveira, Jorge Alberto Achcar; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational code in the R package BivGeo"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

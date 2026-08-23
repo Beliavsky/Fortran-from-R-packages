@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation of the fExtremes computational routines"
 maintainer = "Generated translation"
 description = "Extreme-value distributions, fitting, risk, diagnostics, and extremal-index tools"
+categories = ["finance", "probability", "statistics"]
+keywords = ["estimation", "probability-distributions", "extreme-value", "finance", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

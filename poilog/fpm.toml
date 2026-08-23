@@ -5,6 +5,8 @@ author = "Vidar Grotan, Steinar Engen; Fortran translation by OpenAI"
 maintainer = "Vivek Rao"
 copyright = "Copyright (c) original poilog authors and contributors"
 description = "Modern Fortran port of the computational core of the R package poilog"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "count-data", "normal-distribution", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = false

@@ -5,6 +5,8 @@ author = "Fortran translation of the gamlss.dist package"
 maintainer = ""
 copyright = "gamlss.dist authors; Fortran translation 2026"
 description = "Modern Fortran computational translation of the R gamlss.dist package"
+categories = ["probability", "statistics", "numerical"]
+keywords = ["probability-distributions", "probability", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = false

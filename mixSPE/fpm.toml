@@ -4,6 +4,7 @@ license = "GPL-2.0-only"
 author = "mixSPE authors; Fortran translation"
 description = "Modern Fortran translation of mixSPE"
 keywords = ["power-exponential", "skew-power-exponential", "mixture-model", "clustering"]
+categories = ["machine-learning", "probability", "statistics"]
 
 [build]
 auto-executables = true

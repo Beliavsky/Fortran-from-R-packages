@@ -6,6 +6,7 @@ maintainer = "Fortran community"
 copyright = "Copyright (c) 2024 Emanuele Guidotti"
 description = "Modern Fortran implementation of OHLC bid-ask spread estimators"
 keywords = ["finance", "bid-ask", "spread", "ohlc", "microstructure"]
+categories = ["finance", "statistics", "numerical"]
 
 [build]
 auto-executables = true

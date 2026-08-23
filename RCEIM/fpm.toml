@@ -3,6 +3,8 @@ version = "0.1.0"
 license = "GPL-2.0-or-later"
 author = "Fortran translation of RCEIM by Alberto Krone-Martins"
 description = "Modern Fortran translation of the computational code in RCEIM"
+categories = ["optimization", "numerical"]
+keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

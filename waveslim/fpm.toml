@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "1997-2013 Brandon Whitcher"
 description = "Modern Fortran computational port of the R waveslim package"
 keywords = ["wavelets", "dwt", "modwt", "dwpt", "signal-processing", "time-series"]
+categories = ["time-series", "numerical"]
 
 [build]
 auto-executables = true

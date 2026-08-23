@@ -4,6 +4,8 @@ license = "GPL-2.0"
 author = "Modern Fortran translation of the R isotone package"
 maintainer = "OpenAI"
 description = "Generalized PAVA, active-set isotone optimization, and inequality-restricted regression"
+categories = ["optimization", "statistics"]
+keywords = ["regression", "optimization", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

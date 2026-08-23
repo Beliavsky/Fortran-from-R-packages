@@ -5,6 +5,7 @@ author = "Ze Vinicius and Daniel P. Palomar; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in fingraph"
 keywords = ["graphs", "finance", "student-t", "heavy-tails", "admm", "laplacian"]
+categories = ["finance", "numerical"]
 
 [library]
 source-dir = "src"

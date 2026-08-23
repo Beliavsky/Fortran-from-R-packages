@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (C) 2012 copula authors"
 description = "Dependency-free modern Fortran numerical core for common copula models"
 keywords = ["copula", "dependence", "statistics", "simulation", "fortran"]
+categories = ["simulation", "probability", "statistics"]
 
 [build]
 auto-executables = true

@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2014 Matthew R. Barry"
 description = "Modern Fortran implementation of probability of backtest overfitting"
 keywords = ["backtest", "overfitting", "cscv", "finance", "statistics"]
+categories = ["finance", "probability", "statistics"]
 
 [build]
 auto-executables = true

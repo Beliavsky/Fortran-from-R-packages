@@ -4,6 +4,9 @@ license = "GPL-2.0-or-later"
 author = "fBasics authors and modern Fortran translation contributors"
 maintainer = "OpenAI"
 description = "Modern Fortran numerical translation of the computational core of fBasics"
+categories = ["finance", "probability", "statistics"]
+keywords = ["probability-distributions", "finance", "probability", "statistics", "statistical-computing"]
+
 [build]
 auto-executables = true
 auto-tests = true

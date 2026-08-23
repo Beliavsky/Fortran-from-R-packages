@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "David Scott, Fiona Grimson; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational core of the R package SkewHyperbolic"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "heavy-tails", "skew-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

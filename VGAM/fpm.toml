@@ -5,6 +5,8 @@ author = "Fortran translation of Thomas W. Yee's VGAM package"
 maintainer = ""
 copyright = "1998-2025 T. W. Yee; Fortran translation 2026"
 description = "Modern Fortran computational translation of the R VGAM package"
+categories = ["statistics", "numerical"]
+keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = false

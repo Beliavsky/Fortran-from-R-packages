@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Jan Beran, Martin Maechler, Brandon Whitcher; Fortran translation"
 maintainer = "Fortran translation project"
 copyright = "Original longmemo authors and contributors"
+categories = ["time-series", "statistics"]
+keywords = ["long-memory", "time-series", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

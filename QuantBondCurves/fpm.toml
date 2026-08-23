@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "QuantBondCurves authors and contributors"
 description = "Bond valuation, swap valuation, spot/forward curves, and constrained curve calibration"
 keywords = ["fixed-income", "bonds", "yield-curves", "swaps", "calibration"]
+categories = ["finance"]
 
 [build]
 auto-executables = true

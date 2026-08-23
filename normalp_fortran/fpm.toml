@@ -4,6 +4,8 @@ license = "GPL"
 author = "Fortran translation of normalp"
 maintainer = ""
 description = "Modern Fortran routines for the exponential power (generalized error) distribution"
+categories = ["probability", "statistics", "numerical"]
+keywords = ["regression", "estimation", "probability-distributions", "exponential-power-distribution", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

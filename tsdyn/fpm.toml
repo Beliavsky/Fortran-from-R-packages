@@ -5,6 +5,8 @@ author = "Original tsDyn authors; modern Fortran translation"
 maintainer = "Translation project"
 description = "Modern Fortran numerical translation of computational parts of tsDyn"
 copyright = "Copyright original tsDyn authors and translation contributors"
+categories = ["time-series", "statistics", "numerical"]
+keywords = ["estimation", "time-series", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

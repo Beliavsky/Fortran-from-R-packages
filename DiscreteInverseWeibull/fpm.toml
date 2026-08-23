@@ -5,6 +5,7 @@ author = "Alessandro Barbiero, Riccardo Inchingolo, Mario Samigli; Fortran trans
 maintainer = "Fortran translation maintainers"
 description = "Modern Fortran translation of DiscreteInverseWeibull"
 keywords = ["discrete", "inverse-weibull", "maximum-likelihood", "moments"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

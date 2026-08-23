@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation of onls by OpenAI"
 maintainer = ""
 copyright = "See original/onls-master/DESCRIPTION and COPYING"
+categories = ["optimization", "statistics"]
+keywords = ["regression", "least-squares", "optimization", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

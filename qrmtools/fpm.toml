@@ -5,6 +5,8 @@ author = "Marius Hofert, Kurt Hornik, Alexander J. McNeil; Fortran translation"
 maintainer = "Fortran translation contributors"
 copyright = "Copyright (C) 2016 Marius Hofert, Kurt Hornik and Alexander J. McNeil"
 description = "Modern Fortran numerical translation of qrmtools"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

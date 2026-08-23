@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "DiceDesign authors; Fortran translation"
 maintainer = ""
 copyright = "See upstream metadata and GPL-3 license"
+categories = ["statistics"]
+keywords = ["statistics", "statistical-computing", "modeling"]
 
 [library]
 source-dir = "src"

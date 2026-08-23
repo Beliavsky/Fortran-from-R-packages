@@ -5,6 +5,8 @@ author = "Robin K. S. Hankin (original R package); Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Original quadform copyright retained"
 description = "Modern Fortran translation of the computational code in the R quadform package"
+categories = ["numerical"]
+keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [build]
 auto-executables = false

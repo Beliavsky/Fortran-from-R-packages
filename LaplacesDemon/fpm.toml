@@ -5,6 +5,8 @@ author = "OpenAI translation; upstream LaplacesDemon authors retained in provena
 maintainer = "OpenAI translation"
 copyright = "2010-2015 Statisticat, LLC; translation 2026"
 description = "Modern Fortran computational port of core LaplacesDemon Bayesian inference algorithms"
+categories = ["simulation", "numerical"]
+keywords = ["bayesian-inference", "monte-carlo", "simulation", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

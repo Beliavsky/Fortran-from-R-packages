@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "mclust authors; Fortran translation"
 maintainer = ""
 copyright = "See UPSTREAM.md and source notices"
+categories = ["machine-learning", "statistics", "numerical"]
+keywords = ["clustering", "mixture-models", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

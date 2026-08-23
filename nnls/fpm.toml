@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation of the R nnls package"
 maintainer = "OpenAI"
 description = "Modern Fortran implementation of Lawson-Hanson nonnegative and mixed-sign least squares"
+categories = ["optimization", "numerical"]
+keywords = ["least-squares", "optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

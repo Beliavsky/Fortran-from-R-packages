@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) original YieldCurve contributors"
 description = "Modern Fortran translation of the computational routines in the R YieldCurve package"
 keywords = ["yield-curve", "nelson-siegel", "svensson", "fixed-income"]
+categories = ["finance", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright (c) 2023 greeks authors"
 description = "Option Greeks and implied volatility in modern Fortran"
 keywords = ["options", "greeks", "black-scholes", "monte-carlo", "finance"]
+categories = ["finance", "time-series", "simulation"]
 
 [library]
 source-dir = "src"

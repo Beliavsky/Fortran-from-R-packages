@@ -4,6 +4,9 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran numerical translation of core robustbase functionality"
+categories = ["statistics", "numerical"]
+keywords = ["robust-statistics", "statistics", "numerical", "statistical-computing"]
+
 [build]
 auto-executables = true
 auto-tests = true

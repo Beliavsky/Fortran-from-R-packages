@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Original ufRisk authors and contributors; Fortran port contributors"
 description = "Modern Fortran implementation of parametric and semiparametric GARCH VaR, ES, and backtesting algorithms"
 keywords = ["value-at-risk", "expected-shortfall", "garch", "figarch", "risk-backtesting"]
+categories = ["finance", "time-series", "statistics"]
 
 [library]
 source-dir = "src"

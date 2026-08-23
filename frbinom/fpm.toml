@@ -5,6 +5,7 @@ author = "Jeonghwa Lee and Daniel Gernander; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R frbinom package"
 keywords = ["fractional-binomial", "generalized-bernoulli", "long-range-dependence"]
+categories = ["probability", "numerical", "statistics"]
 
 [library]
 source-dir = "src"

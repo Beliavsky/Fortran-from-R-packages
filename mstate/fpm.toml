@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "mstate authors; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of computational algorithms from the R package mstate"
+categories = ["statistics", "numerical"]
+keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

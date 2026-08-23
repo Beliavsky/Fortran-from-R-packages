@@ -5,6 +5,8 @@ author = "OpenAI translation; upstream authors A. I. McLeod, Hao Yu, and Zinovi 
 maintainer = ""
 copyright = "Upstream and translation contributors"
 description = "Modern Fortran translation of the computational code in the R ltsa package"
+categories = ["time-series", "numerical"]
+keywords = ["time-series", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

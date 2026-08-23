@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Jan Tilly, Nick Janetos; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational algorithms in matchingR"
+categories = ["optimization", "numerical"]
+keywords = ["combinatorial-optimization", "optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

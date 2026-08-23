@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of relsurv computational code"
 maintainer = "OpenAI"
 description = "Modern Fortran/FPM translation of the computational core of R package relsurv"
+categories = ["statistics", "numerical"]
+keywords = ["survival-analysis", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

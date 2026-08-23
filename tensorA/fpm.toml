@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "K. Gerald van den Boogaart; Fortran translation"
 maintainer = "Fortran translation"
 description = "Free-format modern Fortran translation of the computational core of R tensorA"
+categories = ["numerical"]
+keywords = ["matrix-computations", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = false

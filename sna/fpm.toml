@@ -5,6 +5,7 @@ author = "Carter T. Butts; Fortran translation by OpenAI"
 copyright = "Copyright (C) 2005-2024 Carter T. Butts; Fortran translation 2026"
 description = "Modern Fortran translation of computational routines from the R sna package"
 keywords = ["social-network-analysis", "graphs", "centrality", "network-statistics"]
+categories = ["statistics", "numerical"]
 
 [build]
 auto-executables = true

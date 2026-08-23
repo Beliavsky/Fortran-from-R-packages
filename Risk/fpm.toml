@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Copyright (c) 2017 Saralees Nadarajah and Stephen Chan"
 description = "Modern Fortran implementation of 26 continuous-distribution financial risk measures"
 keywords = ["risk", "var", "expected-shortfall", "distribution", "finance"]
+categories = ["finance", "probability", "numerical"]
 
 [build]
 auto-executables = true

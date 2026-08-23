@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "2008-2025 Alexios Galanos; 2026 Fortran translation contributors"
 description = "Experimental modern Fortran translation of the computational core of R rmgarch"
 keywords = ["multivariate-garch", "dcc", "adcc", "copula", "gogarch", "ica", "finance"]
+categories = ["finance", "time-series", "probability"]
 
 [build]
 auto-executables = true

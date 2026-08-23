@@ -5,6 +5,7 @@ author = "Luca Scrucca; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of computational algorithms from the R GA package"
 categories = ["optimization", "genetic-algorithm", "differential-evolution"]
+keywords = ["genetic-algorithms", "optimization", "genetic-algorithm", "differential-evolution", "numerical-methods"]
 
 [build]
 auto-executables = true

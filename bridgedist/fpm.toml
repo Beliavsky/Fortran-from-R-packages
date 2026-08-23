@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of bridgedist by Bruce Swihart"
 maintainer = ""
 copyright = "Original bridgedist copyright holders; Fortran translation contributors"
+categories = ["probability", "statistics"]
+keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -5,6 +5,8 @@ author = "Fortran port of RSpectra by Yixuan Qiu et al."
 maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran large-scale eigenvalue and SVD solvers with an RSpectra-like API"
+categories = ["numerical"]
+keywords = ["eigenvalues", "singular-value-decomposition", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

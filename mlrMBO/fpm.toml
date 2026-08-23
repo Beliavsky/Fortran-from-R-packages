@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Fortran port of mlrMBO computational routines"
 maintainer = ""
 copyright = "mlrMBO authors and contributors"
+categories = ["optimization", "statistics", "numerical"]
+keywords = ["bayesian-inference", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Ravi Varadhan and contributors; see NOTICE.md"
 description = "Modern Fortran computational port of the R alabama constrained optimization package"
 keywords = ["optimization", "constraints", "augmented-lagrangian", "barrier"]
+categories = ["optimization", "numerical"]
 
 [build]
 auto-executables = false

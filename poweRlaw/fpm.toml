@@ -5,6 +5,7 @@ author = "Colin Gillespie; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R poweRlaw"
 keywords = ["power-law", "heavy-tail", "maximum-likelihood", "bootstrap", "KS"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

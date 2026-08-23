@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "GARCHIto authors and contributors"
 description = "Unified and realized GARCH-Ito volatility estimation"
 keywords = ["garch", "ito", "realized-volatility", "volatility", "finance"]
+categories = ["finance", "time-series", "statistics"]
 
 [build]
 auto-executables = true

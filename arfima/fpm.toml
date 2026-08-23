@@ -5,6 +5,8 @@ author = "OpenAI translation; upstream authors J.Q. Veenstra and A.I. McLeod"
 maintainer = ""
 copyright = "Copyright (c) 2017 Justin Quinn (J.Q.) Veenstra; translation contributors"
 description = "Modern Fortran translation of the computational code in the R arfima package"
+categories = ["time-series", "statistics", "numerical"]
+keywords = ["estimation", "forecasting", "long-memory", "time-series", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = false

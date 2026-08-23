@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) original esback and esreg authors"
 description = "Modern Fortran translation of esback expected-shortfall backtests"
 keywords = ["expected-shortfall", "var", "backtesting", "esr", "risk"]
+categories = ["time-series", "statistics", "numerical"]
 
 [build]
 auto-executables = true

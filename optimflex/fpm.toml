@@ -4,6 +4,8 @@ license = "MIT"
 author = "Eunseong Cho; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational algorithms in the R optimflex package"
+categories = ["optimization", "numerical"]
+keywords = ["numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = false

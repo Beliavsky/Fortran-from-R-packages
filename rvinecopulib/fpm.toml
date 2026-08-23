@@ -5,6 +5,8 @@ author = "Fortran translation of rvinecopulib"
 maintainer = ""
 copyright = "2026"
 description = "Continuous parametric pair-copula and D-vine modeling in modern Fortran"
+categories = ["probability", "statistics", "numerical"]
+keywords = ["copulas", "probability", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

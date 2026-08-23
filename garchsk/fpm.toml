@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Kei Nakagawa; Fortran translation generated from GARCHSK 0.1.0"
 copyright = "Copyright (C) 2021 Kei Nakagawa"
 description = "Modern Fortran implementation of GARCHSK and GJRSK models"
+categories = ["finance", "time-series", "statistics"]
+keywords = ["estimation", "skew-distributions", "garch", "financial-econometrics", "finance", "time-series", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

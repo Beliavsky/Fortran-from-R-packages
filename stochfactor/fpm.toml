@@ -4,6 +4,9 @@ license = "GPL-2.0-or-later"
 author = "Original stochvol and factorstochvol authors; Fortran translation contributors"
 maintainer = "Fortran translation contributors"
 description = "Combined modern Fortran translation of stochvol and factorstochvol computational routines"
+categories = ["finance", "time-series", "probability"]
+keywords = ["volatility", "financial-econometrics", "finance", "time-series", "probability", "statistical-computing"]
+
 [build]
 auto-executables = true
 auto-examples = true

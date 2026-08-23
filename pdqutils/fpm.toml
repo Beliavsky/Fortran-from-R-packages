@@ -5,6 +5,8 @@ author = "Steven E. Pav; Fortran translation by OpenAI"
 maintainer = ""
 copyright = "Copyright (c) 2015 Steven E. Pav; translation copyright 2026"
 description = "Modern Fortran translation of the computational code in the R package PDQutils"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = false

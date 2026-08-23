@@ -5,6 +5,8 @@ author = "Alexander Davis; Fortran translation by OpenAI"
 maintainer = ""
 copyright = "Copyright retained by the upstream pmultinom authors"
 description = "Modern Fortran translation of the computational core of the R package pmultinom"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

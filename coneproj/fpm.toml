@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation of coneproj"
 maintainer = ""
 description = "Cone projections, quadratic programming, and shape-restricted regression"
+categories = ["optimization", "statistics"]
+keywords = ["regression", "quadratic-programming", "optimization", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = false

@@ -3,6 +3,8 @@ version = "0.1.0"
 license = "GPL-3.0-only"
 author = "Florian Junge; Fortran translation by OpenAI"
 copyright = "Copyright (c) upstream authors; see UPSTREAM.md"
+categories = ["probability", "statistics"]
+keywords = ["probability-distributions", "count-data", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = false

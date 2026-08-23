@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Modern Fortran translation of TSP by Michael Hahsler and Kurt Hornik"
 maintainer = ""
 copyright = "Copyright (C) Michael Hahsler and Kurt Hornik; Fortran translation 2026"
+categories = ["optimization"]
+keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]
 auto-executables = true

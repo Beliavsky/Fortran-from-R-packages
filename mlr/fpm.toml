@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation of mlr computational framework"
 maintainer = "OpenAI translation"
 description = "Computational core inspired by R mlr, with survival-fortran integration"
+categories = ["machine-learning", "statistics", "numerical"]
+keywords = ["survival-analysis", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

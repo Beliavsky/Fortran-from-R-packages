@@ -5,6 +5,8 @@ author = "Krzysztof Ciupke; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Original psoptim authors and contributors"
 description = "Modern Fortran translation of the computational core of the R package psoptim"
+categories = ["optimization", "numerical"]
+keywords = ["optimization", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

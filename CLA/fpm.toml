@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) CLA authors and contributors"
 description = "Modern Fortran implementation of the Markowitz Critical Line Algorithm"
 keywords = ["portfolio", "markowitz", "critical-line", "mean-variance", "garch"]
+categories = ["finance", "optimization", "time-series"]
 
 [build]
 auto-executables = true

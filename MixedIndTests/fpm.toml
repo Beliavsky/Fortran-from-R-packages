@@ -5,6 +5,7 @@ author = "Bouchra R. Nasri, Bruno N. Remillard, Johanna G. Neslehova, Christian 
 maintainer = "Fortran translation maintainers"
 description = "Tests of independence and randomness for arbitrary discrete, continuous, and mixed data"
 keywords = ["independence", "randomness", "empirical-copula", "multiplier-bootstrap", "time-series"]
+categories = ["time-series", "probability", "statistics"]
 
 [build]
 auto-executables = true

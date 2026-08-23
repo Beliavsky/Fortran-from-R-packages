@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "1999-2026 Matrix authors and contributors"
 description = "Modern Fortran dense and sparse matrix algorithms inspired by the R Matrix package"
 keywords = ["matrix", "sparse", "linear-algebra", "fpm"]
+categories = ["numerical"]
 
 [build]
 auto-executables = true

@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of David Scott's GeneralizedHyperbolic R package"
 maintainer = ""
 description = "Modern Fortran implementation of generalized hyperbolic and related distributions"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

@@ -5,6 +5,7 @@ author = "Douglas Bates, Katharine M. Mullen, John C. Nash, Ravi Varadhan; Fortr
 maintainer = "Fortran port maintainers"
 description = "Modern Fortran interfaces to Powell derivative-free quadratic approximation optimizers"
 keywords = ["optimization", "derivative-free", "bobyqa", "newuoa", "uobyqa"]
+categories = ["optimization", "numerical"]
 
 [build]
 auto-executables = false

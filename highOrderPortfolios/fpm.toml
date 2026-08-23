@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "highOrderPortfolios authors and contributors"
 description = "High-order portfolio design using mean, variance, skewness, and kurtosis"
 keywords = ["portfolio", "skewness", "kurtosis", "mvsk", "skew-t", "finance"]
+categories = ["finance"]
 
 [build]
 auto-executables = true

@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright upstream authors and Fortran translation contributors"
 description = "Modern Fortran implementation of the Skellam distribution, estimation, and regression"
 keywords = ["statistics", "distribution", "skellam", "poisson", "regression", "maximum-likelihood"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

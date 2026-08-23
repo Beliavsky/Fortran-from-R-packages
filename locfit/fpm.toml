@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "1996-2001 Lucent Technologies; locfit contributors"
 description = "Modern Fortran translation of the computational core of the R locfit package"
 keywords = ["local regression", "local likelihood", "kernel smoothing", "density estimation"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = true

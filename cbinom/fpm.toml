@@ -5,6 +5,7 @@ author = "Dan Dalthorp; Fortran translation"
 maintainer = ""
 description = "Modern Fortran implementation of the continuous binomial distribution"
 categories = ["statistics", "probability"]
+keywords = ["probability-distributions", "statistics", "probability", "statistical-computing"]
 
 [library]
 source-dir = "src"

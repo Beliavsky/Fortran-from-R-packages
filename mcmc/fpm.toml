@@ -5,6 +5,7 @@ author = "Charles J. Geyer and Leif T. Johnson; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R mcmc"
 keywords = ["mcmc", "metropolis", "tempering", "batch-means"]
+categories = ["simulation", "numerical"]
 
 [library]
 source-dir = "src"

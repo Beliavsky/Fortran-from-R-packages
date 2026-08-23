@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "1991 Department of Statistics, University of Washington; 2003-2026 Martin Maechler and contributors"
 description = "Modern Fortran implementation of fractional ARIMA estimation, simulation, differencing, and long-memory estimators"
 keywords = ["arfima", "fractional-differencing", "time-series", "maximum-likelihood", "long-memory"]
+categories = ["time-series", "simulation", "probability"]
 
 [build]
 auto-executables = true

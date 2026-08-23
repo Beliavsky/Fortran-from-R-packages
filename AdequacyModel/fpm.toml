@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of AdequacyModel by Pedro Rafael Diniz Marinho, Marcelo Bourguignon, and Cicero Rafael Barros Dias"
 maintainer = ""
 copyright = "See upstream package and LICENSE"
+categories = ["optimization", "probability", "statistics"]
+keywords = ["goodness-of-fit", "optimization", "probability", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

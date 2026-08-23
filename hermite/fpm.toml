@@ -5,6 +5,7 @@ author = "David Morina Soler, Manuel Higueras, Pedro Puig, Maria Oliveira; moder
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the generalized Hermite distribution package"
 keywords = ["hermite", "generalized-hermite", "count-data", "regression"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

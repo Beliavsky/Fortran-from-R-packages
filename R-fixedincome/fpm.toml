@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "2014-2022 Wilson Freitas"
 description = "Modern Fortran fixed-income rates, curves, interpolation, and Nelson-Siegel models"
 keywords = ["fixed-income", "yield-curve", "spot-rate", "forward-rate", "nelson-siegel", "interpolation"]
+categories = ["finance", "statistics", "numerical"]
 
 [build]
 auto-executables = true

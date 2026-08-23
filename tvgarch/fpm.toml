@@ -5,6 +5,8 @@ author = "Modern Fortran translation of tvgarch by Susana Campos-Martins and Gen
 maintainer = "Translation project"
 description = "Modern Fortran computational translation of the R tvgarch package"
 copyright = "Original tvgarch authors; translation modifications 2026"
+categories = ["finance", "time-series", "statistics"]
+keywords = ["estimation", "garch", "financial-econometrics", "finance", "time-series", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

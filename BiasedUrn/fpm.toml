@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Agner Fog; Fortran translation"
 maintainer = ""
 copyright = "Copyright (c) 2002-2024 Agner Fog"
+categories = ["probability", "statistics"]
+keywords = ["probability-distributions", "hypergeometric-distribution", "probability", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

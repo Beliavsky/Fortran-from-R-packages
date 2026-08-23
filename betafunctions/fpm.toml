@@ -5,6 +5,8 @@ author = "Fortran port of Haakon Eidem Haakstad's betafunctions R package"
 maintainer = ""
 copyright = "Public domain dedication / CC0; see LICENSE and upstream source"
 description = "Modern Fortran translation of the computational core of the R package betafunctions"
+categories = ["machine-learning", "probability", "numerical"]
+keywords = ["classification", "probability-distributions", "beta-distribution", "machine-learning", "probability", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

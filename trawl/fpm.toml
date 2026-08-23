@@ -5,6 +5,8 @@ author = "Fortran translation of Almut E. D. Veraart's trawl package"
 maintainer = ""
 copyright = "Original trawl package copyright its authors"
 description = "Modern Fortran translation of the computational code in the R package trawl"
+categories = ["statistics", "numerical"]
+keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

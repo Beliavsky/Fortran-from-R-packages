@@ -5,6 +5,7 @@ author = "Fortran translation of the R package expm"
 maintainer = "OpenAI translation"
 description = "Modern Fortran matrix exponential, logarithm, square root and related algorithms translated from expm"
 keywords = ["matrix exponential", "matrix logarithm", "frechet derivative", "matrix functions"]
+categories = ["numerical"]
 
 [build]
 auto-executables = true

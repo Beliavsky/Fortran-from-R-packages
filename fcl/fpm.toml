@@ -5,6 +5,8 @@ author = "fcl authors; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Copyright (c) 2024 fcl authors"
 description = "Modern Fortran financial calculator translated from fcl"
+categories = ["finance", "numerical"]
+keywords = ["fixed-income", "finance", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true

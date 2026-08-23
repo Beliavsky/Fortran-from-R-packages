@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "2025 gkwreg authors"
 description = "Modern Fortran implementation of the Generalized Kumaraswamy distribution family"
 keywords = ["probability", "kumaraswamy", "beta", "maximum-likelihood", "distributions"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = false

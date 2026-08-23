@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 copyright = "Original PerformanceAnalytics authors and translation contributors"
+categories = ["finance", "statistics"]
+keywords = ["financial-econometrics", "finance", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

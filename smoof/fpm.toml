@@ -4,6 +4,8 @@ license = "BSD-2-Clause"
 author = "Jakob Bossek; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of computational benchmark functions from smoof"
+categories = ["optimization", "statistics", "numerical"]
+keywords = ["multiobjective-optimization", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

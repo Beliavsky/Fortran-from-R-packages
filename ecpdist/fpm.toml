@@ -5,6 +5,7 @@ author = "Ana Abreu, Ivo Sousa-Ferreira; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran computational port of the R package ecpdist"
 keywords = ["statistics", "distribution", "survival", "extended-chen-poisson"]
+categories = ["probability", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

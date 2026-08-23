@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Lennart Oelschlaeger, Siddhartha Chib; Fortran translation generated from ao 1.2.3"
 maintainer = "Translation package"
 description = "Modern Fortran translation of the computational core of the R package ao"
+categories = ["optimization", "numerical"]
+keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

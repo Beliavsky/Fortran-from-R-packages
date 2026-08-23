@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "OpenAI translation; upstream CCd by Michail Tsagris"
 maintainer = ""
 copyright = "2024 Michail Tsagris; 2026 translation contributors"
+categories = ["probability", "statistics"]
+keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of BGFD by Michail Tsagris, Muhammad Imran, and M.H. Tahir"
 maintainer = ""
 copyright = "See upstream package and LICENSE"
+categories = ["probability", "statistics"]
+keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

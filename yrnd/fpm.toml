@@ -5,6 +5,7 @@ author = "William Arrata; modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in the R yrnd package"
 keywords = ["finance", "risk-neutral-density", "options", "bond-futures", "yield"]
+categories = ["finance", "probability", "numerical"]
 
 [build]
 auto-executables = true

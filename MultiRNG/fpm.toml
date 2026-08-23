@@ -4,6 +4,8 @@ license = "GPL-2.0-only OR GPL-3.0-only"
 author = "Hakan Demirtas, Rawan Allozi, Ran Gao; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Copyright (c) upstream MultiRNG authors"
+categories = ["simulation", "statistics"]
+keywords = ["multivariate-statistics", "simulation", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

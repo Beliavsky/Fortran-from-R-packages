@@ -4,6 +4,8 @@ license = "GPL-3.0-or-later"
 author = "Modern Fortran translation of globalOptTests"
 maintainer = ""
 copyright = "See upstream provenance and source headers"
+categories = ["optimization", "statistics"]
+keywords = ["global-optimization", "optimization", "statistics", "statistical-computing"]
 
 [library]
 source-dir = "src"

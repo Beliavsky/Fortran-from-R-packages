@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of Arne Henningsen's linprog"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package linprog"
+categories = ["optimization", "numerical"]
+keywords = ["linear-programming", "optimization", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

@@ -5,6 +5,7 @@ author = "YaChen Yan and FangZhu Lin; modern Fortran translation generated from 
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package FinCovRegularization"
 keywords = ["finance", "covariance", "regularization", "factor-models", "portfolio"]
+categories = ["finance", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

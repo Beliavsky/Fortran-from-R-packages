@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Fortran translation of ROI.plugin.qpoases / qpOASES"
 maintainer = "OpenAI generated translation"
 copyright = "See original source and NOTICE.md"
+categories = ["optimization"]
+keywords = ["quadratic-programming", "optimization", "numerical-methods"]
 
 [library]
 source-dir = "src"

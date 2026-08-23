@@ -5,6 +5,8 @@ author = "Fortran translation of calibrar by Ricardo Oliveros-Ramos"
 maintainer = "translation package"
 copyright = "Upstream calibrar authors"
 description = "Modern Fortran translation of the computational core of R package calibrar"
+categories = ["statistics", "numerical"]
+keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

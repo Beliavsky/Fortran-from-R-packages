@@ -5,6 +5,8 @@ author = "fMultivar authors; modern Fortran translation"
 maintainer = "Vivek Rao"
 copyright = "Copyright (C) fMultivar authors and translation contributors"
 description = "Modern Fortran translation of computational routines from the R package fMultivar"
+categories = ["finance", "probability", "statistics"]
+keywords = ["multivariate-statistics", "probability-distributions", "finance", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

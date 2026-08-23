@@ -5,6 +5,7 @@ author = "Hans W. Borchers; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package pracma"
 keywords = ["numerical-analysis", "linear-algebra", "optimization", "integration", "ode", "special-functions"]
+categories = ["optimization", "numerical"]
 
 [library]
 source-dir = "src"

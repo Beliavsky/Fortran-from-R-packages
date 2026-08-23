@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Steve Kalke; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the pgnorm R package"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "normal-distribution", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

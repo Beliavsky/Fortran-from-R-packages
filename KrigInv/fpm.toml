@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Fortran translation of KrigInv by Clement Chevalier, Dario Azzimonti, David Ginsbourger, Victor Picheny and contributors"
 maintainer = "OpenAI translation workspace"
 description = "Modern Fortran translation of the computational core of the R package KrigInv"
+categories = ["machine-learning", "statistics", "numerical"]
+keywords = ["estimation", "kernel-methods", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -5,6 +5,8 @@ author = "Yasunori Aoki; Fortran translation"
 maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the CGNM R package"
 copyright = "Copyright 2022 Yasunori Aoki"
+categories = ["machine-learning", "statistics", "numerical"]
+keywords = ["estimation", "clustering", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "2026"
 description = "Modern Fortran interface to the HiGHS optimization solver"
 keywords = ["optimization", "linear-programming", "mixed-integer", "quadratic-programming"]
+categories = ["optimization", "numerical"]
 
 [build]
 auto-executables = true

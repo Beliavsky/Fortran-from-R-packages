@@ -5,6 +5,8 @@ author = "Fortran translation of the gamlss computational core"
 maintainer = ""
 copyright = "2002-2025 gamlss authors; Fortran translation 2026"
 description = "Modern Fortran implementation of the computational core of R gamlss"
+categories = ["statistics", "numerical"]
+keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

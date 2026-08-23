@@ -4,6 +4,8 @@ license = "MIT"
 author = "spacefillr authors; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran port of spacefillr space-filling sequences"
+categories = ["simulation", "numerical"]
+keywords = ["simulation", "numerical", "numerical-methods"]
 
 [fortran]
 implicit-typing = false

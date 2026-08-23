@@ -5,6 +5,8 @@ author = "Robin K. S. Hankin and P. M. E. Altham (upstream); Fortran translation
 maintainer = "Fortran translation"
 copyright = "Upstream authors; see provenance/"
 description = "Modern Fortran translation of the computational code in the R package MM"
+categories = ["probability", "numerical", "statistics"]
+keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = false

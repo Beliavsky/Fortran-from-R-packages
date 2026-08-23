@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) Changyou Sun and contributors"
 description = "Modern Fortran translation of apt: asymmetric price transmission"
 keywords = ["econometrics", "cointegration", "threshold", "error-correction", "price-transmission"]
+categories = ["time-series", "statistics", "numerical"]
 
 [build]
 auto-executables = true

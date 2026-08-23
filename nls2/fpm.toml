@@ -4,6 +4,8 @@ license = "GPL-2.0-only"
 author = "OpenAI translation of nls2"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package nls2"
+categories = ["statistics", "numerical"]
+keywords = ["regression", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

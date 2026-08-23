@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Fortran translation of FLSSS 9.2.8"
 maintainer = ""
 copyright = "Original FLSSS copyright retained under original/"
+categories = ["optimization"]
+keywords = ["combinatorial-optimization", "optimization", "numerical-methods"]
 
 [library]
 source-dir = "src"

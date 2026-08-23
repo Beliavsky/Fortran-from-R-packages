@@ -4,6 +4,8 @@ license = "LGPL-2.1-only"
 author = "greybox authors; Fortran translation"
 maintainer = "OpenAI translation"
 description = "Modern Fortran numerical translation of the greybox R package"
+categories = ["time-series", "statistics", "numerical"]
+keywords = ["regression", "forecasting", "time-series", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

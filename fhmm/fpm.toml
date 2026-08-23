@@ -5,6 +5,8 @@ author = "Lennart Oelschlaeger, Timo Adam, Rouven Michels; Fortran translation"
 maintainer = "Fortran community"
 copyright = "Copyright (C) fHMM authors"
 description = "Modern Fortran implementation of numerical algorithms from the fHMM R package"
+categories = ["finance", "time-series", "statistics"]
+keywords = ["estimation", "hidden-markov-models", "finance", "time-series", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true

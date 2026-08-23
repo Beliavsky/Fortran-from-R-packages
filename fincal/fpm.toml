@@ -5,6 +5,7 @@ author = "Felix Yanhui Fan; modern Fortran translation generated from FinCal 0.6
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package FinCal"
 keywords = ["finance", "time-value-of-money", "interest-rates", "accounting", "portfolio"]
+categories = ["finance", "numerical"]
 
 [library]
 source-dir = "src"

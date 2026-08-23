@@ -5,6 +5,8 @@ author = "Original TIMSAC authors; modern Fortran port generated from timsac 1.3
 maintainer = ""
 copyright = "The Institute of Statistical Mathematics and contributors"
 description = "Modern Fortran port of the TIMSAC time-series analysis numerical core"
+categories = ["time-series", "numerical"]
+keywords = ["time-series", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

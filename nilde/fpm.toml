@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of nilde by Natalya Pya Arnqvist, Vassilly Voinov, Rashid Makarov, Yevgeniy Voinov"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package nilde"
+categories = ["numerical"]
+keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [library]
 source-dir = "src"

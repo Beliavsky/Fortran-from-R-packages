@@ -5,6 +5,8 @@ author = "Klaus Nordhausen, Seija Sirkia, Hannu Oja, David E. Tyler; Fortran tra
 maintainer = "Fortran translation project"
 copyright = "Copyright original ICSNP authors and Fortran translation contributors"
 description = "Modern Fortran translation of the computational core of the R package ICSNP"
+categories = ["statistics", "numerical"]
+keywords = ["multivariate-statistics", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

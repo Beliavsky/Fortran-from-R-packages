@@ -5,6 +5,7 @@ author = "Bernhard Pfaff; Fortran port"
 maintainer = "Fortran port maintainers"
 description = "Modern Fortran translation of the computational algorithms in FRAPO"
 keywords = ["finance", "portfolio", "drawdown", "risk", "optimization"]
+categories = ["finance", "optimization", "statistics"]
 
 [build]
 auto-executables = true

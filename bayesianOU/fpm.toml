@@ -5,6 +5,8 @@ author = "Jose Mauricio Gomez Julian; Fortran translation by OpenAI"
 maintainer = ""
 copyright = "Copyright (c) 2024 Jose Mauricio Gomez Julian"
 description = "Modern Fortran translation of Bayesian nonlinear Ornstein-Uhlenbeck models"
+categories = ["statistics", "numerical"]
+keywords = ["bayesian-inference", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true

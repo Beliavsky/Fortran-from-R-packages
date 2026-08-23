@@ -4,6 +4,8 @@ license = "Unlimited"
 author = "Matt Wand; Brian Ripley; Fortran port"
 maintainer = ""
 description = "Modern Fortran port of R KernSmooth numerical routines"
+categories = ["probability", "statistics", "numerical"]
+keywords = ["regression", "estimation", "density-estimation", "kernel-methods", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

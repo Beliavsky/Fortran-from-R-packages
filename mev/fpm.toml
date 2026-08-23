@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "mev authors; Fortran translation"
 maintainer = ""
 copyright = "See NOTICE.md"
+categories = ["statistics", "numerical"]
+keywords = ["extreme-value", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

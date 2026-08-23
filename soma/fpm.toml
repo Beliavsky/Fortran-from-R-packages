@@ -3,6 +3,8 @@ version = "0.1.0"
 license = "GPL-2.0-only"
 author = "Fortran translation of Jon Clayden's soma package"
 description = "Modern Fortran translation of the computational code in the R package soma"
+categories = ["optimization", "numerical"]
+keywords = ["optimization", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = false

@@ -4,6 +4,8 @@ license = "BSD-3-Clause AND LicenseRef-WELL-Upstream"
 author = "Fortran translation of randtoolbox contributors' code"
 maintainer = ""
 copyright = "See LICENSE and LICENSES/"
+categories = ["simulation"]
+keywords = ["random-number-generation", "simulation", "computational-methods"]
 
 [build]
 auto-executables = true

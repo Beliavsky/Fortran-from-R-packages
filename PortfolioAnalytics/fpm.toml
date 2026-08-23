@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) 2004-2026 PortfolioAnalytics contributors"
 description = "Modern Fortran computational port of PortfolioAnalytics"
 keywords = ["portfolio", "optimization", "risk", "finance", "fortran"]
+categories = ["finance", "optimization", "numerical"]
 
 [build]
 auto-executables = true

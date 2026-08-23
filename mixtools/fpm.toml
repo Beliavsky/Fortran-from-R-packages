@@ -5,6 +5,7 @@ author = "Derek Young, Tatiana Benaglia, Didier Chauveau, David Hunter, Kedai Ch
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package mixtools"
 keywords = ["statistics", "mixture-models", "em", "regression", "semiparametric"]
+categories = ["statistics", "numerical"]
 
 [library]
 source-dir = "src"

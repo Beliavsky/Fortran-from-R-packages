@@ -10,7 +10,7 @@ Projects scanned: 441.
 
 ### actuarial
 
-[`financialmath`](financialmath/), [`lifeinsurer`](lifeinsurer/), [`vamc`](vamc/)
+[`actuar`](actuar/), [`etrm`](etrm/), [`financialmath`](financialmath/), [`jrvFinance`](jrvFinance/), [`lifeinsurer`](lifeinsurer/), [`mbbefd`](mbbefd/), [`vamc`](vamc/)
 
 ### algorithms
 
@@ -118,7 +118,7 @@ Projects scanned: 441.
 
 ### finance
 
-[`ACDm`](ACDm/), [`backtest`](backtest/), [`bayesgarch`](bayesgarch/), [`bcc1997`](bcc1997/), [`BEKKs`](BEKKs/), [`blmodel`](blmodel/), [`bondAnalyst`](bondAnalyst/), [`BondValuation`](BondValuation/), [`cccp`](cccp/), [`corpmetrics`](corpmetrics/), [`creditr`](creditr/), [`cvar`](cvar/), [`Dowd`](Dowd/), [`ecd`](ecd/), [`epo`](epo/), [`fattailsr`](fattailsr/), [`fcopulae`](fcopulae/), [`FER`](FER/), [`ffp`](ffp/), [`financialmath`](financialmath/), [`fmbasics`](fmbasics/), [`fportfolio`](fportfolio/), [`gcpm`](gcpm/), [`ghyp`](ghyp/), [`gogarch`](gogarch/), [`hdshop`](hdshop/), [`HierPortfolios`](HierPortfolios/), [`highfrequency`](highfrequency/), [`imputeFin`](imputeFin/), [`INFOSET`](INFOSET/), [`intradayModel`](intradayModel/), [`invgamstochvol`](invgamstochvol/), [`Jdmbs`](Jdmbs/), [`jfe`](jfe/), [`JumpTest`](JumpTest/), [`lifeinsurer`](lifeinsurer/), [`lsmontecarlo`](lsmontecarlo/), [`markowitzr`](markowitzr/), [`mcrp`](mcrp/), [`msgarch`](msgarch/), [`MTS`](MTS/), [`multiAssetOptions`](multiAssetOptions/), [`NFCP`](NFCP/), [`nmof`](nmof/), [`ob-analytics`](ob-analytics/), [`opthedging`](opthedging/), [`pa`](pa/), [`peerperformance`](peerperformance/), [`portfoliooptim`](portfoliooptim/), [`PortfolioTesteR`](PortfolioTesteR/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`quarks`](quarks/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`ragtop`](ragtop/), [`REN`](REN/), [`riskParityPortfolio`](riskParityPortfolio/), [`risksimul`](risksimul/), [`RM2006`](RM2006/), [`rnd`](rnd/), [`RPEGLMEN`](RPEGLMEN/), [`RPEIF`](RPEIF/), [`RPESE`](RPESE/), [`rquantlib`](rquantlib/), [`RSDC`](RSDC/), [`rtl`](rtl/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`SACCR`](SACCR/), [`sharper`](sharper/), [`sharpeRratio`](sharpeRratio/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`spantest`](spantest/), [`sparseIndexTracking`](sparseIndexTracking/), [`Spillover`](Spillover/), [`stockAnalyst`](stockAnalyst/), [`strand`](strand/), [`svdnf`](svdnf/), [`Trading`](Trading/), [`treasuryTR`](treasuryTR/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tvGarchKF`](tvGarchKF/), [`uncorbets`](uncorbets/), [`vamc`](vamc/), [`vares`](vares/), [`vasicekfit`](vasicekfit/), [`xVA`](xVA/), [`ycevo`](ycevo/), [`yieldcurves`](yieldcurves/)
+[`ACDm`](ACDm/), [`backtest`](backtest/), [`bayesgarch`](bayesgarch/), [`bcc1997`](bcc1997/), [`BEKKs`](BEKKs/), [`bidask`](bidask/), [`blmodel`](blmodel/), [`bondAnalyst`](bondAnalyst/), [`BondValuation`](BondValuation/), [`cccp`](cccp/), [`CLA`](CLA/), [`corpmetrics`](corpmetrics/), [`creditr`](creditr/), [`cvar`](cvar/), [`derivmkts`](derivmkts/), [`Dowd`](Dowd/), [`ecd`](ecd/), [`epo`](epo/), [`etrm`](etrm/), [`evir`](evir/), [`fattailsr`](fattailsr/), [`fbasics`](fbasics/), [`fbonds`](fbonds/), [`fcl`](fcl/), [`fcopulae`](fcopulae/), [`FER`](FER/), [`fextremes`](fextremes/), [`ffp`](ffp/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`financialmath`](financialmath/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fingraph`](fingraph/), [`FinTS`](FinTS/), [`fmbasics`](fmbasics/), [`fmultivar`](fmultivar/), [`fportfolio`](fportfolio/), [`frapo`](frapo/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`gcpm`](gcpm/), [`ghyp`](ghyp/), [`gogarch`](gogarch/), [`greeks`](greeks/), [`greeks1`](greeks1/), [`hdshop`](hdshop/), [`HierPortfolios`](HierPortfolios/), [`highfrequency`](highfrequency/), [`highOrderPortfolios`](highOrderPortfolios/), [`imputeFin`](imputeFin/), [`INFOSET`](INFOSET/), [`intradayModel`](intradayModel/), [`intrinsicFRP`](intrinsicFRP/), [`invgamstochvol`](invgamstochvol/), [`Jdmbs`](Jdmbs/), [`jfe`](jfe/), [`jrvFinance`](jrvFinance/), [`JumpTest`](JumpTest/), [`lgarch`](lgarch/), [`lifeinsurer`](lifeinsurer/), [`lsmontecarlo`](lsmontecarlo/), [`markowitzr`](markowitzr/), [`matchingMarkets`](matchingMarkets/), [`mcrp`](mcrp/), [`msgarch`](msgarch/), [`MTS`](MTS/), [`multiAssetOptions`](multiAssetOptions/), [`MultiATSM`](MultiATSM/), [`NFCP`](NFCP/), [`nmof`](nmof/), [`ob-analytics`](ob-analytics/), [`opthedging`](opthedging/), [`optionpricing`](optionpricing/), [`pa`](pa/), [`parma`](parma/), [`pbo`](pbo/), [`peerperformance`](peerperformance/), [`performanceanalytics`](performanceanalytics/), [`PINstimation`](PINstimation/), [`PMwR`](PMwR/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`portfoliooptim`](portfoliooptim/), [`PortfolioTesteR`](PortfolioTesteR/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`QuantBondCurves`](QuantBondCurves/), [`quarks`](quarks/), [`R-fixedincome`](R-fixedincome/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`ragtop`](ragtop/), [`REN`](REN/), [`rgenoud`](rgenoud/), [`Risk`](Risk/), [`riskParityPortfolio`](riskParityPortfolio/), [`RiskPortfolios`](RiskPortfolios/), [`risksimul`](risksimul/), [`RM2006`](RM2006/), [`rmgarch`](rmgarch/), [`rnd`](rnd/), [`RPEGLMEN`](RPEGLMEN/), [`RPEIF`](RPEIF/), [`RPESE`](RPESE/), [`rquantlib`](rquantlib/), [`RSDC`](RSDC/), [`rtl`](rtl/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`SACCR`](SACCR/), [`sharper`](sharper/), [`sharpeRratio`](sharpeRratio/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`spantest`](spantest/), [`sparseIndexTracking`](sparseIndexTracking/), [`Spillover`](Spillover/), [`stochfactor`](stochfactor/), [`stochvolTMB`](stochvolTMB/), [`stockAnalyst`](stockAnalyst/), [`strand`](strand/), [`svdnf`](svdnf/), [`Trading`](Trading/), [`treasuryTR`](treasuryTR/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tsmarch`](tsmarch/), [`tvgarch`](tvgarch/), [`tvGarchKF`](tvGarchKF/), [`tvm`](tvm/), [`TVMVP`](TVMVP/), [`ufRisk`](ufRisk/), [`uncorbets`](uncorbets/), [`vamc`](vamc/), [`vares`](vares/), [`vasicekfit`](vasicekfit/), [`xVA`](xVA/), [`ycevo`](ycevo/), [`YieldCurve`](YieldCurve/), [`yieldcurves`](yieldcurves/), [`yrnd`](yrnd/)
 
 ### finite-difference
 
@@ -178,7 +178,7 @@ Projects scanned: 441.
 
 ### machine-learning
 
-[`FNN`](FNN/), [`glmnet`](glmnet/), [`kernlab`](kernlab/), [`Metrics`](Metrics/), [`PortfolioTesteR`](PortfolioTesteR/)
+[`betafunctions`](betafunctions/), [`CGNM`](CGNM/), [`clue`](clue/), [`FNN`](FNN/), [`glmnet`](glmnet/), [`kernlab`](kernlab/), [`KrigInv`](KrigInv/), [`mclust`](mclust/), [`Metrics`](Metrics/), [`mixSPE`](mixSPE/), [`mlr`](mlr/), [`PortfolioTesteR`](PortfolioTesteR/), [`spectralGraphTopology`](spectralGraphTopology/)
 
 ### market-microstructure
 
@@ -246,7 +246,7 @@ Projects scanned: 441.
 
 ### numerical
 
-[`BondValuation`](BondValuation/), [`boot`](boot/), [`cccp`](cccp/), [`clarabel`](clarabel/), [`deSolve`](deSolve/), [`DiceKriging`](DiceKriging/), [`GPareto`](GPareto/), [`gsl`](gsl/), [`lbfgs`](lbfgs/), [`mize`](mize/), [`nloptr`](nloptr/), [`nlsic`](nlsic/), [`nlsr`](nlsr/), [`optimx`](optimx/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`Rnanoflann`](Rnanoflann/), [`rootSolve`](rootSolve/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`sparseIndexTracking`](sparseIndexTracking/), [`subplex`](subplex/)
+[`adagio`](adagio/), [`ADGofTest`](ADGofTest/), [`alabama`](alabama/), [`ao`](ao/), [`apt`](apt/), [`arfima`](arfima/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`betafunctions`](betafunctions/), [`bidask`](bidask/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`BondValuation`](BondValuation/), [`boot`](boot/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`cccp`](cccp/), [`CGNM`](CGNM/), [`chyper`](chyper/), [`clarabel`](clarabel/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`contfrac`](contfrac/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`deoptimr`](deoptimr/), [`derivmkts`](derivmkts/), [`deSolve`](deSolve/), [`dfoptim`](dfoptim/), [`DiceKriging`](DiceKriging/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`DiscreteDists`](DiscreteDists/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`ecpdist`](ecpdist/), [`esback`](esback/), [`etrm`](etrm/), [`evir`](evir/), [`expint`](expint/), [`expm`](expm/), [`fastmatrix`](fastmatrix/), [`fcl`](fcl/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fingraph`](fingraph/), [`FinTS`](FinTS/), [`fitdistrplus`](fitdistrplus/), [`fitHeavyTail`](fitHeavyTail/), [`flexsurv`](flexsurv/), [`frbinom`](frbinom/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`GB2`](GB2/), [`GenBinomApps`](GenBinomApps/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`gkwdist`](gkwdist/), [`goftest`](goftest/), [`GPareto`](GPareto/), [`graDiEnt`](graDiEnt/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`gsl`](gsl/), [`hermite`](hermite/), [`highs`](highs/), [`ICSNP`](ICSNP/), [`intrinsicFRP`](intrinsicFRP/), [`jrvFinance`](jrvFinance/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`LaplacesDemon`](LaplacesDemon/), [`lbfgs`](lbfgs/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`lme4`](lme4/), [`locfit`](locfit/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ltsa`](ltsa/), [`marqLevAlg`](marqLevAlg/), [`MASS`](MASS/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`Matrix`](Matrix/), [`MatrixExtra`](MatrixExtra/), [`mbbefd`](mbbefd/), [`mcga`](mcga/), [`mclust`](mclust/), [`mcmc`](mcmc/), [`mco`](mco/), [`mev`](mev/), [`mgcv`](mgcv/), [`minqa`](minqa/), [`miscTools`](miscTools/), [`mixtools`](mixtools/), [`mize`](mize/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`MultiATSM`](MultiATSM/), [`nbconv`](nbconv/), [`neldermead`](neldermead/), [`new.dist`](new.dist/), [`nilde`](nilde/), [`nleqslv`](nleqslv/), [`nlme`](nlme/), [`nloptr`](nloptr/), [`nls2`](nls2/), [`nlsic`](nlsic/), [`nlsr`](nlsr/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`numDeriv`](numDeriv/), [`optimflex`](optimflex/), [`optimx`](optimx/), [`optionpricing`](optionpricing/), [`osqp`](osqp/), [`parma`](parma/), [`partitions`](partitions/), [`pdqutils`](pdqutils/), [`pgnorm`](pgnorm/), [`piqp`](piqp/), [`pmultinom_fortran`](pmultinom_fortran/), [`PMwR`](PMwR/), [`poilog`](poilog/), [`polyaAeppli`](polyaAeppli/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`poweRlaw`](poweRlaw/), [`ppcor`](ppcor/), [`ppso`](ppso/), [`pracma`](pracma/), [`PSDistr`](PSDistr/), [`psoptim`](psoptim/), [`qap`](qap/), [`qrmtools`](qrmtools/), [`quadform`](quadform/), [`quantreg`](quantreg/), [`R-fixedincome`](R-fixedincome/), [`RCEIM`](RCEIM/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`rgenoud`](rgenoud/), [`Risk`](Risk/), [`Rnanoflann`](Rnanoflann/), [`robustbase`](robustbase/), [`rootSolve`](rootSolve/), [`roptim`](roptim/), [`RSpectra`](RSpectra/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`scs`](scs/), [`sde`](sde/), [`segmented`](segmented/), [`skellam`](skellam/), [`SkewHyperbolic`](SkewHyperbolic/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`smoof`](smoof/), [`smoots`](smoots/), [`sn`](sn/), [`sna`](sna/), [`soma`](soma/), [`spacefillr`](spacefillr/), [`sparseIndexTracking`](sparseIndexTracking/), [`splines`](splines/), [`stochQN`](stochQN/), [`subplex`](subplex/), [`SuppDists`](SuppDists/), [`survey`](survey/), [`tensorA`](tensorA/), [`timsac`](timsac/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`tsdyn`](tsdyn/), [`tvm`](tvm/), [`VGAM`](VGAM/), [`vrtest`](vrtest/), [`waveslim`](waveslim/), [`YieldCurve`](YieldCurve/), [`yrnd`](yrnd/), [`ZeroOneDists`](ZeroOneDists/)
 
 ### numerical-integration
 
@@ -262,7 +262,7 @@ Projects scanned: 441.
 
 ### optimization
 
-[`ABCoptim`](ABCoptim/), [`BB`](BB/), [`bvls`](bvls/), [`caRamel`](caRamel/), [`cccp`](cccp/), [`cec2005benchmark`](cec2005benchmark/), [`cec2013`](cec2013/), [`CEoptim`](CEoptim/), [`clarabel`](clarabel/), [`DEoptim`](DEoptim/), [`desirability`](desirability/), [`Dykstra`](Dykstra/), [`ECOSolveR`](ECOSolveR/), [`ffp`](ffp/), [`fportfolio`](fportfolio/), [`GA`](GA/), [`genalg`](genalg/), [`GenSA`](GenSA/), [`GPareto`](GPareto/), [`gslnls`](gslnls/), [`INFOSET`](INFOSET/), [`kofnGA`](kofnGA/), [`lbfgs`](lbfgs/), [`maxLik`](maxLik/), [`mcrp`](mcrp/), [`mixsqp`](mixsqp/), [`mize`](mize/), [`n1qn1`](n1qn1/), [`neighbours`](neighbours/), [`NFCP`](NFCP/), [`NlcOptim`](NlcOptim/), [`nloptr`](nloptr/), [`nlsic`](nlsic/), [`nlsr`](nlsr/), [`nmof`](nmof/), [`optimx`](optimx/), [`portfoliooptim`](portfoliooptim/), [`pso`](pso/), [`PWEV`](PWEV/), [`quadprog`](quadprog/), [`quadprogXT`](quadprogXT/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`RcppNumerical`](RcppNumerical/), [`REN`](REN/), [`riskParityPortfolio`](riskParityPortfolio/), [`Rmalschains`](Rmalschains/), [`rmoo`](rmoo/), [`RPEGLMEN`](RPEGLMEN/), [`scip`](scip/), [`skewunit`](skewunit/), [`sparseIndexTracking`](sparseIndexTracking/), [`strand`](strand/), [`subplex`](subplex/), [`tabuSearch`](tabuSearch/), [`trust`](trust/), [`uncorbets`](uncorbets/)
+[`ABCoptim`](ABCoptim/), [`adagio`](adagio/), [`AdequacyModel`](AdequacyModel/), [`alabama`](alabama/), [`ao`](ao/), [`BB`](BB/), [`bvls`](bvls/), [`caRamel`](caRamel/), [`cccp`](cccp/), [`cec2005benchmark`](cec2005benchmark/), [`cec2013`](cec2013/), [`CEoptim`](CEoptim/), [`CLA`](CLA/), [`clarabel`](clarabel/), [`cmaes`](cmaes/), [`coneproj`](coneproj/), [`DEoptim`](DEoptim/), [`deoptimr`](deoptimr/), [`desirability`](desirability/), [`dfoptim`](dfoptim/), [`Dykstra`](Dykstra/), [`ECOSolveR`](ECOSolveR/), [`ffp`](ffp/), [`FLSSS`](FLSSS/), [`fportfolio`](fportfolio/), [`frapo`](frapo/), [`GA`](GA/), [`genalg`](genalg/), [`GenSA`](GenSA/), [`globalOptTests`](globalOptTests/), [`GPareto`](GPareto/), [`graDiEnt`](graDiEnt/), [`gslnls`](gslnls/), [`highs`](highs/), [`INFOSET`](INFOSET/), [`isotone`](isotone/), [`kofnGA`](kofnGA/), [`lbfgs`](lbfgs/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`LowRankQP`](LowRankQP/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ManifoldOptim`](ManifoldOptim/), [`marqLevAlg`](marqLevAlg/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`maxLik`](maxLik/), [`mcga`](mcga/), [`mco`](mco/), [`mcrp`](mcrp/), [`metaheuristicOpt`](metaheuristicOpt/), [`minqa`](minqa/), [`miscTools`](miscTools/), [`mixsqp`](mixsqp/), [`mize`](mize/), [`mlrMBO`](mlrMBO/), [`n1qn1`](n1qn1/), [`neighbours`](neighbours/), [`neldermead`](neldermead/), [`NFCP`](NFCP/), [`NlcOptim`](NlcOptim/), [`nleqslv`](nleqslv/), [`nloptr`](nloptr/), [`nlsic`](nlsic/), [`nlsr`](nlsr/), [`nmof`](nmof/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`onls`](onls/), [`OOR`](OOR/), [`optimflex`](optimflex/), [`optimx`](optimx/), [`optmatch`](optmatch/), [`osqp`](osqp/), [`parma`](parma/), [`piqp`](piqp/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`portfoliooptim`](portfoliooptim/), [`ppso`](ppso/), [`pracma`](pracma/), [`pso`](pso/), [`psoptim`](psoptim/), [`psqn`](psqn/), [`PWEV`](PWEV/), [`qap`](qap/), [`quadprog`](quadprog/), [`quadprogXT`](quadprogXT/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`RCEIM`](RCEIM/), [`RcppNumerical`](RcppNumerical/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`REN`](REN/), [`rgenoud`](rgenoud/), [`riskParityPortfolio`](riskParityPortfolio/), [`RiskPortfolios`](RiskPortfolios/), [`Rmalschains`](Rmalschains/), [`rmoo`](rmoo/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/), [`roptim`](roptim/), [`RPEGLMEN`](RPEGLMEN/), [`Rsolnp`](Rsolnp/), [`scip`](scip/), [`scs`](scs/), [`skewunit`](skewunit/), [`smoof`](smoof/), [`soma`](soma/), [`sparseIndexTracking`](sparseIndexTracking/), [`spectralGraphTopology`](spectralGraphTopology/), [`stochQN`](stochQN/), [`strand`](strand/), [`subplex`](subplex/), [`tabuSearch`](tabuSearch/), [`trust`](trust/), [`trustOptim`](trustOptim/), [`TSP`](TSP/), [`TVMVP`](TVMVP/), [`uncorbets`](uncorbets/)
 
 ### option-pricing
 
@@ -306,7 +306,7 @@ Projects scanned: 441.
 
 ### probability
 
-[`AEP`](AEP/), [`anMC`](anMC/), [`argus`](argus/), [`cbinom`](cbinom/), [`distr`](distr/), [`ecd`](ecd/), [`extraDistr`](extraDistr/), [`ghyp`](ghyp/), [`gnorm`](gnorm/), [`good`](good/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`mc2d`](mc2d/), [`mvtnorm`](mvtnorm/), [`nvmix`](nvmix/), [`poibin`](poibin/), [`RMKdiscrete`](RMKdiscrete/), [`sgt`](sgt/), [`skewt`](skewt/), [`skewunit`](skewunit/), [`tsdistributions`](tsdistributions/)
+[`actuar`](actuar/), [`AdequacyModel`](AdequacyModel/), [`AEP`](AEP/), [`anMC`](anMC/), [`argus`](argus/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bivpois`](bivpois/), [`bridgedist`](bridgedist/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`copula`](copula/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`dirmult`](dirmult/), [`DiscreteDists`](DiscreteDists/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`distr`](distr/), [`ecd`](ecd/), [`ecpdist`](ecpdist/), [`ewens`](ewens/), [`extraDistr`](extraDistr/), [`fbasics`](fbasics/), [`fextremes`](fextremes/), [`fitdistrplus`](fitdistrplus/), [`fmultivar`](fmultivar/), [`fracdiff`](fracdiff/), [`frbinom`](frbinom/), [`gamlss.dist`](gamlss.dist/), [`GB2`](GB2/), [`GenBinomApps`](GenBinomApps/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`ghyp`](ghyp/), [`gkwdist`](gkwdist/), [`gnorm`](gnorm/), [`goftest`](goftest/), [`good`](good/), [`graDiEnt`](graDiEnt/), [`hermite`](hermite/), [`hyper2`](hyper2/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`locfit`](locfit/), [`mbbefd`](mbbefd/), [`mc2d`](mc2d/), [`MCMCpack`](MCMCpack/), [`MixedIndTests`](MixedIndTests/), [`mixSPE`](mixSPE/), [`MM`](MM/), [`mvtnorm`](mvtnorm/), [`nbconv`](nbconv/), [`new.dist`](new.dist/), [`normalp_fortran`](normalp_fortran/), [`nvmix`](nvmix/), [`pbo`](pbo/), [`pdqutils`](pdqutils/), [`pgnorm`](pgnorm/), [`PINstimation`](PINstimation/), [`pmultinom_fortran`](pmultinom_fortran/), [`poibin`](poibin/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`polyaAeppli`](polyaAeppli/), [`poweRlaw`](poweRlaw/), [`qrmtools`](qrmtools/), [`quantreg`](quantreg/), [`REBayes`](REBayes/), [`Risk`](Risk/), [`rmgarch`](rmgarch/), [`RMKdiscrete`](RMKdiscrete/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`sde`](sde/), [`sgt`](sgt/), [`skellam`](skellam/), [`SkewHyperbolic`](SkewHyperbolic/), [`skewt`](skewt/), [`skewunit`](skewunit/), [`sn`](sn/), [`stochfactor`](stochfactor/), [`stochQN`](stochQN/), [`stochvolTMB`](stochvolTMB/), [`SuppDists`](SuppDists/), [`tsdistributions`](tsdistributions/), [`tsmarch`](tsmarch/), [`yrnd`](yrnd/), [`ZeroOneDists`](ZeroOneDists/)
 
 ### quadratic-programming
 
@@ -350,7 +350,7 @@ Projects scanned: 441.
 
 ### simulation
 
-[`Jdmbs`](Jdmbs/), [`JumpTest`](JumpTest/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`rtl`](rtl/), [`strand`](strand/), [`Trading`](Trading/)
+[`bivpois`](bivpois/), [`copula`](copula/), [`ewens`](ewens/), [`fracdiff`](fracdiff/), [`greeks`](greeks/), [`greeks1`](greeks1/), [`Jdmbs`](Jdmbs/), [`JumpTest`](JumpTest/), [`LaplacesDemon`](LaplacesDemon/), [`lgarch`](lgarch/), [`mcmc`](mcmc/), [`MCMCpack`](MCMCpack/), [`MultiRNG`](MultiRNG/), [`optionpricing`](optionpricing/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`randtoolbox`](randtoolbox/), [`rngWELL`](rngWELL/), [`rtl`](rtl/), [`sde`](sde/), [`spacefillr`](spacefillr/), [`strand`](strand/), [`survey`](survey/), [`Trading`](Trading/)
 
 ### smoothing
 
@@ -374,7 +374,7 @@ Projects scanned: 441.
 
 ### statistics
 
-[`ACDm`](ACDm/), [`AEP`](AEP/), [`anMC`](anMC/), [`argus`](argus/), [`backtest`](backtest/), [`bayesgarch`](bayesgarch/), [`bayesm`](bayesm/), [`BEKKs`](BEKKs/), [`betategarch`](betategarch/), [`blmodel`](blmodel/), [`boot`](boot/), [`cbinom`](cbinom/), [`CEoptim`](CEoptim/), [`CircStats`](CircStats/), [`cluster`](cluster/), [`coda`](coda/), [`corpcor`](corpcor/), [`cvar`](cvar/), [`desirability`](desirability/), [`DiceKriging`](DiceKriging/), [`distr`](distr/), [`Dowd`](Dowd/), [`ecd`](ecd/), [`epo`](epo/), [`extraDistr`](extraDistr/), [`fastcluster`](fastcluster/), [`fattailsr`](fattailsr/), [`fcopulae`](fcopulae/), [`ffp`](ffp/), [`FKF`](FKF/), [`FNN`](FNN/), [`fnonlinear`](fnonlinear/), [`fportfolio`](fportfolio/), [`gcpm`](gcpm/), [`ghyp`](ghyp/), [`glmnet`](glmnet/), [`gnorm`](gnorm/), [`gogarch`](gogarch/), [`good`](good/), [`GPareto`](GPareto/), [`gslnls`](gslnls/), [`hdshop`](hdshop/), [`highfrequency`](highfrequency/), [`imputeFin`](imputeFin/), [`IndGenErrors`](IndGenErrors/), [`INFOSET`](INFOSET/), [`invgamstochvol`](invgamstochvol/), [`Jdmbs`](Jdmbs/), [`jfe`](jfe/), [`JumpTest`](JumpTest/), [`kdensity`](kdensity/), [`kernlab`](kernlab/), [`ks`](ks/), [`ldhmm`](ldhmm/), [`leaps`](leaps/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`markowitzr`](markowitzr/), [`maxLik`](maxLik/), [`mc2d`](mc2d/), [`mcrp`](mcrp/), [`Metrics`](Metrics/), [`mfGARCH`](mfGARCH/), [`mixsqp`](mixsqp/), [`moments`](moments/), [`msgarch`](msgarch/), [`msm`](msm/), [`MTS`](MTS/), [`mvtnorm`](mvtnorm/), [`NFCP`](NFCP/), [`nvmix`](nvmix/), [`peerperformance`](peerperformance/), [`poibin`](poibin/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`QCSIS`](QCSIS/), [`quarks`](quarks/), [`rangen`](rangen/), [`RcppNumerical`](RcppNumerical/), [`REN`](REN/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`risksimul`](risksimul/), [`RM2006`](RM2006/), [`RMKdiscrete`](RMKdiscrete/), [`rmutil`](rmutil/), [`Rnanoflann`](Rnanoflann/), [`rnd`](rnd/), [`RobStatTM`](RobStatTM/), [`RPEGLMEN`](RPEGLMEN/), [`RPEIF`](RPEIF/), [`RPESE`](RPESE/), [`rrcov`](rrcov/), [`RSDC`](RSDC/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`Runuran`](Runuran/), [`rvmf`](rvmf/), [`sandwich`](sandwich/), [`sgt`](sgt/), [`sharper`](sharper/), [`sharpeRratio`](sharpeRratio/), [`skewt`](skewt/), [`skewunit`](skewunit/), [`spantest`](spantest/), [`StReg`](StReg/), [`svdnf`](svdnf/), [`Trading`](Trading/), [`treasuryTR`](treasuryTR/), [`tsa`](tsa/), [`tscopula`](tscopula/), [`tsdistributions`](tsdistributions/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tvGarchKF`](tvGarchKF/), [`vares`](vares/), [`vasicekfit`](vasicekfit/), [`wqc`](wqc/), [`ycevo`](ycevo/), [`yieldcurves`](yieldcurves/), [`zigg`](zigg/)
+[`ACDm`](ACDm/), [`actuar`](actuar/), [`AdequacyModel`](AdequacyModel/), [`ADGofTest`](ADGofTest/), [`AEP`](AEP/), [`anMC`](anMC/), [`apt`](apt/), [`arfima`](arfima/), [`argus`](argus/), [`backtest`](backtest/), [`bayesgarch`](bayesgarch/), [`bayesianOU`](bayesianOU/), [`bayesm`](bayesm/), [`BEKKs`](BEKKs/), [`BenfordTests`](BenfordTests/), [`betategarch`](betategarch/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`bidask`](bidask/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bivpois`](bivpois/), [`blmodel`](blmodel/), [`boot`](boot/), [`bridgedist`](bridgedist/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`CEoptim`](CEoptim/), [`CGNM`](CGNM/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`CircStats`](CircStats/), [`clue`](clue/), [`cluster`](cluster/), [`cmaes`](cmaes/), [`coda`](coda/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`coneproj`](coneproj/), [`copula`](copula/), [`corpcor`](corpcor/), [`countDM`](countDM/), [`cubature`](cubature/), [`cvar`](cvar/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`desirability`](desirability/), [`DiceDesign`](DiceDesign/), [`DiceKriging`](DiceKriging/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`DiscreteDists`](DiscreteDists/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`distr`](distr/), [`Dowd`](Dowd/), [`ecd`](ecd/), [`ecpdist`](ecpdist/), [`epo`](epo/), [`esback`](esback/), [`ewens`](ewens/), [`extraDistr`](extraDistr/), [`fastcluster`](fastcluster/), [`fastmatrix`](fastmatrix/), [`fattailsr`](fattailsr/), [`fbasics`](fbasics/), [`fcopulae`](fcopulae/), [`fextremes`](fextremes/), [`ffp`](ffp/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`FinCovRegularization`](FinCovRegularization/), [`fitdistrplus`](fitdistrplus/), [`fitHeavyTail`](fitHeavyTail/), [`FKF`](FKF/), [`flexsurv`](flexsurv/), [`fmultivar`](fmultivar/), [`FNN`](FNN/), [`fnonlinear`](fnonlinear/), [`fportfolio`](fportfolio/), [`frapo`](frapo/), [`frbinom`](frbinom/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`GB2`](GB2/), [`gcpm`](gcpm/), [`GenBinomApps`](GenBinomApps/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`ghyp`](ghyp/), [`gkwdist`](gkwdist/), [`glmnet`](glmnet/), [`globalOptTests`](globalOptTests/), [`gnorm`](gnorm/), [`goftest`](goftest/), [`gogarch`](gogarch/), [`good`](good/), [`GPareto`](GPareto/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`gslnls`](gslnls/), [`hdshop`](hdshop/), [`hermite`](hermite/), [`highfrequency`](highfrequency/), [`hyper2`](hyper2/), [`ICSNP`](ICSNP/), [`imputeFin`](imputeFin/), [`IndGenErrors`](IndGenErrors/), [`INFOSET`](INFOSET/), [`intrinsicFRP`](intrinsicFRP/), [`invgamstochvol`](invgamstochvol/), [`isotone`](isotone/), [`Jdmbs`](Jdmbs/), [`jfe`](jfe/), [`joker`](joker/), [`JumpTest`](JumpTest/), [`kdensity`](kdensity/), [`kernlab`](kernlab/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`ks`](ks/), [`L1pack`](L1pack/), [`ldhmm`](ldhmm/), [`leaps`](leaps/), [`limSolve`](limSolve/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`lme4`](lme4/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`locfit`](locfit/), [`longmemo`](longmemo/), [`markowitzr`](markowitzr/), [`MASS`](MASS/), [`maxLik`](maxLik/), [`mc2d`](mc2d/), [`mclust`](mclust/), [`MCMCpack`](MCMCpack/), [`mcrp`](mcrp/), [`Metrics`](Metrics/), [`mev`](mev/), [`mfGARCH`](mfGARCH/), [`mgcv`](mgcv/), [`miscTools`](miscTools/), [`MixedIndTests`](MixedIndTests/), [`mixSPE`](mixSPE/), [`mixsqp`](mixsqp/), [`mixtools`](mixtools/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`moments`](moments/), [`msgarch`](msgarch/), [`msm`](msm/), [`mstate`](mstate/), [`MTS`](MTS/), [`MultiATSM`](MultiATSM/), [`MultiRNG`](MultiRNG/), [`mvtnorm`](mvtnorm/), [`nbconv`](nbconv/), [`new.dist`](new.dist/), [`NFCP`](NFCP/), [`nlme`](nlme/), [`nls2`](nls2/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`nvmix`](nvmix/), [`onls`](onls/), [`pbo`](pbo/), [`pdqutils`](pdqutils/), [`peerperformance`](peerperformance/), [`performanceanalytics`](performanceanalytics/), [`pgnorm`](pgnorm/), [`PINstimation`](PINstimation/), [`pmultinom_fortran`](pmultinom_fortran/), [`PMwR`](PMwR/), [`poibin`](poibin/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`polyaAeppli`](polyaAeppli/), [`portvine`](portvine/), [`poweRlaw`](poweRlaw/), [`ppcor`](ppcor/), [`PWEV`](PWEV/), [`QCSIS`](QCSIS/), [`qrmtools`](qrmtools/), [`quantreg`](quantreg/), [`quarks`](quarks/), [`R-fixedincome`](R-fixedincome/), [`rangen`](rangen/), [`RcppNumerical`](RcppNumerical/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`REN`](REN/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`RiskPortfolios`](RiskPortfolios/), [`risksimul`](risksimul/), [`RM2006`](RM2006/), [`RMKdiscrete`](RMKdiscrete/), [`rmutil`](rmutil/), [`Rnanoflann`](Rnanoflann/), [`rnd`](rnd/), [`RobStatTM`](RobStatTM/), [`robustbase`](robustbase/), [`RPEGLMEN`](RPEGLMEN/), [`RPEIF`](RPEIF/), [`RPESE`](RPESE/), [`rrcov`](rrcov/), [`RSDC`](RSDC/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`Runuran`](Runuran/), [`rvinecopulib`](rvinecopulib/), [`rvmf`](rvmf/), [`sadists`](sadists/), [`sandwich`](sandwich/), [`segmented`](segmented/), [`sgt`](sgt/), [`sharper`](sharper/), [`sharpeRratio`](sharpeRratio/), [`skellam`](skellam/), [`SkewHyperbolic`](SkewHyperbolic/), [`skewt`](skewt/), [`skewunit`](skewunit/), [`smoof`](smoof/), [`smoots`](smoots/), [`sn`](sn/), [`sna`](sna/), [`spantest`](spantest/), [`StReg`](StReg/), [`SuppDists`](SuppDists/), [`survey`](survey/), [`survival`](survival/), [`svdnf`](svdnf/), [`tolerance`](tolerance/), [`Trading`](Trading/), [`trawl`](trawl/), [`treasuryTR`](treasuryTR/), [`tsa`](tsa/), [`tscopula`](tscopula/), [`tsdistributions`](tsdistributions/), [`tsdyn`](tsdyn/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tvgarch`](tvgarch/), [`tvGarchKF`](tvGarchKF/), [`TVMVP`](TVMVP/), [`ufRisk`](ufRisk/), [`vares`](vares/), [`vasicekfit`](vasicekfit/), [`VGAM`](VGAM/), [`vrtest`](vrtest/), [`wqc`](wqc/), [`ycevo`](ycevo/), [`YieldCurve`](YieldCurve/), [`yieldcurves`](yieldcurves/), [`ZeroOneDists`](ZeroOneDists/), [`zigg`](zigg/)
 
 ### steady-state
 
@@ -394,7 +394,7 @@ Projects scanned: 441.
 
 ### time-series
 
-[`ACDm`](ACDm/), [`betategarch`](betategarch/), [`FKF`](FKF/), [`fnonlinear`](fnonlinear/), [`gogarch`](gogarch/), [`highfrequency`](highfrequency/), [`imputeFin`](imputeFin/), [`IndGenErrors`](IndGenErrors/), [`intradayModel`](intradayModel/), [`invgamstochvol`](invgamstochvol/), [`ldhmm`](ldhmm/), [`mfGARCH`](mfGARCH/), [`msgarch`](msgarch/), [`MTS`](MTS/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`RM2006`](RM2006/), [`RPESE`](RPESE/), [`RSDC`](RSDC/), [`rugarch`](rugarch/), [`Spillover`](Spillover/), [`StReg`](StReg/), [`tsa`](tsa/), [`tscopula`](tscopula/), [`tsdistributions`](tsdistributions/), [`tseries`](tseries/), [`tserieschaos`](tserieschaos/), [`tsgarch`](tsgarch/), [`tvGarchKF`](tvGarchKF/), [`wqc`](wqc/)
+[`ACDm`](ACDm/), [`apt`](apt/), [`arfima`](arfima/), [`betategarch`](betategarch/), [`CLA`](CLA/), [`esback`](esback/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`FinTS`](FinTS/), [`FKF`](FKF/), [`fnonlinear`](fnonlinear/), [`fracdiff`](fracdiff/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`gogarch`](gogarch/), [`greeks`](greeks/), [`greeks1`](greeks1/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`highfrequency`](highfrequency/), [`imputeFin`](imputeFin/), [`IndGenErrors`](IndGenErrors/), [`intradayModel`](intradayModel/), [`invgamstochvol`](invgamstochvol/), [`ldhmm`](ldhmm/), [`lgarch`](lgarch/), [`longmemo`](longmemo/), [`ltsa`](ltsa/), [`mfGARCH`](mfGARCH/), [`MixedIndTests`](MixedIndTests/), [`msgarch`](msgarch/), [`MTS`](MTS/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`RM2006`](RM2006/), [`rmgarch`](rmgarch/), [`RPESE`](RPESE/), [`RSDC`](RSDC/), [`rugarch`](rugarch/), [`segmented`](segmented/), [`smoots`](smoots/), [`spectralGraphTopology`](spectralGraphTopology/), [`Spillover`](Spillover/), [`stochfactor`](stochfactor/), [`stochvolTMB`](stochvolTMB/), [`StReg`](StReg/), [`timsac`](timsac/), [`tsa`](tsa/), [`tscopula`](tscopula/), [`tsdistributions`](tsdistributions/), [`tsdyn`](tsdyn/), [`tseries`](tseries/), [`tserieschaos`](tserieschaos/), [`tsgarch`](tsgarch/), [`tsmarch`](tsmarch/), [`tvgarch`](tvgarch/), [`tvGarchKF`](tvGarchKF/), [`ufRisk`](ufRisk/), [`vrtest`](vrtest/), [`waveslim`](waveslim/), [`wqc`](wqc/)
 
 ### utilities
 
@@ -482,6 +482,10 @@ Projects scanned: 441.
 
 [`skewunit`](skewunit/)
 
+### algorithms
+
+[`igraph`](igraph/), [`ManifoldOptim`](ManifoldOptim/), [`metaheuristicOpt`](metaheuristicOpt/), [`nilde`](nilde/), [`PSDistr`](PSDistr/), [`quadform`](quadform/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`TSP`](TSP/)
+
 ### american
 
 [`multiAssetOptions`](multiAssetOptions/)
@@ -562,6 +566,10 @@ Projects scanned: 441.
 
 [`intrinsicFRP`](intrinsicFRP/)
 
+### asymmetric-exponential-power
+
+[`AEP`](AEP/)
+
 ### asymmetric-kernels
 
 [`kdensity`](kdensity/)
@@ -588,7 +596,7 @@ Projects scanned: 441.
 
 ### backtesting
 
-[`Dowd`](Dowd/), [`esback`](esback/), [`quarks`](quarks/), [`strand`](strand/)
+[`backtest`](backtest/), [`Dowd`](Dowd/), [`esback`](esback/), [`quarks`](quarks/), [`strand`](strand/)
 
 ### bandwidth
 
@@ -609,6 +617,10 @@ Projects scanned: 441.
 ### bayesian
 
 [`bayesgarch`](bayesgarch/), [`bayesm`](bayesm/), [`blmodel`](blmodel/), [`MCMCpack`](MCMCpack/), [`msgarch`](msgarch/)
+
+### bayesian-inference
+
+[`bayesianOU`](bayesianOU/), [`LaplacesDemon`](LaplacesDemon/), [`mlrMBO`](mlrMBO/)
 
 ### bcc1997
 
@@ -641,6 +653,10 @@ Projects scanned: 441.
 ### beta
 
 [`gkwdist`](gkwdist/)
+
+### beta-distribution
+
+[`betafunctions`](betafunctions/)
 
 ### bfgs
 
@@ -696,7 +712,7 @@ Projects scanned: 441.
 
 ### bootstrap
 
-[`CircStats`](CircStats/), [`fitdistrplus`](fitdistrplus/), [`lme4`](lme4/), [`poweRlaw`](poweRlaw/), [`RPESE`](RPESE/), [`tseries`](tseries/), [`vrtest`](vrtest/)
+[`boot`](boot/), [`CircStats`](CircStats/), [`fitdistrplus`](fitdistrplus/), [`lme4`](lme4/), [`poweRlaw`](poweRlaw/), [`RPESE`](RPESE/), [`tseries`](tseries/), [`vrtest`](vrtest/)
 
 ### bounded
 
@@ -800,7 +816,7 @@ Projects scanned: 441.
 
 ### classification
 
-[`FNN`](FNN/), [`ks`](ks/), [`Metrics`](Metrics/)
+[`betafunctions`](betafunctions/), [`FNN`](FNN/), [`ks`](ks/), [`Metrics`](Metrics/)
 
 ### clopper-pearson
 
@@ -812,7 +828,7 @@ Projects scanned: 441.
 
 ### clustering
 
-[`fastcluster`](fastcluster/), [`kernlab`](kernlab/), [`mixSPE`](mixSPE/), [`spectralGraphTopology`](spectralGraphTopology/)
+[`CGNM`](CGNM/), [`clue`](clue/), [`fastcluster`](fastcluster/), [`kernlab`](kernlab/), [`mclust`](mclust/), [`mixSPE`](mixSPE/), [`spectralGraphTopology`](spectralGraphTopology/)
 
 ### cma-es
 
@@ -825,6 +841,14 @@ Projects scanned: 441.
 ### cokurtosis
 
 [`mcrp`](mcrp/)
+
+### combinatorial-optimization
+
+[`FLSSS`](FLSSS/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`optmatch`](optmatch/), [`qap`](qap/)
+
+### combinatorics
+
+[`partitions`](partitions/)
 
 ### commodity
 
@@ -846,9 +870,17 @@ Projects scanned: 441.
 
 [`numDeriv`](numDeriv/)
 
+### compositional-data
+
+[`compositions`](compositions/)
+
 ### compound-poisson
 
 [`polyaAeppli`](polyaAeppli/)
+
+### computational-methods
+
+[`randtoolbox`](randtoolbox/), [`rngWELL`](rngWELL/)
 
 ### confidence-interval
 
@@ -865,6 +897,10 @@ Projects scanned: 441.
 ### connectedness
 
 [`Spillover`](Spillover/)
+
+### constrained-optimization
+
+[`limSolve`](limSolve/), [`lsei`](lsei/), [`subplex`](subplex/)
 
 ### constraints
 
@@ -908,7 +944,7 @@ Projects scanned: 441.
 
 ### copulas
 
-[`nvmix`](nvmix/)
+[`nvmix`](nvmix/), [`rvinecopulib`](rvinecopulib/)
 
 ### corporate-finance
 
@@ -928,7 +964,7 @@ Projects scanned: 441.
 
 ### count-data
 
-[`DiscreteDists`](DiscreteDists/), [`good`](good/), [`hermite`](hermite/)
+[`bzinb`](bzinb/), [`COMPoissonReg`](COMPoissonReg/), [`countDM`](countDM/), [`DiscreteDists`](DiscreteDists/), [`good`](good/), [`hermite`](hermite/), [`MNB`](MNB/), [`nbconv`](nbconv/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/)
 
 ### counterparty-credit-risk
 
@@ -936,7 +972,7 @@ Projects scanned: 441.
 
 ### covariance
 
-[`corpcor`](corpcor/), [`epo`](epo/), [`FinCovRegularization`](FinCovRegularization/), [`fitHeavyTail`](fitHeavyTail/), [`hdshop`](hdshop/), [`markowitzr`](markowitzr/), [`RiskPortfolios`](RiskPortfolios/), [`RM2006`](RM2006/), [`TVMVP`](TVMVP/)
+[`cmaes`](cmaes/), [`corpcor`](corpcor/), [`epo`](epo/), [`FinCovRegularization`](FinCovRegularization/), [`fitHeavyTail`](fitHeavyTail/), [`hdshop`](hdshop/), [`markowitzr`](markowitzr/), [`RiskPortfolios`](RiskPortfolios/), [`RM2006`](RM2006/), [`TVMVP`](TVMVP/)
 
 ### cox
 
@@ -1076,7 +1112,7 @@ Projects scanned: 441.
 
 ### density-estimation
 
-[`locfit`](locfit/)
+[`KernSmooth`](KernSmooth/), [`locfit`](locfit/)
 
 ### deoptim
 
@@ -1093,6 +1129,10 @@ Projects scanned: 441.
 ### derivative-free
 
 [`minqa`](minqa/)
+
+### derivative-free-optimization
+
+[`dfoptim`](dfoptim/), [`neldermead`](neldermead/)
 
 ### derringer-suich
 
@@ -1132,15 +1172,27 @@ Projects scanned: 441.
 
 ### differential-evolution
 
-[`DEoptim`](DEoptim/)
+[`DEoptim`](DEoptim/), [`deoptimr`](deoptimr/), [`GA`](GA/)
+
+### dimension-reduction
+
+[`irlba`](irlba/)
 
 ### directional
 
 [`rvmf`](rvmf/)
 
+### directional-statistics
+
+[`Directional`](Directional/)
+
 ### dirichlet
 
 [`CEoptim`](CEoptim/)
+
+### dirichlet-distribution
+
+[`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`hyper2`](hyper2/)
 
 ### discount-function
 
@@ -1242,6 +1294,10 @@ Projects scanned: 441.
 
 [`betategarch`](betategarch/)
 
+### eigenvalues
+
+[`RSpectra`](RSpectra/)
+
 ### elastic-net
 
 [`glmnet`](glmnet/), [`RPEGLMEN`](RPEGLMEN/), [`RPESE`](RPESE/)
@@ -1298,6 +1354,10 @@ Projects scanned: 441.
 
 [`esback`](esback/)
 
+### estimation
+
+[`arfima`](arfima/), [`bayesianOU`](bayesianOU/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`CGNM`](CGNM/), [`COMPoissonReg`](COMPoissonReg/), [`countDM`](countDM/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`fbonds`](fbonds/), [`fextremes`](fextremes/), [`fhmm`](fhmm/), [`flexsurv`](flexsurv/), [`gamlss`](gamlss/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`goftest`](goftest/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`lgarch`](lgarch/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`mixsqp`](mixsqp/), [`mstate`](mstate/), [`nls2`](nls2/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`quantreg`](quantreg/), [`trawl`](trawl/), [`tsdyn`](tsdyn/), [`tvgarch`](tvgarch/), [`VGAM`](VGAM/)
+
 ### evolutionary
 
 [`caRamel`](caRamel/)
@@ -1338,6 +1398,10 @@ Projects scanned: 441.
 
 [`gnorm`](gnorm/)
 
+### exponential-power-distribution
+
+[`AEP`](AEP/), [`normalp_fortran`](normalp_fortran/)
+
 ### exposure-curves
 
 [`mbbefd`](mbbefd/)
@@ -1348,7 +1412,7 @@ Projects scanned: 441.
 
 ### extreme-value
 
-[`Dowd`](Dowd/), [`fcopulae`](fcopulae/)
+[`Dowd`](Dowd/), [`evir`](evir/), [`fcopulae`](fcopulae/), [`fextremes`](fextremes/), [`mev`](mev/)
 
 ### factor-model
 
@@ -1370,6 +1434,10 @@ Projects scanned: 441.
 
 [`fattailsr`](fattailsr/)
 
+### feature-selection
+
+[`kofnGA`](kofnGA/)
+
 ### fevd
 
 [`Spillover`](Spillover/)
@@ -1384,7 +1452,11 @@ Projects scanned: 441.
 
 ### finance
 
-[`bidask`](bidask/), [`fGarch`](fGarch/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fingraph`](fingraph/), [`FinTS`](FinTS/), [`frapo`](frapo/), [`GARCHIto`](GARCHIto/), [`greeks1`](greeks1/), [`highOrderPortfolios`](highOrderPortfolios/), [`ldhmm`](ldhmm/), [`pbo`](pbo/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`Risk`](Risk/), [`rmgarch`](rmgarch/), [`rtl`](rtl/), [`stochvolTMB`](stochvolTMB/), [`tsmarch`](tsmarch/), [`tvm`](tvm/), [`yrnd`](yrnd/)
+[`backtest`](backtest/), [`bidask`](bidask/), [`derivmkts`](derivmkts/), [`evir`](evir/), [`fbasics`](fbasics/), [`fbonds`](fbonds/), [`fcl`](fcl/), [`fextremes`](fextremes/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fingraph`](fingraph/), [`FinTS`](FinTS/), [`fmultivar`](fmultivar/), [`frapo`](frapo/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`greeks1`](greeks1/), [`highOrderPortfolios`](highOrderPortfolios/), [`ldhmm`](ldhmm/), [`lgarch`](lgarch/), [`matchingMarkets`](matchingMarkets/), [`pbo`](pbo/), [`performanceanalytics`](performanceanalytics/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`Risk`](Risk/), [`rmgarch`](rmgarch/), [`rtl`](rtl/), [`stochfactor`](stochfactor/), [`stochvolTMB`](stochvolTMB/), [`tsmarch`](tsmarch/), [`tvgarch`](tvgarch/), [`tvm`](tvm/), [`yrnd`](yrnd/)
+
+### financial-econometrics
+
+[`garchsk`](garchsk/), [`garchx`](garchx/), [`lgarch`](lgarch/), [`performanceanalytics`](performanceanalytics/), [`stochfactor`](stochfactor/), [`tvgarch`](tvgarch/)
 
 ### financial-mathematics
 
@@ -1400,7 +1472,7 @@ Projects scanned: 441.
 
 ### fixed-income
 
-[`QuantBondCurves`](QuantBondCurves/), [`R-fixedincome`](R-fixedincome/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`YieldCurve`](YieldCurve/)
+[`fbonds`](fbonds/), [`fcl`](fcl/), [`QuantBondCurves`](QuantBondCurves/), [`R-fixedincome`](R-fixedincome/), [`SmithWilsonYieldCurve`](SmithWilsonYieldCurve/), [`YieldCurve`](YieldCurve/)
 
 ### flexible-probabilities
 
@@ -1408,7 +1480,7 @@ Projects scanned: 441.
 
 ### forecasting
 
-[`betategarch`](betategarch/), [`intradayModel`](intradayModel/), [`ldhmm`](ldhmm/), [`smoots`](smoots/), [`tscopula`](tscopula/), [`tsgarch`](tsgarch/)
+[`arfima`](arfima/), [`betategarch`](betategarch/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`intradayModel`](intradayModel/), [`ldhmm`](ldhmm/), [`smoots`](smoots/), [`tscopula`](tscopula/), [`tsgarch`](tsgarch/)
 
 ### fortran
 
@@ -1460,7 +1532,7 @@ Projects scanned: 441.
 
 ### garch
 
-[`bayesgarch`](bayesgarch/), [`CLA`](CLA/), [`cvar`](cvar/), [`fGarch`](fGarch/), [`GARCHIto`](GARCHIto/), [`gogarch`](gogarch/), [`msgarch`](msgarch/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`quarks`](quarks/), [`rugarch`](rugarch/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tsmarch`](tsmarch/), [`tvGarchKF`](tvGarchKF/), [`ufRisk`](ufRisk/)
+[`bayesgarch`](bayesgarch/), [`CLA`](CLA/), [`cvar`](cvar/), [`fGarch`](fGarch/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`gogarch`](gogarch/), [`lgarch`](lgarch/), [`msgarch`](msgarch/), [`portvine`](portvine/), [`PWEV`](PWEV/), [`quarks`](quarks/), [`rugarch`](rugarch/), [`tseries`](tseries/), [`tsgarch`](tsgarch/), [`tsmarch`](tsmarch/), [`tvgarch`](tvgarch/), [`tvGarchKF`](tvGarchKF/), [`ufRisk`](ufRisk/)
 
 ### garch-midas
 
@@ -1528,7 +1600,11 @@ Projects scanned: 441.
 
 ### genetic-algorithm
 
-[`genalg`](genalg/), [`rgenoud`](rgenoud/)
+[`GA`](GA/), [`genalg`](genalg/), [`rgenoud`](rgenoud/), [`rmoo`](rmoo/)
+
+### genetic-algorithms
+
+[`GA`](GA/), [`kofnGA`](kofnGA/), [`mcga`](mcga/)
 
 ### geometric-poisson
 
@@ -1556,7 +1632,7 @@ Projects scanned: 441.
 
 ### global-optimization
 
-[`cec2013`](cec2013/), [`DEoptim`](DEoptim/), [`GenSA`](GenSA/), [`rgenoud`](rgenoud/)
+[`adagio`](adagio/), [`cec2013`](cec2013/), [`DEoptim`](DEoptim/), [`deoptimr`](deoptimr/), [`GenSA`](GenSA/), [`globalOptTests`](globalOptTests/), [`OOR`](OOR/), [`rgenoud`](rgenoud/)
 
 ### gls
 
@@ -1584,11 +1660,23 @@ Projects scanned: 441.
 
 ### goodness-of-fit
 
-[`ADGofTest`](ADGofTest/), [`fitdistrplus`](fitdistrplus/)
+[`AdequacyModel`](AdequacyModel/), [`ADGofTest`](ADGofTest/), [`fitdistrplus`](fitdistrplus/), [`goftest`](goftest/)
 
 ### gradient
 
 [`numDeriv`](numDeriv/)
+
+### gradient-methods
+
+[`graDiEnt`](graDiEnt/), [`nonneg-cg`](nonneg-cg/), [`psqn`](psqn/), [`stochQN`](stochQN/)
+
+### graph
+
+[`igraph`](igraph/)
+
+### graph-algorithms
+
+[`degreenet`](degreenet/), [`igraph`](igraph/)
 
 ### graphs
 
@@ -1636,7 +1724,7 @@ Projects scanned: 441.
 
 ### heavy-tails
 
-[`fingraph`](fingraph/), [`fitHeavyTail`](fitHeavyTail/), [`sharpeRratio`](sharpeRratio/), [`tsdistributions`](tsdistributions/)
+[`fingraph`](fingraph/), [`fitHeavyTail`](fitHeavyTail/), [`sharpeRratio`](sharpeRratio/), [`SkewHyperbolic`](SkewHyperbolic/), [`tsdistributions`](tsdistributions/)
 
 ### hedging
 
@@ -1657,6 +1745,10 @@ Projects scanned: 441.
 ### heteroskedasticity
 
 [`StReg`](StReg/)
+
+### hidden-markov-models
+
+[`fhmm`](fhmm/)
 
 ### hierarchical-clustering
 
@@ -1705,6 +1797,10 @@ Projects scanned: 441.
 ### hypergeometric
 
 [`hypergeo`](hypergeo/)
+
+### hypergeometric-distribution
+
+[`BiasedUrn`](BiasedUrn/), [`chyper`](chyper/)
 
 ### ica
 
@@ -1862,6 +1958,10 @@ Projects scanned: 441.
 
 [`kdensity`](kdensity/)
 
+### kernel-methods
+
+[`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/)
+
 ### kernel-smoothing
 
 [`locfit`](locfit/)
@@ -1901,6 +2001,10 @@ Projects scanned: 441.
 ### kva
 
 [`xVA`](xVA/)
+
+### l-moments
+
+[`lmomco`](lmomco/), [`Lmoments`](Lmoments/)
 
 ### l1
 
@@ -1956,7 +2060,7 @@ Projects scanned: 441.
 
 ### least-squares
 
-[`bvls`](bvls/)
+[`bvls`](bvls/), [`lsei`](lsei/), [`nlsr`](nlsr/), [`nnls`](nnls/), [`onls`](onls/)
 
 ### least-squares-monte-carlo
 
@@ -1992,11 +2096,11 @@ Projects scanned: 441.
 
 ### linear-algebra
 
-[`Matrix`](Matrix/), [`MatrixExtra`](MatrixExtra/), [`pracma`](pracma/)
+[`cmaes`](cmaes/), [`fastmatrix`](fastmatrix/), [`irlba`](irlba/), [`Matrix`](Matrix/), [`MatrixExtra`](MatrixExtra/), [`pracma`](pracma/)
 
 ### linear-programming
 
-[`cccp`](cccp/), [`highs`](highs/), [`portfoliooptim`](portfoliooptim/), [`strand`](strand/)
+[`cccp`](cccp/), [`highs`](highs/), [`linprog`](linprog/), [`portfoliooptim`](portfoliooptim/), [`strand`](strand/)
 
 ### linear-regression
 
@@ -2044,7 +2148,7 @@ Projects scanned: 441.
 
 ### long-memory
 
-[`fracdiff`](fracdiff/)
+[`arfima`](arfima/), [`fracdiff`](fracdiff/), [`longmemo`](longmemo/)
 
 ### long-range-dependence
 
@@ -2077,6 +2181,10 @@ Projects scanned: 441.
 ### ma-ls-chains
 
 [`Rmalschains`](Rmalschains/)
+
+### machine-learning
+
+[`betafunctions`](betafunctions/), [`CGNM`](CGNM/), [`clue`](clue/), [`KrigInv`](KrigInv/), [`mclust`](mclust/), [`mlr`](mlr/)
 
 ### macro-finance
 
@@ -2118,6 +2226,10 @@ Projects scanned: 441.
 
 [`matlab`](matlab/), [`Matrix`](Matrix/), [`MatrixExtra`](MatrixExtra/), [`miscTools`](miscTools/), [`Rfast`](Rfast/), [`slam`](slam/)
 
+### matrix-computations
+
+[`cmaes`](cmaes/), [`fastmatrix`](fastmatrix/), [`tensorA`](tensorA/)
+
 ### matrix-exponential
 
 [`expm`](expm/), [`msm`](msm/)
@@ -2132,7 +2244,7 @@ Projects scanned: 441.
 
 ### maximum-likelihood
 
-[`ACDm`](ACDm/), [`betategarch`](betategarch/), [`bivpois`](bivpois/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`fitdistrplus`](fitdistrplus/), [`fracdiff`](fracdiff/), [`gkwdist`](gkwdist/), [`good`](good/), [`maxLik`](maxLik/), [`poweRlaw`](poweRlaw/), [`skellam`](skellam/), [`skewunit`](skewunit/), [`sn`](sn/), [`stochvolTMB`](stochvolTMB/), [`svdnf`](svdnf/), [`tsdistributions`](tsdistributions/)
+[`ACDm`](ACDm/), [`betategarch`](betategarch/), [`bivpois`](bivpois/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`fitdistrplus`](fitdistrplus/), [`fracdiff`](fracdiff/), [`gkwdist`](gkwdist/), [`good`](good/), [`hyper2`](hyper2/), [`maxLik`](maxLik/), [`poweRlaw`](poweRlaw/), [`REBayes`](REBayes/), [`skellam`](skellam/), [`skewunit`](skewunit/), [`sn`](sn/), [`stochvolTMB`](stochvolTMB/), [`svdnf`](svdnf/), [`tsdistributions`](tsdistributions/)
 
 ### mbbefd
 
@@ -2232,7 +2344,7 @@ Projects scanned: 441.
 
 ### mixture-models
 
-[`mixtools`](mixtools/)
+[`mclust`](mclust/), [`mixsqp`](mixsqp/), [`mixtools`](mixtools/), [`nspmix`](nspmix/)
 
 ### mle
 
@@ -2245,6 +2357,10 @@ Projects scanned: 441.
 ### mm-regression
 
 [`RobStatTM`](RobStatTM/)
+
+### modeling
+
+[`DiceDesign`](DiceDesign/), [`fbonds`](fbonds/), [`lgarch`](lgarch/)
 
 ### modified-sharpe
 
@@ -2276,7 +2392,7 @@ Projects scanned: 441.
 
 ### monte-carlo
 
-[`bivpois`](bivpois/), [`greeks1`](greeks1/), [`Jdmbs`](Jdmbs/), [`mc2d`](mc2d/), [`NFCP`](NFCP/), [`opthedging`](opthedging/), [`optionpricing`](optionpricing/), [`Runuran`](Runuran/), [`spantest`](spantest/)
+[`bivpois`](bivpois/), [`greeks1`](greeks1/), [`Jdmbs`](Jdmbs/), [`LaplacesDemon`](LaplacesDemon/), [`mc2d`](mc2d/), [`NFCP`](NFCP/), [`opthedging`](opthedging/), [`optionpricing`](optionpricing/), [`Runuran`](Runuran/), [`spantest`](spantest/)
 
 ### mortality
 
@@ -2292,7 +2408,11 @@ Projects scanned: 441.
 
 ### multiobjective
 
-[`caRamel`](caRamel/), [`GPareto`](GPareto/)
+[`caRamel`](caRamel/), [`GPareto`](GPareto/), [`rmoo`](rmoo/)
+
+### multiobjective-optimization
+
+[`rmoo`](rmoo/), [`smoof`](smoof/)
 
 ### multiples
 
@@ -2317,6 +2437,10 @@ Projects scanned: 441.
 ### multivariate-normal
 
 [`mvtnorm`](mvtnorm/)
+
+### multivariate-statistics
+
+[`cubature`](cubature/), [`fmultivar`](fmultivar/), [`ICSNP`](ICSNP/), [`lgarch`](lgarch/), [`MNB`](MNB/), [`MultiRNG`](MultiRNG/)
 
 ### multivariate-t
 
@@ -2361,6 +2485,10 @@ Projects scanned: 441.
 ### nested-monte-carlo
 
 [`anMC`](anMC/)
+
+### network
+
+[`igraph`](igraph/)
 
 ### network-statistics
 
@@ -2408,7 +2536,7 @@ Projects scanned: 441.
 
 ### nonlinear-least-squares
 
-[`gslnls`](gslnls/), [`nlsic`](nlsic/)
+[`gslnls`](gslnls/), [`nlsic`](nlsic/), [`nlsr`](nlsr/)
 
 ### nonlinear-optimization
 
@@ -2430,6 +2558,10 @@ Projects scanned: 441.
 
 [`zigg`](zigg/)
 
+### normal-distribution
+
+[`pgnorm`](pgnorm/), [`poilog`](poilog/)
+
 ### normal-variance-mixtures
 
 [`nvmix`](nvmix/)
@@ -2442,13 +2574,25 @@ Projects scanned: 441.
 
 [`jrvFinance`](jrvFinance/)
 
+### numerical
+
+[`adagio`](adagio/), [`ao`](ao/), [`arfima`](arfima/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`betafunctions`](betafunctions/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`boot`](boot/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`CGNM`](CGNM/), [`chyper`](chyper/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`deoptimr`](deoptimr/), [`derivmkts`](derivmkts/), [`dfoptim`](dfoptim/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`evir`](evir/), [`fastmatrix`](fastmatrix/), [`fcl`](fcl/), [`flexsurv`](flexsurv/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`goftest`](goftest/), [`graDiEnt`](graDiEnt/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`ICSNP`](ICSNP/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`LaplacesDemon`](LaplacesDemon/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ltsa`](ltsa/), [`marqLevAlg`](marqLevAlg/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`mcga`](mcga/), [`mclust`](mclust/), [`mco`](mco/), [`mev`](mev/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`nbconv`](nbconv/), [`neldermead`](neldermead/), [`nilde`](nilde/), [`nls2`](nls2/), [`nlsr`](nlsr/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`optimflex`](optimflex/), [`partitions`](partitions/), [`pdqutils`](pdqutils/), [`pgnorm`](pgnorm/), [`pmultinom_fortran`](pmultinom_fortran/), [`poilog`](poilog/), [`ppso`](ppso/), [`PSDistr`](PSDistr/), [`psoptim`](psoptim/), [`qap`](qap/), [`qrmtools`](qrmtools/), [`quadform`](quadform/), [`quantreg`](quantreg/), [`RCEIM`](RCEIM/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`robustbase`](robustbase/), [`RSpectra`](RSpectra/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`scs`](scs/), [`SkewHyperbolic`](SkewHyperbolic/), [`smoof`](smoof/), [`soma`](soma/), [`spacefillr`](spacefillr/), [`splines`](splines/), [`stochQN`](stochQN/), [`subplex`](subplex/), [`SuppDists`](SuppDists/), [`tensorA`](tensorA/), [`timsac`](timsac/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`tsdyn`](tsdyn/), [`VGAM`](VGAM/), [`ZeroOneDists`](ZeroOneDists/)
+
 ### numerical-analysis
 
 [`contfrac`](contfrac/), [`pracma`](pracma/)
 
 ### numerical-differentiation
 
-[`numDeriv`](numDeriv/)
+[`derivmkts`](derivmkts/), [`dfoptim`](dfoptim/), [`graDiEnt`](graDiEnt/), [`neldermead`](neldermead/), [`nonneg-cg`](nonneg-cg/), [`numDeriv`](numDeriv/), [`optimflex`](optimflex/), [`trustOptim`](trustOptim/)
+
+### numerical-integration
+
+[`cubature`](cubature/)
+
+### numerical-methods
+
+[`adagio`](adagio/), [`ao`](ao/), [`deoptimr`](deoptimr/), [`derivmkts`](derivmkts/), [`dfoptim`](dfoptim/), [`evir`](evir/), [`fcl`](fcl/), [`FLSSS`](FLSSS/), [`GA`](GA/), [`igraph`](igraph/), [`irlba`](irlba/), [`kofnGA`](kofnGA/), [`LaplacesDemon`](LaplacesDemon/), [`linprog`](linprog/), [`LowRankQP`](LowRankQP/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ltsa`](ltsa/), [`ManifoldOptim`](ManifoldOptim/), [`marqLevAlg`](marqLevAlg/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`mcga`](mcga/), [`mco`](mco/), [`metaheuristicOpt`](metaheuristicOpt/), [`neldermead`](neldermead/), [`nilde`](nilde/), [`nlsr`](nlsr/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`OOR`](OOR/), [`optimflex`](optimflex/), [`optmatch`](optmatch/), [`partitions`](partitions/), [`ppso`](ppso/), [`PSDistr`](PSDistr/), [`psoptim`](psoptim/), [`psqn`](psqn/), [`qap`](qap/), [`quadform`](quadform/), [`RCEIM`](RCEIM/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`rmoo`](rmoo/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/), [`RSpectra`](RSpectra/), [`scs`](scs/), [`soma`](soma/), [`spacefillr`](spacefillr/), [`splines`](splines/), [`subplex`](subplex/), [`tensorA`](tensorA/), [`timsac`](timsac/), [`trustOptim`](trustOptim/), [`TSP`](TSP/)
 
 ### ode
 
@@ -2472,7 +2616,7 @@ Projects scanned: 441.
 
 ### optimization
 
-[`ABCoptim`](ABCoptim/), [`alabama`](alabama/), [`caRamel`](caRamel/), [`cec2005benchmark`](cec2005benchmark/), [`CEoptim`](CEoptim/), [`desirability`](desirability/), [`frapo`](frapo/), [`genalg`](genalg/), [`highs`](highs/), [`lbfgs`](lbfgs/), [`minqa`](minqa/), [`n1qn1`](n1qn1/), [`nmof`](nmof/), [`osqp`](osqp/), [`parma`](parma/), [`piqp`](piqp/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`pracma`](pracma/), [`pso`](pso/), [`rgenoud`](rgenoud/), [`RiskPortfolios`](RiskPortfolios/), [`roptim`](roptim/), [`Rsolnp`](Rsolnp/), [`spectralGraphTopology`](spectralGraphTopology/), [`trust`](trust/)
+[`ABCoptim`](ABCoptim/), [`adagio`](adagio/), [`AdequacyModel`](AdequacyModel/), [`alabama`](alabama/), [`ao`](ao/), [`caRamel`](caRamel/), [`cec2005benchmark`](cec2005benchmark/), [`CEoptim`](CEoptim/), [`cmaes`](cmaes/), [`coneproj`](coneproj/), [`deoptimr`](deoptimr/), [`desirability`](desirability/), [`dfoptim`](dfoptim/), [`FLSSS`](FLSSS/), [`frapo`](frapo/), [`GA`](GA/), [`genalg`](genalg/), [`globalOptTests`](globalOptTests/), [`graDiEnt`](graDiEnt/), [`highs`](highs/), [`isotone`](isotone/), [`kofnGA`](kofnGA/), [`lbfgs`](lbfgs/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`LowRankQP`](LowRankQP/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ManifoldOptim`](ManifoldOptim/), [`marqLevAlg`](marqLevAlg/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`mcga`](mcga/), [`mco`](mco/), [`metaheuristicOpt`](metaheuristicOpt/), [`minqa`](minqa/), [`mixsqp`](mixsqp/), [`mlrMBO`](mlrMBO/), [`n1qn1`](n1qn1/), [`neldermead`](neldermead/), [`nlsr`](nlsr/), [`nmof`](nmof/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`onls`](onls/), [`OOR`](OOR/), [`optimflex`](optimflex/), [`optmatch`](optmatch/), [`osqp`](osqp/), [`parma`](parma/), [`piqp`](piqp/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`ppso`](ppso/), [`pracma`](pracma/), [`pso`](pso/), [`psoptim`](psoptim/), [`psqn`](psqn/), [`qap`](qap/), [`RCEIM`](RCEIM/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`rgenoud`](rgenoud/), [`RiskPortfolios`](RiskPortfolios/), [`rmoo`](rmoo/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/), [`roptim`](roptim/), [`Rsolnp`](Rsolnp/), [`scs`](scs/), [`smoof`](smoof/), [`soma`](soma/), [`spectralGraphTopology`](spectralGraphTopology/), [`stochQN`](stochQN/), [`subplex`](subplex/), [`trust`](trust/), [`trustOptim`](trustOptim/), [`TSP`](TSP/)
 
 ### option-pricing
 
@@ -2540,7 +2684,7 @@ Projects scanned: 441.
 
 ### pca
 
-[`FinTS`](FinTS/), [`Rfast2`](Rfast2/), [`rrcov`](rrcov/), [`uncorbets`](uncorbets/), [`yieldcurves`](yieldcurves/)
+[`FinTS`](FinTS/), [`irlba`](irlba/), [`Rfast2`](Rfast2/), [`rrcov`](rrcov/), [`uncorbets`](uncorbets/), [`yieldcurves`](yieldcurves/)
 
 ### pcg32
 
@@ -2606,6 +2750,10 @@ Projects scanned: 441.
 
 [`blmodel`](blmodel/), [`CLA`](CLA/), [`epo`](epo/), [`ffp`](ffp/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fportfolio`](fportfolio/), [`frapo`](frapo/), [`hdshop`](hdshop/), [`highOrderPortfolios`](highOrderPortfolios/), [`INFOSET`](INFOSET/), [`markowitzr`](markowitzr/), [`mcrp`](mcrp/), [`nmof`](nmof/), [`parma`](parma/), [`PMwR`](PMwR/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`portfoliooptim`](portfoliooptim/), [`PortfolioTesteR`](PortfolioTesteR/), [`R4GoodPersonalFinances`](R4GoodPersonalFinances/), [`REN`](REN/), [`riskParityPortfolio`](riskParityPortfolio/), [`RiskPortfolios`](RiskPortfolios/), [`RSDC`](RSDC/), [`rtl`](rtl/), [`spantest`](spantest/), [`TVMVP`](TVMVP/)
 
+### portfolio-analysis
+
+[`backtest`](backtest/)
+
 ### portfolio-diversification
 
 [`uncorbets`](uncorbets/)
@@ -2652,7 +2800,11 @@ Projects scanned: 441.
 
 ### probability
 
-[`Delaporte`](Delaporte/), [`DiscreteDists`](DiscreteDists/), [`DiscreteWeibull`](DiscreteWeibull/), [`extraDistr`](extraDistr/), [`gkwdist`](gkwdist/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`mvtnorm`](mvtnorm/), [`new.dist`](new.dist/), [`polyaAeppli`](polyaAeppli/)
+[`AdequacyModel`](AdequacyModel/), [`AEP`](AEP/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bridgedist`](bridgedist/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`dirmult`](dirmult/), [`DiscreteDists`](DiscreteDists/), [`DiscreteWeibull`](DiscreteWeibull/), [`extraDistr`](extraDistr/), [`fbasics`](fbasics/), [`fextremes`](fextremes/), [`fmultivar`](fmultivar/), [`gamlss.dist`](gamlss.dist/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`gkwdist`](gkwdist/), [`goftest`](goftest/), [`graDiEnt`](graDiEnt/), [`hyper2`](hyper2/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`MM`](MM/), [`mvtnorm`](mvtnorm/), [`nbconv`](nbconv/), [`new.dist`](new.dist/), [`normalp_fortran`](normalp_fortran/), [`pdqutils`](pdqutils/), [`pgnorm`](pgnorm/), [`pmultinom_fortran`](pmultinom_fortran/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`polyaAeppli`](polyaAeppli/), [`qrmtools`](qrmtools/), [`quantreg`](quantreg/), [`REBayes`](REBayes/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`SkewHyperbolic`](SkewHyperbolic/), [`stochfactor`](stochfactor/), [`stochQN`](stochQN/), [`SuppDists`](SuppDists/), [`ZeroOneDists`](ZeroOneDists/)
+
+### probability-distributions
+
+[`AEP`](AEP/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bridgedist`](bridgedist/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`degreenet`](degreenet/), [`dirmult`](dirmult/), [`fbasics`](fbasics/), [`fextremes`](fextremes/), [`fmultivar`](fmultivar/), [`gamlss.dist`](gamlss.dist/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`goftest`](goftest/), [`hyper2`](hyper2/), [`joker`](joker/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`MM`](MM/), [`nbconv`](nbconv/), [`normalp_fortran`](normalp_fortran/), [`pdqutils`](pdqutils/), [`pgnorm`](pgnorm/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`qrmtools`](qrmtools/), [`sadists`](sadists/), [`SkewHyperbolic`](SkewHyperbolic/), [`SuppDists`](SuppDists/), [`ZeroOneDists`](ZeroOneDists/)
 
 ### probit
 
@@ -2688,7 +2840,7 @@ Projects scanned: 441.
 
 ### quadratic-programming
 
-[`cccp`](cccp/), [`Dykstra`](Dykstra/), [`highs`](highs/), [`INFOSET`](INFOSET/), [`osqp`](osqp/), [`piqp`](piqp/), [`quadprog`](quadprog/), [`quadprogXT`](quadprogXT/)
+[`cccp`](cccp/), [`coneproj`](coneproj/), [`Dykstra`](Dykstra/), [`highs`](highs/), [`INFOSET`](INFOSET/), [`LowRankQP`](LowRankQP/), [`mixsqp`](mixsqp/), [`osqp`](osqp/), [`piqp`](piqp/), [`quadprog`](quadprog/), [`quadprogXT`](quadprogXT/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/)
 
 ### quantile
 
@@ -2728,7 +2880,7 @@ Projects scanned: 441.
 
 ### random-number-generation
 
-[`extraDistr`](extraDistr/), [`gnorm`](gnorm/), [`rangen`](rangen/), [`rvmf`](rvmf/)
+[`extraDistr`](extraDistr/), [`gnorm`](gnorm/), [`randtoolbox`](randtoolbox/), [`rangen`](rangen/), [`rngWELL`](rngWELL/), [`rvmf`](rvmf/)
 
 ### random-variates
 
@@ -2760,7 +2912,7 @@ Projects scanned: 441.
 
 ### regression
 
-[`FNN`](FNN/), [`hermite`](hermite/), [`MCMCpack`](MCMCpack/), [`Metrics`](Metrics/), [`mixtools`](mixtools/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`skellam`](skellam/), [`StReg`](StReg/)
+[`AEP`](AEP/), [`COMPoissonReg`](COMPoissonReg/), [`coneproj`](coneproj/), [`DirichletReg`](DirichletReg/), [`FNN`](FNN/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`hermite`](hermite/), [`isotone`](isotone/), [`KernSmooth`](KernSmooth/), [`MCMCpack`](MCMCpack/), [`Metrics`](Metrics/), [`mixtools`](mixtools/), [`MNB`](MNB/), [`nls2`](nls2/), [`normalp_fortran`](normalp_fortran/), [`onls`](onls/), [`quantreg`](quantreg/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`skellam`](skellam/), [`StReg`](StReg/)
 
 ### regression-attribution
 
@@ -2869,6 +3021,10 @@ Projects scanned: 441.
 ### robust-regression
 
 [`gslnls`](gslnls/), [`MASS`](MASS/)
+
+### robust-statistics
+
+[`AEP`](AEP/), [`robustbase`](robustbase/)
 
 ### rocke
 
@@ -2980,7 +3136,11 @@ Projects scanned: 441.
 
 ### simulation
 
-[`copula`](copula/), [`nmof`](nmof/), [`sde`](sde/), [`vamc`](vamc/)
+[`copula`](copula/), [`LaplacesDemon`](LaplacesDemon/), [`lgarch`](lgarch/), [`MultiRNG`](MultiRNG/), [`nmof`](nmof/), [`randtoolbox`](randtoolbox/), [`rngWELL`](rngWELL/), [`sde`](sde/), [`spacefillr`](spacefillr/), [`vamc`](vamc/)
+
+### singular-value-decomposition
+
+[`irlba`](irlba/), [`RSpectra`](RSpectra/)
 
 ### skellam
 
@@ -2989,6 +3149,10 @@ Projects scanned: 441.
 ### skew-distribution
 
 [`DiscreteLaplace`](DiscreteLaplace/)
+
+### skew-distributions
+
+[`garchsk`](garchsk/), [`SkewHyperbolic`](SkewHyperbolic/)
 
 ### skew-normal
 
@@ -3024,7 +3188,7 @@ Projects scanned: 441.
 
 ### smoothing
 
-[`invgamstochvol`](invgamstochvol/), [`mgcv`](mgcv/), [`smoots`](smoots/)
+[`invgamstochvol`](invgamstochvol/), [`mgcv`](mgcv/), [`smoots`](smoots/), [`splines`](splines/)
 
 ### social-network-analysis
 
@@ -3114,9 +3278,13 @@ Projects scanned: 441.
 
 [`FKF`](FKF/)
 
+### statistical-computing
+
+[`AdequacyModel`](AdequacyModel/), [`AEP`](AEP/), [`arfima`](arfima/), [`backtest`](backtest/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`boot`](boot/), [`bridgedist`](bridgedist/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`CGNM`](CGNM/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`coneproj`](coneproj/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`DiceDesign`](DiceDesign/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`fastmatrix`](fastmatrix/), [`fbasics`](fbasics/), [`fextremes`](fextremes/), [`fhmm`](fhmm/), [`flexsurv`](flexsurv/), [`fmultivar`](fmultivar/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`globalOptTests`](globalOptTests/), [`goftest`](goftest/), [`graDiEnt`](graDiEnt/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`hyper2`](hyper2/), [`ICSNP`](ICSNP/), [`isotone`](isotone/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`limSolve`](limSolve/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`longmemo`](longmemo/), [`mclust`](mclust/), [`mev`](mev/), [`mixsqp`](mixsqp/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`MultiRNG`](MultiRNG/), [`nbconv`](nbconv/), [`nls2`](nls2/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`onls`](onls/), [`pdqutils`](pdqutils/), [`performanceanalytics`](performanceanalytics/), [`pgnorm`](pgnorm/), [`pmultinom_fortran`](pmultinom_fortran/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`qrmtools`](qrmtools/), [`quantreg`](quantreg/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`robustbase`](robustbase/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`SkewHyperbolic`](SkewHyperbolic/), [`smoof`](smoof/), [`stochfactor`](stochfactor/), [`stochQN`](stochQN/), [`SuppDists`](SuppDists/), [`survival`](survival/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`tsdyn`](tsdyn/), [`tvgarch`](tvgarch/), [`VGAM`](VGAM/), [`ZeroOneDists`](ZeroOneDists/)
+
 ### statistics
 
-[`ADGofTest`](ADGofTest/), [`bivpois`](bivpois/), [`copula`](copula/), [`Delaporte`](Delaporte/), [`ecpdist`](ecpdist/), [`ewens`](ewens/), [`fGarch`](fGarch/), [`fitHeavyTail`](fitHeavyTail/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`MASS`](MASS/), [`miscTools`](miscTools/), [`mixtools`](mixtools/), [`pbo`](pbo/), [`ppcor`](ppcor/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`skellam`](skellam/), [`sn`](sn/)
+[`AdequacyModel`](AdequacyModel/), [`ADGofTest`](ADGofTest/), [`AEP`](AEP/), [`arfima`](arfima/), [`backtest`](backtest/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bivpois`](bivpois/), [`boot`](boot/), [`bridgedist`](bridgedist/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`CGNM`](CGNM/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`coneproj`](coneproj/), [`copula`](copula/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`DiceDesign`](DiceDesign/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`ecpdist`](ecpdist/), [`ewens`](ewens/), [`fastmatrix`](fastmatrix/), [`fbasics`](fbasics/), [`fextremes`](fextremes/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`fitHeavyTail`](fitHeavyTail/), [`flexsurv`](flexsurv/), [`fmultivar`](fmultivar/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`globalOptTests`](globalOptTests/), [`goftest`](goftest/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`hyper2`](hyper2/), [`ICSNP`](ICSNP/), [`isotone`](isotone/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`limSolve`](limSolve/), [`LindleyPowerSeries`](LindleyPowerSeries/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`longmemo`](longmemo/), [`MASS`](MASS/), [`mclust`](mclust/), [`mev`](mev/), [`miscTools`](miscTools/), [`mixsqp`](mixsqp/), [`mixtools`](mixtools/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`MultiRNG`](MultiRNG/), [`nbconv`](nbconv/), [`nls2`](nls2/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`onls`](onls/), [`pbo`](pbo/), [`pdqutils`](pdqutils/), [`performanceanalytics`](performanceanalytics/), [`pgnorm`](pgnorm/), [`pmultinom_fortran`](pmultinom_fortran/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`ppcor`](ppcor/), [`qrmtools`](qrmtools/), [`quantreg`](quantreg/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`Rfast`](Rfast/), [`Rfast2`](Rfast2/), [`robustbase`](robustbase/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`skellam`](skellam/), [`SkewHyperbolic`](SkewHyperbolic/), [`smoof`](smoof/), [`sn`](sn/), [`SuppDists`](SuppDists/), [`survival`](survival/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`tsdyn`](tsdyn/), [`tvgarch`](tvgarch/), [`VGAM`](VGAM/), [`ZeroOneDists`](ZeroOneDists/)
 
 ### steady-state
 
@@ -3153,6 +3321,14 @@ Projects scanned: 441.
 ### survival
 
 [`ecpdist`](ecpdist/), [`survey`](survey/)
+
+### survival-analysis
+
+[`flexsurv`](flexsurv/), [`mlr`](mlr/), [`relsurv`](relsurv/), [`survival`](survival/)
+
+### svd
+
+[`irlba`](irlba/)
 
 ### svensson
 
@@ -3200,7 +3376,7 @@ Projects scanned: 441.
 
 ### time-series
 
-[`FinTS`](FinTS/), [`fracdiff`](fracdiff/), [`MixedIndTests`](MixedIndTests/), [`smoots`](smoots/), [`stochvolTMB`](stochvolTMB/), [`vrtest`](vrtest/), [`waveslim`](waveslim/)
+[`arfima`](arfima/), [`fhmm`](fhmm/), [`FinTS`](FinTS/), [`fracdiff`](fracdiff/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`lgarch`](lgarch/), [`longmemo`](longmemo/), [`ltsa`](ltsa/), [`MixedIndTests`](MixedIndTests/), [`smoots`](smoots/), [`stochfactor`](stochfactor/), [`stochvolTMB`](stochvolTMB/), [`timsac`](timsac/), [`tsdyn`](tsdyn/), [`tvgarch`](tvgarch/), [`vrtest`](vrtest/), [`waveslim`](waveslim/)
 
 ### time-value-of-money
 
@@ -3320,7 +3496,7 @@ Projects scanned: 441.
 
 ### volatility
 
-[`BEKKs`](BEKKs/), [`fGarch`](fGarch/), [`fmbasics`](fmbasics/), [`GARCHIto`](GARCHIto/), [`gogarch`](gogarch/), [`mfGARCH`](mfGARCH/), [`PWEV`](PWEV/), [`RM2006`](RM2006/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`tsgarch`](tsgarch/)
+[`BEKKs`](BEKKs/), [`fGarch`](fGarch/), [`fmbasics`](fmbasics/), [`GARCHIto`](GARCHIto/), [`gogarch`](gogarch/), [`mfGARCH`](mfGARCH/), [`PWEV`](PWEV/), [`RM2006`](RM2006/), [`rugarch`](rugarch/), [`rumidas`](rumidas/), [`stochfactor`](stochfactor/), [`tsgarch`](tsgarch/)
 
 ### von-mises
 
@@ -3377,9 +3553,3 @@ Projects scanned: 441.
 ### ziggurat
 
 [`zigg`](zigg/)
-
-## Untagged projects
-
-Missing `categories`: [`actuar`](actuar/), [`adagio`](adagio/), [`AdequacyModel`](AdequacyModel/), [`ADGofTest`](ADGofTest/), [`alabama`](alabama/), [`ao`](ao/), [`apt`](apt/), [`arfima`](arfima/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`bidask`](bidask/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`bivpois`](bivpois/), [`bridgedist`](bridgedist/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`CCd`](CCd/), [`CGNM`](CGNM/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`CLA`](CLA/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`coneproj`](coneproj/), [`contfrac`](contfrac/), [`copula`](copula/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`Delaporte`](Delaporte/), [`deoptimr`](deoptimr/), [`derivmkts`](derivmkts/), [`dfoptim`](dfoptim/), [`DiceDesign`](DiceDesign/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`DiscreteDists`](DiscreteDists/), [`DiscreteInverseWeibull`](DiscreteInverseWeibull/), [`DiscreteLaplace`](DiscreteLaplace/), [`DiscreteWeibull`](DiscreteWeibull/), [`ecpdist`](ecpdist/), [`esback`](esback/), [`etrm`](etrm/), [`evir`](evir/), [`ewens`](ewens/), [`expint`](expint/), [`expm`](expm/), [`fastmatrix`](fastmatrix/), [`fbasics`](fbasics/), [`fbonds`](fbonds/), [`fcl`](fcl/), [`fextremes`](fextremes/), [`fGarch`](fGarch/), [`fhmm`](fhmm/), [`fincal`](fincal/), [`FinCovRegularization`](FinCovRegularization/), [`fingraph`](fingraph/), [`FinTS`](FinTS/), [`fitdistrplus`](fitdistrplus/), [`fitHeavyTail`](fitHeavyTail/), [`flexsurv`](flexsurv/), [`FLSSS`](FLSSS/), [`fmultivar`](fmultivar/), [`fracdiff`](fracdiff/), [`frapo`](frapo/), [`frbinom`](frbinom/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`GARCHIto`](GARCHIto/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`GB2`](GB2/), [`GenBinomApps`](GenBinomApps/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`gkwdist`](gkwdist/), [`globalOptTests`](globalOptTests/), [`goftest`](goftest/), [`graDiEnt`](graDiEnt/), [`greeks`](greeks/), [`greeks1`](greeks1/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`hermite`](hermite/), [`highOrderPortfolios`](highOrderPortfolios/), [`highs`](highs/), [`hyper2`](hyper2/), [`ICSNP`](ICSNP/), [`intrinsicFRP`](intrinsicFRP/), [`isotone`](isotone/), [`joker`](joker/), [`jrvFinance`](jrvFinance/), [`KernSmooth`](KernSmooth/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`LaplacesDemon`](LaplacesDemon/), [`lgarch`](lgarch/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`lme4`](lme4/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`locfit`](locfit/), [`longmemo`](longmemo/), [`LowRankQP`](LowRankQP/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ltsa`](ltsa/), [`ManifoldOptim`](ManifoldOptim/), [`marqLevAlg`](marqLevAlg/), [`MASS`](MASS/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`Matrix`](Matrix/), [`MatrixExtra`](MatrixExtra/), [`mbbefd`](mbbefd/), [`mcga`](mcga/), [`mclust`](mclust/), [`mcmc`](mcmc/), [`MCMCpack`](MCMCpack/), [`mco`](mco/), [`metaheuristicOpt`](metaheuristicOpt/), [`mev`](mev/), [`mgcv`](mgcv/), [`minqa`](minqa/), [`miscTools`](miscTools/), [`MixedIndTests`](MixedIndTests/), [`mixSPE`](mixSPE/), [`mixtools`](mixtools/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`MultiATSM`](MultiATSM/), [`MultiRNG`](MultiRNG/), [`nbconv`](nbconv/), [`neldermead`](neldermead/), [`new.dist`](new.dist/), [`nilde`](nilde/), [`nleqslv`](nleqslv/), [`nlme`](nlme/), [`nls2`](nls2/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`numDeriv`](numDeriv/), [`onls`](onls/), [`OOR`](OOR/), [`optimflex`](optimflex/), [`optionpricing`](optionpricing/), [`optmatch`](optmatch/), [`osqp`](osqp/), [`parma`](parma/), [`partitions`](partitions/), [`pbo`](pbo/), [`pdqutils`](pdqutils/), [`performanceanalytics`](performanceanalytics/), [`pgnorm`](pgnorm/), [`PINstimation`](PINstimation/), [`piqp`](piqp/), [`pmultinom_fortran`](pmultinom_fortran/), [`PMwR`](PMwR/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`polyaAeppli`](polyaAeppli/), [`PortfolioAnalytics`](PortfolioAnalytics/), [`poweRlaw`](poweRlaw/), [`ppcor`](ppcor/), [`ppso`](ppso/), [`pracma`](pracma/), [`PSDistr`](PSDistr/), [`psoptim`](psoptim/), [`psqn`](psqn/), [`qap`](qap/), [`qrmtools`](qrmtools/), [`quadform`](quadform/), [`QuantBondCurves`](QuantBondCurves/), [`quantreg`](quantreg/), [`R-fixedincome`](R-fixedincome/), [`randtoolbox`](randtoolbox/), [`RCEIM`](RCEIM/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`rgenoud`](rgenoud/), [`Risk`](Risk/), [`RiskPortfolios`](RiskPortfolios/), [`rmgarch`](rmgarch/), [`rngWELL`](rngWELL/), [`robustbase`](robustbase/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/), [`roptim`](roptim/), [`Rsolnp`](Rsolnp/), [`RSpectra`](RSpectra/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`scs`](scs/), [`sde`](sde/), [`segmented`](segmented/), [`skellam`](skellam/), [`SkewHyperbolic`](SkewHyperbolic/), [`smoof`](smoof/), [`smoots`](smoots/), [`sn`](sn/), [`sna`](sna/), [`soma`](soma/), [`spacefillr`](spacefillr/), [`spectralGraphTopology`](spectralGraphTopology/), [`splines`](splines/), [`stochfactor`](stochfactor/), [`stochQN`](stochQN/), [`stochvolTMB`](stochvolTMB/), [`SuppDists`](SuppDists/), [`survey`](survey/), [`survival`](survival/), [`tensorA`](tensorA/), [`timsac`](timsac/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`trustOptim`](trustOptim/), [`tsdyn`](tsdyn/), [`tsmarch`](tsmarch/), [`TSP`](TSP/), [`tvgarch`](tvgarch/), [`tvm`](tvm/), [`TVMVP`](TVMVP/), [`ufRisk`](ufRisk/), [`VGAM`](VGAM/), [`vrtest`](vrtest/), [`waveslim`](waveslim/), [`YieldCurve`](YieldCurve/), [`yrnd`](yrnd/), [`ZeroOneDists`](ZeroOneDists/)
-
-Missing `keywords`: [`adagio`](adagio/), [`AdequacyModel`](AdequacyModel/), [`AEP`](AEP/), [`ao`](ao/), [`arfima`](arfima/), [`backtest`](backtest/), [`bayesianOU`](bayesianOU/), [`BenfordTests`](BenfordTests/), [`betafunctions`](betafunctions/), [`BGFD`](BGFD/), [`BiasedUrn`](BiasedUrn/), [`bigstatsr`](bigstatsr/), [`BivGeo`](BivGeo/), [`bivgeom`](bivgeom/), [`boot`](boot/), [`bridgedist`](bridgedist/), [`bzinb`](bzinb/), [`calibrar`](calibrar/), [`cbinom`](cbinom/), [`CCd`](CCd/), [`CGNM`](CGNM/), [`ChernoffDist`](ChernoffDist/), [`chyper`](chyper/), [`clue`](clue/), [`cmaes`](cmaes/), [`COMPoissonReg`](COMPoissonReg/), [`compositions`](compositions/), [`coneproj`](coneproj/), [`countDM`](countDM/), [`cubature`](cubature/), [`degreenet`](degreenet/), [`deoptimr`](deoptimr/), [`derivmkts`](derivmkts/), [`dfoptim`](dfoptim/), [`DiceDesign`](DiceDesign/), [`Directional`](Directional/), [`DirichletReg`](DirichletReg/), [`dirmult`](dirmult/), [`evir`](evir/), [`fastmatrix`](fastmatrix/), [`fbasics`](fbasics/), [`fbonds`](fbonds/), [`fcl`](fcl/), [`fextremes`](fextremes/), [`fhmm`](fhmm/), [`flexsurv`](flexsurv/), [`FLSSS`](FLSSS/), [`fmultivar`](fmultivar/), [`GA`](GA/), [`gamlss`](gamlss/), [`gamlss.dist`](gamlss.dist/), [`garchsk`](garchsk/), [`garchx`](garchx/), [`GeneralizedHyperbolic`](GeneralizedHyperbolic/), [`globalOptTests`](globalOptTests/), [`goftest`](goftest/), [`graDiEnt`](graDiEnt/), [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/), [`hyper2`](hyper2/), [`ICSNP`](ICSNP/), [`igraph`](igraph/), [`irlba`](irlba/), [`isotone`](isotone/), [`joker`](joker/), [`KernSmooth`](KernSmooth/), [`kofnGA`](kofnGA/), [`KrigInv`](KrigInv/), [`L1pack`](L1pack/), [`LaplacesDemon`](LaplacesDemon/), [`lgarch`](lgarch/), [`limSolve`](limSolve/), [`linprog`](linprog/), [`lmomco`](lmomco/), [`Lmoments`](Lmoments/), [`longmemo`](longmemo/), [`LowRankQP`](LowRankQP/), [`lpSolve`](lpSolve/), [`lsei`](lsei/), [`ltsa`](ltsa/), [`ManifoldOptim`](ManifoldOptim/), [`marqLevAlg`](marqLevAlg/), [`matchingMarkets`](matchingMarkets/), [`matchingR`](matchingR/), [`mcga`](mcga/), [`mclust`](mclust/), [`mco`](mco/), [`metaheuristicOpt`](metaheuristicOpt/), [`mev`](mev/), [`mixsqp`](mixsqp/), [`mlr`](mlr/), [`mlrMBO`](mlrMBO/), [`MM`](MM/), [`MNB`](MNB/), [`mstate`](mstate/), [`MultiRNG`](MultiRNG/), [`nbconv`](nbconv/), [`neldermead`](neldermead/), [`nilde`](nilde/), [`nls2`](nls2/), [`nlsr`](nlsr/), [`nnls`](nnls/), [`nonneg-cg`](nonneg-cg/), [`normalp_fortran`](normalp_fortran/), [`nspmix`](nspmix/), [`onls`](onls/), [`OOR`](OOR/), [`optimflex`](optimflex/), [`optmatch`](optmatch/), [`partitions`](partitions/), [`pdqutils`](pdqutils/), [`performanceanalytics`](performanceanalytics/), [`pgnorm`](pgnorm/), [`pmultinom_fortran`](pmultinom_fortran/), [`poilog`](poilog/), [`PoissonBinomial`](PoissonBinomial/), [`ppso`](ppso/), [`PSDistr`](PSDistr/), [`psoptim`](psoptim/), [`psqn`](psqn/), [`qap`](qap/), [`qrmtools`](qrmtools/), [`quadform`](quadform/), [`quantreg`](quantreg/), [`randtoolbox`](randtoolbox/), [`RCEIM`](RCEIM/), [`Rcsdp`](Rcsdp/), [`Rdsdp`](Rdsdp/), [`REBayes`](REBayes/), [`relsurv`](relsurv/), [`rmoo`](rmoo/), [`rngWELL`](rngWELL/), [`robustbase`](robustbase/), [`ROI.plugin.qpoases`](ROI.plugin.qpoases/), [`RSpectra`](RSpectra/), [`rvinecopulib`](rvinecopulib/), [`sadists`](sadists/), [`scs`](scs/), [`SkewHyperbolic`](SkewHyperbolic/), [`smoof`](smoof/), [`soma`](soma/), [`spacefillr`](spacefillr/), [`splines`](splines/), [`stochfactor`](stochfactor/), [`stochQN`](stochQN/), [`subplex`](subplex/), [`SuppDists`](SuppDists/), [`survival`](survival/), [`tensorA`](tensorA/), [`timsac`](timsac/), [`tolerance`](tolerance/), [`trawl`](trawl/), [`trustOptim`](trustOptim/), [`tsdyn`](tsdyn/), [`TSP`](TSP/), [`tvgarch`](tvgarch/), [`VGAM`](VGAM/), [`ZeroOneDists`](ZeroOneDists/)

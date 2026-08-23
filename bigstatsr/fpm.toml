@@ -5,6 +5,8 @@ author = "Florian Prive et al.; Fortran translation"
 maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran computational-core translation of bigstatsr"
+categories = ["statistics", "numerical"]
+keywords = ["statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"

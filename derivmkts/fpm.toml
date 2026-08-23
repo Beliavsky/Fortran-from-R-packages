@@ -5,6 +5,8 @@ author = "Robert L. McDonald; modern Fortran translation"
 maintainer = ""
 copyright = "2014-2022 Robert L. McDonald"
 description = "Modern Fortran translation of the numerical routines in the R derivmkts package"
+categories = ["finance", "numerical"]
+keywords = ["numerical-differentiation", "finance", "numerical", "numerical-methods"]
 
 [library]
 source-dir = "src"

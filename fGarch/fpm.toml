@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "1999-2025 fGarch authors; 2026 Fortran translation contributors"
 description = "Experimental modern Fortran translation of the computational core of R fGarch"
 keywords = ["garch", "aparch", "volatility", "statistics", "finance"]
+categories = ["finance", "time-series", "statistics"]
 
 [build]
 auto-executables = true

@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright 2008-2025 Enrico Schumann and Fortran translation contributors"
 description = "Modern Fortran portfolio management, accounting, return analysis, attribution, and backtesting tools"
 keywords = ["portfolio", "backtest", "returns", "trades", "accounting", "attribution"]
+categories = ["finance", "statistics", "numerical"]
 
 [library]
 source-dir = "src"

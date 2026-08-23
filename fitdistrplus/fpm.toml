@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright upstream fitdistrplus contributors and translation contributors"
 description = "Modern Fortran computational port of fitdistrplus"
 keywords = ["distribution-fitting", "maximum-likelihood", "censoring", "bootstrap", "goodness-of-fit"]
+categories = ["probability", "statistics", "numerical"]
 
 [build]
 auto-executables = false

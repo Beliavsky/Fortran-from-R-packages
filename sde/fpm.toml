@@ -7,6 +7,7 @@ copyright = "Copyright (C) 2006 S. M. Iacus; 2026 Fortran translation contributo
 description = "Modern Fortran simulation and inference for stochastic differential equations"
 homepage = "https://github.com/cran/sde"
 keywords = ["sde", "stochastic-differential-equations", "simulation", "inference"]
+categories = ["simulation", "probability", "numerical"]
 
 [build]
 auto-executables = true
