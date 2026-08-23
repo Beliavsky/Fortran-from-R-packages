@@ -1,0 +1,13 @@
+name = "aep-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of AEP by Mahdi Teimouri"
+maintainer = ""
+description = "Modern Fortran implementation of the asymmetric exponential power distribution and AEP robust regression"
+categories = ["statistics", "probability"]
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false

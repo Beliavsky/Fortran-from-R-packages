@@ -1,0 +1,23 @@
+Package: AEP
+Type: Package
+Title: Statistical Modelling for Asymmetric Exponential Power
+        Distribution
+Date: 2022-09-07
+Authors@R: person('Mahdi', 'Teimouri', email = 'teimouri@aut.ac.ir', role = c('aut', 'cre', 'cph', 'ctb'), comment = c(ORCID = '0000-0002-5371-9364'))
+Author: Mahdi Teimouri [aut, cre, cph, ctb]
+    (<https://orcid.org/0000-0002-5371-9364>)
+Maintainer: Mahdi Teimouri <teimouri@aut.ac.ir>
+Description: Developed for Computing the probability density function, cumulative 
+             distribution function, random generation, estimating the parameters of asymmetric
+             exponential power distribution, and robust regression analysis with error
+             term that follows asymmetric exponential power distribution. The asymmetric
+             exponential power distribution studied here is a special case of that introduced
+             by Dongming and Zinde-Walsh (2009) <doi:10.1016/j.jeconom.2008.09.038>.
+Encoding: UTF-8
+License: GPL (>= 2)
+Depends: R(>= 3.3.0)
+Repository: CRAN
+Version: 0.1.4
+NeedsCompilation: no
+Packaged: 2022-09-07 06:53:13 UTC; NikPardaz
+Date/Publication: 2022-09-07 07:50:25 UTC
