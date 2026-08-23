@@ -1,0 +1,14 @@
+name = "greybox-fortran"
+version = "0.2.0"
+license = "LGPL-2.1-only"
+author = "greybox authors; Fortran translation"
+maintainer = "OpenAI translation"
+description = "Modern Fortran numerical translation of the greybox R package"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
