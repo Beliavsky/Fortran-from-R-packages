@@ -1,0 +1,36 @@
+Package: joker
+Title: Probability Distributions and Parameter Estimation
+Version: 0.14.2
+Authors@R: c(
+    person("Ioannis", "Oikonomidis", , "goikon@math.uoa.gr",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8130-2104")),
+    person("Samis", "Trevezas", , "strevezas@math.uoa.gr",
+           role = c("aut", "ths"),
+           comment = c(ORCID = "0000-0003-2262-8299"))
+  )
+Description: Implements an S4 distribution system and estimation methods for
+    parameters of common distribution families. The common d, p, q, r function
+    family for each distribution is enriched with the ll, e, and v counterparts,
+    computing the log-likelihood, performing estimation, and calculating the
+    asymptotic variance - covariance matrix, respectively. Parameter estimation
+    is performed analytically whenever possible.
+License: GPL (>= 3)
+URL: https://thechibo.github.io/joker/
+BugReports: https://github.com/thechibo/joker/issues/
+Depends: R (>= 4.0.0)
+Imports: ggh4x, ggplot2, grDevices, Matrix, methods, stats, utils
+Suggests: covr, knitr, rmarkdown, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.3.2
+NeedsCompilation: no
+Packaged: 2025-04-25 16:36:53 UTC; John
+Author: Ioannis Oikonomidis [aut, cre]
+    (<https://orcid.org/0000-0001-8130-2104>),
+  Samis Trevezas [aut, ths] (<https://orcid.org/0000-0003-2262-8299>)
+Maintainer: Ioannis Oikonomidis <goikon@math.uoa.gr>
+Repository: CRAN
+Date/Publication: 2025-04-28 12:40:01 UTC
