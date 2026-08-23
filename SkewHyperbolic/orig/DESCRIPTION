@@ -1,0 +1,27 @@
+Package: SkewHyperbolic
+Type: Package
+Version: 0.4-2
+Date: 2023-11-26
+Title: The Skew Hyperbolic Student t-Distribution
+Author: David Scott <d.scott@auckland.ac.nz>, Fiona Grimson
+Maintainer: David Scott <d.scott@auckland.ac.nz>
+Depends: R (>= 3.0.1)
+Imports: grDevices, graphics, stats, DistributionUtils,
+        GeneralizedHyperbolic
+Suggests: RUnit
+Encoding: UTF-8
+Description: Functions are provided for the density function,
+	     distribution function, quantiles and random number
+	     generation for the skew hyperbolic
+	     t-distribution. There are also functions that fit
+	     the distribution to data. There are functions for the
+	     mean, variance, skewness, kurtosis and mode of a given
+	     distribution and to calculate moments of any order about
+	     any centre. To assess goodness of fit, there are
+	     functions to generate a Q-Q plot, a P-P plot and a tail plot.
+License: GPL (>= 2)
+URL: https://r-forge.r-project.org/projects/rmetrics/
+NeedsCompilation: no
+Packaged: 2023-11-26 00:10:44 UTC; dsco036
+Repository: CRAN
+Date/Publication: 2023-11-26 00:50:02 UTC
