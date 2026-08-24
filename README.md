@@ -10,8 +10,8 @@ These projects are unofficial and are not endorsed by the original package
 authors, CRAN, or the R Foundation. They have not been validated by a human
 unless the documentation says otherwise.
 
-Browse the [project index](PROJECT_INDEX.md) to find packages by category,
-keyword, or [NIST GAMS mathematical-software classification](https://gams.nist.gov/cgi-bin/serve.cgi).
+Browse packages through the [category and keyword index](PROJECT_INDEX.md) or
+the [NIST GAMS mathematical-software index](GAMS_INDEX.md).
 
 The [R versus Fortran comparison suite](comparisons/) runs deterministic
 correctness checks and exploratory kernel timings against installed R packages.
