@@ -2,6 +2,7 @@ name = "compare-fracdiff"
 version = "0.1.0"
 [dependencies]
 fracdiff = { path = "../../fracdiff" }
+comparison_data = { path = "../common" }
 [build]
 auto-executables = true
 auto-examples = false

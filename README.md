@@ -1,7 +1,7 @@
 # Fortran from R packages
 
 This repository collects experimental modern Fortran translations and
-ports by ChatGPT on High mode of computational code in 441 package
+ports by ChatGPT on High mode of computational code in 445 package
 directories derived from R packages. Each subdirectory is an
 independent Fortran Package Manager (fpm) project with its own
 documentation, tests, provenance record, and license.
@@ -16,7 +16,9 @@ the [NIST GAMS mathematical-software index](GAMS_INDEX.md).
 The [R versus Fortran comparison suite](comparisons/) runs deterministic
 correctness checks and exploratory kernel timings against installed R packages.
 It currently covers probability distributions, fractional time-series methods,
-clustering, and the separate `mixtools` mixture-model comparison. These checks
+fixed-parameter GARCH filters, clustering, and the separate `mixtools`
+mixture-model comparison. Some cases use a shared dated asset-price fixture.
+These checks
 are evidence for selected operations, not validation of every translated API.
 
 ## Packages and licenses

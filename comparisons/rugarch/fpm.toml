@@ -2,6 +2,7 @@ name = "compare-rugarch"
 version = "0.1.0"
 [dependencies]
 rugarch_fortran = { path = "../../rugarch" }
+comparison_data = { path = "../common" }
 [build]
 auto-executables = true
 auto-examples = false

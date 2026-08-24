@@ -1,11 +1,12 @@
 program test_asset_data
    use comparison_asset_data, only : dp, asset_price_data, asset_return_data, &
-      read_asset_prices, simple_returns, log_returns, asset_data_ok
+      read_asset_prices, read_asset_prices_binary, simple_returns, log_returns, &
+      asset_data_ok
    use comparison_date, only : date, date_from_iso, day_of_week, day_of_year, &
       quarter, is_month_end, operator(==)
    implicit none
 
-   type(asset_price_data) :: prices
+   type(asset_price_data) :: prices, binary_prices
    type(asset_return_data) :: simple, logarithmic
    type(date) :: leap_day
    integer :: status, failures
@@ -23,6 +24,16 @@ program test_asset_data
    call check(prices%dates(4607) == date(2026, 4, 14), 'last date')
    call check(trim(prices%symbols(1)) == 'SPY', 'first symbol')
    call check(trim(prices%symbols(9)) == 'USO', 'last symbol')
+
+   call read_asset_prices_binary('../../asset_class_etf_prices.bin', &
+      binary_prices, status, message)
+   call check(status == asset_data_ok, 'read binary asset prices: '//trim(message))
+   if (status == asset_data_ok) then
+      call check(all(binary_prices%dates == prices%dates), 'binary dates equal CSV dates')
+      call check(all(binary_prices%symbols == prices%symbols), 'binary symbols equal CSV symbols')
+      call check(maxval(abs(binary_prices%prices - prices%prices)) < tiny(1.0_dp), &
+         'binary prices equal CSV prices')
+   end if
 
    simple = simple_returns(prices)
    logarithmic = log_returns(prices)

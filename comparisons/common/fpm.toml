@@ -1,4 +1,4 @@
-name = "comparison-data"
+name = "comparison_data"
 version = "0.1.0"
 license = "MIT"
 author = "Fortran from R packages contributors"
@@ -12,3 +12,13 @@ source-dir = "src"
 auto-executables = false
 auto-examples = false
 auto-tests = true
+
+[[example]]
+name = "benchmark-read"
+source-dir = "example"
+main = "benchmark_read.f90"
+
+[[example]]
+name = "convert-prices"
+source-dir = "example"
+main = "convert_prices.f90"
