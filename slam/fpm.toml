@@ -5,6 +5,7 @@ author = "Modern Fortran translation of slam by Kurt Hornik, David Meyer, and Ch
 maintainer = "Generated translation"
 description = "Modern Fortran translation of the computational core of R package slam 0.1-56"
 categories = ["sparse-matrix", "sparse-array", "linear-algebra"]
+gams = ["D"]
 keywords = ["sparse", "triplet", "matrix", "array"]
 
 [build]

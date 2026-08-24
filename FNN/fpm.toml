@@ -5,6 +5,7 @@ author = "FNN authors and FNN-fortran contributors"
 maintainer = "FNN-fortran contributors"
 description = "Modern Fortran numerical port of the FNN R package"
 categories = ["statistics", "machine-learning", "nearest-neighbor"]
+gams = ["L", "P"]
 keywords = ["knn", "kd-tree", "entropy", "mutual-information", "classification", "regression"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Alessandro Barbiero; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Upstream copyright retained"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R DiscreteLaplace"
 keywords = ["discrete-laplace", "skew-distribution", "maximum-likelihood"]
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

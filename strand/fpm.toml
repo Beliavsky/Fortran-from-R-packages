@@ -6,6 +6,7 @@ maintainer = "strand-fortran contributors"
 copyright = "Copyright (C) strand authors and contributors"
 description = "Modern Fortran numerical port of strand portfolio construction and simulation"
 categories = ["finance", "portfolio", "optimization", "simulation"]
+gams = ["G", "L", "M"]
 keywords = ["portfolio optimization", "backtesting", "linear programming", "investment strategy"]
 
 [build]

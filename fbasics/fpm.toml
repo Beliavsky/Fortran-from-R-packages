@@ -5,6 +5,7 @@ author = "fBasics authors and modern Fortran translation contributors"
 maintainer = "OpenAI"
 description = "Modern Fortran numerical translation of the computational core of fBasics"
 categories = ["finance", "probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "finance", "probability", "statistics", "statistical-computing"]
 
 [build]

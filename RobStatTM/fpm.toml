@@ -5,6 +5,7 @@ author = "RobStatTM authors; modern Fortran translation"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational core of RobStatTM"
 categories = ["statistics", "robust-statistics", "regression", "multivariate-analysis"]
+gams = ["D", "L"]
 keywords = ["MM-regression", "DCML", "robust-logistic", "Rocke", "robust-PCA"]
 
 [library]

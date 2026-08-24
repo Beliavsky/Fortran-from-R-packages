@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Copyright original evir authors"
 description = "Modern Fortran translation of the computational algorithms in the R package evir"
 categories = ["finance", "numerical"]
+gams = ["L"]
 keywords = ["extreme-value", "finance", "numerical", "numerical-methods"]
 
 [build]

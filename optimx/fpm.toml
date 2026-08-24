@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright optimx contributors"
 description = "Modern Fortran optimization toolkit inspired by optimx"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["BFGS", "conjugate gradient", "Newton", "multistart", "KKT"]
 
 [build]

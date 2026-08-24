@@ -5,6 +5,7 @@ author = "Kaiqiao Li, Pei Fen Kuan, Kan He, Lizhou Nie, Wei Zhu; Fortran transla
 maintainer = "Fortran translation project"
 description = "Stochastic-volatility simulation and nonparametric financial jump tests"
 categories = ["finance", "statistics", "simulation"]
+gams = ["L", "M"]
 keywords = ["jump-detection", "stochastic-volatility", "high-frequency", "p-value-pooling"]
 
 [library]

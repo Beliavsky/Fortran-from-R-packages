@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Upstream authors; see provenance/"
 description = "Modern Fortran translation of the computational code in the R package MM"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]

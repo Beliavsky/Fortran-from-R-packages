@@ -5,6 +5,7 @@ author = "Ankit Kumar Singh, Ranjit Kumar Paul, Amrit Kumar Paul, Md Yeasin, Ani
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package PWEV"
 categories = ["statistics", "time-series", "finance", "optimization"]
+gams = ["G", "L"]
 keywords = ["GARCH", "MEM", "volatility", "ensemble", "particle-swarm"]
 
 [library]

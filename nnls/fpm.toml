@@ -5,6 +5,7 @@ author = "Modern Fortran translation of the R nnls package"
 maintainer = "OpenAI"
 description = "Modern Fortran implementation of Lawson-Hanson nonnegative and mixed-sign least squares"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["least-squares", "optimization", "numerical", "numerical-methods"]
 
 [library]

@@ -5,6 +5,7 @@ author = "Fortran translation of nilde by Natalya Pya Arnqvist, Vassilly Voinov,
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package nilde"
 categories = ["numerical"]
+gams = ["B", "G"]
 keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [library]

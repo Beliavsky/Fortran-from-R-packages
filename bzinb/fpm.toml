@@ -5,6 +5,7 @@ author = "Fortran translation of bzinb by OpenAI"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package bzinb"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]

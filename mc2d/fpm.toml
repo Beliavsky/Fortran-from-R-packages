@@ -5,6 +5,7 @@ author = "Fortran translation of mc2d contributors"
 maintainer = "mc2d-fortran contributors"
 description = "Modern Fortran translation of the computational core of R package mc2d 0.2.2"
 categories = ["monte-carlo", "statistics", "probability"]
+gams = ["L", "M"]
 keywords = ["monte-carlo", "uncertainty", "variability", "distributions"]
 
 [build]

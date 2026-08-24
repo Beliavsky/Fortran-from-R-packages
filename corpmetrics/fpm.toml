@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "2024 Pavlos Pantatosakis"
 description = "Modern Fortran translation of the computational algorithms in the R package corpmetrics"
 categories = ["finance", "valuation", "fixed-income"]
+gams = ["L"]
 keywords = ["corporate-finance", "capm", "ddm", "irr", "loan"]
 
 [build]

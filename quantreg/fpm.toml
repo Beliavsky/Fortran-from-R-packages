@@ -5,6 +5,7 @@ author = "Fortran translation of quantreg contributors"
 maintainer = ""
 copyright = "See UPSTREAM_PROVENANCE.md"
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["regression", "estimation", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]

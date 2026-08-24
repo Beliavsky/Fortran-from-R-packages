@@ -6,6 +6,7 @@ maintainer = "Modern Fortran translation contributors"
 copyright = "Copyright (C) 2008-2021 David Ardia"
 description = "Modern Fortran translation of the computational core of bayesGARCH"
 categories = ["finance", "statistics", "mcmc"]
+gams = ["L", "M"]
 keywords = ["garch", "bayesian", "student-t", "metropolis-hastings"]
 
 [build]

@@ -5,6 +5,7 @@ author = "GPareto authors; modern Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package GPareto"
 categories = ["numerical", "statistics", "optimization"]
+gams = ["E", "G", "L"]
 keywords = ["gaussian-process", "pareto", "multiobjective", "kriging"]
 
 [library]

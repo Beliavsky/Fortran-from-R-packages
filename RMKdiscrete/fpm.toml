@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Copyright (c) upstream RMKdiscrete authors"
 description = "Modern Fortran translation of the computational code in the R package RMKdiscrete"
 categories = ["statistics", "probability"]
+gams = ["L"]
 keywords = ["lagrangian-poisson", "negative-binomial", "discrete-distributions"]
 
 [build]

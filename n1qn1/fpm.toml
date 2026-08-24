@@ -5,6 +5,7 @@ author = "Claude Lemarechal, INRIA; Fortran translation contributors"
 copyright = "Copyright INRIA and package contributors"
 description = "Modern Fortran translation of the n1qn1 full-memory BFGS optimizer"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["bfgs", "quasi-newton", "optimization", "hessian"]
 
 [build]

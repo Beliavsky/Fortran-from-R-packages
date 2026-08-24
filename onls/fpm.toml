@@ -5,6 +5,7 @@ author = "Modern Fortran translation of onls by OpenAI"
 maintainer = ""
 copyright = "See original/onls-master/DESCRIPTION and COPYING"
 categories = ["optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["regression", "least-squares", "optimization", "statistics", "statistical-computing"]
 
 [library]

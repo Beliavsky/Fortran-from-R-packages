@@ -5,6 +5,7 @@ author = "Fortran translation of marqLevAlg by Viviane Philipps et al."
 maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the R package marqLevAlg"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]

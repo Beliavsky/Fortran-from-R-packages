@@ -5,6 +5,7 @@ author = "optmatch authors; Fortran translation"
 maintainer = ""
 copyright = "Copyright (c) 2022 optmatch authors"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["combinatorial-optimization", "optimization", "numerical-methods"]
 
 [build]

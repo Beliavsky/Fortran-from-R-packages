@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) original LifeInsureR author and contributors"
 description = "Modern Fortran implementation of the computational core of LifeInsureR"
 categories = ["actuarial", "finance", "insurance"]
+gams = ["L"]
 keywords = ["life-insurance", "annuities", "reserves", "premiums", "profit-participation"]
 
 [build]

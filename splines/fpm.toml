@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "1998 Douglas M. Bates and William N. Venables; Fortran translation 2026"
 description = "Modern Fortran translation of the computational routines in the R splines package"
 categories = ["numerical"]
+gams = ["E", "K", "L"]
 keywords = ["smoothing", "numerical", "numerical-methods"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Kung-Sik Chan, Brian Ripley; modern Fortran translation"
 copyright = "Original TSA authors and contributors; see NOTICE"
 description = "Modern Fortran/FPM translation of computational routines from R package TSA 1.3.1"
 categories = ["statistics", "time-series"]
+gams = ["L"]
 keywords = ["arima", "arimax", "setar", "spectral", "diagnostics", "fortran"]
 
 [build]

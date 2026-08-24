@@ -7,6 +7,7 @@ copyright = "Copyright (c) 2021 etrm authors"
 description = "Modern Fortran implementation of computational routines from the etrm R package"
 keywords = ["energy", "risk", "hedging", "forward-curve", "portfolio-insurance"]
 categories = ["actuarial", "finance", "numerical"]
+gams = ["L"]
 
 [build]
 auto-executables = true

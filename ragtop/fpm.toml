@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Copyright (C) 2016-2026 Brian K. Boonstra and translation contributors"
 description = "Modern Fortran translation of the computational core of the R ragtop derivative-pricing package"
 categories = ["finance", "option-pricing", "finite-difference"]
+gams = ["H", "L"]
 keywords = ["Black-Scholes", "American options", "convertible bonds", "default intensity"]
 
 [build]

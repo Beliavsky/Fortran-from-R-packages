@@ -5,6 +5,7 @@ author = "Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran computational translation of tsdistributions"
 categories = ["statistics", "probability", "time-series"]
+gams = ["L"]
 keywords = ["distributions", "skewness", "heavy-tails", "maximum-likelihood", "fortran"]
 
 [build]

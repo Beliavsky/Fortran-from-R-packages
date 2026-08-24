@@ -7,6 +7,7 @@ copyright = "Copyright upstream fitdistrplus contributors and translation contri
 description = "Modern Fortran computational port of fitdistrplus"
 keywords = ["distribution-fitting", "maximum-likelihood", "censoring", "bootstrap", "goodness-of-fit"]
 categories = ["probability", "statistics", "numerical"]
+gams = ["L", "M"]
 
 [build]
 auto-executables = false

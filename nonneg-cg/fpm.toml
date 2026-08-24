@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) 2019 David Cortes"
 description = "Modern Fortran port of the nonneg.cg non-negative conjugate-gradient optimizer"
 categories = ["optimization", "numerical"]
+gams = ["G", "H"]
 keywords = ["gradient-methods", "numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [build]

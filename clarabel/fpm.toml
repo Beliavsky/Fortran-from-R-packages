@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "2022-2026 Clarabel authors and contributors"
 description = "Modern Fortran interface to the Clarabel conic interior-point solver"
 categories = ["optimization", "numerical", "conic-programming"]
+gams = ["G"]
 keywords = ["clarabel", "lp", "qp", "socp", "sdp", "conic"]
 
 [build]

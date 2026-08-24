@@ -5,6 +5,7 @@ author = "Fortran translation of William H. Asquith's lmomco"
 maintainer = ""
 copyright = "See upstream package metadata"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["estimation", "l-moments", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

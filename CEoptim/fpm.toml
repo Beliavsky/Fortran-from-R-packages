@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Original CEoptim authors; Fortran translation"
 description = "Modern Fortran translation of the computational core of the R package CEoptim"
 categories = ["optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["cross-entropy", "optimization", "truncated-normal", "dirichlet"]
 
 [build]

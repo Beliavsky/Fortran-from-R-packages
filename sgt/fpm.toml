@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Upstream sgt copyright retained"
 description = "Modern Fortran implementation of the skewed generalized t distribution"
 categories = ["statistics", "probability"]
+gams = ["L"]
 keywords = ["skewed generalized t", "sgt", "distribution", "mle"]
 
 [build]

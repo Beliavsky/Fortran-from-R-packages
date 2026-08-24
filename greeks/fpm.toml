@@ -7,6 +7,7 @@ copyright = "Copyright (c) 2023 greeks authors"
 description = "Modern Fortran option sensitivities, implied volatility, binomial American pricing, and Malliavin Monte Carlo Greeks"
 keywords = ["greeks", "black-scholes", "asian-options", "implied-volatility"]
 categories = ["finance", "time-series", "simulation"]
+gams = ["L", "M"]
 
 [build]
 auto-executables = true

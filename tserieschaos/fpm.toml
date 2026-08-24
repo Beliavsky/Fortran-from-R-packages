@@ -5,6 +5,7 @@ author = "Antonio Fabio Di Narzo; Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in tseriesChaos"
 categories = ["time-series", "nonlinear-dynamics", "chaos"]
+gams = ["L"]
 keywords = ["correlation-dimension", "lyapunov", "embedding", "mutual-information"]
 
 [build]

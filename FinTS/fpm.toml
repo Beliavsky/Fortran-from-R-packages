@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran port of the computational routines in the R package FinTS"
 keywords = ["finance", "time-series", "arima", "arch", "pca"]
 categories = ["finance", "time-series", "numerical"]
+gams = ["D", "L"]
 
 [library]
 source-dir = "src"

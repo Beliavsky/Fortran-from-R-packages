@@ -5,6 +5,7 @@ author = "Manos Papadakis, Jose Luis Blanco; Fortran port"
 maintainer = "Fortran port"
 description = "Modern Fortran computational port of Rnanoflann nearest-neighbor search"
 categories = ["numerical", "statistics"]
+gams = ["L", "P"]
 keywords = ["nearest-neighbor", "knn", "distances", "nanoflann"]
 
 [build]

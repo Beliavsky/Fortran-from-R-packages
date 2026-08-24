@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "2025 tvGarchKF authors; 2026 OpenAI translation"
 description = "Modern Fortran translation of the computational core of tvGarchKF"
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 keywords = ["GARCH", "Kalman filter", "time-varying volatility"]
 
 [build]

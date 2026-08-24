@@ -5,6 +5,7 @@ author = "Maryclare Griffin; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Generalized normal (exponential power) distribution"
 categories = ["statistics", "probability"]
+gams = ["L", "M"]
 keywords = ["generalized-normal", "exponential-power", "distribution", "random-number-generation"]
 
 [library]

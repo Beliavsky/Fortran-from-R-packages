@@ -5,6 +5,7 @@ author = "Fortran translation of MNB by OpenAI; upstream MNB authors retained in
 maintainer = ""
 copyright = "See LICENSES.md"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["regression", "multivariate-statistics", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]

@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran large-scale eigenvalue and SVD solvers with an RSpectra-like API"
 categories = ["numerical"]
+gams = ["D"]
 keywords = ["eigenvalues", "singular-value-decomposition", "numerical", "numerical-methods"]
 
 [build]

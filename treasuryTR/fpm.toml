@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2021 treasuryTR authors"
 description = "Modern Fortran translation of the computational routines in treasuryTR"
 categories = ["finance", "fixed-income", "statistics"]
+gams = ["L"]
 keywords = ["treasury", "bond", "duration", "convexity", "total-return"]
 
 [build]

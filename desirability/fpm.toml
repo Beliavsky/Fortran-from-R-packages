@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Original R package copyright its authors; Fortran translation preserves GPL-2"
 description = "Modern Fortran implementation of desirability functions"
 categories = ["statistics", "optimization"]
+gams = ["G", "L"]
 keywords = ["desirability", "optimization", "derringer-suich"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Ricardo Puziol de Oliveira, Jorge Alberto Achcar; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational code in the R package BivGeo"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [library]

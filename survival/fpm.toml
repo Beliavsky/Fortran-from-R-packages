@@ -5,6 +5,7 @@ author = "Modern Fortran translation of R survival computational routines"
 maintainer = "OpenAI translation"
 description = "Core survival-analysis algorithms translated from R survival"
 categories = ["statistics"]
+gams = ["L"]
 keywords = ["survival-analysis", "statistics", "statistical-computing"]
 
 [library]

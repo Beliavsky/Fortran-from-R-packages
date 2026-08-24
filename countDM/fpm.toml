@@ -5,6 +5,7 @@ author = "OpenAI translation; upstream countDM authors Muhammad Imran, M.H. Tahi
 maintainer = "OpenAI translation"
 copyright = "Upstream countDM authors; Fortran translation 2026"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]

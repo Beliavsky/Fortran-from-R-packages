@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright holders of the upstream tscopula package and translation contributors"
 description = "Modern Fortran time-series copula models"
 categories = ["statistics", "time-series", "copulas"]
+gams = ["L"]
 keywords = ["copula", "ARMA", "D-vine", "V-transform", "forecasting"]
 
 [build]

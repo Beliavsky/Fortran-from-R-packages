@@ -5,6 +5,7 @@ author = "Modern Fortran translation of the CRAN backtest package"
 maintainer = "Translation maintainers"
 description = "Plain-array modern Fortran implementation of portfolio sorting backtests"
 categories = ["finance", "statistics", "backtesting"]
+gams = ["L"]
 keywords = ["portfolio-analysis", "finance", "statistics", "backtesting", "statistical-computing"]
 
 [library]

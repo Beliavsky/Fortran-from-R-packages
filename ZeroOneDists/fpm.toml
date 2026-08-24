@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "2025 ZeroOneDists authors; Fortran translation 2026"
 description = "Modern Fortran translation of the computational core of R ZeroOneDists"
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]

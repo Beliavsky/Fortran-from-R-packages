@@ -7,6 +7,7 @@ copyright = "Copyright (c) upstream and port contributors"
 description = "Modern Fortran implementation of the ADGofTest Anderson-Darling goodness-of-fit test"
 keywords = ["anderson-darling", "goodness-of-fit", "statistics"]
 categories = ["statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

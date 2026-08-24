@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R frbinom package"
 keywords = ["fractional-binomial", "generalized-bernoulli", "long-range-dependence"]
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

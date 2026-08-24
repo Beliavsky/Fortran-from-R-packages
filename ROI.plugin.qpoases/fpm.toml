@@ -5,6 +5,7 @@ author = "Fortran translation of ROI.plugin.qpoases / qpOASES"
 maintainer = "OpenAI generated translation"
 copyright = "See original source and NOTICE.md"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["quadratic-programming", "optimization", "numerical-methods"]
 
 [library]

@@ -5,6 +5,7 @@ author = "DiceKriging authors; modern Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package DiceKriging"
 categories = ["numerical", "statistics"]
+gams = ["E", "L"]
 keywords = ["kriging", "gaussian-process", "design-of-experiments"]
 
 [build]

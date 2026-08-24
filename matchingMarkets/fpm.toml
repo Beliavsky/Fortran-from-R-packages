@@ -5,6 +5,7 @@ author = "Thilo Klein et al.; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of matchingMarkets computational algorithms"
 categories = ["finance", "optimization", "numerical"]
+gams = ["G", "L"]
 keywords = ["combinatorial-optimization", "finance", "optimization", "numerical", "numerical-methods"]
 
 [library]

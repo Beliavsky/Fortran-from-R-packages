@@ -5,6 +5,7 @@ author = "Fortran translation of the R package scip interface"
 maintainer = ""
 description = "Modern Fortran interface to the SCIP Optimization Suite, translated from R package scip 1.10.0-3"
 categories = ["optimization", "linear-programming", "mixed-integer-programming"]
+gams = ["G"]
 keywords = ["SCIP", "MIP", "MINLP", "Fortran"]
 
 [build]

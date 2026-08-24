@@ -5,6 +5,7 @@ author = "Tom Rowan; Aaron A. King; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the R subplex package"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["constrained-optimization", "optimization", "numerical", "numerical-methods"]
 
 [build]

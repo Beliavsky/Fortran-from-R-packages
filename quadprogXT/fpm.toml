@@ -5,6 +5,7 @@ author = "Bob Harlow, Brian Koch; Fortran translation project"
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of quadprogXT with absolute-value quadratic programming"
 categories = ["optimization", "quadratic-programming"]
+gams = ["G"]
 keywords = ["quadratic programming", "absolute value", "L1", "quadprog"]
 
 [build]

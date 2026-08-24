@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "1998-2025 T. W. Yee; Fortran translation 2026"
 description = "Modern Fortran computational translation of the R VGAM package"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]

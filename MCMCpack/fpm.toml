@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of computational routines from the R package MCMCpack"
 keywords = ["bayesian", "mcmc", "regression", "probit", "logit", "poisson", "quantile"]
 categories = ["simulation", "probability", "statistics"]
+gams = ["L", "M"]
 
 [library]
 source-dir = "src"

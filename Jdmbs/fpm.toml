@@ -5,6 +5,7 @@ author = "Masashi Okada; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Monte Carlo option pricing for geometric Brownian and jump-diffusion models"
 categories = ["finance", "statistics", "simulation"]
+gams = ["L", "M"]
 keywords = ["option-pricing", "monte-carlo", "jump-diffusion", "black-scholes"]
 
 [library]

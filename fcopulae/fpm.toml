@@ -5,6 +5,7 @@ author = "fCopulae authors and translation contributors"
 maintainer = "translation contributors"
 description = "Modern Fortran computational translation of the fCopulae R package"
 categories = ["statistics", "copulas", "finance"]
+gams = ["L"]
 keywords = ["copula", "Archimedean", "elliptical", "extreme-value", "dependence"]
 
 [build]

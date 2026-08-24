@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Copyright (c) 2024 fcl authors"
 description = "Modern Fortran financial calculator translated from fcl"
 categories = ["finance", "numerical"]
+gams = ["L"]
 keywords = ["fixed-income", "finance", "numerical", "numerical-methods"]
 
 [build]

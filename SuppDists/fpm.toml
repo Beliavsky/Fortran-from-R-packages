@@ -5,6 +5,7 @@ author = "Bob Wheeler; Thorsten Pohlert; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational core of R package SuppDists"
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]

@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "See upstream/FKF-master/DESCRIPTION and source headers"
 description = "Fast multivariate Kalman filtering and smoothing with missing data"
 categories = ["statistics", "time-series", "kalman-filter"]
+gams = ["L"]
 keywords = ["kalman", "filter", "smoother", "state-space"]
 
 [build]

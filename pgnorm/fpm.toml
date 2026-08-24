@@ -5,6 +5,7 @@ author = "Steve Kalke; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the pgnorm R package"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "normal-distribution", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]

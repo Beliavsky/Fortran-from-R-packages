@@ -6,6 +6,7 @@ maintainer = "RTL Authors"
 copyright = "Copyright (c) 2020 RTL Authors"
 description = "Modern Fortran translation of the numerical algorithms in RTL 1.3.9, excluding GARCH"
 categories = ["finance", "commodities", "simulation", "option-pricing"]
+gams = ["L", "M"]
 keywords = ["fortran", "finance", "options", "ornstein-uhlenbeck", "portfolio"]
 
 [build]

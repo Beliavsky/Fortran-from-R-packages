@@ -7,6 +7,7 @@ copyright = "Copyright (C) upstream and port contributors"
 description = "Laplace maximum-likelihood stochastic-volatility models in modern Fortran"
 keywords = ["stochastic-volatility", "laplace", "time-series", "finance", "maximum-likelihood"]
 categories = ["finance", "time-series", "probability"]
+gams = ["L"]
 
 [build]
 auto-executables = true

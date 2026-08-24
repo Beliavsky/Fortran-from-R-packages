@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright the HierPortfolios authors and contributors"
 description = "Modern Fortran translation of HierPortfolios"
 categories = ["finance", "portfolio", "clustering"]
+gams = ["L"]
 keywords = ["HRP", "HERC", "HCAA", "DHRP"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Copyright (c) upstream authors and contributors"
 description = "Modern Fortran Monte Carlo valuation framework for variable annuities"
 categories = ["finance", "actuarial", "monte-carlo"]
+gams = ["L", "M"]
 keywords = ["variable annuity", "yield curve", "mortality", "simulation"]
 
 [build]

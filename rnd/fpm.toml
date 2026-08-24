@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (C) 2017 Kam Hamidieh"
 description = "Modern Fortran translation of the computational routines in the RND R package"
 categories = ["finance", "statistics", "option-pricing"]
+gams = ["L"]
 keywords = ["risk-neutral-density", "options", "implied-volatility", "fortran"]
 
 [build]

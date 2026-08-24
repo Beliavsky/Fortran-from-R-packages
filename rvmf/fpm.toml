@@ -5,6 +5,7 @@ author = "rvMF authors; Fortran translation by OpenAI"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package rvMF"
 categories = ["statistics", "random", "directional-statistics"]
+gams = ["L", "M"]
 keywords = ["von-mises-fisher", "directional", "random-number-generation"]
 
 [build]

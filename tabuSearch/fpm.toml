@@ -5,6 +5,7 @@ author = "OpenAI translation of upstream tabuSearch by Katarina Domijan"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package tabuSearch"
 categories = ["optimization", "metaheuristics"]
+gams = ["G"]
 keywords = ["tabu search", "binary optimization"]
 
 [fortran]

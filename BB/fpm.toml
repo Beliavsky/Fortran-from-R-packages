@@ -5,6 +5,7 @@ author = "Fortran translation of the R BB package by Ravi Varadhan and Paul Gilb
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the computational algorithms in the R BB package"
 categories = ["optimization", "nonlinear-equations"]
+gams = ["F", "G"]
 keywords = ["Barzilai-Borwein", "spectral-gradient", "SANE", "DF-SANE", "nonlinear-systems"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Jerome Friedman, Trevor Hastie, Rob Tibshirani, et al.; Fortran transl
 maintainer = "Fortran translation project"
 description = "Elastic-net regularized generalized linear model paths"
 categories = ["statistics", "regression", "machine-learning"]
+gams = ["L"]
 keywords = ["lasso", "elastic-net", "glm", "cox", "coordinate-descent"]
 
 [library]

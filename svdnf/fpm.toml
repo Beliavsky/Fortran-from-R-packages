@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright (C) 2024 SVDNF authors"
 description = "Modern Fortran discrete nonlinear filtering for stochastic volatility models"
 categories = ["finance", "statistics", "stochastic-volatility"]
+gams = ["L"]
 keywords = ["stochastic volatility", "nonlinear filtering", "maximum likelihood", "jumps"]
 
 [build]

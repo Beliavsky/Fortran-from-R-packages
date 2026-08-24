@@ -5,6 +5,7 @@ author = "Fortran translation of AdequacyModel by Pedro Rafael Diniz Marinho, Ma
 maintainer = ""
 copyright = "See upstream package and LICENSE"
 categories = ["optimization", "probability", "statistics"]
+gams = ["G", "L"]
 keywords = ["goodness-of-fit", "optimization", "probability", "statistics", "statistical-computing"]
 
 [library]

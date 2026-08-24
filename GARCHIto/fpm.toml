@@ -7,6 +7,7 @@ copyright = "GARCHIto authors and contributors"
 description = "Unified and realized GARCH-Ito volatility estimation"
 keywords = ["garch", "ito", "realized-volatility", "volatility", "finance"]
 categories = ["finance", "time-series", "statistics"]
+gams = ["L"]
 
 [build]
 auto-executables = true

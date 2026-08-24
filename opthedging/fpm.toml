@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Copyright (C) 2013 Bruno Remillard"
 description = "Modern Fortran implementation of IID-return optimal option hedging"
 categories = ["finance", "monte-carlo", "options"]
+gams = ["L", "M"]
 keywords = ["optimal hedging", "option pricing", "Monte Carlo", "IID returns"]
 
 [build]

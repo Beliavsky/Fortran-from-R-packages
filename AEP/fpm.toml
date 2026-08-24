@@ -5,6 +5,7 @@ author = "Fortran translation of AEP by Mahdi Teimouri"
 maintainer = ""
 description = "Modern Fortran implementation of the asymmetric exponential power distribution and AEP robust regression"
 categories = ["statistics", "probability"]
+gams = ["L"]
 keywords = ["asymmetric-exponential-power", "robust-statistics", "regression", "probability-distributions", "exponential-power-distribution", "statistics", "probability", "statistical-computing"]
 
 [build]

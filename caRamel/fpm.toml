@@ -5,6 +5,7 @@ author = "caRamel authors; Fortran port"
 copyright = "See upstream DESCRIPTION and LICENSE"
 description = "Modern Fortran port of the computational core of the R package caRamel"
 categories = ["optimization", "multiobjective"]
+gams = ["G"]
 keywords = ["multiobjective", "pareto", "evolutionary", "optimization"]
 
 [build]

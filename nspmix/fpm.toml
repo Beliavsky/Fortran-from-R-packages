@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of nspmix by Yong Wang"
 description = "Modern Fortran translation of the computational core of the R package nspmix"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "mixture-models", "statistics", "numerical", "statistical-computing"]
 
 [build]

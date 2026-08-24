@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R miscTools"
 keywords = ["matrix", "statistics", "semidefinite", "utilities"]
 categories = ["optimization", "statistics", "numerical"]
+gams = ["G", "L", "R"]
 
 [library]
 source-dir = "src"

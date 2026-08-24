@@ -5,6 +5,7 @@ author = "HDShOP authors; Fortran translation generated from the supplied source
 copyright = "Copyright (c) HDShOP authors"
 description = "Modern Fortran translation of numerical algorithms from HDShOP"
 categories = ["finance", "statistics", "portfolio-optimization"]
+gams = ["G", "L"]
 keywords = ["shrinkage", "high-dimensional", "portfolio", "covariance"]
 
 [build]

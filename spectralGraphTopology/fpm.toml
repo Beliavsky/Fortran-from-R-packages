@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in spectralGraphTopology"
 keywords = ["graphs", "laplacian", "spectral", "optimization", "clustering"]
 categories = ["optimization", "time-series", "machine-learning"]
+gams = ["G", "L"]
 
 [library]
 source-dir = "src"

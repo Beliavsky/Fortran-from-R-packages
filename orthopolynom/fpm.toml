@@ -5,6 +5,7 @@ author = "OpenAI; based on orthopolynom by Frederick Novomestky"
 maintainer = "OpenAI"
 description = "Modern Fortran translation of the computational code in the R orthopolynom package"
 categories = ["mathematics", "polynomials"]
+gams = ["C", "K"]
 keywords = ["orthogonal-polynomials", "recurrences", "jacobi", "chebyshev", "legendre"]
 
 [build]

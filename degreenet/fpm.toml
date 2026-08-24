@@ -6,6 +6,7 @@ maintainer = "Fortran translation generated from degreenet 1.3-7"
 copyright = "2003-2026 Mark S. Handcock and statnet Development Team"
 description = "Modern Fortran translation of the computational core of R package degreenet"
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["probability-distributions", "graph-algorithms", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]

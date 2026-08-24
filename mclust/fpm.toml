@@ -5,6 +5,7 @@ author = "mclust authors; Fortran translation"
 maintainer = ""
 copyright = "See UPSTREAM.md and source notices"
 categories = ["machine-learning", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["clustering", "mixture-models", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [build]

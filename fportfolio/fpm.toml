@@ -5,6 +5,7 @@ author = "Modern Fortran translation of fPortfolio contributors"
 maintainer = "Translation project maintainers"
 description = "Portfolio optimization, risk budgeting, and backtesting algorithms translated from fPortfolio"
 categories = ["finance", "optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["portfolio", "mean-variance", "cvar", "risk-parity", "backtest"]
 
 [build]

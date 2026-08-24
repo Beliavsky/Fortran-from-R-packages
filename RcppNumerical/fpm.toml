@@ -5,6 +5,7 @@ author = "OpenAI; based on RcppNumerical by Yixuan Qiu and contributors"
 maintainer = "OpenAI"
 description = "Modern Fortran translation of the computational core of RcppNumerical"
 categories = ["numerical-integration", "optimization", "statistics"]
+gams = ["G", "H", "L"]
 keywords = ["gauss-kronrod", "cuhre", "lbfgs", "lbfgsb", "logistic-regression"]
 
 [build]

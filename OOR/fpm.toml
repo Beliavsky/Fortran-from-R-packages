@@ -4,6 +4,7 @@ license = "LGPL"
 author = "OpenAI translation; upstream authors retained in original/OOR-master/DESCRIPTION"
 copyright = "See upstream package and provenance documentation"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["global-optimization", "optimization", "numerical-methods"]
 
 [library]

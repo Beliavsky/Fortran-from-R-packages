@@ -5,6 +5,7 @@ author = "Leon Gonzalez, Blessings Majoni; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Exact likelihood and posterior smoothing for inverse-gamma stochastic volatility models"
 categories = ["statistics", "time-series", "finance"]
+gams = ["L"]
 keywords = ["stochastic-volatility", "inverse-gamma", "likelihood", "smoothing"]
 
 [library]

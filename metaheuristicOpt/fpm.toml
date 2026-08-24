@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of metaheuristicOpt authors' work"
 copyright = "See LICENSE and original package provenance"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = "Modern Fortran translation contributors"
 copyright = "Copyright 2014-2020 Steven E. Pav"
 description = "Inference for Markowitz portfolios using unified second moments"
 categories = ["finance", "statistics", "portfolio-optimization"]
+gams = ["G", "L"]
 keywords = ["markowitz", "portfolio", "delta-method", "covariance"]
 
 [build]

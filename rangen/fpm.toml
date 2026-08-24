@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "See upstream package and LICENSES.md"
 description = "Modern Fortran translation of the computational core of the R package rangen"
 categories = ["random", "statistics"]
+gams = ["L", "M"]
 keywords = ["random-number-generation", "sampling", "pcg32"]
 
 [library]

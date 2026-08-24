@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Copyright (c) original qap authors and contributors"
 description = "Modern Fortran translation of the computational code in the R package qap"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["combinatorial-optimization", "optimization", "numerical", "numerical-methods"]
 
 [build]

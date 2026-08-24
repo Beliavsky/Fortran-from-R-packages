@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Copyright (C) 2018 Marius Hofert, Erik Hintz and Christiane Lemieux"
 description = "Modern Fortran numerical library for multivariate normal variance mixtures"
 categories = ["statistics", "probability", "risk"]
+gams = ["L"]
 keywords = ["normal variance mixtures", "student t", "copulas", "risk measures"]
 
 [build]

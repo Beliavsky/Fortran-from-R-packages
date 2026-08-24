@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright (c) original JFE authors and contributors"
 description = "Modern Fortran translation of the computational core of the R JFE package"
 categories = ["finance", "econometrics", "statistics"]
+gams = ["L"]
 keywords = ["performance", "drawdown", "sharpe", "capm", "durbin-h"]
 
 [build]

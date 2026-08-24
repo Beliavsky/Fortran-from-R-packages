@@ -5,6 +5,7 @@ author = "Fortran translation of fastmatrix by Felipe Osorio and Alonso Ogueda"
 maintainer = ""
 description = "Modern Fortran translation of the numerical core of the R fastmatrix package"
 categories = ["statistics", "numerical"]
+gams = ["D", "L"]
 keywords = ["linear-algebra", "matrix-computations", "statistics", "numerical", "statistical-computing"]
 
 [library]

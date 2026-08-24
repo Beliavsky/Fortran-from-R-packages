@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Original ks authors; Fortran translation preserves upstream licensing"
 description = "Modern Fortran computational port of ks kernel smoothing"
 categories = ["statistics", "kernel-density", "smoothing"]
+gams = ["L"]
 keywords = ["kde", "bandwidth", "kernel", "classification", "mean-shift"]
 
 [library]

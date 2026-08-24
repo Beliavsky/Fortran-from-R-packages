@@ -7,6 +7,7 @@ copyright = "Copyright MASS authors; Fortran translation 2026"
 description = "Modern Fortran computational port of the R MASS package"
 keywords = ["statistics", "robust-regression", "discriminant-analysis", "mds", "fortran"]
 categories = ["statistics", "numerical"]
+gams = ["L"]
 
 [build]
 auto-executables = true

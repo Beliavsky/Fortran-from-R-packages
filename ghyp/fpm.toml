@@ -6,6 +6,7 @@ maintainer = "Fortran project maintainers"
 copyright = "Copyright (C) ghyp authors"
 description = "Modern Fortran numerical core for generalized hyperbolic distributions"
 categories = ["statistics", "finance", "probability"]
+gams = ["L"]
 keywords = ["generalized hyperbolic", "GIG", "NIG", "variance gamma", "Student t"]
 
 [build]

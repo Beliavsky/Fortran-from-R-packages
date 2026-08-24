@@ -5,6 +5,7 @@ author = "Hakan Demirtas, Rawan Allozi, Ran Gao; Fortran translation"
 maintainer = "Fortran translation"
 copyright = "Copyright (c) upstream MultiRNG authors"
 categories = ["simulation", "statistics"]
+gams = ["L", "M"]
 keywords = ["multivariate-statistics", "simulation", "statistics", "statistical-computing"]
 
 [library]

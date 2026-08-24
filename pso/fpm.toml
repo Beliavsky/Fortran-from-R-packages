@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Original pso package copyright its upstream author(s)"
 description = "Modern Fortran translation of the computational code in the R pso package"
 categories = ["optimization", "particle-swarm"]
+gams = ["G"]
 keywords = ["PSO", "SPSO2007", "SPSO2011", "optimization"]
 
 [build]

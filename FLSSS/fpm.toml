@@ -5,6 +5,7 @@ author = "Fortran translation of FLSSS 9.2.8"
 maintainer = ""
 copyright = "Original FLSSS copyright retained under original/"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["combinatorial-optimization", "optimization", "numerical-methods"]
 
 [library]

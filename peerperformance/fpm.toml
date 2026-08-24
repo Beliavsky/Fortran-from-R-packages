@@ -6,6 +6,7 @@ maintainer = "PeerPerformance upstream authors"
 copyright = "Copyright (C) 2012-2023 David Ardia and Kris Boudt"
 description = "Modern Fortran implementation of luck-corrected peer performance analysis"
 categories = ["finance", "statistics"]
+gams = ["L"]
 keywords = ["peer performance", "Sharpe ratio", "modified Sharpe", "false discovery rate"]
 
 [build]

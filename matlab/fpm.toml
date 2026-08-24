@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "2004-2014 MD Anderson Cancer Center; translation 2026 OpenAI"
 description = "Modern Fortran translation of the computational parts of the R matlab emulation package"
 categories = ["mathematics", "utilities"]
+gams = ["R"]
 keywords = ["matlab", "matrix", "compatibility", "fortran"]
 
 [build]

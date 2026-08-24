@@ -5,6 +5,7 @@ author = "Robin K. S. Hankin (upstream hypergeo package); Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern free-format Fortran translation of the computational core of R hypergeo"
 categories = ["mathematics", "special-functions"]
+gams = ["C"]
 keywords = ["hypergeometric", "2F1", "complex", "special-functions"]
 
 [fortran]

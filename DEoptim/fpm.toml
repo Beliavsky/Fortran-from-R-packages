@@ -5,6 +5,7 @@ author = "DEoptim authors; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational core of R package DEoptim"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["differential evolution", "global optimization", "DEoptim"]
 
 [build]

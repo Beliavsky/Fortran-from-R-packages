@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Copyright tsgarch contributors"
 description = "Modern Fortran translation of the computational core of tsgarch"
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 keywords = ["GARCH", "volatility", "risk", "forecasting"]
 
 [build]

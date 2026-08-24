@@ -5,6 +5,7 @@ author = "Patrice Kiener; Fortran translation contributors"
 copyright = "Copyright (C) 2014-2026 Patrice Kiener"
 description = "Modern Fortran implementation of Kiener distributions and fat-tail analytics"
 categories = ["statistics", "finance"]
+gams = ["L"]
 keywords = ["Kiener", "fat tails", "VaR", "expected shortfall", "Fortran"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Fortran translation of Runuran/UNU.RAN by OpenAI"
 maintainer = ""
 description = "Modern Fortran computational translation of Runuran and core UNU.RAN generators"
 categories = ["statistics", "random-number-generation"]
+gams = ["L", "M"]
 keywords = ["UNU.RAN", "random variates", "Monte Carlo", "distributions"]
 
 [build]

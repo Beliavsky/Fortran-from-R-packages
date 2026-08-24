@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "Jaehyuk Choi"
 description = "Modern Fortran implementation of financial engineering option-pricing formulas from FE-R"
 categories = ["finance", "option-pricing", "numerical-methods"]
+gams = ["L"]
 keywords = ["black-scholes", "bachelier", "cev", "sabr", "spread-options"]
 
 [build]

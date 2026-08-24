@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R polyaAeppli package"
 keywords = ["polya-aeppli", "compound-poisson", "geometric-poisson", "probability"]
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

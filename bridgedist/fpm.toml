@@ -5,6 +5,7 @@ author = "Fortran translation of bridgedist by Bruce Swihart"
 maintainer = ""
 copyright = "Original bridgedist copyright holders; Fortran translation contributors"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

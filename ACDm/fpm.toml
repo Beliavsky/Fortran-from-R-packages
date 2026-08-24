@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (c) Markus Belfrage and contributors"
 description = "Modern Fortran implementation of autoregressive conditional duration models"
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 keywords = ["ACD", "durations", "maximum-likelihood", "market-microstructure"]
 
 [library]

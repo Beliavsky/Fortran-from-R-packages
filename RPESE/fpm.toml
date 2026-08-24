@@ -5,6 +5,7 @@ author = "RPESE authors; modern Fortran translation"
 maintainer = "Modern Fortran translation contributors"
 description = "Standard errors for risk and performance measures"
 categories = ["statistics", "finance", "risk-management", "time-series"]
+gams = ["L", "M"]
 keywords = ["standard-errors", "influence-functions", "bootstrap", "periodogram", "elastic-net"]
 
 [library]

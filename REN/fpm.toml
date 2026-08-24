@@ -5,6 +5,7 @@ author = "Hardik Dixit, Shijia Wang, Bonsoo Koo, Cash Looi, Hong Wang; Fortran t
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of REN regularization ensembles for portfolio optimization"
 categories = ["finance", "statistics", "optimization"]
+gams = ["G", "L"]
 keywords = ["portfolio", "regularization", "lasso", "ridge", "ensemble"]
 
 [library]

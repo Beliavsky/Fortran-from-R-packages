@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 copyright = "Upstream Dykstra package authors; translation contributors"
 description = "Modern Fortran translation of the computational core of the R Dykstra package"
 categories = ["optimization", "quadratic-programming"]
+gams = ["G"]
 keywords = ["dykstra", "quadratic-programming", "cyclic-projections"]
 
 [build]

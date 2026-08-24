@@ -5,6 +5,7 @@ author = "Fortran port of mlrMBO computational routines"
 maintainer = ""
 copyright = "mlrMBO authors and contributors"
 categories = ["optimization", "statistics", "numerical"]
+gams = ["G", "L"]
 keywords = ["bayesian-inference", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [build]

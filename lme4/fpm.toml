@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 description = "Dense computational core of lme4 with LMM, GLMM, NLMM, custom families, inference, and AGHQ"
 keywords = ["mixed-models", "lmm", "glmm", "nlmm", "laplace", "pirls", "aghq", "bootstrap"]
 categories = ["statistics", "numerical"]
+gams = ["L", "M"]
 
 [build]
 auto-executables = false

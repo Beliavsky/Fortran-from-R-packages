@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright 2018 Ben Hamner"
 description = "Evaluation metrics for machine learning in modern Fortran"
 categories = ["statistics", "machine-learning"]
+gams = ["L"]
 keywords = ["metrics", "regression", "classification", "information-retrieval"]
 
 [build]

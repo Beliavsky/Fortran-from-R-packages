@@ -7,6 +7,7 @@ copyright = "Copyright (C) 2013-2021 David Ardia"
 description = "Modern Fortran implementation of risk-based portfolio methods from RiskPortfolios"
 keywords = ["portfolio", "covariance", "shrinkage", "risk-parity", "optimization"]
 categories = ["finance", "optimization", "statistics"]
+gams = ["G", "L"]
 
 [build]
 auto-executables = true

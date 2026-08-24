@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (c) 2022 Brendan Galdo"
 description = "Modern Fortran translation of the computational code in the R package graDiEnt"
 categories = ["optimization", "probability", "numerical"]
+gams = ["G", "H", "L"]
 keywords = ["gradient-methods", "numerical-differentiation", "optimization", "probability", "numerical", "statistical-computing"]
 
 [library]

@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2026 Dmitriy Mayorov"
 description = "Modern Fortran implementation of the extended Vasicek credit loss model"
 categories = ["finance", "statistics", "credit-risk"]
+gams = ["L"]
 keywords = ["vasicek", "credit-risk", "probit", "hac"]
 
 [build]

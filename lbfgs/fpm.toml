@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright holders of the upstream lbfgs package and libLBFGS"
 description = "Modern Fortran translation of the R lbfgs package computational core"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["lbfgs", "owl-qn", "optimization", "quasi-newton"]
 
 [build]

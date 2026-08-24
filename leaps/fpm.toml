@@ -5,6 +5,7 @@ author = "Thomas Lumley, Alan Miller; Fortran translation assembled for this pro
 copyright = "See LICENSE.md and upstream source headers"
 description = "Modern Fortran/FPM translation of the computational code in the R package leaps"
 categories = ["statistics", "regression", "subset-selection"]
+gams = ["G", "L"]
 keywords = ["linear-regression", "best-subsets", "leaps-and-bounds", "fortran"]
 
 [build]

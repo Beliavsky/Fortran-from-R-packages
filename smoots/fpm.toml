@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran port of the computational algorithms in the R package smoots"
 keywords = ["time-series", "smoothing", "local-polynomial", "forecasting", "arma"]
 categories = ["time-series", "statistics", "numerical"]
+gams = ["C", "L"]
 
 [library]
 source-dir = "src"

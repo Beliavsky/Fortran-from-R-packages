@@ -7,6 +7,7 @@ copyright = "Copyright (C) Simon N. Wood and contributors"
 description = "Modern Fortran numerical core inspired by R mgcv"
 keywords = ["gam", "smoothing", "splines", "irls", "reml", "gcv"]
 categories = ["statistics", "numerical"]
+gams = ["E", "L"]
 
 [build]
 auto-executables = true

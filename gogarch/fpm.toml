@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "2008-2026 Bernhard Pfaff and translation contributors"
 description = "Modern Fortran translation of the computational core of the R package gogarch"
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 keywords = ["GO-GARCH", "GARCH", "APARCH", "ICA", "volatility", "Student-t", "GED"]
 
 [library]

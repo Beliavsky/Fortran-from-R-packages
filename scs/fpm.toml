@@ -5,6 +5,7 @@ author = "Fortran translation of the R scs package and upstream SCS"
 copyright = "See LICENSE and licenses/"
 description = "Modern Fortran translation of the computational core of the R scs package"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [build]

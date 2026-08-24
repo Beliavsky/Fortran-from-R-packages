@@ -5,6 +5,7 @@ author = "Modern Fortran translation of the fBonds computational routines"
 maintainer = "OpenAI"
 description = "Nelson-Siegel and Nelson-Siegel-Svensson term-structure fitting"
 categories = ["finance"]
+gams = ["L"]
 keywords = ["estimation", "fixed-income", "finance", "modeling"]
 
 [library]

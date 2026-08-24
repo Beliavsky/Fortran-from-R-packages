@@ -5,6 +5,7 @@ author = "David Ardia, Benjamin Seguin, Rosnel Sessinou, Richard Luger; Fortran 
 maintainer = "Fortran translation project"
 description = "Modern Fortran implementation of mean-variance spanning tests"
 categories = ["finance", "statistics"]
+gams = ["L", "M"]
 keywords = ["spanning", "portfolio", "GRS", "mean-variance", "Monte Carlo"]
 
 [build]

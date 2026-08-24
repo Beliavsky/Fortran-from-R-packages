@@ -5,6 +5,7 @@ author = "Fortran translation of COMPoissonReg contributors"
 maintainer = ""
 copyright = "See NOTICE.md and upstream/DESCRIPTION"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["regression", "estimation", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]

@@ -5,6 +5,7 @@ author = "Translation of compositions package computational code"
 maintainer = "OpenAI"
 description = "Modern Fortran/FPM translation of the computational core of R package compositions"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["compositional-data", "statistics", "numerical", "statistical-computing"]
 
 [build]

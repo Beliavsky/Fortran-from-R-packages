@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the vrtest R package"
 keywords = ["variance-ratio", "martingale-difference", "time-series", "bootstrap"]
 categories = ["time-series", "statistics", "numerical"]
+gams = ["L", "M"]
 
 [build]
 auto-executables = true

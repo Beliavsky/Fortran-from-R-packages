@@ -7,6 +7,7 @@ copyright = "Copyright (C) upstream and port contributors"
 description = "Modern Fortran implementation of skew-normal, skew-t, skew-Cauchy, multivariate and SUN distributions"
 keywords = ["statistics", "skew-normal", "skew-t", "SUN", "maximum-likelihood"]
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 
 [build]
 auto-executables = true

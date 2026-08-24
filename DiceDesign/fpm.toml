@@ -5,6 +5,7 @@ author = "DiceDesign authors; Fortran translation"
 maintainer = ""
 copyright = "See upstream metadata and GPL-3 license"
 categories = ["statistics"]
+gams = ["L"]
 keywords = ["statistics", "statistical-computing", "modeling"]
 
 [library]

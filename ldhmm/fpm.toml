@@ -5,6 +5,7 @@ author = "Stephen H-T. Lihn; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Lambda-distribution hidden Markov models in modern Fortran"
 categories = ["statistics", "time-series", "hidden-markov-models"]
+gams = ["L"]
 keywords = ["HMM", "lambda-distribution", "finance", "forecasting", "MLE"]
 
 [library]

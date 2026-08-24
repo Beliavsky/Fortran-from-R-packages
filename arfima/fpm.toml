@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (c) 2017 Justin Quinn (J.Q.) Veenstra; translation contributors"
 description = "Modern Fortran translation of the computational code in the R arfima package"
 categories = ["time-series", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "forecasting", "long-memory", "time-series", "statistics", "numerical", "statistical-computing"]
 
 [build]

@@ -7,6 +7,7 @@ copyright = "Copyright upstream mbbefd authors and translation contributors"
 description = "Modern Fortran computational port of the R mbbefd package"
 keywords = ["actuarial", "exposure-curves", "mbbefd", "destruction-rate", "distribution-fitting"]
 categories = ["actuarial", "probability", "numerical"]
+gams = ["L"]
 
 [build]
 auto-executables = false

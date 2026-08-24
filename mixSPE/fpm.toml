@@ -5,6 +5,7 @@ author = "mixSPE authors; Fortran translation"
 description = "Modern Fortran translation of mixSPE"
 keywords = ["power-exponential", "skew-power-exponential", "mixture-model", "clustering"]
 categories = ["machine-learning", "probability", "statistics"]
+gams = ["L"]
 
 [build]
 auto-executables = true

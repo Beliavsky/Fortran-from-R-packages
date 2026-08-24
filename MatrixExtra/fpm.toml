@@ -7,6 +7,7 @@ copyright = "2020-2026 MatrixExtra authors and contributors"
 description = "Modern Fortran sparse matrix extensions translated from the R MatrixExtra package"
 keywords = ["sparse", "csr", "csc", "coo", "matrix", "linear-algebra"]
 categories = ["numerical"]
+gams = ["D"]
 
 [dependencies]
 matrix-fortran = { path = "vendor/Matrix-fortran" }

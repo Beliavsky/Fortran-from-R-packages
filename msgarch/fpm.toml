@@ -5,6 +5,7 @@ author = "MSGARCH authors and Fortran translation contributors"
 maintainer = "Fortran translation contributors"
 description = "Modern Fortran computational translation of the MSGARCH R package"
 categories = ["statistics", "time-series", "finance"]
+gams = ["L"]
 keywords = ["GARCH", "Markov switching", "Bayesian", "risk"]
 
 [library]

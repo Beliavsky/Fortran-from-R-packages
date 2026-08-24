@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran implementation of the computational core of R nlme"
 keywords = ["mixed-effects", "gls", "lme", "nonlinear", "correlation"]
 categories = ["statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Original tseries authors and contributors; Fortran translation copyright 2026 Vivek Rao"
 description = "Experimental modern Fortran translation of computational routines from the R tseries package"
 categories = ["statistics", "time-series", "finance"]
+gams = ["L", "M"]
 keywords = ["arma", "garch", "unit-root", "bootstrap", "fortran"]
 
 [fortran]

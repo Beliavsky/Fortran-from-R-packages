@@ -6,6 +6,7 @@ maintainer = "Modern Fortran community"
 copyright = "2015 Dinesh Acharya and contributors"
 description = "Modern Fortran translation of computational routines from the R package Dowd"
 categories = ["finance", "risk", "statistics"]
+gams = ["L"]
 keywords = ["value-at-risk", "expected-shortfall", "backtesting", "copula", "extreme-value"]
 
 [build]

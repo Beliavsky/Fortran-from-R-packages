@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "Copyright Dario Azzimonti and contributors"
 description = "Modern Fortran port of the computational code in the R package anMC"
 categories = ["statistics", "probability", "monte-carlo"]
+gams = ["L", "M"]
 keywords = ["orthant-probability", "gaussian", "nested-monte-carlo", "excursion-sets"]
 
 [build]

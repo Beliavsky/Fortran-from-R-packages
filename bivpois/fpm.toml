@@ -7,6 +7,7 @@ copyright = "Upstream bivpois copyright retained; translation 2026"
 description = "Modern Fortran translation of the computational code in the R package bivpois"
 keywords = ["bivariate-poisson", "statistics", "maximum-likelihood", "monte-carlo"]
 categories = ["simulation", "probability", "statistics"]
+gams = ["L", "M"]
 
 [library]
 source-dir = "src"

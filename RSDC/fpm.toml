@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "Copyright the RSDC authors and Fortran port contributors"
 description = "Modern Fortran implementation of regime-switching dynamic correlation models"
 categories = ["statistics", "finance", "time-series"]
+gams = ["L"]
 keywords = ["regime-switching", "correlation", "hamilton-filter", "portfolio"]
 
 [build]

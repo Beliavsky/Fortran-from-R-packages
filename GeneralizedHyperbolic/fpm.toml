@@ -5,6 +5,7 @@ author = "Fortran translation of David Scott's GeneralizedHyperbolic R package"
 maintainer = ""
 description = "Modern Fortran implementation of generalized hyperbolic and related distributions"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]

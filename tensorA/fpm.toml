@@ -5,6 +5,7 @@ author = "K. Gerald van den Boogaart; Fortran translation"
 maintainer = "Fortran translation"
 description = "Free-format modern Fortran translation of the computational core of R tensorA"
 categories = ["numerical"]
+gams = ["D"]
 keywords = ["matrix-computations", "numerical", "numerical-methods"]
 
 [build]

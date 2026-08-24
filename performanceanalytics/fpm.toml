@@ -5,6 +5,7 @@ author = "Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 copyright = "Original PerformanceAnalytics authors and translation contributors"
 categories = ["finance", "statistics"]
+gams = ["L"]
 keywords = ["financial-econometrics", "finance", "statistics", "statistical-computing"]
 
 [build]

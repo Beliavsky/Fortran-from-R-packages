@@ -5,6 +5,7 @@ author = "Modern Fortran translation of coneproj"
 maintainer = ""
 description = "Cone projections, quadratic programming, and shape-restricted regression"
 categories = ["optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["regression", "quadratic-programming", "optimization", "statistics", "statistical-computing"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Lukasz Komsta; Frederick Novomestky; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Moments, cumulants, skewness, kurtosis, and related tests"
 categories = ["statistics"]
+gams = ["L"]
 keywords = ["moments", "cumulants", "skewness", "kurtosis", "normality-tests"]
 
 [library]

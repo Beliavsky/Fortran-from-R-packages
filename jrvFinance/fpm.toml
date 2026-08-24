@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the computational core of jrvFinance"
 keywords = ["npv", "irr", "annuity", "bond", "black-scholes"]
 categories = ["actuarial", "finance", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

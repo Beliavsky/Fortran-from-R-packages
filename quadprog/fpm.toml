@@ -5,6 +5,7 @@ author = "Berwin A. Turlach, Andreas Weingessel, Cleve Moler; Fortran modernizat
 maintainer = "Fortran translation project"
 description = "Modern Fortran implementation of the Goldfarb-Idnani quadratic programming solver"
 categories = ["optimization", "quadratic-programming"]
+gams = ["G"]
 keywords = ["quadratic programming", "active set", "Goldfarb-Idnani"]
 
 [build]

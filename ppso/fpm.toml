@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Original ppso authors"
 description = "Modern Fortran translation of the computational core of the R package ppso"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]

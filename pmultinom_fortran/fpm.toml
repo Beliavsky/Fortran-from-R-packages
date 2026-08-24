@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright retained by the upstream pmultinom authors"
 description = "Modern Fortran translation of the computational core of the R package pmultinom"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability", "numerical", "statistics", "statistical-computing"]
 
 [build]

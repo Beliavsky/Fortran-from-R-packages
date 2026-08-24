@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 description = "Modern Fortran computational port of the R package ecpdist"
 keywords = ["statistics", "distribution", "survival", "extended-chen-poisson"]
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

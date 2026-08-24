@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 copyright = "Original good package authors"
 description = "Modern Fortran translation of the computational core of the R package good"
 categories = ["statistics", "probability", "regression"]
+gams = ["L"]
 keywords = ["Good distribution", "count data", "maximum likelihood", "GLM"]
 
 [build]

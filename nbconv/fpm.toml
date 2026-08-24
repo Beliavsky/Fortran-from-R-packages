@@ -6,6 +6,7 @@ maintainer = "OpenAI translation artifact"
 copyright = "Copyright (c) Gregory Bedwell and contributors"
 description = "Modern Fortran translation of the computational core of the R package nbconv"
 categories = ["probability", "numerical", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "count-data", "probability", "numerical", "statistics", "statistical-computing"]
 
 [library]

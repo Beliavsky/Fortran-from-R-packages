@@ -5,6 +5,7 @@ author = "OpenAI translation of nls2"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package nls2"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["regression", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]

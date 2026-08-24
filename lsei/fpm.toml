@@ -5,6 +5,7 @@ author = "Fortran translation of lsei by Yong Wang, Lawson and Hanson"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package lsei"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["constrained-optimization", "least-squares", "optimization", "numerical", "numerical-methods"]
 
 [build]

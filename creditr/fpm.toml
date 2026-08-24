@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "See NOTICE.md and original source notices"
 description = "Modern Fortran implementation of creditr and the ISDA CDS Standard Model calculations"
 categories = ["finance", "credit-risk", "fixed-income"]
+gams = ["L", "M"]
 keywords = ["CDS", "ISDA", "hazard", "credit", "curve-bootstrap"]
 
 [build]

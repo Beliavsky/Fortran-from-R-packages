@@ -5,6 +5,7 @@ author = "Fortran translation of Rmalschains/librealea computational path"
 maintainer = "OpenAI translation"
 description = "Modern Fortran implementation of the Rmalschains MA-LS-Chains optimization path"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["memetic algorithm", "MA-LS-Chains", "continuous optimization", "CMA-ES", "Solis-Wets"]
 
 [build]

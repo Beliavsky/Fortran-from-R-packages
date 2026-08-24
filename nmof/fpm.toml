@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "2010-2025 Enrico Schumann"
 description = "Modern Fortran translation of the computational algorithms in NMOF"
 categories = ["finance", "optimization", "monte-carlo"]
+gams = ["G", "L", "M"]
 keywords = ["optimization", "portfolio", "options", "bonds", "simulation"]
 
 [build]

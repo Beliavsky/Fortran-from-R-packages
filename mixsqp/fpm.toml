@@ -5,6 +5,7 @@ author = "Fortran translation of mixsqp authors' computational code"
 maintainer = ""
 description = "Modern Fortran translation of mixsqp"
 categories = ["optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["estimation", "mixture-models", "quadratic-programming", "optimization", "statistics", "statistical-computing"]
 
 [build]

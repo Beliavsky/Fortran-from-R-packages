@@ -5,6 +5,7 @@ author = "mstate authors; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of computational algorithms from the R package mstate"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]

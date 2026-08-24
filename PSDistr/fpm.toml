@@ -5,6 +5,7 @@ author = "Fortran translation of Piotr Sulewski's PSDistr"
 maintainer = ""
 copyright = "See NOTICE.md"
 categories = ["numerical"]
+gams = ["L", "M"]
 keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [library]

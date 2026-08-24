@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Upstream copyright Jilber Urbina; translation copyright 2026 OpenAI"
 description = "VAR-based generalized and orthogonalized connectedness measures"
 categories = ["finance", "economics", "time-series"]
+gams = ["L"]
 keywords = ["spillover", "connectedness", "VAR", "FEVD", "Diebold-Yilmaz"]
 
 [build]

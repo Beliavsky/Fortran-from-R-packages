@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright (C) 2017 Andrzej Palczewski and Jan Palczewski"
 description = "Modern Fortran port of the numerical core of the R package BLModel"
 categories = ["finance", "portfolio", "statistics"]
+gams = ["L"]
 keywords = ["Black-Litterman", "portfolio", "Bayesian", "risk"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Christopher Jackson; Fortran translation by OpenAI"
 maintainer = "OpenAI"
 description = "Modern Fortran computational core translated from the R msm package"
 categories = ["statistics", "markov-models", "hidden-markov-models"]
+gams = ["L"]
 keywords = ["continuous-time-markov", "hmm", "multistate", "matrix-exponential"]
 
 [build]

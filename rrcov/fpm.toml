@@ -5,6 +5,7 @@ author = "Valentin Todorov; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of rrcov robust multivariate computational algorithms"
 categories = ["statistics", "robust-statistics", "multivariate-analysis"]
+gams = ["D", "L"]
 keywords = ["robust-covariance", "pca", "lda", "qda", "mcd", "ogk"]
 
 [library]

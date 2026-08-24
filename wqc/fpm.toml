@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "2025 Anoop S Kumar"
 description = "Modern Fortran implementation of wavelet quantile correlation analysis"
 categories = ["statistics", "time-series", "wavelets"]
+gams = ["J", "L"]
 keywords = ["wavelet", "quantile-correlation", "modwt", "dependence"]
 
 [build]

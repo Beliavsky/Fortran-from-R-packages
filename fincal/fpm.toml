@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package FinCal"
 keywords = ["finance", "time-value-of-money", "interest-rates", "accounting", "portfolio"]
 categories = ["finance", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

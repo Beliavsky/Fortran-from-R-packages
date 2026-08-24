@@ -8,6 +8,7 @@ description = "Modern Fortran simulation and inference for stochastic differenti
 homepage = "https://github.com/cran/sde"
 keywords = ["sde", "stochastic-differential-equations", "simulation", "inference"]
 categories = ["simulation", "probability", "numerical"]
+gams = ["I", "L", "M"]
 
 [build]
 auto-executables = true

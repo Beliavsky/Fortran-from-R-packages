@@ -4,6 +4,7 @@ license = "GPL-2.0-only"
 author = "Fortran translation of cmaes by Heike Trautmann, Olaf Mersmann, and David Arnu"
 copyright = "Original cmaes authors; Fortran translation"
 categories = ["optimization", "statistics", "numerical"]
+gams = ["D", "G", "L"]
 keywords = ["covariance", "linear-algebra", "matrix-computations", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [build]

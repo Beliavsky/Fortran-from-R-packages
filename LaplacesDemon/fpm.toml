@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 copyright = "2010-2015 Statisticat, LLC; translation 2026"
 description = "Modern Fortran computational port of core LaplacesDemon Bayesian inference algorithms"
 categories = ["simulation", "numerical"]
+gams = ["L", "M"]
 keywords = ["bayesian-inference", "monte-carlo", "simulation", "numerical", "numerical-methods"]
 
 [build]

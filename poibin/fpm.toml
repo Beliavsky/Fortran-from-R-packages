@@ -5,6 +5,7 @@ author = "Yili Hong; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational code in the R package poibin"
 categories = ["statistics", "probability"]
+gams = ["L"]
 keywords = ["poisson-binomial", "distribution", "fortran"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Angelo Canty, Brian Ripley, Alessandra R. Brazzale; Fortran translatio
 maintainer = "OpenAI translation"
 description = "Modern Fortran computational-core translation of R package boot"
 categories = ["statistics", "bootstrap", "numerical"]
+gams = ["L", "M"]
 keywords = ["bootstrap", "statistics", "numerical", "statistical-computing"]
 
 [library]

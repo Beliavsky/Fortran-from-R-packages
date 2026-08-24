@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (C) Andrzej Palczewski and contributors"
 description = "Modern Fortran translation of the numerical core of the R package PortfolioOptim"
 categories = ["finance", "optimization", "portfolio"]
+gams = ["G", "L"]
 keywords = ["portfolio", "CVaR", "MAD", "Benders", "linear-programming"]
 
 [build]

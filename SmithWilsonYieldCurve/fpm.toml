@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Upstream copyright Phil Joubert; translation copyright 2026 OpenAI"
 description = "Modern Fortran implementation of Smith-Wilson yield-curve construction"
 categories = ["finance", "economics", "numerical"]
+gams = ["L"]
 keywords = ["Smith-Wilson", "yield curve", "term structure", "fixed income"]
 
 [build]

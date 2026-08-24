@@ -5,6 +5,7 @@ author = "Saralees Nadarajah, Yuancheng Si, Peihao Wang; Fortran translation by 
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational routines in the R package LindleyPowerSeries"
 categories = ["statistics", "probability", "distributions"]
+gams = ["L"]
 keywords = ["lindley", "power-series", "probability", "statistics"]
 
 [build]

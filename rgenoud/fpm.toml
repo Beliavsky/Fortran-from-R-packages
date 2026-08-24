@@ -7,6 +7,7 @@ copyright = "Upstream rgenoud authors"
 description = "Modern Fortran translation of the computational core of the R package rgenoud"
 keywords = ["optimization", "genetic-algorithm", "bfgs", "global-optimization"]
 categories = ["finance", "optimization", "numerical"]
+gams = ["G", "L"]
 
 [build]
 auto-executables = false

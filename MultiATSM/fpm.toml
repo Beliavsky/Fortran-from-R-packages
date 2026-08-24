@@ -6,6 +6,7 @@ copyright = "Copyright (c) MultiATSM authors and contributors"
 description = "Modern Fortran implementation of computational routines from the R MultiATSM package"
 keywords = ["affine-term-structure", "macro-finance", "var", "gvar", "jll", "yield-curve"]
 categories = ["finance", "statistics", "numerical"]
+gams = ["L"]
 
 [build]
 auto-executables = true

@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 copyright = "Upstream and translation contributors; see original/ and NOTICE.md"
 description = "Modern Fortran translation of the cec2013 benchmark package"
 categories = ["optimization", "benchmark"]
+gams = ["G"]
 keywords = ["CEC2013", "global optimization", "benchmarks"]
 
 [library]

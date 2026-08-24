@@ -5,6 +5,7 @@ author = "Fortran translation of joker"
 maintainer = ""
 copyright = ""
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["estimation", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [build]

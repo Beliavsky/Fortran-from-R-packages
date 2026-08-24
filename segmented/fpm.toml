@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran implementation of segmented and stepmented regression models"
 keywords = ["segmented-regression", "changepoint", "mixed-effects", "breakpoint"]
 categories = ["time-series", "statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

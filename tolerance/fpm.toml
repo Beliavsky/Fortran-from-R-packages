@@ -6,6 +6,7 @@ maintainer = "Fortran translation"
 copyright = "Upstream copyright holders"
 description = "Modern Fortran translation of the computational code in the R tolerance package"
 categories = ["statistics", "numerical"]
+gams = ["L"]
 keywords = ["statistics", "numerical", "statistical-computing"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package fitHeavyTail"
 keywords = ["statistics", "heavy-tails", "student-t", "covariance", "robust-estimation"]
 categories = ["statistics", "numerical"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

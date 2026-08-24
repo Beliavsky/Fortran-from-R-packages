@@ -6,6 +6,7 @@ maintainer = "mvtnorm-fortran contributors"
 copyright = "Copyright the mvtnorm authors and contributors"
 description = "Modern Fortran numerical port of mvtnorm"
 categories = ["statistics", "probability", "multivariate"]
+gams = ["D", "L"]
 keywords = ["multivariate-normal", "multivariate-t", "probability", "cholesky"]
 
 [build]

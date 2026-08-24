@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2022 Bernardo Reckziegel"
 description = "Modern Fortran implementation of Fully Flexible Probabilities"
 categories = ["finance", "statistics", "optimization"]
+gams = ["G", "L"]
 keywords = ["entropy-pooling", "flexible-probabilities", "risk", "portfolio"]
 
 [build]

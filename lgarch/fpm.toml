@@ -5,6 +5,7 @@ author = "Modern Fortran translation of lgarch by Genaro Sucarrat"
 maintainer = "Translation project"
 description = "Simulation and estimation of univariate and multivariate log-GARCH models"
 categories = ["finance", "time-series", "simulation"]
+gams = ["L", "M"]
 keywords = ["estimation", "multivariate-statistics", "garch", "financial-econometrics", "finance", "time-series", "simulation", "modeling"]
 
 [library]

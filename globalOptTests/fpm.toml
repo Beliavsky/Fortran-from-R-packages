@@ -5,6 +5,7 @@ author = "Modern Fortran translation of globalOptTests"
 maintainer = ""
 copyright = "See upstream provenance and source headers"
 categories = ["optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["global-optimization", "optimization", "statistics", "statistical-computing"]
 
 [library]

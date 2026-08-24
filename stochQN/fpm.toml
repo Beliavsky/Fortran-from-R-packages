@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright (c) 2019 David Cortes"
 description = "Modern Fortran translation of stochastic limited-memory quasi-Newton optimizers"
 categories = ["optimization", "probability", "numerical"]
+gams = ["G", "L"]
 keywords = ["gradient-methods", "optimization", "probability", "numerical", "statistical-computing"]
 
 [build]

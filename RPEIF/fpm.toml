@@ -5,6 +5,7 @@ author = "RPEIF authors; modern Fortran translation"
 maintainer = "Modern Fortran translation contributors"
 description = "Influence functions for risk and performance measures"
 categories = ["statistics", "finance", "risk-management"]
+gams = ["L"]
 keywords = ["influence-functions", "VaR", "expected-shortfall", "Sharpe", "Sortino"]
 
 [library]

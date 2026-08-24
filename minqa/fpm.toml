@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 description = "Modern Fortran interfaces to Powell derivative-free quadratic approximation optimizers"
 keywords = ["optimization", "derivative-free", "bobyqa", "newuoa", "uobyqa"]
 categories = ["optimization", "numerical"]
+gams = ["G", "K"]
 
 [build]
 auto-executables = false

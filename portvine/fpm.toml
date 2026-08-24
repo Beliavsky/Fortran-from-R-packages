@@ -7,6 +7,7 @@ copyright = "2022-2026"
 description = "Rolling ARMA-GARCH and vine-copula portfolio risk estimation in modern Fortran"
 keywords = ["portfolio-risk", "GARCH", "vine-copula", "VaR", "expected-shortfall"]
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 
 [build]
 auto-executables = true

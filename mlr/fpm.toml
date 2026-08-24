@@ -5,6 +5,7 @@ author = "Modern Fortran translation of mlr computational framework"
 maintainer = "OpenAI translation"
 description = "Computational core inspired by R mlr, with survival-fortran integration"
 categories = ["machine-learning", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["survival-analysis", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]

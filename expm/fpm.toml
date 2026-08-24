@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 description = "Modern Fortran matrix exponential, logarithm, square root and related algorithms translated from expm"
 keywords = ["matrix exponential", "matrix logarithm", "frechet derivative", "matrix functions"]
 categories = ["numerical"]
+gams = ["D"]
 
 [build]
 auto-executables = true

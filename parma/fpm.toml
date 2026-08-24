@@ -7,6 +7,7 @@ copyright = "Copyright (C) 2012-2014 Alexios Galanos and Bernhard Pfaff"
 description = "Modern Fortran portfolio allocation and risk management library translated from the R package parma"
 keywords = ["portfolio", "risk", "optimization", "cma-es", "cvar", "cdar"]
 categories = ["finance", "optimization", "numerical"]
+gams = ["G", "L"]
 
 [build]
 auto-executables = true

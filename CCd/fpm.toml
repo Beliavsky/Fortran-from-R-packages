@@ -5,6 +5,7 @@ author = "OpenAI translation; upstream CCd by Michail Tsagris"
 maintainer = ""
 copyright = "2024 Michail Tsagris; 2026 translation contributors"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

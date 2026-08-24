@@ -6,6 +6,7 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright Wolfgang Hormann and contributors"
 description = "Rare-event portfolio simulation under t-copulas with t or GH marginals"
 categories = ["finance", "statistics", "monte-carlo"]
+gams = ["L", "M"]
 keywords = ["copula", "importance-sampling", "risk", "fortran"]
 
 [build]

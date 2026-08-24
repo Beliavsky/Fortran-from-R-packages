@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
 description = "Standalone modern Fortran conic solver compatible with the computational ECOSolveR API"
 categories = ["optimization", "conic-programming"]
+gams = ["G"]
 keywords = ["ECOS", "SOCP", "exponential-cone", "mixed-integer"]
 
 [build]

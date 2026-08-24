@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Original genalg authors and contributors"
 description = "Modern Fortran translation of the computational core of R package genalg"
 categories = ["optimization", "genetic-algorithm"]
+gams = ["G"]
 keywords = ["genetic algorithm", "binary", "real-valued", "optimization"]
 
 [build]

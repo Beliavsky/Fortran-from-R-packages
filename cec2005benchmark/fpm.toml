@@ -5,6 +5,7 @@ author = "Fortran translation of cec2005benchmark"
 maintainer = "OpenAI"
 description = "Modern Fortran translation of the CEC 2005 real-parameter optimization benchmark suite"
 categories = ["optimization", "benchmarks"]
+gams = ["G"]
 keywords = ["CEC2005", "optimization", "benchmark"]
 
 [library]

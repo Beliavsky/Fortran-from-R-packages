@@ -6,6 +6,7 @@ maintainer = "Fortran port contributors"
 copyright = "2020 Carlos Trucios"
 description = "Modern Fortran implementation of the RiskMetrics 2006 conditional covariance methodology"
 categories = ["finance", "statistics", "time-series"]
+gams = ["L"]
 keywords = ["riskmetrics", "covariance", "ewma", "volatility"]
 
 [build]

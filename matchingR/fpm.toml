@@ -5,6 +5,7 @@ author = "Jan Tilly, Nick Janetos; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational algorithms in matchingR"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["combinatorial-optimization", "optimization", "numerical", "numerical-methods"]
 
 [library]

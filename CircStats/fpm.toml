@@ -5,6 +5,7 @@ author = "Fortran translation of CircStats by Ulric Lund and Claudio Agostinelli
 maintainer = ""
 description = "Modern Fortran computational port of the R CircStats package"
 categories = ["statistics", "circular-statistics"]
+gams = ["L", "M"]
 keywords = ["circular", "von-mises", "wrapped-cauchy", "bootstrap"]
 
 [build]

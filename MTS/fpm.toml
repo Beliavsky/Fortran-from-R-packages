@@ -6,6 +6,7 @@ maintainer = "MTS Fortran translation contributors"
 copyright = "Copyright the MTS authors and contributors"
 description = "Modern Fortran translation of the computational core of the R MTS package"
 categories = ["statistics", "time-series", "econometrics", "finance"]
+gams = ["L"]
 keywords = ["VAR", "VARMA", "VECM", "DCC", "BEKK", "multivariate-time-series"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran interface corresponding to the CRAN gsl wrapper for GNU GSL"
 categories = ["numerical", "special-functions"]
+gams = ["C", "L", "M"]
 keywords = ["gsl", "special-functions", "rng", "quasi-random"]
 
 [build]

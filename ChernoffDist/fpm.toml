@@ -5,6 +5,7 @@ author = "OpenAI translation; upstream ChernoffDist by Haitian Xie"
 maintainer = ""
 copyright = "Copyright retained by upstream authors"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

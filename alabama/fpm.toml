@@ -7,6 +7,7 @@ copyright = "Ravi Varadhan and contributors; see NOTICE.md"
 description = "Modern Fortran computational port of the R alabama constrained optimization package"
 keywords = ["optimization", "constraints", "augmented-lagrangian", "barrier"]
 categories = ["optimization", "numerical"]
+gams = ["G"]
 
 [build]
 auto-executables = false

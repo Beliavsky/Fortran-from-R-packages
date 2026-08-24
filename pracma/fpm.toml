@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package pracma"
 keywords = ["numerical-analysis", "linear-algebra", "optimization", "integration", "ode", "special-functions"]
 categories = ["optimization", "numerical"]
+gams = ["C", "D", "G", "I"]
 
 [library]
 source-dir = "src"

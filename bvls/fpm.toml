@@ -5,6 +5,7 @@ author = "Modern Fortran translation of bvls 1.4"
 maintainer = "OpenAI translation"
 description = "Modern Fortran implementation of Stark-Parker bounded-variable least squares"
 categories = ["optimization", "least-squares"]
+gams = ["G"]
 keywords = ["bvls", "least-squares", "bounded", "active-set"]
 
 [library]

@@ -5,6 +5,7 @@ author = "Eunseong Cho; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of the computational algorithms in the R optimflex package"
 categories = ["optimization", "numerical"]
+gams = ["G", "H"]
 keywords = ["numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [build]

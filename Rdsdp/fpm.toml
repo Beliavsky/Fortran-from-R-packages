@@ -5,6 +5,7 @@ author = "Rdsdp/DSDP authors; modern Fortran translation by OpenAI"
 maintainer = ""
 copyright = "See LICENSE and licenses/"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "Copyright (C) 2017 Bernhard Pfaff"
 description = "Modern Fortran translation of multiple-criteria risk-parity algorithms"
 categories = ["finance", "optimization", "statistics"]
+gams = ["G", "L"]
 keywords = ["risk parity", "coskewness", "cokurtosis", "portfolio"]
 
 [build]

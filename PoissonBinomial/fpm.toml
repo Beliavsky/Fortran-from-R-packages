@@ -4,6 +4,7 @@ license = "GPL-3.0-only"
 author = "Florian Junge; Fortran translation by OpenAI"
 copyright = "Copyright (c) upstream authors; see UPSTREAM.md"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "count-data", "probability", "statistics", "statistical-computing"]
 
 [build]

@@ -5,6 +5,7 @@ author = "Bernardo Reckziegel; Fortran translation project"
 maintainer = "Fortran translation project"
 description = "Modern Fortran implementation of minimum-torsion diversification and effective bets"
 categories = ["finance", "portfolio", "optimization", "linear-algebra"]
+gams = ["D", "G", "L"]
 keywords = ["minimum torsion", "effective bets", "portfolio diversification", "PCA"]
 
 [build]

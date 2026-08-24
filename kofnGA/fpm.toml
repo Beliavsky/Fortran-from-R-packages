@@ -5,6 +5,7 @@ author = "Mark A. Wolters; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of the R package kofnGA"
 categories = ["optimization", "genetic-algorithms"]
+gams = ["G"]
 keywords = ["genetic-algorithms", "feature-selection", "optimization", "numerical-methods"]
 
 [build]

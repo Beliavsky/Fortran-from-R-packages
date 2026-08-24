@@ -5,6 +5,7 @@ author = "Modern Fortran translation of gslnls"
 maintainer = "OpenAI"
 description = "Standalone modern Fortran nonlinear least-squares algorithms translated from gslnls"
 categories = ["optimization", "least-squares", "statistics"]
+gams = ["G", "L"]
 keywords = ["nonlinear least squares", "Levenberg-Marquardt", "dogleg", "robust regression", "multistart"]
 
 [build]

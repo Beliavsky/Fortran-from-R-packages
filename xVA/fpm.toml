@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) Tasos Grivas and translation contributors"
 description = "Modern Fortran translation of the computational routines in the R xVA package"
 categories = ["finance", "risk", "regulation"]
+gams = ["L"]
 keywords = ["xVA", "CVA", "DVA", "FVA", "KVA", "SA-CVA", "SA-CCR"]
 
 [build]

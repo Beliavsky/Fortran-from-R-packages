@@ -5,6 +5,7 @@ author = "Original stochvol and factorstochvol authors; Fortran translation cont
 maintainer = "Fortran translation contributors"
 description = "Combined modern Fortran translation of stochvol and factorstochvol computational routines"
 categories = ["finance", "time-series", "probability"]
+gams = ["L"]
 keywords = ["volatility", "financial-econometrics", "finance", "time-series", "probability", "statistical-computing"]
 
 [build]

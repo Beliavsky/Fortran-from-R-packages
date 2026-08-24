@@ -6,6 +6,7 @@ maintainer = "Fortran translation project"
 copyright = "Original authors and contributors"
 description = "Tests of independence between innovations of generalized-error models"
 categories = ["statistics", "time-series"]
+gams = ["L"]
 keywords = ["independence", "innovations", "cramer-von-mises", "cross-correlation"]
 
 [build]

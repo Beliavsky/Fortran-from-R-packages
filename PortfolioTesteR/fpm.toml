@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) 2025 PortfolioTesteR authors and Fortran port contributors"
 description = "Modern Fortran computational port of PortfolioTesteR"
 categories = ["finance", "portfolio", "backtesting", "machine-learning"]
+gams = ["L"]
 keywords = ["portfolio", "technical-indicators", "backtest", "hrp", "walk-forward"]
 
 [build]

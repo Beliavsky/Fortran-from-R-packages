@@ -5,6 +5,7 @@ author = "Rmetrics contributors; Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in fNonlinear"
 categories = ["time-series", "nonlinear-dynamics", "statistics"]
+gams = ["L"]
 keywords = ["BDS", "neural-network-test", "chaos", "Lyapunov", "embedding"]
 
 [build]

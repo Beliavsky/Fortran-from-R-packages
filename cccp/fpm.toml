@@ -5,6 +5,7 @@ author = "Bernhard Pfaff; Fortran translation by OpenAI"
 maintainer = "Vivek Rao"
 description = "Modern Fortran port of cccp cone-constrained convex optimization algorithms"
 categories = ["optimization", "numerical", "finance"]
+gams = ["G", "L"]
 keywords = ["linear-programming", "quadratic-programming", "socp", "sdp", "risk-parity"]
 
 [build]

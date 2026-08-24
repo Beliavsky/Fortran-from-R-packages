@@ -5,6 +5,7 @@ author = "Fortran translation of randtoolbox contributors' code"
 maintainer = ""
 copyright = "See LICENSE and LICENSES/"
 categories = ["simulation"]
+gams = ["L", "M"]
 keywords = ["random-number-generation", "simulation", "computational-methods"]
 
 [build]

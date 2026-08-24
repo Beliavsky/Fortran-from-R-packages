@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "2015 Xuejun Ma, Jingxiao Zhang, Jingke Zhou"
 description = "Modern Fortran implementation of quantile-correlation sure independence screening"
 categories = ["statistics", "feature-selection"]
+gams = ["G", "L"]
 keywords = ["quantile-correlation", "screening", "high-dimensional-data"]
 
 [build]

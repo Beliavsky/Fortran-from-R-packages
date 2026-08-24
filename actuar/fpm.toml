@@ -6,6 +6,7 @@ maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the R package actuar"
 keywords = ["actuarial-science", "loss-distributions", "risk-theory", "credibility", "panjer"]
 categories = ["actuarial", "probability", "statistics"]
+gams = ["L"]
 
 [library]
 source-dir = "src"

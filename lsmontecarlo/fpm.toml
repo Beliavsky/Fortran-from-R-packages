@@ -6,6 +6,7 @@ maintainer = "Modern Fortran translation contributors"
 copyright = "Copyright (C) 2013 Mikhail A. Beketov"
 description = "American option pricing with Longstaff-Schwartz least-squares Monte Carlo"
 categories = ["finance", "monte-carlo", "options"]
+gams = ["G", "L", "M"]
 keywords = ["american options", "longstaff-schwartz", "least squares monte carlo", "black-scholes"]
 
 [build]

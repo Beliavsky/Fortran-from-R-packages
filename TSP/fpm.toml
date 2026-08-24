@@ -5,6 +5,7 @@ author = "Modern Fortran translation of TSP by Michael Hahsler and Kurt Hornik"
 maintainer = ""
 copyright = "Copyright (C) Michael Hahsler and Kurt Hornik; Fortran translation 2026"
 categories = ["optimization"]
+gams = ["G"]
 keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]

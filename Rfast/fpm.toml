@@ -5,6 +5,7 @@ author = "Rfast authors; Fortran translation by OpenAI"
 maintainer = ""
 description = "Expanded modern Fortran computational-core translation of the Rfast R package"
 categories = ["statistics", "numerical", "linear-algebra"]
+gams = ["D", "L"]
 keywords = ["statistics", "regression", "matrix", "mle", "distance"]
 
 [build]

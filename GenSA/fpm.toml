@@ -6,6 +6,7 @@ maintainer = "Modern Fortran translation project"
 copyright = "Copyright (C) GenSA authors and translation contributors"
 description = "Generalized simulated annealing in modern Fortran"
 categories = ["optimization", "scientific"]
+gams = ["G"]
 keywords = ["simulated annealing", "global optimization", "Tsallis"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = "Fortran community"
 copyright = "Copyright (C) 2016 Kameron Penn and Jack Schmidt"
 description = "Modern Fortran translation of the numerical core of the R FinancialMath package"
 categories = ["finance", "actuarial", "options"]
+gams = ["L"]
 keywords = ["financial mathematics", "annuities", "bonds", "options", "fortran"]
 
 [build]

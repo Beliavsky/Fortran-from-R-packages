@@ -6,6 +6,7 @@ maintainer = "OpenAI"
 copyright = "Copyright 2013-2026 DEoptimR authors; 2026 OpenAI"
 description = "Modern Fortran translation of DEoptimR differential-evolution optimizers"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["global-optimization", "differential-evolution", "optimization", "numerical", "numerical-methods"]
 
 [build]

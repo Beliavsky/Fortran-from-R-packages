@@ -5,6 +5,7 @@ author = "Fortran translation of KrigInv by Clement Chevalier, Dario Azzimonti, 
 maintainer = "OpenAI translation workspace"
 description = "Modern Fortran translation of the computational core of the R package KrigInv"
 categories = ["machine-learning", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["estimation", "kernel-methods", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]

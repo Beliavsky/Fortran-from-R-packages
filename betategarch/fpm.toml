@@ -6,6 +6,7 @@ maintainer = "Vivek Rao"
 copyright = "Copyright (C) 2011-2025 Genaro Sucarrat; Fortran translation 2026"
 description = "Modern Fortran translation of the computational core of betategarch"
 categories = ["statistics", "time-series", "volatility"]
+gams = ["L"]
 keywords = ["EGARCH", "skew-t", "maximum likelihood", "forecasting"]
 
 [build]

@@ -6,6 +6,7 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright upstream mco authors and translation contributors"
 description = "Modern Fortran translation of the computational core of the R mco package"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [build]

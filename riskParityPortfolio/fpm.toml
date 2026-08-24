@@ -6,6 +6,7 @@ maintainer = "Fortran community"
 copyright = "Copyright (C) riskParityPortfolio authors and Fortran port contributors"
 description = "Modern Fortran implementation of risk parity portfolio algorithms"
 categories = ["finance", "optimization", "portfolio"]
+gams = ["G", "L"]
 keywords = ["risk parity", "risk budgeting", "SCA", "portfolio"]
 
 [build]

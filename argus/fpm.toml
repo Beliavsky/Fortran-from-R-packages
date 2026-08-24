@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "See LICENSES.md and upstream/DESCRIPTION"
 description = "Modern Fortran implementation of the Argus distribution"
 categories = ["statistics", "probability", "random-number-generation"]
+gams = ["L", "M"]
 keywords = ["argus", "distribution", "rng", "fortran"]
 
 [build]

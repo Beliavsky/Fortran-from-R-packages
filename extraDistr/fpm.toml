@@ -5,6 +5,7 @@ author = "Fortran translation contributors"
 maintainer = "Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in R package extraDistr"
 categories = ["statistics", "probability", "distributions"]
+gams = ["L", "M"]
 keywords = ["distributions", "random-number-generation", "probability"]
 
 [library]

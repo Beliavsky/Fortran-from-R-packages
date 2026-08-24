@@ -5,6 +5,7 @@ author = "Alexios Galanos; independent Fortran translation by Vivek Rao"
 maintainer = "Vivek Rao"
 description = "Experimental modern Fortran translation of computational parts of the R rugarch package"
 categories = ["statistics", "time-series", "finance"]
+gams = ["L"]
 keywords = ["GARCH", "ARFIMA", "volatility", "risk"]
 
 [build]

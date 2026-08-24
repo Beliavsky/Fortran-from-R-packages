@@ -5,6 +5,7 @@ author = "Charles Coverdale; modern Fortran translation"
 copyright = "Copyright (c) 2026 Charles Coverdale"
 description = "Modern Fortran yield-curve fitting, analysis, and decomposition"
 categories = ["finance", "fixed-income", "statistics"]
+gams = ["D", "L"]
 keywords = ["yield curve", "nelson-siegel", "svensson", "pca", "duration"]
 
 [build]

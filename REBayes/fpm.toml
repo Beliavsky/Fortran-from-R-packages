@@ -5,6 +5,7 @@ author = "REBayes authors; Fortran translation"
 maintainer = ""
 description = "Modern Fortran computational port of REBayes"
 categories = ["probability", "statistics", "numerical"]
+gams = ["L"]
 keywords = ["maximum-likelihood", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]

@@ -5,6 +5,7 @@ author = "Fortran translation of BGFD by Michail Tsagris, Muhammad Imran, and M.
 maintainer = ""
 copyright = "See upstream package and LICENSE"
 categories = ["probability", "statistics"]
+gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]

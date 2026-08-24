@@ -6,6 +6,7 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) 2025 Kamil Wais"
 description = "Modern Fortran computational core of R4GoodPersonalFinances"
 categories = ["finance", "personal-finance", "simulation", "optimization"]
+gams = ["G", "L", "M"]
 keywords = ["portfolio", "gompertz", "retirement", "lifecycle", "asset-allocation"]
 
 [build]

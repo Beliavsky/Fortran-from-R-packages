@@ -5,6 +5,7 @@ author = "Francisco Benitez; Diego P. Pinto-Roa; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of computational algorithms from the R rmoo package"
 categories = ["optimization", "multiobjective", "genetic-algorithm"]
+gams = ["G"]
 keywords = ["multiobjective-optimization", "optimization", "multiobjective", "genetic-algorithm", "numerical-methods"]
 
 [build]

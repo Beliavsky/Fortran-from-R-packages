@@ -6,6 +6,7 @@ maintainer = "Fortran translation generated from adagio 0.9.2"
 copyright = "Copyright (c) the original adagio authors and contributors"
 description = "Modern Fortran translation of the computational routines in the R package adagio"
 categories = ["optimization", "numerical"]
+gams = ["G"]
 keywords = ["global-optimization", "optimization", "numerical", "numerical-methods"]
 
 [library]

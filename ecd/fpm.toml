@@ -5,6 +5,7 @@ author = "Stephen H-T. Lihn; Fortran port by OpenAI"
 maintainer = "OpenAI"
 description = "Modern Fortran translation of computational algorithms from the R package ecd"
 categories = ["finance", "probability", "statistics"]
+gams = ["L"]
 keywords = ["elliptic-lambda", "stable-lambda", "option-pricing", "cusp-distribution"]
 
 [build]

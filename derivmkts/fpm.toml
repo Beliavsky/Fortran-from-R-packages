@@ -6,6 +6,7 @@ maintainer = ""
 copyright = "2014-2022 Robert L. McDonald"
 description = "Modern Fortran translation of the numerical routines in the R derivmkts package"
 categories = ["finance", "numerical"]
+gams = ["H", "L"]
 keywords = ["numerical-differentiation", "finance", "numerical", "numerical-methods"]
 
 [library]

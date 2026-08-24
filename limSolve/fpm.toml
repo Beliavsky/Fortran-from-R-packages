@@ -5,6 +5,7 @@ author = "Fortran translation of limSolve"
 maintainer = ""
 description = "Modern Fortran/FPM translation of the computational core of R package limSolve"
 categories = ["optimization", "statistics", "numerical"]
+gams = ["G", "L"]
 keywords = ["constrained-optimization", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [library]

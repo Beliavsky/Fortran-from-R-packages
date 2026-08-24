@@ -1,0 +1,8 @@
+name = "compare-boot"
+version = "0.1.0"
+[dependencies]
+boot-fortran = { path = "../../boot" }
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false
