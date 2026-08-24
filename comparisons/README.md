@@ -2,8 +2,12 @@
 
 This directory contains deterministic correctness and speed comparisons between
 installed R packages and their translated Fortran packages in this repository.
-The initial suite contains 30 cases spanning probability distributions,
-fractional time-series operations, and clustering. The existing
+The shared `common` FPM package reads dated asset-price panels and constructs
+explicit simple or logarithmic return panels outside timed sections. Its date
+type also supports calendar fields needed by seasonal comparisons.
+The suite contains 62 cases spanning probability distributions, descriptive
+statistics, numerical analysis, fractional time-series operations, clustering,
+geometry, polynomials, and signal processing. The existing
 `mixtools/run_mvnormal_comparison.*` adds an iterative mixture-model comparison.
 
 Run `comparisons\run_comparisons.bat` from the repository root on Windows, or

@@ -1,0 +1,14 @@
+name = "comparison-data"
+version = "0.1.0"
+license = "MIT"
+author = "Fortran from R packages contributors"
+maintainer = "Fortran from R packages contributors"
+description = "Shared dated asset-price data support for deterministic comparisons"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = true
