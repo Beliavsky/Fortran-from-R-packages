@@ -22,6 +22,7 @@ claim that Fortran is universally preferable.
 | Generic programming | Available but comparatively limited | Templates and concepts are powerful, though more complex |
 | Portability across languages | A stable C ABI can be provided with `bind(C)` | A C ABI is also preferable because the native C++ ABI is not universally stable |
 | Tool availability | Fortran toolchains can present an additional installation hurdle | C++ compilers and development tools are more widely available |
+| Organizational adoption | Some organizations do not permit Fortran in production code or lack approved Fortran tooling | C++ is more commonly included in approved corporate languages and build systems |
 
 Neither language has an inherent speed advantage for every program. Algorithm
 selection, data layout, allocation, compiler optimization, and library quality
@@ -51,6 +52,13 @@ complex data organization rather than numerical computation. Examples include
 code dominated by graphs, trees, hash tables, strings, callbacks, sparse-data
 frameworks, or rich model objects. Its established R, Python, and MATLAB
 binding ecosystems can also simplify distribution.
+
+Organizational policy can be decisive even when Fortran is technically well
+suited to an algorithm. Some companies permit C++ in their production code but
+do not permit Fortran, or their supported compilers, continuous-integration
+systems, security tools, and developer expertise cover C++ only. A C++
+implementation may therefore be easier—or necessary—to adopt in those
+environments.
 
 Those advantages do not require the numerical translations to be rewritten.
 C or C++ can be used in small language-specific adapters around a common
