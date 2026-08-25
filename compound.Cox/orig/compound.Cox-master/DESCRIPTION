@@ -1,0 +1,41 @@
+Package: compound.Cox
+Type: Package
+Title: Univariate Feature Selection and Compound Covariate for
+        Predicting Survival, Including Copula-Based Analyses for
+        Dependent Censoring
+Version: 3.33
+Date: 2025-6-16
+Authors@R: c(person(given = "Takeshi",
+                        family = "Emura",
+                        role = c("aut", "cre"),
+                        email = "takeshiemura@gmail.com"),
+                 person(given = "Hsuan-Yu",
+                        family = "Chen",
+                        role = "aut"),
+                 person(given = "Shigeyuki",
+                        family = "Matsui",
+                        role = "aut"),
+                 person(given = "Yi-Hau",
+                        family = "Chen",
+                        role = "aut"))
+Maintainer: Takeshi Emura <takeshiemura@gmail.com>
+Description: Univariate feature selection and compound covariate methods under the Cox model with high-dimensional features (e.g., gene expressions).
+ Available are survival data for non-small-cell lung cancer patients with gene expressions (Chen et al 2007 New Engl J Med) <DOI:10.1056/NEJMoa060096>,
+ statistical methods in Emura et al (2012 PLoS ONE) <DOI:10.1371/journal.pone.0047627>,
+ Emura & Chen (2016 Stat Methods Med Res) <DOI:10.1177/0962280214533378>, and Emura et al (2019)<DOI:10.1016/j.cmpb.2018.10.020>.
+ Algorithms for generating correlated gene expressions are also available.
+ Estimation of survival functions via copula-graphic (CG) estimators is also implemented, which is useful for
+ sensitivity analyses under dependent censoring (Yeh et al 2023 Biomedicines) <DOI:10.3390/biomedicines11030797> and
+ factorial survival analyses (Emura et al 2024 Stat Methods Med Res) <DOI:10.1177/09622802231215805>.
+License: GPL-2
+Depends: numDeriv, survival, MASS
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2025-06-16 02:22:46 UTC; takes
+Author: Takeshi Emura [aut, cre],
+  Hsuan-Yu Chen [aut],
+  Shigeyuki Matsui [aut],
+  Yi-Hau Chen [aut]
+Repository: CRAN
+Date/Publication: 2025-06-16 04:50:02 UTC

@@ -1,0 +1,10 @@
+name = "survival-fortran-core"
+version = "0.1.0"
+license = "LGPL-2.0-or-later"
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+[library]
+source-dir = "src"

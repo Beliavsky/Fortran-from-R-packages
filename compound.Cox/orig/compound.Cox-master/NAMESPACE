@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+import(numDeriv)
+import(survival)
+import(MASS)
+importFrom("graphics", "abline", "plot", "points", "par", "legend", "text", "polygon")
+importFrom("stats","cov", "nlm", "pchisq", "runif", "integrate",
+           "pnorm", "qchisq", "qnorm", "rchisq","median")
+importFrom("grDevices", "rgb")
