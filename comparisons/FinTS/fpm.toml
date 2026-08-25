@@ -1,0 +1,11 @@
+name = "compare-fints-market"
+version = "0.1.0"
+
+[dependencies]
+fints = { path = "../../FinTS" }
+comparison_data = { path = "../common" }
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false

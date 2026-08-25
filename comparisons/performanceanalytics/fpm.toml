@@ -1,0 +1,11 @@
+name = "compare-performanceanalytics"
+version = "0.1.0"
+
+[dependencies]
+performanceanalytics-modern-fortran = { path = "../../performanceanalytics" }
+comparison_data = { path = "../common" }
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false

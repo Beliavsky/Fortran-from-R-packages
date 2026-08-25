@@ -5,7 +5,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = ROOT / "comparisons"
-SUITES = ("rugarch", "fracdiff", "cluster")
+SUITES = (
+    ("rugarch", "rugarch"),
+    ("fracdiff", "fracdiff"),
+    ("performanceanalytics", "PerformanceAnalytics"),
+    ("FinTS", "FinTS"),
+    ("corpcor", "corpcor"),
+    ("cluster", "cluster"),
+    ("pracma", "pracma"),
+    ("boot", "boot"),
+)
 
 def run(cmd, cwd):
     return subprocess.run(cmd, cwd=cwd, text=True, capture_output=True)
@@ -66,9 +75,9 @@ def main():
     if not shutil.which("Rscript") or not shutil.which("fpm"):
         print("ERROR: Rscript and fpm must be on PATH.", file=sys.stderr); return 2
     results, failures = [], 0
-    for name in SUITES:
+    for name, r_package in SUITES:
         suite = BASE / name
-        p = run(["Rscript", "-e", f"quit(status=!requireNamespace('{name}',quietly=TRUE))"], ROOT)
+        p = run(["Rscript", "-e", f"quit(status=!requireNamespace('{r_package}',quietly=TRUE))"], ROOT)
         if p.returncode:
             print(f"SKIP {name}: R package is not installed"); continue
         r_csv, f_csv = suite/"r_results.csv", suite/"fortran_results.csv"

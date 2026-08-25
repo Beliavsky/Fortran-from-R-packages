@@ -16,8 +16,9 @@ the [NIST GAMS mathematical-software index](GAMS_INDEX.md).
 The [R versus Fortran comparison suite](comparisons/) runs deterministic
 correctness checks and exploratory kernel timings against installed R packages.
 It currently covers probability distributions, fractional time-series methods,
-fixed-parameter GARCH filters, clustering, and the separate `mixtools`
-mixture-model comparison. Some cases use a shared dated asset-price fixture.
+fixed-parameter GARCH filters, financial performance measures, time-series
+diagnostics, covariance shrinkage, clustering, and the separate `mixtools`
+mixture-model comparison. Thirty-five cases use a shared dated asset-price fixture.
 These checks
 are evidence for selected operations, not validation of every translated API.
 
