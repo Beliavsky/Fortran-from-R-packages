@@ -4,6 +4,9 @@
 ! Numerical support for the Fortran translation of vrtest 1.2.
 module vrtest_utils
    use vrtest_kinds, only : dp, pi
+   use r_descriptive, only : r_mean, r_variance
+   use r_status, only : r_core_ok => r_ok
+   use r_time_series, only : core_autocorrelation => r_autocorrelation
    implicit none
    private
 
@@ -20,14 +23,13 @@ contains
       if (size(x) == 0) then
          ans = 0.0_dp
       else
-         ans = sum(x) / real(size(x), dp)
+         ans = r_mean(x)
       end if
    end function mean_value
 
    pure real(dp) function variance_value(x, sample) result(ans)
       real(dp), intent(in) :: x(:)
       logical, intent(in), optional :: sample
-      real(dp) :: mu, denom
       logical :: use_sample
 
       use_sample = .true.
@@ -36,29 +38,30 @@ contains
          ans = 0.0_dp
          return
       end if
-      mu = mean_value(x)
-      denom = real(size(x), dp)
-      if (use_sample) denom = real(size(x) - 1, dp)
-      ans = sum((x - mu)**2) / denom
+      if (use_sample) then
+         ans = r_variance(x, ddof=1)
+      else
+         ans = r_variance(x, ddof=0)
+      end if
    end function variance_value
 
    pure real(dp) function autocorrelation(x, lag) result(ans)
       real(dp), intent(in) :: x(:)
       integer, intent(in) :: lag
       integer :: n
-      real(dp) :: mu, den
+      integer :: core_status
+      real(dp), allocatable :: values(:)
 
       n = size(x)
       if (lag < 0 .or. lag >= n .or. n < 2) then
          ans = 0.0_dp
          return
       end if
-      mu = mean_value(x)
-      den = sum((x - mu)**2)
-      if (den <= tiny(1.0_dp)) then
+      call core_autocorrelation(x, values, lag_max=lag, status=core_status)
+      if (core_status /= r_core_ok) then
          ans = 0.0_dp
       else
-         ans = sum((x(1:n-lag) - mu) * (x(1+lag:n) - mu)) / den
+         ans = values(lag)
       end if
    end function autocorrelation
 

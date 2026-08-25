@@ -1,0 +1,19 @@
+name = "rfortran-core"
+version = "0.1.0"
+license = "MIT"
+author = "Vivek Rao and contributors"
+maintainer = "Vivek Rao"
+description = "Shared modern Fortran implementations of common R numerical semantics"
+categories = ["numerical", "statistics", "time-series"]
+keywords = ["R", "statistics", "time-series", "shared-library"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

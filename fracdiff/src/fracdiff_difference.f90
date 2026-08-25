@@ -3,6 +3,7 @@ module fracdiff_difference
    use fracdiff_kinds, only : dp
    use fracdiff_fft, only : fft_inplace, next_power_of_two
    use fracdiff_status, only : fd_ok, fd_invalid_input
+   use r_descriptive, only : r_mean
    implicit none
    private
 
@@ -47,7 +48,7 @@ contains
       end if
 
       allocate(centered(n), weights(n))
-      xmean = sum(x)/real(n, dp)
+      xmean = r_mean(x)
       centered = x - xmean
       call fractional_weights(n, d, weights, local_status)
       if (local_status /= fd_ok) then
@@ -69,10 +70,11 @@ contains
       real(dp), intent(out) :: dx(:)
       integer, intent(out), optional :: status
 
-      complex(dp), allocatable :: zx(:), zw(:)
-      real(dp), allocatable :: weights(:)
+      complex(dp), allocatable :: packed(:), product(:)
+      complex(dp) :: zk, zmirror, x_spectrum, w_spectrum
       real(dp) :: xmean
-      integer :: n, nfft, local_status
+      real(dp) :: weight
+      integer :: n, nfft, k, mirror
 
       n = size(x)
       if (present(status)) status = fd_ok
@@ -82,24 +84,32 @@ contains
       end if
 
       nfft = next_power_of_two(2*n - 1)
-      allocate(zx(nfft), zw(nfft), weights(n))
-      call fractional_weights(n, d, weights, local_status)
-      if (local_status /= fd_ok) then
-         if (present(status)) status = local_status
-         return
-      end if
+      allocate(packed(nfft), product(nfft))
 
-      xmean = sum(x)/real(n, dp)
-      zx = cmplx(0.0_dp, 0.0_dp, kind=dp)
-      zw = cmplx(0.0_dp, 0.0_dp, kind=dp)
-      zx(1:n) = cmplx(x - xmean, 0.0_dp, kind=dp)
-      zw(1:n) = cmplx(weights, 0.0_dp, kind=dp)
+      xmean = r_mean(x)
+      packed = cmplx(0.0_dp, 0.0_dp, kind=dp)
+      packed(1:n) = cmplx(x-xmean,0.0_dp,kind=dp)
+      weight=1.0_dp
+      packed(1)=cmplx(real(packed(1),dp),weight,kind=dp)
+      do k=2,n
+         weight=weight*(real(k-2,dp)-d)/real(k-1,dp)
+         packed(k)=cmplx(real(packed(k),dp),weight,kind=dp)
+      end do
 
-      call fft_inplace(zx, .false.)
-      call fft_inplace(zw, .false.)
-      zx = zx*zw
-      call fft_inplace(zx, .true.)
-      dx = real(zx(1:n), dp)
+      ! Two real transforms can be recovered from a single complex transform:
+      ! X(k)=(Z(k)+conjg(Z(-k)))/2 and W(k)=(Z(k)-conjg(Z(-k)))/(2i).
+      ! This reduces the convolution from three FFTs to two.
+      call fft_inplace(packed,.false.)
+      do k=1,nfft
+         mirror=modulo(nfft-(k-1),nfft)+1
+         zk=packed(k)
+         zmirror=conjg(packed(mirror))
+         x_spectrum=0.5_dp*(zk+zmirror)
+         w_spectrum=cmplx(0.0_dp,-0.5_dp,kind=dp)*(zk-zmirror)
+         product(k)=x_spectrum*w_spectrum
+      end do
+      call fft_inplace(product,.true.)
+      dx=real(product(1:n),dp)
    end subroutine diffseries
 
 end module fracdiff_difference

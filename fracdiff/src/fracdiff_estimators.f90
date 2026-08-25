@@ -4,6 +4,7 @@ module fracdiff_estimators
    use fracdiff_status, only : fd_ok, fd_invalid_input, fd_insufficient_data, &
                                fracdiff_status_message
    use fracdiff_types, only : fractional_d_estimate
+   use r_descriptive, only : r_mean
    implicit none
    private
 
@@ -68,7 +69,7 @@ contains
       end if
 
       allocate(centered(n), autocovariance(n-1), weights(n-1), xreg(g), yreg(g))
-      mean_x = sum(x)/real(n,dp)
+      mean_x = r_mean(x)
       centered = x - mean_x
       variance_x = dot_product(centered,centered)/real(n,dp)
       do k = 1, n - 1
@@ -113,8 +114,8 @@ contains
          estimate%message = "fewer than two positive periodogram ordinates"
          return
       end if
-      xbar = sum(xreg(1:n_positive))/real(n_positive,dp)
-      ybar = sum(yreg(1:n_positive))/real(n_positive,dp)
+      xbar = r_mean(xreg(1:n_positive))
+      ybar = r_mean(yreg(1:n_positive))
       sxx = sum((xreg(1:n_positive)-xbar)**2)
       sxy = dot_product(xreg(1:n_positive)-xbar, yreg(1:n_positive)-ybar)
       if (sxx <= 0.0_dp) then

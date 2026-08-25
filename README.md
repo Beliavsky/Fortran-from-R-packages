@@ -35,6 +35,27 @@ adapters for R, Python, MATLAB, and Octave without rewriting the working
 Fortran implementations. See [Why Fortran rather than
 C++?](docs/FORTRAN_VS_CPP.md) for the tradeoffs and project rationale.
 
+## Shared numerical modules
+
+The [`rfortran-core`](rfortran-core/) library is the first step toward removing
+duplicate R-like numerical helpers from the translations. Its dependency-free
+modules currently provide kinds, missing-value policies, descriptive
+statistics, and time-series autocovariance and autocorrelation. `FinTS` and
+`fracdiff` are backed by deterministic R comparison suites; `vrtest` and
+`tseries` provide additional package-level migration coverage. See the
+[shared-module design and migration
+notes](docs/SHARED_MODULES.md).
+
+## Language interfaces
+
+A [pilot interface layer](interfaces/) exposes selected procedures from
+`pbivnorm`, `normalp`, and `bondAnalyst` through explicit-shape `bind(C)`
+wrappers, thin R `.C()` functions, a small Python/NumPy package, and a shared
+Octave/MATLAB MEX gateway. The gateway is tested with Octave; MATLAB build and
+convenience functions are supplied but remain unverified without a MATLAB
+installation. Cross-language tests cover numerical results and shape-error
+handling while leaving the existing computational implementations intact.
+
 ## Packages and licenses
 
 | Package | What it does | Upstream version · License |

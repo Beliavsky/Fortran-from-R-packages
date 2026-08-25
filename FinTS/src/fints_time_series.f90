@@ -7,6 +7,10 @@ module fints_time_series
    use fints_summary_mod, only : sample_mean
    use fints_special, only : chi_square_survival, rank_average
    use fints_linalg, only : least_squares
+   use r_status, only : r_core_ok => r_ok, r_core_singular => r_singular
+   use r_time_series, only : core_autocorrelation => r_autocorrelation, &
+      core_autocovariance => r_autocovariance, core_cross_correlation => r_cross_correlation, &
+      core_cross_covariance => r_cross_covariance
    implicit none
    private
    public :: acf, cross_acf, autocor_test, arch_test, pacf_from_acf
@@ -21,9 +25,8 @@ contains
       logical, intent(in), optional :: demean
       character(len=16) :: kind
       logical :: center
-      integer :: n, m, k, i, stat
-      real(dp) :: mean_value, denominator
-      real(dp), allocatable :: correlations(:), partial_values(:)
+      integer :: n, m, k, stat, core_status
+      real(dp), allocatable :: correlations(:), partial_values(:), core_values(:)
 
       result = acf_result()
       n = size(x)
@@ -38,40 +41,39 @@ contains
       if (present(acf_type)) kind = lowercase(adjustl(acf_type))
       center = .true.
       if (present(demean)) center = demean
-      mean_value = 0.0_dp
-      if (center) mean_value = sample_mean(x)
-
       select case (trim(kind))
       case ('correlation', 'covariance')
-         allocate(result%lag(m + 1), result%value(m + 1))
-         denominator = sum((x - mean_value) ** 2)
-         if (denominator <= 0.0_dp .and. trim(kind) == 'correlation') then
-            result%status = fints_singular
+         if (trim(kind) == 'correlation') then
+            call core_autocorrelation(x, core_values, lag_max=m, demean=center, status=core_status)
+         else
+            call core_autocovariance(x, core_values, lag_max=m, demean=center, status=core_status)
+         end if
+         if (core_status /= r_core_ok) then
+            if (core_status == r_core_singular) then
+               result%status = fints_singular
+            else
+               result%status = fints_invalid_input
+            end if
             return
          end if
+         allocate(result%lag(m + 1), result%value(m + 1))
          do k = 0, m
             result%lag(k + 1) = real(k, dp)
-            result%value(k + 1) = 0.0_dp
-            do i = 1, n - k
-               result%value(k + 1) = result%value(k + 1) + &
-                  (x(i) - mean_value) * (x(i + k) - mean_value)
-            end do
-            if (trim(kind) == 'correlation') then
-               result%value(k + 1) = result%value(k + 1) / denominator
-            else
-               result%value(k + 1) = result%value(k + 1) / real(n, dp)
-            end if
+            result%value(k + 1) = core_values(k)
          end do
       case ('partial')
          allocate(correlations(m + 1))
-         denominator = sum((x - mean_value) ** 2)
-         if (denominator <= 0.0_dp) then
-            result%status = fints_singular
+         call core_autocorrelation(x, core_values, lag_max=m, demean=center, status=core_status)
+         if (core_status /= r_core_ok) then
+            if (core_status == r_core_singular) then
+               result%status = fints_singular
+            else
+               result%status = fints_invalid_input
+            end if
             return
          end if
          do k = 0, m
-            correlations(k + 1) = dot_product(x(1:n - k) - mean_value, &
-               x(1 + k:n) - mean_value) / denominator
+            correlations(k + 1) = core_values(k)
          end do
          call pacf_from_acf(correlations, partial_values, stat)
          if (stat /= fints_ok) then
@@ -99,10 +101,10 @@ contains
       integer, intent(in), optional :: lag_max
       character(len=*), intent(in), optional :: acf_type
       logical, intent(in), optional :: demean
-      real(dp), allocatable :: centered(:,:), means(:), scales(:)
+      real(dp), allocatable :: core_values(:,:,:)
       character(len=16) :: kind
       logical :: center
-      integer :: n, p, m, i, j, k
+      integer :: n, p, m, k, core_status
 
       result = cross_acf_result()
       n = size(x, 1)
@@ -122,37 +124,24 @@ contains
       center = .true.
       if (present(demean)) center = demean
 
-      allocate(centered(n, p), means(p), scales(p))
-      means = 0.0_dp
-      if (center) then
-         do j = 1, p
-            means(j) = sample_mean(x(:, j))
-         end do
+      if (trim(kind) == 'correlation') then
+         call core_cross_correlation(x, core_values, lag_max=m, demean=center, status=core_status)
+      else
+         call core_cross_covariance(x, core_values, lag_max=m, demean=center, status=core_status)
       end if
-      do j = 1, p
-         centered(:, j) = x(:, j) - means(j)
-         scales(j) = sqrt(sum(centered(:, j) ** 2))
-      end do
-      if (trim(kind) == 'correlation' .and. any(scales <= 0.0_dp)) then
-         result%status = fints_singular
+      if (core_status /= r_core_ok) then
+         if (core_status == r_core_singular) then
+            result%status = fints_singular
+         else
+            result%status = fints_invalid_input
+         end if
          return
       end if
 
       allocate(result%lag(m + 1), result%value(m + 1, p, p))
       do k = 0, m
          result%lag(k + 1) = real(k, dp)
-         do i = 1, p
-            do j = 1, p
-               result%value(k + 1, i, j) = dot_product(centered(1:n - k, i), &
-                  centered(1 + k:n, j))
-               if (trim(kind) == 'correlation') then
-                  result%value(k + 1, i, j) = result%value(k + 1, i, j) / &
-                     (scales(i) * scales(j))
-               else
-                  result%value(k + 1, i, j) = result%value(k + 1, i, j) / real(n, dp)
-               end if
-            end do
-         end do
+         result%value(k + 1, :, :) = core_values(k, :, :)
       end do
       result%n_used = n
       result%acf_type = trim(kind)

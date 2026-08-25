@@ -8,6 +8,7 @@ module tseries_finance
    use tseries_types, only : drawdown_result, portfolio_result
    use tseries_stats, only : mean_value, standard_deviation
    use tseries_linalg, only : covariance_matrix, solve_linear
+   use r_vectors, only : r_difference
    implicit none
    private
 
@@ -49,7 +50,7 @@ contains
       if(size(x)<2) then
          value=0.0_dp; return
       end if
-      allocate(change(size(x)-1)); change=x(2:)-x(:size(x)-1)
+      call r_difference(x,change)
       sd=standard_deviation(change)
       if(sd<=tiny(1.0_dp)) then
          value=0.0_dp

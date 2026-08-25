@@ -4,6 +4,7 @@ module fints_summary_mod
    use fints_kinds, only : dp
    use fints_status, only : fints_ok, fints_no_data, fints_invalid_input
    use fints_types, only : summary_result
+   use r_descriptive, only : r_count_nonmissing, r_mean, r_variance
    implicit none
    private
    public :: fints_summary, sample_mean, sample_variance, finite_count
@@ -12,58 +13,27 @@ contains
 
    pure integer function finite_count(x) result(n)
       real(dp), intent(in) :: x(:)
-      integer :: i
-
-      n = 0
-      do i = 1, size(x)
-         if (.not. ieee_is_nan(x(i))) n = n + 1
-      end do
+      n = r_count_nonmissing(x)
    end function finite_count
 
    pure real(dp) function sample_mean(x) result(mean_value)
       real(dp), intent(in) :: x(:)
-      real(dp) :: total
-      integer :: i, n
-
-      total = 0.0_dp
-      n = 0
-      do i = 1, size(x)
-         if (.not. ieee_is_nan(x(i))) then
-            total = total + x(i)
-            n = n + 1
-         end if
-      end do
-      if (n > 0) then
-         mean_value = total / real(n, dp)
-      else
-         mean_value = 0.0_dp
-      end if
+      mean_value = r_mean(x, na_rm=.true.)
+      if (ieee_is_nan(mean_value)) mean_value = 0.0_dp
    end function sample_mean
 
    pure real(dp) function sample_variance(x, mean_value) result(variance)
       real(dp), intent(in) :: x(:)
       real(dp), intent(in), optional :: mean_value
-      real(dp) :: center, total
-      integer :: i, n
+      real(dp) :: center
 
       if (present(mean_value)) then
          center = mean_value
       else
          center = sample_mean(x)
       end if
-      total = 0.0_dp
-      n = 0
-      do i = 1, size(x)
-         if (.not. ieee_is_nan(x(i))) then
-            total = total + (x(i) - center) ** 2
-            n = n + 1
-         end if
-      end do
-      if (n > 1) then
-         variance = total / real(n - 1, dp)
-      else
-         variance = 0.0_dp
-      end if
+      variance = r_variance(x, na_rm=.true., center=center)
+      if (ieee_is_nan(variance)) variance = 0.0_dp
    end function sample_variance
 
    subroutine fints_summary(x, result, start)

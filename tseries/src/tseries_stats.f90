@@ -5,6 +5,9 @@
 
 module tseries_stats
    use tseries_kinds, only : dp
+   use r_descriptive, only : r_mean, r_variance
+   use r_status, only : r_core_ok => r_ok
+   use r_time_series, only : core_autocovariance => r_autocovariance
    implicit none
    private
 
@@ -25,7 +28,7 @@ contains
       if (size(x) == 0) then
          value = 0.0_dp
       else
-         value = sum(x)/real(size(x),dp)
+         value = r_mean(x)
       end if
    end function mean_value
 
@@ -33,8 +36,6 @@ contains
       real(dp), intent(in) :: x(:)
       logical, intent(in), optional :: sample
       logical :: use_sample
-      real(dp) :: mu
-      integer :: denom
       use_sample=.true.
       if(present(sample)) use_sample=sample
       if(size(x)<2 .and. use_sample) then
@@ -45,10 +46,11 @@ contains
          value=0.0_dp
          return
       end if
-      mu=mean_value(x)
-      denom=size(x)
-      if(use_sample) denom=denom-1
-      value=sum((x-mu)**2)/real(max(1,denom),dp)
+      if(use_sample)then
+         value=r_variance(x,ddof=1)
+      else
+         value=r_variance(x,ddof=0)
+      end if
    end function variance_value
 
    pure real(dp) function standard_deviation(x, sample) result(value)
@@ -66,21 +68,21 @@ contains
       integer, intent(in) :: lag
       logical, intent(in), optional :: demean, divisor_n
       logical :: dm, dn
-      real(dp) :: mu
-      integer :: n
+      real(dp), allocatable :: values(:)
+      integer :: core_status,n
       n=size(x); dm=.true.; dn=.true.
       if(present(demean)) dm=demean
       if(present(divisor_n)) dn=divisor_n
       if(lag<0 .or. lag>=n) then
          value=0.0_dp; return
       end if
-      mu=0.0_dp
-      if(dm) mu=mean_value(x)
-      value=sum((x(1+lag:n)-mu)*(x(1:n-lag)-mu))
-      if(dn) then
-         value=value/real(n,dp)
+      call core_autocovariance(x,values,lag_max=lag,demean=dm,status=core_status)
+      if(core_status/=r_core_ok)then
+         value=0.0_dp
+      else if(dn)then
+         value=values(lag)
       else
-         value=value/real(n-lag,dp)
+         value=values(lag)*real(n,dp)/real(n-lag,dp)
       end if
    end function autocovariance
 
