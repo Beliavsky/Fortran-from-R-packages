@@ -22,6 +22,19 @@ mixture-model comparison. Thirty-five cases use a shared dated asset-price fixtu
 These checks
 are evidence for selected operations, not validation of every translated API.
 
+## Why Fortran?
+
+Modern Fortran is well suited to the numerical kernels found in statistical R
+packages. It provides native multidimensional arrays, column-major storage
+compatible with R, concise mathematical code, and strong performance for
+numerical computation.
+
+C++ has stronger language-binding and distribution ecosystems, so the
+translations can be exposed through portable `bind(C)` wrappers and thin
+adapters for R, Python, MATLAB, and Octave without rewriting the working
+Fortran implementations. See [Why Fortran rather than
+C++?](docs/FORTRAN_VS_CPP.md) for the tradeoffs and project rationale.
+
 ## Packages and licenses
 
 | Package | What it does | Upstream version · License |
@@ -83,6 +96,7 @@ are evidence for selected operations, not validation of every translated API.
 | [`coda`](coda/) | Analyzes and diagnoses Markov-chain Monte Carlo output. | `0.19-4.1` · `GPL-2.0-or-later` |
 | [`COMPoissonReg`](COMPoissonReg/) | Fits Conway-Maxwell-Poisson regression models. | `0.8.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`compositions`](compositions/) | Analyzes compositional and positive data. | `2.0-9` · `GPL-2.0-or-later` |
+| [`compound.Cox`](compound.Cox/) | Performs survival feature screening and compound-covariate prediction, including copula-based dependent-censoring analyses. | `3.33` · `GPL-2.0-only` |
 | [`coneproj`](coneproj/) | Performs cone projections, quadratic programming, and shape-restricted regression. | `1.23` · `GPL-2.0-or-later` |
 | [`contfrac`](contfrac/) | Evaluates and manipulates continued fractions. | `1.1-12` · `GPL-2` |
 | [`copula`](copula/) | Models multivariate dependence with common copula families. | `1.1-7` · `GPL-3.0-or-later` |
@@ -175,10 +189,11 @@ are evidence for selected operations, not validation of every translated API.
 | [`gogarch`](gogarch/) | Fits generalized orthogonal GARCH models. | `0.7-6` · `GPL-2.0-or-later` |
 | [`good`](good/) | Fits Good regression models. | `1.0.2` · `GPL-2.0-or-later` |
 | [`GPareto`](GPareto/) | Uses Gaussian processes for Pareto-front estimation and optimization. | `1.1.9` · `GPL-3.0-only` |
+| [`GPArotation`](GPArotation/) | Provides gradient-projection methods for orthogonal and oblique factor rotation. | `2026.8-2` · `GPL-2.0-or-later` |
 | [`graDiEnt`](graDiEnt/) | Performs stochastic quasi-gradient differential-evolution optimization. | `1.0.1` · `MIT` |
 | [`greeks`](greeks/) | Computes option sensitivities, implied volatility, and Monte Carlo Greeks. | `1.5.6` · `MIT` |
 | [`greeks1`](greeks1/) | Computes option sensitivities and implied volatilities. | `1.5.6` · `MIT` |
-| [`greybox-fortran-v0.2.0`](greybox-fortran-v0.2.0/) | Provides regression model-building and forecasting tools. | `2.0.8` · `LGPL-2.1-only` |
+| [`greybox`](greybox/) | Provides regression model-building and forecasting tools. | `2.0.8` · `LGPL-2.1-only` |
 | [`gsl`](gsl/) | Wraps GNU GSL special functions and numerical routines. | `2.1-9` · `GPL-3.0-only` |
 | [`gslnls`](gslnls/) | Performs multistart nonlinear least-squares fitting. | `1.4.2` · `LGPL-3.0-only` |
 | [`hdshop`](hdshop/) | Constructs high-dimensional shrinkage optimal portfolios. | `0.1.7` · `GPL-3.0-only` |
@@ -265,6 +280,7 @@ are evidence for selected operations, not validation of every translated API.
 | [`mlrMBO`](mlrMBO/) | Performs model-based and Bayesian optimization. | `1.1.6` · `GPL-3.0-only` |
 | [`MM`](MM/) | Provides the multiplicative multinomial distribution. | `1.7-0` · `GPL-2.0-only` |
 | [`MNB`](MNB/) | Provides diagnostics for multivariate negative-binomial regression models. | `1.2.0` · `GPL-2.0-or-later` |
+| [`mnormt`](mnormt/) | Provides multivariate normal and Student-t distributions, including truncated probabilities. | `2.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`moments`](moments/) | Computes moments, cumulants, skewness, kurtosis, and related tests. | `0.14.1` · `GPL-2.0-or-later` |
 | [`msgarch`](msgarch/) | Fits Markov-switching GARCH models. | `2.51` · `GPL-2.0-or-later` |
 | [`msm`](msm/) | Fits continuous-time multi-state and hidden Markov models. | `1.8.2` · `GPL-2.0-or-later` |
@@ -291,7 +307,7 @@ are evidence for selected operations, not validation of every translated API.
 | [`nmof`](nmof/) | Provides numerical optimization methods for finance and economics. | `2.12-0` · `GPL-3.0-only` |
 | [`nnls`](nnls/) | Solves nonnegative and mixed-sign least-squares problems. | `1.6` · `GPL-2.0-or-later` |
 | [`nonneg-cg`](nonneg-cg/) | Performs nonnegative conjugate-gradient minimization. | `0.1.6-1` · `BSD-2-Clause` |
-| [`normalp_fortran`](normalp_fortran/) | Provides exponential-power distributions, estimation, and regression. | `0.7.2.1` · `GPL` |
+| [`normalp`](normalp/) | Provides exponential-power distributions, estimation, and regression. | `0.7.2.1` · `GPL` |
 | [`nspmix`](nspmix/) | Fits nonparametric and semiparametric mixture models. | `2.0-0` · `GPL-2.0-or-later` |
 | [`numDeriv`](numDeriv/) | Computes accurate numerical gradients, Jacobians, and Hessians. | `2016.8-1.1` · `GPL-2.0-or-later` |
 | [`nvmix`](nvmix/) | Computes and simulates multivariate normal variance-mixture distributions. | `0.1-2` · `GPL-3.0-or-later` |
@@ -308,6 +324,7 @@ are evidence for selected operations, not validation of every translated API.
 | [`pa`](pa/) | Performs equity-portfolio performance attribution. | `1.2-4` · `GPL-2.0-only` |
 | [`parma`](parma/) | Provides portfolio allocation and risk-management applications. | `1.7` · `GPL-3.0-or-later` |
 | [`partitions`](partitions/) | Generates and analyzes additive integer partitions. | `1.10-9` · `GPL` |
+| [`pbivnorm`](pbivnorm/) | Evaluates the vectorized standard bivariate normal cumulative distribution function. | `0.6.0` · `GPL-2.0-or-later` |
 | [`pbo`](pbo/) | Estimates the probability of backtest overfitting. | `1.3.5` · `MIT` |
 | [`pdqutils`](pdqutils/) | Provides distribution approximations using Gram-Charlier, Edgeworth, and Cornish-Fisher expansions. | `0.1.6` · `LGPL-3.0-or-later` |
 | [`peerperformance`](peerperformance/) | Performs luck-corrected peer-performance analysis. | `2.4.0` · `GPL-2.0-or-later` |
@@ -315,7 +332,7 @@ are evidence for selected operations, not validation of every translated API.
 | [`pgnorm`](pgnorm/) | Evaluates and simulates p-generalized normal distributions. | `2.0.1` · `GPL-2.0-or-later` |
 | [`PINstimation`](PINstimation/) | Estimates the probability of informed trading. | `0.2.0` · `GPL-3.0-or-later` |
 | [`piqp`](piqp/) | Solves quadratic programs with a proximal interior-point method. | `0.6.2` · `GPL-3.0-only` |
-| [`pmultinom_fortran`](pmultinom_fortran/) | Computes one-sided multinomial probabilities. | `1.0.0` · `AGPL-3.0-only` |
+| [`pmultinom`](pmultinom/) | Computes one-sided multinomial probabilities. | `1.0.0` · `AGPL-3.0-only` |
 | [`PMwR`](PMwR/) | Provides portfolio accounting, return analysis, attribution, and backtesting tools. | `1.2-0` · `GPL-3.0-only` |
 | [`poibin`](poibin/) | Provides the Poisson-binomial distribution. | `1.6` · `GPL-2.0-only` |
 | [`poilog`](poilog/) | Provides Poisson-lognormal and bivariate Poisson-lognormal distributions. | `0.4.2.1` · `GPL-3.0-only` |
