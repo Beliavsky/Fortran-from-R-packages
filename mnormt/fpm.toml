@@ -1,0 +1,24 @@
+name = "mnormt-fortran"
+version = "0.1.1"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Adelchi Azzalini, Alan Genz, contributors; Fortran translation"
+maintainer = ""
+copyright = "See NOTICE.md"
+description = "Modern Fortran translation of the numerical core of the R package mnormt"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = true
+implicit-external = true
+source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["Z"]
