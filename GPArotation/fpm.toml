@@ -1,0 +1,19 @@
+name = "gparotation"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of GPArotation by Coen Bernaards, Paul Gilbert, and Robert Jennrich"
+maintainer = ""
+copyright = "See NOTICE.md and upstream package"
+description = "Modern Fortran implementation of gradient-projection factor rotation"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[extra.r-fpm-index]
+gams = ["Z"]
