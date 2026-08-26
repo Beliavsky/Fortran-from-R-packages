@@ -6,16 +6,20 @@ maintainer = ""
 copyright = "Original CEoptim authors; Fortran translation"
 description = "Modern Fortran translation of the computational core of the R package CEoptim"
 categories = ["optimization", "statistics"]
-gams = ["G", "L"]
 keywords = ["cross-entropy", "optimization", "truncated-normal", "dirichlet"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

@@ -1,63 +1,36 @@
 ! SPDX-License-Identifier: GPL-3.0-or-later
 module cccp_linalg
    use cccp_kinds, only : dp
+   use r_linalg, only : shared_solve_system => solve_system
+   use r_linalg, only : shared_spd_inverse_logdet => spd_inverse_logdet
+   use r_linalg, only : shared_symmetric_eigen => symmetric_eigen
+   use r_linalg, only : shared_symmetrize => symmetrize
    implicit none
    private
    public :: solve_system, symmetric_eigenvalues, spd_inverse_logdet
    public :: equality_particular, vector_norm2, symmetrize
-
-   interface
-      subroutine dgesv(n, nrhs, a, lda, ipiv, b, ldb, info)
-         import dp
-         integer, intent(in) :: n, nrhs, lda, ldb
-         integer, intent(out) :: ipiv(*)
-         real(dp), intent(inout) :: a(lda,*), b(ldb,*)
-         integer, intent(out) :: info
-      end subroutine dgesv
-      subroutine dsyev(jobz, uplo, n, a, lda, w, work, lwork, info)
-         import dp
-         character(len=1), intent(in) :: jobz, uplo
-         integer, intent(in) :: n, lda, lwork
-         real(dp), intent(inout) :: a(lda,*)
-         real(dp), intent(out) :: w(*), work(*)
-         integer, intent(out) :: info
-      end subroutine dsyev
-      subroutine dpotrf(uplo, n, a, lda, info)
-         import dp
-         character(len=1), intent(in) :: uplo
-         integer, intent(in) :: n, lda
-         real(dp), intent(inout) :: a(lda,*)
-         integer, intent(out) :: info
-      end subroutine dpotrf
-      subroutine dpotri(uplo, n, a, lda, info)
-         import dp
-         character(len=1), intent(in) :: uplo
-         integer, intent(in) :: n, lda
-         real(dp), intent(inout) :: a(lda,*)
-         integer, intent(out) :: info
-      end subroutine dpotri
-   end interface
 
 contains
 
    pure function vector_norm2(x) result(ans)
       real(dp), intent(in) :: x(:)
       real(dp) :: ans
-      ans = sqrt(max(0.0_dp, dot_product(x, x)))
+      intrinsic :: norm2
+
+      ans = norm2(x)
    end function vector_norm2
 
    pure function symmetrize(a) result(s)
       real(dp), intent(in) :: a(:,:)
       real(dp) :: s(size(a,1), size(a,2))
-      s = 0.5_dp * (a + transpose(a))
+      s = shared_symmetrize(a)
    end function symmetrize
 
    subroutine solve_system(a, b, x, info)
       real(dp), intent(in) :: a(:,:), b(:)
       real(dp), intent(out) :: x(:)
       integer, intent(out) :: info
-      real(dp), allocatable :: aa(:,:), bb(:,:)
-      integer, allocatable :: ipiv(:)
+      real(dp), allocatable :: aa(:,:)
       integer :: n, i
 
       n = size(b)
@@ -65,32 +38,28 @@ contains
          info = -1
          return
       end if
-      allocate(aa(n,n), bb(n,1), ipiv(n))
+      allocate(aa(n,n))
       aa = a
-      bb(:,1) = b
       do i = 1, n
          aa(i,i) = aa(i,i) + 1.0e-12_dp * max(1.0_dp, abs(aa(i,i)))
       end do
-      call dgesv(n, 1, aa, n, ipiv, bb, n, info)
-      if (info == 0) x = bb(:,1)
+      call shared_solve_system(aa, b, x, info)
    end subroutine solve_system
 
    subroutine symmetric_eigenvalues(a, w, info)
       real(dp), intent(in) :: a(:,:)
       real(dp), intent(out) :: w(:)
       integer, intent(out) :: info
-      real(dp), allocatable :: aa(:,:), work(:)
-      integer :: n, lwork
+      real(dp), allocatable :: values(:), vectors(:,:)
+      integer :: n
 
       n = size(a,1)
       if (size(a,2) /= n .or. size(w) /= n) then
          info = -1
          return
       end if
-      lwork = max(1, 3*n - 1)
-      allocate(aa(n,n), work(lwork))
-      aa = symmetrize(a)
-      call dsyev('N', 'U', n, aa, n, w, work, lwork, info)
+      call shared_symmetric_eigen(a, values, vectors, info)
+      if (info == 0) w = values
    end subroutine symmetric_eigenvalues
 
    subroutine spd_inverse_logdet(a, ainv, logdet, info)
@@ -98,7 +67,8 @@ contains
       real(dp), intent(out) :: ainv(:,:)
       real(dp), intent(out) :: logdet
       integer, intent(out) :: info
-      integer :: n, i, j
+      real(dp), allocatable :: shared_inverse(:,:)
+      integer :: n
 
       n = size(a,1)
       if (size(a,2) /= n .or. any(shape(ainv) /= [n,n])) then
@@ -106,23 +76,8 @@ contains
          logdet = huge(1.0_dp)
          return
       end if
-      ainv = symmetrize(a)
-      call dpotrf('L', n, ainv, n, info)
-      if (info /= 0) then
-         logdet = huge(1.0_dp)
-         return
-      end if
-      logdet = 0.0_dp
-      do i = 1, n
-         logdet = logdet + 2.0_dp * log(ainv(i,i))
-      end do
-      call dpotri('L', n, ainv, n, info)
-      if (info /= 0) return
-      do j = 1, n
-         do i = 1, j - 1
-            ainv(i,j) = ainv(j,i)
-         end do
-      end do
+      call shared_spd_inverse_logdet(a, shared_inverse, logdet, info)
+      if (info == 0) ainv = shared_inverse
    end subroutine spd_inverse_logdet
 
    subroutine equality_particular(a, b, x, info)

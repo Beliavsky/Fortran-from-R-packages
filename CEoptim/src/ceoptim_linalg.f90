@@ -1,47 +1,12 @@
 ! SPDX-License-Identifier: GPL-2.0-or-later
 module ceoptim_linalg
    use ceoptim_kinds, only : dp
+   use r_linalg, only : symmetric_eigen
    implicit none
    private
    public :: symmetric_eigen, covariance_factor, symmetric_pinv
 
-   interface
-      subroutine dsyev(jobz, uplo, n, a, lda, w, work, lwork, info)
-         import :: dp
-         character(len=1), intent(in) :: jobz, uplo
-         integer, intent(in) :: n, lda, lwork
-         real(dp), intent(inout) :: a(lda, *)
-         real(dp), intent(out) :: w(*)
-         real(dp), intent(inout) :: work(*)
-         integer, intent(out) :: info
-      end subroutine dsyev
-   end interface
-
 contains
-
-   subroutine symmetric_eigen(a, eval, evec, info)
-      real(dp), intent(in) :: a(:, :)
-      real(dp), allocatable, intent(out) :: eval(:), evec(:, :)
-      integer, intent(out) :: info
-      real(dp), allocatable :: work(:)
-      real(dp) :: workq(1)
-      integer :: n, lwork
-
-      n = size(a, 1)
-      if (size(a, 2) /= n) then
-         info = -1
-         allocate(eval(0), evec(0, 0))
-         return
-      end if
-      allocate(eval(n), evec(n, n))
-      evec = a
-      lwork = -1
-      call dsyev('V', 'U', n, evec, n, eval, workq, lwork, info)
-      if (info /= 0) return
-      lwork = max(1, int(workq(1)))
-      allocate(work(lwork))
-      call dsyev('V', 'U', n, evec, n, eval, work, lwork, info)
-   end subroutine symmetric_eigen
 
    subroutine covariance_factor(sigma, factor, info)
       real(dp), intent(in) :: sigma(:, :)

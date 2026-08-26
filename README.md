@@ -22,6 +22,18 @@ mixture-model comparison. Thirty-five cases use a shared dated asset-price fixtu
 These checks
 are evidence for selected operations, not validation of every translated API.
 
+## Building on Windows
+
+Most packages build normally with `fpm build`. Some numerical packages declare
+system BLAS, LAPACK, or ARPACK libraries in `fpm.toml`. On Windows, run
+`setup_windows_linalg.bat` once in the same Command Prompt before building such
+packages. The script detects compatible import libraries supplied by GNU Octave
+or JAGS, adds their `lib` directory to `FPM_LDFLAGS`, and adds their `bin`
+directory to `PATH`. GNU Octave is preferred because it also supplies ARPACK.
+
+The configuration affects only the current Command Prompt. It does not copy
+binary libraries into this repository or commit machine-specific paths.
+
 ## Why Fortran?
 
 Modern Fortran is well suited to the numerical kernels found in statistical R
@@ -55,6 +67,13 @@ direct deterministic comparison suite against R reference implementations;
 packages exercise compatibility wrappers. See the
 [shared-module design and migration
 notes](docs/SHARED_MODULES.md).
+
+The optional [`rfortran-linalg`](rfortran-linalg/) library centralizes checked
+linear solves, symmetric eigendecompositions, Cholesky factors, and SPD
+inverse/log-determinant calculations. It uses a pinned pure-Fortran LAPACK
+backend, so migrated packages do not require system `-llapack` or `-lblas`
+libraries. Basic operations already supplied by the language, such as
+`norm2`, remain intrinsic calls rather than shared wrappers.
 
 ## Language interfaces
 

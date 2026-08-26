@@ -43,6 +43,8 @@ r_special        (digamma, trigamma, log-beta, regularized gamma/beta, integer c
 r_rolling        (valid-only and right-aligned trailing reductions and moments)
 
 r_mod  (compatibility facade over the modules above)
+
+rfortran-linalg  (optional checked BLAS/LAPACK-backed linear algebra)
 ```
 
 ## Current migrations
@@ -140,6 +142,13 @@ r_mod  (compatibility facade over the modules above)
   available Octave BLAS/LAPACK libraries.
 - `fportfolio` also compiles fully, but its test executables encounter the
   same Windows stack-overflow exit with those BLAS/LAPACK libraries.
+- The separate `rfortran-linalg` package provides checked square solves,
+  symmetric eigendecomposition, Cholesky factors, and SPD inverses with log
+  determinants through a pinned pure-Fortran LAPACK backend. `CEoptim`,
+  `cmaes`, and `cccp` delegate their compatible operations to this layer;
+  `cccp` uses the intrinsic `norm2` for its Euclidean-norm compatibility API.
+  All 15 package tests pass after these migrations, as do the direct shared
+  linear-algebra tests.
 - Their deterministic comparisons against R pass 7/7 and 9/9 cases,
   respectively, for `FinTS` and `fracdiff`; `rugarch` passes 25/25 cases.
 - The direct `rfortran-core` comparison against R references passes all 54/54
@@ -152,10 +161,11 @@ r_mod  (compatibility facade over the modules above)
 
 Possible later distribution additions include noncentral families, but those
 require separate algorithms and substantially broader tail validation.
-BLAS/LAPACK linear
-algebra, optimization, random-number generation, higher-level models, and
-data-frame or file APIs should remain separate optional libraries so
-lightweight translations do not inherit unnecessary dependencies.
+Optimization, higher-level models, and data-frame or file APIs should remain
+separate optional libraries so lightweight translations do not inherit
+unnecessary dependencies. BLAS/LAPACK operations now begin this separation in
+`rfortran-linalg`; its API should expand only when multiple translations share
+the same shape, failure, and numerical semantics.
 
 Before deleting an old helper, check public imports, internal calls,
 transpiler-generated calls, package tests and comparison cases. Procedures
@@ -169,3 +179,8 @@ During development, translated packages use a relative FPM path dependency on
 separately tagged repository and package manifests should pin a Git revision.
 That will allow an individual translation to be downloaded and built without
 the full aggregate repository.
+
+The optional `rfortran-linalg` package follows the same local-path arrangement
+and pins its `fortran-lapack` dependency to an exact Git revision. A cold FPM
+build compiles that backend separately for each independent translated package;
+later builds reuse the package's local build products.

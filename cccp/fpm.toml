@@ -5,16 +5,20 @@ author = "Bernhard Pfaff; Fortran translation by OpenAI"
 maintainer = "Vivek Rao"
 description = "Modern Fortran port of cccp cone-constrained convex optimization algorithms"
 categories = ["optimization", "numerical", "finance"]
-gams = ["G", "L"]
 keywords = ["linear-programming", "quadratic-programming", "socp", "sdp", "risk-parity"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]
