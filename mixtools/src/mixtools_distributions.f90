@@ -6,6 +6,7 @@ module mixtools_distributions
   use mixtools_linalg, only : cholesky_lower, solve_lower, inverse_spd
   use mixtools_rng, only : rng_state, random_normal, random_gamma, random_poisson
   use mixtools_rng, only : random_weibull, random_uniform
+  use r_stability, only : r_log_sum_exp
   implicit none
   private
   public :: normal_pdf, normal_logpdf, gamma_logpdf, poisson_logpmf
@@ -127,13 +128,8 @@ contains
 
   function logsumexp(x) result(v)
     real(dp), intent(in) :: x(:)
-    real(dp) :: v, m
-    m = maxval(x)
-    if (.not. ieee_is_finite(m)) then
-      v = m
-    else
-      v = m + log(sum(exp(x-m)))
-    end if
+    real(dp) :: v
+    v = r_log_sum_exp(x)
   end function logsumexp
 
   subroutine normalize_logweights(logw, prob, lognorm)
