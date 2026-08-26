@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 BASE = ROOT / "comparisons"
 SUITES = (
+    ("rfortran-core", None),
     ("rugarch", "rugarch"),
     ("fracdiff", "fracdiff"),
     ("performanceanalytics", "PerformanceAnalytics"),
@@ -77,9 +78,10 @@ def main():
     results, failures = [], 0
     for name, r_package in SUITES:
         suite = BASE / name
-        p = run(["Rscript", "-e", f"quit(status=!requireNamespace('{r_package}',quietly=TRUE))"], ROOT)
-        if p.returncode:
-            print(f"SKIP {name}: R package is not installed"); continue
+        if r_package is not None:
+            p = run(["Rscript", "-e", f"quit(status=!requireNamespace('{r_package}',quietly=TRUE))"], ROOT)
+            if p.returncode:
+                print(f"SKIP {name}: R package is not installed"); continue
         r_csv, f_csv = suite/"r_results.csv", suite/"fortran_results.csv"
         rr = run(["Rscript", "reference.R", str(r_csv)], suite)
         if rr.returncode:

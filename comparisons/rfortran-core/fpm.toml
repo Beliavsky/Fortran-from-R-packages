@@ -1,0 +1,10 @@
+name = "compare-rfortran-core"
+version = "0.1.0"
+
+[dependencies]
+rfortran-core = { path = "../../rfortran-core" }
+
+[build]
+auto-executables = true
+auto-examples = false
+auto-tests = false

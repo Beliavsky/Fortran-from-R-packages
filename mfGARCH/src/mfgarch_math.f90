@@ -4,6 +4,7 @@ module mfgarch_math
   use mfgarch_kinds, only : dp
   use mfgarch_status, only : mfgarch_success, mfgarch_dimension_error, &
     mfgarch_singular_matrix, mfgarch_invalid_argument
+  use r_rolling, only : r_roll_mean_right
   implicit none
   private
 
@@ -143,23 +144,13 @@ contains
     integer, intent(in) :: window
     real(dp), allocatable, intent(out) :: values(:)
     integer, intent(out) :: status
-    real(dp) :: running
-    integer :: i
-
     if (window <= 0) then
       status = mfgarch_invalid_argument
       allocate(values(0))
       return
     end if
+    call r_roll_mean_right(x, window, values)
     status = mfgarch_success
-    allocate(values(size(x)))
-    values = ieee_value(0.0_dp, ieee_quiet_nan)
-    running = 0.0_dp
-    do i = 1, size(x)
-      running = running + x(i)
-      if (i > window) running = running - x(i-window)
-      if (i >= window) values(i) = running / real(window, dp)
-    end do
   end subroutine rolling_mean
 
 end module mfgarch_math

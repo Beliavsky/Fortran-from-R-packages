@@ -6,6 +6,7 @@ module acdm_diagnostics
                         sample_variance
   use acdm_distributions, only : distribution_cdf, distribution_pdf, &
                                  distribution_quantile, DIST_EXPONENTIAL
+  use r_rolling, only : r_roll_mean_valid
   implicit none
   private
 
@@ -184,16 +185,13 @@ contains
     real(dp),intent(in)::x(:)
     integer,intent(in)::window
     real(dp),intent(out)::out(:)
-    integer::i
-    real(dp)::s
+    real(dp),allocatable::shared_values(:)
     if(window<1 .or. window>size(x) .or. size(out)/=size(x)-window+1) then
       if(size(out)>0)out=0.0_dp
       return
     end if
-    s=sum(x(1:window));out(1)=s/real(window,dp)
-    do i=2,size(out)
-      s=s+x(i+window-1)-x(i-1);out(i)=s/real(window,dp)
-    end do
+    call r_roll_mean_valid(x,window,shared_values)
+    out=shared_values
   end subroutine rolling_mean
 
   subroutine test_rm_acd(durations,mu,parameters,p,q,pstar,robust,result)

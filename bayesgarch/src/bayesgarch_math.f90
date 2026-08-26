@@ -8,6 +8,7 @@
 ! (at your option) any later version.
 module bayesgarch_math
    use bayesgarch_kinds, only : dp
+   use r_special, only : r_digamma
    implicit none
    private
 
@@ -26,27 +27,12 @@ contains
    pure function digamma(x) result(value)
       real(dp), intent(in) :: x
       real(dp) :: value
-      real(dp) :: xx
-      real(dp) :: inv
-      real(dp) :: inv2
 
       if (x <= 0.0_dp) then
          value = huge(1.0_dp)
          return
       end if
-
-      value = 0.0_dp
-      xx = x
-      do while (xx < 8.0_dp)
-         value = value - 1.0_dp / xx
-         xx = xx + 1.0_dp
-      end do
-
-      inv = 1.0_dp / xx
-      inv2 = inv * inv
-      value = value + log(xx) - 0.5_dp * inv - inv2 * (1.0_dp / 12.0_dp - &
-         inv2 * (1.0_dp / 120.0_dp - inv2 * (1.0_dp / 252.0_dp - &
-         inv2 * (1.0_dp / 240.0_dp - inv2 * (5.0_dp / 660.0_dp)))))
+      value = r_digamma(x)
    end function digamma
 
    pure subroutine inverse_2x2(a, ainv, determinant, ok)

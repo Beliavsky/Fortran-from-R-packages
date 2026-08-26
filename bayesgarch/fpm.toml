@@ -6,7 +6,6 @@ maintainer = "Modern Fortran translation contributors"
 copyright = "Copyright (C) 2008-2021 David Ardia"
 description = "Modern Fortran translation of the computational core of bayesGARCH"
 categories = ["finance", "statistics", "mcmc"]
-gams = ["L", "M"]
 keywords = ["garch", "bayesian", "student-t", "metropolis-hastings"]
 
 [build]
@@ -48,3 +47,9 @@ main = "test_rng_math.f90"
 name = "sampler"
 source-dir = "test"
 main = "test_sampler.f90"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }

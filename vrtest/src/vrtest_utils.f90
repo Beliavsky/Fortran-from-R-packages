@@ -5,6 +5,9 @@
 module vrtest_utils
    use vrtest_kinds, only : dp, pi
    use r_descriptive, only : r_mean, r_variance
+   use r_distributions, only : r_pnorm
+   use r_sorting, only : r_average_ranks, r_quantile_type7
+   use r_stability, only : r_core_log_mean_exp => r_log_mean_exp
    use r_status, only : r_core_ok => r_ok
    use r_time_series, only : core_autocorrelation => r_autocorrelation
    implicit none
@@ -67,7 +70,7 @@ contains
 
    pure real(dp) function normal_cdf(x) result(ans)
       real(dp), intent(in) :: x
-      ans = 0.5_dp * erfc(-x / sqrt(2.0_dp))
+      ans = r_pnorm(x)
    end function normal_cdf
 
    pure real(dp) function normal_quantile(p) result(x)
@@ -205,81 +208,26 @@ contains
       ans = 0.5_dp*(lo+hi)
    end function chi_square_quantile
 
-   pure subroutine sort_real(x)
-      real(dp), intent(inout) :: x(:)
-      integer :: i, j
-      real(dp) :: key
-      do i = 2, size(x)
-         key = x(i)
-         j = i - 1
-         do while (j >= 1)
-            if (x(j) <= key) exit
-            x(j+1) = x(j)
-            j = j - 1
-         end do
-         x(j+1) = key
-      end do
-   end subroutine sort_real
-
    pure real(dp) function sample_quantile(x, p) result(ans)
       ! R's default type-7 sample quantile.
       real(dp), intent(in) :: x(:), p
-      real(dp), allocatable :: work(:)
-      real(dp) :: h, frac, pp
-      integer :: j, n
+      real(dp) :: pp
 
-      n = size(x)
-      if (n == 0) then
+      if (size(x) == 0) then
          ans = 0.0_dp
          return
       end if
-      allocate(work(n))
-      work = x
-      call sort_real(work)
       pp = max(0.0_dp, min(1.0_dp, p))
-      h = 1.0_dp + real(n-1,dp)*pp
-      j = int(floor(h))
-      frac = h - real(j,dp)
-      if (j >= n) then
-         ans = work(n)
-      else
-         ans = (1.0_dp-frac)*work(j) + frac*work(j+1)
-      end if
+      ans = r_quantile_type7(x, pp)
    end function sample_quantile
 
    pure subroutine average_ranks(x, ranks)
       real(dp), intent(in) :: x(:)
       real(dp), intent(out) :: ranks(size(x))
-      integer, allocatable :: idx(:)
-      integer :: i, j, k, n, tmp
-      real(dp) :: r
+      real(dp), allocatable :: shared_ranks(:)
 
-      n = size(x)
-      allocate(idx(n))
-      idx = [(i, i=1,n)]
-      do i = 2, n
-         tmp = idx(i)
-         j = i - 1
-         do while (j >= 1)
-            if (x(idx(j)) <= x(tmp)) exit
-            idx(j+1) = idx(j)
-            j = j - 1
-         end do
-         idx(j+1) = tmp
-      end do
-      i = 1
-      do while (i <= n)
-         j = i
-         do while (j < n)
-            if (abs(x(idx(j+1))-x(idx(i))) > 0.0_dp) exit
-            j = j + 1
-         end do
-         r = 0.5_dp*real(i+j,dp)
-         do k = i, j
-            ranks(idx(k)) = r
-         end do
-         i = j + 1
-      end do
+      call r_average_ranks(x, shared_ranks)
+      ranks = shared_ranks
    end subroutine average_ranks
 
    pure subroutine solve_linear(a, b, x, info)
@@ -439,12 +387,10 @@ contains
 
    pure real(dp) function log_mean_exp(x) result(ans)
       real(dp), intent(in) :: x(:)
-      real(dp) :: xmax
       if (size(x) == 0) then
          ans = -huge(1.0_dp)
       else
-         xmax = maxval(x)
-         ans = xmax + log(sum(exp(x-xmax))/real(size(x),dp))
+         ans = r_core_log_mean_exp(x)
       end if
    end function log_mean_exp
 

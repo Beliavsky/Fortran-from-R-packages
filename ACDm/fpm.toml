@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Copyright (c) Markus Belfrage and contributors"
 description = "Modern Fortran implementation of autoregressive conditional duration models"
 categories = ["finance", "statistics", "time-series"]
-gams = ["L"]
 keywords = ["ACD", "durations", "maximum-likelihood", "market-microstructure"]
 
 [library]
@@ -17,3 +16,9 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }

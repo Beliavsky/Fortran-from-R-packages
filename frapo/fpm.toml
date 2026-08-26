@@ -6,7 +6,6 @@ maintainer = "Fortran port maintainers"
 description = "Modern Fortran translation of the computational algorithms in FRAPO"
 keywords = ["finance", "portfolio", "drawdown", "risk", "optimization"]
 categories = ["finance", "optimization", "statistics"]
-gams = ["G", "L"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,9 @@ source-dir = "src"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G", "L"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }

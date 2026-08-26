@@ -1,6 +1,7 @@
 ! SPDX-License-Identifier: GPL-2.0-or-later
 module fints_special
    use fints_kinds, only : dp
+   use r_sorting, only : r_average_ranks
    implicit none
    private
    public :: chi_square_survival, rank_average
@@ -87,42 +88,7 @@ contains
    subroutine rank_average(x, ranks)
       real(dp), intent(in) :: x(:)
       real(dp), allocatable, intent(out) :: ranks(:)
-      integer, allocatable :: order(:)
-      integer :: n, i, j, key, left, right
-      real(dp) :: average_rank, scale
-
-      n = size(x)
-      allocate(ranks(n), order(n))
-      do i = 1, n
-         order(i) = i
-      end do
-
-      do i = 2, n
-         key = order(i)
-         j = i - 1
-         do while (j >= 1)
-            if (x(order(j)) <= x(key)) exit
-            order(j + 1) = order(j)
-            j = j - 1
-         end do
-         order(j + 1) = key
-      end do
-
-      scale = max(1.0_dp, maxval(abs(x)))
-      left = 1
-      do while (left <= n)
-         right = left
-         do while (right < n)
-            if (abs(x(order(right + 1)) - x(order(left))) > &
-               16.0_dp * epsilon(1.0_dp) * scale) exit
-            right = right + 1
-         end do
-         average_rank = 0.5_dp * real(left + right, dp)
-         do i = left, right
-            ranks(order(i)) = average_rank
-         end do
-         left = right + 1
-      end do
+      call r_average_ranks(x, ranks, tie_tolerance=16.0_dp*epsilon(1.0_dp))
    end subroutine rank_average
 
 end module fints_special

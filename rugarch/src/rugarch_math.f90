@@ -5,11 +5,11 @@
 
 module rugarch_math
    use rugarch_kinds, only : dp
+   use r_distributions, only : r_dnorm, r_pnorm
    implicit none
    private
 
    real(dp), parameter, public :: pi = acos(-1.0_dp)
-   real(dp), parameter :: sqrt_two = sqrt(2.0_dp)
    real(dp), parameter :: tiny_prob = 1.0e-14_dp
 
    public :: normal_pdf, normal_cdf, normal_quantile
@@ -23,14 +23,14 @@ contains
       real(dp), intent(in) :: x
       real(dp) :: value
 
-      value = exp(-0.5_dp*x*x) / sqrt(2.0_dp*pi)
+      value = r_dnorm(x)
    end function normal_pdf
 
    pure elemental function normal_cdf(x) result(value)
       real(dp), intent(in) :: x
       real(dp) :: value
 
-      value = 0.5_dp*erfc(-x/sqrt_two)
+      value = r_pnorm(x)
    end function normal_cdf
 
    pure elemental function normal_quantile(p) result(x)

@@ -7,7 +7,6 @@ copyright = "2025 gkwreg authors"
 description = "Modern Fortran implementation of the Generalized Kumaraswamy distribution family"
 keywords = ["probability", "kumaraswamy", "beta", "maximum-likelihood", "distributions"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = false
@@ -20,3 +19,7 @@ source-dir = "src"
 
 [dependencies]
 numDeriv-fortran = { path = "vendor/numderiv-fortran" }
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.r-fpm-index]
+gams = ["L"]

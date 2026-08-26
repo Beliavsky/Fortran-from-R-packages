@@ -4,6 +4,7 @@ module frapo_series
   use frapo_kinds, only : dp
   use frapo_types, only : frapo_ok, frapo_invalid_input
   use frapo_linalg, only : solve_linear
+  use r_rolling, only : r_roll_mean_right
   implicit none
   private
 
@@ -279,8 +280,7 @@ contains
     logical, intent(in), optional :: trim
     integer, intent(out), optional :: status
     real(dp), allocatable :: trend(:), full(:)
-    real(dp) :: nan_value
-    integer :: k, i
+    integer :: k
     logical :: do_trim
 
     k = abs(periods)
@@ -291,12 +291,7 @@ contains
       if (present(status)) status = frapo_invalid_input
       return
     end if
-    allocate(full(size(y)))
-    nan_value = ieee_value(0.0_dp, ieee_quiet_nan)
-    full(1:k - 1) = nan_value
-    do i = k, size(y)
-      full(i) = sum(y(i - k + 1:i)) / real(k, dp)
-    end do
+    call r_roll_mean_right(y, k, full)
     if (do_trim) then
       trend = full(k:)
     else

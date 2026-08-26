@@ -2,6 +2,7 @@
 module gkwdist_math
    use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan, ieee_positive_inf, ieee_negative_inf, ieee_is_finite
    use gkwdist_kinds, only : dp
+   use r_special, only : r_digamma, r_log_beta, r_trigamma
    implicit none
    private
    public :: log1mexp, safe_log, safe_exp, safe_pow, log_beta, digamma_fn, trigamma_fn
@@ -128,50 +129,19 @@ contains
    pure function log_beta(a, b) result(v)
       real(dp), intent(in) :: a, b
       real(dp) :: v
-      if (a <= 0.0_dp .or. b <= 0.0_dp) then
-         v = nan_dp()
-      else
-         v = log_gamma(a) + log_gamma(b) - log_gamma(a+b)
-      end if
+      v = r_log_beta(a, b)
    end function log_beta
 
    pure function digamma_fn(xin) result(v)
       real(dp), intent(in) :: xin
-      real(dp) :: v, x, inv, inv2
-      if (xin <= 0.0_dp .or. .not. finite_dp(xin)) then
-         v = nan_dp()
-         return
-      end if
-      x = xin
-      v = 0.0_dp
-      do while (x < 8.0_dp)
-         v = v - 1.0_dp/x
-         x = x + 1.0_dp
-      end do
-      inv = 1.0_dp/x
-      inv2 = inv*inv
-      v = v + log(x) - 0.5_dp*inv - inv2*(1.0_dp/12.0_dp - inv2*(1.0_dp/120.0_dp - &
-         inv2*(1.0_dp/252.0_dp - inv2*(1.0_dp/240.0_dp - inv2*(5.0_dp/660.0_dp)))))
+      real(dp) :: v
+      v = r_digamma(xin)
    end function digamma_fn
 
    pure function trigamma_fn(xin) result(v)
       real(dp), intent(in) :: xin
-      real(dp) :: v, x, inv, inv2
-      if (xin <= 0.0_dp .or. .not. finite_dp(xin)) then
-         v = nan_dp()
-         return
-      end if
-      x = xin
-      v = 0.0_dp
-      do while (x < 8.0_dp)
-         v = v + 1.0_dp/(x*x)
-         x = x + 1.0_dp
-      end do
-      inv = 1.0_dp/x
-      inv2 = inv*inv
-      v = v + inv + 0.5_dp*inv2 + inv*inv2/6.0_dp - inv*inv2*inv2/30.0_dp + &
-         inv*inv2*inv2*inv2/42.0_dp - inv*inv2*inv2*inv2*inv2/30.0_dp + &
-         5.0_dp*inv*inv2*inv2*inv2*inv2*inv2/66.0_dp
+      real(dp) :: v
+      v = r_trigamma(xin)
    end function trigamma_fn
 
    pure function betacf(a, b, x) result(cf)

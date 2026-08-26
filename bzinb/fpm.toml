@@ -5,7 +5,6 @@ author = "Fortran translation of bzinb by OpenAI"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package bzinb"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "count-data", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -15,3 +14,9 @@ source-dir = "src"
 auto-executables = false
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["L"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }

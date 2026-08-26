@@ -1,45 +1,26 @@
 module bzinb_special
   use bzinb_kinds, only : dp
+  use r_special, only : r_digamma, r_trigamma
   implicit none
   private
   public :: digamma_fn, trigamma_fn, inverse_digamma, logsumexp_pair
 contains
   pure real(dp) function digamma_fn(x) result(v)
     real(dp), intent(in) :: x
-    real(dp) :: y, inv, inv2
-    v = 0.0_dp
-    y = x
-    if (y <= 0.0_dp) then
+    if (x <= 0.0_dp) then
       v = huge(1.0_dp)
       return
     end if
-    do while (y < 8.0_dp)
-      v = v - 1.0_dp/y
-      y = y + 1.0_dp
-    end do
-    inv = 1.0_dp/y
-    inv2 = inv*inv
-    v = v + log(y) - 0.5_dp*inv - inv2*(1.0_dp/12.0_dp - inv2*(1.0_dp/120.0_dp - &
-        inv2*(1.0_dp/252.0_dp - inv2*(1.0_dp/240.0_dp))))
+    v = r_digamma(x)
   end function digamma_fn
 
   pure real(dp) function trigamma_fn(x) result(v)
     real(dp), intent(in) :: x
-    real(dp) :: y, inv, inv2
-    v = 0.0_dp
-    y = x
-    if (y <= 0.0_dp) then
+    if (x <= 0.0_dp) then
       v = huge(1.0_dp)
       return
     end if
-    do while (y < 8.0_dp)
-      v = v + 1.0_dp/(y*y)
-      y = y + 1.0_dp
-    end do
-    inv = 1.0_dp/y
-    inv2 = inv*inv
-    v = v + inv + 0.5_dp*inv2 + inv*inv2/6.0_dp - inv*inv2*inv2/30.0_dp + &
-        inv*inv2*inv2*inv2/42.0_dp - inv*inv2*inv2*inv2*inv2/30.0_dp
+    v = r_trigamma(x)
   end function trigamma_fn
 
   pure real(dp) function inverse_digamma(y, x0) result(x)

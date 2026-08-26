@@ -5,7 +5,6 @@ author = "Onno Kleen; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package mfGARCH"
 categories = ["statistics", "econometrics", "time-series"]
-gams = ["L"]
 keywords = ["GARCH-MIDAS", "mixed-frequency", "volatility", "GJR-GARCH"]
 
 [library]
@@ -24,3 +23,9 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
