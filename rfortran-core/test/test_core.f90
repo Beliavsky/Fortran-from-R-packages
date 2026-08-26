@@ -15,6 +15,8 @@ program test_core
    use r_mod, only : r_weighted_quantile_isotone, r_weighted_quantile_linear_cdf
    use r_mod, only : r_weighted_quantile_survey, r_weighted_sd, r_weighted_variance
    use r_mod, only : r_mad, r_median, r_order
+   use r_mod, only : r_df, r_dchisq, r_dt, r_pf, r_pchisq, r_pt
+   use r_mod, only : r_qf, r_qchisq, r_qt
    use r_mod, only : r_regularized_beta, r_regularized_gamma_p, r_regularized_gamma_q
    use r_transforms, only : r_expm1, r_log1mexp, r_log1p, r_log1pexp, r_logistic, r_logit
    implicit none
@@ -163,6 +165,20 @@ program test_core
       4.0_dp*exp(-3.0_dp), 2.0e-14_dp, 'regularized upper gamma')
    call check_close(r_regularized_beta(0.5_dp, 2.0_dp, 3.0_dp), &
       0.6875_dp, 2.0e-14_dp, 'regularized beta')
+   call check_close(r_dt(0.0_dp,1.0_dp),1.0_dp/acos(-1.0_dp),2.0e-14_dp,'Student-t density')
+   call check_close(r_pt(1.0_dp,1.0_dp),0.75_dp,2.0e-14_dp,'Student-t CDF')
+   call check_close(exp(r_pt(1.0_dp,1.0_dp,lower_tail=.false.,log_probability=.true.)), &
+      0.25_dp,2.0e-14_dp,'Student-t log survival')
+   call check_close(r_qt(0.75_dp,1.0_dp),1.0_dp,2.0e-13_dp,'Student-t quantile')
+   call check_close(r_pt(r_qt(0.95_dp,5.0_dp),5.0_dp),0.95_dp,2.0e-13_dp,'Student-t round trip')
+   call check_close(r_dchisq(2.0_dp,2.0_dp),0.5_dp*exp(-1.0_dp),2.0e-14_dp,'chi-square density')
+   call check_close(r_pchisq(2.0_dp,2.0_dp),1.0_dp-exp(-1.0_dp),2.0e-14_dp,'chi-square CDF')
+   call check_close(r_qchisq(1.0_dp-exp(-1.0_dp),2.0_dp),2.0_dp,2.0e-13_dp,'chi-square quantile')
+   call check_close(r_df(1.0_dp,2.0_dp,2.0_dp),0.25_dp,2.0e-14_dp,'F density')
+   call check_close(r_pf(1.0_dp,2.0_dp,2.0_dp),0.5_dp,2.0e-14_dp,'F CDF')
+   call check_close(r_qf(0.75_dp,2.0_dp,2.0_dp),3.0_dp,2.0e-13_dp,'F quantile')
+   call check_close(r_pf(r_qf(0.95_dp,5.0_dp,9.0_dp),5.0_dp,9.0_dp),0.95_dp,2.0e-13_dp,'F round trip')
+   call check(ieee_is_nan(r_pt(0.0_dp,-1.0_dp)),'Student-t invalid degrees of freedom')
    call check_close(r_log_factorial(5), log(120.0_dp), 1.0e-14_dp, 'log factorial')
    call check_close(r_log_choose(1000000, 2), log(499999500000.0_dp), 1.0e-14_dp, 'stable log choose')
    call check_close(r_log_choose(20, 3), r_log_choose(20, 17), 1.0e-14_dp, 'log choose symmetry')

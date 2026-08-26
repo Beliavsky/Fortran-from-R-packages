@@ -11,10 +11,12 @@ program compare_rfortran_core
    use r_quantiles, only : r_weighted_quantile_survey
    use r_quantiles, only : r_median, r_quantile_type7
    use r_robust, only : r_mad
-   use r_distributions, only : r_qnorm
+   use r_distributions, only : r_df, r_dchisq, r_dt, r_pf, r_pchisq, r_pt
+   use r_distributions, only : r_qf, r_qchisq, r_qnorm, r_qt
    use r_ordering, only : r_order
    use r_special, only : r_digamma, r_log_beta, r_log_choose, r_log_factorial, r_trigamma
    use r_special, only : r_regularized_beta, r_regularized_gamma_p, r_regularized_gamma_q
+   use r_stability, only : r_log_mean_exp, r_log_sum_exp
    use r_transforms, only : r_expm1, r_log1mexp, r_log1p, r_log1pexp, r_logistic, r_logit
    implicit none
 
@@ -23,6 +25,7 @@ program compare_rfortran_core
    real(dp), parameter :: expm1_points(6) = [-100.0_dp, -1.0_dp, -1.0e-12_dp, 1.0e-12_dp, 1.0_dp, 10.0_dp]
    real(dp), parameter :: log1mexp_points(4) = [-100.0_dp, -10.0_dp, -1.0_dp, -1.0e-12_dp]
    real(dp), parameter :: softplus_points(5) = [-100.0_dp, -1.0_dp, 0.0_dp, 1.0_dp, 100.0_dp]
+   real(dp), parameter :: log_weight_points(6) = [-1000.0_dp, -100.0_dp, -2.0_dp, 0.0_dp, 1.0_dp, 100.0_dp]
    real(dp), parameter :: probability_points(6) = [1.0e-12_dp, 0.01_dp, 0.25_dp, &
       0.5_dp, 0.99_dp, 1.0_dp - 1.0e-12_dp]
    real(dp), parameter :: log_probability_points(4) = [-1.0_dp, -10.0_dp, -100.0_dp, -1000.0_dp]
@@ -33,6 +36,12 @@ program compare_rfortran_core
    real(dp), parameter :: beta_x(5) = [0.01_dp, 0.1_dp, 0.5_dp, 0.8_dp, 0.99_dp]
    real(dp), parameter :: beta_shape1(5) = [0.5_dp, 1.0_dp, 2.0_dp, 5.0_dp, 20.0_dp]
    real(dp), parameter :: beta_shape2(5) = [2.0_dp, 4.0_dp, 3.0_dp, 1.5_dp, 10.0_dp]
+   real(dp), parameter :: distribution_x(6) = [0.1_dp, 0.5_dp, 1.0_dp, 2.0_dp, 5.0_dp, 10.0_dp]
+   real(dp), parameter :: student_x(6) = [-3.0_dp, -1.0_dp, 0.0_dp, 0.5_dp, 2.0_dp, 5.0_dp]
+   real(dp), parameter :: distribution_probs(6) = [0.01_dp, 0.1_dp, 0.25_dp, 0.5_dp, 0.9_dp, 0.99_dp]
+   real(dp), parameter :: distribution_df(6) = [1.0_dp, 2.0_dp, 5.0_dp, 10.0_dp, 30.0_dp, 100.0_dp]
+   real(dp), parameter :: f_df1(6) = [1.0_dp, 2.0_dp, 5.0_dp, 10.0_dp, 20.0_dp, 50.0_dp]
+   real(dp), parameter :: f_df2(6) = [2.0_dp, 5.0_dp, 8.0_dp, 12.0_dp, 30.0_dp, 100.0_dp]
    real(dp), parameter :: quantile_weights(6) = [1.0_dp, 2.0_dp, 4.0_dp, 1.0_dp, 3.0_dp, 2.0_dp]
    real(dp), parameter :: quantile_probs(6) = [0.0_dp, 0.1_dp, 0.25_dp, 0.5_dp, 0.9_dp, 1.0_dp]
    integer, parameter :: factorial_points(5) = [0, 1, 5, 20, 1000]
@@ -121,6 +130,20 @@ program compare_rfortran_core
 
    call cpu_time(t0)
    do i = 1, reps
+      value = r_log_sum_exp(log_weight_points)
+   end do
+   call cpu_time(t1)
+   call emit('log_sum_exp', value, t1 - t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = r_log_mean_exp(log_weight_points)
+   end do
+   call cpu_time(t1)
+   call emit('log_mean_exp', value, t1 - t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
       value = sum(r_logistic(softplus_points)*[(real(j, dp), j=1,size(softplus_points))])
    end do
    call cpu_time(t1)
@@ -148,6 +171,100 @@ program compare_rfortran_core
    call cpu_time(t1)
    call emit('qnorm_log_probability_checksum', value, t1 - t0)
 
+   reps = 5000
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_dt(student_x,distribution_df)*[(real(j,dp),j=1,size(student_x))])
+   end do
+   call cpu_time(t1)
+   call emit('student_t_density_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pt(student_x,distribution_df)*[(real(j,dp),j=1,size(student_x))])
+   end do
+   call cpu_time(t1)
+   call emit('student_t_cdf_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pt(abs(student_x),distribution_df,lower_tail=.false., &
+         log_probability=.true.)*[(real(j,dp),j=1,size(student_x))])
+   end do
+   call cpu_time(t1)
+   call emit('student_t_log_survival_checksum',value,t1-t0)
+
+   reps = 100
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_qt(distribution_probs,distribution_df)*[(real(j,dp),j=1,size(distribution_probs))])
+   end do
+   call cpu_time(t1)
+   call emit('student_t_quantile_checksum',value,t1-t0)
+
+   reps = 5000
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_dchisq(distribution_x,distribution_df)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('chi_square_density_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pchisq(distribution_x,distribution_df)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('chi_square_cdf_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pchisq(distribution_x,distribution_df,lower_tail=.false., &
+         log_probability=.true.)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('chi_square_log_survival_checksum',value,t1-t0)
+
+   reps = 100
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_qchisq(distribution_probs,distribution_df)*[(real(j,dp),j=1,size(distribution_probs))])
+   end do
+   call cpu_time(t1)
+   call emit('chi_square_quantile_checksum',value,t1-t0)
+
+   reps = 5000
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_df(distribution_x,f_df1,f_df2)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('f_density_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pf(distribution_x,f_df1,f_df2)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('f_cdf_checksum',value,t1-t0)
+
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_pf(distribution_x,f_df1,f_df2,lower_tail=.false., &
+         log_probability=.true.)*[(real(j,dp),j=1,size(distribution_x))])
+   end do
+   call cpu_time(t1)
+   call emit('f_log_survival_checksum',value,t1-t0)
+
+   reps = 100
+   call cpu_time(t0)
+   do i = 1, reps
+      value = sum(r_qf(distribution_probs,f_df1,f_df2)*[(real(j,dp),j=1,size(distribution_probs))])
+   end do
+   call cpu_time(t1)
+   call emit('f_quantile_checksum',value,t1-t0)
+
+   reps = 20000
    call cpu_time(t0)
    do i = 1, reps
       value = r_quantile_type7(quantile_x, 0.37_dp)

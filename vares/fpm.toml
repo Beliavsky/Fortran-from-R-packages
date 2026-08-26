@@ -5,7 +5,6 @@ author = "VaRES authors; Fortran port"
 maintainer = "Fortran port"
 description = "Modern Fortran implementation of VaRES parametric VaR and expected-shortfall formulas"
 categories = ["finance", "statistics", "risk"]
-gams = ["L"]
 keywords = ["value-at-risk", "expected-shortfall", "distributions"]
 
 [build]
@@ -18,3 +17,9 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.r-fpm-index]
+gams = ["L"]

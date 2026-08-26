@@ -4,6 +4,12 @@
 module vares_special
   use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan
   use vares_kinds, only : dp, pi
+  use r_distributions, only : core_t_pdf => r_dt
+  use r_distributions, only : core_t_cdf => r_pt
+  use r_distributions, only : core_t_quantile => r_qt
+  use r_distributions, only : core_f_pdf => r_df
+  use r_distributions, only : core_f_cdf => r_pf
+  use r_distributions, only : core_f_quantile => r_qf
   implicit none
   private
   public :: gamma_fn, log_gamma_fn, beta_fn, log_beta_fn, r_sign
@@ -385,33 +391,25 @@ contains
     logical::lp
     lp=.false.
     if(present(log_pdf))lp=log_pdf
-    y=log_gamma(0.5_dp*(df+1.0_dp))-log_gamma(0.5_dp*df)-0.5_dp*log(df*pi)-0.5_dp*(df+1.0_dp)*log(1.0_dp+x*x/df)
-    if(.not.lp)y=exp(y)
+    y=core_t_pdf(x,df,log_density=lp)
   end function student_t_pdf
 
   pure elemental function student_t_cdf(x, df, log_p, lower_tail) result(y)
     real(dp),intent(in)::x,df
     logical,intent(in),optional::log_p,lower_tail
-    real(dp)::y,z
+    real(dp)::y
     logical::lp,lt
     lp=.false.
     if(present(log_p))lp=log_p
     lt=.true.
     if(present(lower_tail))lt=lower_tail
-    z=df/(df+x*x)
-    if(x>=0.0_dp)then
-    y=1.0_dp-0.5_dp*reg_beta(z,0.5_dp*df,0.5_dp)
-    else
-    y=0.5_dp*reg_beta(z,0.5_dp*df,0.5_dp)
-    end if
-    if(.not.lt)y=1.0_dp-y
-    if(lp)y=log(y)
+    y=core_t_cdf(x,df,lower_tail=lt,log_probability=lp)
   end function student_t_cdf
 
   pure elemental function student_t_quantile(p, df, log_p, lower_tail) result(x)
     real(dp),intent(in)::p,df
     logical,intent(in),optional::log_p,lower_tail
-    real(dp)::x,pp,z
+    real(dp)::x,pp
     logical::lp,lt
     lp=.false.
     if(present(log_p))lp=log_p
@@ -427,15 +425,7 @@ contains
     x=huge(1.0_dp)
     return
     end if
-    if (abs(pp - 0.5_dp) <= epsilon(1.0_dp)) then
-      x = 0.0_dp
-    else if (pp < 0.5_dp) then
-      z = beta_quantile(2.0_dp*pp, 0.5_dp*df, 0.5_dp)
-      x = -sqrt(df*(1.0_dp-z)/z)
-    else
-      z = beta_quantile(2.0_dp*(1.0_dp-pp), 0.5_dp*df, 0.5_dp)
-      x = sqrt(df*(1.0_dp-z)/z)
-    end if
+    x=core_t_quantile(p,df,lower_tail=lt,log_probability=lp)
   end function student_t_quantile
 
   pure elemental function f_pdf(x, df1, df2, log_pdf) result(y)
@@ -450,8 +440,7 @@ contains
     if(present(df2))d2=df2
     lp=.false.
     if(present(log_pdf))lp=log_pdf
-    y=0.5_dp*d1*log(d1/d2)+(0.5_dp*d1-1.0_dp)*log(x)-0.5_dp*(d1+d2)*log(1.0_dp+d1*x/d2)-log_beta_fn(0.5_dp*d1,0.5_dp*d2)
-    if(.not.lp)y=exp(y)
+    y=core_f_pdf(x,d1,d2,log_density=lp)
   end function f_pdf
 
   pure elemental function f_cdf(x, df1, df2, log_p, lower_tail) result(y)
@@ -468,16 +457,14 @@ contains
     if(present(log_p))lp=log_p
     lt=.true.
     if(present(lower_tail))lt=lower_tail
-    y=reg_beta(d1*x/(d1*x+d2),0.5_dp*d1,0.5_dp*d2)
-    if(.not.lt)y=1.0_dp-y
-    if(lp)y=log(y)
+    y=core_f_cdf(x,d1,d2,lower_tail=lt,log_probability=lp)
   end function f_cdf
 
   pure elemental function f_quantile(p, df1, df2, log_p, lower_tail) result(x)
     real(dp),intent(in)::p
     real(dp),intent(in),optional::df1,df2
     logical,intent(in),optional::log_p,lower_tail
-    real(dp)::x,pp,d1,d2,z
+    real(dp)::x,d1,d2
     logical::lp,lt
     d1=1.0_dp
     if(present(df1))d1=df1
@@ -487,11 +474,7 @@ contains
     if(present(log_p))lp=log_p
     lt=.true.
     if(present(lower_tail))lt=lower_tail
-    pp=p
-    if(lp)pp=exp(pp)
-    if(.not.lt)pp=1.0_dp-pp
-    z=beta_quantile(pp,0.5_dp*d1,0.5_dp*d2)
-    x=d2*z/(d1*(1.0_dp-z))
+    x=core_f_quantile(p,d1,d2,lower_tail=lt,log_probability=lp)
   end function f_quantile
 
   pure elemental function lognormal_pdf(x, meanlog, sdlog, log_pdf) result(y)

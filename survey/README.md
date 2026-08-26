@@ -1,5 +1,7 @@
 # survey-fortran
 
+**Official CRAN title:** Analysis of Complex Survey Samples
+
 Modern Fortran 2018/FPM translation of the computational core of the R package
 `survey` 4.5 (Analysis of Complex Survey Samples).
 
@@ -24,7 +26,7 @@ database backends, or presentation helpers.
 - weighted Kaplan-Meier, survey Cox regression, log-rank testing, and survey parametric survival regression
 - survey t/rank tests, confidence intervals for proportions, contrasts
 - Cronbach alpha, weighted correlations, and survey PCA primitives
-- special functions used for chi-square/F inference, including weighted-mixture Satterthwaite and saddlepoint tails
+- shared central t, chi-square, and F functions for inference, with local weighted-mixture Satterthwaite and saddlepoint tails
 - ordinal survey regression (`svyolr` core): logistic, probit, cloglog/Gumbel, and cauchit links
 - survey loglinear models with nested deviance/score comparisons
 - survey ML factor analysis with effective sample size and varimax

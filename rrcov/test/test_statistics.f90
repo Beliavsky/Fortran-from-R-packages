@@ -1,8 +1,9 @@
 ! SPDX-License-Identifier: GPL-3.0-or-later
 program test_statistics
-  use rrcov, only : dp, median, mad_scale, qn_scale, sn_scale, tau_scale, &
-    chi_square_cdf, chi_square_quantile, covariance_matrix, matrix_sqrt, &
-    covariance_to_correlation, ilr_transform, rrcov_success
+  use rrcov, only : dp, median, mad_scale, qn_scale, sn_scale, tau_scale
+  use rrcov, only : chi_square_cdf, chi_square_quantile, covariance_matrix, matrix_sqrt
+  use rrcov, only : covariance_to_correlation, ilr_transform, rrcov_success
+  use rrcov, only : normal_cdf, regularized_gamma_p, regularized_beta, f_cdf
   implicit none
   real(dp) :: x(5), data(5, 2), probability, q
   real(dp), allocatable :: covariance(:, :), root(:, :), correlation(:, :), composition(:, :), transformed(:, :)
@@ -16,6 +17,11 @@ program test_statistics
   q = chi_square_quantile(0.95_dp, 3.0_dp)
   probability = chi_square_cdf(q, 3.0_dp)
   call assert_close(probability, 0.95_dp, 1.0e-8_dp, "chi-square inverse")
+  call assert_close(normal_cdf(1.95996398454005_dp), 0.975_dp, 2.0e-14_dp, "normal CDF")
+  call assert_close(regularized_gamma_p(2.0_dp, 3.0_dp), 0.800851726528544_dp, 2.0e-14_dp, "gamma P")
+  call assert_close(regularized_beta(0.5_dp, 2.0_dp, 3.0_dp), 0.6875_dp, 2.0e-14_dp, "beta CDF")
+  call assert_close(f_cdf(4.964602743730714_dp, 1.0_dp, 10.0_dp), 0.95_dp, 2.0e-13_dp, "F CDF")
+  call assert_close(chi_square_cdf(1.0_dp, 0.0_dp), 0.0_dp, 0.0_dp, "chi-square invalid df sentinel")
 
   data(:, 1) = [1.0_dp, 2.0_dp, 3.0_dp, 4.0_dp, 5.0_dp]
   data(:, 2) = [2.0_dp, 1.0_dp, 4.0_dp, 3.0_dp, 6.0_dp]

@@ -1,5 +1,7 @@
 # VaRES for modern Fortran
 
+**Official CRAN title:** Computes Value at Risk and Expected Shortfall for over 100 Parametric Distributions
+
 This project is a modern Fortran 2018 translation of VaRES 1.0.2, an R
 package for value at risk (VaR), expected shortfall (ES), probability density
 functions, and cumulative distribution functions for more than one hundred
@@ -25,9 +27,9 @@ conformable array call therefore use the same API.
 
 - Modern Fortran 2018 and FPM project layout
 - `dp = kind(1.0d0)` throughout
-- No external numerical-library dependency
-- Self-contained normal, beta, gamma, Student-t, F, lognormal, logistic,
-  Cauchy, uniform, and Weibull support functions
+- No external compiled numerical-library dependency
+- Shared `rfortran-core` Student-t and F density, probability, and quantile functions
+- Local normal, beta, gamma, lognormal, logistic, Cauchy, uniform, and Weibull support functions
 - Continued-fraction and series evaluations for incomplete beta and gamma
   functions
 - Bracketed inverse-CDF calculations for beta and gamma distributions
@@ -46,7 +48,8 @@ fpm run
 fpm run --example vector_example
 ```
 
-The package has no external dependencies.
+FPM resolves the source dependency on the adjacent `rfortran-core` package.
+No external compiled numerical library is required.
 
 ## Example
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Delegated central Student-t and F density, probability, and quantile kernels
+  to `rfortran-core` while preserving the VaRES procedure names, optional
+  arguments, defaults, and finite Student-t endpoint sentinels.
+- Added direct log-tail and log-quantile regression checks against R values.
+
 ## 1.0.2-fortran.1
 
 - Translated all 448 exported VaRES procedures to modern Fortran.

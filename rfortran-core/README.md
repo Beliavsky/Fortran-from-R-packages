@@ -11,8 +11,9 @@ The initial modules are:
 - `r_missing`: elemental IEEE missing/non-finite predicates.
 - `r_descriptive`: missing-aware weighted and unweighted means, variances,
   standard deviations, covariances, correlations, and counts.
-- `r_distributions`: stable normal density, distribution, and quantile
-  functions, including upper-tail and log-probability forms.
+- `r_distributions`: stable normal, central Student-t, chi-square, and F
+  density, distribution, and quantile functions, including upper-tail and
+  log-probability forms.
 - `r_ordering`: stable ordering indices and in-place value sorting.
 - `r_sorting`: configurable average ranks, plus compatibility
   exports for the original shared quantile procedures.
@@ -96,6 +97,13 @@ The `r_mod` facade is intended to ease migration of existing translations.
   asymptotic expansion to avoid underflow. `r_qnorm` accepts ordinary or log
   probabilities and lower or upper tails, and refines positive values against
   the small upper tail to avoid cancellation.
+- Central Student-t probabilities use regularized beta, chi-square
+  probabilities use regularized gamma, and F probabilities use complementary
+  regularized-beta forms so that the smaller tail is retained. Their quantile
+  routines invert the appropriate smaller logarithmic tail. Degrees of freedom
+  must be positive; chi-square and F currently require finite degrees of
+  freedom. Infinite Student-t degrees of freedom reduce to the normal family.
+- Noncentral Student-t, chi-square, and F distributions are not provided.
 - Digamma and trigamma currently accept finite positive arguments. Invalid
   arguments return an IEEE quiet NaN; package wrappers may preserve older
   package-specific error conventions.

@@ -1,5 +1,10 @@
 ! SPDX-License-Identifier: GPL-2.0-only
 module extra_distr_math
+  use r_distributions, only : r_qnorm
+  use r_stability, only : r_log_sum_exp
+  use r_special, only : r_log_beta, r_log_choose, r_log_factorial
+  use r_special, only : core_regularized_beta => r_regularized_beta
+  use r_special, only : core_regularized_gamma_p => r_regularized_gamma_p
   use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan, ieee_positive_inf, ieee_negative_inf, ieee_is_finite, ieee_is_nan
   use extra_distr_kinds, only : dp, pi, sqrt_two_pi
   implicit none
@@ -112,40 +117,13 @@ contains
 
   pure real(dp) function normal_quantile(p) result(x)
     real(dp), intent(in) :: p
-    real(dp) :: q, r
-    real(dp), parameter :: a(6) = [ &
-      -3.969683028665376e1_dp, 2.209460984245205e2_dp, -2.759285104469687e2_dp, &
-       1.383577518672690e2_dp, -3.066479806614716e1_dp, 2.506628277459239_dp]
-    real(dp), parameter :: b(5) = [ &
-      -5.447609879822406e1_dp, 1.615858368580409e2_dp, -1.556989798598866e2_dp, &
-       6.680131188771972e1_dp, -1.328068155288572e1_dp]
-    real(dp), parameter :: c(6) = [ &
-      -7.784894002430293e-3_dp, -3.223964580411365e-1_dp, -2.400758277161838_dp, &
-      -2.549732539343734_dp, 4.374664141464968_dp, 2.938163982698783_dp]
-    real(dp), parameter :: d(4) = [ &
-       7.784695709041462e-3_dp, 3.224671290700398e-1_dp, &
-       2.445134137142996_dp, 3.754408661907416_dp]
-    real(dp), parameter :: plow = 0.02425_dp
-    real(dp), parameter :: phigh = 1.0_dp-plow
     if (p <= 0.0_dp) then
       x = neg_inf()
     else if (p >= 1.0_dp) then
       x = pos_inf()
-    else if (p < plow) then
-      q = sqrt(-2.0_dp*log(p))
-      x = (((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6))/ &
-          ((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
-    else if (p <= phigh) then
-      q = p-0.5_dp
-      r = q*q
-      x = (((((a(1)*r+a(2))*r+a(3))*r+a(4))*r+a(5))*r+a(6))*q/ &
-          (((((b(1)*r+b(2))*r+b(3))*r+b(4))*r+b(5))*r+1.0_dp)
     else
-      q = sqrt(-2.0_dp*log(1.0_dp-p))
-      x = -(((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6))/ &
-           ((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
+      x = r_qnorm(p)
     end if
-    if (ieee_is_finite(x)) x = x-(normal_cdf(x)-p)/max(normal_pdf(x),tiny(1.0_dp))
   end function normal_quantile
 
   pure real(dp) function log_beta(a,b) result(value)
@@ -153,37 +131,12 @@ contains
     if (a <= 0.0_dp .or. b <= 0.0_dp) then
       value = nan_dp()
     else
-      value = log_gamma(a)+log_gamma(b)-log_gamma(a+b)
+      value = r_log_beta(a,b)
     end if
   end function log_beta
 
-  pure real(dp) function betacf(a,b,x) result(value)
-    real(dp), intent(in) :: a,b,x
-    integer :: m,m2
-    real(dp) :: aa,c,d,del,h,qab,qam,qap
-    real(dp), parameter :: eps=3.0e-14_dp, fpmin=1.0e-300_dp
-    qab=a+b; qap=a+1.0_dp; qam=a-1.0_dp
-    c=1.0_dp; d=1.0_dp-qab*x/qap
-    if(abs(d)<fpmin) d=fpmin
-    d=1.0_dp/d; h=d
-    do m=1,400
-      m2=2*m
-      aa=real(m,dp)*(b-real(m,dp))*x/((qam+real(m2,dp))*(a+real(m2,dp)))
-      d=1.0_dp+aa*d; if(abs(d)<fpmin)d=fpmin
-      c=1.0_dp+aa/c; if(abs(c)<fpmin)c=fpmin
-      d=1.0_dp/d; h=h*d*c
-      aa=-(a+real(m,dp))*(qab+real(m,dp))*x/((a+real(m2,dp))*(qap+real(m2,dp)))
-      d=1.0_dp+aa*d; if(abs(d)<fpmin)d=fpmin
-      c=1.0_dp+aa/c; if(abs(c)<fpmin)c=fpmin
-      d=1.0_dp/d; del=d*c; h=h*del
-      if(abs(del-1.0_dp)<=eps) exit
-    end do
-    value=h
-  end function betacf
-
   pure real(dp) function regularized_beta(x,a,b) result(value)
     real(dp), intent(in) :: x,a,b
-    real(dp) :: bt
     if (a <= 0.0_dp .or. b <= 0.0_dp) then
       value=nan_dp(); return
     else if(x<=0.0_dp) then
@@ -191,13 +144,7 @@ contains
     else if(x>=1.0_dp) then
       value=1.0_dp; return
     end if
-    bt=exp(log_gamma(a+b)-log_gamma(a)-log_gamma(b)+a*log(x)+b*log(1.0_dp-x))
-    if(x<(a+1.0_dp)/(a+b+2.0_dp)) then
-      value=bt*betacf(a,b,x)/a
-    else
-      value=1.0_dp-bt*betacf(b,a,1.0_dp-x)/b
-    end if
-    value=clamp_probability(value)
+    value=core_regularized_beta(x,a,b)
   end function regularized_beta
 
   pure real(dp) function beta_pdf(x,a,b) result(value)
@@ -235,33 +182,10 @@ contains
 
   pure real(dp) function regularized_gamma_p(a,x) result(value)
     real(dp), intent(in) :: a,x
-    real(dp), parameter :: eps=3.0e-14_dp,fpmin=1.0e-300_dp
-    real(dp)::ap,del,sumv,b,c,d,h,an
-    integer::n
     if(a<=0.0_dp .or. x<0.0_dp) then; value=nan_dp(); return
     else if(x==0.0_dp) then; value=0.0_dp; return
     end if
-    if(x<a+1.0_dp) then
-      ap=a; sumv=1.0_dp/a; del=sumv
-      do n=1,500
-        ap=ap+1.0_dp; del=del*x/ap; sumv=sumv+del
-        if(abs(del)<=abs(sumv)*eps) exit
-      end do
-      value=sumv*exp(-x+a*log(x)-log_gamma(a))
-    else
-      b=x+1.0_dp-a; c=1.0_dp/fpmin; d=1.0_dp/max(abs(b),fpmin)
-      if(b<0.0_dp)d=-d
-      h=d
-      do n=1,500
-        an=-real(n,dp)*(real(n,dp)-a); b=b+2.0_dp
-        d=an*d+b; if(abs(d)<fpmin)d=fpmin
-        c=b+an/c; if(abs(c)<fpmin)c=fpmin
-        d=1.0_dp/d; del=d*c; h=h*del
-        if(abs(del-1.0_dp)<=eps) exit
-      end do
-      value=1.0_dp-exp(-x+a*log(x)-log_gamma(a))*h
-    end if
-    value=clamp_probability(value)
+    value=core_regularized_gamma_p(a,x)
   end function regularized_gamma_p
 
   pure real(dp) function gamma_pdf(x,shape,scale) result(value)
@@ -335,13 +259,13 @@ contains
 
   pure real(dp) function log_factorial(n) result(value)
     integer, intent(in)::n
-    if(n<0) then; value=nan_dp(); else; value=log_gamma(real(n+1,dp)); end if
+    if(n<0) then; value=nan_dp(); else; value=r_log_factorial(n); end if
   end function log_factorial
 
   pure real(dp) function log_choose(n,k) result(value)
     integer, intent(in)::n,k
     if(n<0 .or. k<0 .or. k>n) then; value=neg_inf(); else
-      value=log_gamma(real(n+1,dp))-log_gamma(real(k+1,dp))-log_gamma(real(n-k+1,dp))
+      value=r_log_choose(n,k)
     end if
   end function log_choose
 
@@ -466,10 +390,7 @@ contains
 
   pure real(dp) function log_sum_exp(x) result(value)
     real(dp), intent(in)::x(:)
-    real(dp)::m
-    if(size(x)==0) then; value=neg_inf(); return; end if
-    m=maxval(x)
-    if(.not.ieee_is_finite(m)) then; value=m; else; value=m+log(sum(exp(x-m))); end if
+    value=r_log_sum_exp(x)
   end function log_sum_exp
 
 end module extra_distr_math

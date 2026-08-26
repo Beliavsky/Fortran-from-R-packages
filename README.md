@@ -40,7 +40,8 @@ C++?](docs/FORTRAN_VS_CPP.md) for the tradeoffs and project rationale.
 The [`rfortran-core`](rfortran-core/) library is the first step toward removing
 duplicate R-like numerical helpers from the translations. Its dependency-free
 modules currently provide kinds, missing-value policies, weighted and unweighted
-descriptive statistics, normal density/distribution/quantile functions, stable
+descriptive statistics, normal and central Student-t/chi-square/F distribution
+functions, stable
 ordering, type-7 quantiles and medians, median absolute deviation,
 weighted-ECDF quantiles, several explicitly named weighted-quantile
 interpolation conventions,

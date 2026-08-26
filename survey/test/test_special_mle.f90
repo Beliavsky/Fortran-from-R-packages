@@ -22,6 +22,7 @@ program test_special_mle
   real(dp)::w(6),start(2)
   integer::cl(6,1),i,fails
   fails=0;call near(chisq_survival(2.5_dp,3._dp),0.4752910833430205_dp,2e-10_dp,'chi-square sf',fails)
+  call near(f_survival(4.964602743730714_dp,1.0_dp,10.0_dp),0.05_dp,2e-12_dp,'F sf',fails)
   yobs=[1._dp,1.5_dp,2._dp,2.5_dp,3._dp,4._dp];w=[1._dp,2._dp,1._dp,2._dp,1._dp,1._dp];do i=1,6;cl(i,1)=i;end do;call make_design(w,cl,d)
   start=[2._dp,0._dp];call svy_mle(llobs,d,start,fit,score=scobs,maxfun=3000)
   call near(fit%par(1),2.25_dp,3e-5_dp,'MLE mu',fails);call near(fit%par(2),-0.1038196823891223_dp,5e-5_dp,'MLE log sigma',fails)

@@ -4,7 +4,9 @@ module r_mod
    use r_descriptive, only : r_correlation, r_count_nonmissing, r_covariance, r_mean, r_sd, r_variance
    use r_descriptive, only : r_weighted_correlation, r_weighted_covariance, r_weighted_mean
    use r_descriptive, only : r_weighted_sd, r_weighted_variance
-   use r_distributions, only : r_dnorm, r_pnorm, r_qnorm
+   use r_distributions, only : r_df, r_dchisq, r_dnorm, r_dt
+   use r_distributions, only : r_pf, r_pchisq, r_pnorm, r_pt
+   use r_distributions, only : r_qf, r_qchisq, r_qnorm, r_qt
    use r_kinds, only : dp, i64, r_pi
    use r_missing, only : r_is_finite, r_is_na
    use r_ordering, only : r_order, r_sort_values_in_place
@@ -38,7 +40,9 @@ module r_mod
    public :: r_correlation, r_count_nonmissing, r_covariance, r_mean, r_variance, r_sd
    public :: r_weighted_correlation, r_weighted_covariance, r_weighted_mean
    public :: r_weighted_sd, r_weighted_variance
-   public :: r_dnorm, r_pnorm, r_qnorm
+   public :: r_df, r_dchisq, r_dnorm, r_dt
+   public :: r_pf, r_pchisq, r_pnorm, r_pt
+   public :: r_qf, r_qchisq, r_qnorm, r_qt
    public :: r_sort, r_median, r_mad, r_quantile_type7, r_average_ranks
    public :: r_weighted_quantile_ecdf, r_weighted_quantile_linear_cdf
    public :: r_weighted_quantile_frequency_type7, r_weighted_quantile_isotone

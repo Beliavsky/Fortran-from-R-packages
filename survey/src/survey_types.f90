@@ -1,5 +1,8 @@
 ! SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only
 module survey_types
+  use r_quantiles, only : r_qrule_math, r_qrule_school, r_qrule_shahvaish
+  use r_quantiles, only : r_qrule_hf1, r_qrule_hf2, r_qrule_hf3, r_qrule_hf4
+  use r_quantiles, only : r_qrule_hf5, r_qrule_hf6, r_qrule_hf7, r_qrule_hf8, r_qrule_hf9
   use survey_kinds, only : dp
   implicit none
   private
@@ -11,9 +14,18 @@ module survey_types
   integer, parameter, public :: OLR_LOGISTIC=1, OLR_PROBIT=2, OLR_CLOGLOG=3, OLR_CAUCHIT=4
   integer, parameter, public :: FACT_N_NONE=0, FACT_N_SAMPLE=1, FACT_N_DEGF=2, &
                                 FACT_N_EFFECTIVE=3, FACT_N_MIN_EFFECTIVE=4
-  integer, parameter, public :: QRULE_MATH=1, QRULE_SCHOOL=2, QRULE_SHAHVAISH=3, &
-                                QRULE_HF1=4, QRULE_HF2=5, QRULE_HF3=6, QRULE_HF4=7, &
-                                QRULE_HF5=8, QRULE_HF6=9, QRULE_HF7=10, QRULE_HF8=11, QRULE_HF9=12
+  integer, parameter, public :: QRULE_MATH = r_qrule_math
+  integer, parameter, public :: QRULE_SCHOOL = r_qrule_school
+  integer, parameter, public :: QRULE_SHAHVAISH = r_qrule_shahvaish
+  integer, parameter, public :: QRULE_HF1 = r_qrule_hf1
+  integer, parameter, public :: QRULE_HF2 = r_qrule_hf2
+  integer, parameter, public :: QRULE_HF3 = r_qrule_hf3
+  integer, parameter, public :: QRULE_HF4 = r_qrule_hf4
+  integer, parameter, public :: QRULE_HF5 = r_qrule_hf5
+  integer, parameter, public :: QRULE_HF6 = r_qrule_hf6
+  integer, parameter, public :: QRULE_HF7 = r_qrule_hf7
+  integer, parameter, public :: QRULE_HF8 = r_qrule_hf8
+  integer, parameter, public :: QRULE_HF9 = r_qrule_hf9
 
   type, public :: survey_design_t
     integer :: n = 0

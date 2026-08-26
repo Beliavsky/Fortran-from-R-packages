@@ -1,5 +1,7 @@
 # waveslim-fortran
 
+**Official CRAN title:** Basic Wavelet Routines for One-, Two-, and Three-Dimensional Signal Processing
+
 Modern Fortran 2018 computational port of the R package `waveslim` 1.8.5.
 The library provides one-, two-, and three-dimensional wavelet transforms,
 wavelet packets, dual-tree and Hilbert transforms, denoising, wavelet
@@ -70,6 +72,11 @@ R lists and S3 classes are represented by typed Fortran derived types. Routine
 names use underscores instead of dots, for example `wave.variance` becomes
 `wave_variance`. Errors are reported through `status_type` fields where a
 result object is returned.
+
+Common finite-filtered descriptive statistics, type-7 quantiles, normal
+distribution functions, and chi-square probabilities delegate to the
+shared MIT-licensed `rfortran-core` dependency. Waveslim's lag-dependent
+autocovariance and cross-correlation conventions remain package-local.
 
 See `API_MAP.md`, `PORTING_NOTES.md`, and `VALIDATION.md` for coverage and
 numerical details.

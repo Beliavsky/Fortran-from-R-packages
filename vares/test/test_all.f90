@@ -6,7 +6,7 @@ program test_all
   use vares
   implicit none
   integer :: failures
-  real(dp) :: p(5), q(5), back(5)
+  real(dp) :: p(5), q(5), back(5), actual
 
   failures = 0
   call check_close('normal cdf zero', pnormal(0.0_dp), 0.5_dp, 3.0e-14_dp, failures)
@@ -29,6 +29,26 @@ program test_all
   call check_close('F inversion', &
     pF(varF(0.37_dp, 5.0_dp, 8.0_dp), 5.0_dp, 8.0_dp), &
     0.37_dp, 3.0e-9_dp, failures)
+  actual=dT(0.0_dp,10.0_dp)
+  call check_close('t density',actual,0.38910838396603109_dp,2.0e-14_dp,failures)
+  actual=pT(2.22813885196494_dp,10.0_dp,.true.,.false.)
+  call check_close('t log upper',actual,-3.6888794540777652_dp,2.0e-12_dp,failures)
+  actual=varT(log(0.025_dp),10.0_dp,.true.,.false.)
+  call check_close('t log quantile',actual,2.2281388519862744_dp,2.0e-11_dp,failures)
+  actual=dF(4.964602743730714_dp,1.0_dp,10.0_dp)
+  call check_close('F density',actual,0.019022595755938936_dp,2.0e-14_dp,failures)
+  actual=pF(4.964602743730714_dp,1.0_dp,10.0_dp,.true.,.false.)
+  call check_close('F log upper',actual,-2.9957322735539913_dp,2.0e-12_dp,failures)
+  actual=varF(log(0.05_dp),1.0_dp,10.0_dp,.true.,.false.)
+  call check_close('F log quantile',actual,4.9646027437307128_dp,2.0e-11_dp,failures)
+  if (varT(0.0_dp, 10.0_dp) /= -huge(1.0_dp)) then
+    failures = failures + 1
+    print '(a)', 'student t lower endpoint sentinel failed'
+  end if
+  if (varT(0.0_dp, 10.0_dp, lower_tail=.false.) /= huge(1.0_dp)) then
+    failures = failures + 1
+    print '(a)', 'student t upper endpoint sentinel failed'
+  end if
   call check_close('logistic upper log', &
     plogistic(1.2_dp, log_p=.true., lower_tail=.false.), &
     log(1.0_dp-plogistic(1.2_dp)), 2.0e-13_dp, failures)

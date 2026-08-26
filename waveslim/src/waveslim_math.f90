@@ -3,6 +3,10 @@
 module waveslim_math
   use waveslim_kinds, only : dp, pi, i8
   use, intrinsic :: ieee_arithmetic, only : ieee_is_finite, ieee_value, ieee_quiet_nan
+  use r_descriptive, only : r_mean, r_variance
+  use r_distributions, only : r_pchisq, r_pnorm, r_qnorm
+  use r_quantiles, only : r_median, r_quantile_type7
+  use r_robust, only : r_mad
   implicit none
   private
   public :: mean_value, variance_value, median_value, mad_value, quantile_type7
@@ -13,61 +17,42 @@ contains
   pure function mean_value(x) result(ans)
     real(dp), intent(in) :: x(:)
     real(dp) :: ans
-    integer :: i, n
-    ans=0.0_dp
-    n=0
-    do i=1,size(x)
-      if (ieee_is_finite(x(i))) then
-      ans=ans+x(i)
-      n=n+1
-      end if
-    end do
-    if(n>0) ans=ans/real(n,dp)
+    real(dp), allocatable :: finite_x(:)
+    finite_x=pack(x,ieee_is_finite(x))
+    if(size(finite_x)==0) then
+      ans=0.0_dp
+    else
+      ans=r_mean(finite_x)
+    end if
   end function mean_value
 
   pure function variance_value(x, sample) result(ans)
     real(dp), intent(in) :: x(:)
     logical, intent(in), optional :: sample
-    real(dp) :: ans, m
-    integer :: i,n,den
+    real(dp) :: ans
+    real(dp), allocatable :: finite_x(:)
+    integer :: den
     logical :: smp
     smp=.true.
     if(present(sample)) smp=sample
-    m=mean_value(x)
-    ans=0.0_dp
-    n=0
-    do i=1,size(x)
-      if(ieee_is_finite(x(i))) then
-      ans=ans+(x(i)-m)**2
-      n=n+1
-      end if
-    end do
-    den=n
-    if(smp) den=n-1
-    if(den>0) then
-    ans=ans/real(den,dp)
+    finite_x=pack(x,ieee_is_finite(x))
+    den=merge(1,0,smp)
+    if(size(finite_x)>den) then
+      ans=r_variance(finite_x,ddof=den)
     else
-    ans=0.0_dp
+      ans=0.0_dp
     end if
   end function variance_value
 
   function median_value(x) result(ans)
     real(dp), intent(in) :: x(:)
     real(dp) :: ans
-    real(dp), allocatable :: y(:)
-    integer :: n
-    n=count(ieee_is_finite(x))
-    allocate(y(n))
-    if(n>0)y=pack(x,ieee_is_finite(x))
-    if(n==0) then
-    ans=ieee_value(0.0_dp,ieee_quiet_nan)
-    return
-    end if
-    call sort_real(y)
-    if(mod(n,2)==1) then
-    ans=y((n+1)/2)
+    real(dp), allocatable :: finite_x(:)
+    finite_x=pack(x,ieee_is_finite(x))
+    if(size(finite_x)==0) then
+      ans=ieee_value(0.0_dp,ieee_quiet_nan)
     else
-    ans=0.5_dp*(y(n/2)+y(n/2+1))
+      ans=r_median(finite_x)
     end if
   end function median_value
 
@@ -75,78 +60,46 @@ contains
     real(dp), intent(in) :: x(:)
     real(dp), intent(in), optional :: center, constant
     real(dp) :: ans,c,k
-    c=median_value(x)
+    real(dp), allocatable :: finite_x(:)
+    finite_x=pack(x,ieee_is_finite(x))
+    c=r_median(finite_x)
     if(present(center)) c=center
     k=1.482602218505602_dp
     if(present(constant)) k=constant
-    ans=k*median_value(abs(x-c))
+    if(.not.ieee_is_finite(c)) then
+      ans=ieee_value(0.0_dp,ieee_quiet_nan)
+    else
+      ans=r_mad(finite_x,center=c,constant=k)
+    end if
   end function mad_value
 
   function quantile_type7(x,p) result(ans)
     real(dp), intent(in) :: x(:),p
-    real(dp) :: ans,h,g
-    real(dp),allocatable::y(:)
-    integer::n,j
-    y=pack(x,ieee_is_finite(x))
-    n=size(y)
-    if(n==0 .or. p<0.0_dp .or. p>1.0_dp) then
-    ans=ieee_value(0.0_dp,ieee_quiet_nan)
-    return
-    end if
-    call sort_real(y)
-    if(n==1) then
-    ans=y(1)
-    return
-    end if
-    h=1.0_dp+(real(n-1,dp))*p
-    j=floor(h)
-    g=h-real(j,dp)
-    if(j>=n) then
-    ans=y(n)
+    real(dp) :: ans
+    real(dp),allocatable::finite_x(:)
+    finite_x=pack(x,ieee_is_finite(x))
+    if(size(finite_x)==0 .or. p<0.0_dp .or. p>1.0_dp) then
+      ans=ieee_value(0.0_dp,ieee_quiet_nan)
     else
-    ans=(1.0_dp-g)*y(max(1,j))+g*y(j+1)
+      ans=r_quantile_type7(finite_x,p)
     end if
   end function quantile_type7
 
   pure elemental function normal_cdf(x) result(p)
     real(dp),intent(in)::x
     real(dp)::p
-    p=0.5_dp*erfc(-x/sqrt(2.0_dp))
+    p=r_pnorm(x)
   end function normal_cdf
 
   pure elemental function normal_quantile(p) result(x)
     real(dp), intent(in) :: p
-    real(dp) :: x,q,r
-    real(dp), parameter :: a(6) = [ &
-      -3.969683028665376e1_dp, 2.209460984245205e2_dp, &
-      -2.759285104469687e2_dp, 1.383577518672690e2_dp, &
-      -3.066479806614716e1_dp, 2.506628277459239_dp ]
-    real(dp), parameter :: b(5) = [ &
-      -5.447609879822406e1_dp, 1.615858368580409e2_dp, &
-      -1.556989798598866e2_dp, 6.680131188771972e1_dp, &
-      -1.328068155288572e1_dp ]
-    real(dp), parameter :: c(6) = [ &
-      -7.784894002430293e-3_dp, -3.223964580411365e-1_dp, &
-      -2.400758277161838_dp, -2.549732539343734_dp, &
-      4.374664141464968_dp, 2.938163982698783_dp ]
-    real(dp),parameter::d(4)=[7.784695709041462e-3_dp,3.224671290700398e-1_dp,2.445134137142996_dp,3.754408661907416_dp]
+    real(dp) :: x
     if(p<=0.0_dp) then
-    x=-huge(1.0_dp)
-    return
+      x=-huge(1.0_dp)
     else if(p>=1.0_dp) then
-    x=huge(1.0_dp)
-    return
-    end if
-    if(p<0.02425_dp) then
-      q=sqrt(-2.0_dp*log(p))
-      x=(((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6))/((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
-    else if(p>0.97575_dp) then
-      q=sqrt(-2.0_dp*log(1.0_dp-p))
-      x=-(((((c(1)*q+c(2))*q+c(3))*q+c(4))*q+c(5))*q+c(6))/((((d(1)*q+d(2))*q+d(3))*q+d(4))*q+1.0_dp)
+      x=huge(1.0_dp)
     else
-      q=p-0.5_dp
-      r=q*q
-      x=(((((a(1)*r+a(2))*r+a(3))*r+a(4))*r+a(5))*r+a(6))*q/(((((b(1)*r+b(2))*r+b(3))*r+b(4))*r+b(5))*r+1.0_dp)
+      x=r_qnorm(p)
     end if
   end function normal_quantile
 
@@ -156,50 +109,9 @@ contains
     if(x<=0.0_dp) then
     p=0.0_dp
     else
-    p=regularized_gamma_p(0.5_dp*df,0.5_dp*x)
+    p=r_pchisq(x,df)
     end if
   end function chi_square_cdf
-
-  function regularized_gamma_p(a,x) result(p)
-    real(dp),intent(in)::a,x
-    real(dp)::p,sumv,del,ap,b,c,d,h,an
-    integer::n
-    if(x<=0.0_dp) then
-    p=0.0_dp
-    return
-    end if
-    if(x<a+1.0_dp) then
-      ap=a
-      del=1.0_dp/a
-      sumv=del
-      do n=1,1000
-        ap=ap+1.0_dp
-        del=del*x/ap
-        sumv=sumv+del
-        if(abs(del)<abs(sumv)*1e-14_dp) exit
-      end do
-      p=sumv*exp(-x+a*log(x)-log_gamma(a))
-    else
-      b=x+1.0_dp-a
-      c=1.0_dp/tiny(1.0_dp)
-      d=1.0_dp/b
-      h=d
-      do n=1,1000
-        an=-real(n,dp)*(real(n,dp)-a)
-        b=b+2.0_dp
-        d=an*d+b
-        if(abs(d)<tiny(1.0_dp)) d=tiny(1.0_dp)
-        c=b+an/c
-        if(abs(c)<tiny(1.0_dp)) c=tiny(1.0_dp)
-        d=1.0_dp/d
-        del=d*c
-        h=h*del
-        if(abs(del-1.0_dp)<1e-14_dp) exit
-      end do
-      p=1.0_dp-exp(-x+a*log(x)-log_gamma(a))*h
-    end if
-    p=max(0.0_dp,min(1.0_dp,p))
-  end function regularized_gamma_p
 
   subroutine seed_rng(seed)
     integer(i8),intent(in)::seed
@@ -387,22 +299,6 @@ contains
     p=2*p
     end do
   end function next_power_two
-
-  subroutine sort_real(x)
-    real(dp),intent(inout)::x(:)
-    integer::i,j
-    real(dp)::key
-    do i=2,size(x)
-    key=x(i)
-    j=i-1
-    do while(j>=1)
-    if(x(j)<=key)exit
-    x(j+1)=x(j)
-    j=j-1
-    end do
-    x(j+1)=key
-    end do
-  end subroutine sort_real
 
   pure function lower_string(text) result(ans)
     character(len=*),intent(in)::text

@@ -4,6 +4,12 @@ module rrcov_stats
   use rrcov_types, only : rrcov_success, rrcov_invalid_argument, rrcov_dimension_error
   use rrcov_sort, only : sort_real
   use rrcov_linalg, only : mahalanobis_squared
+  use r_distributions, only : core_pnorm => r_pnorm
+  use r_distributions, only : core_pchisq => r_pchisq
+  use r_distributions, only : core_qchisq => r_qchisq
+  use r_distributions, only : core_pf => r_pf
+  use r_special, only : core_gamma_p => r_regularized_gamma_p
+  use r_special, only : core_beta => r_regularized_beta
   implicit none
   private
   public :: mean_vector, covariance_matrix, weighted_mean_covariance
@@ -387,96 +393,41 @@ contains
   pure function normal_cdf(x) result(value)
     real(dp), intent(in) :: x
     real(dp) :: value
-    value = 0.5_dp * erfc(-x / sqrt(2.0_dp))
+    value = core_pnorm(x)
   end function normal_cdf
 
   pure function regularized_gamma_p(a, x) result(value)
     real(dp), intent(in) :: a, x
     real(dp) :: value
-    real(dp) :: sum_value, delta, ap, b, c, d, h, an, log_factor
-    integer :: i
-    integer, parameter :: maxit = 10000
-    real(dp), parameter :: eps = 1.0e-14_dp
-    real(dp), parameter :: fpmin = 1.0e-300_dp
     if (a <= 0.0_dp .or. x < 0.0_dp) then
       value = 0.0_dp
-      return
-    end if
-    if (x <= tiny(1.0_dp)) then
+    else if (x <= tiny(1.0_dp)) then
       value = 0.0_dp
-      return
-    end if
-    log_factor = -x + a * log(x) - log_gamma(a)
-    if (x < a + 1.0_dp) then
-      ap = a
-      sum_value = 1.0_dp / a
-      delta = sum_value
-      do i = 1, maxit
-        ap = ap + 1.0_dp
-        delta = delta * x / ap
-        sum_value = sum_value + delta
-        if (abs(delta) <= abs(sum_value) * eps) exit
-      end do
-      value = sum_value * exp(log_factor)
     else
-      b = x + 1.0_dp - a
-      c = 1.0_dp / fpmin
-      d = 1.0_dp / max(abs(b), fpmin)
-      if (b < 0.0_dp) d = -d
-      h = d
-      do i = 1, maxit
-        an = -real(i, dp) * (real(i, dp) - a)
-        b = b + 2.0_dp
-        d = an * d + b
-        if (abs(d) < fpmin) d = fpmin
-        c = b + an / c
-        if (abs(c) < fpmin) c = fpmin
-        d = 1.0_dp / d
-        delta = d * c
-        h = h * delta
-        if (abs(delta - 1.0_dp) <= eps) exit
-      end do
-      value = 1.0_dp - exp(log_factor) * h
+      value = core_gamma_p(a, x)
     end if
-    value = min(1.0_dp, max(0.0_dp, value))
   end function regularized_gamma_p
 
   pure function chi_square_cdf(x, degrees_freedom) result(value)
     real(dp), intent(in) :: x, degrees_freedom
     real(dp) :: value
-    if (x <= 0.0_dp) then
+    if (x <= 0.0_dp .or. degrees_freedom <= 0.0_dp) then
       value = 0.0_dp
     else
-      value = regularized_gamma_p(0.5_dp * degrees_freedom, 0.5_dp * x)
+      value = core_pchisq(x, degrees_freedom)
     end if
   end function chi_square_cdf
 
   function chi_square_quantile(probability, degrees_freedom) result(value)
     real(dp), intent(in) :: probability, degrees_freedom
-    real(dp) :: value, lower, upper, midpoint, p
-    integer :: i
+    real(dp) :: value, p
     p = min(1.0_dp - 1.0e-14_dp, max(1.0e-14_dp, probability))
-    lower = 0.0_dp
-    upper = max(1.0_dp, degrees_freedom)
-    do while (chi_square_cdf(upper, degrees_freedom) < p)
-      upper = 2.0_dp * upper
-      if (upper > 1.0e12_dp) exit
-    end do
-    do i = 1, 200
-      midpoint = 0.5_dp * (lower + upper)
-      if (chi_square_cdf(midpoint, degrees_freedom) < p) then
-        lower = midpoint
-      else
-        upper = midpoint
-      end if
-      if (upper - lower <= 1.0e-12_dp * max(1.0_dp, midpoint)) exit
-    end do
-    value = 0.5_dp * (lower + upper)
+    value = core_qchisq(p, degrees_freedom)
   end function chi_square_quantile
 
   pure function regularized_beta(x, a, b) result(value)
     real(dp), intent(in) :: x, a, b
-    real(dp) :: value, bt
+    real(dp) :: value
     if (x <= 0.0_dp) then
       value = 0.0_dp
       return
@@ -484,63 +435,16 @@ contains
       value = 1.0_dp
       return
     end if
-    bt = exp(log_gamma(a + b) - log_gamma(a) - log_gamma(b) + a * log(x) + b * log(1.0_dp - x))
-    if (x < (a + 1.0_dp) / (a + b + 2.0_dp)) then
-      value = bt * beta_continued_fraction(x, a, b) / a
-    else
-      value = 1.0_dp - bt * beta_continued_fraction(1.0_dp - x, b, a) / b
-    end if
-    value = min(1.0_dp, max(0.0_dp, value))
+    value = core_beta(x, a, b)
   end function regularized_beta
-
-  pure function beta_continued_fraction(x, a, b) result(value)
-    real(dp), intent(in) :: x, a, b
-    real(dp) :: value
-    real(dp) :: qab, qap, qam, c, d, h, aa, delta
-    integer :: m, m2
-    integer, parameter :: maxit = 10000
-    real(dp), parameter :: eps = 1.0e-14_dp
-    real(dp), parameter :: fpmin = 1.0e-300_dp
-    qab = a + b
-    qap = a + 1.0_dp
-    qam = a - 1.0_dp
-    c = 1.0_dp
-    d = 1.0_dp - qab * x / qap
-    if (abs(d) < fpmin) d = fpmin
-    d = 1.0_dp / d
-    h = d
-    do m = 1, maxit
-      m2 = 2 * m
-      aa = real(m, dp) * (b - real(m, dp)) * x / &
-        ((qam + real(m2, dp)) * (a + real(m2, dp)))
-      d = 1.0_dp + aa * d
-      if (abs(d) < fpmin) d = fpmin
-      c = 1.0_dp + aa / c
-      if (abs(c) < fpmin) c = fpmin
-      d = 1.0_dp / d
-      h = h * d * c
-      aa = -(a + real(m, dp)) * (qab + real(m, dp)) * x / &
-        ((a + real(m2, dp)) * (qap + real(m2, dp)))
-      d = 1.0_dp + aa * d
-      if (abs(d) < fpmin) d = fpmin
-      c = 1.0_dp + aa / c
-      if (abs(c) < fpmin) c = fpmin
-      d = 1.0_dp / d
-      delta = d * c
-      h = h * delta
-      if (abs(delta - 1.0_dp) <= eps) exit
-    end do
-    value = h
-  end function beta_continued_fraction
 
   pure function f_cdf(x, df1, df2) result(value)
     real(dp), intent(in) :: x, df1, df2
-    real(dp) :: value, z
+    real(dp) :: value
     if (x <= 0.0_dp) then
       value = 0.0_dp
     else
-      z = df1 * x / (df1 * x + df2)
-      value = regularized_beta(z, 0.5_dp * df1, 0.5_dp * df2)
+      value = core_pf(x, df1, df2)
     end if
   end function f_cdf
 end module rrcov_stats

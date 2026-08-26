@@ -1,6 +1,9 @@
 ! SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only
 module survey_special
   use survey_kinds, only : dp
+  use r_special, only : core_regularized_beta => r_regularized_beta
+  use r_special, only : core_regularized_gamma_q => r_regularized_gamma_q
+  use r_distributions, only : r_pf, r_pchisq
   use, intrinsic :: ieee_arithmetic, only : ieee_is_nan, ieee_value, ieee_quiet_nan
   implicit none
   private
@@ -9,84 +12,33 @@ module survey_special
 contains
   real(dp) function regularized_beta(x,a,b) result(v)
     real(dp), intent(in) :: x,a,b
-    real(dp) :: bt
     if(a<=0.0_dp .or. b<=0.0_dp) error stop 'regularized_beta: shape parameters must be positive'
     if(x<=0.0_dp) then
       v=0.0_dp; return
     else if(x>=1.0_dp) then
       v=1.0_dp; return
     end if
-    bt=exp(log_gamma(a+b)-log_gamma(a)-log_gamma(b)+a*log(x)+b*log(1.0_dp-x))
-    if(x < (a+1.0_dp)/(a+b+2.0_dp)) then
-      v=bt*betacf(a,b,x)/a
-    else
-      v=1.0_dp-bt*betacf(b,a,1.0_dp-x)/b
-    end if
-    v=max(0.0_dp,min(1.0_dp,v))
+    v=core_regularized_beta(x,a,b)
   end function regularized_beta
-
-  real(dp) function betacf(a,b,x) result(h)
-    real(dp), intent(in) :: a,b,x
-    integer, parameter :: maxit=300
-    real(dp), parameter :: eps=3.0e-14_dp, fpmin=1.0e-300_dp
-    integer :: m,m2
-    real(dp) :: aa,c,d,del,qab,qam,qap
-    qab=a+b; qap=a+1.0_dp; qam=a-1.0_dp
-    c=1.0_dp; d=1.0_dp-qab*x/qap
-    if(abs(d)<fpmin) d=fpmin
-    d=1.0_dp/d; h=d
-    do m=1,maxit
-      m2=2*m
-      aa=real(m,dp)*(b-real(m,dp))*x/((qam+real(m2,dp))*(a+real(m2,dp)))
-      d=1.0_dp+aa*d; if(abs(d)<fpmin)d=fpmin; c=1.0_dp+aa/c; if(abs(c)<fpmin)c=fpmin; d=1.0_dp/d; h=h*d*c
-      aa=-(a+real(m,dp))*(qab+real(m,dp))*x/((a+real(m2,dp))*(qap+real(m2,dp)))
-      d=1.0_dp+aa*d; if(abs(d)<fpmin)d=fpmin; c=1.0_dp+aa/c; if(abs(c)<fpmin)c=fpmin; d=1.0_dp/d; del=d*c; h=h*del
-      if(abs(del-1.0_dp)<=eps) return
-    end do
-  end function betacf
 
   real(dp) function regularized_gamma_q(a,x) result(q)
     real(dp), intent(in) :: a,x
-    integer, parameter :: maxit=500
-    real(dp), parameter :: eps=3.0e-14_dp, fpmin=1.0e-300_dp
-    integer :: i
-    real(dp) :: ap,del,sum,b,c,d,h,an
     if(a<=0.0_dp) error stop 'regularized_gamma_q: a must be positive'
     if(x<=0.0_dp) then; q=1.0_dp; return; end if
-    if(x<a+1.0_dp) then
-      ap=a; sum=1.0_dp/a; del=sum
-      do i=1,maxit
-        ap=ap+1.0_dp; del=del*x/ap; sum=sum+del
-        if(abs(del)<=abs(sum)*eps) exit
-      end do
-      q=1.0_dp-sum*exp(-x+a*log(x)-log_gamma(a))
-    else
-      b=x+1.0_dp-a; c=1.0_dp/fpmin; d=1.0_dp/b; h=d
-      do i=1,maxit
-        an=-real(i,dp)*(real(i,dp)-a); b=b+2.0_dp
-        d=an*d+b; if(abs(d)<fpmin)d=fpmin
-        c=b+an/c; if(abs(c)<fpmin)c=fpmin
-        d=1.0_dp/d; del=d*c; h=h*del
-        if(abs(del-1.0_dp)<=eps) exit
-      end do
-      q=exp(-x+a*log(x)-log_gamma(a))*h
-    end if
-    q=max(0.0_dp,min(1.0_dp,q))
+    q=core_regularized_gamma_q(a,x)
   end function regularized_gamma_q
 
   real(dp) function f_survival(f,df1,df2) result(p)
     real(dp), intent(in) :: f,df1,df2
-    real(dp) :: x
     if(f<=0.0_dp) then; p=1.0_dp; return; end if
     if(df1<=0.0_dp .or. df2<=0.0_dp) error stop 'f_survival: degrees of freedom must be positive'
-    x=df2/(df2+df1*f)
-    p=regularized_beta(x,0.5_dp*df2,0.5_dp*df1)
+    p=r_pf(f,df1,df2,lower_tail=.false.)
   end function f_survival
 
   real(dp) function chisq_survival(x,df) result(p)
     real(dp), intent(in) :: x,df
     if(df<=0.0_dp) error stop 'chisq_survival: df must be positive'
-    if(x<=0.0_dp) then; p=1.0_dp; else; p=regularized_gamma_q(0.5_dp*df,0.5_dp*x); end if
+    if(x<=0.0_dp) then; p=1.0_dp; else; p=r_pchisq(x,df,lower_tail=.false.); end if
   end function chisq_survival
 
   real(dp) function weighted_chisq_survival(x, lambda, saddlepoint) result(p)

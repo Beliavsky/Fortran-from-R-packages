@@ -5,7 +5,6 @@ author = "Thomas Lumley et al.; Fortran translation"
 description = "Modern Fortran translation of the computational core of R survey"
 keywords = ["survey", "sampling", "weights", "replicate-weights", "calibration", "glm", "survival"]
 categories = ["simulation", "statistics", "numerical"]
-gams = ["L", "M"]
 
 [build]
 auto-executables = false
@@ -20,3 +19,7 @@ source-dir = "src"
 survival-fortran = { path = "vendor/survival-fortran" }
 minqa = { path = "vendor/minqa" }
 numDeriv-fortran = { path = "vendor/numDeriv-fortran" }
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

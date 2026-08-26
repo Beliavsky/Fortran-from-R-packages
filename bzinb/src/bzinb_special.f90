@@ -1,6 +1,7 @@
 module bzinb_special
   use bzinb_kinds, only : dp
   use r_special, only : r_digamma, r_trigamma
+  use r_stability, only : r_log_sum_exp
   implicit none
   private
   public :: digamma_fn, trigamma_fn, inverse_digamma, logsumexp_pair
@@ -48,14 +49,12 @@ contains
 
   pure real(dp) function logsumexp_pair(a, b) result(v)
     real(dp), intent(in) :: a, b
-    real(dp) :: m
     if (a <= -huge(1.0_dp)/4.0_dp) then
       v = b
     else if (b <= -huge(1.0_dp)/4.0_dp) then
       v = a
     else
-      m = max(a,b)
-      v = m + log(exp(a-m) + exp(b-m))
+      v = r_log_sum_exp([a,b])
     end if
   end function logsumexp_pair
 end module bzinb_special

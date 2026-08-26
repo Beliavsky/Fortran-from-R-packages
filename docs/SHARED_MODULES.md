@@ -32,7 +32,7 @@ r_kinds       r_status
 
 r_vectors  (lagged and repeated vector/matrix differencing)
 
-r_distributions  (normal density, CDF, and quantile)
+r_distributions  (normal and central t/chi-square/F densities, CDFs, and quantiles)
 r_ordering       (stable order indices and value sorting)
 r_sorting        (average ranks and compatibility exports)
 r_quantiles      (type-7 median and unweighted/weighted quantile estimators)
@@ -105,12 +105,35 @@ r_mod  (compatibility facade over the modules above)
 - `bayesm`, `extraDistr`, `chyper`, and `BiasedUrn` delegate integer
   log-factorial or log-binomial-coefficient calculations while retaining
   their established invalid-input sentinels.
+- `bayesm`, `bzinb`, `extraDistr`, and `mixtools` delegate log-sum-exp
+  reductions to `r_stability`. Compatibility wrappers preserve bayesm's
+  finite empty-vector sentinel and bzinb's historical absent-component
+  sentinel.
+- `waveslim` delegates finite-filtered means, variances, medians, MADs, and
+  type-7 quantiles, as well as normal CDF/quantile and regularized gamma.
+  Its lag-dependent autocovariance and cross-correlation remain local because
+  their denominator policies differ from the R-style core time-series API.
+- The central Student-t, chi-square, and F distribution families now share
+  density, lower/upper-tail probability, log-probability, and quantile APIs.
+  Waveslim's chi-square compatibility wrapper delegates to this public layer.
+- `spantest` delegates normal probabilities and quantiles, Student-t
+  probabilities, and F upper tails while retaining its invalid-input and
+  finite-endpoint sentinels. `rrcov` delegates normal, chi-square, F, and
+  regularized gamma/beta calculations while retaining its probability clamp
+  and public helper names. `survey` delegates central t quantiles and F and
+  chi-square survival probabilities while retaining its validation behavior.
+- `vares` delegates its central Student-t and F density, probability, and
+  quantile kernels. Its public distribution procedures retain their original
+  names, optional defaults, log/tail flags, elemental interfaces, and finite
+  Student-t endpoint sentinels; derived asymmetric-t and half-t families use
+  the shared kernels through the existing compatibility layer.
 - The complete test suites for the first five packages and for `bayesgarch`,
   `bzinb`, `gkwdist`, `ACDm`, `mfGARCH`, `argus`, `DiscreteWeibull`, and
   `bayesm`, `boot`, `fattailsr`, PortfolioTesteR, `performanceanalytics`,
   `PINstimation`, `corpcor`, `glmnet`, `mixtools`, `GB2`, `extraDistr`,
   `chyper`, `BiasedUrn`, `fitdistrplus`, `quarks`, `isotone`, and `survey` pass
-  after migration.
+  after migration. The `spantest`, `rrcov`, and `vares` suites also pass after
+  their probability helpers were migrated.
   FRAPO's
   library and test executable compile, but its test process currently exits
   with a Windows stack-overflow code on this machine after linking against the
@@ -119,15 +142,16 @@ r_mod  (compatibility facade over the modules above)
   same Windows stack-overflow exit with those BLAS/LAPACK libraries.
 - Their deterministic comparisons against R pass 7/7 and 9/9 cases,
   respectively, for `FinTS` and `fracdiff`; `rugarch` passes 25/25 cases.
-- The direct `rfortran-core` comparison against R references passes all 40/40
+- The direct `rfortran-core` comparison against R references passes all 54/54
   special-function, transform, descriptive, quantile, and rolling-statistic
   cases, including stable ordering, inverse-normal tails, median/MAD, and
-  regularized gamma/beta. The integrated comparison runner covers 137 cases.
+  regularized gamma/beta, central t/chi-square/F distributions, and log-sum-exp
+  reductions. The integrated comparison runner covers 151 cases.
 
 ## Planned layers
 
-Likely additions are selected distribution functions after their tail and
-domain policies have been compared carefully.
+Possible later distribution additions include noncentral families, but those
+require separate algorithms and substantially broader tail validation.
 BLAS/LAPACK linear
 algebra, optimization, random-number generation, higher-level models, and
 data-frame or file APIs should remain separate optional libraries so

@@ -10,6 +10,8 @@ program test_quantiles_glm
   q=weighted_quantile(xq,wq,0.25_dp,QRULE_HF7);call near(q,2._dp,1e-13_dp,'HF7 q25',fails)
   q=weighted_quantile(xq,wq,0.40_dp,QRULE_MATH);call near(q,2._dp,1e-13_dp,'math q40',fails)
   q=weighted_quantile(xq,wq,0.40_dp,QRULE_SCHOOL);call near(q,2.5_dp,1e-13_dp,'school q40',fails)
+  q=student_t_quantile(0.975_dp,10);call near(q,2.2281388519649385_dp,1e-11_dp,'t q975',fails)
+  q=student_t_quantile(0.975_dp,0);call near(q,1.959963984540054_dp,2e-13_dp,'t normal fallback',fails)
   w=[1._dp,2._dp,1._dp,2._dp,1._dp,2._dp];do i=1,6;xx(i,1)=1;xx(i,2)=real(i-1,dp);cl(i,1)=i;end do
   y=[1.6_dp,3.4_dp,5.7_dp,7.3_dp,9.55_dp,11.45_dp];call make_design(w,cl,d);call svy_glm(xx,y,d,fit,FAMILY_GAUSSIAN,LINK_IDENTITY)
   call near(fit%coef(1),1.498717948717949_dp,1e-10_dp,'glm intercept',fails);call near(fit%coef(2),1.985897435897436_dp,1e-10_dp,'glm slope',fails)

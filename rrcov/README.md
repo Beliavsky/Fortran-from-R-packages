@@ -1,5 +1,7 @@
 # rrcov modern Fortran
 
+**Official CRAN title:** Scalable Robust Estimators with High Breakdown Point
+
 A modern Fortran 2018/FPM translation of the computational parts of the R
 package `rrcov` 1.7-8, "Scalable Robust Estimators with High Breakdown Point."
 The original package is by Valentin Todorov and contributors.
@@ -27,9 +29,10 @@ With GNU Fortran only:
 
 On Windows with gfortran, run `scripts\build_checked.bat`.
 
-No external numerical library is required. Symmetric eigendecomposition,
-positive-definite repair, inversion, robust scales, and probability functions
-are implemented in the package.
+No external compiled numerical library is required. Symmetric eigendecomposition,
+positive-definite repair, inversion, and robust scales are implemented in the
+package. Normal, chi-square, F, and incomplete beta/gamma calculations
+delegate to the shared `rfortran-core` FPM dependency.
 
 ## Basic use
 

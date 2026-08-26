@@ -1,5 +1,7 @@
 # spantest modern Fortran
 
+**Official CRAN title:** Mean-Variance Spanning Tests
+
 A self-contained modern Fortran translation of the computational code in the
 R package `spantest` 1.4-0. The library implements classical, Monte Carlo, and
 high-dimensional mean-variance spanning tests and the package's simulation
@@ -60,9 +62,9 @@ end program demo
 ## Numerical notes
 
 The formulas and finite-sample degrees of freedom follow the upstream package.
-Linear systems, probability functions, random-number generation, and
-Student-t/skew-t simulation are implemented locally to keep the package
-self-contained. Seeded runs are reproducible within this Fortran library, but
+Normal, Student-t, and F probabilities delegate to the shared
+`rfortran-core` implementation. Linear systems, random-number generation, and
+Student-t/skew-t simulation remain local. Seeded runs are reproducible within this Fortran library, but
 Monte Carlo draws are not bit-for-bit identical to R's Mersenne-Twister stream.
 See `docs/PORTING_NOTES.md` for details.
 

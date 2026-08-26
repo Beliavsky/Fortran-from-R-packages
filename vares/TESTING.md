@@ -4,7 +4,8 @@
 
 `test/test_all.f90`
 : Core special-function checks, common distribution inversions, exact normal,
-  exponential, and uniform results, flag behavior, and elemental array calls.
+  exponential, and uniform results, Student-t and F log-tail references, flag
+  behavior, and elemental array calls.
 
 `test/test_reference.f90`
 : 292 independently generated finite scalar references for unaffected original
@@ -45,6 +46,9 @@ vares_quadrature.f90
 vares_distributions_01.f90 through vares_distributions_10.f90
 vares.f90
 ```
+
+FPM first builds the `rfortran-core` source dependency used by the central
+Student-t and F compatibility wrappers.
 
 The optimized validation build uses `-O3` with the same language and warning
 checks.
