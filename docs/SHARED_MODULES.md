@@ -32,16 +32,20 @@ r_kinds       r_status
 
 r_vectors  (lagged and repeated vector/matrix differencing)
 
-r_distributions  (normal density and CDF)
-r_sorting        (merge sorting, type-7 quantiles, average ranks)
+r_distributions  (normal density, CDF, and quantile)
+r_ordering       (stable order indices and value sorting)
+r_sorting        (average ranks and compatibility exports)
+r_quantiles      (type-7 median and unweighted/weighted quantile estimators)
+r_robust         (median absolute deviation)
 r_stability      (log-sum-exp and log-mean-exp)
-r_special        (positive-domain digamma, trigamma, log-beta)
-r_rolling        (valid-only and right-aligned trailing means)
+r_transforms     (log1p, expm1, log1mexp, softplus, logistic, logit)
+r_special        (digamma, trigamma, log-beta, regularized gamma/beta, integer combinatorics)
+r_rolling        (valid-only and right-aligned trailing reductions and moments)
 
 r_mod  (compatibility facade over the modules above)
 ```
 
-The first time-series pilot deliberately starts small:
+## Current migrations
 
 - `FinTS` uses the shared missing-aware count, mean and variance routines and
   the shared univariate and multivariate autocovariance/autocorrelation
@@ -59,22 +63,72 @@ The first time-series pilot deliberately starts small:
   and package-specific invalid-input behavior.
 - `ACDm`, `mfGARCH`, and `frapo` delegate complete-window trailing means while
   retaining their valid-only, NaN-padded, and optional-trimming interfaces.
+- `argus`, `DiscreteWeibull`, `bayesm`, and `gkwdist` delegate stable
+  elementary transforms. Their compatibility wrappers preserve public names
+  and, for `DiscreteWeibull`, its historical invalid-domain sentinel.
+- `boot`, `fattailsr`, and `bayesm` delegate stable logistic transforms while
+  retaining their endpoint, finite-sentinel, or probability-clamping APIs.
+- `fportfolio` delegates rolling sample standard deviation while preserving
+  its leading-zero result, and PortfolioTesteR uses shared rolling mean and
+  standard deviation for complete-window Bollinger bands.
+- `performanceanalytics` delegates valid-only rolling correlation while its
+  wrapper preserves the package's zero result for constant finite windows.
+  PortfolioTesteR delegates right-aligned rolling correlation while preserving
+  return alignment, pairwise finite filtering, and undefined-variance NaNs.
+- PortfolioTesteR's stochastic-price and stochastic-RSI indicators delegate
+  rolling minima and maxima while retaining their complete-finite-window
+  requirement. `PINstimation` delegates the VPIN imbalance-window total to the
+  linear-time shared rolling sum.
+- `corpcor` delegates weighted means and reliability-unbiased variances while
+  preserving its normalized-weight validation and package status codes.
+  `glmnet` delegates its normal positive-weight mean and population-variance
+  path while retaining legacy fallbacks and caller-supplied centers.
+- `mixtools` and `GB2` delegate inverse weighted-ECDF quantiles while retaining
+  their public names and package-specific status or error behavior.
+- `fitdistrplus`, `quarks`, `isotone`, and `survey` retain their public
+  quantile APIs while delegating their distinct interpolation conventions to
+  `r_quantiles`. The shared module names each convention explicitly rather than
+  treating weighted quantiles as a single estimator. Survey's twelve selectable
+  rules and their constants now also live in the shared module.
+- `ACDm`, `boot`, `bayesm`, `extraDistr`, `performanceanalytics`, and `survey`
+  delegate inverse-normal calculations to `r_qnorm`, with thin wrappers where
+  finite endpoint sentinels or probability clamping are part of the existing
+  package API.
+- `ACDm`, `fitdistrplus`, `extraDistr`, and `survey` delegate compatible
+  regularized gamma or beta calculations while preserving package validation
+  and endpoint behavior. GB2 retains its local regularized-beta kernel because
+  a numerically tiny replacement difference perturbed a sensitive optimizer
+  regression, but it delegates its compatible log-beta calculation.
+- `bayesm`, `corpcor`, `mixtools`, and `performanceanalytics` delegate medians
+  to `r_quantiles`; PerformanceAnalytics also delegates its public sort wrapper
+  to the stable ordering module. ACDm delegates its empirical type-7 quantile.
+- `bayesm`, `extraDistr`, `chyper`, and `BiasedUrn` delegate integer
+  log-factorial or log-binomial-coefficient calculations while retaining
+  their established invalid-input sentinels.
 - The complete test suites for the first five packages and for `bayesgarch`,
-  `bzinb`, `gkwdist`, `ACDm`, and `mfGARCH` pass after migration. FRAPO's
+  `bzinb`, `gkwdist`, `ACDm`, `mfGARCH`, `argus`, `DiscreteWeibull`, and
+  `bayesm`, `boot`, `fattailsr`, PortfolioTesteR, `performanceanalytics`,
+  `PINstimation`, `corpcor`, `glmnet`, `mixtools`, `GB2`, `extraDistr`,
+  `chyper`, `BiasedUrn`, `fitdistrplus`, `quarks`, `isotone`, and `survey` pass
+  after migration.
+  FRAPO's
   library and test executable compile, but its test process currently exits
   with a Windows stack-overflow code on this machine after linking against the
   available Octave BLAS/LAPACK libraries.
+- `fportfolio` also compiles fully, but its test executables encounter the
+  same Windows stack-overflow exit with those BLAS/LAPACK libraries.
 - Their deterministic comparisons against R pass 7/7 and 9/9 cases,
   respectively, for `FinTS` and `fracdiff`; `rugarch` passes 25/25 cases.
-- The direct `rfortran-core` comparison against base R passes 5/5 digamma,
-  trigamma, log-beta, and rolling-mean cases. The integrated comparison runner
-  passes all 102/102 current cases.
+- The direct `rfortran-core` comparison against R references passes all 40/40
+  special-function, transform, descriptive, quantile, and rolling-statistic
+  cases, including stable ordering, inverse-normal tails, median/MAD, and
+  regularized gamma/beta. The integrated comparison runner covers 137 cases.
 
 ## Planned layers
 
-Likely additions are rolling variance and standard deviation, stable elementary
-transforms such as `log1p` and `log1mexp`, and special functions only after
-their tail and domain policies have been compared carefully. BLAS/LAPACK linear
+Likely additions are selected distribution functions after their tail and
+domain policies have been compared carefully.
+BLAS/LAPACK linear
 algebra, optimization, random-number generation, higher-level models, and
 data-frame or file APIs should remain separate optional libraries so
 lightweight translations do not inherit unnecessary dependencies.

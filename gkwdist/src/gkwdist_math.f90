@@ -3,6 +3,7 @@ module gkwdist_math
    use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_quiet_nan, ieee_positive_inf, ieee_negative_inf, ieee_is_finite
    use gkwdist_kinds, only : dp
    use r_special, only : r_digamma, r_log_beta, r_trigamma
+   use r_transforms, only : r_expm1, r_log1mexp, r_log1p
    implicit none
    private
    public :: log1mexp, safe_log, safe_exp, safe_pow, log_beta, digamma_fn, trigamma_fn
@@ -14,28 +15,13 @@ contains
    pure function expm1_stable(x) result(y)
       real(dp), intent(in) :: x
       real(dp) :: y
-      if (abs(x) < 1.0e-5_dp) then
-         y = x*(1.0_dp + x*(0.5_dp + x*(1.0_dp/6.0_dp + x*(1.0_dp/24.0_dp + x/120.0_dp))))
-      else
-         y = exp(x)-1.0_dp
-      end if
+      y = r_expm1(x)
    end function expm1_stable
 
    pure function log1p_stable(x) result(y)
       real(dp), intent(in) :: x
-      real(dp) :: y, z
-      if (x <= -1.0_dp) then
-         if (x == -1.0_dp) then
-            y = neginf_dp()
-         else
-            y = nan_dp()
-         end if
-      else if (abs(x) < 1.0e-4_dp) then
-         z=x
-         y=z-z*z/2.0_dp+z**3/3.0_dp-z**4/4.0_dp+z**5/5.0_dp-z**6/6.0_dp
-      else
-         y=log(1.0_dp+x)
-      end if
+      real(dp) :: y
+      y = r_log1p(x)
    end function log1p_stable
 
    pure function nan_dp() result(x)
@@ -61,18 +47,7 @@ contains
    pure function log1mexp(u) result(y)
       real(dp), intent(in) :: u
       real(dp) :: y
-      real(dp), parameter :: crossover = -0.6931471805599453094172321214581766_dp
-      if (u > 0.0_dp) then
-         y = nan_dp()
-      else if (u == 0.0_dp) then
-         y = neginf_dp()
-      else if (u > -1.0e-14_dp) then
-         y = log(-u) - 0.5_dp*u
-      else if (u > crossover) then
-         y = log(-expm1_stable(u))
-      else
-         y = log1p_stable(-exp(u))
-      end if
+      y = r_log1mexp(u)
    end function log1mexp
 
    pure function safe_log(x) result(y)

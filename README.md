@@ -39,11 +39,17 @@ C++?](docs/FORTRAN_VS_CPP.md) for the tradeoffs and project rationale.
 
 The [`rfortran-core`](rfortran-core/) library is the first step toward removing
 duplicate R-like numerical helpers from the translations. Its dependency-free
-modules currently provide kinds, missing-value policies, descriptive
-statistics, normal density/distribution functions, sorting and quantiles,
-stable log reductions, positive-domain special functions, trailing rolling
-means, differencing, and time-series covariance functions. The core now has a
-direct deterministic comparison suite against base R; `FinTS`, `fracdiff`, and
+modules currently provide kinds, missing-value policies, weighted and unweighted
+descriptive statistics, normal density/distribution/quantile functions, stable
+ordering, type-7 quantiles and medians, median absolute deviation,
+weighted-ECDF quantiles, several explicitly named weighted-quantile
+interpolation conventions,
+stable log reductions and elementary transforms, positive-domain and
+integer-combinatorial special functions, regularized gamma/beta functions,
+paired covariance/correlation,
+trailing rolling sums, extrema and moments, differencing, and time-series covariance functions. The core now has a
+direct deterministic comparison suite against R reference implementations;
+`FinTS`, `fracdiff`, and
 `rugarch` retain package-level R comparisons, while additional migrated
 packages exercise compatibility wrappers. See the
 [shared-module design and migration
