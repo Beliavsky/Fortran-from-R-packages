@@ -41,6 +41,18 @@ Replace `tsa` in the final command with the desired package directory. Git's
 cone-mode sparse checkout also retains a few files from the repository root,
 such as this README.
 
+Alternatively, download [`download_build_package.py`](download_build_package.py)
+and give it a package directory name. The script performs the sparse clone,
+includes any repository-local FPM dependencies, checks that the package exists,
+and runs both `fpm build` and `fpm run`:
+
+```bat
+python download_build_package.py rugarch
+```
+
+It creates `rugarch-download` in the current directory and refuses to overwrite
+an existing destination.
+
 ## Building on Windows
 
 Most packages build normally with `fpm build`. Some numerical packages declare
