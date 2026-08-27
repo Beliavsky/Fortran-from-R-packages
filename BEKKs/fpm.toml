@@ -6,16 +6,20 @@ maintainer = ""
 copyright = "Copyright (c) 2021 Markus Fuelle, Helmut Herwartz, Alexander Lange, Christian Hafner"
 description = "Modern Fortran implementation of BEKK multivariate conditional-volatility models"
 categories = ["statistics", "finance", "econometrics"]
-gams = ["L"]
 keywords = ["BEKK", "MGARCH", "volatility", "VaR"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

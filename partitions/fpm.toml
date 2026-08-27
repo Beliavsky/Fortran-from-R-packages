@@ -6,7 +6,6 @@ maintainer = "Fortran translation"
 copyright = "Upstream authors; see upstream/DESCRIPTION"
 description = "Modern Fortran translation of the computational code in the R package partitions"
 categories = ["numerical"]
-gams = ["B"]
 keywords = ["combinatorics", "numerical", "numerical-methods"]
 
 [build]
@@ -18,3 +17,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["B"]

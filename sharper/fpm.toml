@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Copyright 2012-2025 Steven E. Pav"
 description = "Modern Fortran translation of the computational core of SharpeR"
 categories = ["finance", "statistics"]
-gams = ["L"]
 keywords = ["Sharpe ratio", "Hotelling T2", "Markowitz", "inference"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

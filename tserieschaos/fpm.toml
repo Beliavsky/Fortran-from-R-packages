@@ -5,7 +5,6 @@ author = "Antonio Fabio Di Narzo; Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in tseriesChaos"
 categories = ["time-series", "nonlinear-dynamics", "chaos"]
-gams = ["L"]
 keywords = ["correlation-dimension", "lyapunov", "embedding", "mutual-information"]
 
 [build]
@@ -45,3 +44,6 @@ main = "test_neighbors.f90"
 name = "test_systems"
 source-dir = "test"
 main = "test_systems.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

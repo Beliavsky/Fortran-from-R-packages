@@ -6,7 +6,6 @@ maintainer = "Fortran port contributors"
 copyright = "Copyright 2016 James Melville; Copyright 2026 Fortran port contributors"
 description = "Modern Fortran computational port of the mize optimization package"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["bfgs", "lbfgs", "conjugate-gradient", "newton", "momentum"]
 
 [library]
@@ -17,3 +16,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

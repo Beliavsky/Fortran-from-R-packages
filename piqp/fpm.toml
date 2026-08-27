@@ -6,7 +6,6 @@ maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the PIQP proximal interior-point quadratic programming solver"
 keywords = ["quadratic-programming", "interior-point", "proximal", "optimization", "sparse"]
 categories = ["optimization", "numerical"]
-gams = ["G"]
 
 [build]
 auto-executables = false
@@ -21,3 +20,6 @@ source-form = "free"
 
 [dependencies]
 matrix-fortran = { path = "vendor/Matrix-fortran" }
+
+[extra.r-fpm-index]
+gams = ["G"]

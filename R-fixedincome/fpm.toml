@@ -7,7 +7,6 @@ copyright = "2014-2022 Wilson Freitas"
 description = "Modern Fortran fixed-income rates, curves, interpolation, and Nelson-Siegel models"
 keywords = ["fixed-income", "yield-curve", "spot-rate", "forward-rate", "nelson-siegel", "interpolation"]
 categories = ["finance", "statistics", "numerical"]
-gams = ["E", "L"]
 
 [build]
 auto-executables = true
@@ -17,3 +16,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["E", "L"]

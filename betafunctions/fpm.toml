@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Public domain dedication / CC0; see LICENSE and upstream source"
 description = "Modern Fortran translation of the computational core of the R package betafunctions"
 categories = ["machine-learning", "probability", "numerical"]
-gams = ["L"]
 keywords = ["classification", "probability-distributions", "beta-distribution", "machine-learning", "probability", "numerical", "statistical-computing"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

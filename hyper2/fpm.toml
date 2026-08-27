@@ -5,7 +5,6 @@ author = "Fortran translation of hyper2 3.2-3 computational code"
 maintainer = ""
 copyright = "See LICENSE.md and UPSTREAM.md"
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["maximum-likelihood", "probability-distributions", "dirichlet-distribution", "probability", "statistics", "statistical-computing"]
 
 [build]
@@ -22,3 +21,6 @@ source-form = "free"
 [dependencies]
 cubature-fortran = { path = "dependencies/cubature-fortran" }
 partitions-fortran = { path = "dependencies/partitions-fortran" }
+
+[extra.r-fpm-index]
+gams = ["L"]

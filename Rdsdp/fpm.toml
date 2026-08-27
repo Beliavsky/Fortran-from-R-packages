@@ -5,16 +5,20 @@ author = "Rdsdp/DSDP authors; modern Fortran translation by OpenAI"
 maintainer = ""
 copyright = "See LICENSE and licenses/"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["optimization", "numerical-methods", "algorithms"]
 
 [build]
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G"]

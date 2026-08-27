@@ -7,7 +7,6 @@ copyright = "Rsolnp authors and contributors"
 description = "Augmented-Lagrangian nonlinear optimization with equality, inequality, and box constraints"
 keywords = ["optimization", "nonlinear-programming", "augmented-lagrangian", "SQP", "multistart"]
 categories = ["optimization"]
-gams = ["G"]
 
 [build]
 auto-executables = true
@@ -17,3 +16,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["G"]

@@ -7,7 +7,6 @@ copyright = "Copyright 2008-2025 Enrico Schumann and Fortran translation contrib
 description = "Modern Fortran portfolio management, accounting, return analysis, attribution, and backtesting tools"
 keywords = ["portfolio", "backtest", "returns", "trades", "accounting", "attribution"]
 categories = ["finance", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -22,3 +21,6 @@ module-naming = false
 name = "demo_pmwr"
 source-dir = "app"
 main = "demo_pmwr.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -6,7 +6,6 @@ maintainer = "translation package"
 copyright = "Upstream calibrar authors"
 description = "Modern Fortran translation of the computational core of R package calibrar"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -21,3 +20,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -7,16 +7,20 @@ copyright = "Copyright (c) original esback and esreg authors"
 description = "Modern Fortran translation of esback expected-shortfall backtests"
 keywords = ["expected-shortfall", "var", "backtesting", "esr", "risk"]
 categories = ["time-series", "statistics", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

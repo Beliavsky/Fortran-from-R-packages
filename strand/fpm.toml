@@ -6,7 +6,6 @@ maintainer = "strand-fortran contributors"
 copyright = "Copyright (C) strand authors and contributors"
 description = "Modern Fortran numerical port of strand portfolio construction and simulation"
 categories = ["finance", "portfolio", "optimization", "simulation"]
-gams = ["G", "L", "M"]
 keywords = ["portfolio optimization", "backtesting", "linear programming", "investment strategy"]
 
 [build]
@@ -14,3 +13,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G", "L", "M"]

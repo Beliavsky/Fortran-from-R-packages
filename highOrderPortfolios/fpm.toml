@@ -7,7 +7,6 @@ copyright = "highOrderPortfolios authors and contributors"
 description = "High-order portfolio design using mean, variance, skewness, and kurtosis"
 keywords = ["portfolio", "skewness", "kurtosis", "mvsk", "skew-t", "finance"]
 categories = ["finance"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -17,3 +16,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L"]

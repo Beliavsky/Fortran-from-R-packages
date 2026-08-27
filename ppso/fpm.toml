@@ -6,7 +6,6 @@ maintainer = "Fortran translation"
 copyright = "Original ppso authors"
 description = "Modern Fortran translation of the computational core of the R package ppso"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]
@@ -16,3 +15,6 @@ source-dir = "src"
 auto-executables = false
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["G"]

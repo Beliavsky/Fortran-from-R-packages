@@ -7,7 +7,6 @@ copyright = "2020-2025 PINstimation authors and contributors"
 description = "Modern Fortran computational translation of the PINstimation R package"
 keywords = ["market-microstructure", "PIN", "MPIN", "AdjPIN", "VPIN", "Fortran"]
 categories = ["finance", "probability", "statistics"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -22,3 +21,6 @@ library = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

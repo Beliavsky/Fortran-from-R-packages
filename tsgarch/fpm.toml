@@ -6,7 +6,6 @@ maintainer = "Fortran translation project"
 copyright = "Copyright tsgarch contributors"
 description = "Modern Fortran translation of the computational core of tsgarch"
 categories = ["finance", "statistics", "time-series"]
-gams = ["L"]
 keywords = ["GARCH", "volatility", "risk", "forecasting"]
 
 [build]
@@ -54,3 +53,6 @@ main = "test_backtest.f90"
 name = "test_constraints_vreg"
 source-dir = "test"
 main = "test_constraints_vreg.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

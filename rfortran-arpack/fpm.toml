@@ -21,3 +21,6 @@ fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "
 implicit-typing = true
 implicit-external = true
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["Z"]

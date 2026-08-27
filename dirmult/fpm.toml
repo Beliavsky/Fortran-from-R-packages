@@ -5,7 +5,6 @@ author = "Fortran translation of Torben Tvedebrink's dirmult package"
 maintainer = ""
 copyright = "See LICENSE and provenance/upstream/DESCRIPTION"
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["estimation", "probability-distributions", "dirichlet-distribution", "probability", "statistics", "statistical-computing"]
 
 [library]
@@ -15,3 +14,6 @@ source-dir = "src"
 auto-executables = true
 auto-tests = true
 auto-examples = true
+
+[extra.r-fpm-index]
+gams = ["L"]

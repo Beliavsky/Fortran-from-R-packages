@@ -6,16 +6,20 @@ maintainer = "Fortran community"
 copyright = "Copyright (C) riskParityPortfolio authors and Fortran port contributors"
 description = "Modern Fortran implementation of risk parity portfolio algorithms"
 categories = ["finance", "optimization", "portfolio"]
-gams = ["G", "L"]
 keywords = ["risk parity", "risk budgeting", "SCA", "portfolio"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

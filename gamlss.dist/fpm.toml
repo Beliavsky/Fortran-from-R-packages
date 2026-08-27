@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "gamlss.dist authors; Fortran translation 2026"
 description = "Modern Fortran computational translation of the R gamlss.dist package"
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -22,3 +21,6 @@ source-form = "free"
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L"]

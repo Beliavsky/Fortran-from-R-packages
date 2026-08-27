@@ -6,7 +6,6 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2022 Bernardo Reckziegel"
 description = "Modern Fortran implementation of Fully Flexible Probabilities"
 categories = ["finance", "statistics", "optimization"]
-gams = ["G", "L"]
 keywords = ["entropy-pooling", "flexible-probabilities", "risk", "portfolio"]
 
 [build]
@@ -32,3 +31,6 @@ main = "mean_view.f90"
 name = "ffp_tests"
 source-dir = "test"
 main = "test_ffp.f90"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

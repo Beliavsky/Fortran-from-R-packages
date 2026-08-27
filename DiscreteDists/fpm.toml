@@ -7,7 +7,6 @@ copyright = "See NOTICE.md and upstream LICENSE"
 description = "Modern Fortran computational port of the R package DiscreteDists"
 keywords = ["probability", "discrete-distributions", "gamlss", "count-data"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -25,3 +24,6 @@ source-form = "free"
 
 [dependencies]
 compoissonreg-fortran = { path = "vendor/compoissonreg-fortran" }
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -6,7 +6,6 @@ maintainer = "Fortran translation project"
 copyright = "See original cluster package and NOTICE.md"
 description = "Modern Fortran translation of the computational core of R cluster"
 categories = ["clustering", "statistics"]
-gams = ["L"]
 keywords = ["pam", "clara", "fanny", "agnes", "diana", "mona", "silhouette"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

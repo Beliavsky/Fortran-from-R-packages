@@ -5,7 +5,6 @@ author = "OpenAI translation; upstream ChernoffDist by Haitian Xie"
 maintainer = ""
 copyright = "Copyright retained by upstream authors"
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

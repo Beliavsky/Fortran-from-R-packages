@@ -5,7 +5,6 @@ author = "Steve Kalke; Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the pgnorm R package"
 categories = ["probability", "numerical", "statistics"]
-gams = ["L"]
 keywords = ["probability-distributions", "normal-distribution", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
@@ -13,3 +12,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

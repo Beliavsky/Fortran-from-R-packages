@@ -5,7 +5,6 @@ author = "Lennart Oelschlaeger, Siddhartha Chib; Fortran translation generated f
 maintainer = "Translation package"
 description = "Modern Fortran translation of the computational core of the R package ao"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

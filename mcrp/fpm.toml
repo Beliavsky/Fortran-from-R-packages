@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Copyright (C) 2017 Bernhard Pfaff"
 description = "Modern Fortran translation of multiple-criteria risk-parity algorithms"
 categories = ["finance", "optimization", "statistics"]
-gams = ["G", "L"]
 keywords = ["risk parity", "coskewness", "cokurtosis", "portfolio"]
 
 [build]
@@ -37,3 +36,6 @@ main = "test_moments.f90"
 name = "test_optimizer"
 source-dir = "test"
 main = "test_optimizer.f90"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

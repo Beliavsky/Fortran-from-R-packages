@@ -7,7 +7,6 @@ copyright = "Copyright (c) 2024 Emanuele Guidotti"
 description = "Modern Fortran implementation of OHLC bid-ask spread estimators"
 keywords = ["finance", "bid-ask", "spread", "ohlc", "microstructure"]
 categories = ["finance", "statistics", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

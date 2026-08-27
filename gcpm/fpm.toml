@@ -6,7 +6,6 @@ maintainer = "Modern Fortran translation maintainers"
 copyright = "Copyright (C) 2015 Kevin Jakob and Dr. Matthias Fischer; Fortran translation copyright (C) 2026"
 description = "Generalized Credit Portfolio Model: analytical CreditRisk+ and Monte Carlo credit portfolio risk"
 categories = ["finance", "statistics"]
-gams = ["L", "M"]
 keywords = ["credit-risk", "creditrisk-plus", "creditmetrics", "var", "expected-shortfall"]
 
 [build]
@@ -16,3 +15,6 @@ auto-tests = true
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

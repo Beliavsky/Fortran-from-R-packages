@@ -5,7 +5,6 @@ author = "Luca Scrucca; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of computational algorithms from the R GA package"
 categories = ["optimization", "genetic-algorithm", "differential-evolution"]
-gams = ["G"]
 keywords = ["genetic-algorithms", "optimization", "genetic-algorithm", "differential-evolution", "numerical-methods"]
 
 [build]
@@ -13,3 +12,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

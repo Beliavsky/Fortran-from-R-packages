@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Original ks authors; Fortran translation preserves upstream licensing"
 description = "Modern Fortran computational port of ks kernel smoothing"
 categories = ["statistics", "kernel-density", "smoothing"]
-gams = ["L"]
 keywords = ["kde", "bandwidth", "kernel", "classification", "mean-shift"]
 
 [library]
@@ -16,7 +15,6 @@ source-dir = "src"
 auto-executables = false
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
 
 [fortran]
 implicit-typing = false
@@ -25,3 +23,7 @@ source-form = "free"
 
 [dependencies]
 mvtnorm-fortran = { path = "vendor/mvtnorm-fortran" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

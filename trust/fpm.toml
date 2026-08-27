@@ -6,7 +6,6 @@ maintainer = "OpenAI translation"
 copyright = "2005, 2008 Charles J. Geyer; Fortran translation 2026"
 description = "Modern Fortran translation of the computational core of the R trust package"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["trust-region", "optimization", "newton", "hessian"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G"]

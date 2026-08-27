@@ -6,7 +6,6 @@ maintainer = "Fortran port generated from DirichletReg 0.7-2"
 copyright = "Copyright (c) DirichletReg contributors"
 description = "Modern Fortran computational port of the R package DirichletReg"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["regression", "estimation", "dirichlet-distribution", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

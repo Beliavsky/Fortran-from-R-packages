@@ -5,7 +5,6 @@ author = "Vincenzo Candila; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package rumidas"
 categories = ["statistics", "econometrics", "finance"]
-gams = ["L"]
 keywords = ["GARCH-MIDAS", "DAGM", "MEM-MIDAS", "volatility", "mixed-frequency"]
 
 [library]
@@ -27,3 +26,6 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -6,16 +6,20 @@ maintainer = ""
 copyright = "Upstream copyrights retained"
 description = "Modern Fortran translation of the computational code in the R package irlba"
 categories = ["linear-algebra", "svd", "pca"]
-gams = ["D"]
 keywords = ["dimension-reduction", "singular-value-decomposition", "linear-algebra", "svd", "pca", "numerical-methods"]
 
 [build]
 auto-executables = false
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["D"]

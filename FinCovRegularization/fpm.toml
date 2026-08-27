@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational routines in the R package FinCovRegularization"
 keywords = ["finance", "covariance", "regularization", "factor-models", "portfolio"]
 categories = ["finance", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -21,3 +20,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

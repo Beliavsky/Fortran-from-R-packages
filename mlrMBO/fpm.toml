@@ -5,7 +5,6 @@ author = "Fortran port of mlrMBO computational routines"
 maintainer = ""
 copyright = "mlrMBO authors and contributors"
 categories = ["optimization", "statistics", "numerical"]
-gams = ["G", "L"]
 keywords = ["bayesian-inference", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -20,3 +19,6 @@ source-form = "free"
 
 [dependencies]
 dicekriging = { path = "vendor/DiceKriging-fortran-v0.1.0" }
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

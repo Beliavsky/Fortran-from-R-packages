@@ -6,7 +6,6 @@ maintainer = "Fortran port maintainers"
 copyright = "2025 Anoop S Kumar"
 description = "Modern Fortran implementation of wavelet quantile correlation analysis"
 categories = ["statistics", "time-series", "wavelets"]
-gams = ["J", "L"]
 keywords = ["wavelet", "quantile-correlation", "modwt", "dependence"]
 
 [build]
@@ -23,3 +22,6 @@ source-form = "free"
 [dependencies]
 qcsis = { path = "dependencies/qcsis" }
 waveslim = { path = "dependencies/waveslim" }
+
+[extra.r-fpm-index]
+gams = ["J", "L"]

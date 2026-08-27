@@ -7,13 +7,17 @@ copyright = "Copyright (c) CLA authors and contributors"
 description = "Modern Fortran implementation of the Markowitz Critical Line Algorithm"
 keywords = ["portfolio", "markowitz", "critical-line", "mean-variance", "garch"]
 categories = ["finance", "optimization", "time-series"]
-gams = ["G", "L"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

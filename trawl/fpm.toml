@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Original trawl package copyright its authors"
 description = "Modern Fortran translation of the computational code in the R package trawl"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

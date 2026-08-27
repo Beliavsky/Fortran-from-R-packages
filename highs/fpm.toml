@@ -7,7 +7,6 @@ copyright = "2026"
 description = "Modern Fortran interface to the HiGHS optimization solver"
 keywords = ["optimization", "linear-programming", "mixed-integer", "quadratic-programming"]
 categories = ["optimization", "numerical"]
-gams = ["G"]
 
 [build]
 auto-executables = true
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G"]

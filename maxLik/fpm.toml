@@ -5,7 +5,6 @@ author = "Ott Toomet; Arne Henningsen; maxLik contributors; modern Fortran trans
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package maxLik"
 categories = ["optimization", "statistics", "econometrics"]
-gams = ["G", "L"]
 keywords = ["maximum-likelihood", "Newton-Raphson", "BHHH", "BFGS", "stochastic-gradient"]
 
 [library]
@@ -24,3 +23,6 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

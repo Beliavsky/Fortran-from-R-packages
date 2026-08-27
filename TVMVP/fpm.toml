@@ -7,7 +7,6 @@ copyright = "Copyright 2025 Erik Lillrank and Yukai Yang"
 description = "Modern Fortran translation of the computational routines in the TVMVP R package"
 keywords = ["portfolio", "covariance", "factor-model", "local-pca", "poet"]
 categories = ["finance", "optimization", "statistics"]
-gams = ["D", "G", "L"]
 
 [library]
 source-dir = "src"
@@ -17,3 +16,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["D", "G", "L"]

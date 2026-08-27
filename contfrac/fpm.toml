@@ -7,7 +7,6 @@ copyright = "Original contfrac copyright holders"
 description = "Modern Fortran translation of the computational core of the R package contfrac"
 keywords = ["continued-fractions", "numerical-analysis", "complex-arithmetic"]
 categories = ["numerical"]
-gams = ["K"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["K"]

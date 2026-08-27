@@ -5,7 +5,6 @@ author = "Modern Fortran translation of the fBonds computational routines"
 maintainer = "OpenAI"
 description = "Nelson-Siegel and Nelson-Siegel-Svensson term-structure fitting"
 categories = ["finance"]
-gams = ["L"]
 keywords = ["estimation", "fixed-income", "finance", "modeling"]
 
 [library]
@@ -32,4 +31,9 @@ source-dir = "test"
 main = "test_term_structure.f90"
 
 [build]
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

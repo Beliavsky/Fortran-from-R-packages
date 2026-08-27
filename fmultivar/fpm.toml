@@ -6,11 +6,15 @@ maintainer = "Vivek Rao"
 copyright = "Copyright (C) fMultivar authors and translation contributors"
 description = "Modern Fortran translation of computational routines from the R package fMultivar"
 categories = ["finance", "probability", "statistics"]
-gams = ["L"]
 keywords = ["multivariate-statistics", "probability-distributions", "finance", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

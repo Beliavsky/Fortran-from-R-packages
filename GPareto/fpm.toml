@@ -5,7 +5,6 @@ author = "GPareto authors; modern Fortran translation"
 maintainer = ""
 description = "Modern Fortran translation of the computational core of R package GPareto"
 categories = ["numerical", "statistics", "optimization"]
-gams = ["E", "G", "L"]
 keywords = ["gaussian-process", "pareto", "multiobjective", "kriging"]
 
 [library]
@@ -16,9 +15,11 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
-link = ["lapack", "blas"]
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["E", "G", "L"]

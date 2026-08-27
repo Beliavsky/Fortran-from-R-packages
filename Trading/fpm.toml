@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "Copyright (c) Tasos Grivas and translation contributors"
 description = "Modern Fortran translation of the computational routines in the R Trading package"
 categories = ["finance", "statistics", "simulation"]
-gams = ["L", "M"]
 keywords = ["trading", "entropy", "kalman-filter", "saccr", "lottery"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

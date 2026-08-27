@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R miscTools"
 keywords = ["matrix", "statistics", "semidefinite", "utilities"]
 categories = ["optimization", "statistics", "numerical"]
-gams = ["G", "L", "R"]
 
 [library]
 source-dir = "src"
@@ -21,3 +20,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L", "R"]

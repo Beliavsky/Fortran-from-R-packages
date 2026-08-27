@@ -7,7 +7,6 @@ copyright = "Copyright (c) upstream and port contributors"
 description = "Modern Fortran implementation of the ADGofTest Anderson-Darling goodness-of-fit test"
 keywords = ["anderson-darling", "goodness-of-fit", "statistics"]
 categories = ["statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -22,3 +21,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

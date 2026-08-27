@@ -5,7 +5,6 @@ author = "Peter E. Rossi and bayesm contributors; Fortran translation"
 maintainer = "Fortran translation generated from bayesm 3.1-7"
 description = "Modern Fortran translation of the computational core of the R package bayesm"
 categories = ["statistics", "bayesian", "mcmc"]
-gams = ["L", "M"]
 keywords = ["bayesian", "mcmc", "mixture", "probit", "logit"]
 
 [build]
@@ -20,3 +19,6 @@ implicit-external = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

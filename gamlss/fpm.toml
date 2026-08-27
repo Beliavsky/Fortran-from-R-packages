@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "2002-2025 gamlss authors; Fortran translation 2026"
 description = "Modern Fortran implementation of the computational core of R gamlss"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -28,3 +27,6 @@ gamlss-dist-fortran = { path = "vendor/gamlss-dist-fortran-v0.3.0" }
 splines-fortran = { path = "vendor/splines-fortran-v0.1.0" }
 nlme = { path = "vendor/nlme-fortran" }
 survival-fortran = { path = "vendor/survival-fortran-v0.1.0" }
+
+[extra.r-fpm-index]
+gams = ["L"]

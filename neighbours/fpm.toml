@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "2025 Enrico Schumann"
 description = "Modern Fortran translation of computational routines in the R package neighbours"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["neighbourhood", "local-search", "simulated-annealing", "threshold-accepting"]
 
 [build]
@@ -18,3 +17,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G"]

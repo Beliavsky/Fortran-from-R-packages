@@ -7,7 +7,6 @@ copyright = "Copyright upstream fitdistrplus contributors and translation contri
 description = "Modern Fortran computational port of fitdistrplus"
 keywords = ["distribution-fitting", "maximum-likelihood", "censoring", "bootstrap", "goodness-of-fit"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L", "M"]
 
 [build]
 auto-executables = false
@@ -17,6 +16,9 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
 
 [[executable]]
 name = "demo_fitdistrplus"
@@ -47,3 +49,6 @@ main = "test_stats.f90"
 name = "test_bootstrap_custom"
 source-dir = "test"
 main = "test_bootstrap_custom.f90"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

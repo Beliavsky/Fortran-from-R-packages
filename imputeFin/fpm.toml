@@ -5,7 +5,6 @@ author = "Original imputeFin authors; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Financial time-series imputation with Gaussian and Student-t AR/VAR models"
 categories = ["finance", "time-series", "statistics"]
-gams = ["L"]
 keywords = ["imputation", "missing-data", "AR", "VAR", "Student-t"]
 
 [library]
@@ -21,3 +20,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

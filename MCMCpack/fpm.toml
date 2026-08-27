@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of computational routines from the R package MCMCpack"
 keywords = ["bayesian", "mcmc", "regression", "probit", "logit", "poisson", "quantile"]
 categories = ["simulation", "probability", "statistics"]
-gams = ["L", "M"]
 
 [library]
 source-dir = "src"
@@ -26,3 +25,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

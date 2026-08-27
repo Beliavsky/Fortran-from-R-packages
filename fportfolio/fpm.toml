@@ -5,11 +5,12 @@ author = "Modern Fortran translation of fPortfolio contributors"
 maintainer = "Translation project maintainers"
 description = "Portfolio optimization, risk budgeting, and backtesting algorithms translated from fPortfolio"
 categories = ["finance", "optimization", "statistics"]
-gams = ["G", "L"]
 keywords = ["portfolio", "mean-variance", "cvar", "risk-parity", "backtest"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

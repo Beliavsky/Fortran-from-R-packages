@@ -4,7 +4,6 @@ license = "LGPL"
 author = "OpenAI translation; upstream authors retained in original/OOR-master/DESCRIPTION"
 copyright = "See upstream package and provenance documentation"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["global-optimization", "optimization", "numerical-methods"]
 
 [library]
@@ -15,3 +14,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

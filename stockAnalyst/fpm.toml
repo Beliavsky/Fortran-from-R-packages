@@ -6,7 +6,6 @@ maintainer = "Fortran port contributors"
 copyright = "Copyright 2022 MaheshP Kumar; 2026 Fortran port contributors"
 description = "Modern Fortran port of the stockAnalyst equity-valuation formula package"
 categories = ["finance", "equity-valuation"]
-gams = ["L"]
 keywords = ["valuation", "ddm", "residual-income", "multiples", "capm"]
 
 [build]
@@ -14,3 +13,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -5,7 +5,6 @@ author = "REBayes authors; Fortran translation"
 maintainer = ""
 description = "Modern Fortran computational port of REBayes"
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 keywords = ["maximum-likelihood", "probability", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -60,3 +59,6 @@ main = "test_medde.f90"
 name = "test_special"
 source-dir = "test"
 main = "test_special.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

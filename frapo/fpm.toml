@@ -11,7 +11,6 @@ categories = ["finance", "optimization", "statistics"]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
 
 [library]
 source-dir = "src"
@@ -21,6 +20,3 @@ library = true
 
 [extra.r-fpm-index]
 gams = ["G", "L"]
-
-[dependencies]
-rfortran-core = { path = "../rfortran-core" }

@@ -5,7 +5,6 @@ author = "Achim Zeileis; Thomas Lumley; sandwich contributors; modern Fortran tr
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of the R package sandwich"
 categories = ["statistics", "econometrics"]
-gams = ["L"]
 keywords = ["robust-covariance", "sandwich", "HAC", "clustered-standard-errors", "panel-data"]
 
 [library]
@@ -24,3 +23,6 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

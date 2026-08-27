@@ -5,7 +5,6 @@ author = "Jan Beran, Martin Maechler, Brandon Whitcher; Fortran translation"
 maintainer = "Fortran translation project"
 copyright = "Original longmemo authors and contributors"
 categories = ["time-series", "statistics"]
-gams = ["L"]
 keywords = ["long-memory", "time-series", "statistics", "statistical-computing"]
 
 [library]
@@ -25,3 +24,6 @@ main = "fit_csv.f90"
 name = "test_longmemo"
 source-dir = "tests"
 main = "test_longmemo.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -6,7 +6,6 @@ maintainer = ""
 description = "Modern Fortran numerical core of CRAN Directional"
 copyright = "Upstream authors and contributors"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["directional-statistics", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -17,3 +16,6 @@ auto-executables = false
 auto-examples = false
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

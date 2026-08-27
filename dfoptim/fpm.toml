@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "Original dfoptim authors and contributors"
 description = "Modern Fortran translation of the computational algorithms in the R dfoptim package"
 categories = ["optimization", "numerical"]
-gams = ["G", "H"]
 keywords = ["derivative-free-optimization", "numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [build]
@@ -18,3 +17,6 @@ auto-examples = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "H"]

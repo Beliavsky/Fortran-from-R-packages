@@ -6,7 +6,6 @@ maintainer = "Fortran translation"
 copyright = "Original quadform copyright retained"
 description = "Modern Fortran translation of the computational code in the R quadform package"
 categories = ["numerical"]
-gams = ["D"]
 keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["D"]

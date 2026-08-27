@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Upstream copyrights preserved; see LICENSE and original/"
 description = "Modern Fortran translation of the computational algorithms in the R package neldermead"
 categories = ["optimization", "numerical"]
-gams = ["G", "H"]
 keywords = ["derivative-free-optimization", "numerical-differentiation", "optimization", "numerical", "numerical-methods"]
 
 [library]
@@ -17,3 +16,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G", "H"]

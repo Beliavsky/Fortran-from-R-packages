@@ -5,7 +5,6 @@ author = "Fortran translation of LowRankQP by John T. Ormerod and Matt P. Wand"
 maintainer = ""
 copyright = "See LICENSE and UPSTREAM_PROVENANCE.md"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["quadratic-programming", "optimization", "numerical-methods"]
 
 [library]
@@ -18,3 +17,6 @@ auto-tests = true
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G"]

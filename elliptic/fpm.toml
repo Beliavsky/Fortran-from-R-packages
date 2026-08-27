@@ -5,7 +5,6 @@ author = "Robin K. S. Hankin (upstream elliptic package); Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran translation of the computational core of the R elliptic package"
 categories = ["mathematics", "special-functions"]
-gams = ["C"]
 keywords = ["elliptic", "weierstrass", "jacobi", "theta", "modular"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["C"]

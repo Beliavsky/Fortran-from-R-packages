@@ -6,10 +6,12 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (C) highfrequency package authors and Fortran translation contributors"
 description = "Modern Fortran computational port of the highfrequency R package"
 categories = ["finance", "statistics", "time-series"]
-gams = ["L"]
 keywords = ["high-frequency", "realized-volatility", "market-microstructure"]
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -6,7 +6,6 @@ maintainer = "Fortran port"
 copyright = "Copyright (c) skewunit authors"
 description = "Modern Fortran translation of the computational code in the R package skewunit"
 categories = ["statistics", "probability", "optimization"]
-gams = ["G", "L"]
 keywords = ["skew-unit", "bounded distributions", "maximum likelihood", "AIC", "BIC"]
 
 [build]
@@ -14,3 +13,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

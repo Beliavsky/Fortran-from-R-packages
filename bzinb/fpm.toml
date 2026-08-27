@@ -17,6 +17,3 @@ auto-tests = true
 
 [extra.r-fpm-index]
 gams = ["L"]
-
-[dependencies]
-rfortran-core = { path = "../rfortran-core" }

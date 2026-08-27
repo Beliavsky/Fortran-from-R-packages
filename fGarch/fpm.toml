@@ -7,7 +7,6 @@ copyright = "1999-2025 fGarch authors; 2026 Fortran translation contributors"
 description = "Experimental modern Fortran translation of the computational core of R fGarch"
 keywords = ["garch", "aparch", "volatility", "statistics", "finance"]
 categories = ["finance", "time-series", "statistics"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -18,3 +17,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

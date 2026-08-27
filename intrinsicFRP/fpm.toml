@@ -7,7 +7,6 @@ copyright = "Copyright (c) intrinsicFRP contributors"
 description = "Factor-model asset-pricing estimators and tests in modern Fortran"
 keywords = ["asset-pricing", "factor-models", "hac", "risk-premia", "fortran"]
 categories = ["finance", "statistics", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

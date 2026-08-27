@@ -6,7 +6,6 @@ maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the CGNM R package"
 copyright = "Copyright 2022 Yasunori Aoki"
 categories = ["machine-learning", "statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "clustering", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -16,3 +15,6 @@ source-dir = "src"
 auto-executables = false
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["L"]

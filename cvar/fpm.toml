@@ -6,7 +6,6 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) Georgi N. Boshnakov and contributors"
 description = "Modern Fortran translation of the R cvar package"
 categories = ["finance", "statistics", "risk"]
-gams = ["L"]
 keywords = ["VaR", "expected-shortfall", "CVaR", "GARCH"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

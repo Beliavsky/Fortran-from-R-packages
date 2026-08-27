@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "See NOTICE.md"
 description = "Modern Fortran implementation of the Fernandez-Steel skewed Student-t distribution"
 categories = ["statistics", "probability"]
-gams = ["L"]
 keywords = ["skew-t", "student-t", "distribution"]
 
 [build]
@@ -14,3 +13,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

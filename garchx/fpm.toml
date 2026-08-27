@@ -6,11 +6,15 @@ maintainer = "Translation project"
 description = "Modern Fortran computational translation of the R garchx package"
 copyright = "Original garchx copyright Genaro Sucarrat; translation modifications 2026"
 categories = ["finance", "time-series", "statistics"]
-gams = ["L"]
 keywords = ["estimation", "garch", "financial-econometrics", "finance", "time-series", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

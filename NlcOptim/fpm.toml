@@ -5,7 +5,6 @@ author = "Xianyan Chen, Xiangrong Yin; Fortran translation project"
 maintainer = "Fortran translation project"
 description = "Modern Fortran SQP solver for nonlinear constrained optimization"
 categories = ["optimization", "nonlinear-programming", "quadratic-programming"]
-gams = ["G"]
 keywords = ["SQP", "nonlinear constraints", "BFGS", "Goldfarb-Idnani"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G"]

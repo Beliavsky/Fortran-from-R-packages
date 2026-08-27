@@ -6,7 +6,6 @@ maintainer = "Fortran translation maintainers"
 description = "Modern Fortran translation of DiscreteInverseWeibull"
 keywords = ["discrete", "inverse-weibull", "maximum-likelihood", "moments"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -24,3 +23,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

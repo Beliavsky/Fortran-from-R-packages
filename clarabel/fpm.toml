@@ -6,7 +6,6 @@ maintainer = "Fortran translation contributors"
 copyright = "2022-2026 Clarabel authors and contributors"
 description = "Modern Fortran interface to the Clarabel conic interior-point solver"
 categories = ["optimization", "numerical", "conic-programming"]
-gams = ["G"]
 keywords = ["clarabel", "lp", "qp", "socp", "sdp", "conic"]
 
 [build]
@@ -16,3 +15,6 @@ auto-tests = true
 module-naming = false
 # The Rust backend is loaded at runtime by src/clarabel_dynamic_loader.c.
 # Therefore a normal `fpm build` needs no manually configured -L path.
+
+[extra.r-fpm-index]
+gams = ["G"]

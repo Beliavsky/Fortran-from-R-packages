@@ -7,7 +7,6 @@ copyright = "Copyright (C) 2012 copula authors"
 description = "Dependency-free modern Fortran numerical core for common copula models"
 keywords = ["copula", "dependence", "statistics", "simulation", "fortran"]
 categories = ["simulation", "probability", "statistics"]
-gams = ["L", "M"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

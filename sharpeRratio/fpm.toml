@@ -6,7 +6,6 @@ maintainer = "Fortran project maintainers"
 copyright = "Copyright (C) sharpeRratio and ghyp authors"
 description = "Moment-free Sharpe and signal-to-noise ratio estimation"
 categories = ["statistics", "finance"]
-gams = ["L"]
 keywords = ["Sharpe ratio", "records", "heavy tails", "Student t"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

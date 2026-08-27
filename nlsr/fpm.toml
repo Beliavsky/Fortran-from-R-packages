@@ -5,7 +5,6 @@ author = "Fortran translation of nlsr by John C. Nash et al."
 maintainer = "OpenAI translation"
 description = "Modern Fortran translation of the computational core of the R package nlsr"
 categories = ["numerical", "optimization", "nonlinear-least-squares"]
-gams = ["G"]
 keywords = ["least-squares", "numerical", "optimization", "nonlinear-least-squares", "numerical-methods"]
 
 [build]
@@ -13,3 +12,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

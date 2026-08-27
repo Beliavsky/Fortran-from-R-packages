@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Original genalg authors and contributors"
 description = "Modern Fortran translation of the computational core of R package genalg"
 categories = ["optimization", "genetic-algorithm"]
-gams = ["G"]
 keywords = ["genetic algorithm", "binary", "real-valued", "optimization"]
 
 [build]
@@ -14,3 +13,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

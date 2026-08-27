@@ -6,7 +6,6 @@ maintainer = "modern Fortran port"
 copyright = "Copyright (c) upstream StReg authors and Fortran port contributors"
 description = "Student-t static and dynamic regression models"
 categories = ["statistics", "econometrics", "time-series"]
-gams = ["L"]
 keywords = ["student-t", "regression", "autoregression", "var", "heteroskedasticity"]
 
 [build]
@@ -55,3 +54,6 @@ library = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

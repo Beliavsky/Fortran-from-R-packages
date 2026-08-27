@@ -6,7 +6,6 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright original ycevo authors and Fortran port contributors"
 description = "Modern Fortran translation of the computational core of ycevo"
 categories = ["finance", "statistics", "yield-curve"]
-gams = ["L"]
 keywords = ["yield curve", "discount function", "nonparametric", "kernel"]
 
 [build]
@@ -27,3 +26,6 @@ main = "main.f90"
 name = "test_ycevo"
 source-dir = "test"
 main = "test_ycevo.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

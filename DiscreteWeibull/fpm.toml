@@ -6,13 +6,13 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the R DiscreteWeibull package"
 keywords = ["discrete-weibull", "probability", "maximum-likelihood", "moments"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
 
 [dependencies]
 Rsolnp-fortran = { path = "vendor/Rsolnp-fortran" }
+rfortran-core = { path = "../rfortran-core" }
 
 [build]
 auto-executables = false
@@ -24,3 +24,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

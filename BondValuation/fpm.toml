@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "Copyright (c) Wadim Djatschenko"
 description = "Fixed-coupon bond valuation with odd coupon periods and sixteen day-count conventions"
 categories = ["finance", "fixed-income", "numerical"]
-gams = ["L"]
 keywords = ["bond", "yield", "duration", "day-count", "fortran"]
 
 [library]
@@ -16,3 +15,6 @@ source-dir = "src"
 auto-executables = true
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["L"]

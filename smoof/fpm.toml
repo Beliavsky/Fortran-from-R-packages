@@ -5,7 +5,6 @@ author = "Jakob Bossek; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern Fortran translation of computational benchmark functions from smoof"
 categories = ["optimization", "statistics", "numerical"]
-gams = ["G", "L"]
 keywords = ["multiobjective-optimization", "optimization", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -15,3 +14,6 @@ source-dir = "src"
 auto-executables = false
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

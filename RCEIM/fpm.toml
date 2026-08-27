@@ -4,7 +4,6 @@ license = "GPL-2.0-or-later"
 author = "Fortran translation of RCEIM by Alberto Krone-Martins"
 description = "Modern Fortran translation of the computational code in RCEIM"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [library]
@@ -15,3 +14,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

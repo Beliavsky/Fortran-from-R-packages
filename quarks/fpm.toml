@@ -5,7 +5,6 @@ author = "Sebastian Letmathe; independent Fortran translation by OpenAI for Vive
 maintainer = "Vivek Rao"
 description = "Modern Fortran translation of computational routines from the R quarks package"
 categories = ["finance", "statistics", "risk-management"]
-gams = ["L", "M"]
 keywords = ["VaR", "expected shortfall", "historical simulation", "backtesting", "GARCH"]
 
 [build]
@@ -20,3 +19,7 @@ source-form = "free"
 
 [dependencies]
 rugarch_fortran = { path = "vendor/rugarch-modern-fortran" }
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

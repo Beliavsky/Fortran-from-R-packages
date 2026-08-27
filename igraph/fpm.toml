@@ -5,7 +5,6 @@ author = "igraph contributors; Fortran translation"
 maintainer = "Fortran translation"
 description = "Native modern Fortran graph algorithms translated from the computational scope of R igraph"
 categories = ["graph", "network", "algorithms"]
-gams = ["Z"]
 keywords = ["graph-algorithms", "graph", "network", "algorithms", "numerical-methods"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["Z"]

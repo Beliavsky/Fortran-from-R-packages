@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Upstream and translation contributors"
 description = "Modern Fortran translation of the computational code in the R ltsa package"
 categories = ["time-series", "numerical"]
-gams = ["L"]
 keywords = ["time-series", "numerical", "numerical-methods"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

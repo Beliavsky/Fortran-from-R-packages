@@ -5,7 +5,6 @@ author = "Fortran translation of clue by OpenAI"
 maintainer = ""
 description = "Modern Fortran/FPM translation of the computational core of R package clue"
 categories = ["machine-learning", "statistics", "numerical"]
-gams = ["L"]
 keywords = ["clustering", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -18,3 +17,6 @@ auto-tests = true
 
 [dependencies]
 lpsolve-fortran = { path = "vendor/lpsolve-fortran" }
+
+[extra.r-fpm-index]
+gams = ["L"]

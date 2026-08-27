@@ -7,7 +7,6 @@ copyright = "2008-2025 Alexios Galanos; 2026 Fortran translation contributors"
 description = "Experimental modern Fortran translation of the computational core of R rmgarch"
 keywords = ["multivariate-garch", "dcc", "adcc", "copula", "gogarch", "ica", "finance"]
 categories = ["finance", "time-series", "probability"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -18,3 +17,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

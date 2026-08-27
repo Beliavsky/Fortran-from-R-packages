@@ -5,11 +5,15 @@ author = "fBasics authors and modern Fortran translation contributors"
 maintainer = "OpenAI"
 description = "Modern Fortran numerical translation of the computational core of fBasics"
 categories = ["finance", "probability", "statistics"]
-gams = ["L"]
 keywords = ["probability-distributions", "finance", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

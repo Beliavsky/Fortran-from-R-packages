@@ -6,7 +6,6 @@ maintainer = "Fortran translation maintainers"
 description = "Tests of independence and randomness for arbitrary discrete, continuous, and mixed data"
 keywords = ["independence", "randomness", "empirical-copula", "multiplier-bootstrap", "time-series"]
 categories = ["time-series", "probability", "statistics"]
-gams = ["L", "M"]
 
 [build]
 auto-executables = true
@@ -16,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

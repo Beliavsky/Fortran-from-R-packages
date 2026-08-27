@@ -7,7 +7,6 @@ copyright = "Copyright upstream authors and Fortran translation contributors"
 description = "Modern Fortran implementation of the Skellam distribution, estimation, and regression"
 keywords = ["statistics", "distribution", "skellam", "poisson", "regression", "maximum-likelihood"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -22,3 +21,6 @@ module-naming = false
 name = "demo_skellam"
 source-dir = "app"
 main = "demo_skellam.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

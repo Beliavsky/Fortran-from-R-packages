@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "See upstream and vendor license files"
 description = "Modern Fortran/FPM computational translation of R package flexsurv"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["survival-analysis", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -18,3 +17,6 @@ auto-tests = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

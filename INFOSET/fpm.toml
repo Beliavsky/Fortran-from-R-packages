@@ -6,7 +6,6 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright the INFOSET authors and translation contributors"
 description = "Modern Fortran implementation of the computational core of the R INFOSET package"
 categories = ["finance", "statistics", "optimization"]
-gams = ["G", "L"]
 keywords = ["portfolio", "mixture", "tail-risk", "quadratic-programming"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

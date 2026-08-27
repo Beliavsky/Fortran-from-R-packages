@@ -5,7 +5,6 @@ author = "Michael Eichenberger and Carlo Rosa; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Finite-difference valuation of European and American multi-asset options"
 categories = ["finance", "numerical-methods"]
-gams = ["H", "L"]
 keywords = ["options", "finite-difference", "multi-asset", "American", "Black-Scholes"]
 
 [library]
@@ -24,3 +23,6 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["H", "L"]

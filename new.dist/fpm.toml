@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational code in R package new.dist"
 keywords = ["probability", "distributions", "random-generation"]
 categories = ["probability", "numerical", "statistics"]
-gams = ["L"]
 
 [library]
 source-dir = "src"
@@ -26,3 +25,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

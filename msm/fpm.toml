@@ -5,16 +5,20 @@ author = "Christopher Jackson; Fortran translation by OpenAI"
 maintainer = "OpenAI"
 description = "Modern Fortran computational core translated from the R msm package"
 categories = ["statistics", "markov-models", "hidden-markov-models"]
-gams = ["L"]
 keywords = ["continuous-time-markov", "hmm", "multistate", "matrix-exponential"]
 
 [build]
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

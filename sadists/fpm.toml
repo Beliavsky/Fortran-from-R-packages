@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "Copyright (c) 2014-2026 Steven E. Pav; translation copyright 2026"
 description = "Modern Fortran translation of the computational code in the R package sadists"
 categories = ["probability", "numerical", "statistics"]
-gams = ["L"]
 keywords = ["probability-distributions", "probability", "numerical", "statistics", "statistical-computing"]
 
 [build]
@@ -22,3 +21,6 @@ source-form = "free"
 
 [dependencies]
 pdqutils-fortran = { path = "vendor/pdqutils-fortran" }
+
+[extra.r-fpm-index]
+gams = ["L"]

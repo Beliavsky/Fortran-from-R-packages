@@ -5,7 +5,6 @@ author = "Fortran translation of Piotr Sulewski's PSDistr"
 maintainer = ""
 copyright = "See NOTICE.md"
 categories = ["numerical"]
-gams = ["L", "M"]
 keywords = ["numerical", "numerical-methods", "algorithms"]
 
 [library]
@@ -15,3 +14,6 @@ source-dir = "src"
 auto-executables = true
 auto-examples = true
 auto-tests = true
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

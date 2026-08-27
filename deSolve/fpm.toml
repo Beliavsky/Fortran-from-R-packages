@@ -5,7 +5,6 @@ author = "Karline Soetaert, Thomas Petzoldt, R. Woodrow Setzer; Fortran translat
 maintainer = "Fortran translation"
 description = "Modern free-format Fortran/FPM translation of the computational core of R deSolve"
 categories = ["numerical", "ode", "dae"]
-gams = ["I"]
 keywords = ["ODEPACK", "LSODA", "VODE", "DASPK", "RADAU5", "Runge-Kutta", "DDE"]
 
 [fortran]
@@ -20,3 +19,6 @@ auto-tests = true
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["I"]

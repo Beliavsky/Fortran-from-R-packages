@@ -5,10 +5,12 @@ author = "Fortran translation of joker"
 maintainer = ""
 copyright = ""
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["estimation", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-tests = true
 auto-examples = true
+
+[extra.r-fpm-index]
+gams = ["L"]

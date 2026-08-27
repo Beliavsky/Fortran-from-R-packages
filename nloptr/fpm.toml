@@ -6,7 +6,6 @@ maintainer = "Fortran translation project"
 copyright = "Copyright nloptr and NLopt contributors"
 description = "Modern Fortran optimization interface inspired by nloptr"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["nonlinear optimization", "constraints", "lbfgs", "nelder-mead"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G"]

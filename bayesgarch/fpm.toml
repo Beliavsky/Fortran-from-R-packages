@@ -50,6 +50,3 @@ main = "test_sampler.f90"
 
 [extra.r-fpm-index]
 gams = ["L", "M"]
-
-[dependencies]
-rfortran-core = { path = "../rfortran-core" }

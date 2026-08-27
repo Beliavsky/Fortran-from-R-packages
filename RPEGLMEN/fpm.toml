@@ -5,7 +5,6 @@ author = "RPEGLMEN authors; modern Fortran translation"
 maintainer = "Modern Fortran translation contributors"
 description = "Elastic-net Gamma and exponential generalized linear models"
 categories = ["statistics", "optimization", "finance"]
-gams = ["G", "L"]
 keywords = ["elastic-net", "gamma-glm", "exponential-glm", "FISTA", "cross-validation"]
 
 [library]
@@ -24,3 +23,6 @@ library = true
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

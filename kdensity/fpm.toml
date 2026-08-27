@@ -5,7 +5,6 @@ author = "Fortran translation contributors"
 maintainer = "Fortran translation contributors"
 description = "Parametrically guided kernel density estimation with asymmetric kernels"
 categories = ["statistics", "density-estimation"]
-gams = ["L"]
 keywords = ["kernel-density", "asymmetric-kernels", "parametric-starts"]
 
 [build]
@@ -13,3 +12,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

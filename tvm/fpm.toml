@@ -7,7 +7,6 @@ copyright = "Copyright (c) 2014 Juan Manuel Truppia"
 description = "Modern Fortran translation of the numerical routines in the R tvm package"
 keywords = ["finance", "time-value-of-money", "cashflow", "interest-rate", "yield-curve"]
 categories = ["finance", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -5,7 +5,6 @@ author = "Dirk Eddelbuettel; Fortran translation by OpenAI"
 maintainer = ""
 description = "Modern Fortran translation of the zigg Ziggurat random-number generator"
 categories = ["random", "statistics"]
-gams = ["L", "M"]
 keywords = ["ziggurat", "normal", "exponential", "uniform", "rng"]
 
 [build]
@@ -13,3 +12,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

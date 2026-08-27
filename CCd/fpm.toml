@@ -5,7 +5,6 @@ author = "OpenAI translation; upstream CCd by Michail Tsagris"
 maintainer = ""
 copyright = "2024 Michail Tsagris; 2026 translation contributors"
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L"]

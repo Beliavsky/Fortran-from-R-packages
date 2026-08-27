@@ -5,7 +5,6 @@ author = "Modern Fortran translation of trustOptim by OpenAI; upstream Michael B
 maintainer = ""
 copyright = "Copyright (c) 2014-2026 Michael Braun; translation preserves MPL-2.0 terms"
 categories = ["optimization"]
-gams = ["G", "H"]
 keywords = ["numerical-differentiation", "optimization", "numerical-methods"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G", "H"]

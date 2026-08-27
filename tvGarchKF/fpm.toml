@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "2025 tvGarchKF authors; 2026 OpenAI translation"
 description = "Modern Fortran translation of the computational core of tvGarchKF"
 categories = ["finance", "statistics", "time-series"]
-gams = ["L"]
 keywords = ["GARCH", "Kalman filter", "time-varying volatility"]
 
 [build]
@@ -27,3 +26,6 @@ main = "demo_tvgarchkf.f90"
 name = "tvgarchkf-tests"
 source-dir = "test/fpm"
 main = "test_all.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

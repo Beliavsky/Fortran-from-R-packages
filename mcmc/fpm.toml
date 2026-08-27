@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R mcmc"
 keywords = ["mcmc", "metropolis", "tempering", "batch-means"]
 categories = ["simulation", "numerical"]
-gams = ["L", "M"]
 
 [library]
 source-dir = "src"
@@ -21,3 +20,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

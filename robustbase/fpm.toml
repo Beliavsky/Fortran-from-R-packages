@@ -5,11 +5,15 @@ author = "Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran numerical translation of core robustbase functionality"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["robust-statistics", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

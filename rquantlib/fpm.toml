@@ -6,14 +6,18 @@ maintainer = "OpenAI"
 copyright = "2026 OpenAI and upstream contributors"
 description = "Standalone modern Fortran quantitative-finance algorithms inspired by RQuantLib"
 categories = ["finance", "options", "bonds", "yield-curves"]
-gams = ["L"]
 keywords = ["Black-Scholes", "bonds", "SABR", "Hull-White"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L"]

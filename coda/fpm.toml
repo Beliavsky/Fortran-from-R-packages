@@ -6,7 +6,6 @@ maintainer = "Fortran translation"
 copyright = "Copyright (C) coda authors and contributors"
 description = "Modern Fortran translation of the computational core of the R coda package"
 categories = ["statistics", "mcmc"]
-gams = ["L", "M"]
 keywords = ["mcmc", "diagnostics", "gelman-rubin", "geweke", "raftery-lewis"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

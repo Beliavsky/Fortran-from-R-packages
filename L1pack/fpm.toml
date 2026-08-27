@@ -5,17 +5,18 @@ author = "Fortran translation of L1pack by Felipe Osorio and Tymoteusz Wolodzko"
 maintainer = ""
 description = "Modern Fortran translation of the numerical core of the R L1pack package"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["estimation", "statistics", "numerical", "statistical-computing"]
 
 [library]
 source-dir = "src"
 
 [dependencies]
-fastmatrix-fortran = { path = "vendor/fastmatrix-fortran-v0.2.0" }
+fastmatrix-fortran = { path = "../fastmatrix" }
 
 [build]
-link = ["lapack", "blas"]
 auto-executables = true
 auto-tests = true
 auto-examples = true
+
+[extra.r-fpm-index]
+gams = ["L"]

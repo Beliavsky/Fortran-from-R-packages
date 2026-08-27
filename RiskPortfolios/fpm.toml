@@ -7,15 +7,19 @@ copyright = "Copyright (C) 2013-2021 David Ardia"
 description = "Modern Fortran implementation of risk-based portfolio methods from RiskPortfolios"
 keywords = ["portfolio", "covariance", "shrinkage", "risk-parity", "optimization"]
 categories = ["finance", "optimization", "statistics"]
-gams = ["G", "L"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

@@ -5,7 +5,6 @@ author = "Robin K. S. Hankin; modern Fortran translation"
 maintainer = "Vivek Rao"
 description = "Magic squares, magic hypercubes, Latin squares, and arbitrary-rank integer-array operations"
 categories = ["mathematics", "combinatorics"]
-gams = ["B"]
 keywords = ["magic-square", "hypercube", "latin-square", "array", "hadamard"]
 
 [library]
@@ -24,3 +23,6 @@ source-form = "free"
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["B"]

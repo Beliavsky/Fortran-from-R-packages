@@ -7,7 +7,6 @@ copyright = "2015 Seongho Kim"
 description = "Partial and semi-partial correlations in modern Fortran"
 keywords = ["statistics", "correlation", "partial-correlation", "spearman", "kendall"]
 categories = ["statistics", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

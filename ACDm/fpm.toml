@@ -19,6 +19,3 @@ module-naming = false
 
 [extra.r-fpm-index]
 gams = ["L"]
-
-[dependencies]
-rfortran-core = { path = "../rfortran-core" }

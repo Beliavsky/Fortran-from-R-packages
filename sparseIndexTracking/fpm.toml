@@ -6,7 +6,6 @@ maintainer = "OpenAI"
 copyright = "Upstream copyright Konstantinos Benidis and Daniel P. Palomar; translation copyright 2026 OpenAI"
 description = "Modern Fortran implementation of sparse financial index tracking"
 categories = ["finance", "optimization", "numerical"]
-gams = ["G", "L"]
 keywords = ["index tracking", "sparse portfolio", "MM algorithm", "Huber loss"]
 
 [build]
@@ -16,3 +15,6 @@ auto-tests = true
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

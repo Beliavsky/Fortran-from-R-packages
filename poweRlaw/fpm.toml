@@ -6,7 +6,6 @@ maintainer = "Vivek Rao"
 description = "Modern Fortran translation of the computational core of R poweRlaw"
 keywords = ["power-law", "heavy-tail", "maximum-likelihood", "bootstrap", "KS"]
 categories = ["probability", "statistics", "numerical"]
-gams = ["L", "M"]
 
 [library]
 source-dir = "src"
@@ -24,3 +23,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

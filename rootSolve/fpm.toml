@@ -5,7 +5,6 @@ author = "Karline Soetaert and rootSolve contributors; Fortran translation"
 maintainer = "Fortran translation"
 description = "Modern free-format Fortran/FPM translation of the computational core of R rootSolve"
 categories = ["numerical", "root-finding", "steady-state"]
-gams = ["F", "I"]
 keywords = ["Newton-Raphson", "Jacobian", "steady-state", "ODE", "PDE", "sparse"]
 
 [fortran]
@@ -23,3 +22,6 @@ source-dir = "src"
 
 [dependencies]
 desolve = { path = "vendor/desolve" }
+
+[extra.r-fpm-index]
+gams = ["F", "I"]

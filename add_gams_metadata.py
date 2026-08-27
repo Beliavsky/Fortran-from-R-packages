@@ -2,8 +2,9 @@
 """Add conservative top-level NIST GAMS classifications to FPM manifests.
 
 The classifications are inferred from the existing package name, description,
-categories, and keywords.  Run with ``--check`` to verify that every manifest
-has the expected metadata without changing files.
+categories, and keywords. They are stored in ``extra.r-fpm-index`` so that the
+manifests remain valid for FPM. Run with ``--check`` to verify that every
+manifest has the expected metadata without changing files.
 """
 
 from __future__ import annotations
@@ -148,26 +149,24 @@ def format_gams(codes: list[str]) -> str:
 
 def update_text(text: str, codes: list[str]) -> str:
     newline = "\r\n" if "\r\n" in text else "\n"
-    replacement = format_gams(codes)
-    if re.search(r"(?m)^gams\s*=.*$", text):
-        return re.sub(r"(?m)^gams\s*=.*$", replacement, text, count=1)
-
     lines = text.splitlines(keepends=True)
-    insert_after = -1
-    for index, line in enumerate(lines):
-        if re.match(r"^(categories|keywords)\s*=", line):
-            insert_after = index
-            if line.startswith("categories"):
-                break
-    if insert_after < 0:
-        for index, line in enumerate(lines):
-            if re.match(r"^description\s*=", line):
-                insert_after = index
-                break
-
-    insertion = replacement + newline
-    lines.insert(insert_after + 1, insertion)
-    return "".join(lines)
+    seen_table = False
+    retained: list[str] = []
+    for line in lines:
+        if line.lstrip().startswith("["):
+            seen_table = True
+        if not seen_table and re.match(r"^gams\s*=", line):
+            continue
+        retained.append(line)
+    text = "".join(retained)
+    text = re.sub(
+        r"(?ms)(?:\r?\n)*\[extra\.r-fpm-index\]\r?\n"
+        r"gams\s*=.*?(?:\r?\n)*\Z",
+        "",
+        text,
+    )
+    block = "[extra.r-fpm-index]" + newline + format_gams(codes)
+    return text.rstrip("\r\n") + newline + newline + block + newline
 
 
 def parse_arguments() -> argparse.Namespace:

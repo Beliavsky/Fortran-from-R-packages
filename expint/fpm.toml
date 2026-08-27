@@ -7,7 +7,6 @@ copyright = "Copyright (C) 2016-2026 Vincent Goulet; GSL-derived code copyright 
 description = "Modern Fortran translation of the computational core of the R package expint"
 keywords = ["exponential-integral", "incomplete-gamma", "special-functions"]
 categories = ["numerical"]
-gams = ["C"]
 
 [library]
 source-dir = "src"
@@ -17,3 +16,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["C"]

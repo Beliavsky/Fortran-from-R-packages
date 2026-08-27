@@ -6,7 +6,6 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) the original fmbasics contributors"
 description = "Modern Fortran translation of the computational core of fmbasics"
 categories = ["finance", "fixed-income", "derivatives"]
-gams = ["L"]
 keywords = ["interest-rates", "yield-curves", "credit", "volatility", "currencies"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

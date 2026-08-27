@@ -5,7 +5,6 @@ author = "Shengjie Xiu, Yifan Yu, Daniel P. Palomar; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran implementation of the intradayModel periodic state-space volume model"
 categories = ["finance", "time-series", "state-space"]
-gams = ["L"]
 keywords = ["intraday volume", "Kalman filter", "EM", "forecasting"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

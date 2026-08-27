@@ -4,7 +4,6 @@ license = "Apache-2.0"
 author = "Benjamin Christoffersen (original psqn); Fortran port contributors"
 copyright = "Original psqn package by Benjamin Christoffersen; this derivative Fortran port is distributed under Apache-2.0"
 categories = ["optimization"]
-gams = ["G"]
 keywords = ["gradient-methods", "optimization", "numerical-methods"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["G"]

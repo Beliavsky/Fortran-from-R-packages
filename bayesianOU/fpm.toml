@@ -6,16 +6,20 @@ maintainer = ""
 copyright = "Copyright (c) 2024 Jose Mauricio Gomez Julian"
 description = "Modern Fortran translation of Bayesian nonlinear Ornstein-Uhlenbeck models"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["bayesian-inference", "estimation", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

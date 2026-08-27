@@ -7,7 +7,6 @@ copyright = "1999-2026 Matrix authors and contributors"
 description = "Modern Fortran dense and sparse matrix algorithms inspired by the R Matrix package"
 keywords = ["matrix", "sparse", "linear-algebra", "fpm"]
 categories = ["numerical"]
-gams = ["D"]
 
 [build]
 auto-executables = true
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["D"]

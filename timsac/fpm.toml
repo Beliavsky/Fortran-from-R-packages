@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "The Institute of Statistical Mathematics and contributors"
 description = "Modern Fortran port of the TIMSAC time-series analysis numerical core"
 categories = ["time-series", "numerical"]
-gams = ["L"]
 keywords = ["time-series", "numerical", "numerical-methods"]
 
 [library]
@@ -20,3 +19,5 @@ auto-examples = false
 [fortran]
 implicit-external = true
 
+[extra.r-fpm-index]
+gams = ["L"]

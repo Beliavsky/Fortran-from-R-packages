@@ -5,7 +5,6 @@ author = "Modern Fortran translation of nlsic by OpenAI; upstream by Serguei Sok
 maintainer = "OpenAI"
 description = "Constrained nonlinear least squares and supporting linear solvers translated from nlsic"
 categories = ["numerical", "optimization", "least-squares"]
-gams = ["G"]
 keywords = ["nonlinear-least-squares", "constraints", "least-norm", "ldp"]
 
 [library]
@@ -16,3 +15,6 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["G"]

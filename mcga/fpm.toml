@@ -5,7 +5,6 @@ author = "Modern Fortran translation of mcga by OpenAI"
 maintainer = ""
 copyright = "Upstream mcga copyright retained; translation under GPL-2.0-or-later"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["genetic-algorithms", "optimization", "numerical", "numerical-methods"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["G"]

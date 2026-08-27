@@ -5,7 +5,6 @@ author = "Yang Lu, David Kane, and Modern Fortran translation contributors"
 maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational core of the R pa package"
 categories = ["finance", "portfolio", "performance-attribution"]
-gams = ["L"]
 keywords = ["Brinson", "regression attribution", "portfolio exposure"]
 
 [library]
@@ -15,4 +14,9 @@ source-dir = "src"
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L"]

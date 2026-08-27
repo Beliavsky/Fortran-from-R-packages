@@ -5,7 +5,6 @@ author = "Rfast authors; Fortran translation by OpenAI"
 maintainer = ""
 description = "Expanded modern Fortran computational-core translation of the Rfast R package"
 categories = ["statistics", "numerical", "linear-algebra"]
-gams = ["D", "L"]
 keywords = ["statistics", "regression", "matrix", "mle", "distance"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [dependencies]
 zigg-fortran = { path = "vendor/zigg-fortran" }
+
+[extra.r-fpm-index]
+gams = ["D", "L"]

@@ -5,7 +5,6 @@ author = "Dan Dalthorp; Fortran translation"
 maintainer = ""
 description = "Modern Fortran implementation of the continuous binomial distribution"
 categories = ["statistics", "probability"]
-gams = ["L"]
 keywords = ["probability-distributions", "statistics", "probability", "statistical-computing"]
 
 [library]
@@ -15,3 +14,6 @@ source-dir = "src"
 name = "test_cbinom"
 source-dir = "test"
 main = "test_cbinom.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

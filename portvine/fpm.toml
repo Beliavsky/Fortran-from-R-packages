@@ -7,7 +7,6 @@ copyright = "2022-2026"
 description = "Rolling ARMA-GARCH and vine-copula portfolio risk estimation in modern Fortran"
 keywords = ["portfolio-risk", "GARCH", "vine-copula", "VaR", "expected-shortfall"]
 categories = ["finance", "statistics", "time-series"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -23,3 +22,6 @@ source-form = "free"
 [dependencies]
 rugarch_fortran = { path = "vendor/rugarch" }
 rvinecopulib-fortran = { path = "vendor/rvinecopulib" }
+
+[extra.r-fpm-index]
+gams = ["L"]

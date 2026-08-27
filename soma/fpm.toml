@@ -4,7 +4,6 @@ license = "GPL-2.0-only"
 author = "Fortran translation of Jon Clayden's soma package"
 description = "Modern Fortran translation of the computational code in the R package soma"
 categories = ["optimization", "numerical"]
-gams = ["G"]
 keywords = ["optimization", "numerical", "numerical-methods"]
 
 [build]
@@ -14,3 +13,6 @@ auto-tests = true
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G"]

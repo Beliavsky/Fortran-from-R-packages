@@ -5,7 +5,6 @@ author = "OpenAI; based on polynom by Bill Venables, Kurt Hornik, and Martin Mae
 maintainer = "OpenAI"
 description = "Modern Fortran translation of the computational code in the R polynom package"
 categories = ["mathematics", "polynomials"]
-gams = ["C", "E"]
 keywords = ["polynomial", "interpolation", "roots", "orthogonal-polynomials"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["C", "E"]

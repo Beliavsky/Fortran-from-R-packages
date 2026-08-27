@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "2003-2026 corpcor authors and contributors"
 description = "Modern Fortran translation of corpcor covariance and partial-correlation estimators"
 categories = ["statistics", "linear-algebra"]
-gams = ["D", "L"]
 keywords = ["covariance", "shrinkage", "partial-correlation", "pseudoinverse"]
 
 [build]
@@ -19,3 +18,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["D", "L"]

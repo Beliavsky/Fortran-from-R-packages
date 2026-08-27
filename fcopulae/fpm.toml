@@ -5,14 +5,15 @@ author = "fCopulae authors and translation contributors"
 maintainer = "translation contributors"
 description = "Modern Fortran computational translation of the fCopulae R package"
 categories = ["statistics", "copulas", "finance"]
-gams = ["L"]
 keywords = ["copula", "Archimedean", "elliptical", "extreme-value", "dependence"]
 
 [build]
 auto-executables = false
 auto-examples = false
 auto-tests = false
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [library]
 source-dir = "src"
@@ -46,3 +47,6 @@ main = "test_elliptical.f90"
 name = "test_extreme_empirical"
 source-dir = "test"
 main = "test_extreme_empirical.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

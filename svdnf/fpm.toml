@@ -6,7 +6,6 @@ maintainer = "Fortran translation maintainers"
 copyright = "Copyright (C) 2024 SVDNF authors"
 description = "Modern Fortran discrete nonlinear filtering for stochastic volatility models"
 categories = ["finance", "statistics", "stochastic-volatility"]
-gams = ["L"]
 keywords = ["stochastic volatility", "nonlinear filtering", "maximum likelihood", "jumps"]
 
 [build]
@@ -29,3 +28,6 @@ main = "filter_and_forecast.f90"
 name = "estimate_taylor"
 source-dir = "example"
 main = "estimate_taylor.f90"
+
+[extra.r-fpm-index]
+gams = ["L"]

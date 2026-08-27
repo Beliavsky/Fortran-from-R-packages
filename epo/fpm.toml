@@ -6,7 +6,6 @@ maintainer = "Fortran translation contributors"
 copyright = "Copyright (c) 2023 Bernardo Reckziegel"
 description = "Modern Fortran implementation of Enhanced Portfolio Optimization"
 categories = ["finance", "portfolio-optimization", "statistics"]
-gams = ["G", "L"]
 keywords = ["EPO", "portfolio", "covariance", "shrinkage"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["G", "L"]

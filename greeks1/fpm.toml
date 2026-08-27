@@ -7,7 +7,6 @@ copyright = "Copyright (c) 2023 greeks authors"
 description = "Option Greeks and implied volatility in modern Fortran"
 keywords = ["options", "greeks", "black-scholes", "monte-carlo", "finance"]
 categories = ["finance", "time-series", "simulation"]
-gams = ["L", "M"]
 
 [library]
 source-dir = "src"
@@ -17,3 +16,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

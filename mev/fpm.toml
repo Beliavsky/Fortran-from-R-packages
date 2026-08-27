@@ -5,7 +5,6 @@ author = "mev authors; Fortran translation"
 maintainer = ""
 copyright = "See NOTICE.md"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["extreme-value", "statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -20,3 +19,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 link = ["lapack", "blas"]
+
+[extra.r-fpm-index]
+gams = ["L"]

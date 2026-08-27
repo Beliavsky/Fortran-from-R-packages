@@ -5,7 +5,6 @@ author = "Kernlab authors; Fortran translation"
 maintainer = "Fortran translation project"
 description = "Modern Fortran computational translation of kernlab"
 categories = ["machine-learning", "kernels", "statistics"]
-gams = ["L"]
 keywords = ["kernel", "svm", "kpca", "clustering", "gaussian-process"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

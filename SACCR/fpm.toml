@@ -6,7 +6,6 @@ maintainer = "Fortran port maintainers"
 copyright = "Copyright (c) Tasos Grivas and translation contributors"
 description = "Modern Fortran translation of the computational routines in the R SACCR package"
 categories = ["finance", "risk", "regulation"]
-gams = ["L"]
 keywords = ["SA-CCR", "counterparty-credit-risk", "EAD", "PFE"]
 
 [build]
@@ -25,3 +24,6 @@ trading = { path = "dependencies/trading" }
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

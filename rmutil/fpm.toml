@@ -5,7 +5,6 @@ author = "J.K. Lindsey, Bruce Swihart; modern Fortran translation by OpenAI"
 maintainer = "OpenAI translation artifact"
 description = "Modern Fortran computational translation of the R package rmutil"
 categories = ["statistics", "numerical-integration", "differential-equations", "pharmacokinetics"]
-gams = ["H", "I", "L"]
 keywords = ["distributions", "rmutil", "pkpd", "romberg", "gauss-hermite"]
 
 [library]
@@ -15,3 +14,6 @@ source-dir = "src"
 auto-executables = true
 auto-tests = true
 auto-examples = true
+
+[extra.r-fpm-index]
+gams = ["H", "I", "L"]

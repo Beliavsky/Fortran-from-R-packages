@@ -6,7 +6,6 @@ maintainer = "Fortran community"
 copyright = "Copyright (C) 2015,2016 Philip Stubbings"
 description = "Modern Fortran limit order book analytics translated from obAnalytics"
 categories = ["finance", "market-microstructure", "limit-order-book"]
-gams = ["L"]
 keywords = ["order-book", "trades", "depth", "matching", "microstructure"]
 
 [build]
@@ -17,3 +16,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L"]

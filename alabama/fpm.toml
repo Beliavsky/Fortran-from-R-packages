@@ -7,7 +7,6 @@ copyright = "Ravi Varadhan and contributors; see NOTICE.md"
 description = "Modern Fortran computational port of the R alabama constrained optimization package"
 keywords = ["optimization", "constraints", "augmented-lagrangian", "barrier"]
 categories = ["optimization", "numerical"]
-gams = ["G"]
 
 [build]
 auto-executables = false
@@ -24,3 +23,6 @@ source-dir = "src"
 [dependencies]
 numDeriv-fortran = { path = "dependencies/numDeriv-fortran" }
 roptim = { path = "dependencies/roptim" }
+
+[extra.r-fpm-index]
+gams = ["G"]

@@ -6,7 +6,6 @@ maintainer = "Modern Fortran translation contributors"
 description = "Modern Fortran translation of the computational routines in the R yrnd package"
 keywords = ["finance", "risk-neutral-density", "options", "bond-futures", "yield"]
 categories = ["finance", "probability", "numerical"]
-gams = ["L"]
 
 [build]
 auto-executables = true
@@ -21,3 +20,6 @@ source-form = "free"
 
 [dependencies]
 tvm_fortran = { path = "dependencies/tvm-fortran" }
+
+[extra.r-fpm-index]
+gams = ["L"]

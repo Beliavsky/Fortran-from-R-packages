@@ -5,7 +5,6 @@ author = "Fortran translation of cubature 2.1.4-1 computational code"
 maintainer = ""
 copyright = "See UPSTREAM.md and LICENSE"
 categories = ["statistics", "numerical"]
-gams = ["H", "L"]
 keywords = ["multivariate-statistics", "numerical-integration", "statistics", "numerical", "statistical-computing"]
 
 [build]
@@ -18,3 +17,6 @@ module-naming = false
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["H", "L"]

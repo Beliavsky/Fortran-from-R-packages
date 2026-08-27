@@ -6,7 +6,6 @@ maintainer = "Fortran translation contributors"
 copyright = "2011 Daniel Muellner; later changes Google Inc."
 description = "Modern Fortran hierarchical agglomerative clustering"
 categories = ["scientific", "statistics"]
-gams = ["L"]
 keywords = ["clustering", "hierarchical-clustering", "dendrogram"]
 
 [build]
@@ -16,3 +15,6 @@ auto-tests = true
 
 [install]
 library = true
+
+[extra.r-fpm-index]
+gams = ["L"]

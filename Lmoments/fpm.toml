@@ -5,7 +5,6 @@ author = "Juha Karvanen, Santeri Karppinen; Fortran port"
 maintainer = "Fortran port"
 copyright = "Original Lmoments package authors and contributors"
 categories = ["probability", "statistics"]
-gams = ["L"]
 keywords = ["estimation", "l-moments", "probability-distributions", "probability", "statistics", "statistical-computing"]
 
 [build]
@@ -16,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L"]
