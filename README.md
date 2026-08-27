@@ -73,9 +73,13 @@ linear solves, general matrix inverses, symmetric eigendecompositions,
 Cholesky factors, SPD inverse/log-determinant calculations, real and complex
 thin SVD, economy-size QR, singular values, numerical rank, rank-revealing
 pivoted QR, QR least squares, SVD least squares, full SVD, and spectral radius.
+Pivoted-QR least squares is also available when callers need a numerical rank
+and a selectable rank threshold.
 It also provides general real and complex eigendecomposition and real Schur
 decomposition, complex Schur decomposition, complex linear solves, and real
 and complex matrix balancing.
+Triangular inversion, general determinants, and signed log-absolute-
+determinants are also provided.
 It uses a pinned pure-Fortran
 LAPACK backend, so migrated packages do not require system `-llapack` or
 `-lblas` libraries. Basic operations already supplied by the language, such
@@ -86,7 +90,18 @@ migrations cover `CEoptim`, `cmaes`, `cccp`, `bayesianOU`, `CLA`,
 `MultiATSM`, `BEKKs`, `compositions`, `fmultivar`, `fcopulae`, `fbasics`,
 `irlba`, `msm`, `matrixdist`, `etrm`, `esback`, `apt`, `matchingMarkets`, `gmm`,
 `nnet`, `Rmalschains`, `statmod`, `robustbase`, `fastmatrix`, `L1pack`,
-`lgarch`, `tsdyn`, and `expm`.
+`lgarch`, `tsdyn`, `expm`, `pa`, `fportfolio`, `Rcsdp`, `Rdsdp`, `gogarch`,
+and `mclust`.
+
+`nleqslv` requires low-level solver-specific BLAS/LAPACK kernels rather than
+the checked high-level API. It uses the same pinned pure-Fortran LAPACK backend
+directly and therefore also avoids system `-llapack` and `-lblas` libraries.
+
+The internal [`rfortran-arpack`](rfortran-arpack/) package supplies the
+double-precision ARPACK-NG 3.9.1 iterative eigensolvers used by `RSpectra` and
+`bigstatsr`. Its upstream sources have been converted to free source form and
+use the same pinned pure-Fortran LAPACK backend, avoiding system `-larpack`,
+`-llapack`, and `-lblas` libraries in those packages.
 
 ## Language interfaces
 

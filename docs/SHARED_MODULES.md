@@ -136,35 +136,49 @@ rfortran-linalg  (optional checked BLAS/LAPACK-backed linear algebra)
   `chyper`, `BiasedUrn`, `fitdistrplus`, `quarks`, `isotone`, and `survey` pass
   after migration. The `spantest`, `rrcov`, and `vares` suites also pass after
   their probability helpers were migrated.
-- `fportfolio` also compiles fully, but its test executables encounter the
-  Windows stack-overflow exit with the available Octave BLAS/LAPACK libraries.
+- `fportfolio` delegates its compatible linear-algebra operations to the pure
+  shared backend. All three tests pass, eliminating the Windows stack overflow
+  previously encountered with the available Octave BLAS/LAPACK libraries.
 - The separate `rfortran-linalg` package provides checked square solves,
   general matrix inversion, symmetric eigendecomposition, Cholesky factors,
   direct and prefactored SPD solves, SPD inverses with log determinants, thin
   real and complex thin SVD, economy-size QR, singular-values-only
   decomposition, SVD-based numerical rank, and
   rank-revealing pivoted QR, full-rank QR least squares, and rank-revealing SVD
-  least squares, full SVD, general-matrix spectral radius, and real Schur
+  least squares, pivoted-QR least squares with numerical-rank reporting, full
+  SVD, general-matrix spectral radius, and real Schur
   decomposition through a pinned pure-Fortran LAPACK backend. It also provides
   eigenvalues-only and right-eigenvector APIs for general real matrices and a
   right-eigenvector API for general complex matrices. Complex vector and
   matrix solves, real and complex matrix balancing, and complex Schur
-  decomposition are included for matrix-function implementations.
+  decomposition are included for matrix-function implementations. Checked
+  triangular inversion and LU-based determinant and signed-log-determinant
+  calculations cover optimization and covariance workflows.
   `CEoptim`, `cmaes`, `cccp`, `bayesianOU`, `CLA`, `RiskPortfolios`, `frapo`,
   `riskParityPortfolio`, `stochfactor`, `ks`, `nmof`, `mixsqp`, `garchx`, and
   `tvgarch`, `fbonds`, `fnonlinear`, `rquantlib`, `MultiATSM`, `BEKKs`,
   `compositions`, `fmultivar`, `fcopulae`, `fbasics`, `irlba`, `msm`,
   `matrixdist`, `etrm`, `esback`, `apt`, `matchingMarkets`, `gmm`, `nnet`,
-  `Rmalschains`, `statmod`, `robustbase`, `fastmatrix`, `lgarch`, `tsdyn`, and
-  `expm`
+  `Rmalschains`, `statmod`, `robustbase`, `fastmatrix`, `lgarch`, `tsdyn`,
+  `expm`, `pa`, `fportfolio`, `Rcsdp`, `Rdsdp`, `gogarch`, and `mclust`
   delegate their compatible
-  operations to this layer; `cccp`, `riskParityPortfolio`, and
-  `nmof` use the intrinsic `norm2` for their Euclidean-norm compatibility APIs.
+  operations to this layer; `cccp`, `riskParityPortfolio`, `nmof`, `Rcsdp`,
+  and `Rdsdp` use the intrinsic `norm2` rather than redundant wrappers.
   `L1pack` consumes the canonical migrated `fastmatrix` package instead of its
-  inactive vendor snapshot. All 190
+  inactive vendor snapshot. `tsdyn` uses pivoted-QR least squares, matching its
+  original `DGELSY` algorithm and rank threshold. All 219
   package test executables pass after these migrations, as do the direct shared
   linear-algebra tests. Moving `frapo` to this backend also eliminates the
   Windows stack-overflow previously observed with the Octave libraries.
+- `nleqslv` retains its solver-specific low-level BLAS/LAPACK call structure,
+  but its compatibility module now imports those procedures from the same
+  pinned pure-Fortran backend rather than linking system libraries. Its six
+  test executables pass.
+- The internal `rfortran-arpack` package provides the official double-precision
+  ARPACK-NG 3.9.1 sources converted to free source form and connected to the
+  pinned pure-Fortran LAPACK backend. `RSpectra` and `bigstatsr` use this
+  package instead of system ARPACK/BLAS/LAPACK libraries; their seven test
+  executables each pass, bringing the migrated package total above to 233.
 - Their deterministic comparisons against R pass 7/7 and 9/9 cases,
   respectively, for `FinTS` and `fracdiff`; `rugarch` passes 25/25 cases.
 - The direct `rfortran-core` comparison against R references passes all 54/54
@@ -200,3 +214,7 @@ The optional `rfortran-linalg` package follows the same local-path arrangement
 and pins its `fortran-lapack` dependency to an exact Git revision. A cold FPM
 build compiles that backend separately for each independent translated package;
 later builds reuse the package's local build products.
+
+The internal `rfortran-arpack` package also uses a relative path dependency
+from its current consumers and pins the same `fortran-lapack` revision. Its
+upstream BSD license and attribution are retained in the package directory.

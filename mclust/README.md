@@ -1,5 +1,7 @@
 # mclust-fortran v0.1.2
 
+**Official CRAN title:** Gaussian Mixture Modelling for Model-Based Clustering, Classification, and Density Estimation
+
 Modern Fortran/FPM computational port of the R package **mclust 6.1.3**
 (Gaussian finite-mixture modelling for clustering, classification, and
 density estimation).
@@ -65,7 +67,8 @@ The translated legacy numerical kernels are free-form `.f90` sources, but they i
 
 ## Build with FPM
 
-BLAS and LAPACK are required.  The manifest links `lapack` and `blas`.
+The manifest uses the repository's shared linear-algebra layer and a pinned
+pure-Fortran LAPACK backend. No system BLAS or LAPACK library is required.
 
 ```text
 fpm build

@@ -4,6 +4,7 @@ module bigstatsr_regression
     use bigstatsr_fbm, only: fbm_real
     use bigstatsr_utils, only: sigmoid, soft_threshold
     use rspectra_external, only: dgesvd
+    use la_lapack_d, only: dgesv => la_dgesv
     implicit none
     private
 
@@ -33,14 +34,6 @@ module bigstatsr_regression
     public :: big_univ_linreg, big_univ_logreg
     public :: elastic_net_gaussian_path, elastic_net_logistic_path
     public :: predict_enet, big_summaries
-
-    interface
-        subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-            import dp
-            integer :: n,nrhs,lda,ldb,ipiv(*),info
-            real(dp) :: a(lda,*),b(ldb,*)
-        end subroutine dgesv
-    end interface
 
 contains
 

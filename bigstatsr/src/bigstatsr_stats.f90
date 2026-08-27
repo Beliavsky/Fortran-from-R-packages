@@ -2,6 +2,7 @@
 module bigstatsr_stats
     use bigstatsr_kinds, only: dp
     use bigstatsr_utils, only: sort_pairs, normal_quantile, correlation
+    use la_lapack_d, only: dgesv => la_dgesv
     use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_nan
     implicit none
     private
@@ -23,14 +24,6 @@ module bigstatsr_stats
     end type pcor_result
 
     public :: auc, auc_sorted, auc_sorted_weighted, auc_bootstrap, pcor
-
-    interface
-        subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-            import dp
-            integer :: n,nrhs,lda,ldb,ipiv(*),info
-            real(dp) :: a(lda,*),b(ldb,*)
-        end subroutine dgesv
-    end interface
 
 contains
 

@@ -6,11 +6,16 @@ maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran large-scale eigenvalue and SVD solvers with an RSpectra-like API"
 categories = ["numerical"]
-gams = ["D"]
 keywords = ["eigenvalues", "singular-value-decomposition", "numerical", "numerical-methods"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["arpack", "lapack", "blas"]
+
+[dependencies]
+rfortran-arpack = { path = "../rfortran-arpack" }
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
+
+[extra.r-fpm-index]
+gams = ["D"]

@@ -3,34 +3,20 @@
 ! See LICENSE and UPSTREAM.md for upstream authorship and provenance.
 module mclust_linalg
   use mclust_kinds, only : dp
+  use r_linalg, only : shared_symmetric_eigen => symmetric_eigen
   implicit none
   private
   public :: symmetric_eigen, inverse_sqrt_symmetric, sample_covariance
-
-  interface
-    subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
-      import dp
-      character(len=1) :: jobz,uplo
-      integer :: n,lda,lwork,info
-      real(dp) :: a(lda,*),w(*),work(*)
-    end subroutine dsyev
-  end interface
 contains
   subroutine symmetric_eigen(a,evalues,evec,status,descending)
     real(dp),intent(in)::a(:,:)
     real(dp),allocatable,intent(out)::evalues(:),evec(:,:)
     integer,intent(out),optional::status
     logical,intent(in),optional::descending
-    real(dp),allocatable::work(:)
-    integer::n,lwork,info
+    integer::n,info
     logical::desc
     n=size(a,1); desc=.true.; if(present(descending)) desc=descending
-    allocate(evalues(n),evec(n,n)); evec=a
-    lwork=max(1,3*n-1); allocate(work(lwork))
-    call dsyev('V','U',n,evec,n,evalues,work,lwork,info)
-    if(info==0 .and. desc) then
-      evalues=evalues(n:1:-1); evec=evec(:,n:1:-1)
-    end if
+    call shared_symmetric_eigen(a,evalues,evec,info,descending=desc)
     if(present(status)) status=info
   end subroutine symmetric_eigen
 

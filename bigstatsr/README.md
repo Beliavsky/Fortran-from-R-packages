@@ -1,5 +1,7 @@
 # bigstatsr-fortran 0.1.0
 
+**Official CRAN title:** Statistical Tools for Filebacked Big Matrices
+
 Modern Fortran computational-core translation of `bigstatsr` 1.6.2, packaged
 for the Fortran Package Manager (FPM).
 
@@ -57,7 +59,7 @@ wrapper is not reproduced in v0.1.0.
 - SVD prediction / principal-component scores
 
 The matrix-free path uses the vendored MPL-2.0 Fortran RSpectra translation and
-therefore ARPACK, LAPACK, and BLAS.
+the repository's shared free-form ARPACK-NG and pure-Fortran LAPACK backends.
 
 ## Example
 
@@ -83,16 +85,10 @@ end program demo
 
 ## Build
 
-The default FPM build links to system ARPACK/LAPACK/BLAS:
+The default FPM build requires no system ARPACK, LAPACK, or BLAS library:
 
 ```text
 fpm test
-```
-
-Equivalent GNU Fortran linking uses:
-
-```text
-gfortran ... -larpack -llapack -lblas
 ```
 
 ## Validation

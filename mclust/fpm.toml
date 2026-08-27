@@ -5,14 +5,12 @@ author = "mclust authors; Fortran translation"
 maintainer = ""
 copyright = "See UPSTREAM.md and source notices"
 categories = ["machine-learning", "statistics", "numerical"]
-gams = ["L"]
 keywords = ["clustering", "mixture-models", "machine-learning", "statistics", "numerical", "statistical-computing"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
 
 [fortran]
 implicit-typing = true
@@ -21,3 +19,10 @@ source-form = "free"
 
 [library]
 source-dir = "src"
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
+
+[extra.r-fpm-index]
+gams = ["L"]

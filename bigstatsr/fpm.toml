@@ -6,7 +6,6 @@ maintainer = ""
 copyright = "See LICENSES.md"
 description = "Modern Fortran computational-core translation of bigstatsr"
 categories = ["statistics", "numerical"]
-gams = ["L"]
 keywords = ["statistics", "numerical", "statistical-computing"]
 
 [library]
@@ -16,9 +15,15 @@ source-dir = "src"
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["arpack", "lapack", "blas"]
+
+[dependencies]
+rfortran-arpack = { path = "../rfortran-arpack" }
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

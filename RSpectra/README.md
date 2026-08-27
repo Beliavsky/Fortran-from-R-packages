@@ -1,5 +1,7 @@
 # RSpectra-fortran
 
+**Official CRAN title:** Solvers for Large-Scale Eigenvalue and SVD Problems
+
 A modern Fortran/FPM translation of the computational interface of CRAN `RSpectra` 0.16-2.
 
 `RSpectra` is an R interface to the C++ Spectra library for computing a small number of eigenvalues/eigenvectors or singular values/vectors of large matrices. This port keeps the same computational model but uses the mature Fortran ARPACK reverse-communication solvers as the iterative backend and LAPACK/BLAS for factorizations and dense full-spectrum fallbacks.
@@ -83,21 +85,15 @@ Then call `eigs`, `eigs_sym`, or `svds` directly on the operator instance.
 
 ## Build requirements
 
-The FPM manifest links these system libraries:
-
-```toml
-link = ["arpack", "lapack", "blas"]
-```
-
-On a typical Linux system this corresponds to ARPACK-NG plus LAPACK/BLAS development packages.
+The FPM manifest uses the repository's free-form ARPACK-NG 3.9.1 package and
+the pinned pure-Fortran LAPACK backend. No system ARPACK, BLAS, or LAPACK
+library is required.
 
 Build and test with FPM:
 
 ```text
 fpm test
 ```
-
-or compile directly with GNU Fortran and link `-larpack -llapack -lblas`.
 
 ## Validation
 
