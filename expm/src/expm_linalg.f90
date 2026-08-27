@@ -2,6 +2,9 @@
 ! GPL-3.0-or-later; see LICENSE and LICENSES.md.
 module expm_linalg
     use expm_kinds, only : dp
+    use r_linalg, only : balance_matrix
+    use r_linalg, only : shared_singular_values => singular_values
+    use r_linalg, only : shared_solve_system => solve_system
     implicit none
     private
 
@@ -27,44 +30,6 @@ module expm_linalg
     public :: balance_real, balance_complex, reverse_balance_real, reverse_balance_complex
     public :: spectral_norm_real
 
-    interface
-        subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-            import dp
-            integer, intent(in) :: n,nrhs,lda,ldb
-            integer, intent(out) :: ipiv(*),info
-            real(dp), intent(inout) :: a(lda,*),b(ldb,*)
-        end subroutine dgesv
-        subroutine zgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-            import dp
-            integer, intent(in) :: n,nrhs,lda,ldb
-            integer, intent(out) :: ipiv(*),info
-            complex(dp), intent(inout) :: a(lda,*),b(ldb,*)
-        end subroutine zgesv
-        subroutine dgebal(job,n,a,lda,ilo,ihi,scale,info)
-            import dp
-            character(len=1), intent(in) :: job
-            integer, intent(in) :: n,lda
-            real(dp), intent(inout) :: a(lda,*)
-            integer, intent(out) :: ilo,ihi,info
-            real(dp), intent(out) :: scale(*)
-        end subroutine dgebal
-        subroutine zgebal(job,n,a,lda,ilo,ihi,scale,info)
-            import dp
-            character(len=1), intent(in) :: job
-            integer, intent(in) :: n,lda
-            complex(dp), intent(inout) :: a(lda,*)
-            integer, intent(out) :: ilo,ihi,info
-            real(dp), intent(out) :: scale(*)
-        end subroutine zgebal
-        subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
-            import dp
-            character(len=1), intent(in) :: jobu,jobvt
-            integer, intent(in) :: m,n,lda,ldu,ldvt,lwork
-            real(dp), intent(inout) :: a(lda,*)
-            real(dp), intent(out) :: s(*),u(ldu,*),vt(ldvt,*),work(*)
-            integer, intent(out) :: info
-        end subroutine dgesvd
-    end interface
 contains
     function eye_real(n) result(a)
         integer, intent(in) :: n
@@ -116,13 +81,12 @@ contains
     function solve_real(a,b,info) result(x)
         real(dp), intent(in) :: a(:,:), b(:,:)
         integer, intent(out), optional :: info
-        real(dp), allocatable :: x(:,:), aa(:,:)
-        integer, allocatable :: ipiv(:)
+        real(dp), allocatable :: x(:,:)
         integer :: n,nrhs,istat
         n=size(a,1); nrhs=size(b,2)
         if(size(a,2)/=n .or. size(b,1)/=n) error stop "solve_real: nonconformable arrays"
-        allocate(aa(n,n),x(n,nrhs),ipiv(n)); aa=a; x=b
-        call dgesv(n,nrhs,aa,n,ipiv,x,n,istat)
+        allocate(x(n,nrhs))
+        call shared_solve_system(a,b,x,istat)
         if(present(info)) info=istat
         if(istat/=0 .and. .not.present(info)) error stop "solve_real: dgesv failed"
     end function solve_real
@@ -130,13 +94,12 @@ contains
     function solve_complex(a,b,info) result(x)
         complex(dp), intent(in) :: a(:,:), b(:,:)
         integer, intent(out), optional :: info
-        complex(dp), allocatable :: x(:,:), aa(:,:)
-        integer, allocatable :: ipiv(:)
+        complex(dp), allocatable :: x(:,:)
         integer :: n,nrhs,istat
         n=size(a,1); nrhs=size(b,2)
         if(size(a,2)/=n .or. size(b,1)/=n) error stop "solve_complex: nonconformable arrays"
-        allocate(aa(n,n),x(n,nrhs),ipiv(n)); aa=a; x=b
-        call zgesv(n,nrhs,aa,n,ipiv,x,n,istat)
+        allocate(x(n,nrhs))
+        call shared_solve_system(a,b,x,istat)
         if(present(info)) info=istat
         if(istat/=0 .and. .not.present(info)) error stop "solve_complex: zgesv failed"
     end function solve_complex
@@ -156,8 +119,7 @@ contains
         integer :: n
         n=size(a,1); if(size(a,2)/=n) error stop "balance_real: matrix must be square"
         jb='B'; if(present(job)) jb=job
-        allocate(r%z(n,n),r%scale(n)); r%z=a
-        call dgebal(jb,n,r%z,n,r%ilo,r%ihi,r%scale,r%info)
+        call balance_matrix(a,r%z,r%scale,r%ilo,r%ihi,r%info,job=jb)
     end function balance_real
 
     function balance_complex(a,job) result(r)
@@ -168,8 +130,7 @@ contains
         integer :: n
         n=size(a,1); if(size(a,2)/=n) error stop "balance_complex: matrix must be square"
         jb='B'; if(present(job)) jb=job
-        allocate(r%z(n,n),r%scale(n)); r%z=a
-        call zgebal(jb,n,r%z,n,r%ilo,r%ihi,r%scale,r%info)
+        call balance_matrix(a,r%z,r%scale,r%ilo,r%ihi,r%info,job=jb)
     end function balance_complex
 
     subroutine reverse_balance_real(x,perm,scal)
@@ -230,13 +191,9 @@ contains
 
     real(dp) function spectral_norm_real(a) result(sn)
         real(dp), intent(in) :: a(:,:)
-        real(dp), allocatable :: aa(:,:),s(:),work(:),u(:,:),vt(:,:)
-        real(dp) :: wk(1)
-        integer :: m,n,info,lwork
-        m=size(a,1); n=size(a,2); allocate(aa(m,n),s(min(m,n)),u(1,1),vt(1,1)); aa=a
-        lwork=-1; call dgesvd('N','N',m,n,aa,m,s,u,1,vt,1,wk,lwork,info)
-        lwork=max(1,int(wk(1))); allocate(work(lwork)); aa=a
-        call dgesvd('N','N',m,n,aa,m,s,u,1,vt,1,work,lwork,info)
+        real(dp), allocatable :: s(:)
+        integer :: info
+        call shared_singular_values(a,s,info)
         if(info/=0) error stop "spectral_norm_real: dgesvd failed"
         sn=maxval(s)
     end function spectral_norm_real

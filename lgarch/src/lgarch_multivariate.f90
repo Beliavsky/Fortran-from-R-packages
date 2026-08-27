@@ -8,6 +8,7 @@ module lgarch_multivariate
   use lgarch_rng, only : random_normal_vector
   use lgarch_utils, only : mean_value, sample_variance, safe_log_mean_exp
   use lgarch_linalg, only : solve_linear, inverse_matrix, cholesky_lower, logdet_spd, spectral_radius, correlation_matrix, covariance_matrix
+  use r_linalg, only : general_real_eigenvalues
   use lgarch_optimizer, only : minimize_nelder_mead, numerical_hessian
   implicit none
   private
@@ -39,21 +40,11 @@ contains
 
   logical function mlgarch_is_stable(arch,garch) result(ok)
     real(dp),intent(in)::arch(:,:),garch(:,:)
-    real(dp),allocatable::a(:,:),wr(:),wi(:),vl(:,:),vr(:,:),work(:)
-    integer::m,lwork,info
-    interface
-      subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork,info)
-        import dp
-        character(len=1),intent(in)::jobvl,jobvr
-        integer,intent(in)::n,lda,ldvl,ldvr,lwork
-        integer,intent(out)::info
-        real(dp),intent(inout)::a(lda,*),work(*)
-        real(dp),intent(out)::wr(*),wi(*),vl(ldvl,*),vr(ldvr,*)
-      end subroutine dgeev
-    end interface
+    real(dp),allocatable::a(:,:),wr(:),wi(:)
+    integer::m,info
     m=size(arch,1); if(any(shape(arch)/=[m,m]) .or. any(shape(garch)/=[m,m])) error stop "mlgarch_is_stable: size mismatch"
-    allocate(a(m,m),wr(m),wi(m),vl(1,1),vr(1,1)); a=arch+garch; lwork=max(1,4*m); allocate(work(lwork))
-    call dgeev('N','N',m,a,m,wr,wi,vl,1,vr,1,work,lwork,info)
+    allocate(a(m,m)); a=arch+garch
+    call general_real_eigenvalues(a,wr,wi,info)
     ok=info==0 .and. maxval(sqrt(wr*wr+wi*wi))<1.0_dp
   end function mlgarch_is_stable
 

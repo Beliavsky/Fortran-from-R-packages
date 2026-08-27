@@ -69,11 +69,24 @@ packages exercise compatibility wrappers. See the
 notes](docs/SHARED_MODULES.md).
 
 The optional [`rfortran-linalg`](rfortran-linalg/) library centralizes checked
-linear solves, symmetric eigendecompositions, Cholesky factors, and SPD
-inverse/log-determinant calculations. It uses a pinned pure-Fortran LAPACK
-backend, so migrated packages do not require system `-llapack` or `-lblas`
-libraries. Basic operations already supplied by the language, such as
-`norm2`, remain intrinsic calls rather than shared wrappers.
+linear solves, general matrix inverses, symmetric eigendecompositions,
+Cholesky factors, SPD inverse/log-determinant calculations, real and complex
+thin SVD, economy-size QR, singular values, numerical rank, rank-revealing
+pivoted QR, QR least squares, SVD least squares, full SVD, and spectral radius.
+It also provides general real and complex eigendecomposition and real Schur
+decomposition, complex Schur decomposition, complex linear solves, and real
+and complex matrix balancing.
+It uses a pinned pure-Fortran
+LAPACK backend, so migrated packages do not require system `-llapack` or
+`-lblas` libraries. Basic operations already supplied by the language, such
+as `norm2`, remain intrinsic calls rather than shared wrappers. Current
+migrations cover `CEoptim`, `cmaes`, `cccp`, `bayesianOU`, `CLA`,
+`RiskPortfolios`, `frapo`, `riskParityPortfolio`, `stochfactor`, `ks`, `nmof`,
+`mixsqp`, `garchx`, `tvgarch`, `fbonds`, `fnonlinear`, `rquantlib`,
+`MultiATSM`, `BEKKs`, `compositions`, `fmultivar`, `fcopulae`, `fbasics`,
+`irlba`, `msm`, `matrixdist`, `etrm`, `esback`, `apt`, `matchingMarkets`, `gmm`,
+`nnet`, `Rmalschains`, `statmod`, `robustbase`, `fastmatrix`, `L1pack`,
+`lgarch`, `tsdyn`, and `expm`.
 
 ## Language interfaces
 

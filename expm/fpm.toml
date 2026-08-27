@@ -6,15 +6,19 @@ maintainer = "OpenAI translation"
 description = "Modern Fortran matrix exponential, logarithm, square root and related algorithms translated from expm"
 keywords = ["matrix exponential", "matrix logarithm", "frechet derivative", "matrix functions"]
 categories = ["numerical"]
-gams = ["D"]
 
 [build]
 auto-executables = true
 auto-examples = true
 auto-tests = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
 
 [fortran]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["D"]

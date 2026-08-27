@@ -7,6 +7,7 @@
 module expm_logsqrt
     use expm_kinds, only : dp
     use expm_linalg, only : eye_complex, norm1_complex, normf_complex, solve_complex
+    use r_linalg, only : complex_schur
     implicit none
     private
     public :: sqrtm, logm
@@ -18,27 +19,6 @@ module expm_logsqrt
         module procedure logm_real
         module procedure logm_complex
     end interface logm
-
-    abstract interface
-        logical function zselect_iface(z)
-            import dp
-            complex(dp), intent(in) :: z
-        end function zselect_iface
-    end interface
-
-    interface
-        subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork,rwork,bwork,info)
-            import dp,zselect_iface
-            character(len=1), intent(in) :: jobvs,sort
-            procedure(zselect_iface) :: select
-            integer, intent(in) :: n,lda,ldvs,lwork
-            complex(dp), intent(inout) :: a(lda,*)
-            integer, intent(out) :: sdim,info
-            complex(dp), intent(out) :: w(*),vs(ldvs,*),work(*)
-            real(dp), intent(out) :: rwork(*)
-            logical, intent(out) :: bwork(*)
-        end subroutine zgees
-    end interface
 contains
     function sqrtm_real(a) result(x)
         real(dp), intent(in) :: a(:,:)
@@ -48,19 +28,12 @@ contains
 
     function sqrtm_complex(a) result(x)
         complex(dp), intent(in) :: a(:,:)
-        complex(dp), allocatable :: x(:,:),t(:,:),q(:,:),w(:),work(:),r(:,:)
-        complex(dp) :: wk(1),denom,sm
-        real(dp), allocatable :: rwork(:)
-        logical, allocatable :: bwork(:)
-        integer :: n,lwork,info,sdim,i,j,k,p
+        complex(dp), allocatable :: x(:,:),t(:,:),q(:,:),w(:),r(:,:)
+        complex(dp) :: denom,sm
+        integer :: n,info,i,j,k,p
         n=size(a,1); if(size(a,2)/=n) error stop "sqrtm: matrix must be square"
         if(n==0) then; allocate(x(0,0)); return; end if
-        allocate(t(n,n),q(n,n),w(n),rwork(max(1,n)),bwork(max(1,n))); t=a
-        lwork=-1
-        call zgees('V','N',select_none,n,t,n,sdim,w,q,n,wk,lwork,rwork,bwork,info)
-        if(info/=0) error stop "sqrtm: zgees workspace query failed"
-        lwork=max(2*n,int(real(wk(1),dp))); allocate(work(lwork)); t=a
-        call zgees('V','N',select_none,n,t,n,sdim,w,q,n,work,lwork,rwork,bwork,info)
+        call complex_schur(a,t,w,q,info)
         if(info/=0) error stop "sqrtm: Schur decomposition failed"
         allocate(r(n,n)); r=cmplx(0.0_dp,0.0_dp,dp)
         do i=1,n; r(i,i)=sqrt(t(i,i)); end do
@@ -106,10 +79,4 @@ contains
         end do
         l=(2.0_dp**(s+1))*l
     end function logm_complex
-
-    logical function select_none(z)
-        complex(dp), intent(in) :: z
-        select_none=.false.
-        if(real(z,dp)>huge(1.0_dp)) select_none=.true.
-    end function select_none
 end module expm_logsqrt

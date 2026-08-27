@@ -4,20 +4,10 @@ module expm_eigen_methods
     use expm_kinds, only : dp
     use expm_linalg, only : eye_complex, solve_complex, normf_complex
     use expm_matrix_functions, only : expm_ward77
+    use r_linalg, only : general_complex_eigen
     implicit none
     private
     public :: expm_eigen, logm_eigen, expm_hybrid_eigen_ward
-    interface
-        subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork,info)
-            import dp
-            character(len=1), intent(in) :: jobvl,jobvr
-            integer, intent(in) :: n,lda,ldvl,ldvr,lwork
-            complex(dp), intent(inout) :: a(lda,*)
-            complex(dp), intent(out) :: w(*),vl(ldvl,*),vr(ldvr,*),work(*)
-            real(dp), intent(out) :: rwork(*)
-            integer, intent(out) :: info
-        end subroutine zgeev
-    end interface
 contains
     function expm_eigen(a,info) result(x)
         real(dp), intent(in) :: a(:,:)
@@ -60,17 +50,12 @@ contains
         integer, intent(in) :: which
         complex(dp), allocatable, intent(out) :: x(:,:)
         integer, intent(out) :: info
-        complex(dp), allocatable :: aa(:,:),w(:),vr(:,:),vl(:,:),work(:),vinv(:,:),fv(:,:)
-        complex(dp) :: wk(1)
-        real(dp), allocatable :: rwork(:)
+        complex(dp), allocatable :: aa(:,:),w(:),vr(:,:),vinv(:,:),fv(:,:)
         real(dp) :: resid
-        integer :: n,lwork,i
+        integer :: n,i
         n=size(a,1); if(size(a,2)/=n) error stop "spectral_function: matrix must be square"
-        allocate(aa(n,n),w(n),vr(n,n),vl(1,1),rwork(max(1,2*n))); aa=cmplx(a,0.0_dp,dp)
-        lwork=-1; call zgeev('N','V',n,aa,n,w,vl,1,vr,n,wk,lwork,rwork,info)
-        if(info/=0) then; allocate(x(n,n)); x=cmplx(0.0_dp,0.0_dp,dp); return; end if
-        lwork=max(2*n,int(real(wk(1),dp))); allocate(work(lwork)); aa=cmplx(a,0.0_dp,dp)
-        call zgeev('N','V',n,aa,n,w,vl,1,vr,n,work,lwork,rwork,info)
+        allocate(aa(n,n)); aa=cmplx(a,0.0_dp,dp)
+        call general_complex_eigen(aa,w,vr,info)
         if(info/=0) then; allocate(x(n,n)); x=cmplx(0.0_dp,0.0_dp,dp); return; end if
         vinv=solve_complex(vr,eye_complex(n),info)
         if(info/=0) then; allocate(x(n,n)); x=cmplx(0.0_dp,0.0_dp,dp); return; end if

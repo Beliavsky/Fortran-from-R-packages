@@ -5,7 +5,6 @@ author = "Modern Fortran translation of lgarch by Genaro Sucarrat"
 maintainer = "Translation project"
 description = "Simulation and estimation of univariate and multivariate log-GARCH models"
 categories = ["finance", "time-series", "simulation"]
-gams = ["L", "M"]
 keywords = ["estimation", "multivariate-statistics", "garch", "financial-econometrics", "finance", "time-series", "simulation", "modeling"]
 
 [library]
@@ -15,4 +14,9 @@ source-dir = "src"
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

@@ -4,96 +4,45 @@
 ! This file is distributed under the GNU General Public License version 2 only.
 module lgarch_linalg
   use lgarch_kinds, only : dp
+  use r_linalg, only : shared_cholesky_factor => cholesky_factor
+  use r_linalg, only : shared_inverse_matrix => inverse_matrix
+  use r_linalg, only : shared_solve_system => solve_system
+  use r_linalg, only : shared_spectral_radius => spectral_radius
+  use r_linalg, only : shared_symmetric_eigenvalues => symmetric_eigenvalues
   implicit none
   private
   public :: solve_linear, inverse_matrix, cholesky_lower, logdet_spd
   public :: symmetric_eigenvalues, spectral_radius, covariance_matrix, correlation_matrix
-  interface
-    subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-      import dp
-      integer, intent(in) :: n,nrhs,lda,ldb
-      integer, intent(out) :: ipiv(*),info
-      real(dp), intent(inout) :: a(lda,*),b(ldb,*)
-    end subroutine dgesv
-    subroutine dpotrf(uplo,n,a,lda,info)
-      import dp
-      character(len=1), intent(in) :: uplo
-      integer, intent(in) :: n,lda
-      integer, intent(out) :: info
-      real(dp), intent(inout) :: a(lda,*)
-    end subroutine dpotrf
-    subroutine dgetrf(m,n,a,lda,ipiv,info)
-      import dp
-      integer, intent(in) :: m,n,lda
-      integer, intent(out) :: ipiv(*),info
-      real(dp), intent(inout) :: a(lda,*)
-    end subroutine dgetrf
-    subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
-      import dp
-      integer, intent(in) :: n,lda,lwork
-      integer, intent(in) :: ipiv(*)
-      integer, intent(out) :: info
-      real(dp), intent(inout) :: a(lda,*),work(*)
-    end subroutine dgetri
-    subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
-      import dp
-      character(len=1), intent(in) :: jobz,uplo
-      integer, intent(in) :: n,lda,lwork
-      integer, intent(out) :: info
-      real(dp), intent(inout) :: a(lda,*),work(*)
-      real(dp), intent(out) :: w(*)
-    end subroutine dsyev
-    subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork,info)
-      import dp
-      character(len=1), intent(in) :: jobvl,jobvr
-      integer, intent(in) :: n,lda,ldvl,ldvr,lwork
-      integer, intent(out) :: info
-      real(dp), intent(inout) :: a(lda,*),work(*)
-      real(dp), intent(out) :: wr(*),wi(*),vl(ldvl,*),vr(ldvr,*)
-    end subroutine dgeev
-  end interface
 contains
   subroutine solve_linear(a,b,x,info)
     real(dp), intent(in) :: a(:,:), b(:)
     real(dp), intent(out) :: x(:)
     integer, intent(out) :: info
-    real(dp), allocatable :: ac(:,:), bc(:,:)
-    integer, allocatable :: ipiv(:)
     integer :: n
     n=size(a,1)
     if (size(a,2)/=n .or. size(b)/=n .or. size(x)/=n) error stop "solve_linear: size mismatch"
-    allocate(ac(n,n),bc(n,1),ipiv(n)); ac=a; bc(:,1)=b
-    call dgesv(n,1,ac,n,ipiv,bc,n,info)
-    if (info==0) x=bc(:,1)
+    call shared_solve_system(a,b,x,info)
   end subroutine solve_linear
 
   subroutine inverse_matrix(a,ainv,info)
     real(dp), intent(in) :: a(:,:)
     real(dp), intent(out) :: ainv(:,:)
     integer, intent(out) :: info
-    integer :: n,lwork
-    integer, allocatable :: ipiv(:)
-    real(dp), allocatable :: work(:)
+    integer :: n
+    real(dp), allocatable :: shared_inverse(:,:)
     n=size(a,1)
     if(size(a,2)/=n .or. any(shape(ainv)/=shape(a))) error stop "inverse_matrix: size mismatch"
-    ainv=a; allocate(ipiv(n)); call dgetrf(n,n,ainv,n,ipiv,info); if(info/=0)return
-    lwork=max(1,64*n); allocate(work(lwork)); call dgetri(n,ainv,n,ipiv,work,lwork,info)
+    call shared_inverse_matrix(a,shared_inverse,info)
+    if (info==0) ainv=shared_inverse
   end subroutine inverse_matrix
 
   subroutine cholesky_lower(a,l,info)
     real(dp), intent(in) :: a(:,:)
     real(dp), intent(out) :: l(:,:)
     integer, intent(out) :: info
-    integer :: i,j,n
-    n=size(a,1); l=a
-    call dpotrf('L',n,l,n,info)
-    if(info==0) then
-      do j=1,n
-        do i=1,j-1
-          l(i,j)=0.0_dp
-        end do
-      end do
-    end if
+    real(dp), allocatable :: shared_factor(:,:)
+    call shared_cholesky_factor(a,shared_factor,info)
+    if (info==0) l=shared_factor
   end subroutine cholesky_lower
 
   subroutine logdet_spd(a,logdet,info)
@@ -112,23 +61,21 @@ contains
     real(dp), intent(in) :: a(:,:)
     real(dp), intent(out) :: w(:)
     integer, intent(out) :: info
-    real(dp), allocatable :: ac(:,:),work(:)
-    integer :: n,lwork
-    n=size(a,1); allocate(ac(n,n)); ac=a; lwork=max(1,3*n); allocate(work(lwork))
-    call dsyev('N','U',n,ac,n,w,work,lwork,info)
+    real(dp), allocatable :: shared_values(:)
+    call shared_symmetric_eigenvalues(a,shared_values,info)
+    if (info==0) w=shared_values
   end subroutine symmetric_eigenvalues
 
   real(dp) function spectral_radius(phi) result(rho)
     real(dp), intent(in) :: phi(:)
-    real(dp), allocatable :: a(:,:),wr(:),wi(:),vl(:,:),vr(:,:),work(:)
-    integer :: p,lwork,info,i
+    real(dp), allocatable :: a(:,:)
+    integer :: p,info,i
     p=size(phi)
     if(p==0) then; rho=0.0_dp; return; end if
-    allocate(a(p,p),wr(p),wi(p),vl(1,1),vr(1,1)); a=0.0_dp; a(1,:)=phi
+    allocate(a(p,p)); a=0.0_dp; a(1,:)=phi
     do i=2,p; a(i,i-1)=1.0_dp; end do
-    lwork=max(1,4*p); allocate(work(lwork))
-    call dgeev('N','N',p,a,p,wr,wi,vl,1,vr,1,work,lwork,info)
-    if(info/=0) then; rho=huge(1.0_dp); else; rho=maxval(sqrt(wr*wr+wi*wi)); end if
+    call shared_spectral_radius(a,rho,info)
+    if(info/=0) rho=huge(1.0_dp)
   end function spectral_radius
 
   function covariance_matrix(x) result(cov)

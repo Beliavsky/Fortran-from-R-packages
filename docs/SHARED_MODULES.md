@@ -136,19 +136,35 @@ rfortran-linalg  (optional checked BLAS/LAPACK-backed linear algebra)
   `chyper`, `BiasedUrn`, `fitdistrplus`, `quarks`, `isotone`, and `survey` pass
   after migration. The `spantest`, `rrcov`, and `vares` suites also pass after
   their probability helpers were migrated.
-  FRAPO's
-  library and test executable compile, but its test process currently exits
-  with a Windows stack-overflow code on this machine after linking against the
-  available Octave BLAS/LAPACK libraries.
 - `fportfolio` also compiles fully, but its test executables encounter the
-  same Windows stack-overflow exit with those BLAS/LAPACK libraries.
+  Windows stack-overflow exit with the available Octave BLAS/LAPACK libraries.
 - The separate `rfortran-linalg` package provides checked square solves,
-  symmetric eigendecomposition, Cholesky factors, and SPD inverses with log
-  determinants through a pinned pure-Fortran LAPACK backend. `CEoptim`,
-  `cmaes`, and `cccp` delegate their compatible operations to this layer;
-  `cccp` uses the intrinsic `norm2` for its Euclidean-norm compatibility API.
-  All 15 package tests pass after these migrations, as do the direct shared
-  linear-algebra tests.
+  general matrix inversion, symmetric eigendecomposition, Cholesky factors,
+  direct and prefactored SPD solves, SPD inverses with log determinants, thin
+  real and complex thin SVD, economy-size QR, singular-values-only
+  decomposition, SVD-based numerical rank, and
+  rank-revealing pivoted QR, full-rank QR least squares, and rank-revealing SVD
+  least squares, full SVD, general-matrix spectral radius, and real Schur
+  decomposition through a pinned pure-Fortran LAPACK backend. It also provides
+  eigenvalues-only and right-eigenvector APIs for general real matrices and a
+  right-eigenvector API for general complex matrices. Complex vector and
+  matrix solves, real and complex matrix balancing, and complex Schur
+  decomposition are included for matrix-function implementations.
+  `CEoptim`, `cmaes`, `cccp`, `bayesianOU`, `CLA`, `RiskPortfolios`, `frapo`,
+  `riskParityPortfolio`, `stochfactor`, `ks`, `nmof`, `mixsqp`, `garchx`, and
+  `tvgarch`, `fbonds`, `fnonlinear`, `rquantlib`, `MultiATSM`, `BEKKs`,
+  `compositions`, `fmultivar`, `fcopulae`, `fbasics`, `irlba`, `msm`,
+  `matrixdist`, `etrm`, `esback`, `apt`, `matchingMarkets`, `gmm`, `nnet`,
+  `Rmalschains`, `statmod`, `robustbase`, `fastmatrix`, `lgarch`, `tsdyn`, and
+  `expm`
+  delegate their compatible
+  operations to this layer; `cccp`, `riskParityPortfolio`, and
+  `nmof` use the intrinsic `norm2` for their Euclidean-norm compatibility APIs.
+  `L1pack` consumes the canonical migrated `fastmatrix` package instead of its
+  inactive vendor snapshot. All 190
+  package test executables pass after these migrations, as do the direct shared
+  linear-algebra tests. Moving `frapo` to this backend also eliminates the
+  Windows stack-overflow previously observed with the Octave libraries.
 - Their deterministic comparisons against R pass 7/7 and 9/9 cases,
   respectively, for `FinTS` and `fracdiff`; `rugarch` passes 25/25 cases.
 - The direct `rfortran-core` comparison against R references passes all 54/54
