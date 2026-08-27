@@ -5,14 +5,18 @@ installed R packages and their translated Fortran packages in this repository.
 The shared `common` FPM package reads dated asset-price panels and constructs
 explicit simple or logarithmic return panels outside timed sections. Its date
 type also supports calendar fields needed by seasonal comparisons.
-The suite contains 151 cases spanning probability distributions, descriptive
+The suite contains 174 cases spanning probability distributions, descriptive
 statistics, numerical analysis, fractional time-series operations, fixed-parameter
-GARCH filters, financial performance measures, autocorrelation and ARCH
+GARCH filters, fitted Student-t GARCH models, financial performance measures, autocorrelation and ARCH
 diagnostics, covariance shrinkage, weighted quantile estimators, clustering,
-geometry, polynomials, and signal processing. Thirty-five cases use the shared
+geometry, polynomials, and signal processing. Fifty-eight cases use the shared
 asset-price fixture to check
 fractional-difference, volatility, performance, and multivariate covariance
-calculations on deterministic ETF returns. The existing
+calculations on deterministic ETF returns. The fitted-volatility cases compare
+sGARCH-t, GJR-GARCH-t, and NAGARCH-t parameter estimates, likelihoods,
+conditional-volatility summaries, and optimization times. The model set is
+controlled by the documented integer vectors in the paired `rugarch` sources.
+The existing
 `mixtools/run_mvnormal_comparison.*` adds an iterative mixture-model comparison.
 The 54-case `rfortran-core` section directly checks shared ordering, normal
 and central Student-t/chi-square/F distributions, median/MAD, regularized

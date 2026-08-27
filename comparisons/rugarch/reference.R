@@ -53,4 +53,58 @@ add_filter_case("etf_spy_gjrgarch_sigma", "gjrGARCH", gamma1=.04,
                 value_fun=function(x) wcheck(as.numeric(sigma(x))))
 add_filter_case("etf_spy_gjrgarch_loglik", "gjrGARCH", gamma1=.04,
                 value_fun=conditional_loglik, rtol=5e-8)
+
+# Model codes shared with app/main.f90:
+# 1 = sGARCH-t, 2 = GJR-GARCH-t, 3 = fGARCH/NAGARCH-t.
+# Edit this vector to select the models fitted by both implementations.
+fit_model_codes <- c(1L, 2L, 3L)
+fit_model_definition <- function(code) {
+  switch(as.character(code),
+    "1"=list(name="sgarch_std", model="sGARCH", asymmetry=NULL),
+    "2"=list(name="gjrgarch_std", model="gjrGARCH", asymmetry="gamma1"),
+    "3"=list(name="nagarch_std", model="fGARCH", submodel="NAGARCH",
+             asymmetry="eta21"),
+    stop("unsupported GARCH fit model code: ", code))
+}
+add_fit_value <- function(case, value, seconds=0, atol=2e-3, rtol=2e-3) {
+  rows[[length(rows)+1]] <<- data.frame(case=case, value=value,
+    seconds=seconds, abs_tol=atol, rel_tol=rtol)
+}
+for (code in fit_model_codes) {
+  definition <- fit_model_definition(code)
+  variance_model <- list(model=definition$model, garchOrder=c(1,1))
+  if (!is.null(definition$submodel)) {
+    variance_model$submodel <- definition$submodel
+  }
+  spec <- ugarchspec(
+    variance.model=variance_model,
+    mean.model=list(armaOrder=c(0,0), include.mean=TRUE),
+    distribution.model="std")
+  elapsed <- system.time(fit <- ugarchfit(spec, spy, solver="solnp",
+    solver.control=list(trace=0), fit.control=list(stationarity=1,
+    rec.init="all")))[["elapsed"]]
+  if (convergence(fit) != 0L) {
+    stop("rugarch fit did not converge for model code ", code)
+  }
+  estimates <- coef(fit)
+  prefix <- paste0("etf_spy_fit_", definition$name, "_")
+  add_fit_value(paste0(prefix, "loglik"), likelihood(fit), elapsed,
+    atol=2, rtol=5e-4)
+  add_fit_value(paste0(prefix, "mu"), estimates[["mu"]], atol=.005,
+    rtol=.03)
+  add_fit_value(paste0(prefix, "omega"), estimates[["omega"]], atol=.005,
+    rtol=.10)
+  add_fit_value(paste0(prefix, "alpha1"), estimates[["alpha1"]], atol=.015,
+    rtol=.05)
+  add_fit_value(paste0(prefix, "beta1"), estimates[["beta1"]], atol=.01,
+    rtol=.02)
+  if (!is.null(definition$asymmetry)) {
+    add_fit_value(paste0(prefix, "asymmetry"),
+      estimates[[definition$asymmetry]], atol=.01, rtol=.02)
+  }
+  add_fit_value(paste0(prefix, "shape"), estimates[["shape"]], atol=.4,
+    rtol=.02)
+  add_fit_value(paste0(prefix, "mean_sigma"), mean(as.numeric(sigma(fit))),
+    atol=.035, rtol=.01)
+}
 write.csv(do.call(rbind,rows),out,row.names=FALSE,quote=FALSE)
