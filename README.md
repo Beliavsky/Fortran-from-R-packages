@@ -23,6 +23,23 @@ mixture-model comparison. Thirty-five cases use a shared dated asset-price fixtu
 These checks
 are evidence for selected operations, not validation of every translated API.
 
+## Downloading one package
+
+Because the complete repository is large, Git users can download a single
+package directory and its subdirectories with a shallow sparse clone. For
+example, these Command Prompt commands download `tsa` without downloading the
+file contents of the other packages:
+
+```bat
+git clone --depth 1 --filter=blob:none --sparse https://github.com/Beliavsky/Fortran-from-R-packages.git tsa-download
+cd tsa-download
+git sparse-checkout set tsa
+```
+
+Replace `tsa` in the final command with the desired package directory. Git's
+cone-mode sparse checkout also retains a few files from the repository root,
+such as this README.
+
 ## Building on Windows
 
 Most packages build normally with `fpm build`. Some numerical packages declare
