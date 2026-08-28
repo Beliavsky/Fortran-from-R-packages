@@ -20,8 +20,8 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-trading = { path = "dependencies/trading" }
-saccr = { path = "dependencies/saccr" }
+trading = { path = "../Trading" }
+saccr = { path = "../SACCR" }
 
 [install]
 library = true

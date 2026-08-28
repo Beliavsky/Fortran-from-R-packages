@@ -11,9 +11,9 @@ categories = ["probability", "numerical", "statistics"]
 source-dir = "src"
 
 [dependencies]
-VGAM-fortran = { path = "vendor/VGAM-fortran" }
-expint-fortran = { path = "vendor/expint-fortran" }
-pracma = { path = "vendor/pracma-fortran" }
+VGAM-fortran = { path = "../VGAM" }
+expint-fortran = { path = "../expint" }
+pracma = { path = "../pracma" }
 
 [build]
 auto-executables = false

@@ -17,7 +17,7 @@ module-naming = false
 source-dir = "src"
 
 [dependencies]
-polynom-fortran = { path = "vendor/polynom-fortran" }
+polynom-fortran = { path = "../polynom" }
 
 [extra.r-fpm-index]
 gams = ["C", "K"]

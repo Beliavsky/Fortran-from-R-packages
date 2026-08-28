@@ -1,8 +1,0 @@
-module spacefillr
-use spacefillr_halton, only: generate_halton_faure_set,generate_halton_random_set, &
- generate_halton_faure_single,generate_halton_random_single
-use spacefillr_sobol, only: generate_sobol_set,generate_sobol_owen_set,sobol_single,sobol_owen_single
-use spacefillr_pmj, only: generate_pj_set,generate_pmj_set,generate_pmjbn_set,generate_pmj02_set,generate_pmj02bn_set
-implicit none
-public
-end module spacefillr

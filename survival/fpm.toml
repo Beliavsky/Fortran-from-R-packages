@@ -17,7 +17,7 @@ auto-tests = true
 module-naming = false
 
 [dependencies]
-splines-fortran = { path = "vendor/splines-fortran-v0.1.0" }
+splines-fortran = { path = "../splines" }
 
 [extra.r-fpm-index]
 gams = ["L"]

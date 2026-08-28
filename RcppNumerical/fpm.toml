@@ -14,7 +14,7 @@ auto-examples = true
 module-naming = false
 
 [dependencies]
-lbfgs = { path = "dependencies/lbfgs" }
+lbfgs = { path = "../lbfgs" }
 lbfgsb3 = { path = "dependencies/lbfgsb3" }
 
 [extra.r-fpm-index]

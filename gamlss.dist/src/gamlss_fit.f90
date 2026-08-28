@@ -49,6 +49,8 @@ module gamlss_fit
       logical :: converged = .false.
    end type
    public :: fit_gamlss
+   public :: family_npar, map_parameters
+   public :: inverse_link, family_logpdf, default_parameters
 contains
 
    subroutine fit_gamlss(y,x_mu,family,result,x_sigma,x_nu,x_tau,weights,start,max_iter,tol)

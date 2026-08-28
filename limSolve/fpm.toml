@@ -11,8 +11,8 @@ keywords = ["constrained-optimization", "optimization", "statistics", "numerical
 source-dir = "src"
 
 [dependencies]
-lpsolve-fortran = { path = "vendor/lpSolve-fortran" }
-quadprog-fortran = { path = "vendor/quadprog-fortran" }
+lpsolve-fortran = { path = "../lpSolve" }
+quadprog-fortran = { path = "../quadprog" }
 
 [build]
 auto-executables = false

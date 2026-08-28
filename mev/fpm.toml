@@ -11,8 +11,8 @@ keywords = ["extreme-value", "statistics", "numerical", "statistical-computing"]
 source-dir = "src"
 
 [dependencies]
-nleqslv-fortran = { path = "vendor/nleqslv-fortran" }
-expint-fortran = { path = "vendor/expint-fortran" }
+nleqslv-fortran = { path = "../nleqslv" }
+expint-fortran = { path = "../expint" }
 
 [build]
 auto-executables = true

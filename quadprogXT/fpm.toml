@@ -17,7 +17,7 @@ module-naming = false
 library = true
 
 [dependencies]
-quadprog-fortran = { path = "vendor/quadprog-fortran" }
+quadprog-fortran = { path = "../quadprog" }
 
 [extra.r-fpm-index]
 gams = ["G"]

@@ -1,5 +1,0 @@
-Sys.setenv("R_TESTS" = "")
-library(testthat)
-library(Matrix)
-library(MatrixExtra)
-test_check("MatrixExtra")

@@ -16,7 +16,7 @@ auto-examples = true
 auto-tests = true
 
 [dependencies]
-lpsolve-fortran = { path = "vendor/lpsolve-fortran" }
+lpsolve-fortran = { path = "../lpSolve" }
 
 [extra.r-fpm-index]
 gams = ["L"]

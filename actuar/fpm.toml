@@ -17,7 +17,7 @@ auto-tests = true
 module-naming = false
 
 [dependencies]
-expint-fortran = { path = "dependencies/expint-fortran" }
+expint-fortran = { path = "../expint" }
 
 [extra.r-fpm-index]
 gams = ["L"]

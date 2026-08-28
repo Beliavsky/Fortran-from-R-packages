@@ -21,8 +21,8 @@ library = true
 source-dir = "src"
 
 [dependencies]
-numDeriv-fortran = { path = "dependencies/numDeriv-fortran" }
-roptim = { path = "dependencies/roptim" }
+numDeriv-fortran = { path = "../numDeriv" }
+roptim = { path = "../roptim" }
 
 [extra.r-fpm-index]
 gams = ["G"]

@@ -1,9 +1,0 @@
-QCSIS modern Fortran translation
-
-Based on QCSIS 0.1 by Xuejun Ma, Jingxiao Zhang, and Jingke Zhou.
-Original package publication date: 2015-12-02.
-Original license: GPL-2.
-
-This distribution translates the computational routines to modern Fortran,
-adds FPM packaging, validation, tests, and examples, and omits plotting code
-(the upstream package contained no plotting routines in its R source).

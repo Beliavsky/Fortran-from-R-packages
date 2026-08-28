@@ -11,7 +11,7 @@ keywords = ["GARCH-MIDAS", "DAGM", "MEM-MIDAS", "volatility", "mixed-frequency"]
 source-dir = "src"
 
 [dependencies]
-maxlik = { path = "vendor/maxLik-fortran" }
+maxlik = { path = "../maxLik" }
 
 [build]
 auto-executables = true

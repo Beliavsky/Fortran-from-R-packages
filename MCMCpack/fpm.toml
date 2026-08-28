@@ -11,9 +11,9 @@ categories = ["simulation", "probability", "statistics"]
 source-dir = "src"
 
 [dependencies]
-coda-fortran = { path = "vendor/coda-fortran" }
-mcmc-fortran = { path = "vendor/mcmc-fortran" }
-quantreg-fortran = { path = "vendor/quantreg-fortran" }
+coda-fortran = { path = "../coda" }
+mcmc-fortran = { path = "../mcmc" }
+quantreg-fortran = { path = "../quantreg" }
 
 [build]
 auto-executables = false

@@ -12,7 +12,7 @@ source-dir = "src"
 
 [dependencies]
 robustbase-modern-fortran = { path = "../robustbase" }
-rrcov = { path = "vendor/rrcov" }
+rrcov = { path = "../rrcov" }
 
 [build]
 auto-executables = true

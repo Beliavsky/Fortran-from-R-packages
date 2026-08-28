@@ -18,7 +18,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-dicekriging = { path = "vendor/DiceKriging-fortran-v0.1.0" }
+dicekriging = { path = "../DiceKriging" }
 
 [extra.r-fpm-index]
 gams = ["G", "L"]

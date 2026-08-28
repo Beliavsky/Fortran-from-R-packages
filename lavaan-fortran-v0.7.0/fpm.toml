@@ -21,10 +21,10 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-pbivnorm-fortran = { path = "vendor/pbivnorm-fortran" }
-numDeriv-fortran = { path = "vendor/numDeriv-fortran" }
+pbivnorm-fortran = { path = "../pbivnorm" }
+numDeriv-fortran = { path = "../numDeriv" }
 
-gparotation = { path = "vendor/gparotation" }
+gparotation = { path = "../GPArotation" }
 
 [extra.r-fpm-index]
 gams = ["Z"]

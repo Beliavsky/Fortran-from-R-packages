@@ -20,8 +20,8 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-rugarch_fortran = { path = "vendor/rugarch" }
-rvinecopulib-fortran = { path = "vendor/rvinecopulib" }
+rugarch_fortran = { path = "../rugarch" }
+rvinecopulib-fortran = { path = "../rvinecopulib" }
 
 [extra.r-fpm-index]
 gams = ["L"]

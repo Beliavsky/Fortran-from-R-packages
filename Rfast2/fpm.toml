@@ -14,7 +14,7 @@ auto-tests = true
 module-naming = false
 
 [dependencies]
-rfast-fortran = { path = "vendor/rfast-fortran" }
+rfast-fortran = { path = "../Rfast" }
 
 [extra.r-fpm-index]
 gams = ["D", "L", "M"]

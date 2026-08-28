@@ -12,7 +12,7 @@ keywords = ["global-optimization", "optimization", "numerical", "numerical-metho
 source-dir = "src"
 
 [dependencies]
-lpsolve-fortran = { path = "vendor/lpSolve-fortran-v0.1.0" }
+lpsolve-fortran = { path = "../lpSolve" }
 
 [build]
 auto-executables = false

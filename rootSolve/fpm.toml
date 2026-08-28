@@ -21,7 +21,7 @@ auto-tests = true
 source-dir = "src"
 
 [dependencies]
-desolve = { path = "vendor/desolve" }
+desolve = { path = "../deSolve" }
 
 [extra.r-fpm-index]
 gams = ["F", "I"]

@@ -11,8 +11,8 @@ module-naming = false
 [library]
 source-dir = "src"
 [dependencies]
-numDeriv-fortran = { path = "vendor/numDeriv-fortran" }
-survival-fortran-core = { path = "vendor/survival-fortran" }
+numDeriv-fortran = { path = "../numDeriv" }
+survival-fortran = { path = "../survival" }
 
 [extra.r-fpm-index]
 gams = ["Z"]

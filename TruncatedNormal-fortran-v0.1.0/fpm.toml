@@ -17,9 +17,9 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-nleqslv-fortran = { path = "dependencies/nleqslv-fortran" }
-alabama = { path = "dependencies/alabama-fortran" }
-spacefillr-fortran = { path = "dependencies/spacefillr-fortran" }
+nleqslv-fortran = { path = "../nleqslv" }
+alabama = { path = "../alabama" }
+spacefillr-fortran = { path = "../spacefillr" }
 qrng-fortran = { path = "dependencies/qrng-fortran" }
 
 [extra.r-fpm-index]

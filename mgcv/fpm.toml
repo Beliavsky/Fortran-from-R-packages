@@ -15,7 +15,7 @@ auto-examples = true
 module-naming = false
 
 [dependencies]
-splines = { path = "dependencies/splines" }
+splines-fortran = { path = "../splines" }
 
 [extra.r-fpm-index]
 gams = ["E", "L"]

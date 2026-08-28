@@ -13,6 +13,8 @@ unless the documentation says otherwise.
 Browse packages through the [domain-oriented task views](TASK_VIEWS/), the
 [category and keyword index](PROJECT_INDEX.md), or the
 [NIST GAMS mathematical-software index](GAMS_INDEX.md).
+Reusable translated dependencies are maintained as described in
+[Shared translated dependencies](SHARED_DEPENDENCIES.md).
 
 The [R versus Fortran comparison suite](comparisons/) runs deterministic
 correctness checks and exploratory kernel timings against installed R packages.
@@ -37,9 +39,10 @@ cd tsa-download
 git sparse-checkout set tsa
 ```
 
-Replace `tsa` in the final command with the desired package directory. Git's
-cone-mode sparse checkout also retains a few files from the repository root,
-such as this README.
+Replace `tsa` in the final command with the desired package directory. This
+manual form is sufficient when the package has no sibling path dependencies.
+Git's cone-mode sparse checkout also retains a few files from the repository
+root, such as this README.
 
 Alternatively, download [`download_build_package.py`](download_build_package.py)
 and give it a package directory name. The script performs the sparse clone,
@@ -51,7 +54,9 @@ python download_build_package.py rugarch
 ```
 
 It creates `rugarch-download` in the current directory and refuses to overwrite
-an existing destination.
+an existing destination. Prefer this script for packages that use shared
+top-level dependencies: it discovers their local FPM paths recursively and adds
+the required directories to the sparse checkout.
 
 ## Building on Windows
 

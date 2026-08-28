@@ -16,9 +16,9 @@ module-naming = false
 source-dir = "src"
 
 [dependencies]
-survival-fortran = { path = "vendor/survival-fortran" }
-minqa = { path = "vendor/minqa" }
-numDeriv-fortran = { path = "vendor/numDeriv-fortran" }
+survival-fortran = { path = "../survival" }
+minqa = { path = "../minqa" }
+numDeriv-fortran = { path = "../numDeriv" }
 rfortran-core = { path = "../rfortran-core" }
 
 [extra.r-fpm-index]

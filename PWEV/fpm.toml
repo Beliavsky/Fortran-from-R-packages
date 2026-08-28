@@ -11,8 +11,8 @@ keywords = ["GARCH", "MEM", "volatility", "ensemble", "particle-swarm"]
 source-dir = "src"
 
 [dependencies]
-rumidas = { path = "vendor/rumidas-fortran" }
-rugarch_fortran = { path = "vendor/rugarch-modern-fortran" }
+rumidas = { path = "../rumidas" }
+rugarch_fortran = { path = "../rugarch" }
 
 [build]
 auto-executables = true

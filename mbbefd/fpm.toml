@@ -23,9 +23,9 @@ source-form = "free"
 source-dir = "src"
 
 [dependencies]
-fitdistrplus-fortran = { path = "vendor/fitdistrplus-fortran" }
-actuar = { path = "vendor/actuar-fortran" }
-alabama = { path = "vendor/alabama-fortran" }
+fitdistrplus-fortran = { path = "../fitdistrplus" }
+actuar-fortran = { path = "../actuar" }
+alabama = { path = "../alabama" }
 
 [extra.r-fpm-index]
 gams = ["L"]

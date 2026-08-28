@@ -17,4 +17,4 @@ source-form = "free"
 
 [dependencies]
 ecosolver-fortran = { path = "../.." }
-matrixextra-fortran = { path = "vendor/MatrixExtra-fortran" }
+matrixextra-fortran = { path = "../../../MatrixExtra" }

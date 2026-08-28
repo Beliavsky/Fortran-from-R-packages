@@ -11,7 +11,7 @@ categories = ["probability", "statistics", "numerical"]
 source-dir = "src"
 
 [dependencies]
-pracma = { path = "vendor/pracma-fortran" }
+pracma = { path = "../pracma" }
 
 [build]
 auto-executables = false

@@ -20,7 +20,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-copula-fortran = { path = "vendor/copula-fortran" }
+copula-fortran = { path = "../copula" }
 
 [extra.r-fpm-index]
 gams = ["L", "M"]

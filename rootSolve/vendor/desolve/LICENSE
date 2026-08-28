@@ -1,8 +1,0 @@
-deSolve-fortran is distributed under the GNU General Public License,
-version 2 or (at your option) any later version (GPL-2.0-or-later),
-consistent with the upstream deSolve package.
-
-See COPYING for the GPL version 2 text.
-
-The translated/vendored numerical solver sources retain their upstream
-author and provenance comments in the corresponding free-format .f90 files.

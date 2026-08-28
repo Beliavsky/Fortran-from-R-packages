@@ -16,8 +16,8 @@ auto-examples = true
 auto-tests = true
 
 [dependencies]
-matchingr-fortran = { path = "vendor/matchingr-fortran" }
-lpsolve-fortran = { path = "vendor/lpsolve-fortran" }
+matchingr-fortran = { path = "../matchingR" }
+lpsolve-fortran = { path = "../lpSolve" }
 rfortran-linalg = { path = "../rfortran-linalg" }
 
 [extra.r-fpm-index]

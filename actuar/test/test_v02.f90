@@ -47,8 +47,10 @@ program test_v02
     call check_close(aggregate_npower_cdf(aggregate_npower_quantile(p,5.0_dp,4.0_dp,0.8_dp), &
                      5.0_dp,4.0_dp,0.8_dp),p,2.0e-10_dp,'normal-power inversion')
 
-    prob_c=[1.0_dp];tc(1,1)=-2.0_dp
-    prob_w=[1.0_dp];tw(1,1)=-0.5_dp
+    prob_c=[1.0_dp]
+    tc(1,1)=-2.0_dp
+    prob_w=[1.0_dp]
+    tw(1,1)=-0.5_dp
     rr=ruin_phase_type(prob_c,tc,prob_w,tw,1.0_dp)
     call check_true(rr%converged,'ruin Cramer-Lundberg convergence')
     call check_close(rr%probability(0.0_dp),0.25_dp,2.0e-11_dp,'ruin at zero')
@@ -59,12 +61,14 @@ program test_v02
     call check_true(rr%converged,'ruin Erlang fixed point')
     call check_true(rr%probability(2.0_dp)<rr%probability(0.0_dp),'ruin decreases with surplus')
 
-    bounds=[0.0_dp,2.0_dp,5.0_dp,9.0_dp];counts=[2.0_dp,3.0_dp,5.0_dp]
+    bounds=[0.0_dp,2.0_dp,5.0_dp,9.0_dp]
+    counts=[2.0_dp,3.0_dp,5.0_dp]
     meanv=grouped_mean(bounds,counts)
     call check_close(meanv,(2.0_dp*1.0_dp+3.0_dp*3.5_dp+5.0_dp*7.0_dp)/10.0_dp,1.0e-13_dp,'grouped mean')
     call check_close(ogive_eval(5.0_dp,bounds,counts),0.5_dp,1.0e-13_dp,'ogive boundary')
     call check_close(grouped_quantile(0.5_dp,bounds,counts),5.0_dp,1.0e-13_dp,'grouped median')
-    orders=[1.0_dp,2.0_dp];gm=grouped_moments(bounds,counts,orders)
+    orders=[1.0_dp,2.0_dp]
+    gm=grouped_moments(bounds,counts,orders)
     call check_true(gm(2)>gm(1)**2,'grouped second moment')
     call check_true(elev_grouped(4.0_dp,bounds,counts)<=4.0_dp,'grouped LEV bound')
 
@@ -78,7 +82,8 @@ program test_v02
                     'hierarchical credibility range')
     call check_true(size(hc%level(1)%premium)==4,'hierarchical premiums')
 
-    design(:,1)=1.0_dp;design(:,2)=[0.0_dp,1.0_dp,2.0_dp,3.0_dp,4.0_dp]
+    design(:,1)=1.0_dp
+    design(:,2)=[0.0_dp,1.0_dp,2.0_dp,3.0_dp,4.0_dp]
     ha=[0.90_dp,1.15_dp,0.78_dp,1.28_dp,1.02_dp]
     hb=[0.38_dp,0.53_dp,0.34_dp,0.47_dp,0.59_dp]
     noise=[0.02_dp,-0.015_dp,0.01_dp,-0.005_dp,-0.01_dp]
@@ -95,6 +100,10 @@ program test_v02
 
     call check_close(mbeta_act(1.0_dp,2.0_dp,3.0_dp),0.4_dp,1.0e-13_dp,'beta raw moment')
     call check_close(levbeta_act(2.0_dp,2.0_dp,3.0_dp,1.0_dp),0.4_dp,1.0e-13_dp,'beta limited moment')
+    call check_close(mbeta(1.0_dp,2.0_dp,3.0_dp),0.4_dp,1.0e-13_dp,'beta compatibility alias')
+    call check_close(levbeta(2.0_dp,2.0_dp,3.0_dp,1.0_dp),0.4_dp,1.0e-13_dp,'beta limited compatibility alias')
+    call check_close(munif(1.0_dp,2.0_dp,6.0_dp),4.0_dp,1.0e-13_dp,'uniform compatibility alias')
+    call check_close(levunif(6.0_dp,2.0_dp,6.0_dp,1.0_dp),4.0_dp,1.0e-13_dp,'uniform limited compatibility alias')
     call check_close(mchisq_act(1.0_dp,4.0_dp,0.0_dp),4.0_dp,1.0e-13_dp,'chi-square mean')
     call check_close(levchisq_act(1.0e4_dp,4.0_dp,0.0_dp,1.0_dp),4.0_dp,1.0e-10_dp, &
                      'chi-square limited mean')

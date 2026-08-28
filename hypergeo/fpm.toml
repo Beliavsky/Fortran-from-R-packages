@@ -22,9 +22,9 @@ module-naming = false
 source-dir = "src"
 
 [dependencies]
-elliptic-fortran = { path = "dependencies/elliptic-fortran" }
-contfrac-fortran = { path = "dependencies/contfrac-fortran" }
-desolve = { path = "dependencies/desolve" }
+elliptic-fortran = { path = "../elliptic" }
+contfrac-fortran = { path = "../contfrac" }
+desolve = { path = "../deSolve" }
 
 [extra.r-fpm-index]
 gams = ["C"]

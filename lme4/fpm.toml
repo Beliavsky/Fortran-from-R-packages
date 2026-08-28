@@ -16,7 +16,7 @@ auto-examples = false
 source-dir = "src"
 
 [dependencies]
-minqa = { path = "dependencies/minqa" }
+minqa = { path = "../minqa" }
 
 [[test]]
 name = "test_lme4"

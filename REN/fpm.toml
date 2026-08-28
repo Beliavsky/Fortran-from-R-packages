@@ -25,7 +25,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-corpcor = { path = "vendor/corpcor" }
+corpcor = { path = "../corpcor" }
 
 [extra.r-fpm-index]
 gams = ["G", "L"]

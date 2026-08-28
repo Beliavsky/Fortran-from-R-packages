@@ -19,8 +19,8 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-cubature-fortran = { path = "dependencies/cubature-fortran" }
-partitions-fortran = { path = "dependencies/partitions-fortran" }
+cubature-fortran = { path = "../cubature" }
+partitions-fortran = { path = "../partitions" }
 
 [extra.r-fpm-index]
 gams = ["L"]

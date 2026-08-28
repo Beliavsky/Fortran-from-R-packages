@@ -9,7 +9,7 @@ keywords = ["sparse", "csr", "csc", "coo", "matrix", "linear-algebra"]
 categories = ["numerical"]
 
 [dependencies]
-matrix-fortran = { path = "vendor/Matrix-fortran" }
+matrix-fortran = { path = "../Matrix" }
 
 [build]
 auto-executables = false

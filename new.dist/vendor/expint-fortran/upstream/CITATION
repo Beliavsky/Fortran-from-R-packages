@@ -1,8 +1,0 @@
-bibentry(bibtype = "Manual",
-         title = "expint: Exponential Integral and Incomplete Gamma Function",
-         author = person("Vincent", "Goulet",
-                         email = "vincent.goulet@act.ulaval.ca"),
-	 year = 2026,
-         note = "R package",
-	 url = "https://cran.r-project.org/package=expint",
-         header = "To cite expint in publications use:")

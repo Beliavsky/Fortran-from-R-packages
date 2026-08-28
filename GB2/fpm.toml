@@ -22,7 +22,7 @@ source-form = "free"
 
 [dependencies]
 rfortran-core = { path = "../rfortran-core" }
-survey-fortran = { path = "vendor/survey-fortran" }
+survey-fortran = { path = "../survey" }
 
 [extra.r-fpm-index]
 gams = ["L"]

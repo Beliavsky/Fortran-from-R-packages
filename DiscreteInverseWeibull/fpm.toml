@@ -11,7 +11,7 @@ categories = ["probability", "statistics", "numerical"]
 source-dir = "src"
 
 [dependencies]
-Rsolnp-fortran = { path = "vendor/Rsolnp-fortran" }
+Rsolnp-fortran = { path = "../Rsolnp" }
 
 [build]
 auto-executables = false

@@ -18,7 +18,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-rugarch_fortran = { path = "vendor/rugarch-modern-fortran" }
+rugarch_fortran = { path = "../rugarch" }
 rfortran-core = { path = "../rfortran-core" }
 
 [extra.r-fpm-index]

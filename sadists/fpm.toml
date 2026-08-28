@@ -20,7 +20,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-pdqutils-fortran = { path = "vendor/pdqutils-fortran" }
+pdqutils-fortran = { path = "../pdqutils" }
 
 [extra.r-fpm-index]
 gams = ["L"]
