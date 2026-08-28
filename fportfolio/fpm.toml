@@ -12,5 +12,9 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
 [extra.r-fpm-index]
 gams = ["G", "L"]

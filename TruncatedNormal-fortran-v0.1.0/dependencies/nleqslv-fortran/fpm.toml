@@ -1,0 +1,16 @@
+name = "nleqslv-fortran"
+version = "0.1.1"
+license = "GPL-2.0-or-later"
+author = "nleqslv authors; Fortran standalone port"
+maintainer = ""
+copyright = "See LICENSES.md and upstream DESCRIPTION"
+description = "Standalone Fortran nonlinear-equation solver based on nleqslv"
+keywords = ["nonlinear equations", "Newton", "Broyden", "trust region", "line search"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }

@@ -11,7 +11,7 @@ keywords = ["MM-regression", "DCML", "robust-logistic", "Rocke", "robust-PCA"]
 source-dir = "src"
 
 [dependencies]
-robustbase-modern-fortran = { path = "vendor/robustbase-modern-fortran" }
+robustbase-modern-fortran = { path = "../robustbase" }
 rrcov = { path = "vendor/rrcov" }
 
 [build]
@@ -19,7 +19,6 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 module-naming = false
-link = ["lapack", "blas"]
 
 [install]
 library = true

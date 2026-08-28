@@ -18,3 +18,7 @@ source-dir = "src"
 
 [extra.r-fpm-index]
 gams = ["G"]
+
+[extra.r-fpm-test]
+required-files = ["vendor/lib/libscipfortran_backend.a"]
+preparation = "run scripts\\build_vendor.ps1 first"

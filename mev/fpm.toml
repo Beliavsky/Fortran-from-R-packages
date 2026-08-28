@@ -18,7 +18,6 @@ expint-fortran = { path = "vendor/expint-fortran" }
 auto-executables = true
 auto-tests = true
 auto-examples = true
-link = ["lapack", "blas"]
 
 [extra.r-fpm-index]
 gams = ["L"]

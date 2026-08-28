@@ -1,0 +1,22 @@
+Package: qrng
+Version: 0.0-11
+Encoding: UTF-8
+Title: (Randomized) Quasi-Random Number Generators
+Description: Functionality for generating (randomized) quasi-random numbers in
+  high dimensions.
+Authors@R: c(person(given = "Marius", family = "Hofert", role = c("aut", "cre"),
+                    email = "mhofert@hku.hk"),
+             person(given = "Christiane", family = "Lemieux", role = "aut",
+                    email = "clemieux@uwaterloo.ca"))
+Author: Marius Hofert [aut, cre],
+  Christiane Lemieux [aut]
+Maintainer: Marius Hofert <mhofert@hku.hk>
+Depends: R (>= 3.0.0)
+Imports: utils
+Suggests: spacefillr, randtoolbox, copula, simsalapar
+Enhances:
+License: GPL-2 | GPL-3
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2026-01-22 06:10:43 UTC
+Packaged: 2026-01-21 15:09:49 UTC; mhofert

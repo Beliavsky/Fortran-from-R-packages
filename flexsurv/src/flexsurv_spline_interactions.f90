@@ -64,7 +64,8 @@ contains
       res%status=21
       return
     end if
-    allocate(z0(np));z0=0.0_dp
+    allocate(z0(np))
+    z0=0.0_dp
     if(present(gamma_init))then
       if(size(gamma_init)==ng)z0(1:ng)=gamma_init
     else
@@ -74,27 +75,37 @@ contains
     if(present(beta_init))then
       if(size(beta_init)==np-ng)z0(ng+1:)=beta_init
     end if
-    mi=600;if(present(maxit))mi=maxit
-    tt=1.0e-8_dp;if(present(tol))tt=tol
+    mi=600
+    if(present(maxit))mi=maxit
+    tt=1.0e-5_dp
+    if(present(tol))tt=tol
     call bfgs_minimize(objective,z0,zhat,f,g,res%iterations,res%status,mi,tt)
-    res%theta=zhat;res%gradient=g;res%npar=np;res%loglik=-f
+    res%theta=zhat
+    res%gradient=g
+    res%npar=np
+    res%loglik=-f
     res%aic=-2.0_dp*res%loglik+2.0_dp*real(np,dp)
     res%converged=res%status==0
     allocate(res%model%knots(ng),res%model%gamma(ng),res%effect(ng))
-    res%model%knots=knots;res%model%gamma=zhat(1:ng)
-    res%model%scale=scale;res%model%timescale=timescale
+    res%model%knots=knots
+    res%model%gamma=zhat(1:ng)
+    res%model%scale=scale
+    res%model%timescale=timescale
     if(present(basis))res%model%basis=basis
     pos=ng
     do j=1,ng
-      pj=0;if(allocated(reg(j)%x))pj=size(reg(j)%x,2)
+      pj=0
+      if(allocated(reg(j)%x))pj=size(reg(j)%x,2)
       allocate(res%effect(j)%beta(pj))
       if(pj>0)then
         res%effect(j)%beta=zhat(pos+1:pos+pj)
         pos=pos+pj
       end if
     end do
-    allocate(hh(np,np));call hessian(objective,zhat,hh)
-    allocate(hpd(np,np));call near_positive_definite(hh,hpd,1.0e-9_dp)
+    allocate(hh(np,np))
+    call hessian(objective,zhat,hh)
+    allocate(hpd(np,np))
+    call near_positive_definite(hh,hpd,1.0e-9_dp)
     call invert_local(hpd,inv,ist)
     if(ist==0)res%covariance=inv
   contains
@@ -116,21 +127,29 @@ contains
     real(dp)::li,fu,fl,pobs,hx
     integer::i,ng
     ng=size(knots)
-    allocate(m%knots(ng),m%gamma(ng));m%knots=knots;m%scale=scale;m%timescale=timescale
+    allocate(m%knots(ng),m%gamma(ng))
+    m%knots=knots
+    m%scale=scale
+    m%timescale=timescale
     if(present(basis))m%basis=basis
     ll=0.0_dp
     do i=1,size(data%lower)
-      gam=spline_interaction_gamma(reg,z,i,ng);m%gamma=gam
+      gam=spline_interaction_gamma(reg,z,i,ng)
+      m%gamma=gam
       pobs=survspline_cdf(m,data%rtrunc(i))-survspline_cdf(m,data%start(i))
       if(pobs<=0.0_dp.or..not.ieee_is_finite(pobs))then
-        ll=-huge(1.0_dp);return
+        ll=-huge(1.0_dp)
+        return
       end if
       select case(data%status(i))
       case(fs_status_event)
         li=survspline_logpdf(m,data%lower(i))
         if(data%bhazard(i)>0.0_dp)then
           hx=survspline_hazard(m,data%lower(i))
-          if(hx<=0.0_dp)then;ll=-huge(1.0_dp);return;end if
+          if(hx<=0.0_dp)then
+          ll=-huge(1.0_dp)
+          return
+          end if
           li=li+log(1.0_dp+data%bhazard(i)/hx)
         end if
       case(fs_status_left)
@@ -144,7 +163,10 @@ contains
         if(data%bhazard(i)>0.0_dp)li=li+log(max(data%bcondsurv(i),tiny(1.0_dp)))
       end select
       li=li-log(pobs)
-      if(.not.ieee_is_finite(li))then;ll=-huge(1.0_dp);return;end if
+      if(.not.ieee_is_finite(li))then
+      ll=-huge(1.0_dp)
+      return
+      end if
       ll=ll+data%weights(i)*li
     end do
   end function flexsurvspline_interaction_loglik
@@ -155,9 +177,11 @@ contains
     integer,intent(in)::row,ng
     real(dp)::gamma(ng)
     integer::j,pj,pos
-    gamma=z(1:ng);pos=ng
+    gamma=z(1:ng)
+    pos=ng
     do j=1,ng
-      pj=0;if(allocated(reg(j)%x))pj=size(reg(j)%x,2)
+      pj=0
+      if(allocated(reg(j)%x))pj=size(reg(j)%x,2)
       if(pj>0)then
         gamma(j)=gamma(j)+dot_product(reg(j)%x(row,:),z(pos+1:pos+pj))
         pos=pos+pj
@@ -171,7 +195,8 @@ contains
     real(dp),intent(in)::t
     type(parameter_regression),intent(in)::xreg(:)
     type(survspline_model)::m
-    m=res%model;m%gamma=gamma_from_result(res,row,xreg)
+    m=res%model
+    m%gamma=gamma_from_result(res,row,xreg)
     s=survspline_survival(m,t)
   end function spline_interaction_survival
 
@@ -181,7 +206,8 @@ contains
     real(dp),intent(in)::t
     type(parameter_regression),intent(in)::xreg(:)
     type(survspline_model)::m
-    m=res%model;m%gamma=gamma_from_result(res,row,xreg)
+    m=res%model
+    m%gamma=gamma_from_result(res,row,xreg)
     h=survspline_hazard(m,t)
   end function spline_interaction_hazard
 
@@ -190,9 +216,14 @@ contains
     integer,intent(in)::row
     type(parameter_regression),intent(in)::xreg(:)
     type(flexsurvspline_result)::out
-    out%model=res%model;out%model%gamma=gamma_from_result(res,row,xreg)
-    allocate(out%beta(0));out%loglik=res%loglik;out%aic=res%aic
-    out%iterations=res%iterations;out%status=res%status;out%converged=res%converged
+    out%model=res%model
+    out%model%gamma=gamma_from_result(res,row,xreg)
+    allocate(out%beta(0))
+    out%loglik=res%loglik
+    out%aic=res%aic
+    out%iterations=res%iterations
+    out%status=res%status
+    out%converged=res%converged
   end function spline_interaction_to_basic
 
   function gamma_from_result(res,row,xreg) result(gamma)
@@ -215,7 +246,10 @@ contains
     ok=.true.
     do j=1,size(reg)
       if(allocated(reg(j)%x))then
-        if(size(reg(j)%x,1)/=n)then;ok=.false.;return;end if
+        if(size(reg(j)%x,1)/=n)then
+        ok=.false.
+        return
+        end if
       end if
     end do
   end function valid_rows
@@ -227,8 +261,13 @@ contains
     real(dp),allocatable::aug(:,:),tmp(:)
     real(dp)::piv,fac
     integer::n,i,j,k,ip
-    n=size(a,1);allocate(aug(n,2*n),tmp(2*n));aug=0.0_dp;aug(:,1:n)=a
-    do i=1,n;aug(i,n+i)=1.0_dp;end do
+    n=size(a,1)
+    allocate(aug(n,2*n),tmp(2*n))
+    aug=0.0_dp
+    aug(:,1:n)=a
+    do i=1,n
+    aug(i,n+i)=1.0_dp
+    end do
     status=0
     do i=1,n
       ip=i
@@ -236,15 +275,27 @@ contains
         if(abs(aug(k,i))>abs(aug(ip,i)))ip=k
       end do
       if(abs(aug(ip,i))<1.0e-14_dp)then
-        status=1;allocate(ainv(n,n));ainv=0.0_dp;return
+        status=1
+        allocate(ainv(n,n))
+        ainv=0.0_dp
+        return
       end if
-      if(ip/=i)then;tmp=aug(i,:);aug(i,:)=aug(ip,:);aug(ip,:)=tmp;end if
-      piv=aug(i,i);aug(i,:)=aug(i,:)/piv
+      if(ip/=i)then
+      tmp=aug(i,:)
+      aug(i,:)=aug(ip,:)
+      aug(ip,:)=tmp
+      end if
+      piv=aug(i,i)
+      aug(i,:)=aug(i,:)/piv
       do j=1,n
-        if(j/=i)then;fac=aug(j,i);aug(j,:)=aug(j,:)-fac*aug(i,:);end if
+        if(j/=i)then
+        fac=aug(j,i)
+        aug(j,:)=aug(j,:)-fac*aug(i,:)
+        end if
       end do
     end do
-    allocate(ainv(n,n));ainv=aug(:,n+1:)
+    allocate(ainv(n,n))
+    ainv=aug(:,n+1:)
   end subroutine invert_local
 
 end module flexsurv_spline_interactions

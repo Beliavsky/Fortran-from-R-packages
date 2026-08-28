@@ -1,0 +1,17 @@
+name = "pbivnorm-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Alan Genz; Brenton Kenkel; Fortran port"
+maintainer = ""
+copyright = "See NOTICE.md"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
