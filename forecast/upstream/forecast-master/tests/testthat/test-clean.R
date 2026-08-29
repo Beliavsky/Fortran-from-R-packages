@@ -1,0 +1,34 @@
+# A unit test for na.interp() and tsclean()
+test_that("tests for na.interp", {
+  # Test nonseasonal interpolation
+  expect_equal(c(na.interp(c(1, 2, 3, NA, 5, 6, 7))), 1:7)
+  # Test for identical on series without NAs
+  expect_equal(na.interp(wineind), wineind)
+  # Test seasonal interpolation
+  testseries <- testseries_miss <- ts(rep(1:7, 5), frequency = 7)
+  testseries_miss[c(1, 3, 11, 17)] <- NA
+  expect_equal(na.interp(testseries_miss), testseries)
+  # Test length of output
+  expect_length(testseries, length(na.interp(testseries)))
+})
+test_that("tests for tsclean", {
+  # Test for no NAs
+  expect_false(anyNA(tsclean(gold)))
+  # Test for removing outliers in seasonal series
+  testseries <- testseries_miss <- ts(rep(1:7, 5), frequency = 7)
+  testseries_miss[c(2, 4, 14)] <- 0
+  expect_equal(tsclean(testseries_miss), testseries)
+  # Test for NAs left with replace.missing = FALSE argument
+  testseries_miss[c(2, 4, 14)] <- NA
+  expect_equal(tsclean(testseries_miss), testseries)
+  expect_equal(
+    testseries_miss,
+    tsclean(testseries_miss, replace.missing = FALSE)
+  )
+  # Test for outliers in a series
+  expect_equal(sum(abs(wineind - tsclean(wineind)) > 1e-6), 1)
+  # Test for identical on series without NAs or outliers
+  expect_identical(USAccDeaths, tsclean(USAccDeaths))
+  # Test length of output
+  expect_length(tsclean(testseries), length(testseries))
+})

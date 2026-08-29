@@ -1,0 +1,23 @@
+name = "forecast-fortran"
+version = "0.3.0"
+license = "GPL-3.0-only"
+author = "forecast package authors; Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Copyright forecast package authors and contributors"
+description = "Modern Fortran translation of the computational core of R package forecast"
+keywords = ["forecasting", "ets", "arima", "tbats", "time-series"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+fracdiff = { path = "../fracdiff" }
+urca-fortran = { path = "../urca" }
+nnet-fortran = { path = "../nnet" }

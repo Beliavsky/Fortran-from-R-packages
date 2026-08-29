@@ -1,0 +1,30 @@
+module forecast
+   use forecast_kinds
+   use forecast_types
+   use forecast_stats
+   use forecast_transforms
+   use forecast_features
+   use forecast_calendar
+   use forecast_accuracy
+   use forecast_benchmarks
+   use forecast_ets
+   use forecast_unitroot
+   use forecast_arima
+   use forecast_arfima
+   use forecast_nnetar
+   use forecast_bats
+   use forecast_bats_fit
+   use forecast_dshw
+   use forecast_decompose
+   use forecast_regression
+   use forecast_modelar
+   use forecast_spline
+   use forecast_clean
+   use forecast_bootstrap
+   use forecast_cv
+   use forecast_bagging
+   use forecast_stlf
+   use forecast_diagnostics
+   implicit none
+   public
+end module forecast
