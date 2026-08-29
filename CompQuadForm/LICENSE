@@ -1,0 +1,9 @@
+CompQuadForm-fortran is distributed under the GNU General Public License,
+version 2 or (at your option) any later version (GPL-2.0-or-later), because it
+is a translation of GPL-2-or-later CompQuadForm computational code.
+
+See LICENSES/GPL-2.0.txt for the GPL version 2 text.
+
+The separately supplied src/r_mod.f90 is MIT-licensed. See
+LICENSES/MIT-r_mod.txt. Its MIT license does not alter the GPL terms applying
+to the combined translated package.

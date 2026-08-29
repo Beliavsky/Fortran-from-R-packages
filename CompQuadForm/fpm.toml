@@ -1,0 +1,22 @@
+name = "compquadform-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of CompQuadForm by Pierre Lafaye De Micheaux, Pierre Duchesne, Robert B. Davies, R. W. Farebrother, J. Sheil, I. O Muircheartaigh, and contributors"
+maintainer = ""
+copyright = "See LICENSES and NOTICE"
+description = "Modern Fortran translation of the computational core of the R package CompQuadForm"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["f90"]
+
+[extra.r-fpm-index]
+gams = ["Z"]

@@ -1,0 +1,52 @@
+Upstream package
+----------------
+CompQuadForm 1.4.4, "Distribution Function of Quadratic Forms in Normal Variables"
+Date: 2025-07-13
+
+Authors credited by the upstream DESCRIPTION:
+  Pierre Lafaye De Micheaux
+  Pierre Duchesne
+  Robert B. Davies
+  R. W. Farebrother
+  J. Sheil
+  I. O Muircheartaigh
+
+Upstream license declaration: GPL (>= 2)
+
+This repository is a modern Fortran translation of the computational portions
+of that package. R loading/registration glue and other non-computational
+package infrastructure are omitted.
+
+Algorithm attribution
+---------------------
+Davies:
+  Robert B. Davies (1980), "Algorithm AS 155: The Distribution of a Linear
+  Combination of chi-squared Random Variables", Applied Statistics 29(3),
+  323-333.
+
+Farebrother/Ruben:
+  Algorithm AS 204, Applied Statistics 33(3), 1984, based on the second part
+  of Sheil and O'Muircheartaigh (1977), Algorithm AS 106, "The distribution
+  of non-negative quadratic forms in normal variables", Applied Statistics
+  26, 92-98.
+
+Imhof:
+  J. P. Imhof (1961), "Computing the Distribution of Quadratic Forms in
+  Normal Variables", Biometrika 48(3/4), 419-426.
+
+Liu approximation:
+  The R implementation in CompQuadForm is translated directly. See the
+  upstream package citation and documentation for the Liu-Tang-Zhang method.
+
+The upstream package asks users to cite:
+  Duchesne, P. and Lafaye De Micheaux, P. (2010), "Computing the distribution
+  of quadratic forms: Further comparisons between the Liu-Tang-Zhang
+  approximation and exact methods", Computational Statistics and Data
+  Analysis 54, 858-862.
+
+r_mod.f90
+---------
+The user supplied r_mod.f90 for reuse and identified it as MIT-licensed. The
+same formatting-normalized copy used in the preceding translation is included.
+No copyright-holder information was present in the supplied source, so none
+has been invented.
