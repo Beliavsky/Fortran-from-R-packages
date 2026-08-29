@@ -1,0 +1,41 @@
+name = "strucchange"
+version = "1.6.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Achim Zeileis, Friedrich Leisch, Kurt Hornik, Christian Kleiber; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of computational algorithms from the R package strucchange"
+categories = ["statistics", "time-series", "change-point"]
+keywords = ["structural-change", "breakpoints", "CUSUM", "MOSUM", "F-statistics"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[[test]]
+name = "strucchange-tests"
+source-dir = "test"
+main = "test_strucchange.f90"
+
+[[example]]
+name = "breakpoints-example"
+source-dir = "example"
+main = "breakpoints_example.f90"
+
+[[example]]
+name = "cusum-example"
+source-dir = "example"
+main = "cusum_example.f90"
+
+[extra.r-fpm-index]
+gams = ["J1", "J2"]
