@@ -1,0 +1,58 @@
+* pstable() bug beta ~= -1, found by Anastasija Sanina, Feb.2016
+  --->  ~/R/MM/Pkg-ex/stabledist/pstable-uniroot-bug.R.
+  (We now give NaN and a *warning* .. but ..)
+
+* Compare with Jim Lindsey's "stable" package
+  --> http://www.commanster.eu/rcode.html
+  Maybe even ask him to make it CRANny
+  (maybe after transfering maintainership ?)
+
+  At SfS ETH: source in /usr/local/app/R/R_local/JimLindsey/stable/
+  installed in          /usr/local/app/R/R_local/JimLindsey/library
+
+* stableMode():  [MM] I'm pretty sure that the  'beta.max' argument is
+  		 unneeded and could be eliminated.
+
+* parametrizations -- pm=0, 1, 2 ---
+  provide functions for the parameter transformation that go from
+  other to pm=0 -- and back
+  and then show how to, or  use these to to provide transformations
+  from all pm's to any other.
+
+* [qp] check the  lower.tail & log.p argument settings
+  NB: This check *should* happen in  fBasics  'checkdist' ...
+
+* curve(dstable(exp(x), alpha= 0.1, beta=1, pm=1, log=TRUE), -15, 0)
+  very much depends on  zeta.tol ... that should somehow depend on alpha or zeta;
+  --> tests/dstab-ex.R ("beta = 1")
+
+* As easy alternative to  fBasics::stableFit() define one  based
+  on stats4::mle (and possibly also a  quantile-matching alternative).
+
+------------------------------------ Done : --------------------------------------
+				     ====
+
+* Nolan ("tail.pdf") and other places mention *asymptotic* formulae
+  --> use these for large |x|, notably for  dstable(*, log = TRUE)
+
+* pstable() should also get   lower.tail = TRUE,  log.p = FALSE
+  ~~~~~~~   arguments
+* qstable() ditto
+
+* using  doExtras to *not* run some tests when  --as-cran ,  as
+
+     From: Prof Brian Ripley <ripley@stats.ox.ac.uk>
+     Subject: Re: New version of copula uploaded 0.99-2
+     Date: Tue, 29 May 2012 17:17:05 +0100
+
+     ..  but the test times
+
+     * checking tests ...  [173s/174s] OK
+	Running doRUnit.R  [82s/83s]
+	Running dstab-ex.R [34s/34s]
+	Running pstab-ex.R [19s/19s]
+	Running tails.R    [39s/39s]
+
+     are more than we would like, so please consider reducing substantially
+     next time around
+     ...

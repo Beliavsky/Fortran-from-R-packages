@@ -1,0 +1,27 @@
+name = "stabledist-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Diethelm Wuertz, Martin Maechler, Yohan Chalabi; modern Fortran translation"
+maintainer = "Fortran port contributors"
+description = "Modern Fortran/FPM translation of the computational core of the R package stabledist"
+keywords = ["stable-distribution", "nolan", "probability", "quantile", "random"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["F90"]
+
+[extra.r-fpm-index]
+gams = ["L"]
