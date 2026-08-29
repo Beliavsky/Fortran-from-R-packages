@@ -1,0 +1,27 @@
+name = "TruncatedNormal-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Zdravko Botev, Leo Belzile; modern Fortran translation"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran/FPM translation of the computational core of the R package TruncatedNormal"
+keywords = ["truncated normal", "truncated student", "minimax tilting", "QMC", "multivariate probability"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+nleqslv-fortran = { path = "../nleqslv" }
+alabama = { path = "../alabama" }
+spacefillr-fortran = { path = "../spacefillr" }
+qrng-fortran = { path = "../qrng" }
+
+[extra.r-fpm-index]
+gams = ["L"]
