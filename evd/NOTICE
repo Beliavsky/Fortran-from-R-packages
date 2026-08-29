@@ -1,0 +1,15 @@
+evd-fortran is a modern Fortran translation of computational routines from
+the R package evd 2.3-7.1 by Alec Stephenson. The upstream package is licensed
+GPL-3 and identifies Chris Ferro as the author of function fbvpot.
+
+Upstream citation:
+A. G. Stephenson (2002), "evd: Extreme Value Distributions", R News 2(2), 31-32.
+
+The simulation routines for logistic/asymmetric-logistic models retain the
+upstream comments identifying Algorithms 1.1, 1.2, 2.1 and 2.2 of Stephenson
+(2003). The numerical/statistical formulas are derived from the corresponding
+GPL-3 R/C source files included in the upstream release.
+
+src/r_mod.f90 is the separately supplied MIT-licensed compatibility helper and
+is covered by LICENSES/r_mod-MIT.txt. All evd-derived translation files are
+covered by LICENSES/GPL-3.0-only.txt.
