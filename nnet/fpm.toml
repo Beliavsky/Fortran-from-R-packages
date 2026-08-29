@@ -1,0 +1,24 @@
+name = "nnet-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "W. N. Venables and B. D. Ripley; Fortran port"
+maintainer = "Fortran port"
+copyright = "1992-2026 W. N. Venables and B. D. Ripley"
+description = "Modern Fortran port of the computational core of R package nnet"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["Z"]
