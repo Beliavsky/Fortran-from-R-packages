@@ -1,0 +1,15 @@
+Licensing summary
+=================
+
+The code translated from the R package qrng retains the upstream license choice:
+
+    GPL-2 | GPL-3
+
+Copies of GPL version 2 and GPL version 3 are provided as
+LICENSE-GPL-2.txt and LICENSE-GPL-3.txt.
+
+The supplied r_mod helper module is separately MIT-licensed.  See
+LICENSE-r_mod-MIT.txt and PORTING_NOTES.md.
+
+The original qrng DESCRIPTION and computational C sources are retained under
+upstream/ for provenance and attribution.

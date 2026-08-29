@@ -1,0 +1,14 @@
+useDynLib(qrng, .registration = TRUE)
+
+
+### Imports ####################################################################
+
+importFrom("utils", "tail", "packageVersion")
+importFrom("stats", "quantile")
+
+
+### Exports ####################################################################
+
+export("korobov", "ghalton", "sobol",
+       "to_array",
+       "sum_of_squares", "sobol_g", "exceedance")
