@@ -1,0 +1,23 @@
+Package: matrixNormal
+Version: 0.1.2
+Type: Package
+Title: The Matrix Normal Distribution
+Authors@R: person("Paul M.", "Hargarten", email = "hargartenp@alumni.vcu.edu", role = c("aut", "cre"))	
+Depends: R (>= 3.5.0), stats, utils
+Imports: mvtnorm (>= 1.1-2)
+Suggests: formatR, knitr, LaplacesDemon (>= 16.1.1), matrixcalc (>=
+        1.0-3), matrixsampling (>= 1.1.0), MBSP (>= 1.0), rmarkdown,
+        roxygen2, sessioninfo, spelling, testthat
+Description: Computes densities, probabilities, and random deviates of the Matrix Normal (Pocuca et al. (2019) <doi:10.48550/arXiv.1910.02859>). Also includes simple but useful matrix functions. See the vignette for more information. 
+License: GPL-3
+Encoding: UTF-8
+BugReports: https://github.com/phargarten2/matrixNormal/issues
+RoxygenNote: 7.3.3
+Language: en-US
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2026-02-22 21:57:47 UTC; pablo
+Author: Paul M. Hargarten [aut, cre]
+Maintainer: Paul M. Hargarten <hargartenp@alumni.vcu.edu>
+Repository: CRAN
+Date/Publication: 2026-02-23 06:10:02 UTC

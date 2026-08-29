@@ -1,0 +1,25 @@
+name = "matrixNormal-fortran"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Paul M. Hargarten; Fortran port contributors"
+maintainer = "Fortran port contributors"
+description = "Modern Fortran port of the computational core of matrixNormal"
+categories = ["statistics", "probability", "matrix-variate"]
+keywords = ["matrix-normal", "multivariate-normal", "kronecker"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+mvtnorm-fortran = { path = "../mvtnorm" }
+
+[extra.r-fpm-index]
+gams = ["L"]
