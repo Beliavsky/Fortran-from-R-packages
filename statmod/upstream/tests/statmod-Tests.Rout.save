@@ -1,0 +1,427 @@
+
+R version 4.2.2 (2022-10-31 ucrt) -- "Innocent and Trusting"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(statmod)
+> options(warnPartialMatchArgs=TRUE,warnPartialMatchAttr=TRUE,warnPartialMatchDollar=TRUE)
+> 
+> set.seed(0); u <- runif(100)
+> 
+> ### fitNBP
+> 
+> y <- matrix(rnbinom(2*4,mu=4,size=1.5),2,4)
+> lib.size <- rep(50000,4)
+> group <- c(1,1,2,2)
+> fitNBP(y,group=group,lib.size=lib.size)
+$coefficients
+              1         2
+[1,] -10.414313 -10.81978
+[2,]  -9.315701 -10.41431
+
+$fitted.values
+     [,1] [,2] [,3] [,4]
+[1,]  1.5  1.5  1.0  1.0
+[2,]  4.5  4.5  1.5  1.5
+
+$dispersion
+[1] 0.9886071
+
+> 
+> ### glmgam.fit
+> 
+> glmgam.fit(1,1)
+$coefficients
+[1] 1
+
+$fitted.values
+[1] 1
+
+$deviance
+[1] 0
+
+$iter
+[1] 1
+
+> glmgam.fit(c(1,1),c(0,4))
+$coefficients
+[1] 2
+
+$fitted.values
+[1] 2 2
+
+$deviance
+[1] Inf
+
+$iter
+[1] 1
+
+> glmgam.fit(X=cbind(1,c(1,0.5,0.5,0,0)),y=rchisq(5,df=1))
+$coefficients
+[1] 0.1873533 0.6578903
+
+$fitted.values
+[1] 0.8452436 0.5162985 0.5162985 0.1873533 0.1873533
+
+$deviance
+[1] 10.7196
+
+$iter
+[1] 12
+
+> 
+> ### glmnb.fit
+> 
+> y <- rnbinom(5,mu=10,size=10)
+> glmnb.fit(X=cbind(1,c(1,0.5,0.5,0,0)),y=y,dispersion=0.1)
+$coefficients
+        x1         x2 
+ 2.3042476 -0.2210662 
+
+$fitted.values
+[1]  8.029975  8.968465  8.968465 10.016639 10.016639
+
+$deviance
+[1] 0.5750191
+
+$iter
+[1] 3
+
+$convergence
+[1] "converged"
+
+> glmnb.fit(X=cbind(1,c(1,0.5,0.5,0,0)),y=y,dispersion=runif(6))
+$coefficients
+        x1         x2 
+ 2.2854591 -0.2049791 
+
+$fitted.values
+[1] 8.008312 8.872615 8.872615 9.830198 9.830198
+
+$deviance
+[1] 0.150322
+
+$iter
+[1] 3
+
+$convergence
+[1] "converged"
+
+> glmnb.fit(X=cbind(1,c(1,1,0,0,0)),y=c(0,0,6,2,9),dispersion=0.1)
+$coefficients
+        x1         x2 
+  1.734601 -17.510821 
+
+$fitted.values
+[1] 1.407586e-07 1.407586e-07 5.666667e+00 5.666667e+00 5.666667e+00
+
+$deviance
+[1] 3.242349
+
+$iter
+[1] 17
+
+$convergence
+[1] "converged"
+
+> fit <- glmnb.fit(X=cbind(1,c(1,1,0,0,0)),y=c(0,0,0,0,0),dispersion=0.1)
+> fit$coefficients <- zapsmall(fit$coefficients,digits=15)
+> fit
+$coefficients
+    x1     x2 
+-1e+10  0e+00 
+
+$fitted.values
+[1] 0 0 0 0 0
+
+$deviance
+[1] 0
+
+$iter
+[1] 0
+
+$convergence
+[1] "converged"
+
+> X <- matrix(rnorm(10),5,2)
+> glmnb.fit(X,y=c(0,0,0,0,0),offset=rnorm(5),dispersion=0.05)
+$coefficients
+          x1           x2 
+  9316725672 -10048340530 
+
+$fitted.values
+[1] 0 0 0 0 0
+
+$deviance
+[1] 0
+
+$iter
+[1] 0
+
+$convergence
+[1] "converged"
+
+> 
+> ### mixedModel2
+> 
+> y <- rnorm(6)
+> x <- rnorm(6)
+> z <- c(1,1,2,2,3,3)
+> mixedModel2(y~x,random=z)
+$varcomp
+ Residual     Block 
+ 2.548669 -0.870409 
+
+$se.varcomp
+[1] 2.543947 1.363837
+
+$coefficients
+(Intercept)           x 
+  0.1585957   0.5996677 
+
+$se.coefficients
+[1] 0.3983904 0.6857404
+
+> 
+> ### mixedModel2Fit
+> 
+> y <- c(-1,1,-2,2,0.5,1.7,-0.1)
+> X <- matrix(1,7,1)
+> Z <- model.matrix(~0+factor(c(1,1,2,2,3,3,4)))
+> mixedModel2Fit(y,X,Z)
+$varcomp
+ Residual     Block 
+ 2.923462 -1.098564 
+
+$se.varcomp
+[1] 2.195145 1.177909
+
+$coefficients
+       x1 
+0.3376358 
+
+$se.coefficients
+[1] 0.3369346
+
+> 
+> ### qresiduals
+> 
+> y <- rnorm(6)
+> fit <- glm(y~1)
+> residuals(fit)
+          1           2           3           4           5           6 
+ 0.68815664  0.33141358  0.07456884  0.39104513 -0.87533184 -0.60985235 
+> qresiduals(fit)
+         1          2          3          4          5          6 
+ 1.1222606  0.5404764  0.1216085  0.6377248 -1.4275100 -0.9945603 
+> qresiduals(fit,dispersion=1)
+          1           2           3           4           5           6 
+ 0.68815664  0.33141358  0.07456884  0.39104513 -0.87533184 -0.60985235 
+> 
+> if(require("MASS")) {
++   fit <- glm(Days~Age,family=negative.binomial(2),data=quine)
++   print(summary(qresiduals(fit)))
++   options(warnPartialMatchArgs=FALSE)
++   fit <- glm.nb(Days~Age,link=log,data = quine)
++   options(warnPartialMatchArgs=TRUE)
++   print(summary(qresiduals(fit)))
++ }
+Loading required package: MASS
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-2.9227 -0.8494 -0.2115 -0.1294  0.7212  3.0678 
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-3.14845 -0.50446 -0.02932  0.00518  0.67937  2.47162 
+> 
+> ### gauss.quad
+> 
+> options(digits=10)
+> g <- gauss.quad(5,"legendre")
+> zapsmall(data.frame(g),digits=15)
+          nodes      weights
+1 -0.9061798459 0.2369268851
+2 -0.5384693101 0.4786286705
+3  0.0000000000 0.5688888889
+4  0.5384693101 0.4786286705
+5  0.9061798459 0.2369268851
+> g <- gauss.quad(5,"chebyshev1")
+> zapsmall(data.frame(g),digits=15)
+          nodes      weights
+1 -0.9510565163 0.6283185307
+2 -0.5877852523 0.6283185307
+3  0.0000000000 0.6283185307
+4  0.5877852523 0.6283185307
+5  0.9510565163 0.6283185307
+> g <- gauss.quad(5,"chebyshev2")
+> zapsmall(data.frame(g),digits=15)
+          nodes      weights
+1 -0.8660254038 0.1308996939
+2 -0.5000000000 0.3926990817
+3  0.0000000000 0.5235987756
+4  0.5000000000 0.3926990817
+5  0.8660254038 0.1308996939
+> g <- gauss.quad(5,"hermite")
+> zapsmall(data.frame(g),digits=15)
+          nodes       weights
+1 -2.0201828705 0.01995324206
+2 -0.9585724646 0.39361932315
+3  0.0000000000 0.94530872048
+4  0.9585724646 0.39361932315
+5  2.0201828705 0.01995324206
+> g <- gauss.quad(5,"laguerre",alpha=5)
+> zapsmall(data.frame(g),digits=15)
+         nodes        weights
+1  2.510558565 18.05274373485
+2  5.115656536 63.52567706777
+3  8.635874626 34.74331388323
+4 13.417467882  3.63334627180
+5 20.320442391  0.04491904235
+> g <- gauss.quad(5,"jacobi",alpha=5,beta=1.1)
+> zapsmall(data.frame(g),digits=15)
+          nodes       weights
+1 -0.8844049819 0.40981005618
+2 -0.6382606000 1.16318993548
+3 -0.2943950347 0.93716413992
+4  0.1024254205 0.26378902100
+5  0.5034550719 0.01840428809
+> g <- gauss.quad.prob(5,dist="uniform")
+> zapsmall(data.frame(g),digits=15)
+          nodes      weights
+1 0.04691007703 0.1184634425
+2 0.23076534495 0.2393143352
+3 0.50000000000 0.2844444444
+4 0.76923465505 0.2393143352
+5 0.95308992297 0.1184634425
+> g <- gauss.quad.prob(5,dist="normal")
+> zapsmall(data.frame(g),digits=15)
+         nodes       weights
+1 -2.856970014 0.01125741133
+2 -1.355626180 0.22207592201
+3  0.000000000 0.53333333333
+4  1.355626180 0.22207592201
+5  2.856970014 0.01125741133
+> g <- gauss.quad.prob(5,dist="beta")
+> zapsmall(data.frame(g),digits=15)
+          nodes      weights
+1 0.04691007703 0.1184634425
+2 0.23076534495 0.2393143352
+3 0.50000000000 0.2844444444
+4 0.76923465505 0.2393143352
+5 0.95308992297 0.1184634425
+> g <- gauss.quad.prob(5,dist="gamma")
+> zapsmall(data.frame(g),digits=15)
+          nodes         weights
+1  0.2635603197 5.217556106e-01
+2  1.4134030591 3.986668111e-01
+3  3.5964257710 7.594244968e-02
+4  7.0858100059 3.611758680e-03
+5 12.6408008443 2.336997239e-05
+> 
+> ### invgauss
+> 
+> pinvgauss(c(0,0.1,1,2.3,3.1,NA),mean=c(1,2,3,0,1,2),dispersion=0.5)
+[1] 0.000000000e+00 2.057306477e-05 2.854596328e-01 1.000000000e+00
+[5] 9.812161963e-01              NA
+> pinvgauss(c(0,0.1,1,2.3,3.1,NA),mean=c(1,2,3,0,1,2),dispersion=0.5,log.p=TRUE)
+[1]            -Inf -10.79152787332  -1.25365465102   0.00000000000
+[5]  -0.01896246007              NA
+> pinvgauss(c(0,0.1,1,2.3,3.1,NA),mean=c(1,2,3,0,1,2),dispersion=0.5,lower.tail=FALSE,log.p=TRUE)
+[1]  0.0000000000000 -0.0000205732764 -0.3361157861191             -Inf
+[5] -3.9747602878610               NA
+> pinvgauss(1,mean=c(1,2,NA))
+[1] 0.6681020012 0.4901383399           NA
+> p <- c(0,0.001,0.5,0.999,1)
+> qinvgauss(p,mean=1.3,dispersion=0.6)
+[1] 0.0000000000 0.1271035164 0.9446753861 9.2602074131          Inf
+> qinvgauss(p,mean=1.3,dispersion=0.6,lower.tail=FALSE)
+[1]          Inf 9.2602074131 0.9446753861 0.1271035164 0.0000000000
+> qinvgauss(0.5,mean=c(1,2,NA))
+[1] 0.6758413057 1.0284597846           NA
+> qinvgauss(log(p),mean=1.3,dispersion=0.6,log.p=TRUE)
+[1] 0.0000000000 0.1271035164 0.9446753861 9.2602074131          Inf
+> qinvgauss(log(p),mean=1.3,dispersion=0.6,lower.tail=FALSE,log.p=TRUE)
+[1]          Inf 9.2602074131 0.9446753861 0.1271035164 0.0000000000
+> rinvgauss(5,mean=c(1,NA,3,Inf,1e10),dispersion=c(2,3,NA,Inf,4))
+[1] 0.64715825862            NA            NA 0.00000000000 0.08624417187
+> 
+> ### tweedie
+> 
+> tw <- tweedie(var.power=1.25, link.power=0)
+> tw$linkinv( matrix(u[1:10],5,2,dimnames=list(R=LETTERS[1:5],C=letters[1:2])) )
+   C
+R             a           b
+  A 2.451492935 1.223458802
+  B 1.304094152 2.455645563
+  C 1.450812725 2.571978041
+  D 1.773319765 1.936336513
+  E 2.479874093 1.875947835
+> 
+> ### expectedDeviance
+> expectedDeviance(c(0,0.4,1),family="binomial",binom.size=2)
+$mean
+[1] 0.000000000 1.361204081 0.000000000
+
+$variance
+[1] 0.000000000 1.802700721 0.000000000
+
+> expectedDeviance(matrix(c(0,NA,1,Inf),2,2),family="gaussian")
+$mean
+     [,1] [,2]
+[1,]    1    1
+[2,]    1    1
+
+$variance
+     [,1] [,2]
+[1,]    2    2
+[2,]    2    2
+
+> expectedDeviance(c(0,1,Inf),family="Gamma",gamma.shape=2)
+$mean
+[1] 1.081451382 1.081451382 1.081451382
+
+$variance
+[1] 2.31894507 2.31894507 2.31894507
+
+> expectedDeviance(c(1,2),family="inverse.gaussian")
+$mean
+[1] 1 1
+
+$variance
+[1] 2 2
+
+> expectedDeviance(c(0,1,2),family="negative.binomial",nbinom.size=2)
+$mean
+[1] 0.000000000 1.057480184 1.120623536
+
+$variance
+[1] 0.0000000000 0.9740485644 1.6273323121
+
+> expectedDeviance(c(0,2,Inf),family="poisson")
+$mean
+[1] 0.000000000 1.139404056 1.000000017
+
+$variance
+[1] 0.000000000 2.232975219 2.000000067
+
+> 
+> ### extra tests done only locally
+> 
+> #GKSTest <- Sys.getenv("GKSTest")
+> #if(GKSTest=="on") {
+> #print("hello")
+> #}
+> 
+> proc.time()
+   user  system elapsed 
+   0.18    0.06    0.20 

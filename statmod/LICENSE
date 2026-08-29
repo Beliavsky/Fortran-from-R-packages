@@ -1,0 +1,16 @@
+statmod-fortran licensing
+=========================
+
+Code in this project derived from the R package statmod 1.5.2 is distributed
+under the same upstream license choice:
+
+    GPL-2.0-only OR GPL-3.0-only
+
+Copies of GPL version 2 and GPL version 3 are provided in LICENSES/.
+
+The separately supplied R-compatibility helper module src/r_mod.F90 remains
+MIT-licensed. See LICENSES/MIT-r_mod.txt.
+
+The vendored optional Tweedie dependency under src/tweedie_dep/ retains the
+GPL-2.0-or-later terms of the previously translated tweedie package. Its
+license/notice are under LICENSES/tweedie/.

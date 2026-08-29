@@ -1,0 +1,84 @@
+bibentry(
+  bibtype = "article",
+  author = c(person(c("Peter","K"),"Dunn"),
+             person(c("Gordon","K"),"Smyth")),
+  year = 1996,
+  title = "Randomized quantile residuals",
+  journal = "J. Comput. Graph. Statist",
+  volume = 5,
+  pages = "236-244",
+  textVersion = "Dunn PK, Smyth GK (1996). Randomized quantile residuals. J. Comput. Graph. Statist., 5, 236-244. (qresid functions)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = c(person("Goknur","Giner"),
+             person(c("Gordon","K"),"Smyth")),
+  year = 2016,
+  title = "statmod: probability calculations for the inverse Gaussian distribution",
+  journal = "R Journal",
+  volume = 8,
+  number = 1,
+  pages = "339-351",
+  textVersion = "Giner G, Smyth GK (2016). statmod: probability calculations for the inverse Gaussian distribution. R Journal 8(1), 339-351. (pinvgauss, qinvgauss, dinvguass and rinvgauss functions)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = c(person("Yifang","Hu"),
+             person(c("Gordon","K"),"Smyth")),
+  year = 2009,
+  title = "ELDA: extreme limiting dilution analysis for comparing depleted and enriched populations in stem cell and other assays",
+  journal = "Journal of Immunological Methods",
+  volume = 347,
+  number = 1,
+  pages = "70-78",
+  textVersion = "Hu Y, Smyth GK (2009). ELDA: Extreme limiting dilution analysis for comparing depleted and enriched populations in stem cell and other assays. Journal of Immunological Methods 347, 70-78. (elda and limdil functions)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = c(person("Belinda","Phipson"),
+             person(c("Gordon","K"),"Smyth")),
+  year = 2010,
+  title = "Permutation p-values should never be zero: calculating exact p-values when permutations are randomly drawn",
+  journal = "Statistical Applications in Genetics and Molecular Biology",
+  volume = 9,
+  number = 1,
+  pages = "Article 39",
+  textVersion = "Phipson B, Smyth GK (2010). Permutation p-values should never be zero: calculating exact p-values when permutations are randomly drawn. Statistical Applications in Genetics and Molecular Biology, Volume 9, Issue 1, Article 39. (permp function)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = person(c("Gordon","K"),"Smyth"),
+  title = "Numerical integration",
+  journal = "Encyclopedia of Biostatistics",
+  year = 2005,
+  publisher = "John Wiley and Sons, Ltd",
+  pages = "3088-3095",
+  textVersion = "Smyth GK (1998). Numerical integration. In: Encyclopedia of Biostatistics, P. Armitage and T. Colton (eds.), Wiley, London, pp. 3088-3095. (gauss.quad and gauss.quad.prob functions)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = person(c("Gordon","K"),"Smyth"),
+  title = "Optimization and nonlinear equations",
+  journal = "Encyclopedia of Biostatistics",
+  year = 2005,
+  publisher = "John Wiley and Sons",
+  pages = "3088-3095",
+  textVersion = "Smyth GK (1998). Optimization and nonlinear equations. In: Encyclopedia of Biostatistics, P. Armitage and T. Colton (eds.), Wiley, London, pp. 3174-3180. (glmgam.fit, glmnb.fit and fitNBP functions)"
+)
+
+bibentry(
+  bibtype = "article",
+  author = person(c("Gordon","K"),"Smyth"),
+  year = 2002,
+  title = "An efficient algorithm for REML in heteroscedastic regression",
+  journal = "Journal of Computational and Graphical Statistics",
+  volume = 11,
+  pages = "836-847",
+  textVersion = "Smyth GK (2002). An efficient algorithm for REML in heteroscedastic regression. Journal of Computational and Graphical Statistics 11, 836-847. (remlscore, randomizedBlock, and mixedModel2 functions)"
+)
+

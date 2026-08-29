@@ -1,0 +1,29 @@
+name = "statmod-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Gordon Smyth et al.; modern Fortran translation"
+maintainer = "Fortran port contributors"
+description = "Modern Fortran/FPM translation of the computational core of the R package statmod"
+keywords = ["statistics", "glm", "inverse-gaussian", "quadrature", "reml", "elda"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+tweedie-fortran = { path = "../tweedie" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["F90"]
+
+[extra.r-fpm-index]
+gams = ["H", "L"]
