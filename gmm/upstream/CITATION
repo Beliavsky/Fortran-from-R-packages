@@ -1,0 +1,13 @@
+bibentry("Article",
+         title       = "Computing Generalized Method of Moments and Generalized Empirical Likelihood with {R}",
+         author      = c(person(given = "Pierre", family = "Chausse",
+                                email = "pchausse@uwaterloo.ca")),
+         journal     = "Journal of Statistical Software",
+         year        = "2010",
+	 volume      = "34",
+	 number      = "11",
+	 pages       = "1--35",
+         doi         = "10.18637/jss.v034.i11",
+	 header     = "To cite gmm in publications use:"
+)
+

@@ -1,0 +1,23 @@
+name = "gmm-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran port of Pierre Chausse's gmm package"
+maintainer = "Generated translation"
+copyright = "See NOTICE.md and upstream metadata"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["Z"]

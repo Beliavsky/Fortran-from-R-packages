@@ -1,0 +1,19 @@
+Package: gmm
+Version: 1.9-1
+Date: 2025-08-4
+Title: Generalized Method of Moments and Generalized Empirical
+        Likelihood
+Authors@R: person(given="Pierre", family="Chausse", role=c("aut","cre"),
+	     	    email="pchausse@uwaterloo.ca")
+Author: Pierre Chausse [aut, cre]
+Maintainer: Pierre Chausse <pchausse@uwaterloo.ca>
+Description: It is a complete suite to estimate models based on moment conditions. It includes the two step Generalized method of moments (Hansen 1982; <doi:10.2307/1912775>), the iterated GMM and continuous updated estimator (Hansen, Eaton and Yaron 1996; <doi:10.2307/1392442>) and several methods that belong to the Generalized Empirical Likelihood family of estimators (Smith 1997; <doi:10.1111/j.0013-0133.1997.174.x>, Kitamura 1997; <doi:10.1214/aos/1069362388>, Newey and Smith 2004; <doi:10.1111/j.1468-0262.2004.00482.x>, and Anatolyev 2005 <doi:10.1111/j.1468-0262.2005.00601.x>).	
+Depends: R (>= 2.10.0), sandwich
+NeedsCompilation: yes
+Suggests: knitr, mvtnorm, car, stabledist, MASS, timeDate, timeSeries
+Imports: stats, methods, grDevices, graphics
+License: GPL (>= 2)
+VignetteBuilder: knitr
+Packaged: 2025-08-05 15:41:49 UTC; pierrechausse
+Repository: CRAN
+Date/Publication: 2025-08-26 15:40:01 UTC

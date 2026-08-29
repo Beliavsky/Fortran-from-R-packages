@@ -1,0 +1,99 @@
+useDynLib(gmm, .registration = TRUE, .fixes="F_")
+import(stats)
+importFrom(sandwich, estfun, bread, kernHAC, weightsAndrews, vcovHAC, bwAndrews, meatHC)
+importFrom(methods, is)
+importFrom(graphics, abline, legend, lines, panel.smooth, par, plot, points)
+importFrom(grDevices, dev.interactive, devAskNewPage,  extendrange)
+importFrom(utils, tail)
+
+export(gmm,summary.gmm,smoothG,getDat,summary.gel,getLamb,gel,
+estfun.gmmFct, estfun.gmm, estfun.gel, bread.gel, bread.gmm,
+print.gmm,coef.gmm,vcov.gmm,print.summary.gmm, confint.gel, print.gel,
+print.summary.gel, vcov.gel, coef.gel, fitted.gmm, residuals.gmm,
+fitted.gel, residuals.gel, plot.gmm, plot.gel,formula.gmm,
+formula.gel, charStable, specTest, specTest.gmm, specTest.gel,
+print.specTest, momentEstim.baseGmm.twoStep,
+momentEstim.baseGmm.twoStep.formula,
+momentEstim.baseGmm.iterative.formula, momentEstim.baseGmm.iterative,
+momentEstim.baseGmm.cue.formula, momentEstim.baseGmm.cue,
+getModel.baseGmm, getModel.baseGel, getModel.constGmm,
+getModel.constGel, FinRes.baseGmm.res, momentEstim.baseGel.mod,
+momentEstim.baseGel.modFormula,tsls,summary.tsls, print.summary.tsls,
+KTest, print.gmmTests, gmmWithConst, estfun.tsls,
+model.matrix.tsls,vcov.tsls, bread.tsls, evalGmm,
+momentEstim.baseGmm.eval, momentEstim.baseGel.eval, evalGel,
+confint.gmm, print.confint, sysGmm, getModel.sysGmm,
+momentEstim.sysGmm.twoStep.formula, momentEstim.tsls.twoStep.formula,
+getModel.tsls, summary.sysGmm, print.sysGmm, print.summary.sysGmm,
+sur, threeSLS, randEffect, five, bwWilhelm, getModel.ateGel, ATEgel,
+summary.ategel, vcov.ategel, confint.ategel, marginal,
+marginal.ategel,checkConv,getImpProb, getImpProb.gel)
+
+S3method(marginal, ategel)
+S3method(summary, gmm)
+S3method(summary, sysGmm)
+S3method(summary, tsls)
+S3method(summary, gel)
+S3method(summary, ategel)
+S3method(print, gmm)
+S3method(print, sysGmm)
+S3method(print, summary.gmm)
+S3method(print, summary.sysGmm)
+S3method(coef, gmm)
+S3method(vcov, gmm)
+S3method(vcov, tsls)
+S3method(confint, gmm)
+S3method(confint, ategel)
+S3method(fitted, gmm)
+S3method(residuals, gmm)
+S3method(plot, gmm)
+S3method(formula, gmm)
+S3method(print, gel)
+S3method(print, summary.gel)
+S3method(print, summary.tsls)
+S3method(print, gmmTests)
+S3method(coef, gel)
+S3method(vcov, gel)
+S3method(vcov, ategel)
+S3method(confint, gel)
+S3method(fitted, gel)
+S3method(residuals, gel)
+S3method(plot, gel)
+S3method(formula, gel)
+S3method(specTest, gmm)
+S3method(specTest, gel)
+S3method(getImpProb, gel)
+S3method(print, specTest)
+S3method(print, confint)
+S3method(FinRes, baseGmm.res)
+S3method(getModel, baseGmm)
+S3method(getModel, baseGel)
+S3method(getModel, sysGmm)
+S3method(getModel, constGmm)
+S3method(getModel, constGel)
+S3method(getModel, tsls)
+S3method(getModel, ateGel)
+S3method(momentEstim, baseGmm.twoStep)
+S3method(momentEstim, baseGmm.eval)
+S3method(momentEstim, baseGmm.twoStep.formula)
+S3method(momentEstim, tsls.twoStep.formula)
+S3method(momentEstim, sysGmm.twoStep.formula)
+S3method(momentEstim, baseGmm.iterative.formula)
+S3method(momentEstim, baseGmm.iterative)
+S3method(momentEstim, baseGmm.cue.formula)
+S3method(momentEstim, baseGmm.cue)
+S3method(momentEstim, baseGel.mod)
+S3method(momentEstim, baseGel.modFormula)
+S3method(momentEstim, baseGel.eval)
+S3method(estfun, gmmFct)
+S3method(estfun, gmm)
+S3method(estfun, tsls)
+S3method(model.matrix, tsls)
+S3method(estfun, gel)
+S3method(bread, gmm)
+S3method(bread, gel)
+S3method(bread, tsls)
+
+
+
+
