@@ -1,0 +1,5 @@
+tmvtnorm-derived source in src/ is licensed under GPL-2.0-or-later,
+consistent with the upstream package's "GPL (>= 2)" declaration.
+
+The vendored mvtnorm-fortran dependency retains its own GPL-2.0-only
+license and attribution. See LICENSES/ and vendor/mvtnorm-fortran/.
