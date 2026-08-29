@@ -15,7 +15,7 @@ module-naming = false
 
 [dependencies]
 lbfgs = { path = "../lbfgs" }
-lbfgsb3 = { path = "dependencies/lbfgsb3" }
+lbfgsb3 = { path = "../lbfgsb3" }
 
 [extra.r-fpm-index]
 gams = ["G", "H", "L"]

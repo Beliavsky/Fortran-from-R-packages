@@ -17,5 +17,8 @@ module-naming = false
 [library]
 source-dir = "src"
 
+[dependencies]
+fitheavytail = { path = "../fitHeavyTail" }
+
 [extra.r-fpm-index]
 gams = ["L"]

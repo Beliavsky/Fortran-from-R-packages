@@ -54,5 +54,9 @@ name = "test_constraints_vreg"
 source-dir = "test"
 main = "test_constraints_vreg.f90"
 
+[dependencies]
+ghyp = { path = "../ghyp" }
+tsdistributions-fortran = { path = "../tsdistributions" }
+
 [extra.r-fpm-index]
 gams = ["L"]

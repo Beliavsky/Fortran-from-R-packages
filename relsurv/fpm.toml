@@ -16,5 +16,8 @@ auto-examples = true
 auto-tests = true
 module-naming = false
 
+[dependencies]
+survival-fortran = { path = "../survival" }
+
 [extra.r-fpm-index]
 gams = ["L"]

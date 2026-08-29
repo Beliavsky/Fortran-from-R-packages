@@ -11,8 +11,8 @@ keywords = ["standard-errors", "influence-functions", "bootstrap", "periodogram"
 source-dir = "src"
 
 [dependencies]
-rpeif = { path = "vendor/rpeif" }
-rpeglmen = { path = "vendor/rpeglmen" }
+rpeif = { path = "../RPEIF" }
+rpeglmen = { path = "../RPEGLMEN" }
 
 [build]
 auto-executables = false

@@ -15,5 +15,8 @@ auto-executables = false
 auto-examples = true
 auto-tests = true
 
+[dependencies]
+AdequacyModel-fortran = { path = "../AdequacyModel" }
+
 [extra.r-fpm-index]
 gams = ["L"]

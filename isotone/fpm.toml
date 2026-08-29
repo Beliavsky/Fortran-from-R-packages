@@ -21,6 +21,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
+nnls-fortran = { path = "../nnls" }
 rfortran-core = { path = "../rfortran-core" }
 
 [extra.r-fpm-index]

@@ -15,5 +15,5 @@ Major sources:
   public computational semantics.
 
 The package depends on `rngWELL`; the previously translated native Fortran WELL
-implementation is vendored in `src/rngwell*.f90` so this project is standalone.
+implementation is supplied by the canonical top-level `rngWELL` translation.
 Its separate notices are retained in `LICENSES/`.

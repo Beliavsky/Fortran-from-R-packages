@@ -18,5 +18,8 @@ implicit-typing = false
 implicit-external = false
 source-form = "free"
 
+[dependencies]
+ghyp = { path = "../ghyp" }
+
 [extra.r-fpm-index]
 gams = ["L"]

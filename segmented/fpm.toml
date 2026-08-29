@@ -16,6 +16,9 @@ auto-examples = true
 auto-tests = true
 module-naming = false
 
+[dependencies]
+nlme = { path = "../nlme" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

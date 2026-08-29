@@ -19,7 +19,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-tvm_fortran = { path = "dependencies/tvm-fortran" }
+tvm_fortran = { path = "../tvm" }
 
 [extra.r-fpm-index]
 gams = ["L"]

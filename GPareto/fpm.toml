@@ -21,5 +21,8 @@ implicit-typing = false
 implicit-external = false
 source-form = "free"
 
+[dependencies]
+dicekriging = { path = "../DiceKriging" }
+
 [extra.r-fpm-index]
 gams = ["E", "G", "L"]

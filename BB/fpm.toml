@@ -54,5 +54,8 @@ name = "solve_system"
 source-dir = "example"
 main = "solve_system.f90"
 
+[dependencies]
+quadprog-fortran = { path = "../quadprog" }
+
 [extra.r-fpm-index]
 gams = ["F", "G"]

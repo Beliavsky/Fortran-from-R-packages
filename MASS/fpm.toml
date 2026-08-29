@@ -20,5 +20,8 @@ source-dir = "src"
 [install]
 library = true
 
+[dependencies]
+rrcov = { path = "../rrcov" }
+
 [extra.r-fpm-index]
 gams = ["L"]

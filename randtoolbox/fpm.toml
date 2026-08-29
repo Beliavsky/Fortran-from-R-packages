@@ -13,6 +13,9 @@ auto-tests = true
 auto-examples = true
 module-naming = false
 
+[dependencies]
+rngWELL-fortran = { path = "../rngWELL" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

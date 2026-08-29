@@ -14,6 +14,10 @@ auto-examples = true
 auto-tests = true
 module-naming = false
 
+[dependencies]
+partitions-fortran = { path = "../partitions" }
+quadform-fortran = { path = "../quadform" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

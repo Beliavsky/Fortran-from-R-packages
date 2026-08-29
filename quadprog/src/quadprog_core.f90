@@ -411,7 +411,7 @@ loop_160: do i=n,nact+1,-1
 ! if it is already zero we don't have to do anything, except of
 ! decreasing l1
 !
-if (work(i) .EQ. 0.d0) cycle loop_160
+if (abs(work(i)) <= tiny(1.0d0)) cycle loop_160
 gc   = max(abs(work(i-1)),abs(work(i)))
 gs   = min(abs(work(i-1)),abs(work(i)))
 temp = sign(gc*sqrt(1+(gs/gc)*(gs/gc)), work(i-1))
@@ -427,8 +427,8 @@ gs   = work(i)/temp
 ! Otherwise we have to apply the Givens rotation to these columns.
 ! The i-1 element of d has to be updated to temp.                  
 !
-if (gc .EQ. 1.d0) cycle loop_160
-if (gc .EQ. 0.d0) then
+if (abs(gc - 1.d0) <= epsilon(1.0d0)) cycle loop_160
+if (abs(gc) <= tiny(1.0d0)) then
 work(i-1) = gs * temp
 loop_170: do j=1,n
 temp        = dmat(j,i-1)
@@ -499,7 +499,7 @@ if (it1 .EQ. nact) goto 799
 !
 l  = iwrm + (it1*(it1+1))/2 + 1
 l1 = l+it1
-if (work(l1) .EQ. 0.d0) goto 798
+if (abs(work(l1)) <= tiny(1.0d0)) goto 798
 gc   = max(abs(work(l1-1)),abs(work(l1)))
 gs   = min(abs(work(l1-1)),abs(work(l1)))
 temp = sign(gc*sqrt(1+(gs/gc)*(gs/gc)), work(l1-1))
@@ -514,8 +514,8 @@ gs   = work(l1)/temp
 ! R and columns in J, we can ignore the sign of gs.
 ! Otherwise we have to apply the Givens rotation to these rows/columns.
 !
-if (gc .EQ. 1.d0) goto 798
-if (gc .EQ. 0.d0) then
+if (abs(gc - 1.d0) <= epsilon(1.0d0)) goto 798
+if (abs(gc) <= tiny(1.0d0)) then
 loop_710: do i=it1+1,nact
 temp       = work(l1-1)
 work(l1-1) = work(l1)
@@ -1062,7 +1062,7 @@ loop_160: do i=n,nact+1,-1
 ! if it is already zero we don't have to do anything, except of
 ! decreasing l1
 !
-if (work(i) .EQ. 0.d0) cycle loop_160
+if (abs(work(i)) <= tiny(1.0d0)) cycle loop_160
 gc   = max(abs(work(i-1)),abs(work(i)))
 gs   = min(abs(work(i-1)),abs(work(i)))
 temp = sign(gc*sqrt(1+(gs/gc)*(gs/gc)), work(i-1))
@@ -1078,8 +1078,8 @@ gs   = work(i)/temp
 ! Otherwise we have to apply the Givens rotation to these columns.
 ! The i-1 element of d has to be updated to temp.                  
 !
-if (gc .EQ. 1.d0) cycle loop_160
-if (gc .EQ. 0.d0) then
+if (abs(gc - 1.d0) <= epsilon(1.0d0)) cycle loop_160
+if (abs(gc) <= tiny(1.0d0)) then
 work(i-1) = gs * temp
 loop_170: do j=1,n
 temp        = dmat(j,i-1)
@@ -1150,7 +1150,7 @@ if (it1 .EQ. nact) goto 799
 !
 l  = iwrm + (it1*(it1+1))/2 + 1
 l1 = l+it1
-if (work(l1) .EQ. 0.d0) goto 798
+if (abs(work(l1)) <= tiny(1.0d0)) goto 798
 gc   = max(abs(work(l1-1)),abs(work(l1)))
 gs   = min(abs(work(l1-1)),abs(work(l1)))
 temp = sign(gc*sqrt(1+(gs/gc)*(gs/gc)), work(l1-1))
@@ -1165,8 +1165,8 @@ gs   = work(l1)/temp
 ! R and columns in J, we can ignore the sign of gs.
 ! Otherwise we have to apply the Givens rotation to these rows/columns.
 !
-if (gc .EQ. 1.d0) goto 798
-if (gc .EQ. 0.d0) then
+if (abs(gc - 1.d0) <= epsilon(1.0d0)) goto 798
+if (abs(gc) <= tiny(1.0d0)) then
 loop_710: do i=it1+1,nact
 temp       = work(l1-1)
 work(l1-1) = work(l1)

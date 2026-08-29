@@ -14,6 +14,7 @@ auto-tests = true
 
 [dependencies]
 rfortran-linalg = { path = "../rfortran-linalg" }
+garchx-modern-fortran = { path = "../garchx" }
 
 [extra.r-fpm-index]
 gams = ["L"]

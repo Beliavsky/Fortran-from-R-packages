@@ -18,5 +18,12 @@ implicit-typing = false
 implicit-external = false
 source-form = "free"
 
+[dependencies]
+desolve = { path = "../deSolve" }
+numDeriv-fortran = { path = "../numDeriv" }
+quadprog-fortran = { path = "../quadprog" }
+relsurv-fortran = { path = "../relsurv" }
+survival-fortran = { path = "../survival" }
+
 [extra.r-fpm-index]
 gams = ["L"]

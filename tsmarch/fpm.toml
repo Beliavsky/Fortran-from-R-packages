@@ -19,5 +19,10 @@ implicit-typing = false
 implicit-external = false
 source-form = "free"
 
+[dependencies]
+ghyp = { path = "../ghyp" }
+tsdistributions-fortran = { path = "../tsdistributions" }
+tsgarch-fortran = { path = "../tsgarch" }
+
 [extra.r-fpm-index]
 gams = ["L"]

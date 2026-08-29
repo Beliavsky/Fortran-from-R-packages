@@ -12,6 +12,9 @@ auto-tests = true
 auto-examples = true
 module-naming = false
 
+[dependencies]
+mvtnorm-fortran = { path = "../mvtnorm" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

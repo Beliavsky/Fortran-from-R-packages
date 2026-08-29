@@ -12,6 +12,9 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 
+[dependencies]
+leaps-fortran = { path = "../leaps" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

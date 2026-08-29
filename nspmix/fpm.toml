@@ -15,6 +15,9 @@ module-naming = false
 [library]
 source-dir = "src"
 
+[dependencies]
+lsei-fortran = { path = "../lsei" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

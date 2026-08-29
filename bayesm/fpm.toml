@@ -20,5 +20,8 @@ implicit-external = false
 [library]
 source-dir = "src"
 
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
 [extra.r-fpm-index]
 gams = ["L", "M"]

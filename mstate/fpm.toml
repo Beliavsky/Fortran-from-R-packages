@@ -15,6 +15,10 @@ auto-executables = true
 auto-examples = true
 auto-tests = true
 
+[dependencies]
+relsurv-fortran = { path = "../relsurv" }
+survival-fortran = { path = "../survival" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

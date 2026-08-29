@@ -17,6 +17,10 @@ auto-examples = true
 auto-tests = true
 module-naming = false
 
+[dependencies]
+fracdiff = { path = "../fracdiff" }
+smoots = { path = "../smoots" }
+
 [fortran]
 implicit-typing = false
 implicit-external = false

@@ -594,6 +594,18 @@ pos1 = (nv*(nv-1))/2 + 1
 !     find rank of the new subset
 
 do rank = 1, nbest
+  if (ress(nv,rank) >= huge(1.0_dp)/above1) then
+    list = vorder(1:nv)
+    call shell(list, nv)
+    do j = nbest-1, rank, -1
+      ress(nv,j+1) = ress(nv,j)
+      lopt(pos1:pos1+nv-1, j+1) = lopt(pos1:pos1+nv-1, j)
+    end do
+    ress(nv,rank) = ssq
+    lopt(pos1:pos1+nv-1, rank) = list(1:nv)
+    bound(nv) = ress(nv,nbest)
+    return
+  end if
   if(ssq < ress(nv,rank)*above1) then
     list = vorder(1:nv)
     call shell(list, nv)

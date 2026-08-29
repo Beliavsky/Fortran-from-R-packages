@@ -13,7 +13,10 @@ auto-examples = true
 auto-tests = true
 
 [dependencies]
+bayesm-fortran = { path = "../bayesm" }
 rfortran-linalg = { path = "../rfortran-linalg" }
+robustbase-modern-fortran = { path = "../robustbase" }
+tensora = { path = "../tensorA" }
 
 [fortran]
 implicit-typing = false

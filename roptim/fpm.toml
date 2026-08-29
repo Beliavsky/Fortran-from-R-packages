@@ -20,5 +20,8 @@ library = true
 [library]
 source-dir = "src"
 
+[dependencies]
+lbfgsb3 = { path = "../lbfgsb3" }
+
 [extra.r-fpm-index]
 gams = ["G"]

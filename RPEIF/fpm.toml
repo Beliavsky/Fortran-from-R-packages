@@ -11,7 +11,7 @@ keywords = ["influence-functions", "VaR", "expected-shortfall", "Sharpe", "Sorti
 source-dir = "src"
 
 [dependencies]
-robstattm-lite = { path = "vendor/robstattm-lite" }
+robstattm = { path = "../RobStatTM" }
 
 [build]
 auto-executables = false
