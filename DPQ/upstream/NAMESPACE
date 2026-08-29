@@ -1,0 +1,226 @@
+useDynLib(DPQ, .registration = TRUE, .fixes = "C_")# <--> .Call(C_<foo>, ..)
+
+## We do *NOT* import from  Rmpfr here,
+## as we only __suggest__ the package in ./DESCRIPTION
+##  ==> where we use it we check every time if it's load()able ...
+
+importFrom("sfsmisc"
+         , eaxis
+         , mult.fig
+     )
+
+importFrom("stats"
+         , dnorm, pnorm, qnorm
+         , dbeta, pbeta, qbeta
+         , dbinom, pbinom, qbinom
+         , dnbinom,pnbinom,qnbinom
+         , dgamma, pgamma, qgamma
+         , dchisq, pchisq, qchisq
+         , df, pf, qf
+         , dhyper, phyper
+         , dt, pt, qt
+         , dpois, ppois, qpois
+           # ---------------
+         , integrate
+         , .lm.fit
+         , uniroot
+)
+
+## Plotting in our own functions, e.g. for   `plotIt = TRUE`
+
+importFrom("grDevices", adjustcolor)
+
+importFrom("graphics",
+           abline,
+           curve, legend, lines, par, plot
+           )
+
+importFrom("methods", as, is, new
+           )
+
+importFrom("utils"
+         , head, tail
+         , str, strOptions
+           )
+
+### ----------------------- Exporting ----------------------------
+
+export(
+    ## R/dpq-h.R: provide for experts:
+    ## ---------
+    ".D_0", ".D_1"
+  , ".D_Clog", ".D_Cval", ".D_exp"
+  , ".D_LExp", ".D_log", ".D_Lval", ".D_qIv", ".D_val"
+  , ".DT_0", ".DT_1"
+  , ".DT_Cexp", ".DT_CIv", ".DT_Clog", ".DT_Cval", ".DT_exp", ".DT_log", ".DT_Log"
+  , ".DT_qIv", ".DT_val"
+  , log1mexp
+  , log1mexpC, log1pexpC, log1pmxC, lgamma1pC
+  , M_SQRT2
+  , M_LN2, M_cutoff, M_minExp
+  , G_half
+
+  , frexp, ldexp
+  , modf
+  , pow, pow_di, .pow
+  , .dntJKBch, .dntJKBch1
+
+
+  , Qab_terms
+
+  , all_mpfr, any_mpfr # simple wrappers in  R/utils.R
+
+  , b_chi, b_chiAsymp
+  , lb_chi0, lb_chi00, lb_chiAsymp
+
+  , betaI
+
+  , c_dt, c_dtAsymp, c_pt ## related to lb_chi*() above FIXME
+
+  , dchisqAsym, dnchisqBessel, dnchisqR, dnoncentchisq
+  , dntJKBf, dntJKBf1
+  # , dntRwrong, dntRwrong1
+  , dtWV
+
+  , logspace.add
+  , logspace.sub
+
+  , ppoisErr
+  , format01prec
+ ## R/wienergerm_nchisq-fn.R : -----
+  , g2, gnt
+  , h, h0, h1, h2, hnt  # h := h2
+  , sW
+  , qs ## ??
+  , z0, z.f, z.s
+  , ss, ss2, ss2.
+  , pchisqW.R
+  , pchisqV, pchisqW., pchisqW # man/pnchisqAppr.Rd
+  , pnchisqRC
+  ## , scalefactor
+ ## --------------------------------
+
+  , lbeta_asy, lbetaI, lbetaM, lbetaMM
+  ## , lbetaIhalf
+  , algdiv # name as in TOMS 708 .. but really?
+  , bpser  # name as in TOMS 708 -- version of pbeta()
+  , gam1, gam1d, gamln1, gamln1. # gam1() & gamln1() in TOMS 708
+  , okLongDouble # as with valgrind, it does not work contrary to what .Machine says
+
+  , dltgammaInc, lgammaP11 # R/beta-fns.R -> src/gamma_inc_T1006.c
+  , dpsifn # R/psigamma-deriv.R
+  , lgamma1p., lgamma1p, lgamma1p_series
+  , lgammacor
+  , log1pmx
+  , logQab_asy
+  , logcfR, logcfR_vec, logcf
+  , logr
+  , lssum, lsum
+
+  , newton # R/pnchisq.R
+  , pl2curves
+  , plRpois  # another plot ... keep ?
+
+  , pbetaRv1
+  , pbetaAS_eq20, pbetaAS_eq21, pbetaNorm2
+  ,  .pbeta.eq20,  .pbeta.eq21
+  ,  .pbetaSeq20,  .pbetaSeq21
+  , pnbetaAS310
+  , pnbetaAppr2, pnbetaAppr2v1
+
+  , pnchisq, pnchi1sq, pnchi3sq
+  , pnchisqAbdelAty, pnchisqPatnaik, pnchisqPearson, pnchisqSankaran_d
+  , pnchisq_ss, pnchisqIT, pnchisqTerms, pnchisqV
+  , pnchisqT93, pnchisqT93.a, pnchisqT93.b
+  , pnchisqBolKuz
+  , qnchisqBolKuz
+
+  ## Naming --- NB: export the *.1 versions (non-vectorized) mostly for *didactical* reasons
+  , pnt3150, pnt3150.1
+  , pntChShP94, pntChShP94.1
+  , pntJW39, pntJW39.0
+  , pntLrg
+  , pntP94, pntP94.1
+  , pntVW13
+  , pntGST23_T6, pntGST23_T6.1
+  , pntGST23_1 # , pntGST23_1.1
+  , Ixpq # for now, __experimental__
+  , pntR, pntR1
+
+  , pow1p
+
+  , ppoisD, qpoisR
+
+  , qbetaAppr, qbetaAppr.1, qbetaAppr.2, qbetaAppr.3, qbetaAppr.4, qbeta.R
+  , qgamma.R
+
+  , dgamma.R
+  , dpois_raw
+  , dpois_simpl
+  , dpois_simpl0 # << "experimental" respectively purely didactical
+  , bd0, bd0C
+  , stirlerr, stirlerr_simpl, stirlerrC
+  , bd0_p1l1
+  , bd0_p1l1d1, bd0_p1l1d, bd0_l1pm
+  , ebd0, ebd0C
+  , expm1x, expm1xTser # R/expm1x.R
+  , p1l1, p1l1., p1l1p, p1l1ser ## NB: p1l1p() via log1pmx()  is *very* good!
+  , .p1l1ser
+
+    ## from R/qchisqAppr.R :
+  , qchisqAppr.R
+  , qchisqAppr
+  , qchisqKG, qchisqWH
+  , .qgammaApprBnd
+
+    ## from R/hyper-dist.R :
+  , Bern
+  , .suppHyper
+  , dhyperBinMolenaar
+  , hyper2binomP
+  , lfastchoose, f05lchoose
+  , lgammaAsymp
+  , phyper1molenaar, phyper2molenaar
+  , phyperAllBin, phyperAllBinM
+  , phyperApprAS152
+  , phyperBin.1, phyperBin.2, phyperBin.3, phyperBin.4
+  , phyperBinMolenaar # deprecated (2023-07-22)
+  , phyperBinMolenaar.1, phyperBinMolenaar.2, phyperBinMolenaar.3, phyperBinMolenaar.4
+  , phyperIbeta, phyperPeizer, phyperR, phypers
+  , pdhyper, phyperR2
+    ##  from R/dbinom-nbinom.R :
+  , dbinom_raw
+  , dnbinomR, dnbinom.mu
+
+   , qbinomR  ## <- R/qbinomR.R
+   , qnbinomR ## <- R/qnbinomR.R
+   , qpoisR   ## <- R/qpoisR.R
+
+    ## from R/qnchisq.R
+  , qchisqAppr.0, qchisqAppr.1, qchisqAppr.2, qchisqAppr.3
+  , qchisqApprCF1, qchisqApprCF2, qchisqCappr.2
+  , qchisqN
+  , qnchisqAbdelAty, qnchisqPatnaik, qnchisqPearson, qnchisqSankaran_d
+
+  , gammaVer # gamma() versions in C {of R itself; historical & experimental}
+  , qgammaAppr, qgammaApprSmallP, qgammaApprKG
+
+  , pnormL_LD10, pnormU_S53
+  , pnormAsymp
+  , qnormAsymp
+  , qnormAppr # deprecated!
+  , qnormCappr
+  , qnormUappr, qnormUappr6
+  , qnormR, qnormR1
+  , qntR, qntR1
+  , qtAppr
+  , qtNappr
+  , qtU, qtU1
+  , qtR, qtR1
+  , r_pois, r_pois_expr
+    ## no! titleR.exp (FIXME eventually: should not need such a global)
+  , rexpm1
+  , rlog1
+
+  , chebyshevPoly, chebyshevEval, chebyshev_nc
+)

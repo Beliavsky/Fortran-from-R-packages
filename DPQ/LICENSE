@@ -1,0 +1,15 @@
+DPQ Fortran port licensing
+==========================
+
+The combined dpq-fortran distribution is GPL-3.0-or-later because it includes
+a component derived from the GPL-3 Algorithm 1006 implementation in upstream
+DPQ (`src/gamma_inc_T1006.c`).
+
+Source-file licensing remains explicit:
+
+* DPQ-derived code other than the TOMS 1006 component: GPL-2.0-or-later.
+* `src/dpq_toms1006.f90`: GPL-3.0-or-later.
+* `src/r_mod.F90`: MIT, as supplied by the user.
+
+Full license texts are in LICENSES/. Upstream licensing and copyright details
+are retained verbatim under upstream/LICENSE and upstream/COPYRIGHTS.

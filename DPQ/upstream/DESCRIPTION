@@ -1,0 +1,55 @@
+Package: DPQ
+Title: Density, Probability, Quantile ('DPQ') Computations
+Version: 0.6-1
+Date: 2025-10-13
+VersionNote: Last CRAN: 0.6-0 on 2025-07-08; 0.5-9 on 2024-08-23; 0.5-8
+        on 2023-11-30
+Authors@R: c(person("Martin","Maechler", role=c("aut","cre"),
+                    email="maechler@stat.math.ethz.ch", comment = c(ORCID = "0000-0002-8685-9910"))
+  , person("Morten",   "Welinder",    role = "ctb", comment = "pgamma C code, see PR#7307, Jan. 2005; further pdhyper()")
+  , person("Wolfgang", "Viechtbauer", role = "ctb", comment = "dtWV(), 2002")
+  , person("Ross",     "Ihaka",       role = "ctb", comment = "src/qchisq_appr.c")
+  , person("Marius",   "Hofert",      role = "ctb", comment = "lsum(), lssum()")
+  , person("R-core", email = "R-core@R-project.org", role = "ctb", comment = "src/{dpq.h, algdiv.c, pnchisq.c, bd0.c}")
+  , person("R Foundation", role = "cph", comment = "src/qchisq-appr.c")
+  	     )
+Description: Computations for approximations and alternatives for the 'DPQ'
+  (Density (pdf), Probability (cdf) and Quantile) functions for probability
+  distributions in R.
+  Primary focus is on (central and non-central) beta, gamma and related
+  distributions such as the chi-squared, F, and t.
+  --
+  For several distribution functions, provide functions implementing formulas from
+  Johnson, Kotz, and Kemp (1992) <doi:10.1002/bimj.4710360207>  and
+  Johnson, Kotz, and Balakrishnan (1995) for discrete or continuous
+  distributions respectively.
+  This is for the use of researchers in these numerical approximation
+  implementations, notably for my own use in order to improve standard
+  R pbeta(), qgamma(), ..., etc: {'"dpq"'-functions}.
+Depends: R (>= 4.1.0)
+Imports: stats, graphics, methods, utils, sfsmisc (>= 1.1-14)
+Suggests: Rmpfr, DPQmpfr (>= 0.3-3), gmp, MASS, mgcv, scatterplot3d,
+        interp, cobs
+SuggestsNote: MASS::fractions() in ex | mgcv, scatt.., .., cobs: some
+        tests/
+License: GPL (>= 2) | file LICENSE
+Encoding: UTF-8
+URL: https://specfun.r-forge.r-project.org/,
+        https://r-forge.r-project.org/R/?group_id=611,
+        https://r-forge.r-project.org/scm/viewvc.php/pkg/DPQ/?root=specfun,
+        svn://svn.r-forge.r-project.org/svnroot/specfun/pkg/DPQ
+BugReports: https://r-forge.r-project.org/tracker/?atid=2462&group_id=611
+NeedsCompilation: yes
+Packaged: 2025-10-13 15:11:47 UTC; maechler
+Author: Martin Maechler [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-8685-9910>),
+  Morten Welinder [ctb] (pgamma C code, see PR#7307, Jan. 2005; further
+    pdhyper()),
+  Wolfgang Viechtbauer [ctb] (dtWV(), 2002),
+  Ross Ihaka [ctb] (src/qchisq_appr.c),
+  Marius Hofert [ctb] (lsum(), lssum()),
+  R-core [ctb] (src/{dpq.h, algdiv.c, pnchisq.c, bd0.c}),
+  R Foundation [cph] (src/qchisq-appr.c)
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Repository: CRAN
+Date/Publication: 2025-10-13 16:20:12 UTC
