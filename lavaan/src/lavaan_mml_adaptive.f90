@@ -1,0 +1,379 @@
+module lavaan_mml_adaptive
+   use, intrinsic :: ieee_arithmetic, only : ieee_is_nan
+   use lavaan_kinds, only : dp
+   use lavaan_mml, only : gauss_hermite_normal
+   use lavaan_mml_general, only : mml_mixed_result
+   use lavaan_ordinal, only : ordinal_thresholds
+   use lavaan_linalg, only : chol_lower, inverse_general
+   use lavaan_optimizer, only : bfgs_minimize
+   use numderiv, only : hessian, nd_success
+   implicit none
+   private
+   public :: mml_mixed_loglik_adaptive, fit_mml_mixed_factor_adaptive
+
+contains
+
+   function mml_mixed_loglik_adaptive(data, ordinal, loadings, intercept, residual_sd, thresholds, ncat, &
+                                      latent_mean, latent_cov, nquad) result(ll)
+      real(dp), intent(in) :: data(:, :), loadings(:, :), intercept(:), residual_sd(:), thresholds(:, :)
+      real(dp), intent(in) :: latent_mean(:), latent_cov(:, :)
+      logical, intent(in) :: ordinal(:)
+      integer, intent(in) :: ncat(:), nquad
+      real(dp) :: ll
+      real(dp), allocatable :: nodes(:), weights(:), prior_inv(:, :), prior_l(:, :)
+      real(dp), allocatable :: mode(:), hess(:, :), post_cov(:, :), post_inv(:, :), post_l(:, :)
+      real(dp), allocatable :: z(:), eta(:), logterm(:)
+      real(dp) :: prior_logdet, post_logdet, fval, wt, mx
+      integer :: n, p, q, row, current_row, info, hs, code, total, tmp, d, c
+      logical :: conv
+      integer :: it
+
+      n = size(data, 1)
+      p = size(data, 2)
+      q = size(loadings, 2)
+      ll = 0.0_dp
+      if (size(loadings, 1) /= p .or. size(ordinal) /= p .or. size(intercept) /= p .or. &
+          size(residual_sd) /= p .or. size(ncat) /= p .or. size(latent_mean) /= q .or. &
+          any(shape(latent_cov) /= [q, q]) .or. q < 1 .or. q > 3 .or. nquad < 3) then
+         ll = -huge(1.0_dp)
+         return
+      end if
+      call chol_lower(latent_cov, prior_l, info)
+      if (info /= 0) then
+      ll = -huge(1.0_dp)
+      return
+      end if
+      call inverse_general(latent_cov, prior_inv, info)
+      if (info /= 0) then
+      ll = -huge(1.0_dp)
+      return
+      end if
+      prior_logdet = 0.0_dp
+      do d = 1, q
+      prior_logdet = prior_logdet + 2.0_dp * log(max(prior_l(d, d), tiny(1.0_dp)))
+      end do
+      call gauss_hermite_normal(nquad, nodes, weights, info)
+      if (info /= 0) then
+      ll = -huge(1.0_dp)
+      return
+      end if
+      total = nquad ** q
+      allocate(mode(q), z(q), eta(q), logterm(total))
+
+      do row = 1, n
+         current_row = row
+         mode = latent_mean
+         call bfgs_minimize(post_nll, mode, fval, conv, it, maxiter=80, tol=2.0e-7_dp)
+         call hessian(post_nll, mode, hess, status=hs)
+         if (hs == nd_success) then
+            hess = 0.5_dp * (hess + transpose(hess))
+            call inverse_general(hess, post_cov, info)
+         else
+            info = 1
+         end if
+         if (info /= 0 .or. any([(post_cov(d, d) <= 0.0_dp, d=1,q)])) then
+            post_cov = latent_cov
+         end if
+         call chol_lower(post_cov, post_l, info)
+         if (info /= 0) then
+            post_cov = latent_cov
+            post_l = prior_l
+         end if
+         call inverse_general(post_cov, post_inv, info)
+         if (info /= 0) then
+         ll = -huge(1.0_dp)
+         return
+         end if
+         post_logdet = 0.0_dp
+         do d = 1, q
+         post_logdet = post_logdet + 2.0_dp * log(max(post_l(d, d), tiny(1.0_dp)))
+         end do
+
+         do code = 0, total - 1
+            tmp = code
+            wt = 1.0_dp
+            do d = 1, q
+               c = mod(tmp, nquad) + 1
+               tmp = tmp / nquad
+               z(d) = nodes(c)
+               wt = wt * weights(c)
+            end do
+            eta = mode + matmul(post_l, z)
+            logterm(code + 1) = log(max(wt, tiny(1.0_dp))) + row_logcond(current_row, eta) + &
+                                mvn_logpdf(eta, latent_mean, prior_inv, prior_logdet) - &
+                                mvn_logpdf(eta, mode, post_inv, post_logdet)
+         end do
+         mx = maxval(logterm)
+         ll = ll + mx + log(sum(exp(logterm - mx)))
+      end do
+
+   contains
+      function post_nll(eta0) result(v)
+         real(dp), intent(in) :: eta0(:)
+         real(dp) :: v
+         v = -(row_logcond(current_row, eta0) + mvn_logpdf(eta0, latent_mean, prior_inv, prior_logdet))
+      end function post_nll
+
+      function row_logcond(rr, eta0) result(v)
+         integer, intent(in) :: rr
+         real(dp), intent(in) :: eta0(:)
+         real(dp) :: v, mu, lo, hi, prob, sdv, y
+         integer :: j, cat
+         v = 0.0_dp
+         do j = 1, p
+            if (ieee_is_nan(data(rr, j))) cycle
+            mu = intercept(j) + dot_product(loadings(j, :), eta0)
+            if (ordinal(j)) then
+               cat = nint(data(rr, j))
+               if (cat < 1 .or. cat > ncat(j)) then
+               v = -huge(1.0_dp)
+               return
+               end if
+               if (cat == 1) then
+               lo = -huge(1.0_dp)
+               else
+               lo = thresholds(cat - 1, j) - mu
+               end if
+               if (cat == ncat(j)) then
+               hi = huge(1.0_dp)
+               else
+               hi = thresholds(cat, j) - mu
+               end if
+               prob = max(normal_cdf(hi) - normal_cdf(lo), 1.0e-300_dp)
+               v = v + log(prob)
+            else
+               sdv = max(residual_sd(j), 1.0e-8_dp)
+               y = data(rr, j)
+               v = v - 0.5_dp * ((y - mu) / sdv) ** 2 - log(sqrt(2.0_dp * acos(-1.0_dp)) * sdv)
+            end if
+         end do
+      end function row_logcond
+   end function mml_mixed_loglik_adaptive
+
+   subroutine fit_mml_mixed_factor_adaptive(data, ordinal, loading_start, free_mask, latent_mean, latent_cov, &
+                                            result, nquad, compute_se)
+      real(dp), intent(in) :: data(:, :), loading_start(:, :), latent_mean(:), latent_cov(:, :)
+      logical, intent(in) :: ordinal(:), free_mask(:, :)
+      type(mml_mixed_result), intent(out) :: result
+      integer, intent(in), optional :: nquad
+      logical, intent(in), optional :: compute_se
+      real(dp), allocatable :: x(:), hess(:, :), hi(:, :)
+      integer :: p, q, nq, kload, ncont, k, idx, i, j, info, status
+      real(dp) :: fval
+      logical :: dose
+
+      p = size(data, 2)
+      q = size(loading_start, 2)
+      nq = 5
+      if (present(nquad)) nq = max(3, nquad)
+      dose = .true.
+      if (present(compute_se)) dose = compute_se
+      if (size(ordinal) /= p .or. size(loading_start, 1) /= p .or. any(shape(free_mask) /= shape(loading_start)) .or. &
+          size(latent_mean) /= q .or. any(shape(latent_cov) /= [q, q]) .or. q < 1 .or. q > 3) then
+         result%status = -1
+         return
+      end if
+      kload = count(free_mask)
+      ncont = count(.not.ordinal)
+      k = kload + 2 * ncont
+      allocate(x(k))
+      idx = 0
+      do j = 1, q
+         do i = 1, p
+            if (free_mask(i, j)) then
+            idx = idx + 1
+            x(idx) = loading_start(i, j)
+            end if
+         end do
+      end do
+      allocate(result%intercept(p), result%residual_sd(p))
+      result%intercept = 0.0_dp
+      result%residual_sd = 1.0_dp
+      do i = 1, p
+         if (.not.ordinal(i)) then
+            idx = idx + 1
+            result%intercept(i) = observed_mean(data(:, i))
+            x(idx) = result%intercept(i)
+            idx = idx + 1
+            result%residual_sd(i) = max(0.1_dp, observed_sd(data(:, i), result%intercept(i)))
+            x(idx) = log(result%residual_sd(i))
+         end if
+      end do
+      call build_mixed_thresholds(data, ordinal, result%ncat, result%thresholds, info)
+      if (info /= 0) then
+      result%status = info
+      return
+      end if
+      call bfgs_minimize(nll, x, fval, result%converged, result%iterations, maxiter=900, tol=5.0e-7_dp)
+      result%loadings = loading_start
+      call unpack(x, result%loadings, result%intercept, result%residual_sd)
+      result%latent_mean = latent_mean
+      result%latent_cov = latent_cov
+      result%ordinal = ordinal
+      result%par = x
+      result%loglik = -fval
+      result%aic = 2.0_dp * fval + 2.0_dp * real(k, dp)
+      result%bic = 2.0_dp * fval + log(real(size(data, 1), dp)) * real(k, dp)
+      result%nquad = nq
+      result%nfactor = q
+      allocate(result%vcov(k, k), result%se(k))
+      result%vcov = 0.0_dp
+      result%se = huge(1.0_dp)
+      if (dose) then
+         call hessian(nll, x, hess, status=status)
+         if (status == nd_success) then
+            call inverse_general(hess, hi, info)
+            if (info == 0) then
+               result%vcov = hi
+               do i = 1, k
+               if (hi(i, i) >= 0.0_dp) result%se(i) = sqrt(hi(i, i))
+               end do
+            end if
+         end if
+      end if
+      result%status = 0
+   contains
+      function nll(z) result(v)
+         real(dp), intent(in) :: z(:)
+         real(dp) :: v
+         real(dp), allocatable :: ll(:, :), ii(:), rr(:)
+         ll = loading_start
+         ii = result%intercept
+         rr = result%residual_sd
+         call unpack(z, ll, ii, rr)
+         v = -mml_mixed_loglik_adaptive(data, ordinal, ll, ii, rr, result%thresholds, result%ncat, &
+                                        latent_mean, latent_cov, nq)
+         if (.not.(v < huge(1.0_dp) / 10.0_dp)) v = huge(1.0_dp) / 100.0_dp
+      end function nll
+      subroutine unpack(z, ll, ii, rr)
+         real(dp), intent(in) :: z(:)
+         real(dp), intent(inout) :: ll(:, :), ii(:), rr(:)
+         integer :: a, b, pos
+         pos = 0
+         do b = 1, q
+            do a = 1, p
+               if (free_mask(a, b)) then
+               pos = pos + 1
+               ll(a, b) = z(pos)
+               end if
+            end do
+         end do
+         do a = 1, p
+            if (.not.ordinal(a)) then
+               pos = pos + 1
+               ii(a) = z(pos)
+               pos = pos + 1
+               rr(a) = exp(z(pos))
+            end if
+         end do
+      end subroutine unpack
+   end subroutine fit_mml_mixed_factor_adaptive
+
+   function mvn_logpdf(x, mu, inv, logdet) result(v)
+      real(dp), intent(in) :: x(:), mu(:), inv(:, :), logdet
+      real(dp) :: v
+      real(dp), allocatable :: d(:)
+      d = x - mu
+      v = -0.5_dp * (real(size(x), dp) * log(2.0_dp * acos(-1.0_dp)) + logdet + dot_product(d, matmul(inv, d)))
+   end function mvn_logpdf
+
+   subroutine build_mixed_thresholds(data, ordinal, ncat, thresholds, info)
+      real(dp), intent(in) :: data(:, :)
+      logical, intent(in) :: ordinal(:)
+      integer, allocatable, intent(out) :: ncat(:)
+      real(dp), allocatable, intent(out) :: thresholds(:, :)
+      integer, intent(out) :: info
+      integer :: p, j, r, c, maxc, nobs
+      integer, allocatable :: cnt(:)
+      real(dp), allocatable :: th(:)
+      p = size(data, 2)
+      allocate(ncat(p))
+      ncat = 0
+      maxc = 1
+      info = 0
+      do j = 1, p
+         if (ordinal(j)) then
+            do r = 1, size(data, 1)
+               if (.not.ieee_is_nan(data(r, j))) ncat(j) = max(ncat(j), nint(data(r, j)))
+            end do
+            if (ncat(j) < 2) then
+            info = j
+            return
+            end if
+            maxc = max(maxc, ncat(j))
+         end if
+      end do
+      allocate(thresholds(maxc - 1, p))
+      thresholds = 0.0_dp
+      do j = 1, p
+         if (.not.ordinal(j)) cycle
+         allocate(cnt(ncat(j)))
+         cnt = 0
+         nobs = 0
+         do r = 1, size(data, 1)
+            if (ieee_is_nan(data(r, j))) cycle
+            c = nint(data(r, j))
+            if (c < 1 .or. c > ncat(j)) then
+            info = 100 + j
+            return
+            end if
+            cnt(c) = cnt(c) + 1
+            nobs = nobs + 1
+         end do
+         if (nobs == 0 .or. any(cnt == 0)) then
+         info = 200 + j
+         return
+         end if
+         th = ordinal_thresholds(cnt)
+         thresholds(1:size(th), j) = th
+         deallocate(cnt)
+      end do
+   end subroutine build_mixed_thresholds
+
+   function observed_mean(x) result(m)
+      real(dp), intent(in) :: x(:)
+      real(dp) :: m
+      integer :: i, n
+      m = 0.0_dp
+      n = 0
+      do i = 1, size(x)
+      if (.not.ieee_is_nan(x(i))) then
+      m = m + x(i)
+      n = n + 1
+      end if
+      end do
+      if (n > 0) m = m / real(n, dp)
+   end function observed_mean
+
+   function observed_sd(x, m) result(s)
+      real(dp), intent(in) :: x(:), m
+      real(dp) :: s
+      integer :: i, n
+      s = 0.0_dp
+      n = 0
+      do i = 1, size(x)
+      if (.not.ieee_is_nan(x(i))) then
+      s = s + (x(i) - m) ** 2
+      n = n + 1
+      end if
+      end do
+      if (n > 1) then
+      s = sqrt(s / real(n - 1, dp))
+      else
+      s = 1.0_dp
+      end if
+   end function observed_sd
+
+   pure function normal_cdf(z) result(p)
+      real(dp), intent(in) :: z
+      real(dp) :: p
+      if (z > 8.0_dp) then
+      p = 1.0_dp
+      else if (z < -8.0_dp) then
+      p = 0.0_dp
+      else
+      p = 0.5_dp * erfc(-z / sqrt(2.0_dp))
+      end if
+   end function normal_cdf
+
+end module lavaan_mml_adaptive

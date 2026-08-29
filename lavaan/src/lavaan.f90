@@ -1,0 +1,47 @@
+module lavaan
+   use lavaan_kinds, only : dp
+   use lavaan_linalg
+   use lavaan_ram
+   use lavaan_objectives
+   use lavaan_fit
+   use lavaan_ordinal
+   use lavaan_simulation
+   use lavaan_models
+   use lavaan_tests
+   use lavaan_predict
+   use lavaan_multigroup
+   use lavaan_constraints
+   use lavaan_robust
+   use lavaan_modification
+   use lavaan_ordinal_wls
+   use lavaan_bootstrap
+   use lavaan_twolevel
+   use lavaan_pml
+   use lavaan_efa
+   use lavaan_sam
+   use lavaan_sam_gamma
+   use lavaan_miiv
+   use lavaan_miiv_variance
+   use lavaan_miiv_markers
+   use lavaan_categorical
+   use lavaan_categorical_analytic
+   use lavaan_muthen1984
+   use lavaan_twolevel_ml
+   use lavaan_twolevel_missing
+   use lavaan_multilevel_random
+   use lavaan_mml
+   use lavaan_mml_general
+   use lavaan_mml_qmc
+   use lavaan_mml_adaptive
+   use lavaan_robust_tests
+   use lavaan_browne
+   use lavaan_hayakawa
+   use lavaan_pml_mixed
+   use lavaan_muthen_mixed
+   use lavaan_multilevel_random_missing
+   use lavaan_miiv_partable
+   use lavaan_sam_blocks
+   use lavaan_robust_difference
+   implicit none
+   public
+end module lavaan

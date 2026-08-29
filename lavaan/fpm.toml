@@ -1,0 +1,30 @@
+name = "lavaan-fortran"
+version = "0.7.0"
+license = "GPL-2.0-or-later"
+author = "Yves Rosseel et al.; Fortran translation"
+maintainer = "Fortran translation maintainers"
+description = "Modern Fortran numerical core for latent variable analysis and SEM"
+keywords = ["sem", "cfa", "latent-variable", "structural-equation-modeling", "ram"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+pbivnorm-fortran = { path = "../pbivnorm" }
+numDeriv-fortran = { path = "../numDeriv" }
+
+gparotation = { path = "../GPArotation" }
+
+[extra.r-fpm-index]
+gams = ["Z"]
