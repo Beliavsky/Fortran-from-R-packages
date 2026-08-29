@@ -1,0 +1,60 @@
+useDynLib(SpatialExtremes, .registration = TRUE, .fixes = "C_")
+
+importFrom("maps", "map")
+importFrom("fields", "Tps")
+importFrom("grDevices", "cm.colors", "terrain.colors")
+importFrom("graphics", "abline", "axis", "box", "contour", "curve",
+           "filled.contour", "hist", "image", "layout", "legend",
+           "lines", "matplot", "par", "persp", "plot", "plot.new",
+           "plot.window", "points", "polygon", "rect", "symbols",
+           "text")
+importFrom("stats", "AIC", "deviance", "dist", "fitted", "lm",
+           "median", "model.matrix", "na.omit", "nlm", "nlminb",
+           "optim", "optimize", "pchisq", "pnorm", "ppoints",
+           "predict", "pt", "qchisq", "qnorm", "quantile", "rchisq",
+           "rexp", "rnorm", "runif", "sd", "terms", "uniroot",
+           "update", "var", "model.frame", "na.pass")
+
+## Our exports
+exportPattern("^[^\\. C\\_]")
+
+##export(rmaxstab)
+##export(rgp)
+##export(madogram)
+##export(fmadogram)
+##export(lmadogram)
+##export(covariance)
+##export(fitextcoeff)
+
+
+## Our methods
+S3method(TIC, default)
+
+## Methods for class 'maxstab'
+S3method(anova, maxstab)
+S3method(logLik, maxstab)
+S3method(plot, maxstab)
+S3method(predict, maxstab)
+S3method(print, maxstab)
+S3method(profile, maxstab)
+S3method(profile2d, maxstab)
+
+## Methods for class 'latent'
+S3method(print, latent)
+
+## Methods for class 'copula'
+S3method(logLik, copula)
+S3method(plot, copula)
+S3method(predict, copula)
+S3method(print, copula)
+
+## Methods for class 'pspline2'
+S3method(predict, pspline2)
+S3method(print, pspline2)
+
+## Methods for class 'spatgev'
+S3method(anova, spatgev)
+S3method(predict, spatgev)
+S3method(print, spatgev)
+
+

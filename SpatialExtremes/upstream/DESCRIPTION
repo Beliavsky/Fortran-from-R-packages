@@ -1,0 +1,21 @@
+Package: SpatialExtremes
+Version: 2.1-0
+Date: 2022-04-19
+Title: Modelling Spatial Extremes
+Authors@R: c(person("Mathieu", "Ribatet", role = c("aut", "cre"),
+	   email = "mathieu.ribatet@ec-nantes.fr"),
+	   person("Richard", "Singleton", role = "ctb"),
+	   person("R Core team", role = "ctb"))
+Depends: R (>= 1.8.0)
+Imports: maps, fields
+Description: Tools for the statistical modelling of spatial extremes using max-stable processes, copula or Bayesian hierarchical models. More precisely, this package allows (conditional) simulations from various parametric max-stable models, analysis of the extremal spatial dependence, the fitting of such processes using composite likelihoods or least square (simple max-stable processes only), model checking and selection and prediction. Other approaches (although not completely in agreement with the extreme value theory) are available such as the use of (spatial) copula and Bayesian hierarchical models assuming the so-called conditional assumptions. The latter approaches is handled through an (efficient) Gibbs sampler. Some key references: Davison et al. (2012) <doi:10.1214/11-STS376>, Padoan et al. (2010) <doi:10.1198/jasa.2009.tm08577>, Dombry et al. (2013) <doi:10.1093/biomet/ass067>.
+License: GPL (>= 2)
+URL: http://spatialextremes.r-forge.r-project.org/
+NeedsCompilation: yes
+Packaged: 2022-04-19 07:58:44 UTC; mathieu
+Author: Mathieu Ribatet [aut, cre],
+  Richard Singleton [ctb],
+  R Core team [ctb]
+Maintainer: Mathieu Ribatet <mathieu.ribatet@ec-nantes.fr>
+Repository: CRAN
+Date/Publication: 2022-04-19 10:22:42 UTC
