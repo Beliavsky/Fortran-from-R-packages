@@ -1,0 +1,215 @@
+! SPDX-License-Identifier: GPL-2.0-or-later
+! Derived from KFAS 1.6.0 src/simgaussianuncond.f90 by Jouni Helske.
+! Algorithm retained and mechanically modernized for free-form FPM packaging.
+! See NOTICE.md and provenance/upstream-sha256.txt.
+
+!simulate gaussian state space model
+subroutine simgaussianuncond(timevar, zt, ht, tt, rtv, qt, a1, p1, &
+nnd,nsim, epsplus, etaplus, aplus1, p, n, m, r, info,&
+tol,sim,c,simwhat,simdim,antithetics)
+    use kfas_kinds, only: dp
+
+    implicit none
+
+    integer, intent(in) :: p, m, r, n, nsim,nnd,simdim,simwhat,antithetics
+    integer, intent(in), dimension(5) :: timevar
+    integer, intent(inout) :: info
+    integer :: t, i,k,l
+    real(dp), intent(in) :: tol
+    real(dp), intent(in), dimension(p,m,(n - 1) * timevar(1) + 1) :: zt
+    real(dp), intent(in), dimension(p,p,(n - 1) * timevar(2) + 1) :: ht
+    real(dp), intent(in), dimension(m,m,(n - 1) * timevar(3) + 1) :: tt
+    real(dp), intent(in), dimension(m,r,(n - 1) * timevar(4) + 1) :: rtv
+    real(dp), intent(in), dimension(r,r,(n - 1) * timevar(5) + 1) :: qt
+    real(dp), intent(in), dimension(m) :: a1
+    real(dp), intent(in), dimension(m,m) :: p1
+    real(dp), intent(in),dimension(nsim) :: c
+    real(dp), intent(inout), dimension(simdim,n,3 * nsim * antithetics + nsim) :: sim
+    real(dp), intent(inout), dimension(r,n,nsim) :: etaplus
+    real(dp), intent(inout), dimension(p,n,nsim) :: epsplus
+    real(dp), intent(inout), dimension(m,nsim) :: aplus1
+
+    real(dp), dimension(m,n + 1) :: aplus
+    real(dp), dimension(r,r,(n - 1) * timevar(5) + 1) :: cholqt
+    real(dp), dimension(m,m) :: cholp1
+    real(dp), dimension(r,r) :: rcholtmp
+    real(dp), dimension(r,n - 1,4) :: etatmp
+    real(dp), dimension(m,n,4) :: alphatmp
+    real(dp), external :: ddot
+
+    external dsymm, dgemm, dsymv, ldl, dtrmv, dgemv
+
+
+
+    do t = 1, (n - 1) * timevar(5) + 1
+        if(r == 1) then
+            cholqt(1,1,t) = sqrt(qt(1,1,t))
+        else
+            rcholtmp = qt(:,:,t)
+            call ldl(rcholtmp,r,tol,info)
+            if(info /= 0) then
+                info = -2
+                return
+            end if
+            do i = 1,r
+                cholqt(i,i,t) = sqrt(rcholtmp(i,i))
+            end do
+            do i = 1,r - 1
+                cholqt((i + 1):r,i,t) = rcholtmp((i + 1):r,i) * cholqt(i,i,t)
+            end do
+        end if
+    end do
+
+
+    if(nnd > 0) then
+        if(m == 1) then
+            cholp1(1,1) = sqrt(p1(1,1))
+        else
+            cholp1 = p1
+            call ldl(cholp1,m,tol,info)
+            if(info /= 0) then
+                info = -3
+                return
+            end if
+            do i = 1,m
+                cholp1(i,i) = sqrt(cholp1(i,i))
+            end do
+            do i = 1,m - 1
+                cholp1((i + 1):m,i) = cholp1((i + 1):m,i) * cholp1(i,i)
+            end do
+        end if
+    end if
+
+
+    do i = 1, nsim
+        aplus = 0.0_dp
+        aplus(:,1) = a1
+        if(nnd > 0) then
+            call dtrmv('l','n','n',m,cholp1,m,aplus1(:,i),1)
+            aplus(:,1) = aplus(:,1) + aplus1(:,i)
+        end if
+
+        do t = 1, n
+            do k = 1, p
+                epsplus(k,t,i) = epsplus(k,t,i) * sqrt(ht(k,k,(t - 1) * timevar(2) + 1))
+            end do
+            call dtrmv('l','n','n',r,cholqt(:,:,(t - 1) * timevar(5) + 1),r,etaplus(:,t,i),1)
+            call dgemv('n',m,m,1.0_dp,tt(:,:,(t - 1) * timevar(3) + 1),m,aplus(:,t),1,0.0_dp,aplus(:,t + 1),1)
+            call dgemv('n',m,r,1.0_dp,rtv(:,:,(t - 1) * timevar(4) + 1),m,etaplus(:,t,i),1,1.0_dp,aplus(:,t + 1),1)
+        end do
+
+
+        !simwhat = 1: epsilon, 2: eta, 3: both, 4: state, 5: signal, 6: observations
+        select case(simwhat)
+            case(1)
+                sim(:,:,i) = epsplus(:,:,i)
+                if(antithetics == 1) then
+                    sim(:,:,i + nsim) = -epsplus(:,:,i)
+                    sim(:,:,i + 2 * nsim) = c(i) * sim(:,:,i)
+                    sim(:,:,i + 3 * nsim) = c(i) * sim(:,:,i + nsim)
+                end if
+            case(2)
+                sim(:,:,i) = etaplus(:,:,i)
+                if(antithetics == 1) then
+                    sim(:,:,i + nsim) = -etaplus(:,:,i)
+                    sim(:,:,i + 2 * nsim) = c(i) * sim(:,:,i)
+                    sim(:,:,i + 3 * nsim) = c(i) * sim(:,:,i + nsim)
+                end if
+            case(3)
+                sim(1:p,:,i) = epsplus(:,:,i)
+                sim((p + 1):,:,i) = etaplus(:,:,i)
+                if(antithetics == 1) then
+                    sim(1:p,:,i + nsim) = -epsplus(:,:,i)
+                    sim(1:p,:,i + 2 * nsim) = c(i) * sim(1:p,:,i)
+                    sim(1:p,:,i + 3 * nsim) = c(i) * sim(1:p,:,i + nsim)
+                    sim((p + 1):,:,i + nsim) = -etaplus(:,:,i)
+                    sim((p + 1):,:,i + 2 * nsim) = c(i) * sim((p + 1):,:,i)
+                    sim((p + 1):,:,i + 3 * nsim) = c(i) * sim((p + 1):,:,i + nsim)
+                end if
+            case(4)
+                sim(:,1,i) = aplus(:,1)
+                etatmp(:,:,1) = etaplus(:,1:(n - 1),i)
+                if(antithetics == 1) then
+                    sim(:,1,i + nsim) = -aplus(:,1)
+                    sim(:,1,i + 2 * nsim) = c(i) * sim(:,1,i)
+                    sim(:,1,i + 3 * nsim) = c(i) * sim(:,1,i + nsim)
+
+                    etatmp(:,:,2) = -etaplus(:,1:(n - 1),i)
+                    etatmp(:,:,3) = c(i) * etatmp(:,:,1)
+                    etatmp(:,:,4) = c(i) * etatmp(:,:,2)
+                end if
+                do k = 1, 3 * antithetics + 1
+                    do t = 2, n
+                        call dgemv('n',m,m,1.0_dp,tt(:,:,(t - 2) * timevar(3) + 1),m,sim(:,t - 1,i + (k - 1) * nsim),&
+                        1,0.0_dp,sim(:,t,i + (k - 1) * nsim),1)
+                        call dgemv('n',m,r,1.0_dp,rtv(:,:,(t - 2) * timevar(4) + 1),m,etatmp(:,t - 1,k),1,&
+                        1.0_dp,sim(:,t,i + (k - 1) * nsim),1)
+                    end do
+                end do
+            case(5)
+
+                alphatmp(:,1,1) = aplus(:,1)
+                etatmp(:,:,1) = etaplus(:,1:(n - 1),i)
+                call dgemv('n',p,m,1.0_dp,zt(:,:,1),p,alphatmp(:,1,1),1,0.0_dp,sim(:,1,i),1)
+
+                if(antithetics == 1) then
+                    alphatmp(:,1,2) = -aplus(:,1)
+                    alphatmp(:,1,3) = c(i) * alphatmp(:,1,1)
+                    alphatmp(:,1,4) = c(i) * alphatmp(:,1,2)
+                    call dgemv('n',p,m,1.0_dp,zt(:,:,1),p,alphatmp(:,1,2),1,0.0_dp,sim(:,1,i + nsim),1)
+                    call dgemv('n',p,m,1.0_dp,zt(:,:,1),p,alphatmp(:,1,3),1,0.0_dp,sim(:,1,i + 2 * nsim),1)
+                    call dgemv('n',p,m,1.0_dp,zt(:,:,1),p,alphatmp(:,1,4),1,0.0_dp,sim(:,1,i + 3 * nsim),1)
+
+                    etatmp(:,:,2) = -etaplus(:,1:(n - 1),i)
+                    etatmp(:,:,3) = c(i) * etatmp(:,:,1)
+                    etatmp(:,:,4) = c(i) * etatmp(:,:,2)
+
+                end if
+                do k = 1, 3 * antithetics + 1
+                    do t = 2, n
+                        call dgemv('n',m,m,1.0_dp,tt(:,:,(t - 2) * timevar(3) + 1),m,alphatmp(:,t - 1,k),&
+                        1,0.0_dp,alphatmp(:,t,k),1)
+                        call dgemv('n',m,r,1.0_dp,rtv(:,:,(t - 2) * timevar(4) + 1),m,etatmp(:,t - 1,k),1,&
+                        1.0_dp,alphatmp(:,t,k),1)
+                        call dgemv('n',p,m,1.0_dp,zt(:,:,(t - 1) * timevar(1) + 1),p,&
+                        alphatmp(:,t,k),1,0.0_dp,sim(:,t,i + (k - 1) * nsim),1)
+                    end do
+                end do
+            case(6)
+
+
+                alphatmp(:,1,1) = aplus(:,1)
+                etatmp(:,:,1) = etaplus(:,1:(n - 1),i)
+
+                if(antithetics == 1) then
+                    alphatmp(:,1,2) = -aplus(:,1)
+                    alphatmp(:,1,3) = c(i) * alphatmp(:,1,1)
+                    alphatmp(:,1,4) = c(i) * alphatmp(:,1,2)
+
+                    etatmp(:,:,2) = -etaplus(:,1:(n - 1),i)
+                    etatmp(:,:,3) = c(i) * etatmp(:,:,1)
+                    etatmp(:,:,4) = c(i) * etatmp(:,:,2)
+
+                end if
+                do k = 1, 3 * antithetics + 1
+                    do l = 1, p
+                          sim(l,1,i + (k - 1) * nsim) = ddot(m,zt(l,:,1),1,alphatmp(:,1,k),1)
+
+                    end do
+                    do t = 2, n
+                        call dgemv('n',m,m,1.0_dp,tt(:,:,(t - 2) * timevar(3) + 1),m,alphatmp(:,t - 1,k),&
+                        1,0.0_dp,alphatmp(:,t,k),1)
+                        call dgemv('n',m,r,1.0_dp,rtv(:,:,(t - 2) * timevar(4) + 1),m,etatmp(:,t - 1,k),1,&
+                        1.0_dp,alphatmp(:,t,k),1)
+                        do l = 1, p
+
+                                sim(l,t,i + (k - 1) * nsim) = ddot(m,zt(l,:,(t - 1) * timevar(1) + 1),1,alphatmp(:,t,k),1)
+
+                        end do
+                    end do
+                end do
+        end select
+    end do
+
+end subroutine simgaussianuncond
+

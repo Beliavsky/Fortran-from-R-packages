@@ -1,0 +1,20 @@
+bibentry(bibtype = "Article",
+  title        = "{KFAS}: Exponential Family State Space Models in {R}",
+  author       = person(given = "Jouni",
+                        family = "Helske",
+                        email = "Jouni.Helske@iki.fi"),
+  journal      = "Journal of Statistical Software",
+  year         = "2017",
+  volume       = "78",
+  number       = "10",
+  pages        = "1--39",
+  doi          = "10.18637/jss.v078.i10",
+
+  header       = "To cite KFAS in publications use:",
+  textVersion  =
+  paste("Jouni Helske (2017).",
+        "KFAS: Exponential Family State Space Models in R.",
+        "Journal of Statistical Software, 78(10), 1-39.",
+        "doi:10.18637/jss.v078.i10")
+)
+

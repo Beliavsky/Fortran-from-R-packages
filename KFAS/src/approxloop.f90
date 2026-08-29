@@ -1,0 +1,111 @@
+! SPDX-License-Identifier: GPL-2.0-or-later
+! Derived from KFAS 1.6.0 src/approxloop.f90 by Jouni Helske.
+! Algorithm retained and mechanically modernized for free-form FPM packaging.
+! See NOTICE.md and provenance/upstream-sha256.txt.
+
+! subroutine for computing new guess of conditional mode theta for non-Gaussian model given current guess
+
+subroutine approxloop(yt, ymiss, timevar, zt, tt, rtv, ht, qt, rqr, tvrqr, a1, p1,p1inf, p,n,m,r, &
+theta, thetanew, u, ytilde, dist,tol,rankp,lik, expected)
+    use kfas_kinds, only: dp
+
+    implicit none
+
+    integer, intent(in) :: p,m, r, n,tvrqr,rankp, expected
+    integer, intent(in), dimension(n,p) :: ymiss
+    integer, intent(in), dimension(5) :: timevar
+    integer, intent(in), dimension(p) :: dist
+    integer :: j,i, rankp2
+    real(dp), intent(in) :: tol
+    real(dp), intent(in), dimension(n,p) :: u
+    real(dp), intent(in), dimension(n,p) :: yt
+    real(dp), intent(in), dimension(p,m,(n - 1) * timevar(1) + 1) :: zt
+    real(dp), intent(in), dimension(m,m,(n - 1) * timevar(3) + 1) :: tt
+    real(dp), intent(in), dimension(m,r,(n - 1) * timevar(4) + 1) :: rtv
+    real(dp), intent(in), dimension(r,r,(n - 1) * timevar(5) + 1) :: qt
+    real(dp), intent(in), dimension(m) :: a1
+    real(dp), intent(in), dimension(m,m) :: p1,p1inf
+    real(dp), intent(in), dimension(n,p) :: theta
+    real(dp), intent(inout), dimension(n,p) :: thetanew
+    real(dp), intent(inout), dimension(n,p) :: ytilde
+    real(dp), intent(inout), dimension(p,p,n) :: ht
+    real(dp), intent(in), dimension(m,m,tvrqr) :: rqr
+    real(dp), intent(inout) :: lik
+    real(dp), external :: ddot
+
+    external kfstheta
+
+    !construct pseudo-observations and variances for gaussian approximating model
+    do j = 1,p
+        select case(dist(j))
+            case(1)
+                do i = 1,n
+                    if(ymiss(i,j) == 0) then
+                        ht(j,j,i) = u(i,j)
+                        ytilde(i,j) = yt(i,j)
+                    end if
+                end do
+            case(2)
+                do i = 1,n
+                    if(ymiss(i,j) == 0) then
+                        ht(j,j,i) = 1.0_dp / (exp(theta(i,j)) * u(i,j))
+                        ytilde(i,j) = yt(i,j) * ht(j,j,i) + theta(i,j) - 1.0_dp
+                    end if
+                end do
+            case(3)
+                do i = 1,n
+                    if(ymiss(i,j) == 0) then
+                        ht(j,j,i) = (1.0_dp + exp(theta(i,j)))**2 / (u(i,j) * exp(theta(i,j)))
+                        ytilde(i,j) = theta(i,j) + ht(j,j,i) * yt(i,j) - 1.0_dp - exp(theta(i,j))
+                    end if
+                end do
+            case(4)
+               if (expected == 1) then
+                 ! this was in use from version 1.0.3 to 1.3.7-1
+                 ! wich results standard errors matching to expected information
+                 ! matrix as in glm function
+                 do i = 1,n
+                   if(ymiss(i,j) == 0) then
+                     ht(j,j,i) = 1.0_dp / u(i,j)
+                     ytilde(i,j) = theta(i,j) + yt(i,j) / exp(theta(i,j)) - 1.0_dp
+                   end if
+                 end do
+               else
+                 do i = 1,n
+                   if(ymiss(i,j) == 0) then
+                     ht(j,j,i) = exp(theta(i,j)) / (u(i,j) * yt(i,j))
+                     ytilde(i,j) = theta(i,j) + 1.0_dp - exp(theta(i,j)) / yt(i,j)
+                   end if
+                 end do
+               end if
+            case(5)
+               if (expected == 1) then
+                 ! this was in use from version 1.0.3 to 1.3.7-1
+                 ! wich results standard errors matching to expected information
+                 ! matrix as in glm function
+                 do i = 1,n
+                   if(ymiss(i,j) == 0) then
+                     ht(j,j,i) = (1.0_dp / u(i,j) + 1.0_dp / exp(theta(i,j)))
+                     ytilde(i,j) = theta(i,j) + yt(i,j) / exp(theta(i,j)) - 1.0_dp
+                   end if
+                 end do
+               else
+                 do i = 1,n
+                   if(ymiss(i,j) == 0) then
+                     ht(j,j,i) = (exp(theta(i,j)) + u(i,j))**2 / (u(i,j) * exp(theta(i,j)) * (yt(i,j) + u(i,j)))
+                     ytilde(i,j) = theta(i,j) + &
+                     ht(j,j,i) * u(i,j) * (yt(i,j) - exp(theta(i,j))) / (u(i,j) + exp(theta(i,j)))
+                   end if
+                 end do
+               end if
+        end select
+    end do
+
+    ! compute new estimate of thetahat
+    rankp2 = rankp
+    call kfstheta(ytilde, ymiss, timevar, zt, ht,tt, rtv,qt,rqr, tvrqr, a1, p1, p1inf, &
+    p, n, m, r,tol,rankp2,thetanew,lik)
+
+
+
+end subroutine approxloop

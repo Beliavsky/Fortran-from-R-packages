@@ -1,0 +1,136 @@
+! SPDX-License-Identifier: GPL-2.0-or-later
+! Derived from KFAS 1.6.0 src/ngsmooth.f90 by Jouni Helske.
+! Algorithm retained and mechanically modernized for free-form FPM packaging.
+! See NOTICE.md and provenance/upstream-sha256.txt.
+
+! Smoothing of non-gaussian model
+
+subroutine ngsmooth(yt, ymiss, timevar, zt, tt, rtv, qt, a1, p1,p1inf, u, theta,&
+dist, p,n, m, r, rankp, nnd,nsim,epsplus,etaplus,aplus1,c,tol,info,maxiter,&
+convtol,alphahat,alphavar,thetahat,thetavar,yhat,yvar,smootha,smooths,smoothy&
+, expected, htol)
+    use kfas_kinds, only: dp
+
+    implicit none
+
+    integer, intent(in) :: p,m, r, n,nnd,nsim,smootha,smooths,smoothy, rankp,&
+    expected
+    integer, intent(in), dimension(p) :: dist
+    integer, intent(in), dimension(n,p) :: ymiss
+    integer, intent(in), dimension(5) :: timevar
+    integer, intent(inout) :: maxiter,info
+    integer :: t, j
+    real(dp), intent(in) :: tol,convtol
+    real(dp), intent(inout) :: htol
+    real(dp), intent(inout), dimension(n,p) :: theta
+    real(dp), intent(in), dimension(n,p) :: u
+    real(dp), intent(in), dimension(n,p) :: yt
+    real(dp), intent(in), dimension(p,m,(n - 1) * timevar(1) + 1) :: zt
+    real(dp), intent(in), dimension(m,m,(n - 1) * timevar(3) + 1) :: tt
+    real(dp), intent(in), dimension(m,r,(n - 1) * timevar(4) + 1) :: rtv
+    real(dp), intent(in), dimension(r,r,(n - 1) * timevar(5) + 1) :: qt
+    real(dp), intent(in), dimension(m) :: a1
+    real(dp), intent(in), dimension(m,m) :: p1,p1inf
+    real(dp), intent(in),dimension(nsim) :: c
+    real(dp), intent(inout), dimension(p,n,nsim) :: epsplus
+    real(dp), intent(inout), dimension(r,n,nsim) :: etaplus
+    real(dp), intent(inout), dimension(m,nsim) :: aplus1
+    real(dp), intent(inout), dimension((m - 1) * smootha + 1,(n - 1) * smootha + 1) :: alphahat
+    real(dp), intent(inout), dimension((m - 1) * smootha + 1,(m - 1) * smootha + 1,(n - 1) * smootha + 1) :: alphavar
+    real(dp), intent(inout), dimension((p - 1) * smoothy + 1,(n - 1) * smoothy + 1) :: yhat
+    real(dp), intent(inout), dimension((p - 1) * smoothy + 1,(p - 1) * smoothy + 1,(n - 1) * smoothy + 1) :: yvar
+    real(dp), intent(inout), dimension((p - 1) * smooths + 1,(n - 1) * smooths + 1) :: thetahat
+    real(dp), intent(inout), dimension((p - 1) * smooths + 1,(p - 1) * smooths + 1,(n - 1) * smooths + 1) :: thetavar
+    real(dp), dimension(p,m) :: pm
+    real(dp), dimension(:,:,:), allocatable :: sim
+    real(dp), dimension(:,:,:), allocatable :: osim
+    real(dp), dimension(:), allocatable :: w
+    real(dp), external :: ddot
+    external isample, covmeanwprotect, dgemv, dsymm, dgemm, covmeanw
+
+    allocate(sim(smootha * m + (1 - smootha) * p,n,4 * nsim))
+    allocate(w(4 * nsim))
+
+    if(smootha == 1) then
+
+        call isample(yt, ymiss, timevar, zt, tt, rtv, qt, a1, p1,p1inf, u, dist, &
+        p, n, m, r, theta, maxiter,rankp,convtol, nnd,nsim,epsplus,etaplus,&
+        aplus1,c,tol,info,1,w,sim,4,m, expected, htol)
+
+        if(info /= 0) then
+            return
+        end if
+
+        w = w / sum(w)
+
+        call covmeanwprotect(sim,w,m,n,4 * nsim,alphahat,alphavar)
+
+        if(smooths == 1) then
+            do t = 1, n
+                call dgemv('n',p,m,1.0_dp,zt(:,:,(t - 1) * timevar(1) + 1),p,alphahat(:,t),1,0.0_dp,thetahat(:,t),1)
+                call dsymm('r','u',p,m,1.0_dp,alphavar(:,:,t),m,zt(:,:,(t - 1) * timevar(1) + 1),p,0.0_dp,pm,p)
+                call dgemm('n','t',p,p,m,1.0_dp,pm,p,zt(:,:,(t - 1) * timevar(1) + 1),p,0.0_dp,thetavar(:,:,t),p)
+            end do
+        end if
+
+        if(smoothy == 1) then
+            allocate(osim(smootha * p + (1 - smootha),n,4 * nsim * smootha + (1 - smootha)))
+            do t = 1, n
+                do j = 1,p
+                    call dgemv('t',m,4 * nsim,1.0_dp,sim(:,t,:),m,zt(j,:,(t - 1) * timevar(1) + 1),1,0.0_dp,osim(j,t,:),1)
+                end do
+            end do
+
+            do j = 1,p
+                select case(dist(j))
+                    case(1)
+                    case(2)
+                        do t = 1, n
+                            osim(j,t,:) = exp(osim(j,t,:)) * u(t,j)
+                        end do
+                    case(3)
+                        osim(j,:,:) = exp(osim(j,:,:)) / (1.0_dp + exp(osim(j,:,:)))
+                    case default
+                        osim(j,:,:) = exp(osim(j,:,:))
+                end select
+            end do
+            call covmeanw(osim,w,p,n,4 * nsim,yhat,yvar)
+
+           deallocate(osim)
+        end if
+    else
+        call isample(yt, ymiss, timevar, zt, tt, rtv, qt, a1, p1,p1inf, u, dist, &
+        p, n, m, r, theta, maxiter,rankp,convtol, nnd,nsim,epsplus,etaplus,&
+        aplus1,c,tol,info,1,w,sim,5,p, expected, htol)
+
+        if(info /= 0) then
+            return
+        end if
+        w = w / sum(w)
+
+        if(smooths == 1) then
+            call covmeanwprotect(sim,w,p,n,4 * nsim,thetahat,thetavar)
+        end if
+
+        if(smoothy == 1) then
+            do j = 1,p
+                select case(dist(j))
+                    case(1)
+
+                    case(2)
+                        do t = 1, n
+                            sim(j,t,:) = exp(sim(j,t,:)) * u(t,j)
+                        end do
+                    case(3)
+                        sim(j,:,:) = exp(sim(j,:,:)) / (1.0_dp + exp(sim(j,:,:)))
+                    case default
+                        sim(j,:,:) = exp(sim(j,:,:))
+                end select
+            end do
+            call covmeanw(sim,w,p,n,4 * nsim,yhat,yvar)
+        end if
+
+    end if
+    deallocate(sim)
+    deallocate(w)
+end subroutine ngsmooth

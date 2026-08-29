@@ -1,0 +1,38 @@
+name = "KFAS"
+version = "1.6.0"
+license = "GPL-2.0-or-later"
+author = "Jouni Helske; Fortran translation/packaging contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran packaging of the computational kernels from the R package KFAS"
+homepage = "https://github.com/Beliavsky/Fortran-from-R-packages"
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
+
+[fortran]
+implicit-typing = false
+implicit-external = true
+source-form = "free"
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "kfas-tests"
+source-dir = "test"
+main = "test_kfas.f90"
+
+[[example]]
+name = "local-level"
+source-dir = "example"
+main = "local_level.f90"
+
+[[example]]
+name = "poisson-fixed"
+source-dir = "example"
+main = "poisson_fixed.f90"
