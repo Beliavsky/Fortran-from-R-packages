@@ -1,0 +1,42 @@
+Package: matrixdist
+Type: Package
+Title: Statistics for Matrix Distributions
+Version: 1.1.9
+Date: 2023-08-01
+Authors@R: c(person("Martin", "Bladt", email = "martinbladt@gmail.com", role = c("aut", "cre")),
+              person("Jorge", "Yslas", email = "jorge.yslas1@gmail.com",
+              role = "aut"),
+              person("Alaric", "Müller", email = "muelleralaric@gmail.com",
+              role = "ctb")
+              )
+Maintainer: Martin Bladt <martinbladt@gmail.com>
+URL: https://github.com/martinbladt/matrixdist_1.0
+BugReports: https://github.com/martinbladt/matrixdist_1.0/issues
+Description: Tools for phase-type distributions including the following variants:
+    continuous, discrete, multivariate, in-homogeneous, right-censored, and regression. 
+    Methods for functional evaluation, simulation and estimation using the 
+    expectation-maximization (EM) algorithm are provided for all models.
+    The methods of this package are based on the following references.
+    Asmussen, S., Nerman, O., & Olsson, M. (1996). Fitting phase-type distributions via the EM algorithm,
+    Olsson, M. (1996). Estimation of phase-type distributions from censored data,
+    Albrecher, H., & Bladt, M. (2019) <doi:10.1017/jpr.2019.60>,
+    Albrecher, H., Bladt, M., & Yslas, J. (2022) <doi:10.1111/sjos.12505>,
+    Albrecher, H., Bladt, M., Bladt, M., & Yslas, J. (2022) <doi:10.1016/j.insmatheco.2022.08.001>,
+    Bladt, M., & Yslas, J. (2022) <doi:10.1080/03461238.2022.2097019>,
+    Bladt, M. (2022) <doi:10.1017/asb.2021.40>,
+    Bladt, M. (2023) <doi:10.1080/10920277.2023.2167833>,
+    Albrecher, H., Bladt, M., & Mueller, A. (2023) <doi:10.1515/demo-2022-0153>,
+    Bladt, M. & Yslas, J. (2023) <doi:10.1016/j.insmatheco.2023.02.008>.
+Depends: R (>= 4.2.0)
+License: GPL-3
+Imports: Rcpp, methods, nnet, reshape2
+LinkingTo: Rcpp, RcppArmadillo
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: yes
+Packaged: 2023-08-01 12:54:23 UTC; martinbladt
+Author: Martin Bladt [aut, cre],
+  Jorge Yslas [aut],
+  Alaric Müller [ctb]
+Repository: CRAN
+Date/Publication: 2023-08-08 11:00:02 UTC
