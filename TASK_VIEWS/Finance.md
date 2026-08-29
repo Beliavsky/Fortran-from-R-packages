@@ -6,7 +6,7 @@ Dirk Eddelbuettel, version 2026-08-25. The
 [source task view](https://github.com/cran-task-views/Finance/blob/main/Finance.md) provides the broader annotated
 guide to R packages.
 
-This page includes 81 translated packages. Package membership and broad
+This page includes 85 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -18,6 +18,8 @@ API coverage and validation status.
 ## Standard regression models
 
 - [`nlme`](../nlme/) - Fits linear and nonlinear mixed-effects models.
+- [`lmtest`](../lmtest/) - Provides diagnostic and hypothesis tests for linear regression models.
+- [`urca`](../urca/) - Performs unit-root, stationarity, cointegration, and structural-break analysis.
 - [`sandwich`](../sandwich/) - Computes robust sandwich covariance-matrix estimators.
 
 ## Time series
@@ -38,6 +40,7 @@ API coverage and validation status.
 - [`waveslim`](../waveslim/) - Provides one-, two-, and three-dimensional wavelet methods.
 - [`tserieschaos`](../tserieschaos/) - Analyzes nonlinear and chaotic time series.
 - [`tsdyn`](../tsdyn/) - Fits nonlinear time-series models with regime switching.
+- [`forecast`](../forecast/) - Provides forecasting methods for exponential-smoothing, ARIMA, BATS, TBATS, and related time-series models.
 - [`msgarch`](../msgarch/) - Fits Markov-switching GARCH models.
 
 ## Finance
@@ -54,6 +57,7 @@ API coverage and validation status.
 - [`performanceanalytics`](../performanceanalytics/) - Provides econometric tools for performance and risk analysis.
 - [`sde`](../sde/) - Simulates and performs inference for stochastic differential equations.
 - [`vrtest`](../vrtest/) - Performs variance-ratio and martingale-difference tests.
+- [`gmm`](../gmm/) - Fits generalized method of moments and generalized empirical likelihood models.
 - [`parma`](../parma/) - Provides portfolio allocation and risk-management applications.
 - [`sharper`](../sharper/) - Evaluates the statistical significance of Sharpe ratios.
 - [`rnd`](../rnd/) - Extracts option-implied risk-neutral densities.

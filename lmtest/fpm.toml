@@ -5,6 +5,8 @@ author = "Torsten Hothorn, Achim Zeileis, Richard W. Farebrother, Clint Cummins;
 maintainer = "Fortran translation maintainers"
 copyright = "Copyright upstream lmtest authors and contributors"
 description = "Modern Fortran translation of the computational core of the R package lmtest"
+categories = ["statistics", "econometrics", "time-series"]
+keywords = ["hypothesis-testing", "regression", "diagnostics", "autocorrelation", "structural-change"]
 
 [build]
 auto-executables = true
@@ -16,3 +18,6 @@ link = ["lapack", "blas"]
 implicit-typing = false
 implicit-external = false
 source-form = "free"
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -5,6 +5,7 @@ author = "forecast package authors; Fortran translation"
 maintainer = "Fortran translation maintainers"
 copyright = "Copyright forecast package authors and contributors"
 description = "Modern Fortran translation of the computational core of R package forecast"
+categories = ["time-series", "forecasting", "statistics"]
 keywords = ["forecasting", "ets", "arima", "tbats", "time-series"]
 
 [build]
@@ -21,3 +22,6 @@ source-form = "free"
 fracdiff = { path = "../fracdiff" }
 urca-fortran = { path = "../urca" }
 nnet-fortran = { path = "../nnet" }
+
+[extra.r-fpm-index]
+gams = ["L"]

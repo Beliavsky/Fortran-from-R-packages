@@ -6,7 +6,7 @@ Christophe Dutang, Patrice Kiener, Bruce J. Swihart, version 2026-08-21. The
 [source task view](https://github.com/cran-task-views/Distributions/blob/main/Distributions.md) provides the broader annotated
 guide to R packages.
 
-This page includes 105 translated packages. Package membership and broad
+This page includes 119 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -98,7 +98,9 @@ API coverage and validation status.
 - [`AEP`](../AEP/) - Models asymmetric exponential-power distributions and performs robust regression.
 - [`pgnorm`](../pgnorm/) - Evaluates and simulates p-generalized normal distributions.
 - [`flexsurv`](../flexsurv/) - Fits flexible parametric survival and multi-state models.
+- [`evd`](../evd/) - Provides distributions and methods for univariate and multivariate extreme-value analysis.
 - [`ghyp`](../ghyp/) - Evaluates, fits, and simulates generalized hyperbolic distributions.
+- [`truncnorm`](../truncnorm/) - Evaluates and simulates univariate truncated normal distributions.
 - [`tsdistributions`](../tsdistributions/) - Provides standardized distributions for time-series modelling.
 - [`greybox`](../greybox/) - Provides regression model-building and forecasting tools.
 - [`PSDistr`](../PSDistr/) - Provides practical numerical mathematics functions.
@@ -108,15 +110,23 @@ API coverage and validation status.
 - [`GeneralizedHyperbolic`](../GeneralizedHyperbolic/) - Provides generalized hyperbolic and related probability distributions.
 - [`SkewHyperbolic`](../SkewHyperbolic/) - Provides the skew hyperbolic Student-t distribution.
 - [`fattailsr`](../fattailsr/) - Provides Kiener distributions and fat-tail analytics.
+- [`statmod`](../statmod/) - Provides statistical-modeling utilities including inverse-Gaussian methods, quadrature, REML, and randomized quantile residuals.
 - [`L1pack`](../L1pack/) - Provides routines for L1 estimation.
 - [`joker`](../joker/) - Provides probability distributions and parameter-estimation methods.
 - [`qrmtools`](../qrmtools/) - Provides quantitative risk-management tools and distribution calculations.
+- [`pearsonds`](../pearsonds/) - Evaluates, simulates, and fits distributions in the Pearson distribution system.
+- [`matrixdist`](../matrixdist/) - Provides matrix-exponential and matrix phase-type distributions, fitting, regression, and simulation.
+- [`CompQuadForm`](../CompQuadForm/) - Computes distribution functions for quadratic forms in normal variables using exact and approximate methods.
+- [`stabledist`](../stabledist/) - Evaluates, computes quantiles for, and simulates stable probability distributions.
 - [`skewt`](../skewt/) - Provides the skewed Student-t distribution.
+- [`tweedie`](../tweedie/) - Evaluates and fits Tweedie exponential-dispersion distributions using series, interpolation, and inversion methods.
 
 ## Continuous multivariate distributions
 
 - [`mvtnorm`](../mvtnorm/) - Computes multivariate normal and Student-t probabilities, densities, and random samples.
 - [`mnormt`](../mnormt/) - Provides multivariate normal and Student-t distributions, including truncated probabilities.
+- [`TruncatedNormal`](../TruncatedNormal/) - Computes probabilities and generates samples for truncated multivariate normal and Student-t distributions.
+- [`tmvtnorm`](../tmvtnorm/) - Computes probabilities, moments, densities, simulation, and fitting for truncated multivariate normal and Student-t distributions.
 - [`nvmix`](../nvmix/) - Computes and simulates multivariate normal variance-mixture distributions.
 
 ## Mixture of probability laws
@@ -124,6 +134,11 @@ API coverage and validation status.
 - [`Lmoments`](../Lmoments/) - Computes L-moments and fits probability distributions using them.
 - [`mixtools`](../mixtools/) - Analyzes finite mixture models.
 - [`mclust`](../mclust/) - Performs Gaussian-mixture modelling and model-based clustering.
+
+## Random matrices
+
+- [`matrixNormal`](../matrixNormal/) - Provides matrix-variate normal distribution calculations and simulation.
+- [`spam`](../spam/) - Provides sparse-matrix storage, Cholesky methods, eigensolvers, and spatial-statistics utilities.
 
 ## Copulas
 
@@ -138,11 +153,13 @@ API coverage and validation status.
 
 - [`randtoolbox`](../randtoolbox/) - Provides pseudo-random and quasi-random number generators.
 - [`zigg`](../zigg/) - Generates pseudorandom numbers using the Ziggurat method.
+- [`qrng`](../qrng/) - Generates randomized and deterministic Sobol, Halton, and Korobov quasi-random sequences.
 - [`spacefillr`](../spacefillr/) - Generates space-filling Halton and Sobol sequences.
 
 ## Miscellaneous
 
 - [`pdqutils`](../pdqutils/) - Provides distribution approximations using Gram-Charlier, Edgeworth, and Cornish-Fisher expansions.
+- [`DPQ`](../DPQ/) - Provides accurate density, probability, and quantile calculations and approximations.
 - [`MASS`](../MASS/) - Provides statistical methods from Venables and Ripley's MASS.
 - [`fitdistrplus`](../fitdistrplus/) - Fits parametric distributions to censored and uncensored data.
 - [`msm`](../msm/) - Fits continuous-time multi-state and hidden Markov models.

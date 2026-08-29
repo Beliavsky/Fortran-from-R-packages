@@ -3,6 +3,8 @@ version = "0.1.0"
 license = "GPL-2.0-only"
 author = "Takeshi Emura et al.; Fortran translation"
 description = "Modern Fortran translation of the numerical core of R package compound.Cox"
+categories = ["statistics", "survival-analysis"]
+keywords = ["cox-model", "dependent-censoring", "copula", "feature-screening", "survival"]
 [build]
 auto-executables = true
 auto-examples = true
@@ -15,4 +17,4 @@ numDeriv-fortran = { path = "../numDeriv" }
 survival-fortran = { path = "../survival" }
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["L"]

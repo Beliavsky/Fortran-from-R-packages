@@ -5,6 +5,8 @@ author = "Fortran translation of CompQuadForm by Pierre Lafaye De Micheaux, Pier
 maintainer = ""
 copyright = "See LICENSES and NOTICE"
 description = "Modern Fortran translation of the computational core of the R package CompQuadForm"
+categories = ["statistics", "probability"]
+keywords = ["quadratic-forms", "normal-distribution", "chi-square", "davies", "imhof"]
 
 [build]
 auto-executables = false
@@ -19,4 +21,4 @@ rfortran-compat = { path = "../rfortran-compat" }
 suffixes = ["f90"]
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["L"]

@@ -4,6 +4,7 @@ license = "GPL-2.0-only OR GPL-3.0-only"
 author = "Gordon Smyth et al.; modern Fortran translation"
 maintainer = "Fortran port contributors"
 description = "Modern Fortran/FPM translation of the computational core of the R package statmod"
+categories = ["statistics", "statistical-modeling", "probability"]
 keywords = ["statistics", "glm", "inverse-gaussian", "quadrature", "reml", "elda"]
 
 [build]

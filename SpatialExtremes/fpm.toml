@@ -4,6 +4,8 @@ license = "GPL-2.0-or-later"
 author = "SpatialExtremes authors; Fortran translation"
 maintainer = ""
 description = "Modern Fortran computational port of the R SpatialExtremes package"
+categories = ["statistics", "probability", "spatial", "extreme-value"]
+keywords = ["spatial-extremes", "max-stable", "gev", "copula", "kriging"]
 
 [build]
 auto-executables = true
@@ -18,3 +20,6 @@ source-form = "free"
 [dependencies]
 rfortran-compat = { path = "../rfortran-compat" }
 rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

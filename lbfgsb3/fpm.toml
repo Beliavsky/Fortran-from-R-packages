@@ -5,6 +5,7 @@ author = "lbfgsb3c authors and Fortran port contributors"
 maintainer = "Fortran port maintainers"
 copyright = "See NOTICE.md and LICENSES"
 description = "Modern Fortran interface to L-BFGS-B 3.0 with lbfgsb3c stopping criteria"
+categories = ["optimization", "numerical"]
 keywords = ["optimization", "lbfgsb", "bounds", "quasi-newton"]
 
 [build]
@@ -18,3 +19,6 @@ library = true
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["G"]

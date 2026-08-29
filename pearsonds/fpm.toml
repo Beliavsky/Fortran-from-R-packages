@@ -5,6 +5,8 @@ author = "Fortran translation of PearsonDS by Martin Becker, Stefan Kloessner, a
 maintainer = ""
 copyright = "See LICENSES and NOTICE"
 description = "Modern Fortran translation of the computational core of the R package PearsonDS"
+categories = ["statistics", "probability"]
+keywords = ["pearson-distributions", "moments", "quantile", "random-generation", "fitting"]
 
 [build]
 auto-executables = false
@@ -19,4 +21,4 @@ rfortran-compat = { path = "../rfortran-compat" }
 suffixes = ["f90"]
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["L", "M"]

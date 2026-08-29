@@ -5,6 +5,8 @@ author = "Fortran translation of GPArotation by Coen Bernaards, Paul Gilbert, an
 maintainer = ""
 copyright = "See NOTICE.md and upstream package"
 description = "Modern Fortran implementation of gradient-projection factor rotation"
+categories = ["statistics", "multivariate", "optimization"]
+keywords = ["factor-analysis", "rotation", "gradient-projection", "orthogonal", "oblique"]
 
 [build]
 auto-executables = true
@@ -16,4 +18,4 @@ module-naming = false
 library = true
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["D", "G", "L"]

@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Diethelm Wuertz, Martin Maechler, Yohan Chalabi; modern Fortran translation"
 maintainer = "Fortran port contributors"
 description = "Modern Fortran/FPM translation of the computational core of the R package stabledist"
+categories = ["statistics", "probability"]
 keywords = ["stable-distribution", "nolan", "probability", "quantile", "random"]
 
 [build]

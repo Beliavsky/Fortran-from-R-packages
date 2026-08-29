@@ -6,7 +6,7 @@ maintained by Rob J Hyndman and Rebecca Killick, version 2026-07-29. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes only packages translated in this repository. Its summaries
+This page includes 23 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -45,6 +45,8 @@ each package's documentation for validation status and precise API coverage.
 - [`smoots`](../smoots/) estimates smooth trends and derivatives, selects
   smoothing bandwidths, models ARMA residual structure, and constructs
   analytical and bootstrap forecasts.
+- [`forecast`](../forecast/) provides forecasting methods for
+  exponential-smoothing, ARIMA, BATS, TBATS, and related time-series models.
 
 ## Conditional variance models
 
@@ -79,6 +81,8 @@ each package's documentation for validation status and precise API coverage.
 - [`fnonlinear`](../fnonlinear/) provides chaotic maps and systems, nonlinear
   time-series embeddings and dependence measures, recurrence and Lyapunov
   calculations, and tests for nonlinear structure.
+- [`urca`](../urca/) performs unit-root, stationarity, cointegration, and
+  structural-break analysis.
 
 ## Multivariate time-series models
 

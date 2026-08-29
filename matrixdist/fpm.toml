@@ -4,6 +4,8 @@ license = "GPL-3.0-only"
 author = "Martin Bladt, Jorge Yslas; Fortran translation by OpenAI"
 maintainer = "OpenAI translation"
 description = "Modern Fortran computational port of the R matrixdist package"
+categories = ["statistics", "probability", "matrix-variate"]
+keywords = ["matrix-distributions", "matrix-exponential", "phase-type", "simulation", "regression"]
 
 [build]
 auto-executables = false
@@ -20,4 +22,4 @@ implicit-external = false
 source-form = "free"
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["D", "L"]

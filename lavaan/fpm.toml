@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Yves Rosseel et al.; Fortran translation"
 maintainer = "Fortran translation maintainers"
 description = "Modern Fortran numerical core for latent variable analysis and SEM"
+categories = ["statistics", "multivariate", "latent-variable"]
 keywords = ["sem", "cfa", "latent-variable", "structural-equation-modeling", "ram"]
 
 [build]
@@ -27,4 +28,4 @@ numDeriv-fortran = { path = "../numDeriv" }
 gparotation = { path = "../GPArotation" }
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["D", "G", "L"]

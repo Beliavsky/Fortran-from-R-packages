@@ -6,7 +6,7 @@ Hans W. Borchers, Robin Hankin, Serguei Sokol, version 2026-07-20. The
 [source task view](https://github.com/cran-task-views/NumericalMathematics/blob/main/NumericalMathematics.md) provides the broader annotated
 guide to R packages.
 
-This page includes 21 translated packages. Package membership and broad
+This page includes 22 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -40,6 +40,7 @@ API coverage and validation status.
 
 - [`numDeriv`](../numDeriv/) - Computes accurate numerical gradients, Jacobians, and Hessians.
 - [`cubature`](../cubature/) - Performs adaptive multivariate integration over hypercubes.
+- [`statmod`](../statmod/) - Provides statistical-modeling utilities including inverse-Gaussian methods, quadrature, REML, and randomized quantile residuals.
 
 ## Root Finding and Fixed Points
 

@@ -5,6 +5,8 @@ author = "Fortran translation of spam computational code; upstream authors retai
 maintainer = ""
 copyright = "See NOTICE.md and upstream/"
 description = "Modern Fortran/FPM port of the computational core of the R package spam"
+categories = ["numerical", "linear-algebra", "sparse-matrix"]
+keywords = ["sparse-matrix", "cholesky", "arpack", "kriging", "covariance"]
 
 [build]
 auto-executables = false
@@ -23,3 +25,6 @@ rfortran-compat = { path = "../rfortran-compat" }
 [preprocess]
 [preprocess.cpp]
 suffixes = ["F90"]
+
+[extra.r-fpm-index]
+gams = ["D"]

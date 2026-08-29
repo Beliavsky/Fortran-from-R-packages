@@ -4,6 +4,7 @@ license = "GPL-3.0-or-later"
 author = "Martin Maechler and DPQ contributors; modern Fortran translation"
 maintainer = "Fortran port contributors"
 description = "Modern Fortran/FPM translation of the computational core of the R package DPQ"
+categories = ["statistics", "probability", "numerical"]
 keywords = ["probability", "distribution", "quantile", "approximation", "noncentral"]
 
 [build]

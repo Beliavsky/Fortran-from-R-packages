@@ -4,6 +4,7 @@ license = "GPL-3.0-only"
 author = "Zdravko Botev, Leo Belzile; modern Fortran translation"
 maintainer = "Fortran translation contributors"
 description = "Modern Fortran/FPM translation of the computational core of the R package TruncatedNormal"
+categories = ["statistics", "probability", "simulation"]
 keywords = ["truncated normal", "truncated student", "minimax tilting", "QMC", "multivariate probability"]
 
 [build]

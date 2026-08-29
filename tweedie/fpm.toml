@@ -4,6 +4,7 @@ license = "GPL-2.0-or-later"
 author = "Peter K. Dunn and Gordon K. Smyth; modern Fortran translation"
 maintainer = "Fortran port contributors"
 description = "Modern Fortran/FPM translation of the computational core of the R package tweedie"
+categories = ["statistics", "probability", "statistical-modeling"]
 keywords = ["tweedie", "distribution", "fourier-inversion", "series", "glm"]
 
 [build]

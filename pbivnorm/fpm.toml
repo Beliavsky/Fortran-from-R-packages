@@ -4,6 +4,9 @@ license = "GPL-2.0-or-later"
 author = "Alan Genz; Brenton Kenkel; Fortran port"
 maintainer = ""
 copyright = "See NOTICE.md"
+description = "Modern Fortran implementation of the bivariate normal distribution function"
+categories = ["statistics", "probability"]
+keywords = ["bivariate-normal", "normal-distribution", "cdf", "probability"]
 
 [build]
 auto-executables = true
@@ -17,4 +20,4 @@ implicit-external = false
 source-form = "free"
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["L"]

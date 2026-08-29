@@ -5,6 +5,8 @@ author = "Fortran translation of evd by Alec Stephenson and contributors"
 maintainer = ""
 copyright = "See LICENSES and NOTICE"
 description = "Modern Fortran translation of the computational core of the R package evd"
+categories = ["statistics", "probability", "extreme-value"]
+keywords = ["extreme-value", "gev", "gpd", "maxima", "dependence"]
 
 [build]
 auto-executables = false
@@ -19,4 +21,4 @@ rfortran-compat = { path = "../rfortran-compat" }
 suffixes = ["f90"]
 
 [extra.r-fpm-index]
-gams = ["Z"]
+gams = ["L"]
