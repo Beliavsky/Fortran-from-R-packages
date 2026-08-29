@@ -1,0 +1,17 @@
+e5dbabc36b26e8152c816ba3760fe5f3 *DESCRIPTION
+a95b827f0cc60b398b13b7b80914a13a *NAMESPACE
+22c4df0a4f8e438816741044b6a3826b *R/truncnorm.R
+9903554c50b4b4616af4d697f3a68b35 *README.md
+a7615b55774e8617a2e78e32411f4213 *man/dtruncnorm.Rd
+a169e007e2b7bdbb66d50216e74b7a9b *src/exports.c
+f39c3ccf3fe4d33f5779dcbdff83d9d0 *src/rtruncnorm.c
+7c8d34cbe1c7a0e2783663e7ffb9327b *src/sexp_macros.h
+4d9df0fd333845299d5e7515a7993ad1 *src/truncnorm.c
+ffb8e91e83770c395451fbdbd325ec5e *src/zeroin.c
+dd074a0f18f05dda52777a57fd481e51 *src/zeroin.h
+e0383602928861c97f81e7f6621edf36 *tests/testthat.R
+dd2db03ef257a9fcb3c2d52a1e6f88f2 *tests/testthat/test-bug-zero_len.R
+4c17ab5336d63a3fc7ddab6217869bab *tests/testthat/test-reg-arg_checks.R
+17eca482e23350f13ff7f882d4573b4b *tests/testthat/test-reg-recylce.R
+3bc4ba8a8e422d3a64156e7b213c6090 *tests/testthat/test-reg-segfault.R
+6a0bef92f4f48feb155562167300f51b *tests/testthat/test-sanity_checks.R
