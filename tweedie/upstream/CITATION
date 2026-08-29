@@ -1,0 +1,38 @@
+header = "To cite tweedie in publications, please use the following articles as appropriate:"
+
+
+bibentry(
+   bibtype = "article",
+	author = "Peter K. Dunn and Gordon K. Smyth",
+	year = 2005,
+	title = "Series evaluation of Tweedie exponential dispersion models",
+	journal = "Statistics and Computing",
+	volume = 15,
+	number = 4,
+	pages = "267-280",
+	textVersion = "Dunn, P. K. and Smyth, G. K. (2005).  Series evaluation of Tweedie exponential dispersion models. Statistics and Computing, 15(4), 267-280."
+)
+
+
+bibentry(
+	bibtype = "article",
+	author = "Peter K. Dunn and Gordon K. Smyth",
+ 	year = 2008,
+ 	title = "Evaluation of Tweedie exponential dispersion models using Fourier inversion",
+	journal = "Statistics and Computing",
+	volume = 18,
+	number = 1,
+	pages = "73-86",
+	textVersion = "Dunn, P. K. and Smyth, G. K. (2008).  Evaluation of Tweedie exponential dispersion models using Fourier inversion. Statistics and Computing, 18(1), 73-86."
+)
+
+bibentry(
+	bibtype = "Manual",
+	author = "Peter K. Dunn",
+ 	year = 2026,
+  note = "R package version 3.1.20",
+ 	title = "Tweedie: Evaluation of Tweedie Exponential Family Models",
+	textVersion = "Dunn, P. K. (2026).  Tweedie: Evaluation of Tweedie exponential family models. R package version 3.1."
+
+)
+

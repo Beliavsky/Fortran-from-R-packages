@@ -1,0 +1,11 @@
+SPDX-License-Identifier: GPL-2.0-or-later
+
+The tweedie-derived source code in this distribution is licensed under the
+GNU General Public License, version 2 or (at your option) any later version,
+matching the upstream R package declaration "GPL (>= 2)".
+
+A copy of GPL version 2 is in LICENSES/GPL-2.0.txt and GPL version 3 is in
+LICENSES/GPL-3.0.txt.
+
+The separately supplied src/r_mod.F90 helper module is MIT-licensed and is
+not relicensed by this project. See LICENSES/MIT-r_mod.txt.

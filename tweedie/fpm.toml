@@ -1,0 +1,27 @@
+name = "tweedie-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Peter K. Dunn and Gordon K. Smyth; modern Fortran translation"
+maintainer = "Fortran port contributors"
+description = "Modern Fortran/FPM translation of the computational core of the R package tweedie"
+keywords = ["tweedie", "distribution", "fourier-inversion", "series", "glm"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-compat = { path = "../rfortran-compat" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["f90"]
+
+[extra.r-fpm-index]
+gams = ["J", "L"]
