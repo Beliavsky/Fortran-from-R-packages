@@ -1,0 +1,9 @@
+PearsonDS Fortran translation
+=============================
+
+The translated PearsonDS computational code in src/pearsonds_mod.f90 is
+licensed under GPL-2.0-or-later, matching the upstream R package's
+"GPL (>= 2)" license declaration. See LICENSES/GPL-2.0.txt.
+
+The supplied src/r_mod.f90 helper module remains MIT-licensed. See
+LICENSES/MIT-r_mod.txt and NOTICE.

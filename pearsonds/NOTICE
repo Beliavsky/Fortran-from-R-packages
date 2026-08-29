@@ -1,0 +1,29 @@
+Upstream package
+----------------
+PearsonDS 1.3.2, "Pearson Distribution System"
+Date: 2025-03-24
+Authors: Martin Becker, Stefan Kloessner
+Contributor: Joel Heinrich
+Upstream license declaration: GPL (>= 2)
+
+This repository is a modern Fortran translation of the computational portions
+of that package. Plotting code (R/plots.r), package loading/registration glue,
+and R-specific user-interface code are intentionally omitted.
+
+Pearson type IV attribution
+---------------------------
+The upstream src/pearsonIV.c states that its code is partially adapted from:
+
+  CDF/MEMO/STATISTICS/PUBLIC/6820
+  "A Guide to the Pearson Type IV Distribution"
+  Joel Heinrich, University of Pennsylvania, December 21, 2004
+
+The Fortran type-IV normalization and rejection sampler retain that provenance.
+
+r_mod.f90
+---------
+The user supplied r_mod.f90 for reuse and identified it as MIT-licensed. Its
+implementation is reused directly; only formatting-only line wrapping and an
+SPDX/provenance header were added so that standard free-form Fortran compilers
+accept its long lines. No copyright-holder information was present in the
+supplied source, so none was invented.
