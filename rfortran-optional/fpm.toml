@@ -1,0 +1,22 @@
+name = "rfortran-optional"
+version = "0.1.0"
+license = "MIT"
+author = "Vivek Rao and contributors"
+maintainer = "Vivek Rao"
+description = "Shared optional-argument helpers for Fortran translations of R packages"
+categories = ["programming"]
+keywords = ["optional-arguments", "utilities"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.r-fpm-index]
+gams = []
