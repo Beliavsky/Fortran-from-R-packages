@@ -1,0 +1,23 @@
+name = "randomForest"
+version = "4.7.1"
+license = "GPL-2.0-or-later"
+author = "Leo Breiman, Adele Cutler, Andy Liaw, Matthew Wiener; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran computational translation of the R randomForest package"
+categories = ["statistics", "machine-learning"]
+keywords = ["random-forest", "classification", "regression", "CART"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
