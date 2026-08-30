@@ -1,0 +1,203 @@
+
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #################################
+> ## Test for dist calls
+> ##################################
+> 
+> library(proxy)
+
+Attaching package: 'proxy'
+
+The following objects are masked from 'package:stats':
+
+    as.dist, dist
+
+The following object is masked from 'package:base':
+
+    as.matrix
+
+> 
+> set.seed(20140107)
+> 
+> ## get all measures
+> proxies = pr_DB$get_entry_names()
+> 
+> ## remove special cases
+> proxies = setdiff(proxies, c("Mahalanobis", "Minkowski", "Stiles", "Levenshtein", "fJaccard"))
+> 
+> ## create test data
+> x = matrix(1:100, 10)
+> 
+> ## test function: checks if dist(x) == dist(x,x) for all measures,
+> ## and if diag(dist(x, x)) == diag(x, x, pairwise = TRUE)
+> prtest <- function(...) {
++     CD <- dist(x, x, ...)
++     all(as.matrix(dist(x, ...)) == CD) &&
++       all(diag(CD) == dist(x, x, pairwise = TRUE, ...))
++ }
+> 
+> ## loop over all measures (except special cases)
+> for (i in proxies)
++     {cat(i); prtest(i); cat(": OK.\n")}
+Jaccard: OK.
+Kulczynski1: OK.
+Kulczynski2: OK.
+Mountford: OK.
+Fager: OK.
+Russel: OK.
+simple matching: OK.
+Hamman: OK.
+Faith: OK.
+Tanimoto: OK.
+Dice: OK.
+Phi: OK.
+Michael: OK.
+Mozley: OK.
+Yule: OK.
+Yule2: OK.
+Ochiai: OK.
+Simpson: OK.
+Braun-Blanquet: OK.
+cosine: OK.
+angular: OK.
+eJaccard: OK.
+eDice: OK.
+correlation: OK.
+Chi-squared: OK.
+Phi-squared: OK.
+Tschuprow: OK.
+Cramer: OK.
+Pearson: OK.
+Gower: OK.
+Euclidean: OK.
+Bhjattacharyya: OK.
+Manhattan: OK.
+supremum: OK.
+Canberra: OK.
+Wave: OK.
+divergence: OK.
+Kullback: OK.
+Bray: OK.
+Soergel: OK.
+Podani: OK.
+Chord: OK.
+Geodesic: OK.
+Whittaker: OK.
+Hellinger: OK.
+> 
+> ## Minkowski
+> for (j in c(0.5, 1, 2, 3, Inf))
++     {cat("Minkowski: p =", j); prtest("Minkowski", p = j); cat(": OK.\n")}
+Minkowski: p = 0.5: OK.
+Minkowski: p = 1: OK.
+Minkowski: p = 2: OK.
+Minkowski: p = 3: OK.
+Minkowski: p = Inf: OK.
+> 
+> ## Mahalanobis (need non-singular matrix)
+> x = as.matrix(iris[1:50,-5])
+> prtest("Mahalanobis")
+[1] TRUE
+> 
+> ## fJaccard (needs values in unit interval)
+> x = as.matrix(1:100/100, 10)
+> prtest("fJaccard")
+[1] TRUE
+> 
+> ## produce binary matrix
+> x = matrix(rbinom(100,1,0.7), 10)
+> 
+> ## Stiles (gives a lot of warnings due to log)
+> tmp = dist(x, "Stiles")
+There were 27 warnings (use warnings() to see them)
+> tmp = dist(x, x, "Stiles")
+There were 50 or more warnings (use warnings() to see the first 50)
+> 
+> ## try again (almost) all measures, this time with binary data to check
+> ## conversions
+> for (i in proxies)
++     {cat(i); prtest(i); cat(": OK.\n")}
+Jaccard: OK.
+Kulczynski1: OK.
+Kulczynski2: OK.
+Mountford: OK.
+Fager: OK.
+Russel: OK.
+simple matching: OK.
+Hamman: OK.
+Faith: OK.
+Tanimoto: OK.
+Dice: OK.
+Phi: OK.
+Michael: OK.
+Mozley: OK.
+Yule: OK.
+Yule2: OK.
+Ochiai: OK.
+Simpson: OK.
+Braun-Blanquet: OK.
+cosine: OK.
+angular: OK.
+eJaccard: OK.
+eDice: OK.
+correlation: OK.
+Chi-squared: OK.
+Phi-squared: OK.
+Tschuprow: OK.
+Cramer: OK.
+Pearson: OK.
+Gower: OK.
+Euclidean: OK.
+Bhjattacharyya: OK.
+Manhattan: OK.
+supremum: OK.
+Canberra: OK.
+Wave: OK.
+divergence: OK.
+Kullback: OK.
+Bray: OK.
+Soergel: OK.
+Podani: OK.
+Chord: OK.
+Geodesic: OK.
+Whittaker: OK.
+Hellinger: OK.
+> ## Minkowski
+> for (j in c(0.5, 1, 2, 3, Inf))
++     {cat("Minkowski: p =", j); prtest("Minkowski", p = j); cat(": OK.\n")}
+Minkowski: p = 0.5: OK.
+Minkowski: p = 1: OK.
+Minkowski: p = 2: OK.
+Minkowski: p = 3: OK.
+Minkowski: p = Inf: OK.
+> 
+> ## Levenshtein distance
+> s <- c("A", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog")
+> all(as.matrix(dist(s, "Levenshtein")) == dist(s, s, "Levenshtein"))
+[1] TRUE
+> 
+> ## Test auto-conversion
+> x = iris[,-5]
+> prtest()
+[1] TRUE
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.585   0.012   0.591 
