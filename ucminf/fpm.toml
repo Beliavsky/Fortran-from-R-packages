@@ -1,0 +1,11 @@
+name = "ucminf-fortran"
+version = "0.1.1"
+license = "GPL-2.0-or-later"
+author = "Hans Bruun Nielsen, Stig Bousgaard Mortensen, K Herve Dakpo; modern Fortran translation"
+copyright = "See upstream provenance and source headers"
+description = "Modern free-form Fortran translation of the ucminf optimization package"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
