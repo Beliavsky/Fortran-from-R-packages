@@ -1,0 +1,158 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ##########################
+> ### registry test instances
+> 
+> library(proxy)
+
+Attaching package: 'proxy'
+
+The following objects are masked from 'package:stats':
+
+    as.dist, dist
+
+The following object is masked from 'package:base':
+
+    as.matrix
+
+> 
+> .my_check_fun <- function(x) if (x$Z == 999 && x$New2 == 999) stop("No evil allowed!")
+> 
+> ## create registry
+> R <- proxy:::registry(entry_class = "simple.list",
++                       validity_FUN = .my_check_fun)
+> R
+An object of class "registry" with no entry.
+> 
+> ## set fields
+> R$set_field("X", type = TRUE, is_mandatory = TRUE)
+> R$set_field("Y", type = "character")
+> R$set_field("Z", default = 123)
+> R$get_fields()
+$names
+         type character
+      default NA
+ is_mandatory TRUE
+is_modifiable TRUE
+ validity_FUN NULL
+
+$X
+         type logical
+      default NA
+ is_mandatory TRUE
+is_modifiable TRUE
+ validity_FUN NULL
+
+$Y
+         type character
+      default NA
+ is_mandatory FALSE
+is_modifiable TRUE
+ validity_FUN NULL
+
+$Z
+         type NA
+      default 123
+ is_mandatory FALSE
+is_modifiable TRUE
+ validity_FUN NULL
+
+> 
+> ## add entries
+> R$set_entry(names = "test", X = TRUE, Y = "bla")
+> R$set_entry(names = "test2", X = FALSE, Y = "foo", Z = 99)
+> R$set_entry(names = "test3", X = FALSE, Y = "bar", Z = "chars")
+> R$get_entry("test")
+      _   
+names test
+X     TRUE
+Y     bla 
+Z     123 
+> R[["test2"]]
+      _    
+names test2
+X     FALSE
+Y     foo  
+Z     99   
+> R[["test3"]]
+      _    
+names test3
+X     FALSE
+Y     bar  
+Z     chars
+> 
+> ## add new field
+> R$set_field("New")
+> R$get_field("New")
+         type NA
+      default NA
+ is_mandatory FALSE
+is_modifiable TRUE
+ validity_FUN NULL
+> 
+> ## change entries
+> R$modify_entry(names = "test", New = 123)
+> R$modify_entry(names = "test2", New = "test")
+> 
+> ## field check function (checks for strict positive values)
+> R$set_field("New2", type = "numeric", validity_FUN = function(x) stopifnot(x > 0))
+> R$set_entry(names = "test5", X = TRUE, New2 = 2)
+> 
+> ## add field with fixed alternatives
+> R$set_field("New3", type = c("A", "B"))
+> R$get_field("New")
+         type NA
+      default NA
+ is_mandatory FALSE
+is_modifiable TRUE
+ validity_FUN NULL
+> R$set_entry(names = "test6", X = TRUE, New3 = "A")
+> 
+> ## print/summary = as.data.frame
+> R
+An object of class "registry" with 5 entries.
+> summary(R)
+          X    Y     Z  New New2 New3
+test   TRUE  bla   123  123   NA <NA>
+test2 FALSE  foo    99 test   NA <NA>
+test3 FALSE  bar chars <NA>   NA <NA>
+test5  TRUE <NA>   123 <NA>    2 <NA>
+test6  TRUE <NA>   123 <NA>   NA    A
+> 
+> ## seal entries
+> R$seal_entries()
+> R$set_field("New4")
+> R$set_entry(names = "test7", X = TRUE, Y = "bla")
+> R$delete_entry("test7")
+> R$modify_entry(names = "test", New4 = "test")
+> 
+> ## error cases:
+> TRY <- function(...) stopifnot(inherits(try(..., silent = TRUE), "try-error"))
+> TRY(R$set_field("bla", type = "character", default = 123))
+> TRY(R$set_entry("err1", Y = "bla"))
+> TRY(R$set_entry("err2", X = "bla"))
+> TRY(R$set_entry("err3", X = TRUE, New2 = -2))
+> TRY(R$set_entry("err4", X = TRUE, Z = 999, New2 = 999))
+> TRY(R$set_entry("err5", X = TRUE, New3 = "C"))
+> TRY(R$modify_entry("Bla", "New", 123))
+> TRY(R$modify_entry("X", "Bla", 123))
+> TRY(R$modify_entry("test","X",TRUE))
+> 
+> proc.time()
+   user  system elapsed 
+  0.226   0.011   0.230 

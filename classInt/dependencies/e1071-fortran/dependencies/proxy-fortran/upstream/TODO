@@ -1,0 +1,13 @@
+
+Possible future work
+
+ o integrate computation on sparse matrices.
+
+ o provide cutoff values in proximity computation.
+
+ o provide computation of centroids.
+
+Possible problems
+
+ o as.simil and as.dist change the objects class
+   before calling FUN.

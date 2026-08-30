@@ -1,0 +1,22 @@
+name = "classint-fortran"
+version = "0.1.1"
+license = "GPL-2.0-or-later"
+author = "classInt authors; modern Fortran translation"
+maintainer = ""
+description = "Modern Fortran translation of the computational functionality of R classInt"
+categories = ["statistics", "classification", "cartography", "clustering"]
+copyright = "See NOTICE.md and upstream sources"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+e1071-fortran = { path = "dependencies/e1071-fortran" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

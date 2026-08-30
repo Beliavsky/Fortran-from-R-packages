@@ -1,0 +1,177 @@
+
+R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ## test C interfaces
+> 
+> library(proxy)
+
+Attaching package: 'proxy'
+
+The following objects are masked from 'package:stats':
+
+    as.dist, dist
+
+The following object is masked from 'package:base':
+
+    as.matrix
+
+> 
+> set.seed(20070630)
+> 
+> x <- as.dist(matrix(runif(25),5,5))
+> x
+          1         2         3         4
+2 0.8390691                              
+3 0.0377036 0.3006153                    
+4 0.7621676 0.9632744 0.4358104          
+5 0.1211588 0.4522659 0.8005272 0.3062947
+> attributes(x)
+$Size
+[1] 5
+
+$call
+as.dist.default(m = x)
+
+$class
+[1] "dist"
+
+$Diag
+[1] FALSE
+
+$Upper
+[1] FALSE
+
+> 
+> z <- .Call(proxy:::R_subset_dist, x, 3)
+> z
+dist(0)
+> 
+> unclass(z)
+numeric(0)
+attr(,"Size")
+[1] 1
+attr(,"call")
+as.dist.default(m = x)
+attr(,"Diag")
+[1] FALSE
+attr(,"Upper")
+[1] FALSE
+> 
+> .Call(proxy:::R_subset_dist, x, c(1,3,5))
+          1         2
+2 0.0377036          
+3 0.1211588 0.8005272
+> 
+> attr(x, "Labels") <- LETTERS[1:5]
+> 
+> z <- .Call(proxy:::R_subset_dist, x, c("A","C","E"))
+> z
+          A         C
+C 0.0377036          
+E 0.1211588 0.8005272
+> attributes(z)
+$Size
+[1] 3
+
+$call
+as.dist.default(m = x)
+
+$class
+[1] "dist"
+
+$Diag
+[1] FALSE
+
+$Upper
+[1] FALSE
+
+$Labels
+[1] "A" "C" "E"
+
+> 
+> attr(x, "Labels") <- NULL
+> 
+> .Call(proxy:::R_rowSums_dist, x, FALSE)
+[1] 1.760099 2.555225 1.574656 2.467547 1.680247
+> .Call(proxy:::R_rowSums_dist, z, FALSE)
+        A         C         E 
+0.1588624 0.8382308 0.9216860 
+> 
+> .Call(proxy:::R_row_dist, x, FALSE)       # row()
+ [1] 2 3 4 5 3 4 5 4 5 5
+> .Call(proxy:::R_row_dist, x, TRUE)        # col()
+ [1] 1 1 1 1 2 2 2 3 3 4
+> 
+> ## test R interfaces
+> 
+> dim(x)
+[1] 5 5
+> dimnames(x) <- letters[1:5]
+> dimnames(x)
+[[1]]
+[1] "a" "b" "c" "d" "e"
+
+[[2]]
+[1] "a" "b" "c" "d" "e"
+
+> 
+> row.dist(x)
+ [1] 2 3 4 5 3 4 5 4 5 5
+> col.dist(x)
+ [1] 1 1 1 1 2 2 2 3 3 4
+> 
+> subset(x, c(1,3,5))
+          a         c
+c 0.0377036          
+e 0.1211588 0.8005272
+> x[[c(1,3,5)]]
+          a         c
+c 0.0377036          
+e 0.1211588 0.8005272
+> x[c(1,3,5)]                         # as usual
+[1] 0.8390691 0.7621676 0.3006153
+> 
+> x[1:2,2:3]
+          b         c
+a 0.8390691 0.0377036
+b 0.0000000 0.3006153
+> x[1,]
+  a         b         c         d         e
+a 0 0.8390691 0.0377036 0.7621676 0.1211588
+> x[,2]
+          b
+a 0.8390691
+b 0.0000000
+c 0.3006153
+d 0.9632744
+e 0.4522659
+> 
+> x[[-1]]                             # drop subscripts
+          b         c         d
+c 0.3006153                    
+d 0.9632744 0.4358104          
+e 0.4522659 0.8005272 0.3062947
+> 
+> x[[1]]                              # empty
+dist(0)
+> 
+> ###
+> 
+> proc.time()
+   user  system elapsed 
+  0.114   0.029   0.135 
