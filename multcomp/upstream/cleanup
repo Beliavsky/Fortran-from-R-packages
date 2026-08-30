@@ -1,0 +1,42 @@
+#!/bin/sh
+
+for f in ./R/*~; do
+    rm -f $f
+done
+
+for f in ./man/*~; do
+    rm -f $f
+done
+
+for f in *~; do
+    rm -f $f
+done
+
+for f in .*~; do
+    rm -f $f
+done
+
+for f in ./tests/*~; do
+    rm -f $f
+done
+
+for f in ./inst/*~; do
+    rm -f $f
+done
+
+for f in ./tests/*.ps; do
+    rm -f $f
+done
+
+for f in ./inst/doc; do
+    rm -f $f
+done
+
+find . -name "*~" -exec rm -f {} \;
+
+find . -name "DEADJOE" -exec rm -f {} \;
+
+find . -name "svn-*" -exec rm -f {} \;
+
+
+exit 0

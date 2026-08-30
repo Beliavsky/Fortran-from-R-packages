@@ -1,0 +1,445 @@
+
+R Under development (unstable) (2026-08-20 r90437) -- "Unsuffered Consequences"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(digits = 4)
+> 
+> library("multcomp")
+Loading required package: mvtnorm
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser
+
+> options(warn = -1L) ### turn off warnings about buggy RNGs
+> RNGversion("3.5.2")
+> options(warn = 0L)
+> set.seed(290875)
+> 
+> ### mcp didn't accept objects of class `contrMat'
+> ### spotted by Yves Brostaux <brostaux.y@fsagx.ac.be>
+> amod <- aov(response ~ trt, data = cholesterol)
+> cht1 <- glht(amod, linfct = mcp(trt = "Tukey"))
+> K <- contrMat(table(cholesterol$trt), type = "Tukey")
+> cht2 <- glht(amod, linfct = mcp(trt = K))
+> stopifnot(all.equal(coef(cht1), coef(cht2)))
+> 
+> ### several inconsistencies spotted by 
+> ### Rich Heiberger <rmh@temple.edu> 2006-11-28
+> 
+> ### need to be identical
+> stopifnot(identical(cht1, print(cht1)))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+                     Estimate
+2times - 1time == 0      3.44
+4times - 1time == 0      6.59
+drugD - 1time == 0       9.58
+drugE - 1time == 0      15.17
+4times - 2times == 0     3.15
+drugD - 2times == 0      6.14
+drugE - 2times == 0     11.72
+drugD - 4times == 0      2.99
+drugE - 4times == 0      8.57
+drugE - drugD == 0       5.59
+
+> 
+> ### was: error
+> summary(cht1)$test$coefficients
+ 2times - 1time  4times - 1time   drugD - 1time   drugE - 1time 4times - 2times 
+          3.443           6.593           9.579          15.166           3.150 
+ drugD - 2times  drugE - 2times  drugD - 4times  drugE - 4times   drugE - drugD 
+          6.136          11.723           2.986           8.573           5.586 
+> 
+> 
+> ### NAs in coefficients
+> tmp.data <- data.frame(EE=gl(2, 1, 24, letters[1:2]),
++                 FF=gl(3, 2, 24, LETTERS[3:5]),
++                 GG=gl(4, 6, 24, letters[6:9]))
+> tmp.data$x <- rep(12, 24)
+> tmp.data$y <- rep(7, 24)
+> tmp.data$z <- c(9, 14, 3, 4, 15, 1, 11, 13, 24, 10, 22, 18,
++                 20, 21, 6, 7, 16, 2, 19, 12, 17, 8, 23, 5)
+> tmp.data$w <- c(15, 9, 18, 21, 17, 11, 23, 12, 1, 10, 2, 14, 24, 7,
++                 13, 4, 5, 19, 16, 20, 3, 8, 22, 6)
+> 
+> tmp.aov <- aov(z ~ EE+FF*GG + x*y +x*EE + y*FF, data=tmp.data)
+> 
+> try(glht(tmp.aov, linfct=mcp(EE="Tukey")))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+b - a == 0    -5.83
+
+Warning messages:
+1: In mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+2: In glht.matrix(model = list(coefficients = c(`(Intercept)` = 14.4166666666667,  :
+  6 out of 19 coefficients not estimable in 'model'
+> try(glht(tmp.aov, linfct=mcp(FF="Tukey")))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+D - C == 0     -8.0
+E - C == 0     -3.5
+E - D == 0      4.5
+
+Warning messages:
+1: In mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+2: In glht.matrix(model = list(coefficients = c(`(Intercept)` = 14.4166666666667,  :
+  6 out of 19 coefficients not estimable in 'model'
+> glht(tmp.aov, linfct=mcp(GG="Tukey"))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+g - f == 0      0.5
+h - f == 0      9.0
+i - f == 0      4.0
+h - g == 0      8.5
+i - g == 0      3.5
+i - h == 0     -5.0
+
+Warning messages:
+1: In mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+2: In glht.matrix(model = list(coefficients = c(`(Intercept)` = 14.4166666666667,  :
+  6 out of 19 coefficients not estimable in 'model'
+> 
+> ### covariate interactions: fire a warning
+> tmp.aov <- aov(z ~ w*GG , data=tmp.data)
+> glht(tmp.aov, linfct = mcp(GG = "Tukey"))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+g - f == 0     9.45
+h - f == 0    -0.11
+i - f == 0    -4.40
+h - g == 0    -9.56
+i - g == 0   -13.85
+i - h == 0    -4.29
+
+Warning message:
+In mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+> 
+> ### stop with informative error message
+> amod <- aov(breaks ~ tension + Error(wool), data = warpbreaks)
+> try(glht(amod, linfct = mcp(tension = "Tukey")))
+Error in model.matrix.aovlist(model) : 
+  'glht' does not support objects of class 'aovlist'
+Error in factor_contrasts(model) : 
+  no 'model.matrix' method for 'model' found!
+> 
+> ### print error, spotted by Rich
+> amod <- aov(breaks ~ wool * tension, data = warpbreaks)
+> wht <- glht(amod, linfct = mcp(tension = "Tukey"))
+Warning message:
+In mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+> tmp <- confint(wht, calpha=2)
+> print(tmp)
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ wool * tension, data = warpbreaks)
+
+Quantile = 2
+95% confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr     upr    
+M - L == 0 -20.556  -30.870 -10.241
+H - L == 0 -20.000  -30.315  -9.685
+H - M == 0   0.556   -9.759  10.870
+
+> 
+> ### coef. and vcov. didn't pass through
+> ### bug report by John Deke <jdeke73@gmail.com>
+> lmod <- lm(Fertility ~ ., data = swiss) 
+> my.model <- list(coef(lmod),vcov(lmod)) 
+> coef2 <- function(model) return(model[[1]]) 
+> vcov2 <- function(model) return(model[[2]]) 
+> a <- glht(model = my.model, linfct = c("Agriculture=0","Catholic=0"),
++           coef. = coef2, vcov. = vcov2, df = 100) 
+> b <- glht(model = lmod, linfct = c("Agriculture=0","Catholic=0"), 
++           df = 100)
+> stopifnot(all.equal(coef(a), coef(b)))
+> 
+> ### checks in mcp (spotted by Rich)
+> amod <- aov(breaks ~ tension, data = warpbreaks)
+> try(glht(amod, linfct = mcp(group = "Tukey")))
+Error in mcp2matrix(model, linfct = linfct) : 
+  Variable(s) 'group' have been specified in 'linfct' but cannot be found in 'model'! 
+> tmp <- warpbreaks
+> class(tmp$tension) <- "numeric"
+> amod <- aov(breaks ~ tension, data = tmp)
+> try(glht(amod, linfct = mcp(tension = "Tukey")))
+Error in mcp2matrix(model, linfct = linfct) : 
+  Variable(s) 'tension' of class 'integer' is/are not contained as a factor in 'model'.
+> 
+> ### symbolic description and interactions
+> ### spotted by Antonio Fabio Di Narzo <antonio.dinarzo@unibo.it>
+> dat <- data.frame(y = rnorm(6), x = seq_len(6), f = gl(2, 3))
+> lf <- glht(lm(y ~ x * f, data = dat), 'x + x:f2 = 0')$linfct
+> stopifnot(all.equal(max(abs(lf - c(0, 1, 0, 1))), 0))
+> lf <- glht(lm(y ~ x * f, data = dat), 'x + 2.5 * x:f2 = 0')$linfct
+> stopifnot(all.equal(max(abs(lf - c(0, 1, 0, 2.5))), 0))
+> 
+> ### example from Bretz 2001 JSCS
+> 
+> `tmp` <-
++ structure(list(gr = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
++ 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
++ 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 
++ 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 
++ 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 
++ 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L), levels = c("1", 
++ "2", "3"), class = "factor"), age = c(39L, 40L, 41L, 41L, 45L, 
++ 49L, 52L, 47L, 61L, 65L, 58L, 59L, 29L, 29L, 33L, 32L, 31L, 29L, 
++ 29L, 30L, 21L, 28L, 23L, 35L, 38L, 38L, 43L, 39L, 38L, 42L, 43L, 
++ 43L, 37L, 50L, 50L, 45L, 48L, 51L, 46L, 58L, 27L, 25L, 24L, 32L, 
++ 23L, 25L, 32L, 18L, 19L, 26L, 33L, 27L, 33L, 25L, 42L, 35L, 35L, 
++ 41L, 38L, 41L, 36L, 36L, 41L, 41L, 37L, 42L, 39L, 41L, 43L, 41L, 
++ 48L, 47L, 53L, 49L, 54L, 48L, 49L, 47L, 52L, 58L, 62L, 65L, 62L, 
++ 59L), y = c(4.62, 5.29, 5.52, 3.71, 4.02, 5.09, 2.7, 4.31, 2.7, 
++ 3.03, 2.73, 3.67, 5.21, 5.17, 4.88, 4.5, 4.47, 5.12, 4.51, 4.85, 
++ 5.22, 4.62, 5.07, 3.64, 3.64, 5.09, 4.61, 4.73, 4.58, 5.12, 3.89, 
++ 4.62, 4.3, 2.7, 3.5, 5.06, 4.06, 4.51, 4.66, 2.88, 5.29, 3.67, 
++ 5.82, 4.77, 5.71, 4.47, 4.55, 4.61, 5.86, 5.2, 4.44, 5.52, 4.97, 
++ 4.99, 4.89, 4.09, 4.24, 3.88, 4.85, 4.79, 4.36, 4.02, 3.77, 4.22, 
++ 4.94, 4.04, 4.51, 4.06, 4.02, 4.99, 3.86, 4.68, 4.74, 3.76, 3.98, 
++ 5, 3.31, 3.11, 4.76, 3.95, 4.6, 4.83, 3.18, 3.03)), names = c("gr", 
++ "age", "y"), row.names = c(NA, -84L), class = "data.frame")
+> 
+> amod <- aov(y ~ gr + age, data = tmp)
+> glht(amod, linfct = mcp(gr = "Tukey"))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+2 - 1 == 0   0.0467
+3 - 1 == 0   0.1169
+3 - 2 == 0   0.0702
+
+> 
+> ### better error message
+> ### suggested by Rich
+> amod <- aov(breaks ~ tension, data = warpbreaks)
+> try(glht(amod, linfct = mcp(tension = "Warp")))
+Error : multcomp:::chrlinfct2matrix: argument 'Warp' cannot be interpreted as expression
+> 
+> ### cld did not find a terms component
+> ### spotted by Peter B. Mandeville <mandevip@hotmail.com>
+> if (require("nlme")) {
++     data("Orthodont")
++     fm1 <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
++     hsd1 <- glht(fm1, linfct = mcp(Sex = "Tukey"))
++     cld(hsd1)
++ }
+Loading required package: nlme
+  Male Female 
+   "a"    "b" 
+> 
+> ### spotted by <chris.chizinski@gmail.com>
+> ### example code by Achim Zeileis <Achim.Zeileis@wu.ac.at>
+> ## various models with and without intercept
+> m1a <- lm(breaks ~ tension, data = warpbreaks)
+> m1b <- lm(breaks ~ 0 + tension, data = warpbreaks)
+> m2a <- lm(breaks ~ wool + tension, data = warpbreaks)
+> m2b <- lm(breaks ~ 0 + wool + tension, data = warpbreaks)
+> 
+> ## these two are equivalent: one factor with/without intercept
+> stopifnot(all.equal(
++ coef(glht(m1a, linfct = mcp(tension = "Tukey"))),
++ coef(glht(m1b, linfct = mcp(tension = "Tukey")))))
+> 
+> ## these two should be equivalent: two factors with/without intercept
+> ## but the latter fails
+> stopifnot(all.equal(
++ coef(glht(m2a, linfct = mcp(tension = "Tukey"))),
++ coef(glht(m2b, linfct = mcp(tension = "Tukey")))))
+> 
+> if (requireNamespace("MASS")) {
++     xdf <- data.frame(y = gl(3, 10, ordered = TRUE), grp = sample(gl(3, 10)))
++     print(glht(polr(y ~ grp, data = xdf), mcp(grp = "Dunnett")))
++ }
+
+Re-fitting to get Hessian
+
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Dunnett Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+2 - 1 == 0    0.308
+3 - 1 == 0   -0.918
+
+> 
+> ### interactions of two factors
+> dat <- expand.grid(f = gl(2, 3), f2 = gl(3, 2))
+> dat$y <- rnorm(nrow(dat))
+> lf <- glht(lm(y ~ f : f2 - 1, data = dat), 'f1:f21 - f2:f22 = 0')$linfct
+> stopifnot(all.equal(max(abs(lf - c(1, 0, 0, -1, 0, 0))), 0))
+> 
+> ### plotting one-sided confidence intervals
+> amod <- aov(breaks ~ wool + tension, data = warpbreaks)
+> wht <- glht(amod, linfct = mcp(tension = "Tukey"), alternative="greater")
+> plot(wht, xlim=c(-30, 30), main="right side was missing")
+> wht <- glht(amod, linfct = mcp(tension = "Tukey"), alternative="less")
+> plot(wht, xlim=c(-40, 20), main="left side was missing")
+> 
+> ### reported by Christian Ritz
+> summary(glht(parm(1:4,matrix(c(1,0.97,0.89,0.74,
++                                0.97,1,0.97,0.89,
++                                0.89,0.97,1,0.97,
++                                0.74,0.89,0.97,1), 4, 4))))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+        Estimate Std. Error z value Pr(>|z|)
+V1 == 0        1          1       1        1
+V2 == 0        2          1       2        1
+V3 == 0        3          1       3        1
+V4 == 0        4          1       4        1
+(Adjusted p values reported -- single-step method)
+
+Warning messages:
+1: In RET$pfunction("adjusted", ...) :
+  Covariance matrix not positive semidefinite
+2: In RET$pfunction("adjusted", ...) :
+  Covariance matrix not positive semidefinite
+3: In RET$pfunction("adjusted", ...) :
+  Covariance matrix not positive semidefinite
+4: In RET$pfunction("adjusted", ...) :
+  Covariance matrix not positive semidefinite
+> 
+>                                
+> ### reported by Melissa Chester Key (Apr 22, 2016)
+> set.seed(2343)
+> 
+> X <- data.frame(X1 = rep(c(1,0),c(20,30)),
++   X2 = rep(rep(c(1,0),3),c(rep(10,4),0,10)),
++   X3 = rep(rep(c(1,0),5),each=5))
+> Y <- rnorm(50,4 + 4*X[,1] + 4*X[,2] + X[,3] + .5*X[,1]*X[,3] + .4*X[,2]*X[,3],.25)
+> 
+> model <- lm(Y ~ (X1 + X2) * X3,data=X)
+> coef(model)
+(Intercept)          X1          X2          X3       X1:X3       X2:X3 
+     3.9848      4.0608      4.0318      0.9166      0.4455      0.4605 
+> 
+> my.contrasts<- c(
++   "X1 - X2 + .5*X1:X3 - .5*X2:X3 = 0",  # previously wrong answer (actually got X1 + X2 + 0.5* X1)
++   "X1 + .5*X1:X3 - X2 - .5*X2:X3 = 0",  # previously wrong answer
++   "X1 + .5*X1:X3 - .5*X2:X3 - X2 = 0")  # right answer
+> 
+> (contrast.result <- glht(model,lin = my.contrasts))
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+                                         Estimate
+X1 - X2 + 0.5 * X1:X3 - 0.5 * X2:X3 == 0   0.0215
+X1 + 0.5 * X1:X3 - X2 - 0.5 * X2:X3 == 0   0.0215
+X1 + 0.5 * X1:X3 - 0.5 * X2:X3 - X2 == 0   0.0215
+
+> 
+> # right calculation
+> (ok <- sum(coef(model) * c(0,1,-1,0,.5,-.5)))
+[1] 0.02154
+> 
+> stopifnot(all.equal(as.numeric(coef(contrast.result)), rep(sum(coef(model) * c(0,1,-1,0,.5,-.5)),3)))
+> 
+> 
+> # actual calculation - note that -1 has changed to 1
+> #sum(coef(model) * c(0, 1, 1, 0, .5, -.5))
+> 
+> 
+> (mc <- multcomp:::chrlinfct2matrix(my.contrasts, names(coef(model))))
+$K
+                                    (Intercept) X1 X2 X3 X1:X3 X2:X3
+X1 - X2 + 0.5 * X1:X3 - 0.5 * X2:X3           0  1 -1  0   0.5  -0.5
+X1 + 0.5 * X1:X3 - X2 - 0.5 * X2:X3           0  1 -1  0   0.5  -0.5
+X1 + 0.5 * X1:X3 - 0.5 * X2:X3 - X2           0  1 -1  0   0.5  -0.5
+
+$m
+[1] 0 0 0
+
+$alternative
+[1] "two.sided"
+
+> 
+> stopifnot(all.equal(as.numeric(mc$K[1,c('(Intercept)', 'X1','X2', 'X3','X1:X3','X2:X3')]),c( 0,1,-1 ,0, 0.5,-0.5)))
+> stopifnot(all.equal(as.numeric(mc$K[2,c('(Intercept)', 'X1','X2', 'X3','X1:X3','X2:X3')]),c( 0,1,-1 ,0, 0.5,-0.5)))
+> stopifnot(all.equal(as.numeric(mc$K[3,c('(Intercept)', 'X1','X2', 'X3','X1:X3','X2:X3')]),c( 0,1,-1 ,0, 0.5,-0.5)))
+> 
+> ### "(Intercept)" in char exprs for linfct
+> x <- runif(100)
+> y <- rnorm(length(x))
+> m <- lm(y ~ x)
+> 
+> stopifnot(all.equal(coef(glht(m, linfct = "(Intercept) = 0")),
++                     coef(m)["(Intercept)"], check.attrributes = FALSE))
+> stopifnot(all.equal(coef(glht(m, linfct = "(Intercept) + x = 0")),
++                     sum(coef(m)), check.attributes = FALSE))
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  2.186   0.086   1.084 

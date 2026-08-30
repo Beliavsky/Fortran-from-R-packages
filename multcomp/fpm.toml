@@ -1,0 +1,22 @@
+name = "multcomp-fortran"
+version = "0.1.0"
+license = "GPL-2.0-only"
+author = "Torsten Hothorn, Frank Bretz, Peter Westfall, and contributors; Fortran translation"
+maintainer = "multcomp-fortran contributors"
+description = "Modern Fortran translation of the computational core of R multcomp"
+categories = ["statistics", "multiple-comparisons", "simultaneous-inference"]
+keywords = ["glht", "multiple-comparisons", "simultaneous-confidence-intervals", "mvtnorm"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+mvtnorm-fortran = { path = "dependencies/mvtnorm-fortran" }

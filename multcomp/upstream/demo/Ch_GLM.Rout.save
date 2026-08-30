@@ -1,0 +1,610 @@
+
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> 
+> ###################################################
+> ### chunk number 2: setup
+> ###################################################
+> set.seed(290875)
+> 
+> 
+> ###################################################
+> ### chunk number 3: thuesen:ex
+> ###################################################
+> data("thuesen", package = "ISwR")
+> thuesen <- thuesen[!is.na(thuesen[,"short.velocity"]),]
+> thuesen.lm <- lm(short.velocity ~ blood.glucose, data = thuesen) 
+> 
+> 
+> ###################################################
+> ### chunk number 4: lm-coef-vcov
+> ###################################################
+> betahat <- coef(thuesen.lm)
+> Vbetahat <- vcov(thuesen.lm)
+> 
+> 
+> ###################################################
+> ### chunk number 5: lm-C
+> ###################################################
+> C <- diag(2)
+> Sigma <- diag(1 / sqrt(diag(C %*% Vbetahat %*% t(C)))) 
+> t <- Sigma %*% C %*% betahat
+> Cor <- Sigma %*% (C %*% Vbetahat %*% t(C)) %*% t(Sigma)                  
+> 
+> 
+> ###################################################
+> ### chunk number 6: corr
+> ###################################################
+> Cor
+           [,1]       [,2]
+[1,]  1.0000000 -0.9230802
+[2,] -0.9230802  1.0000000
+> 
+> 
+> ###################################################
+> ### chunk number 7: lm-partial
+> ###################################################
+> library("mvtnorm")
+> thuesen.df <- nrow(thuesen) - length(betahat)
+> q <- sapply(abs(t), function(x) 
++              1 - pmvt(-rep(x, 2), rep(x, 2), corr = Cor, 
++              df = thuesen.df))
+> 
+> 
+> ###################################################
+> ### chunk number 8: lm-partial
+> ###################################################
+> delta <- rep(0, 2)
+> myfct <- function(x, conf) { 
++     lower <- rep(-x, 2) 
++     upper <- rep(x, 2) 
++     pmvt(lower, upper, df = thuesen.df, corr = Cor, 
++          delta, abseps = 0.0001)[1] - conf 
++ } 
+> 
+> 
+> ###################################################
+> ### chunk number 9: lm-partial
+> ###################################################
+> u <- uniroot(myfct, lower = 1, upper = 5, conf = 0.95)$root
+> round(u, 3)
+[1] 2.229
+> 
+> 
+> ###################################################
+> ### chunk number 10: lm-C2
+> ###################################################
+> rownames(C) <- names(betahat)
+> 
+> 
+> ###################################################
+> ### chunk number 11: lm-mcp
+> ###################################################
+> library("multcomp")
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: ‘TH.data’
+
+The following object is masked from ‘package:MASS’:
+
+    geyser
+
+> thuesen.mc <- glht(thuesen.lm, linfct = C)
+> summary(thuesen.mc)
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Fit: lm(formula = short.velocity ~ blood.glucose, data = thuesen)
+
+Linear Hypotheses:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept) == 0    1.09781    0.11748   9.345    1e-08 ***
+blood.glucose == 0  0.02196    0.01045   2.101   0.0645 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> ###################################################
+> ### chunk number 12: lm-confint
+> ###################################################
+> confint(thuesen.mc)
+
+	 Simultaneous Confidence Intervals
+
+Fit: lm(formula = short.velocity ~ blood.glucose, data = thuesen)
+
+Quantile = 2.23
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+                   Estimate  lwr       upr      
+(Intercept) == 0    1.097815  0.835837  1.359793
+blood.glucose == 0  0.021963 -0.001348  0.045274
+
+> 
+> 
+> ###################################################
+> ### chunk number 13: lm-confint
+> ###################################################
+> summary(thuesen.mc, test = adjusted(type = "Westfall"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Fit: lm(formula = short.velocity ~ blood.glucose, data = thuesen)
+
+Linear Hypotheses:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept) == 0    1.09781    0.11748   9.345    1e-08 ***
+blood.glucose == 0  0.02196    0.01045   2.101   0.0479 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Westfall method)
+
+> 
+> 
+> ###################################################
+> ### chunk number 14: warpbreaksBoxplot
+> ###################################################
+> plot(breaks ~ tension, data = warpbreaks, 
++      varwidth = TRUE, main = "", xlab = "Tension", ylab = "Breaks")
+> 
+> 
+> ###################################################
+> ### chunk number 15: aov-fit
+> ###################################################
+> warpbreaks.aov <- aov(breaks ~ tension, data = warpbreaks)
+> summary(warpbreaks.aov)
+            Df Sum Sq Mean Sq F value  Pr(>F)   
+tension      2   2034  1017.1   7.206 0.00175 **
+Residuals   51   7199   141.1                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> 
+> 
+> ###################################################
+> ### chunk number 16: contr-1
+> ###################################################
+> glht(warpbreaks.aov, linfct = mcp(tension = "Tukey"))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+> 
+> ###################################################
+> ### chunk number 17: contr-2
+> ###################################################
+> glht(warpbreaks.aov, 
++       linfct = mcp(tension = c("M - L = 0", 
++                                "H - L = 0",
++                                "H - M = 0")))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+> 
+> ###################################################
+> ### chunk number 18: contr-3a
+> ###################################################
+> contr <- rbind("M - L" = c(-1,  1, 0),
++                 "H - L" = c(-1,  0, 1), 
++                 "H - M" = c( 0, -1, 1))
+> contr
+      [,1] [,2] [,3]
+M - L   -1    1    0
+H - L   -1    0    1
+H - M    0   -1    1
+> 
+> 
+> ###################################################
+> ### chunk number 19: contr-3c
+> ###################################################
+> glht(warpbreaks.aov, linfct = mcp(tension = contr)) 
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+> 
+> ###################################################
+> ### chunk number 20: contr-3
+> ###################################################
+> glht(warpbreaks.aov,  
++       linfct = cbind(0, contr %*% contr.treatment(3)))
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+> 
+> ###################################################
+> ### chunk number 21: trt-contr
+> ###################################################
+> contr.treatment(3)
+  2 3
+1 0 0
+2 1 0
+3 0 1
+> 
+> 
+> ###################################################
+> ### chunk number 22: out-1
+> ###################################################
+> warpbreaks.mc <- glht(warpbreaks.aov, 
++                        linfct = mcp(tension = "Tukey"))
+> names(warpbreaks.mc)
+[1] "model"       "linfct"      "rhs"         "coef"        "vcov"       
+[6] "df"          "alternative" "type"        "focus"      
+> 
+> 
+> ###################################################
+> ### chunk number 23: out-2
+> ###################################################
+> warpbreaks.mc$model
+Call:
+   aov(formula = breaks ~ tension, data = warpbreaks)
+
+Terms:
+                 tension Residuals
+Sum of Squares  2034.259  7198.556
+Deg. of Freedom        2        51
+
+Residual standard error: 11.88058
+Estimated effects may be unbalanced
+> 
+> 
+> ###################################################
+> ### chunk number 24: out-3
+> ###################################################
+> warpbreaks.mc$linfct
+      (Intercept) tensionM tensionH
+M - L           0        1        0
+H - L           0        0        1
+H - M           0       -1        1
+attr(,"type")
+[1] "Tukey"
+> 
+> 
+> ###################################################
+> ### chunk number 25: out-4
+> ###################################################
+> warpbreaks.mc$rhs 
+[1] 0 0 0
+> 
+> 
+> ###################################################
+> ### chunk number 26: out-5
+> ###################################################
+> warpbreaks.mc$coef 
+(Intercept)    tensionM    tensionH 
+   36.38889   -10.00000   -14.72222 
+> warpbreaks.mc$vcov 
+            (Intercept)  tensionM  tensionH
+(Intercept)    7.841564 -7.841564 -7.841564
+tensionM      -7.841564 15.683128  7.841564
+tensionH      -7.841564  7.841564 15.683128
+> 
+> 
+> ###################################################
+> ### chunk number 27: out-6
+> ###################################################
+> warpbreaks.mc$df 
+[1] 51
+> 
+> 
+> ###################################################
+> ### chunk number 28: out-7
+> ###################################################
+> warpbreaks.mc$alternative 
+[1] "two.sided"
+> 
+> 
+> ###################################################
+> ### chunk number 29: out-7
+> ###################################################
+> warpbreaks.mc$type 
+[1] "Tukey"
+> 
+> 
+> ###################################################
+> ### chunk number 30: summary-1
+> ###################################################
+> summary(warpbreaks.mc) 
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)   
+M - L == 0  -10.000      3.960  -2.525  0.03846 * 
+H - L == 0  -14.722      3.960  -3.718  0.00145 **
+H - M == 0   -4.722      3.960  -1.192  0.46308   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> ###################################################
+> ### chunk number 31: summary-1a
+> ###################################################
+> warpbreaks.res <- summary(warpbreaks.mc) 
+> 
+> 
+> ###################################################
+> ### chunk number 32: summary-1b
+> ###################################################
+> warpbreaks.res$test$pvalues 
+[1] 0.038404929 0.001441352 0.463068525
+attr(,"error")
+[1] 0.0001839626
+> 
+> 
+> ###################################################
+> ### chunk number 33: summary-2
+> ###################################################
+> summary(warpbreaks.mc, test = Ftest()) 
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+Global Test:
+      F DF1 DF2   Pr(>F)
+1 7.206   2  51 0.001753
+> 
+> 
+> ###################################################
+> ### chunk number 34: summary-3
+> ###################################################
+> summary(warpbreaks.mc, test = univariate()) 
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)    
+M - L == 0  -10.000      3.960  -2.525 0.014717 *  
+H - L == 0  -14.722      3.960  -3.718 0.000501 ***
+H - M == 0   -4.722      3.960  -1.192 0.238614    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Univariate p values reported)
+
+> 
+> 
+> ###################################################
+> ### chunk number 35: summary-4
+> ###################################################
+> summary(warpbreaks.mc, test = adjusted(type = "bonferroni")) 
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)   
+M - L == 0  -10.000      3.960  -2.525   0.0442 * 
+H - L == 0  -14.722      3.960  -3.718   0.0015 **
+H - M == 0   -4.722      3.960  -1.192   0.7158   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- bonferroni method)
+
+> 
+> 
+> ###################################################
+> ### chunk number 36: summary-4
+> ###################################################
+> summary(warpbreaks.mc, test = adjusted(type = "single-step")) 
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)   
+M - L == 0  -10.000      3.960  -2.525  0.03852 * 
+H - L == 0  -14.722      3.960  -3.718  0.00144 **
+H - M == 0   -4.722      3.960  -1.192  0.46308   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> ###################################################
+> ### chunk number 37: sci-1
+> ###################################################
+> warpbreaks.ci <- confint(warpbreaks.mc, level = 0.95)
+> warpbreaks.ci 
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Quantile = 2.4135
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr      upr     
+M - L == 0 -10.0000 -19.5581  -0.4419
+H - L == 0 -14.7222 -24.2803  -5.1641
+H - M == 0  -4.7222 -14.2803   4.8359
+
+> 
+> 
+> ###################################################
+> ### chunk number 38: sci-2
+> ###################################################
+> plot(warpbreaks.ci, main = "", ylim = c(0.5, 3.5), 
++       xlab = "Breaks")
+> 
+> 
+> ###################################################
+> ### chunk number 39: warpbreaksCI
+> ###################################################
+> plot(warpbreaks.ci, main = "", ylim = c(0.5, 3.5), xlab = "Breaks")
+> 
+> 
+> ###################################################
+> ### chunk number 40: sci-3
+> ###################################################
+> cbon <- qt(1-0.05/6, 51)
+> cbon
+[1] 2.475514
+> 
+> 
+> ###################################################
+> ### chunk number 41: sci-4
+> ###################################################
+> confint(warpbreaks.mc, calpha = cbon)
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ tension, data = warpbreaks)
+
+Quantile = 2.4755
+95% confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr      upr     
+M - L == 0 -10.0000 -19.8035  -0.1965
+H - L == 0 -14.7222 -24.5257  -4.9187
+H - M == 0  -4.7222 -14.5257   5.0813
+
+> 
+> 
+> ###################################################
+> ### chunk number 42: warpbreaksCLD
+> ###################################################
+> warpbreaks.cld <- cld(warpbreaks.mc)
+> plot(warpbreaks.cld)
+> 
+> 
+> ###################################################
+> ### chunk number 43: cld-1
+> ###################################################
+> warpbreaks.cld <- cld(warpbreaks.mc)
+> 
+> 
+> ###################################################
+> ### chunk number 44: cld-2
+> ###################################################
+> plot(warpbreaks.cld)
+> 
+> sessionInfo()
+R version 4.4.2 (2024-10-31)
+Platform: x86_64-pc-linux-gnu
+Running under: Debian GNU/Linux 12 (bookworm)
+
+Matrix products: default
+BLAS:   /usr/local/lib/R/lib/libRblas.so 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.11.0
+
+locale:
+ [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+ [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+ [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: Europe/Berlin
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] multcomp_1.4-26 TH.data_1.1-2   MASS_7.3-61     survival_3.7-0 
+[5] mvtnorm_1.3-2  
+
+loaded via a namespace (and not attached):
+[1] compiler_4.4.2   zoo_1.8-12       Matrix_1.7-1     tools_4.4.2     
+[5] sandwich_3.1-1   codetools_0.2-20 splines_4.4.2    grid_4.4.2      
+[9] lattice_0.22-6  
+> 
+> proc.time()
+   user  system elapsed 
+  0.678   0.068   0.798 

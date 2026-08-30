@@ -1,0 +1,1890 @@
+
+R Under development (unstable) (2026-08-20 r90437) -- "Unsuffered Consequences"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "multcomp"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('multcomp')
+Loading required package: mvtnorm
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: ‘TH.data’
+
+The following object is masked from ‘package:MASS’:
+
+    geyser
+
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("cftest")
+> ### * cftest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cftest
+> ### Title: Testing Estimated Coefficients
+> ### Aliases: cftest
+> ### Keywords: htest
+> 
+> ### ** Examples
+> 
+> 
+>   lmod <- lm(dist ~ speed, data = cars)
+>   summary(lmod)
+
+Call:
+lm(formula = dist ~ speed, data = cars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.069  -9.525  -2.272   9.215  43.201 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -17.5791     6.7584  -2.601   0.0123 *  
+speed         3.9324     0.4155   9.464 1.49e-12 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 15.38 on 48 degrees of freedom
+Multiple R-squared:  0.6511,	Adjusted R-squared:  0.6438 
+F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12
+
+>   cftest(lmod)
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Fit: lm(formula = dist ~ speed, data = cars)
+
+Linear Hypotheses:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept) == 0 -17.5791     6.7584  -2.601   0.0123 *  
+speed == 0         3.9324     0.4155   9.464 1.49e-12 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Univariate p values reported)
+
+>   
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cholesterol")
+> ### * cholesterol
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cholesterol
+> ### Title: Cholesterol Reduction Data Set
+> ### Aliases: cholesterol
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   ### adjusted p-values for all-pairwise comparisons in a one-way layout 
+>   ### set up ANOVA model  
+>   amod <- aov(response ~ trt, data = cholesterol)
+> 
+>   ### set up multiple comparisons object for all-pair comparisons
+>   cht <- glht(amod, linfct = mcp(trt = "Tukey"))
+> 
+>   ### cf. Westfall et al. (1999, page 171)
+>   summary(cht, test = univariate())
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = response ~ trt, data = cholesterol)
+
+Linear Hypotheses:
+                     Estimate Std. Error t value Pr(>|t|)    
+2times - 1time == 0     3.443      1.443   2.385 0.021333 *  
+4times - 1time == 0     6.593      1.443   4.568 3.82e-05 ***
+drugD - 1time == 0      9.579      1.443   6.637 3.53e-08 ***
+drugE - 1time == 0     15.166      1.443  10.507 1.08e-13 ***
+4times - 2times == 0    3.150      1.443   2.182 0.034352 *  
+drugD - 2times == 0     6.136      1.443   4.251 0.000106 ***
+drugE - 2times == 0    11.723      1.443   8.122 2.29e-10 ***
+drugD - 4times == 0     2.986      1.443   2.069 0.044316 *  
+drugE - 4times == 0     8.573      1.443   5.939 3.84e-07 ***
+drugE - drugD == 0      5.586      1.443   3.870 0.000348 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Univariate p values reported)
+
+>   summary(cht, test = adjusted("Shaffer"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = response ~ trt, data = cholesterol)
+
+Linear Hypotheses:
+                     Estimate Std. Error t value Pr(>|t|)    
+2times - 1time == 0     3.443      1.443   2.385 0.042666 *  
+4times - 1time == 0     6.593      1.443   4.568 0.000153 ***
+drugD - 1time == 0      9.579      1.443   6.637 2.12e-07 ***
+drugE - 1time == 0     15.166      1.443  10.507 1.08e-12 ***
+4times - 2times == 0    3.150      1.443   2.182 0.042666 *  
+drugD - 2times == 0     6.136      1.443   4.251 0.000317 ***
+drugE - 2times == 0    11.723      1.443   8.122 1.38e-09 ***
+drugD - 4times == 0     2.986      1.443   2.069 0.044316 *  
+drugE - 4times == 0     8.573      1.443   5.939 1.54e-06 ***
+drugE - drugD == 0      5.586      1.443   3.870 0.000697 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Shaffer method)
+
+>   summary(cht, test = adjusted("Westfall"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = response ~ trt, data = cholesterol)
+
+Linear Hypotheses:
+                     Estimate Std. Error t value Pr(>|t|)    
+2times - 1time == 0     3.443      1.443   2.385   0.0420 *  
+4times - 1time == 0     6.593      1.443   4.568   <0.001 ***
+drugD - 1time == 0      9.579      1.443   6.637   <0.001 ***
+drugE - 1time == 0     15.166      1.443  10.507   <0.001 ***
+4times - 2times == 0    3.150      1.443   2.182   0.0420 *  
+drugD - 2times == 0     6.136      1.443   4.251   <0.001 ***
+drugE - 2times == 0    11.723      1.443   8.122   <0.001 ***
+drugD - 4times == 0     2.986      1.443   2.069   0.0443 *  
+drugE - 4times == 0     8.573      1.443   5.939   <0.001 ***
+drugE - drugD == 0      5.586      1.443   3.870   <0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Westfall method)
+
+> 
+>   ### use only a subset of all pairwise hypotheses
+>   K <- contrMat(table(cholesterol$trt), type="Tukey")
+>   Ksub <- rbind(K[c(1,2,5),],
++                 "D - test" = c(-1, -1, -1, 3, 0),
++                 "E - test" = c(-1, -1, -1, 0, 3))
+> 
+>   ### reproduce results in Westfall et al. (1999, page 172)
+>   ### note: the ordering of our estimates here is different
+>   amod <- aov(response ~ trt - 1, data = cholesterol)
+>   summary(glht(amod, linfct = mcp(trt = Ksub[,5:1])), 
++           test = adjusted("Westfall"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = response ~ trt - 1, data = cholesterol)
+
+Linear Hypotheses:
+                     Estimate Std. Error t value Pr(>|t|)    
+2times - 1time == 0    -5.586      1.443  -3.870   <0.001 ***
+4times - 1time == 0    -8.573      1.443  -5.939   <0.001 ***
+4times - 2times == 0   -2.986      1.443  -2.069   0.0443 *  
+D - test == 0         -21.009      3.536  -5.942   <0.001 ***
+E - test == 0         -31.338      3.536  -8.864   <0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Westfall method)
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cld")
+> ### * cld
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cld
+> ### Title: Set up a compact letter display of all pair-wise comparisons
+> ### Aliases: cld cld.glht cld.summary.glht cld.confint.glht
+> 
+> ### ** Examples
+> 
+>   ### multiple comparison procedures
+>   ### set up a one-way ANOVA
+>   data(warpbreaks)
+>   amod <- aov(breaks ~ tension, data = warpbreaks)
+>   ### specify all pair-wise comparisons among levels of variable "tension"
+>   tuk <- glht(amod, linfct = mcp(tension = "Tukey"))
+>   ### extract information
+>   tuk.cld <- cld(tuk)
+>   ### use sufficiently large upper margin
+>   old.par <- par(mai=c(1,1,1.25,1), no.readonly = TRUE)
+>   ### plot
+>   plot(tuk.cld)
+>   par(old.par)
+>   
+>   ### now using covariates
+>   data(warpbreaks)
+>   amod2 <- aov(breaks ~ tension + wool, data = warpbreaks)
+>   ### specify all pair-wise comparisons among levels of variable "tension"
+>   tuk2 <- glht(amod2, linfct = mcp(tension = "Tukey"))
+>   ### extract information
+>   tuk.cld2 <- cld(tuk2)
+>   ### use sufficiently large upper margin
+>   old.par <- par(mai=c(1,1,1.25,1), no.readonly = TRUE)
+>   ### plot using different colors
+>   plot(tuk.cld2, col=c("black", "red", "blue"))
+>   par(old.par)
+> 
+>   ### set up all pair-wise comparisons for count data
+>   data(Titanic)
+>   mod <- glm(Survived ~ Class, data = as.data.frame(Titanic), weights = Freq, family = binomial())
+>   ### specify all pair-wise comparisons among levels of variable "Class"
+>   glht.mod <- glht(mod, mcp(Class = "Tukey"))
+>   ### extract information
+>   mod.cld <- cld(glht.mod)
+>   ### use sufficiently large upper margin
+>   old.par <- par(mai=c(1,1,1.5,1), no.readonly = TRUE)
+>   ### plot
+>   plot(mod.cld)
+>   par(old.par)
+> 
+> 
+> 
+> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
+> cleanEx()
+> nameEx("cml")
+> ### * cml
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cml
+> ### Title: Chronic Myelogenous Leukemia survival data.
+> ### Aliases: cml
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+> if (require("coxme")) {
++     data("cml")
++     ### one-sided simultaneous confidence intervals for many-to-one 
++     ### comparisons of treatment effects concerning time of survival 
++     ### modeled by a frailty Cox model with adjustment for further 
++     ### covariates and center-specific random effect.
++     cml_coxme <- coxme(Surv(time, status) ~ treatment + sex + age + riskgroup + (1|center), 
++                        data = cml)
++     glht_coxme <- glht(model = cml_coxme, linfct = mcp(treatment = "Dunnett"), 
++                        alternative = "greater")
++     ci_coxme <- confint(glht_coxme)
++     exp(ci_coxme$confint)[1:2,]
++ }
+Loading required package: coxme
+Loading required package: bdsmatrix
+
+Attaching package: ‘bdsmatrix’
+
+The following object is masked from ‘package:base’:
+
+    backsolve
+
+            Estimate      lwr upr
+trt2 - trt1 1.551055 1.184052 Inf
+trt3 - trt1 1.396362 1.068766 Inf
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:coxme’, ‘package:bdsmatrix’
+
+> nameEx("contrMat")
+> ### * contrMat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: contrMat
+> ### Title: Contrast Matrices
+> ### Aliases: contrMat
+> ### Keywords: misc Dunnett Tukey
+> 
+> ### ** Examples
+> 
+>  n <- c(10,20,30,40)
+>  names(n) <- paste("group", 1:4, sep="")
+>  contrMat(n)	# Dunnett is default
+
+	 Multiple Comparisons of Means: Dunnett Contrasts
+
+                group1 group2 group3 group4
+group2 - group1     -1      1      0      0
+group3 - group1     -1      0      1      0
+group4 - group1     -1      0      0      1
+>  contrMat(n, base = 2)	# use second level as baseline
+
+	 Multiple Comparisons of Means: Dunnett Contrasts
+
+                group1 group2 group3 group4
+group1 - group2      1     -1      0      0
+group3 - group2      0     -1      1      0
+group4 - group2      0     -1      0      1
+>  contrMat(n, type = "Tukey")
+
+	 Multiple Comparisons of Means: Tukey Contrasts
+
+                group1 group2 group3 group4
+group2 - group1     -1      1      0      0
+group3 - group1     -1      0      1      0
+group4 - group1     -1      0      0      1
+group3 - group2      0     -1      1      0
+group4 - group2      0     -1      0      1
+group4 - group3      0      0     -1      1
+>  contrMat(n, type = "Sequen")
+
+	 Multiple Comparisons of Means: Sequen Contrasts
+
+                group1 group2 group3 group4
+group2 - group1     -1      1      0      0
+group3 - group2      0     -1      1      0
+group4 - group3      0      0     -1      1
+>  contrMat(n, type = "AVE")
+
+	 Multiple Comparisons of Means: AVE Contrasts
+
+     group1  group2  group3  group4
+C 1  1.0000 -0.2222 -0.3333 -0.4444
+C 2 -0.1250  1.0000 -0.3750 -0.5000
+C 3 -0.1429 -0.2857  1.0000 -0.5714
+C 4 -0.1667 -0.3333 -0.5000  1.0000
+>  contrMat(n, type = "Changepoint")
+
+	 Multiple Comparisons of Means: Changepoint Contrasts
+
+     group1  group2  group3 group4
+C 1 -1.0000  0.2222  0.3333 0.4444
+C 2 -0.3333 -0.6667  0.4286 0.5714
+C 3 -0.1667 -0.3333 -0.5000 1.0000
+>  contrMat(n, type = "Williams")
+
+	 Multiple Comparisons of Means: Williams Contrasts
+
+    group1 group2 group3 group4
+C 1     -1 0.0000 0.0000 1.0000
+C 2     -1 0.0000 0.4286 0.5714
+C 3     -1 0.2222 0.3333 0.4444
+>  contrMat(n, type = "Marcus")
+
+	 Multiple Comparisons of Means: Marcus Contrasts
+
+     group1  group2  group3 group4
+C 1 -1.0000  0.2222  0.3333 0.4444
+C 2 -1.0000  0.0000  0.4286 0.5714
+C 3 -0.3333 -0.6667  0.4286 0.5714
+C 4 -1.0000  0.0000  0.0000 1.0000
+C 5 -0.3333 -0.6667  0.0000 1.0000
+C 6 -0.1667 -0.3333 -0.5000 1.0000
+>  contrMat(n, type = "McDermott")
+
+	 Multiple Comparisons of Means: McDermott Contrasts
+
+     group1  group2 group3 group4
+C 1 -1.0000  1.0000    0.0      0
+C 2 -0.3333 -0.6667    1.0      0
+C 3 -0.1667 -0.3333   -0.5      1
+>  ### Umbrella-protected Williams contrasts, i.e. a sequence of 
+>  ### Williams-type contrasts with groups of higher order 
+>  ### stepwise omitted
+>  contrMat(n, type = "UmbrellaWilliams")
+
+	 Multiple Comparisons of Means: UmbrellaWilliams Contrasts
+
+    group1 group2 group3 group4
+C 1     -1 0.0000 0.0000 1.0000
+C 2     -1 0.0000 0.4286 0.5714
+C 3     -1 0.2222 0.3333 0.4444
+C 4     -1 0.0000 1.0000 0.0000
+C 5     -1 0.4000 0.6000 0.0000
+C 6     -1 1.0000 0.0000 0.0000
+>  ### comparison of each group with grand mean of all groups
+>  contrMat(n, type = "GrandMean")
+
+	 Multiple Comparisons of Means: GrandMean Contrasts
+
+       group1 group2 group3 group4
+group1    0.9   -0.2   -0.3   -0.4
+group2   -0.1    0.8   -0.3   -0.4
+group3   -0.1   -0.2    0.7   -0.4
+group4   -0.1   -0.2   -0.3    0.6
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("detergent")
+> ### * detergent
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: detergent
+> ### Title: Detergent Durability Data Set
+> ### Aliases: detergent
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   ### set up two-way ANOVA without interactions
+>   amod <- aov(plates ~ block + detergent, data = detergent)
+> 
+>   ### set up all-pair comparisons
+>   dht <- glht(amod, linfct = mcp(detergent = "Tukey"))
+> 
+>   ### see Westfall et al. (1999, p. 190)
+>   confint(dht)
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = plates ~ block + detergent, data = detergent)
+
+Quantile = 3.0637
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr      upr     
+B - A == 0  -2.1333  -4.7925   0.5258
+C - A == 0   3.6000   0.9409   6.2591
+D - A == 0   2.2000  -0.4591   4.8591
+E - A == 0  -4.3333  -6.9925  -1.6742
+C - B == 0   5.7333   3.0742   8.3925
+D - B == 0   4.3333   1.6742   6.9925
+E - B == 0  -2.2000  -4.8591   0.4591
+D - C == 0  -1.4000  -4.0591   1.2591
+E - C == 0  -7.9333 -10.5925  -5.2742
+E - D == 0  -6.5333  -9.1925  -3.8742
+
+> 
+>   ### see Westfall et al. (1999, p. 192)
+>   summary(dht, test = univariate())
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = plates ~ block + detergent, data = detergent)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)    
+B - A == 0  -2.1333     0.8679  -2.458 0.025762 *  
+C - A == 0   3.6000     0.8679   4.148 0.000757 ***
+D - A == 0   2.2000     0.8679   2.535 0.022075 *  
+E - A == 0  -4.3333     0.8679  -4.993 0.000133 ***
+C - B == 0   5.7333     0.8679   6.606 6.05e-06 ***
+D - B == 0   4.3333     0.8679   4.993 0.000133 ***
+E - B == 0  -2.2000     0.8679  -2.535 0.022075 *  
+D - C == 0  -1.4000     0.8679  -1.613 0.126291    
+E - C == 0  -7.9333     0.8679  -9.140 9.45e-08 ***
+E - D == 0  -6.5333     0.8679  -7.527 1.21e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Univariate p values reported)
+
+>   ## Not run: 
+> ##D   summary(dht, test = adjusted("Shaffer"))
+> ##D   summary(dht, test = adjusted("Westfall"))
+> ##D   
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("fattyacid")
+> ### * fattyacid
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: fattyacid
+> ### Title: Fatty Acid Content of Bacillus simplex.
+> ### Aliases: fattyacid
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+> if (require("sandwich")) {
++     data("fattyacid")
++     ### all-pairwise comparisons of the means of fatty acid content 
++     ### FA between different putative ecotypes PE accounting for 
++     ### heteroscedasticity by using a heteroscedastic consistent 
++     ### covariance estimation
++     amod <- aov(FA ~ PE, data = fattyacid)
++     amod_glht <- glht(amod, mcp(PE = "Tukey"), vcov. = vcovHC)
++     summary(amod_glht)
++ 
++     ### simultaneous confidence intervals for the differences of 
++     ### means of fatty acid content between the putative ecotypes
++     confint(amod_glht)
++ }
+Loading required package: sandwich
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = FA ~ PE, data = fattyacid)
+
+Quantile = 2.8944
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+               Estimate  lwr       upr      
+PE4 - PE3 == 0 -0.012820 -0.114116  0.088477
+PE5 - PE3 == 0 -0.084398 -0.182363  0.013566
+PE6 - PE3 == 0  0.019286 -0.084218  0.122789
+PE7 - PE3 == 0 -0.010048 -0.120052  0.099957
+PE9 - PE3 == 0  0.075536 -0.028035  0.179107
+PE5 - PE4 == 0 -0.071579 -0.128783 -0.014375
+PE6 - PE4 == 0  0.032105 -0.034139  0.098349
+PE7 - PE4 == 0  0.002772 -0.073229  0.078773
+PE9 - PE4 == 0  0.088355  0.022006  0.154704
+PE6 - PE5 == 0  0.103684  0.042656  0.164712
+PE7 - PE5 == 0  0.074351  0.002850  0.145851
+PE9 - PE5 == 0  0.159934  0.098792  0.221076
+PE7 - PE6 == 0 -0.029333 -0.108252  0.049586
+PE9 - PE6 == 0  0.056250 -0.013423  0.125923
+PE9 - PE7 == 0  0.085583  0.006576  0.164591
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:sandwich’
+
+> nameEx("glht")
+> ### * glht
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: glht
+> ### Title: General Linear Hypotheses
+> ### Aliases: glht glht.matrix glht.character glht.expression glht.mcp
+> ###   glht.mlf mcp
+> ### Keywords: htest
+> 
+> ### ** Examples
+> 
+> 
+>   ### multiple linear model, swiss data
+>   lmod <- lm(Fertility ~ ., data = swiss)
+> 
+>   ### test of H_0: all regression coefficients are zero 
+>   ### (ignore intercept)
+> 
+>   ### define coefficients of linear function directly
+>   K <- diag(length(coef(lmod)))[-1,]
+>   rownames(K) <- names(coef(lmod))[-1]
+>   K
+                 [,1] [,2] [,3] [,4] [,5] [,6]
+Agriculture         0    1    0    0    0    0
+Examination         0    0    1    0    0    0
+Education           0    0    0    1    0    0
+Catholic            0    0    0    0    1    0
+Infant.Mortality    0    0    0    0    0    1
+> 
+>   ### set up general linear hypothesis
+>   glht(lmod, linfct = K)
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+                      Estimate
+Agriculture == 0       -0.1721
+Examination == 0       -0.2580
+Education == 0         -0.8709
+Catholic == 0           0.1041
+Infant.Mortality == 0   1.0770
+
+> 
+>   ### alternatively, use a symbolic description 
+>   ### instead of a matrix 
+>   glht(lmod, linfct = c("Agriculture = 0",
++                         "Examination = 0",
++                         "Education = 0",
++                         "Catholic = 0",
++                         "Infant.Mortality = 0"))
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+                      Estimate
+Agriculture == 0       -0.1721
+Examination == 0       -0.2580
+Education == 0         -0.8709
+Catholic == 0           0.1041
+Infant.Mortality == 0   1.0770
+
+> 
+> 
+>   ### multiple comparison procedures
+>   ### set up a one-way ANOVA
+>   amod <- aov(breaks ~ tension, data = warpbreaks)
+> 
+>   ### set up all-pair comparisons for factor `tension'
+>   ### using a symbolic description (`type' argument 
+>   ### to `contrMat()')
+>   glht(amod, linfct = mcp(tension = "Tukey"))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+>   ### alternatively, describe differences symbolically
+>   glht(amod, linfct = mcp(tension = c("M - L = 0", 
++                                       "H - L = 0",
++                                       "H - M = 0")))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+>   ### alternatively, define contrast matrix directly
+>   contr <- rbind("M - L" = c(-1, 1, 0),
++                  "H - L" = c(-1, 0, 1), 
++                  "H - M" = c(0, -1, 1))
+>   glht(amod, linfct = mcp(tension = contr))
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+>   ### alternatively, define linear function for coef(amod)
+>   ### instead of contrasts for `tension'
+>   ### (take model contrasts and intercept into account)
+>   glht(amod, linfct = cbind(0, contr %*% contr.treatment(3)))
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+           Estimate
+M - L == 0  -10.000
+H - L == 0  -14.722
+H - M == 0   -4.722
+
+> 
+> 
+>   ### mix of one- and two-sided alternatives
+>   warpbreaks.aov <- aov(breaks ~ wool + tension,
++                       data = warpbreaks)
+> 
+>   ### contrasts for `tension'
+>   K <- rbind("L - M" = c( 1, -1,  0),     
++              "M - L" = c(-1,  1,  0),       
++              "L - H" = c( 1,  0, -1),     
++              "M - H" = c( 0,  1, -1))
+> 
+>   warpbreaks.mc <- glht(warpbreaks.aov, 
++                         linfct = mcp(tension = K),
++                         alternative = "less")
+> 
+>   ### correlation of first two tests is -1
+>   cov2cor(vcov(warpbreaks.mc))
+      L - M M - L L - H M - H
+L - M   1.0  -1.0   0.5  -0.5
+M - L  -1.0   1.0  -0.5   0.5
+L - H   0.5  -0.5   1.0   0.5
+M - H  -0.5   0.5   0.5   1.0
+> 
+>   ### use smallest of the two one-sided
+>   ### p-value as two-sided p-value -> 0.0232
+>   summary(warpbreaks.mc)
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = breaks ~ wool + tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(<t)  
+L - M >= 0   10.000      3.872   2.582 1.0000  
+M - L >= 0  -10.000      3.872  -2.582 0.0232 *
+L - H >= 0   14.722      3.872   3.802 1.0000  
+M - H >= 0    4.722      3.872   1.219 1.0000  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+>   ### more complex models: Continuous outcome logistic
+>   ### regression; parameters are log-odds ratios
+>   if (require("tram", quietly = TRUE, warn.conflicts = FALSE)) {
++       confint(glht(Colr(breaks ~ wool + tension, 
++                         data = warpbreaks), 
++                    linfct = mcp("tension" = "Tukey")))
++   }
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: Colr(formula = breaks ~ wool + tension, data = warpbreaks)
+
+Quantile = 2.3428
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr     upr    
+M - L == 0  1.1730  -0.2505  2.5966
+H - L == 0  2.1108   0.6368  3.5847
+H - M == 0  0.9378  -0.4463  2.3218
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tram’, ‘package:mlt’, ‘package:basefun’,
+  ‘package:variables’
+
+> nameEx("litter")
+> ### * litter
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: litter
+> ### Title: Litter Weights Data Set
+> ### Aliases: litter
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   ### fit ANCOVA model to data
+>   amod <- aov(weight ~ dose + gesttime + number, data = litter)
+> 
+>   ### define matrix of linear hypotheses for `dose'
+>   doselev <- as.integer(levels(litter$dose))
+>   K <- rbind(contrMat(table(litter$dose), "Tukey"),
++              otrend = c(-1.5, -0.5, 0.5, 1.5),
++              atrend = doselev - mean(doselev),
++              ltrend = log(1:4) - mean(log(1:4)))
+> 
+>   ### set up multiple comparison object
+>   Kht <- glht(amod, linfct = mcp(dose = K), alternative = "less")
+> 
+>   ### cf. Westfall (1997, Table 2)
+>   summary(Kht, test = univariate())
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = weight ~ dose + gesttime + number, data = litter)
+
+Linear Hypotheses:
+               Estimate Std. Error t value  Pr(<t)   
+5 - 0 >= 0      -3.3524     1.2908  -2.597 0.00575 **
+50 - 0 >= 0     -2.2909     1.3384  -1.712 0.04576 * 
+500 - 0 >= 0    -2.6752     1.3343  -2.005 0.02448 * 
+50 - 5 >= 0      1.0615     1.3973   0.760 0.77498   
+500 - 5 >= 0     0.6772     1.3394   0.506 0.69260   
+500 - 50 >= 0   -0.3844     1.4510  -0.265 0.39595   
+otrend >= 0     -3.4821     2.0867  -1.669 0.04988 * 
+atrend >= 0   -314.7324   408.9901  -0.770 0.22212   
+ltrend >= 0     -1.9400     0.9616  -2.018 0.02379 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Univariate p values reported)
+
+>   summary(Kht, test = adjusted("bonferroni"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = weight ~ dose + gesttime + number, data = litter)
+
+Linear Hypotheses:
+               Estimate Std. Error t value Pr(<t)  
+5 - 0 >= 0      -3.3524     1.2908  -2.597 0.0518 .
+50 - 0 >= 0     -2.2909     1.3384  -1.712 0.4118  
+500 - 0 >= 0    -2.6752     1.3343  -2.005 0.2203  
+50 - 5 >= 0      1.0615     1.3973   0.760 1.0000  
+500 - 5 >= 0     0.6772     1.3394   0.506 1.0000  
+500 - 50 >= 0   -0.3844     1.4510  -0.265 1.0000  
+otrend >= 0     -3.4821     2.0867  -1.669 0.4490  
+atrend >= 0   -314.7324   408.9901  -0.770 1.0000  
+ltrend >= 0     -1.9400     0.9616  -2.018 0.2141  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- bonferroni method)
+
+>   summary(Kht, test = adjusted("Shaffer"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = weight ~ dose + gesttime + number, data = litter)
+
+Linear Hypotheses:
+               Estimate Std. Error t value Pr(<t)  
+5 - 0 >= 0      -3.3524     1.2908  -2.597 0.0518 .
+50 - 0 >= 0     -2.2909     1.3384  -1.712 0.0915 .
+500 - 0 >= 0    -2.6752     1.3343  -2.005 0.0734 .
+50 - 5 >= 0      1.0615     1.3973   0.760 1.0000  
+500 - 5 >= 0     0.6772     1.3394   0.506 1.0000  
+500 - 50 >= 0   -0.3844     1.4510  -0.265 1.0000  
+otrend >= 0     -3.4821     2.0867  -1.669 0.0998 .
+atrend >= 0   -314.7324   408.9901  -0.770 0.4442  
+ltrend >= 0     -1.9400     0.9616  -2.018 0.0518 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Shaffer method)
+
+>   summary(Kht, test = adjusted("Westfall"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = weight ~ dose + gesttime + number, data = litter)
+
+Linear Hypotheses:
+               Estimate Std. Error t value Pr(<t)  
+5 - 0 >= 0      -3.3524     1.2908  -2.597 0.0320 *
+50 - 0 >= 0     -2.2909     1.3384  -1.712 0.0893 .
+500 - 0 >= 0    -2.6752     1.3343  -2.005 0.0647 .
+50 - 5 >= 0      1.0615     1.3973   0.760 0.7750  
+500 - 5 >= 0     0.6772     1.3394   0.506 0.7271  
+500 - 50 >= 0   -0.3844     1.4510  -0.265 0.7271  
+otrend >= 0     -3.4821     2.0867  -1.669 0.0917 .
+atrend >= 0   -314.7324   408.9901  -0.770 0.3951  
+ltrend >= 0     -1.9400     0.9616  -2.018 0.0459 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Westfall method)
+
+>   summary(Kht, test = adjusted("single-step"))
+Warning in RET$pfunction("adjusted", ...) :
+  Completion with error > abseps
+Warning in RET$pfunction("adjusted", ...) :
+  Completion with error > abseps
+Warning in RET$pfunction("adjusted", ...) :
+  Completion with error > abseps
+Warning in RET$pfunction("adjusted", ...) :
+  Completion with error > abseps
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = weight ~ dose + gesttime + number, data = litter)
+
+Linear Hypotheses:
+               Estimate Std. Error t value Pr(<t)  
+5 - 0 >= 0      -3.3524     1.2908  -2.597 0.0316 *
+50 - 0 >= 0     -2.2909     1.3384  -1.712 0.2031  
+500 - 0 >= 0    -2.6752     1.3343  -2.005 0.1186  
+50 - 5 >= 0      1.0615     1.3973   0.760 0.9999  
+500 - 5 >= 0     0.6772     1.3394   0.506 0.9987  
+500 - 50 >= 0   -0.3844     1.4510  -0.265 0.8908  
+otrend >= 0     -3.4821     2.0867  -1.669 0.2185  
+atrend >= 0   -314.7324   408.9901  -0.770 0.6625  
+ltrend >= 0     -1.9400     0.9616  -2.018 0.1157  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("methods")
+> ### * methods
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: glht-methods
+> ### Title: Methods for General Linear Hypotheses
+> ### Aliases: summary.glht confint.glht coef.glht vcov.glht plot.glht
+> ###   plot.confint.glht univariate adjusted Ftest Chisqtest adjusted_calpha
+> ###   univariate_calpha
+> ### Keywords: htest
+> 
+> ### ** Examples
+> 
+> 
+>   ### set up a two-way ANOVA 
+>   amod <- aov(breaks ~ wool + tension, data = warpbreaks)
+> 
+>   ### set up all-pair comparisons for factor `tension'
+>   wht <- glht(amod, linfct = mcp(tension = "Tukey"))
+> 
+>   ### 95% simultaneous confidence intervals
+>   plot(print(confint(wht)))
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ wool + tension, data = warpbreaks)
+
+Quantile = 2.4151
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+           Estimate lwr      upr     
+M - L == 0 -10.0000 -19.3520  -0.6480
+H - L == 0 -14.7222 -24.0743  -5.3702
+H - M == 0  -4.7222 -14.0743   4.6298
+
+> 
+>   ### the same (for balanced designs only)
+>   TukeyHSD(amod, "tension")
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = breaks ~ wool + tension, data = warpbreaks)
+
+$tension
+          diff       lwr        upr     p adj
+M-L -10.000000 -19.35342 -0.6465793 0.0336262
+H-L -14.722222 -24.07564 -5.3688015 0.0011218
+H-M  -4.722222 -14.07564  4.6311985 0.4474210
+
+> 
+>   ### corresponding adjusted p values
+>   summary(wht)
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = breaks ~ wool + tension, data = warpbreaks)
+
+Linear Hypotheses:
+           Estimate Std. Error t value Pr(>|t|)   
+M - L == 0  -10.000      3.872  -2.582  0.03362 * 
+H - L == 0  -14.722      3.872  -3.802  0.00109 **
+H - M == 0   -4.722      3.872  -1.219  0.44738   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+>   ### all means for levels of `tension'
+>   amod <- aov(breaks ~ tension, data = warpbreaks)
+>   glht(amod, linfct = matrix(c(1, 0, 0, 
++                                1, 1, 0, 
++                                1, 0, 1), byrow = TRUE, ncol = 3))
+
+	 General Linear Hypotheses
+
+Linear Hypotheses:
+       Estimate
+1 == 0    36.39
+2 == 0    26.39
+3 == 0    21.67
+
+> 
+>   ### confidence bands for a simple linear model, `cars' data
+>   plot(cars, xlab = "Speed (mph)", ylab = "Stopping distance (ft)",
++        las = 1)
+> 
+>   ### fit linear model and add regression line to plot
+>   lmod <- lm(dist ~ speed, data = cars)
+>   abline(lmod)
+> 
+>   ### a grid of speeds
+>   speeds <- seq(from = min(cars$speed), to = max(cars$speed), 
++                 length.out = 10)
+> 
+>   ### linear hypotheses: 10 selected points on the regression line != 0
+>   K <- cbind(1, speeds)                                                        
+> 
+>   ### set up linear hypotheses
+>   cht <- glht(lmod, linfct = K)
+> 
+>   ### confidence intervals, i.e., confidence bands, and add them plot
+>   cci <- confint(cht)
+>   lines(speeds, cci$confint[,"lwr"], col = "blue")
+>   lines(speeds, cci$confint[,"upr"], col = "blue")
+> 
+> 
+>   ### simultaneous p values for parameters in a Cox model
+>   if (require("survival") && require("MASS")) {
++       data("leuk", package = "MASS")
++       leuk.cox <- coxph(Surv(time) ~ ag + log(wbc), data = leuk)
++ 
++       ### set up linear hypotheses
++       lht <- glht(leuk.cox, linfct = diag(length(coef(leuk.cox))))
++ 
++       ### adjusted p values
++       print(summary(lht))
++   }
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Fit: coxph(formula = Surv(time) ~ ag + log(wbc), data = leuk)
+
+Linear Hypotheses:
+       Estimate Std. Error z value Pr(>|z|)  
+1 == 0  -1.0691     0.4293  -2.490   0.0253 *
+2 == 0   0.3677     0.1360   2.703   0.0137 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mmm")
+> ### * mmm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mmm
+> ### Title: Simultaneous Inference for Multiple Marginal Models
+> ### Aliases: mmm mlf
+> ### Keywords: models
+> 
+> ### ** Examples
+> 
+> 
+> ### replicate analysis of Hasler & Hothorn (2011), 
+> ### A Dunnett-Type Procedure for Multiple Endpoints,
+> ### The International Journal of Biostatistics: Vol. 7: Iss. 1, Article 3.
+> ### DOI: 10.2202/1557-4679.1258
+> 
+> library("sandwich")
+> 
+> ### see ?coagulation
+> if (require("SimComp")) {
++     data("coagulation", package = "SimComp")
++ 
++     ### level "S" is the standard, "H" and "B" are novel procedures
++     coagulation$Group <- relevel(coagulation$Group, ref = "S")
++ 
++     ### fit marginal models
++     (m1 <- lm(Thromb.count ~ Group, data = coagulation))
++     (m2 <- lm(ADP ~ Group, data = coagulation))
++     (m3 <- lm(TRAP ~ Group, data = coagulation))
++ 
++     ### set-up Dunnett comparisons for H - S and B - S 
++     ### for all three models
++     g <- glht(mmm(Thromb = m1, ADP = m2, TRAP = m3),
++               mlf(mcp(Group = "Dunnett")), alternative = "greater")
++ 
++     ### joint correlation
++     cov2cor(vcov(g))
++ 
++     ### simultaneous p-values adjusted by taking the correlation
++     ### between the score contributions into account
++     summary(g)
++     ### simultaneous confidence intervals
++     confint(g)
++ 
++     ### compare with
++     ## Not run: 
++ ##D         library("SimComp")
++ ##D         SimCiDiff(data = coagulation, grp = "Group",
++ ##D                   resp = c("Thromb.count","ADP","TRAP"), 
++ ##D                   type = "Dunnett", alternative = "greater",
++ ##D                   covar.equal = TRUE)
++ ##D     
++ ## End(Not run)
++  
++     ### use sandwich variance matrix
++     g <- glht(mmm(Thromb = m1, ADP = m2, TRAP = m3),
++               mlf(mcp(Group = "Dunnett")), 
++               alternative = "greater", vcov. = sandwich)
++     summary(g)
++     confint(g)
++ }
+Loading required package: SimComp
+
+	 Simultaneous Confidence Intervals
+
+Fit: NULL
+
+Quantile = -2.2714
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+                   Estimate lwr      upr     
+Thromb: B - S <= 0  0.12170 -0.07633      Inf
+Thromb: H - S <= 0  0.04351 -0.17941      Inf
+ADP: B - S <= 0     0.21211  0.03802      Inf
+ADP: H - S <= 0     0.08422 -0.06907      Inf
+TRAP: B - S <= 0    0.10525 -0.20344      Inf
+TRAP: H - S <= 0    0.07109 -0.24483      Inf
+
+> 
+> ### attitude towards science data
+> data("mn6.9", package = "TH.data")
+> 
+> ### one model for each item
+> mn6.9.y1 <- glm(y1 ~ group, family = binomial(), 
++                 na.action = na.omit, data = mn6.9)
+> mn6.9.y2 <- glm(y2 ~ group, family = binomial(), 
++                 na.action = na.omit, data = mn6.9)
+> mn6.9.y3 <- glm(y3 ~ group, family = binomial(), 
++                 na.action = na.omit, data = mn6.9)
+> mn6.9.y4 <- glm(y4 ~ group, family = binomial(), 
++                 na.action = na.omit, data = mn6.9)
+> 
+> ### test all parameters simulaneously
+> summary(glht(mmm(mn6.9.y1, mn6.9.y2, mn6.9.y3, mn6.9.y4), 
++              mlf(diag(2))))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                 Estimate Std. Error z value Pr(>|z|)    
+mn6.9.y1: 1 == 0  1.47323    0.06649  22.156   <1e-04 ***
+mn6.9.y1: 2 == 0  0.14833    0.09638   1.539   0.5806    
+mn6.9.y2: 1 == 0 -1.38713    0.06476 -21.419   <1e-04 ***
+mn6.9.y2: 2 == 0 -0.19598    0.09455  -2.073   0.2331    
+mn6.9.y3: 1 == 0  0.44024    0.05306   8.298   <1e-04 ***
+mn6.9.y3: 2 == 0 -0.37449    0.07417  -5.049   <1e-04 ***
+mn6.9.y4: 1 == 0  0.16537    0.05197   3.182   0.0107 *  
+mn6.9.y4: 2 == 0 -0.37132    0.07357  -5.047   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> ### group differences
+> summary(glht(mmm(mn6.9.y1, mn6.9.y2, mn6.9.y3, mn6.9.y4), 
++              mlf("group2 = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                      Estimate Std. Error z value Pr(>|z|)    
+mn6.9.y1: group2 == 0  0.14833    0.09638   1.539    0.409    
+mn6.9.y2: group2 == 0 -0.19598    0.09455  -2.073    0.144    
+mn6.9.y3: group2 == 0 -0.37449    0.07417  -5.049   <1e-04 ***
+mn6.9.y4: group2 == 0 -0.37132    0.07357  -5.047   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### alternative analysis of Klingenberg & Satopaa (2013),
+> ### Simultaneous Confidence Intervals for Comparing Margins of
+> ### Multivariate Binary Data, CSDA, 64, 87-98
+> ### http://dx.doi.org/10.1016/j.csda.2013.02.016
+> 
+> ### see supplementary material for data description
+> ### NOTE: this is not the real data but only a subsample
+> influenza <- structure(list(
++ HEADACHE = c(1L, 0L, 0L, 1L, 0L, 0L, 1L, 1L, 1L,
++ 0L, 0L, 1L, 0L, 1L, 0L, 1L, 1L, 1L, 1L, 1L, 1L, 0L, 0L, 0L, 0L,
++ 1L, 1L), MALAISE = c(0L, 0L, 1L, 1L, 0L, 1L, 1L, 1L, 0L, 1L,
++ 0L, 0L, 1L, 1L, 0L, 0L, 1L, 0L, 1L, 0L, 1L, 0L, 1L, 1L, 0L, 1L,
++ 0L), PYREXIA = c(0L, 0L, 0L, 0L, 0L, 1L, 0L, 1L, 0L, 0L, 1L,
++ 1L, 1L, 1L, 0L, 0L, 0L, 0L, 0L, 1L, 1L, 1L, 0L, 0L, 0L, 1L, 1L
++ ), ARTHRALGIA = c(0L, 0L, 0L, 0L, 1L, 0L, 1L, 0L, 1L, 1L, 0L,
++ 0L, 1L, 1L, 0L, 1L, 0L, 0L, 1L, 0L, 0L, 0L, 0L, 1L, 1L, 1L, 1L
++ ), group = structure(c(2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L,
++ 2L, 2L, 2L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
++ 1L), levels = c("pla", "trt"), class = "factor"), Freq = c(32L,
++ 165L, 10L, 23L, 3L, 1L, 4L, 2L, 4L, 2L, 1L, 1L, 1L, 1L, 167L,
++ 1L, 11L, 37L, 7L, 7L, 5L, 3L, 3L, 1L, 2L, 4L, 2L)), names = c("HEADACHE",
++ "MALAISE", "PYREXIA", "ARTHRALGIA", "group", "Freq"), row.names = c(1L,
++ 2L, 3L, 5L, 9L, 36L, 43L, 50L, 74L, 83L, 139L, 175L, 183L, 205L,
++ 251L, 254L, 255L, 259L, 279L, 281L, 282L, 286L, 302L, 322L, 323L,
++ 366L, 382L), class = "data.frame")
+> influenza <- influenza[rep(1:nrow(influenza), influenza$Freq), 1:5]
+> 
+> ### Fitting marginal logistic regression models
+> (head_logreg <- glm(HEADACHE ~ group, data = influenza, 
++                     family = binomial()))
+
+Call:  glm(formula = HEADACHE ~ group, family = binomial(), data = influenza)
+
+Coefficients:
+(Intercept)     grouptrt  
+    -0.8664      -0.1384  
+
+Degrees of Freedom: 499 Total (i.e. Null);  498 Residual
+Null Deviance:	    594.8 
+Residual Deviance: 594.3 	AIC: 598.3
+> (mala_logreg <- glm(MALAISE ~ group, data = influenza, 
++                     family = binomial()))
+
+Call:  glm(formula = MALAISE ~ group, family = binomial(), data = influenza)
+
+Coefficients:
+(Intercept)     grouptrt  
+    -1.9551       0.4114  
+
+Degrees of Freedom: 499 Total (i.e. Null);  498 Residual
+Null Deviance:	    422.7 
+Residual Deviance: 420 	AIC: 424
+> (pyre_logreg <- glm(PYREXIA ~ group, data = influenza, 
++                     family = binomial()))
+
+Call:  glm(formula = PYREXIA ~ group, family = binomial(), data = influenza)
+
+Coefficients:
+(Intercept)     grouptrt  
+     -2.389       -1.158  
+
+Degrees of Freedom: 499 Total (i.e. Null);  498 Residual
+Null Deviance:	    215.8 
+Residual Deviance: 208.1 	AIC: 212.1
+> (arth_logreg <- glm(ARTHRALGIA ~ group, data = influenza, 
++                     family = binomial()))
+
+Call:  glm(formula = ARTHRALGIA ~ group, family = binomial(), data = influenza)
+
+Coefficients:
+(Intercept)     grouptrt  
+    -2.6178      -0.1337  
+
+Degrees of Freedom: 499 Total (i.e. Null);  498 Residual
+Null Deviance:	    237.8 
+Residual Deviance: 237.7 	AIC: 241.7
+> 
+> ### Simultaneous inference for log-odds
+> xy.sim <- glht(mmm(head = head_logreg,
++                    mala = mala_logreg,
++                    pyre = pyre_logreg,
++                    arth = arth_logreg),
++                mlf("grouptrt = 0"))
+> summary(xy.sim)
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                    Estimate Std. Error z value Pr(>|z|)  
+head: grouptrt == 0  -0.1384     0.1990  -0.695   0.9181  
+mala: grouptrt == 0   0.4114     0.2538   1.621   0.3354  
+pyre: grouptrt == 0  -1.1580     0.4460  -2.596   0.0356 *
+arth: grouptrt == 0  -0.1337     0.3661  -0.365   0.9918  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+
+> confint(xy.sim)
+
+	 Simultaneous Confidence Intervals
+
+Fit: NULL
+
+Quantile = 2.4744
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+                    Estimate lwr      upr     
+head: grouptrt == 0 -0.13837 -0.63067  0.35392
+mala: grouptrt == 0  0.41140 -0.21655  1.03935
+pyre: grouptrt == 0 -1.15795 -2.26163 -0.05428
+arth: grouptrt == 0 -0.13371 -1.03959  0.77217
+
+> 
+> ### Artificial examples
+> ### Combining linear regression and logistic regression
+> set.seed(29)
+> y1 <- rnorm(100)
+> y2 <- factor(y1 + rnorm(100, sd = .1) > 0)
+> x1 <- gl(4, 25) 
+> x2 <- runif(100, 0, 10)
+> 
+> m1 <- lm(y1 ~ x1 + x2)
+> m2 <- glm(y2 ~ x1 + x2, family = binomial())
+> ### Note that the same explanatory variables are considered in both models
+> ### but the resulting parameter estimates are on 2 different scales 
+> ### (original and log-odds scales)
+> 
+> ### Simultaneous inference for the same parameter in the 2 model fits
+> summary(glht(mmm(m1 = m1, m2 = m2), mlf("x12 = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+             Estimate Std. Error z value Pr(>|z|)
+m1: x12 == 0  -0.3537     0.2850  -1.241    0.321
+m2: x12 == 0  -0.6409     0.5765  -1.112    0.392
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### Simultaneous inference for different parameters in the 2 model fits
+> summary(glht(mmm(m1 = m1, m2 = m2),
++              mlf(m1 = "x12 = 0", m2 = "x13 = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+             Estimate Std. Error z value Pr(>|z|)
+m1: x12 == 0  -0.3537     0.2850  -1.241    0.362
+m2: x13 == 0  -0.8264     0.5824  -1.419    0.270
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### Simultaneous inference for different and identical parameters in the 2
+> ### model fits
+> summary(glht(mmm(m1 = m1, m2 = m2),
++              mlf(m1 = c("x12 = 0", "x13 = 0"), m2 = "x13 = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+             Estimate Std. Error z value Pr(>|z|)
+m1: x12 == 0  -0.3537     0.2850  -1.241    0.418
+m1: x13 == 0  -0.4220     0.2849  -1.481    0.286
+m2: x13 == 0  -0.8264     0.5824  -1.419    0.317
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### Examples for binomial data
+> ### Two independent outcomes
+> y1.1 <- rbinom(100, 1, 0.45)
+> y1.2 <- rbinom(100, 1, 0.55)
+> group <- factor(rep(c("A", "B"), 50))
+> 
+> m1 <- glm(y1.1 ~ group, family = binomial)
+> m2 <- glm(y1.2 ~ group, family = binomial)
+> 
+> summary(glht(mmm(m1 = m1, m2 = m2), 
++              mlf("groupB = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                Estimate Std. Error z value Pr(>|z|)
+m1: groupB == 0  0.41502    0.40905   1.015    0.523
+m2: groupB == 0  0.08161    0.40407   0.202    0.974
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### Two perfectly correlated outcomes
+> y2.1 <- rbinom(100, 1, 0.45)
+> y2.2 <- y2.1
+> group <- factor(rep(c("A", "B"), 50))
+> 
+> m1 <- glm(y2.1 ~ group, family = binomial)
+> m2 <- glm(y2.2 ~ group, family = binomial)
+> 
+> summary(glht(mmm(m1 = m1, m2 = m2), 
++              mlf("groupB = 0")))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                Estimate Std. Error z value Pr(>|z|)
+m1: groupB == 0   0.2427     0.4028   0.603    0.547
+m2: groupB == 0   0.2427     0.4028   0.603    0.547
+(Adjusted p values reported -- single-step method)
+
+> 
+> ### use sandwich covariance matrix
+> summary(glht(mmm(m1 = m1, m2 = m2), 
++              mlf("groupB = 0"), vcov. = sandwich))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Linear Hypotheses:
+                Estimate Std. Error z value Pr(>|z|)
+m1: groupB == 0   0.2427     0.4028   0.603    0.547
+m2: groupB == 0   0.2427     0.4028   0.603    0.547
+(Adjusted p values reported -- single-step method)
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:SimComp’, ‘package:sandwich’
+
+> nameEx("parm")
+> ### * parm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: parm
+> ### Title: Model Parameters
+> ### Aliases: parm
+> ### Keywords: misc
+> 
+> ### ** Examples
+> 
+> 
+> ## example from
+> ## Bretz, Hothorn, and Westfall (2002). 
+> ## On multiple comparisons in R. R News, 2(3):14-17.
+> 
+> beta <- c(V1 = 14.8, V2 = 12.6667, V3 = 7.3333, V4 = 13.1333)
+> Sigma <- 6.7099 * (diag(1 / c(20, 3, 3, 15)))
+> confint(glht(model = parm(beta, Sigma, 37),
++              linfct = c("V2 - V1 >= 0", 
++                         "V3 - V1 >= 0", 
++                         "V4 - V1 >= 0")), 
++         level = 0.9)
+
+	 Simultaneous Confidence Intervals
+
+Fit: NULL
+
+Quantile = 1.8428
+90% family-wise confidence level
+ 
+
+Linear Hypotheses:
+             Estimate lwr      upr     
+V2 - V1 >= 0 -2.13330     -Inf  0.82209
+V3 - V1 >= 0 -7.46670     -Inf -4.51131
+V4 - V1 >= 0 -1.66670     -Inf -0.03628
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.cld")
+> ### * plot.cld
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.cld
+> ### Title: Plot a cld object
+> ### Aliases: plot.cld
+> ### Keywords: hplot
+> 
+> ### ** Examples
+> 
+> 
+>   ### multiple comparison procedures
+>   ### set up a one-way ANOVA
+>   data(warpbreaks)
+>   amod <- aov(breaks ~ tension, data = warpbreaks)
+>   ### specify all pair-wise comparisons among levels of variable "tension"
+>   tuk <- glht(amod, linfct = mcp(tension = "Tukey"))
+>   ### extract information
+>   tuk.cld <- cld(tuk)
+>   ### use sufficiently large upper margin
+>   old.par <- par(mai=c(1,1,1.25,1), no.readonly=TRUE)
+>   ### plot
+>   plot(tuk.cld)
+>   par(old.par)
+> 
+>   ### now using covariates
+>   amod2 <- aov(breaks ~ tension + wool, data = warpbreaks)
+>   tuk2 <- glht(amod2, linfct = mcp(tension = "Tukey"))
+>   tuk.cld2 <- cld(tuk2)
+>   old.par <- par(mai=c(1,1,1.25,1), no.readonly=TRUE)
+>   ### use different colors for boxes
+>   plot(tuk.cld2, col=c("green", "red", "blue"))
+>   par(old.par)
+>   
+>   ### get confidence intervals
+>   ci.glht <- confint(tuk)
+>   ### plot them
+>   plot(ci.glht)
+>   old.par <- par(mai=c(1,1,1.25,1), no.readonly=TRUE)
+>   ### use 'confint.glht' object to plot all pair-wise comparisons
+>   plot(cld(ci.glht), col=c("white", "blue", "green"))
+>   par(old.par)
+>   
+>   ### set up all pair-wise comparisons for count data
+>   data(Titanic)
+>   mod <- glm(Survived ~ Class, data = as.data.frame(Titanic), 
++              weights = Freq, family = binomial())
+>   ### specify all pair-wise comparisons among levels of variable "Class"
+>   glht.mod <- glht(mod, mcp(Class = "Tukey"))
+>   ### extract information
+>   mod.cld <- cld(glht.mod)
+>   ### use sufficiently large upper margin
+>   old.par <- par(mai=c(1,1,1.5,1), no.readonly=TRUE)
+>   ### plot
+>   plot(mod.cld)
+>   par(old.par)
+>   
+>   ### set up all pair-wise comparisons of a Cox-model
+>   if (require("survival") && require("MASS")) {
++     ### construct 4 classes of age
++     Melanoma$Cage <- factor(sapply(Melanoma$age, function(x){
++                             if( x <= 25 ) return(1)
++                             if( x > 25 & x <= 50 ) return(2)
++                             if( x > 50 & x <= 75 ) return(3)
++                             if( x > 75 & x <= 100) return(4) }
++                            ))
++     ### fit Cox-model
++     cm <- coxph(Surv(time, status == 1) ~ Cage, data = Melanoma)
++     ### specify all pair-wise comparisons among levels of "Cage"
++     cm.glht <- glht(cm, mcp(Cage = "Tukey"))
++     # extract information & plot
++     old.par <- par(no.readonly=TRUE)
++     ### use mono font family
++     if (dev.interactive())
++         old.par <- par(family = "mono")
++     plot(cld(cm.glht), col=c("black", "red", "blue", "green"))
++     par(old.par)
++   }
+> 
+>   if (require("nlme") && require("lme4")) {
++     data("ergoStool", package = "nlme")
++ 
++     stool.lmer <- lmer(effort ~ Type + (1 | Subject),
++                        data = ergoStool)
++     glme41 <- glht(stool.lmer, mcp(Type = "Tukey"))
++ 
++     old.par <- par(mai=c(1,1,1.5,1), no.readonly=TRUE)
++     plot(cld(glme41))
++     par(old.par)
++   }
+Loading required package: nlme
+Loading required package: lme4
+Loading required package: Matrix
+
+Attaching package: ‘lme4’
+
+The following object is masked from ‘package:nlme’:
+
+    lmList
+
+> 
+> 
+> 
+> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
+> cleanEx()
+
+detaching ‘package:lme4’, ‘package:Matrix’, ‘package:nlme’
+
+> nameEx("recovery")
+> ### * recovery
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: recovery
+> ### Title: Recovery Time Data Set
+> ### Aliases: recovery
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   ### set up one-way ANOVA
+>   amod <- aov(minutes ~ blanket, data = recovery)
+> 
+>   ### set up multiple comparisons: one-sided Dunnett contrasts
+>   rht <- glht(amod, linfct = mcp(blanket = "Dunnett"), 
++               alternative = "less")
+> 
+>   ### cf. Westfall et al. (1999, p. 80)
+>   confint(rht, level = 0.9)
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Dunnett Contrasts
+
+
+Fit: aov(formula = minutes ~ blanket, data = recovery)
+
+Quantile = 1.8428
+90% family-wise confidence level
+ 
+
+Linear Hypotheses:
+             Estimate lwr      upr     
+b1 - b0 >= 0 -2.13333     -Inf  0.82206
+b2 - b0 >= 0 -7.46667     -Inf -4.51127
+b3 - b0 >= 0 -1.66667     -Inf -0.03624
+
+> 
+>   ### the same
+>   rht <- glht(amod, linfct = mcp(blanket = c("b1 - b0 >= 0", 
++                                              "b2 - b0 >= 0", 
++                                              "b3 - b0 >= 0")))
+>   confint(rht, level = 0.9)
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: User-defined Contrasts
+
+
+Fit: aov(formula = minutes ~ blanket, data = recovery)
+
+Quantile = 1.8431
+90% family-wise confidence level
+ 
+
+Linear Hypotheses:
+             Estimate lwr      upr     
+b1 - b0 >= 0 -2.13333     -Inf  0.82261
+b2 - b0 >= 0 -7.46667     -Inf -4.51073
+b3 - b0 >= 0 -1.66667     -Inf -0.03594
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("trees513")
+> ### * trees513
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: trees513
+> ### Title: Frankonian Tree Damage Data
+> ### Aliases: trees513
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   summary(trees513)
+ damage                   species        lattice          plot     
+ yes: 448   oak               :1258   1      :  75   10_1   :  15  
+ no :2252   pine              : 823   2      :  75   10_2   :  15  
+            beech             : 266   3      :  75   10_3   :  15  
+            hardwood (other)  : 191   7      :  75   10_4   :  15  
+            spruce            : 119   9      :  75   10_5   :  15  
+            ash/maple/elm/lime:  30   10     :  75   1_1    :  15  
+            (Other)           :  13   (Other):2250   (Other):2610  
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("waste")
+> ### * waste
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: waste
+> ### Title: Industrial Waste Data Set
+> ### Aliases: waste
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   ### set up two-way ANOVA with interactions
+>   amod <- aov(waste ~ temp * envir, data=waste)
+> 
+>   ### comparisons of main effects only
+>   K <- glht(amod, linfct = mcp(temp = "Tukey"))$linfct
+Warning in mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+>   K
+              (Intercept) templow tempmedium envirenv2 envirenv3 envirenv4
+low - high              0       1          0         0         0         0
+medium - high           0       0          1         0         0         0
+medium - low            0      -1          1         0         0         0
+              envirenv5 templow:envirenv2 tempmedium:envirenv2
+low - high            0                 0                    0
+medium - high         0                 0                    0
+medium - low          0                 0                    0
+              templow:envirenv3 tempmedium:envirenv3 templow:envirenv4
+low - high                    0                    0                 0
+medium - high                 0                    0                 0
+medium - low                  0                    0                 0
+              tempmedium:envirenv4 templow:envirenv5 tempmedium:envirenv5
+low - high                       0                 0                    0
+medium - high                    0                 0                    0
+medium - low                     0                 0                    0
+attr(,"type")
+[1] "Tukey"
+>   glht(amod, K)
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+                   Estimate
+low - high == 0       -1.26
+medium - high == 0    -1.34
+medium - low == 0     -0.08
+
+> 
+>   ### comparisons of means (by averaging interaction effects)
+>   low <- grep("low:envi", colnames(K))
+>   med <- grep("medium:envi", colnames(K))
+>   K[1, low] <- 1 / (length(low) + 1)
+>   K[2, med] <- 1 / (length(low) + 1)
+>   K[3, med] <- 1 / (length(low) + 1)
+>   K[3, low] <- - 1 / (length(low) + 1)
+>   K
+              (Intercept) templow tempmedium envirenv2 envirenv3 envirenv4
+low - high              0       1          0         0         0         0
+medium - high           0       0          1         0         0         0
+medium - low            0      -1          1         0         0         0
+              envirenv5 templow:envirenv2 tempmedium:envirenv2
+low - high            0               0.2                  0.0
+medium - high         0               0.0                  0.2
+medium - low          0              -0.2                  0.2
+              templow:envirenv3 tempmedium:envirenv3 templow:envirenv4
+low - high                  0.2                  0.0               0.2
+medium - high               0.0                  0.2               0.0
+medium - low               -0.2                  0.2              -0.2
+              tempmedium:envirenv4 templow:envirenv5 tempmedium:envirenv5
+low - high                     0.0               0.2                  0.0
+medium - high                  0.2               0.0                  0.2
+medium - low                   0.2              -0.2                  0.2
+attr(,"type")
+[1] "Tukey"
+>   confint(glht(amod, K))
+
+	 Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = waste ~ temp * envir, data = waste)
+
+Quantile = 2.5961
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+                   Estimate lwr     upr    
+low - high == 0    -2.0150  -3.2734 -0.7566
+medium - high == 0 -2.2560  -3.5144 -0.9976
+medium - low == 0  -0.2410  -1.4994  1.0174
+
+> 
+>   ### same as TukeyHSD
+>   TukeyHSD(amod, "temp")
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = waste ~ temp * envir, data = waste)
+
+$temp
+              diff       lwr        upr     p adj
+low-high    -2.015 -3.274054 -0.7559457 0.0022853
+medium-high -2.256 -3.515054 -0.9969457 0.0008562
+medium-low  -0.241 -1.500054  1.0180543 0.8737275
+
+> 
+>   ### set up linear hypotheses for all-pairs of both factors
+>   wht <- glht(amod, linfct = mcp(temp = "Tukey", envir = "Tukey"))
+Warning in mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+Warning in mcp2matrix(model, linfct = linfct) :
+  covariate interactions found -- default contrast might be inappropriate
+> 
+>   ### cf. Westfall et al. (1999, page 181)
+>   summary(wht, test = adjusted("Shaffer"))
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: aov(formula = waste ~ temp * envir, data = waste)
+
+Linear Hypotheses:
+                         Estimate Std. Error t value Pr(>|t|)  
+temp: low - high == 0      -1.260      1.084  -1.162    1.000  
+temp: medium - high == 0   -1.340      1.084  -1.236    1.000  
+temp: medium - low == 0    -0.080      1.084  -0.074    1.000  
+envir: env2 - env1 == 0     1.830      1.084   1.688    0.784  
+envir: env3 - env1 == 0     1.330      1.084   1.227    1.000  
+envir: env4 - env1 == 0     3.805      1.084   3.511    0.041 *
+envir: env5 - env1 == 0     3.660      1.084   3.377    0.041 *
+envir: env3 - env2 == 0    -0.500      1.084  -0.461    1.000  
+envir: env4 - env2 == 0     1.975      1.084   1.822    0.619  
+envir: env5 - env2 == 0     1.830      1.084   1.688    0.784  
+envir: env4 - env3 == 0     2.475      1.084   2.283    0.337  
+envir: env5 - env3 == 0     2.330      1.084   2.150    0.337  
+envir: env5 - env4 == 0    -0.145      1.084  -0.134    1.000  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- Shaffer method)
+
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  5.742 0.104 5.857 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

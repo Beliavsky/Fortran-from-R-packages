@@ -1,0 +1,92 @@
+
+R Under development (unstable) (2026-08-20 r90437) -- "Unsuffered Consequences"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### mixed effects models
+> ### feature request by John Wilkinson <jnwilks@btinternet.com>
+> ### and Dieter Menne <dieter.menne@menne-biomed.de>
+> 
+> library("multcomp")
+Loading required package: mvtnorm
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser
+
+> 
+> lme4OK <- require("lme4")
+Loading required package: lme4
+Loading required package: Matrix
+> if (lme4OK) {
++ 
++     data("ergoStool", package = "nlme")
++     K <- glht(aov(effort ~ Type, data = ergoStool), mcp(Type = "Tukey"))$linfct
++ 
++     stool.lmer <- lmer(effort ~ Type + (1 | Subject),
++                        data = ergoStool)
++     glme4 <- glht(stool.lmer, K)
++     glme41 <- glht(stool.lmer, mcp(Type = "Tukey"))
++     stopifnot(all.equal(coef(glme4), coef(glme41)))
++     print(summary(glme41, test = Chisqtest()))
++ 
++     nlmeOK <- require("nlme")
++     if (nlmeOK) {
++ 
++         stool.lme <- lme(effort ~ Type, data = ergoStool,
++                         random = ~ 1 | Subject)
++         gnlme <- glht(stool.lme,K)
++         stopifnot(all.equal(coef(glme4), coef(gnlme)))
++ 
++         gnlme2 <- glht(stool.lme, linfct = mcp(Type = "Tukey"))
++         stopifnot(all.equal(coef(glme4), coef(gnlme2)))
++     }
++ }
+
+	 General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Linear Hypotheses:
+             Estimate
+T2 - T1 == 0   3.8889
+T3 - T1 == 0   2.2222
+T4 - T1 == 0   0.6667
+T3 - T2 == 0  -1.6667
+T4 - T2 == 0  -3.2222
+T4 - T3 == 0  -1.5556
+
+Global Test:
+  Chisq DF Pr(>Chisq)
+1 67.07  3  1.812e-14
+Loading required package: nlme
+
+Attaching package: 'nlme'
+
+The following object is masked from 'package:lme4':
+
+    lmList
+
+> 
+> proc.time()
+   user  system elapsed 
+  1.941   0.077   0.821 

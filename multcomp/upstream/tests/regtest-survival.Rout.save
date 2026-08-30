@@ -1,0 +1,92 @@
+
+R Under development (unstable) (2026-08-20 r90437) -- "Unsuffered Consequences"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library("multcomp")
+Loading required package: mvtnorm
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser
+
+> set.seed(29)
+> 
+> if (requireNamespace("survival")) {
++ 
++ bladder1 <- bladder[bladder$enum < 5, ] 
++ bladder1$number <- as.factor(bladder1$number)
++ 
++ cm <- coxph(Surv(stop, event) ~ rx + size + number + strata(enum) + 
++             cluster(id), data = bladder1)
++ print(summary(glht(cm, mcp(number = "Dunnett"))))
++ 
++ wm <- survreg(Surv(stop, event) ~ rx + size + number + strata(enum) + 
++               cluster(id), data = bladder1)
++ print(summary(glht(wm, mcp(number = "Dunnett"))))
++ 
++ }
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Dunnett Contrasts
+
+
+Fit: coxph(formula = Surv(stop, event) ~ rx + size + number + strata(enum), 
+    data = bladder1, cluster = id)
+
+Linear Hypotheses:
+           Estimate Std. Error z value Pr(>|z|)    
+2 - 1 == 0   0.7895     0.5124   1.541    0.494    
+3 - 1 == 0   0.3848     0.4699   0.819    0.941    
+4 - 1 == 0   0.7933     0.6487   1.223    0.727    
+5 - 1 == 0   1.3446     0.6269   2.145    0.160    
+6 - 1 == 0   2.4325     0.3440   7.071   <0.001 ***
+8 - 1 == 0   0.8000     0.3502   2.285    0.115    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)
+
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Dunnett Contrasts
+
+
+Fit: survreg(formula = Surv(stop, event) ~ rx + size + number + strata(enum), 
+    data = bladder1, cluster = id)
+
+Linear Hypotheses:
+           Estimate Std. Error z value Pr(>|z|)    
+2 - 1 == 0  -0.4609     0.3232  -1.426   0.5374    
+3 - 1 == 0  -0.2325     0.2918  -0.797   0.9328    
+4 - 1 == 0  -0.6017     0.3422  -1.758   0.3184    
+5 - 1 == 0  -1.0458     0.3844  -2.721   0.0338 *  
+6 - 1 == 0  -1.4714     0.2949  -4.989   <0.001 ***
+8 - 1 == 0  -0.3075     0.2944  -1.044   0.8089    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)
+
+> 
+> proc.time()
+   user  system elapsed 
+  1.763   0.068   0.644 
