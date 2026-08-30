@@ -1,0 +1,24 @@
+name = "deldir-fortran"
+version = "0.2.0"
+license = "GPL-2.0-or-later"
+author = "Rolf Turner; modern Fortran translation"
+maintainer = "Fortran translation maintainers"
+copyright = "Original deldir authors and contributors"
+description = "Modern Fortran translation of the computational core of R package deldir"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[install]
+library = true
+
+[dependencies]
+polyclip-fortran = { path = "vendor/polyclip-fortran" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
