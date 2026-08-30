@@ -1,0 +1,17 @@
+name = "spdep"
+version = "1.4.2"
+license = "GPL-2.0-or-later"
+author = "Roger Bivand and spdep contributors; Fortran translation maintained in Fortran-from-R-packages"
+maintainer = "Fortran-from-R-packages maintainers"
+copyright = "Copyright retained by upstream spdep authors and contributors"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
