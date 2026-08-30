@@ -5,8 +5,9 @@ program test_r_linalg
    use r_linalg, only : balance_matrix, complex_schur
    use r_linalg, only : complex_thin_svd, thin_qr
    use r_linalg, only : full_svd, inverse_matrix, numerical_rank, singular_values
+   use r_linalg, only : determinant, inverse_triangular, signed_log_determinant
    use r_linalg, only : general_complex_eigen, general_real_eigen, general_real_eigenvalues
-   use r_linalg, only : least_squares, least_squares_svd
+   use r_linalg, only : least_squares, least_squares_pivoted, least_squares_svd
    use r_linalg, only : solve_cholesky, solve_spd, solve_system
    use r_linalg, only : spd_inverse_logdet
    use r_linalg, only : spectral_radius
@@ -21,7 +22,10 @@ program test_r_linalg
    call test_solve
    call test_complex_solve
    call test_general_inverse
+   call test_triangular_inverse
+   call test_determinant
    call test_least_squares
+   call test_least_squares_pivoted
    call test_least_squares_svd
    call test_eigen
    call test_cholesky_and_inverse
@@ -126,6 +130,39 @@ contains
       call check(maxval(abs(matmul(a, inverse) - identity)) < 1.0e-13_real64, 'general inverse')
    end subroutine test_general_inverse
 
+   subroutine test_triangular_inverse
+      real(real64), allocatable :: inverse(:, :)
+      real(real64) :: a(3, 3), identity3(3, 3)
+      integer :: info
+
+      a = 0.0_real64
+      a(1, 1) = 2.0_real64
+      a(1, 2) = -1.0_real64
+      a(1, 3) = 3.0_real64
+      a(2, 2) = 4.0_real64
+      a(2, 3) = 2.0_real64
+      a(3, 3) = 5.0_real64
+      identity3 = diagonal([1.0_real64, 1.0_real64, 1.0_real64])
+      call inverse_triangular(a, inverse, info, upper=.true.)
+      call check(info == 0, 'triangular inverse info')
+      call check(maxval(abs(matmul(a, inverse) - identity3)) < 1.0e-13_real64, 'triangular inverse')
+      call check(maxval(abs(inverse(2:3, 1))) == 0.0_real64, 'triangular inverse unused triangle')
+   end subroutine test_triangular_inverse
+
+   subroutine test_determinant
+      real(real64) :: a(2, 2), log_absolute_value, sign_value, value
+      integer :: info
+
+      a = reshape([0.0_real64, 3.0_real64, 2.0_real64, 4.0_real64], [2, 2])
+      call determinant(a, value, info)
+      call check(info == 0, 'determinant info')
+      call check(abs(value + 6.0_real64) < 1.0e-13_real64, 'determinant value')
+      call signed_log_determinant(a, sign_value, log_absolute_value, info)
+      call check(info == 0, 'signed log determinant info')
+      call check(sign_value == -1.0_real64, 'signed log determinant sign')
+      call check(abs(log_absolute_value - log(6.0_real64)) < 1.0e-13_real64, 'signed log determinant value')
+   end subroutine test_determinant
+
    subroutine test_least_squares
       real(real64) :: a(3, 2), b(3), b_matrix(3, 2), x(2), x_matrix(2, 2)
       integer :: info
@@ -142,6 +179,25 @@ contains
       call check(maxval(abs(x_matrix(:, 1) - x)) < 1.0e-13_real64, 'QR least-squares first RHS')
       call check(maxval(abs(x_matrix(:, 2) - 2.0_real64 * x)) < 1.0e-13_real64, 'QR least-squares second RHS')
    end subroutine test_least_squares
+
+   subroutine test_least_squares_pivoted
+      real(real64) :: a(3, 2), b(3), bm(3, 2), x(2), xm(2, 2)
+      integer :: info, rank
+
+      a(:, 1) = [1.0_real64, 2.0_real64, 3.0_real64]
+      a(:, 2) = 2.0_real64 * a(:, 1)
+      b = 5.0_real64 * a(:, 1)
+      call least_squares_pivoted(a, b, x, rank, info)
+      call check(info == 0, 'pivoted least-squares vector info')
+      call check(rank == 1, 'pivoted least-squares vector rank')
+      call check(maxval(abs(matmul(a, x) - b)) < 1.0e-13_real64, 'pivoted least-squares vector residual')
+      bm(:, 1) = b
+      bm(:, 2) = 2.0_real64 * b
+      call least_squares_pivoted(a, bm, xm, rank, info)
+      call check(info == 0, 'pivoted least-squares matrix info')
+      call check(rank == 1, 'pivoted least-squares matrix rank')
+      call check(maxval(abs(matmul(a, xm) - bm)) < 1.0e-13_real64, 'pivoted least-squares matrix residual')
+   end subroutine test_least_squares_pivoted
 
    subroutine test_least_squares_svd
       real(real64) :: a(3, 2), b(3), x(2)
