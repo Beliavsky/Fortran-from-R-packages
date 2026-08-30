@@ -1,0 +1,18 @@
+Package: LearnBayes
+Type: Package
+Title: Functions for Learning Bayesian Inference
+Version: 2.15.2
+Date: 2026-01-29
+Authors@R: person("Jim", "Albert", email = "albert@bgsu.edu",
+  role = c("aut", "cre"))
+Maintainer: Jim Albert <albert@bgsu.edu>
+LazyData: yes
+Description: A collection of functions helpful in learning the basic tenets of Bayesian statistical inference.  It contains functions for summarizing basic one and two parameter posterior distributions and predictive distributions.  It contains MCMC algorithms for summarizing posterior distributions defined by the user.  It also contains functions for regression models, hierarchical models, Bayesian tests, and illustrations of Gibbs sampling.
+License: GPL (>= 2)
+Packaged: 2026-01-30 18:17:01 UTC; jimalbert
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2026-01-31 07:40:50 UTC
+RoxygenNote: 7.3.3
+Imports: coda, lattice, survival
+Author: Jim Albert [aut, cre]
