@@ -1,0 +1,337 @@
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ## tests on apply C wrappers
+> 
+> library(proxy)
+
+Attaching package: 'proxy'
+
+The following objects are masked from 'package:stats':
+
+    as.dist, dist
+
+The following object is masked from 'package:base':
+
+    as.matrix
+
+> 
+> set.seed(20070630)
+> 
+> ## matrix
+> 
+> f <- function(x, y) sum(x*y) / sqrt(sum(x*x)) / sqrt(sum(y*y))
+> 
+> x <- matrix(runif(20), 5, 4)
+> x
+          [,1]        [,2]      [,3]      [,4]
+[1,] 0.4595829 0.246283120 0.6662151 0.2658000
+[2,] 0.8390691 0.002929016 0.3449861 0.4751930
+[3,] 0.0377036 0.300615279 0.1399626 0.5143060
+[4,] 0.7621676 0.963274350 0.4358104 0.7934745
+[5,] 0.1211588 0.452265898 0.8005272 0.3062947
+> y <- matrix(runif(20), 5, 4)
+> y
+          [,1]       [,2]      [,3]       [,4]
+[1,] 0.3435311 0.45003283 0.1931588 0.22999466
+[2,] 0.4417228 0.78191550 0.9028450 0.01728483
+[3,] 0.3872093 0.45154308 0.7324979 0.52502253
+[4,] 0.9119128 0.21720445 0.3986998 0.72623146
+[5,] 0.9374529 0.04343485 0.8170873 0.69974714
+> 
+> .External(proxy:::R_apply_dist_matrix, x, NULL, FALSE, f)
+          1         2         3         4
+2 0.8175510                              
+3 0.5909955 0.5179092                    
+4 0.8046383 0.7485219 0.8416675          
+5 0.9026897 0.5245741 0.6848730 0.7514756
+> .External(proxy:::R_apply_dist_matrix, x, x, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 1.0000000 0.8175510 0.5909955 0.8046383 0.9026897
+[2,] 0.8175510 1.0000000 0.5179092 0.7485219 0.5245741
+[3,] 0.5909955 0.5179092 1.0000000 0.8416675 0.6848730
+[4,] 0.8046383 0.7485219 0.8416675 1.0000000 0.7514756
+[5,] 0.9026897 0.5245741 0.6848730 0.7514756 1.0000000
+> .External(proxy:::R_apply_dist_matrix, x, y, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 0.8068091 0.8869376 0.9573450 0.8394141 0.9257044
+[2,] 0.7091915 0.5310191 0.7490815 0.9743857 0.9583243
+[3,] 0.7471004 0.4955903 0.7898068 0.6896626 0.5971429
+[4,] 0.9837110 0.7703657 0.8896691 0.8665744 0.7655715
+[5,] 0.7512326 0.9126553 0.9466108 0.6140860 0.7184058
+> .External(proxy:::R_apply_dist_matrix, x, y, TRUE, f)
+[1] 0.8068091 0.5310191 0.7898068 0.8665744 0.7184058
+> 
+> # coerce
+> 
+> z <- y * 100
+> storage.mode(z) <- "integer"
+> .External(proxy:::R_apply_dist_matrix, x, z, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 0.8035753 0.8851147 0.9568709 0.8363210 0.9255173
+[2,] 0.7027894 0.5281041 0.7457478 0.9754800 0.9584822
+[3,] 0.7399077 0.4909526 0.7896421 0.6859131 0.5945390
+[4,] 0.9811939 0.7674593 0.8884016 0.8638128 0.7638742
+[5,] 0.7490644 0.9109332 0.9482222 0.6083438 0.7173810
+> .External(proxy:::R_apply_dist_matrix, z, x, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 0.8035753 0.7027894 0.7399077 0.9811939 0.7490644
+[2,] 0.8851147 0.5281041 0.4909526 0.7674593 0.9109332
+[3,] 0.9568709 0.7457478 0.7896421 0.8884016 0.9482222
+[4,] 0.8363210 0.9754800 0.6859131 0.8638128 0.6083438
+[5,] 0.9255173 0.9584822 0.5945390 0.7638742 0.7173810
+> .External(proxy:::R_apply_dist_matrix, z, z, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 1.0000000 0.8363694 0.8593771 0.8075186 0.7133480
+[2,] 0.8363694 1.0000000 0.8668551 0.5849013 0.6553123
+[3,] 0.8593771 0.8668551 1.0000000 0.8253313 0.8715788
+[4,] 0.8075186 0.5849013 0.8253313 1.0000000 0.9495662
+[5,] 0.7133480 0.6553123 0.8715788 0.9495662 1.0000000
+> .External(proxy:::R_apply_dist_matrix, z, NULL, FALSE, f)
+          1         2         3         4
+2 0.8363694                              
+3 0.8593771 0.8668551                    
+4 0.8075186 0.5849013 0.8253313          
+5 0.7133480 0.6553123 0.8715788 0.9495662
+> 
+> ## list
+> 
+> x <- unlist(apply(x, 1, list), recursive = FALSE)
+> x
+[[1]]
+[1] 0.4595829 0.2462831 0.6662151 0.2658000
+
+[[2]]
+[1] 0.839069104 0.002929016 0.344986119 0.475192965
+
+[[3]]
+[1] 0.0377036 0.3006153 0.1399626 0.5143060
+
+[[4]]
+[1] 0.7621676 0.9632744 0.4358104 0.7934745
+
+[[5]]
+[1] 0.1211588 0.4522659 0.8005272 0.3062947
+
+> y <- unlist(apply(y, 1, list), recursive = FALSE)
+> 
+> .External(proxy:::R_apply_dist_list, x, NULL, FALSE, f)
+          1         2         3         4
+2 0.8175510                              
+3 0.5909955 0.5179092                    
+4 0.8046383 0.7485219 0.8416675          
+5 0.9026897 0.5245741 0.6848730 0.7514756
+> .External(proxy:::R_apply_dist_list, x, x, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 1.0000000 0.8175510 0.5909955 0.8046383 0.9026897
+[2,] 0.8175510 1.0000000 0.5179092 0.7485219 0.5245741
+[3,] 0.5909955 0.5179092 1.0000000 0.8416675 0.6848730
+[4,] 0.8046383 0.7485219 0.8416675 1.0000000 0.7514756
+[5,] 0.9026897 0.5245741 0.6848730 0.7514756 1.0000000
+> .External(proxy:::R_apply_dist_list, x, y, FALSE, f)
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 0.8068091 0.8869376 0.9573450 0.8394141 0.9257044
+[2,] 0.7091915 0.5310191 0.7490815 0.9743857 0.9583243
+[3,] 0.7471004 0.4955903 0.7898068 0.6896626 0.5971429
+[4,] 0.9837110 0.7703657 0.8896691 0.8665744 0.7655715
+[5,] 0.7512326 0.9126553 0.9466108 0.6140860 0.7184058
+> .External(proxy:::R_apply_dist_list, x, y, TRUE, f)
+[1] 0.8068091 0.5310191 0.7898068 0.8665744 0.7184058
+> 
+> ## logical matrix
+> 
+> f <- function(a, b, c, d, n)
++     a / sqrt(a+b) / sqrt(a+c)
+> 
+> x <- t(sapply(x, ">", 0.5))
+> x
+      [,1]  [,2]  [,3]  [,4]
+[1,] FALSE FALSE  TRUE FALSE
+[2,]  TRUE FALSE FALSE FALSE
+[3,] FALSE FALSE FALSE  TRUE
+[4,]  TRUE  TRUE FALSE  TRUE
+[5,] FALSE FALSE  TRUE FALSE
+> y <- t(sapply(y, ">", 0.5))
+> 
+> .External(proxy:::R_apply_dist_binary_matrix, x, NULL, FALSE, f)
+          1         2         3         4
+2 0.0000000                              
+3 0.0000000 0.0000000                    
+4 0.0000000 0.5773503 0.5773503          
+5 1.0000000 0.0000000 0.0000000 0.0000000
+> .External(proxy:::R_apply_dist_binary_matrix, x, x, FALSE, f)
+     [,1]      [,2]      [,3]      [,4] [,5]
+[1,]    1 0.0000000 0.0000000 0.0000000    1
+[2,]    0 1.0000000 0.0000000 0.5773503    0
+[3,]    0 0.0000000 1.0000000 0.5773503    0
+[4,]    0 0.5773503 0.5773503 1.0000000    0
+[5,]    1 0.0000000 0.0000000 0.0000000    1
+> .External(proxy:::R_apply_dist_binary_matrix, x, y, FALSE, f)
+     [,1]      [,2]      [,3]      [,4]      [,5]
+[1,]  NaN 0.7071068 0.7071068 0.0000000 0.5773503
+[2,]  NaN 0.0000000 0.0000000 0.7071068 0.5773503
+[3,]  NaN 0.0000000 0.7071068 0.7071068 0.5773503
+[4,]  NaN 0.4082483 0.4082483 0.8164966 0.6666667
+[5,]  NaN 0.7071068 0.7071068 0.0000000 0.5773503
+> .External(proxy:::R_apply_dist_binary_matrix, x, y, TRUE, f)
+[1]       NaN 0.0000000 0.7071068 0.8164966 0.5773503
+> 
+> ## data.frame
+> 
+> f <- function(x, y) sum(x*y) / sqrt(sum(x*x)) / sqrt(sum(y*y))
+> 
+> x <- data.frame(unlist(apply(x, 2, list), recursive = FALSE))
+> names(x) <- letters[1:4]
+> x
+      a     b     c     d
+1 FALSE FALSE  TRUE FALSE
+2  TRUE FALSE FALSE FALSE
+3 FALSE FALSE FALSE  TRUE
+4  TRUE  TRUE FALSE  TRUE
+5 FALSE FALSE  TRUE FALSE
+> y <- data.frame(unlist(apply(y, 2, list), recursive = FALSE))
+> names(y) <- letters[1:4]
+> 
+> .External(proxy:::R_apply_dist_data_frame, x, NULL, FALSE, f)
+          1         2         3         4
+2 0.0000000                              
+3 0.0000000 0.0000000                    
+4 0.0000000 0.5773503 0.5773503          
+5 1.0000000 0.0000000 0.0000000 0.0000000
+> .External(proxy:::R_apply_dist_data_frame, x, x, FALSE, f)
+  1         2         3         4 5
+1 1 0.0000000 0.0000000 0.0000000 1
+2 0 1.0000000 0.0000000 0.5773503 0
+3 0 0.0000000 1.0000000 0.5773503 0
+4 0 0.5773503 0.5773503 1.0000000 0
+5 1 0.0000000 0.0000000 0.0000000 1
+> .External(proxy:::R_apply_dist_data_frame, x, y, FALSE, f)
+    1         2         3         4         5
+1 NaN 0.7071068 0.7071068 0.0000000 0.5773503
+2 NaN 0.0000000 0.0000000 0.7071068 0.5773503
+3 NaN 0.0000000 0.7071068 0.7071068 0.5773503
+4 NaN 0.4082483 0.4082483 0.8164966 0.6666667
+5 NaN 0.7071068 0.7071068 0.0000000 0.5773503
+> .External(proxy:::R_apply_dist_data_frame, x, y, TRUE, f)
+[1]       NaN 0.0000000 0.7071068 0.8164966 0.5773503
+> 
+> #
+> 
+> f <- function(x, y) {
++     if (rownames(x) == 1 && rownames(y) == 1) {
++         print(x)
++         str(x)
++         print(y)
++     }
++     sum(x == y) / length(x)
++ }
+> 
+> x <- data.frame(1:5, LETTERS[1:5], stringsAsFactors = FALSE)
+> x
+  X1.5 LETTERS.1.5.
+1    1            A
+2    2            B
+3    3            C
+4    4            D
+5    5            E
+> 
+> y <- data.frame(1:6, LETTERS[c(1,1:5)],
++                 row.names = letters[1:6],
++                 stringsAsFactors = FALSE)
+> y
+  X1.6 LETTERS.c.1..1.5..
+a    1                  A
+b    2                  A
+c    3                  B
+d    4                  C
+e    5                  D
+f    6                  E
+> 
+> all.equal(x, y)
+[1] "Names: 2 string mismatches"                                                      
+[2] "Attributes: < Component \"row.names\": Modes: numeric, character >"              
+[3] "Attributes: < Component \"row.names\": Lengths: 5, 6 >"                          
+[4] "Attributes: < Component \"row.names\": target is numeric, current is character >"
+[5] "Component 1: Numeric: lengths (5, 6) differ"                                     
+[6] "Component 2: Lengths (5, 6) differ (string compare on first 5)"                  
+[7] "Component 2: 4 string mismatches"                                                
+> identical(attributes(x[[1]]), attributes(y[[1]]))
+[1] TRUE
+> identical(attributes(x[[2]]), attributes(y[[2]]))
+[1] TRUE
+> 
+> .External(proxy:::R_apply_dist_data_frame, x, NULL, FALSE, f)
+  1 2 3 4
+2 0      
+3 0 0    
+4 0 0 0  
+5 0 0 0 0
+> .External(proxy:::R_apply_dist_data_frame, x, x, FALSE, f)
+  X1.5 LETTERS.1.5.
+1    1            A
+'data.frame':	1 obs. of  2 variables:
+ $ X1.5        : int 1
+ $ LETTERS.1.5.: chr "A"
+  X1.5 LETTERS.1.5.
+1    1            A
+  1 2 3 4 5
+1 1 0 0 0 0
+2 0 1 0 0 0
+3 0 0 1 0 0
+4 0 0 0 1 0
+5 0 0 0 0 1
+> .External(proxy:::R_apply_dist_data_frame, x, y, FALSE, f)
+  X1.5 LETTERS.1.5.
+1    1            A
+'data.frame':	1 obs. of  2 variables:
+ $ X1.5        : int 1
+ $ LETTERS.1.5.: chr "A"
+  X1.5 LETTERS.1.5.
+1    1            A
+  a   b   c   d   e   f
+1 1 0.5 0.0 0.0 0.0 0.0
+2 0 0.5 0.5 0.0 0.0 0.0
+3 0 0.0 0.5 0.5 0.0 0.0
+4 0 0.0 0.0 0.5 0.5 0.0
+5 0 0.0 0.0 0.0 0.5 0.5
+> .External(proxy:::R_apply_dist_data_frame, x, y[-6,], TRUE, f)
+  X1.5 LETTERS.1.5.
+1    1            A
+'data.frame':	1 obs. of  2 variables:
+ $ X1.5        : int 1
+ $ LETTERS.1.5.: chr "A"
+  X1.5 LETTERS.1.5.
+1    1            A
+[1] 1.0 0.5 0.5 0.5 0.5
+> 
+> 
+> # test parameters
+> 
+> f <- function(x, y, p = 1)
++     sum(x == y) / length(x) * p
+> 
+> .External(proxy:::R_apply_dist_data_frame, x, y[-6,], TRUE, f)
+[1] 1.0 0.5 0.5 0.5 0.5
+> .External(proxy:::R_apply_dist_data_frame, x, y[-6,], TRUE, f, p = 2)
+[1] 2 1 1 1 1
+> 
+> ###
+> 
+> proc.time()
+   user  system elapsed 
+  0.310   0.019   0.317 

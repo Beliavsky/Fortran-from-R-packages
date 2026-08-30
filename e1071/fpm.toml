@@ -1,0 +1,22 @@
+name = "e1071-fortran"
+version = "0.2.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "e1071 authors; modern Fortran translation"
+maintainer = ""
+description = "Modern Fortran translation of the computational functionality of R e1071"
+categories = ["statistics", "machine-learning", "svm", "clustering"]
+copyright = "See NOTICE.md and upstream sources"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+proxy-fortran = { path = "dependencies/proxy-fortran" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
