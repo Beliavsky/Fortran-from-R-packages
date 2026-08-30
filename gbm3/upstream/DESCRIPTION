@@ -1,0 +1,51 @@
+Package: gbm3
+Version: 3.0.3
+Date: 2026-07-15
+Title: Generalized Boosted Regression Models
+Authors@R: c(
+    person("James", "Hickey",
+           email="james.hickey@cantab.net",
+           role="aut"),
+    person("Paul", "Metcalfe",
+           email="paul.metcalfe@gmail.com",
+           role=c("aut")),
+    person("Greg", "Ridgeway",
+           email="gridge@upenn.edu",
+           role=c("aut", "cre")),
+    person("Stefan", "Schroedl",
+           email="schroedl@a9.com",
+           role="aut"),
+    person("Harry", "Southworth",
+           email="harry.southworth@gmail.com",
+           role="aut"),
+    person("Terry", "Therneau",
+           email="therneau.terry@mayo.edu",
+           role="aut")
+    )
+Depends:
+    R (>= 3.5.0)
+Imports:
+    survival,
+    lattice,
+    splines,
+    Rcpp (>= 1.0.0)
+Suggests:
+    testthat (>= 3.1.0),
+    knitr,
+    rmarkdown,
+    MASS
+VignetteBuilder: knitr
+Description: Extensions to Freund and Schapire's AdaBoost algorithm, Y. Freund 
+    and R. Schapire (1997) <doi:10.1006/jcss.1997.1504> and Friedman's gradient 
+    boosting machine, J.H. Friedman (2001) <doi:10.1214/aos/1013203451>. 
+    Includes regression methods for least squares, absolute loss, 
+    t-distribution loss, quantile regression, logistic, Poisson,
+    Cox proportional hazards partial likelihood, AdaBoost
+    exponential loss, Huberized hinge loss,
+    and Learning to Rank measures (LambdaMART).
+License: GPL (>= 2)
+URL: https://gbm-developers.github.io/gbm3/,
+    https://github.com/gbm-developers/gbm3
+Encoding: UTF-8
+LinkingTo: Rcpp
+RoxygenNote: 8.0.0
