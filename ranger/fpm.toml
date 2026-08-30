@@ -1,0 +1,32 @@
+name = "ranger"
+version = "0.18.0"
+license = "GPL-3.0-only"
+author = "Marvin N. Wright; Fortran translation maintainers"
+maintainer = "Fortran-from-R-packages maintainers"
+description = "Modern Fortran translation of the computational core of the R package ranger"
+categories = ["statistics", "machine-learning", "random-forest"]
+keywords = ["random forest", "classification", "regression", "survival", "probability"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[[test]]
+name = "test_ranger"
+source-dir = "test"
+main = "test_ranger.f90"
+
+[[example]]
+name = "classification_example"
+source-dir = "example"
+main = "classification_example.f90"
+
+[[example]]
+name = "survival_example"
+source-dir = "example"
+main = "survival_example.f90"
