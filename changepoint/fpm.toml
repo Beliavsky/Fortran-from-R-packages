@@ -1,0 +1,38 @@
+name = "changepoint"
+version = "2.3.0"
+license = "GPL"
+author = "Rebecca Killick and changepoint contributors; Fortran translation"
+maintainer = "Fortran-from-R-packages project"
+description = "Modern Fortran translation of the computational algorithms in R package changepoint"
+categories = ["statistics", "change-point-detection", "time-series"]
+keywords = ["changepoint", "PELT", "binary-segmentation", "CROPS", "regression"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[[test]]
+name = "test_changepoint"
+source-dir = "test"
+main = "test_changepoint.f90"
+
+[[example]]
+name = "mean_changes"
+source-dir = "example"
+main = "mean_changes.f90"
+
+[[example]]
+name = "regression_change"
+source-dir = "example"
+main = "regression_change.f90"

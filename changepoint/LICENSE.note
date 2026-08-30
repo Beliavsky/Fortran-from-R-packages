@@ -1,0 +1,12 @@
+The upstream changepoint 2.3 DESCRIPTION declares:
+
+    License: GPL
+
+without a version qualifier. This translation preserves that declaration rather
+than silently choosing a different license. Standard GPL version 2 and GPL
+version 3 texts are included for convenience and provenance because R package
+licensing documentation treats an unversioned "GPL" declaration as ambiguous.
+Nothing in this note is intended to narrow or expand rights granted by the
+upstream copyright holders.
+
+See upstream/DESCRIPTION and NOTICE.md.
