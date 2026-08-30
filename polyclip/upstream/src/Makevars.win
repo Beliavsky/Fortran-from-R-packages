@@ -1,0 +1,2 @@
+PKG_CPPFLAGS = -DPOLYCLIP_LONG64="signed long long" -DPOLYCLIP_ULONG64="unsigned long long"
+

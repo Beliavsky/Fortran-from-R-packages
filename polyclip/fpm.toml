@@ -1,0 +1,18 @@
+name = "polyclip-fortran"
+version = "0.1.0"
+license = "BSL-1.0"
+author = "Angus Johnson; Adrian Baddeley; Fortran translation"
+maintainer = "Fortran translation"
+copyright = "Angus Johnson 2010-2015 and polyclip contributors"
+description = "Modern Fortran translation of the computational geometry in the R polyclip package"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
