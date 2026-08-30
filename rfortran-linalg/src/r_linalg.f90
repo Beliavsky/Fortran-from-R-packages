@@ -2,12 +2,14 @@
 module r_linalg
    use iso_fortran_env, only : real64
    use la_lapack, only : dgeev => geev, dgels => gels, dgelss => gelss
+   use la_lapack, only : dgelsy => gelsy
    use la_lapack, only : dgees => gees
    use la_lapack, only : dgebal => gebal
    use la_lapack, only : dgeqrf => geqrf, dorgqr => orgqr
    use la_lapack, only : dgesdd => gesdd
    use la_lapack_d, only : dgeqp3 => la_dgeqp3
    use la_lapack, only : dgesv => gesv
+   use la_lapack, only : dgetrf => getrf, dtrtri => trtri
    use la_lapack, only : dposv => posv
    use la_lapack, only : dpotrf => potrf, dpotri => potri, dpotrs => potrs
    use la_lapack, only : dsyev => syev
@@ -22,11 +24,14 @@ module r_linalg
    public :: complex_schur
    public :: complex_thin_svd
    public :: full_svd
+   public :: determinant
    public :: general_complex_eigen
    public :: general_real_eigen
    public :: general_real_eigenvalues
    public :: inverse_matrix
+   public :: inverse_triangular
    public :: least_squares
+   public :: least_squares_pivoted
    public :: least_squares_svd
    public :: numerical_rank
    public :: rank_revealing_qr
@@ -35,6 +40,7 @@ module r_linalg
    public :: solve_cholesky
    public :: solve_spd
    public :: solve_system
+   public :: signed_log_determinant
    public :: spectral_radius
    public :: spd_inverse_logdet
    public :: symmetric_eigen
@@ -65,6 +71,11 @@ module r_linalg
       module procedure least_squares_svd_matrix
    end interface least_squares_svd
 
+   interface least_squares_pivoted
+      module procedure least_squares_pivoted_vector
+      module procedure least_squares_pivoted_matrix
+   end interface least_squares_pivoted
+
    interface solve_spd
       module procedure solve_spd_vector
       module procedure solve_spd_matrix
@@ -77,10 +88,11 @@ module r_linalg
 
 contains
 
-   subroutine thin_qr(a, q, info)
-      real(real64), intent(in) :: a(:, :)
-      real(real64), allocatable, intent(out) :: q(:, :)
-      integer, intent(out) :: info
+   pure subroutine thin_qr(a, q, info)
+      !! Computes the reduced QR factorization's orthonormal factor.
+      real(real64), intent(in) :: a(:, :)              !! Input matrix with shape `(m, n)`.
+      real(real64), allocatable, intent(out) :: q(:, :) !! Orthonormal factor with shape `(m, min(m, n))`.
+      integer, intent(out) :: info                      !! Zero on success or the LAPACK error code.
       real(real64), allocatable :: matrix(:, :), tau(:), work(:)
       real(real64) :: work_query(1)
       integer :: k, lwork, m, n
@@ -126,16 +138,19 @@ contains
    end subroutine thin_qr
 
    pure function symmetrize(a) result(s)
-      real(real64), intent(in) :: a(:, :)
-      real(real64) :: s(size(a, 1), size(a, 2))
+      !! Replaces a square matrix by the average of it and its transpose.
+      real(real64), intent(in) :: a(:, :)              !! Square input matrix.
+      real(real64) :: s(size(a, 1), size(a, 2))        !! Symmetric matrix with the same shape as `a`.
 
       s = 0.5_real64 * (a + transpose(a))
    end function symmetrize
 
-   subroutine solve_system_vector(a, b, x, info)
-      real(real64), intent(in) :: a(:, :), b(:)
-      real(real64), intent(out) :: x(:)
-      integer, intent(out) :: info
+   pure subroutine solve_system_vector(a, b, x, info)
+      !! Solves a real square linear system with one right-hand side.
+      real(real64), intent(in) :: a(:, :) !! Square coefficient matrix with shape `(n, n)`.
+      real(real64), intent(in) :: b(:)    !! Right-hand-side vector with size `n`.
+      real(real64), intent(out) :: x(:)   !! Solution vector with size `n`.
+      integer, intent(out) :: info        !! Zero on success, a LAPACK code, or `r_linalg_invalid_shape`.
       real(real64), allocatable :: rhs(:, :)
       integer, allocatable :: pivots(:)
       real(real64), allocatable :: work(:, :)
@@ -158,10 +173,12 @@ contains
       if (info == 0) x = rhs(:, 1)
    end subroutine solve_system_vector
 
-   subroutine solve_system_matrix(a, b, x, info)
-      real(real64), intent(in) :: a(:, :), b(:, :)
-      real(real64), intent(out) :: x(:, :)
-      integer, intent(out) :: info
+   pure subroutine solve_system_matrix(a, b, x, info)
+      !! Solves a real square linear system with multiple right-hand sides.
+      real(real64), intent(in) :: a(:, :) !! Square coefficient matrix with shape `(n, n)`.
+      real(real64), intent(in) :: b(:, :) !! Right-hand sides with shape `(n, nrhs)`.
+      real(real64), intent(out) :: x(:, :) !! Solutions with shape `(n, nrhs)`.
+      integer, intent(out) :: info         !! Zero on success, a LAPACK code, or `r_linalg_invalid_shape`.
       integer, allocatable :: pivots(:)
       real(real64), allocatable :: work(:, :), rhs(:, :)
       integer :: n, nrhs
@@ -188,10 +205,12 @@ contains
       if (info == 0) x = rhs
    end subroutine solve_system_matrix
 
-   subroutine solve_system_complex_vector(a, b, x, info)
-      complex(real64), intent(in) :: a(:, :), b(:)
-      complex(real64), intent(out) :: x(:)
-      integer, intent(out) :: info
+   pure subroutine solve_system_complex_vector(a, b, x, info)
+      !! Solves a complex square linear system with one right-hand side.
+      complex(real64), intent(in) :: a(:, :) !! Square coefficient matrix with shape `(n, n)`.
+      complex(real64), intent(in) :: b(:)    !! Right-hand-side vector with size `n`.
+      complex(real64), intent(out) :: x(:)   !! Solution vector with size `n`.
+      integer, intent(out) :: info           !! Zero on success, a LAPACK code, or `r_linalg_invalid_shape`.
       complex(real64), allocatable :: rhs(:, :), work(:, :)
       integer, allocatable :: pivots(:)
       integer :: n
@@ -213,10 +232,12 @@ contains
       if (info == 0) x = rhs(:, 1)
    end subroutine solve_system_complex_vector
 
-   subroutine solve_system_complex_matrix(a, b, x, info)
-      complex(real64), intent(in) :: a(:, :), b(:, :)
-      complex(real64), intent(out) :: x(:, :)
-      integer, intent(out) :: info
+   pure subroutine solve_system_complex_matrix(a, b, x, info)
+      !! Solves a complex square linear system with multiple right-hand sides.
+      complex(real64), intent(in) :: a(:, :) !! Square coefficient matrix with shape `(n, n)`.
+      complex(real64), intent(in) :: b(:, :) !! Right-hand sides with shape `(n, nrhs)`.
+      complex(real64), intent(out) :: x(:, :) !! Solutions with shape `(n, nrhs)`.
+      integer, intent(out) :: info            !! Zero on success, a LAPACK code, or `r_linalg_invalid_shape`.
       complex(real64), allocatable :: rhs(:, :), work(:, :)
       integer, allocatable :: pivots(:)
       integer :: n, nrhs
@@ -243,10 +264,138 @@ contains
       if (info == 0) x = rhs
    end subroutine solve_system_complex_matrix
 
-   subroutine inverse_matrix(a, inverse, info)
-      real(real64), intent(in) :: a(:, :)
-      real(real64), allocatable, intent(out) :: inverse(:, :)
-      integer, intent(out) :: info
+   pure subroutine inverse_triangular(a, inverse, info, upper, unit_diagonal)
+      !! Inverts a real triangular matrix.
+      real(real64), intent(in) :: a(:, :)                    !! Square triangular matrix with shape `(n, n)`.
+      real(real64), allocatable, intent(out) :: inverse(:, :) !! Allocated matrix inverse with shape `(n, n)`.
+      integer, intent(out) :: info                            !! Zero on success, a LAPACK code, or invalid shape.
+      logical, intent(in), optional :: upper                  !! Treat `a` as upper triangular when true.
+      logical, intent(in), optional :: unit_diagonal          !! Treat the diagonal as all ones when true.
+      character(len=1) :: diagonal, triangle
+      logical :: is_unit, use_upper
+      integer :: i, j, n
+
+      n = size(a, 1)
+      if (size(a, 2) /= n) then
+         allocate(inverse(0, 0))
+         info = r_linalg_invalid_shape
+         return
+      end if
+      allocate(inverse(n, n))
+      if (n == 0) then
+         info = 0
+         return
+      end if
+
+      use_upper = .false.
+      if (present(upper)) use_upper = upper
+      is_unit = .false.
+      if (present(unit_diagonal)) is_unit = unit_diagonal
+      triangle = merge('U', 'L', use_upper)
+      diagonal = merge('U', 'N', is_unit)
+      inverse = a
+      call dtrtri(triangle, diagonal, n, inverse, n, info)
+      if (info /= 0) return
+      if (use_upper) then
+         do j = 1, n
+            do i = j + 1, n
+               inverse(i, j) = 0.0_real64
+            end do
+         end do
+      else
+         do j = 1, n
+            do i = 1, j - 1
+               inverse(i, j) = 0.0_real64
+            end do
+         end do
+      end if
+   end subroutine inverse_triangular
+
+   pure subroutine determinant(a, value, info)
+      !! Computes the determinant of a real square matrix using LU factorization.
+      real(real64), intent(in) :: a(:, :) !! Square input matrix with shape `(n, n)`.
+      real(real64), intent(out) :: value  !! Matrix determinant; one for a zero-order matrix.
+      integer, intent(out) :: info        !! Zero on success, a LAPACK code, or `r_linalg_invalid_shape`.
+      real(real64), allocatable :: lu(:, :)
+      integer, allocatable :: pivots(:)
+      integer :: i, n, swaps
+
+      n = size(a, 1)
+      if (size(a, 2) /= n) then
+         value = 0.0_real64
+         info = r_linalg_invalid_shape
+         return
+      end if
+      if (n == 0) then
+         value = 1.0_real64
+         info = 0
+         return
+      end if
+
+      allocate(lu(n, n), pivots(n))
+      lu = a
+      call dgetrf(n, n, lu, n, pivots, info)
+      if (info /= 0) then
+         value = 0.0_real64
+         return
+      end if
+      value = 1.0_real64
+      swaps = 0
+      do i = 1, n
+         value = value * lu(i, i)
+         if (pivots(i) /= i) swaps = swaps + 1
+      end do
+      if (mod(swaps, 2) == 1) value = -value
+   end subroutine determinant
+
+   pure subroutine signed_log_determinant(a, sign, log_absolute_value, info)
+      !! Computes a determinant's sign and logarithmic absolute value using LU factorization.
+      real(real64), intent(in) :: a(:, :)          !! Square input matrix with shape `(n, n)`.
+      real(real64), intent(out) :: sign            !! Sign of the determinant, or zero for a singular matrix.
+      real(real64), intent(out) :: log_absolute_value !! Natural logarithm of the determinant's absolute value.
+      integer, intent(out) :: info                 !! Zero on success, a LAPACK code, or invalid shape.
+      real(real64), allocatable :: lu(:, :)
+      integer, allocatable :: pivots(:)
+      integer :: i, n, swaps
+
+      n = size(a, 1)
+      if (size(a, 2) /= n) then
+         sign = 0.0_real64
+         log_absolute_value = -huge(1.0_real64)
+         info = r_linalg_invalid_shape
+         return
+      end if
+      if (n == 0) then
+         sign = 1.0_real64
+         log_absolute_value = 0.0_real64
+         info = 0
+         return
+      end if
+
+      allocate(lu(n, n), pivots(n))
+      lu = a
+      call dgetrf(n, n, lu, n, pivots, info)
+      if (info /= 0) then
+         sign = 0.0_real64
+         log_absolute_value = -huge(1.0_real64)
+         return
+      end if
+      sign = 1.0_real64
+      log_absolute_value = 0.0_real64
+      swaps = 0
+      do i = 1, n
+         if (lu(i, i) < 0.0_real64) sign = -sign
+         log_absolute_value = log_absolute_value + log(abs(lu(i, i)))
+         if (pivots(i) /= i) swaps = swaps + 1
+      end do
+      if (mod(swaps, 2) == 1) sign = -sign
+   end subroutine signed_log_determinant
+
+   pure subroutine inverse_matrix(a, inverse, info)
+      !! Computes the inverse of a real square matrix.
+      real(real64), intent(in) :: a(:, :)                    !! Square input matrix with shape `(n, n)`.
+      real(real64), allocatable, intent(out) :: inverse(:, :) !! Allocated matrix inverse with shape `(n, n)`.
+      integer, intent(out) :: info                            !! Zero on success, a LAPACK code, or invalid shape.
       real(real64), allocatable :: identity(:, :)
       integer :: i, n
 
@@ -403,7 +552,77 @@ contains
       if (info == 0) x = rhs(1:n, :)
    end subroutine least_squares_svd_matrix
 
-   subroutine solve_spd_vector(a, b, x, info, upper)
+   subroutine least_squares_pivoted_vector(a, b, x, rank, info, rcond)
+      real(real64), intent(in) :: a(:, :), b(:)
+      real(real64), intent(out) :: x(:)
+      integer, intent(out) :: rank, info
+      real(real64), intent(in), optional :: rcond
+      real(real64), allocatable :: b_matrix(:, :), x_matrix(:, :)
+      integer :: m, n
+
+      m = size(a, 1)
+      n = size(a, 2)
+      rank = 0
+      if (size(b) /= m .or. size(x) /= n) then
+         info = r_linalg_invalid_shape
+         return
+      end if
+      allocate(b_matrix(m, 1), x_matrix(n, 1))
+      b_matrix(:, 1) = b
+      call least_squares_pivoted_matrix(a, b_matrix, x_matrix, rank, info, rcond)
+      if (info == 0) x = x_matrix(:, 1)
+   end subroutine least_squares_pivoted_vector
+
+   subroutine least_squares_pivoted_matrix(a, b, x, rank, info, rcond)
+      real(real64), intent(in) :: a(:, :), b(:, :)
+      real(real64), intent(out) :: x(:, :)
+      integer, intent(out) :: rank, info
+      real(real64), intent(in), optional :: rcond
+      real(real64), allocatable :: matrix(:, :), rhs(:, :), work(:)
+      real(real64) :: rank_tolerance, work_query(1)
+      integer, allocatable :: pivots(:)
+      integer :: lda, ldb, lwork, m, n, nrhs
+
+      m = size(a, 1)
+      n = size(a, 2)
+      nrhs = size(b, 2)
+      rank = 0
+      if (size(b, 1) /= m) then
+         info = r_linalg_invalid_shape
+         return
+      end if
+      if (size(x, 1) /= n .or. size(x, 2) /= nrhs) then
+         info = r_linalg_invalid_shape
+         return
+      end if
+      if (m == 0 .or. n == 0 .or. nrhs == 0) then
+         x = 0.0_real64
+         info = 0
+         return
+      end if
+
+      rank_tolerance = sqrt(epsilon(1.0_real64))
+      if (present(rcond)) rank_tolerance = rcond
+      lda = max(1, m)
+      ldb = max(m, n)
+      allocate(matrix(lda, n), rhs(ldb, nrhs), pivots(n))
+      matrix = a
+      rhs = 0.0_real64
+      rhs(1:m, :) = b
+      pivots = 0
+      call dgelsy(m, n, nrhs, matrix, lda, rhs, ldb, pivots, rank_tolerance, rank, work_query, -1, info)
+      if (info /= 0) return
+      lwork = max(1, ceiling(work_query(1)))
+      allocate(work(lwork))
+      matrix = a
+      rhs = 0.0_real64
+      rhs(1:m, :) = b
+      pivots = 0
+      call dgelsy(m, n, nrhs, matrix, lda, rhs, ldb, pivots, rank_tolerance, rank, work, lwork, info)
+      if (info == 0) x = rhs(1:n, :)
+   end subroutine least_squares_pivoted_matrix
+
+   pure subroutine solve_spd_vector(a, b, x, info, upper)
       real(real64), intent(in) :: a(:, :), b(:)
       real(real64), intent(out) :: x(:)
       integer, intent(out) :: info
@@ -433,7 +652,7 @@ contains
       if (info == 0) x = rhs(:, 1)
    end subroutine solve_spd_vector
 
-   subroutine solve_spd_matrix(a, b, x, info, upper)
+   pure subroutine solve_spd_matrix(a, b, x, info, upper)
       real(real64), intent(in) :: a(:, :), b(:, :)
       real(real64), intent(out) :: x(:, :)
       integer, intent(out) :: info
@@ -468,7 +687,7 @@ contains
       if (info == 0) x = rhs
    end subroutine solve_spd_matrix
 
-   subroutine solve_cholesky_vector(factor, b, x, info, upper)
+   pure subroutine solve_cholesky_vector(factor, b, x, info, upper)
       real(real64), intent(in) :: factor(:, :), b(:)
       real(real64), intent(out) :: x(:)
       integer, intent(out) :: info
@@ -497,7 +716,7 @@ contains
       if (info == 0) x = rhs(:, 1)
    end subroutine solve_cholesky_vector
 
-   subroutine solve_cholesky_matrix(factor, b, x, info, upper)
+   pure subroutine solve_cholesky_matrix(factor, b, x, info, upper)
       real(real64), intent(in) :: factor(:, :), b(:, :)
       real(real64), intent(out) :: x(:, :)
       integer, intent(out) :: info
@@ -531,7 +750,7 @@ contains
       if (info == 0) x = rhs
    end subroutine solve_cholesky_matrix
 
-   subroutine rank_revealing_qr(a, pivots, rank, info, tolerance)
+   pure subroutine rank_revealing_qr(a, pivots, rank, info, tolerance)
       real(real64), intent(in) :: a(:, :)
       integer, allocatable, intent(out) :: pivots(:)
       integer, intent(out) :: rank, info
@@ -713,7 +932,7 @@ contains
       rank = count(values > threshold)
    end subroutine numerical_rank
 
-   subroutine balance_matrix_real(a, balanced, scale, ilo, ihi, info, job)
+   pure subroutine balance_matrix_real(a, balanced, scale, ilo, ihi, info, job)
       real(real64), intent(in) :: a(:, :)
       real(real64), allocatable, intent(out) :: balanced(:, :), scale(:)
       integer, intent(out) :: ilo, ihi, info
@@ -743,7 +962,7 @@ contains
       call dgebal(operation, n, balanced, n, ilo, ihi, scale, info)
    end subroutine balance_matrix_real
 
-   subroutine balance_matrix_complex(a, balanced, scale, ilo, ihi, info, job)
+   pure subroutine balance_matrix_complex(a, balanced, scale, ilo, ihi, info, job)
       complex(real64), intent(in) :: a(:, :)
       complex(real64), allocatable, intent(out) :: balanced(:, :)
       real(real64), allocatable, intent(out) :: scale(:)
@@ -1028,7 +1247,7 @@ contains
       call symmetric_eigen(a, values, vectors, info, descending)
    end subroutine symmetric_eigenvalues
 
-   subroutine cholesky_factor(a, factor, info, upper)
+   pure subroutine cholesky_factor(a, factor, info, upper)
       real(real64), intent(in) :: a(:, :)
       real(real64), allocatable, intent(out) :: factor(:, :)
       integer, intent(out) :: info
@@ -1071,7 +1290,7 @@ contains
       end if
    end subroutine cholesky_factor
 
-   subroutine spd_inverse_logdet(a, inverse, logdet, info)
+   pure subroutine spd_inverse_logdet(a, inverse, logdet, info)
       real(real64), intent(in) :: a(:, :)
       real(real64), allocatable, intent(out) :: inverse(:, :)
       real(real64), intent(out) :: logdet
