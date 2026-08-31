@@ -15,3 +15,6 @@ module-naming = false
 
 [library]
 source-dir = "src"
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

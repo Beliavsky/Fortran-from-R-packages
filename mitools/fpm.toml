@@ -20,3 +20,6 @@ source-form = "free"
 
 [dependencies]
 rfortran-core = { path = "../rfortran-core" }
+
+[extra.r-fpm-index]
+gams = ["L"]

@@ -13,3 +13,6 @@ auto-executables = false
 auto-tests = true
 auto-examples = true
 module-naming = false
+
+[extra.r-fpm-index]
+gams = ["L", "M"]

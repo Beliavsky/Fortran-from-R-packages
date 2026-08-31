@@ -6,7 +6,7 @@ Florian Schwendinger, Hans W. Borchers, version 2026-07-21. The
 [source task view](https://github.com/cran-task-views/Optimization/blob/main/Optimization.md) provides the broader annotated
 guide to R packages.
 
-This page includes 103 translated packages. Package membership and broad
+This page includes 104 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -24,6 +24,7 @@ API coverage and validation status.
 - [`lbfgs`](../lbfgs/) - Performs limited-memory BFGS and orthant-wise optimization.
 - [`roptim`](../roptim/) - Provides Nelder-Mead, BFGS, conjugate-gradient, L-BFGS-B, and simulated-annealing optimization.
 - [`RcppNumerical`](../RcppNumerical/) - Provides numerical optimization, integration, and linear-algebra algorithms.
+- [`ucminf`](../ucminf/) - Performs unconstrained optimization using BFGS updates and soft line searches.
 - [`mize`](../mize/) - Provides unconstrained numerical optimization algorithms.
 - [`n1qn1`](../n1qn1/) - Performs unconstrained optimization using full-memory BFGS.
 - [`stochQN`](../stochQN/) - Provides stochastic limited-memory quasi-Newton optimizers.

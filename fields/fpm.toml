@@ -5,6 +5,8 @@ author = "Fortran translation of fields computational code; upstream authors ret
 maintainer = ""
 copyright = "See NOTICE.md and upstream/"
 description = "Modern Fortran/FPM translation of the computational core of the R fields package"
+categories = ["statistics", "spatial", "interpolation"]
+keywords = ["spatial-statistics", "kriging", "thin-plate-splines", "covariance", "interpolation"]
 
 [build]
 auto-executables = false
@@ -23,3 +25,6 @@ suffixes = ["F90"]
 [dependencies]
 fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
 spam-fortran = { path = "vendor/spam" }
+
+[extra.r-fpm-index]
+gams = ["D", "E", "L"]

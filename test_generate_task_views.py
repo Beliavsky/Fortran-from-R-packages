@@ -27,6 +27,16 @@ class GenerateTaskViewsTests(unittest.TestCase):
         self.assertEqual(groups["Discrete distributions"], ["Alpha", "beta"])
         self.assertEqual(missing, set())
 
+    def test_groups_heading_free_view_under_custom_initial_section(self):
+        groups, missing = group_packages(
+            '`r pkg("jomo")` and `r pkg("pan")`',
+            {"jomo": "jomo", "pan": "pan"},
+            frozenset({"Links"}),
+            "Methods and packages",
+        )
+        self.assertEqual(groups["Methods and packages"], ["jomo", "pan"])
+        self.assertEqual(missing, set())
+
 
 if __name__ == "__main__":
     unittest.main()

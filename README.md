@@ -1,7 +1,7 @@
 # Fortran from R packages
 
 This repository collects experimental modern Fortran translations and
-ports by ChatGPT on High mode of computational code in 484 package
+ports by ChatGPT on High mode of computational code in 490 package
 directories derived from R packages. Each subdirectory is an
 independent Fortran Package Manager (fpm) project with its own
 documentation, tests, provenance record, and license.
@@ -292,6 +292,7 @@ handling while leaving the existing computational implementations intact.
 | [`fitHeavyTail`](fitHeavyTail/) | Estimates means and covariance matrices under heavy tails. | `0.2.0.9000` · `GPL-3.0-only` |
 | [`FKF`](FKF/) | Performs fast multivariate Kalman filtering and smoothing. | `0.2.6` · `GPL-2.0-or-later` |
 | [`flexsurv`](flexsurv/) | Fits flexible parametric survival and multi-state models. | `2.3.2` · `GPL-2.0-or-later` |
+| [`fields`](fields/) | Provides spatial-data analysis, covariance modeling, kriging, and spline interpolation methods. | `17.3` · `GPL-2.0-or-later` |
 | [`FLSSS`](FLSSS/) | Solves subset-sum, multidimensional-knapsack, and generalized-assignment problems. | `9.2.8` · `GPL-3.0-only` |
 | [`fmbasics`](fmbasics/) | Provides foundational financial-market calculations. | `0.3.99` · `GPL-2.0-only` |
 | [`fmultivar`](fmultivar/) | Provides multivariate distributions and financial-data analysis. | `4031.84` · `GPL-2.0-or-later` |
@@ -353,6 +354,7 @@ handling while leaving the existing computational implementations intact.
 | [`Jdmbs`](Jdmbs/) | Prices options by Monte Carlo under geometric Brownian and jump-diffusion models. | `1.4` · `GPL-2.0-or-later` |
 | [`jfe`](jfe/) | Analyzes financial and economic time-series data. | `2.5.11` · `GPL-2.0-or-later` |
 | [`joker`](joker/) | Provides probability distributions and parameter-estimation methods. | `0.14.2` · `GPL-3.0-or-later` |
+| [`jomo`](jomo/) | Performs multilevel joint-model multiple imputation for continuous and categorical data. | `2.7-6` · `GPL-2.0-only` |
 | [`jrvFinance`](jrvFinance/) | Provides NPV, IRR, annuity, bond-pricing, and Black-Scholes calculations. | `1.4.3` · `GPL-2.0-or-later` |
 | [`JumpTest`](JumpTest/) | Detects jumps in financial time series. | `1.1` · `MIT` |
 | [`kdensity`](kdensity/) | Performs parametrically guided kernel-density estimation with asymmetric kernels. | `1.2.0` · `MIT` |
@@ -414,6 +416,8 @@ handling while leaving the existing computational implementations intact.
 | [`mgcv`](mgcv/) | Fits generalized additive models with automatic smoothness selection. | `1.9-4` · `GPL-2.0-or-later` |
 | [`minqa`](minqa/) | Provides derivative-free optimization by quadratic approximation. | `1.2.8` · `GPL-2.0-only` |
 | [`miscTools`](miscTools/) | Provides miscellaneous numerical and statistical utilities. | `0.6-30` · `GPL-2.0-or-later` |
+| [`mitml`](mitml/) | Provides multiple-imputation inference and diagnostics for multilevel models. | `0.4-5` · `GPL-2.0-or-later` |
+| [`mitools`](mitools/) | Combines and analyzes multiply imputed data using Rubin's rules and plausible values. | `2.4` · `GPL-2.0-only` |
 | [`MixedIndTests`](MixedIndTests/) | Tests randomness and independence for discrete, continuous, and mixed data. | `1.2.0` · `GPL-3.0-only` |
 | [`mixSPE`](mixSPE/) | Fits mixtures of power-exponential and skew power-exponential distributions. | `0.9.3` · `GPL-2.0-only` |
 | [`mixsqp`](mixsqp/) | Estimates mixture proportions using sequential quadratic programming. | `0.3-54` · `MIT` |
@@ -458,6 +462,7 @@ handling while leaving the existing computational implementations intact.
 | [`nvmix`](nvmix/) | Computes and simulates multivariate normal variance-mixture distributions. | `0.1-2` · `GPL-3.0-or-later` |
 | [`ob-analytics`](ob-analytics/) | Analyzes limit order books and liquidity. | `0.1.2` · `GPL-2.0-or-later` |
 | [`onls`](onls/) | Performs orthogonal nonlinear least-squares regression. | `0.1-4` · `GPL-2.0-or-later` |
+| [`ordinal`](ordinal/) | Fits cumulative-link models for ordinal responses, including mixed models. | `2026.7-26` · `GPL-2.0-or-later` |
 | [`OOR`](OOR/) | Performs global optimization using optimistic optimization. | `0.1.4` · `LGPL` |
 | [`opthedging`](opthedging/) | Values and optimally hedges call and put options. | `1.0` · `GPL-2.0-or-later` |
 | [`optimflex`](optimflex/) | Performs derivative-based optimization with user-defined convergence criteria. | `0.1.8` · `MIT` |
@@ -467,6 +472,7 @@ handling while leaving the existing computational implementations intact.
 | [`orthopolynom`](orthopolynom/) | Provides orthogonal and orthonormal polynomial families. | `1.0-6.1` · `GPL-2.0-only` |
 | [`osqp`](osqp/) | Solves convex quadratic programs using the OSQP algorithm. | `1.0.0` · `Apache-2.0` |
 | [`pa`](pa/) | Performs equity-portfolio performance attribution. | `1.2-4` · `GPL-2.0-only` |
+| [`pan`](pan/) | Performs multiple imputation for multivariate panel or clustered data. | `2.0` · `GPL-3.0-only` |
 | [`parma`](parma/) | Provides portfolio allocation and risk-management applications. | `1.7` · `GPL-3.0-or-later` |
 | [`partitions`](partitions/) | Generates and analyzes additive integer partitions. | `1.10-9` · `GPL` |
 | [`pbivnorm`](pbivnorm/) | Evaluates the vectorized standard bivariate normal cumulative distribution function. | `0.6.0` · `GPL-2.0-or-later` |

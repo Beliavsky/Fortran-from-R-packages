@@ -24,6 +24,7 @@ class ViewSpec:
     name: str
     filename: str
     skip_sections: frozenset[str] = frozenset({"Introduction", "Links"})
+    initial_section: str = "Introduction"
 
     @property
     def source_url(self) -> str:
@@ -43,6 +44,12 @@ class ViewSpec:
 
 VIEW_SPECS = (
     ViewSpec("Finance", "Finance.md"),
+    ViewSpec(
+        "MissingData",
+        "MissingData.md",
+        frozenset({"Links"}),
+        "Methods and packages",
+    ),
     ViewSpec("Optimization", "Optimization.md"),
     ViewSpec("NumericalMathematics", "NumericalMathematics.md"),
     ViewSpec(
@@ -98,10 +105,13 @@ def readme_descriptions(root: Path) -> dict[str, str]:
 
 
 def group_packages(
-    source: str, local: dict[str, str], skip_sections: frozenset[str]
+    source: str,
+    local: dict[str, str],
+    skip_sections: frozenset[str],
+    initial_section: str = "Introduction",
 ) -> tuple[OrderedDict[str, list[str]], set[str]]:
     groups: OrderedDict[str, list[str]] = OrderedDict()
-    current_section = "Introduction"
+    current_section = initial_section
     all_matches: set[str] = set()
     assigned: set[str] = set()
 
@@ -136,7 +146,12 @@ def render_view(
     descriptions: dict[str, str],
 ) -> tuple[str, int]:
     info = metadata(source)
-    groups, missing = group_packages(source, local, spec.skip_sections)
+    groups, missing = group_packages(
+        source,
+        local,
+        spec.skip_sections,
+        spec.initial_section,
+    )
     if missing:
         raise ValueError(f"{spec.name}: matched but unassigned packages: {sorted(missing)}")
 
