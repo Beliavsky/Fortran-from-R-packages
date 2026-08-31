@@ -1,0 +1,17 @@
+name = "jomo"
+version = "0.2.0"
+license = "GPL-2.0-only"
+author = "Matteo Quartagno, James Carpenter; modern Fortran translation"
+maintainer = "Fortran-from-R-packages project"
+description = "Modern Fortran translation of computational kernels from the R package jomo"
+categories = ["statistics", "imputation", "mcmc"]
+keywords = ["multiple-imputation", "multilevel", "categorical", "gibbs", "wishart"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[library]
+source-dir = "src"
