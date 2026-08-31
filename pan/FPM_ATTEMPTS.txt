@@ -1,0 +1,13 @@
+FPM command attempts in this execution environment:
+
+$ fpm build
+bash: line 1: fpm: command not found
+exit=127
+
+$ fpm test
+bash: line 1: fpm: command not found
+exit=127
+
+$ fpm clean --all
+bash: line 1: fpm: command not found
+exit=127

@@ -1,0 +1,34 @@
+Compiler:
+GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Flags:
+-std=f2018 -Wall -Wextra -Werror=implicit-interface -fcheck=all
+
+Library compile: PASS
+
+test_ecme_gls: PASS
+
+test_ecme_random: PASS
+
+test_ecme_vmax: PASS
+
+test_errors: PASS
+
+test_pan_bd: PASS
+
+test_pan_multivariate: PASS
+
+test_pan_univariate: PASS
+
+test_restart: PASS
+
+test_rng_linalg: PASS
+
+tests_passed=9
+pan_example: PASS
+imputed rows 5 and 11:    0.9127    1.2231
+final residual variance:    0.0873
+final random-intercept variance:    0.1207
+ecme fixed effects:    1.0400    0.4000
+ecme residual variance:    0.0000
+ecme random-intercept variance:    0.0080

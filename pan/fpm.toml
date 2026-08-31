@@ -1,0 +1,15 @@
+name = "pan"
+version = "2.0.0"
+license = "GPL-3.0-only"
+author = "Original R package by Joseph L. Schafer; CRAN maintenance by Jing Hua Zhao"
+maintainer = "Fortran translation contributors"
+copyright = "See NOTICE.md"
+description = "Modern free-form Fortran translation of the computational core of R package pan"
+categories = ["statistics", "missing-data", "mixed-models", "multiple-imputation"]
+keywords = ["gibbs", "mixed-model", "imputation", "ecme", "panel-data"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
