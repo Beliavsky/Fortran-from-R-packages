@@ -121,7 +121,8 @@ decomposition, complex Schur decomposition, complex linear solves, and real
 and complex matrix balancing.
 Triangular inversion, general determinants, and signed log-absolute-
 determinants are also provided.
-It uses a pinned pure-Fortran
+It uses a pinned revision of Federico Perini's
+[`fortran-lapack`](https://github.com/perazz/fortran-lapack) pure-Fortran
 LAPACK backend, so migrated packages do not require system `-llapack` or
 `-lblas` libraries. Basic operations already supplied by the language, such
 as `norm2`, remain intrinsic calls rather than shared wrappers. Current
