@@ -1,0 +1,34 @@
+ordinal modern Fortran translation
+==================================
+
+Upstream package
+----------------
+R package: ordinal
+Version: 2026.7-26
+Upstream author and copyright holder: Rune Haubo Bojesen Christensen
+Upstream repository: https://github.com/runehaubo/ordinal
+CRAN package description date: 2026-07-26
+License: GNU General Public License, version 2 or 3 at the user's option.
+
+The original package states:
+  Copyright (C) 2011-2026 R. H. B. Christensen
+  All rights assigned to R. H. B. Christensen.
+
+This translation preserves the upstream licensing terms and provenance. See
+UPSTREAM_LICENCE.note, LICENSE-GPL-2, and LICENSE-GPL-3.
+
+Translation scope
+-----------------
+The maintained Fortran source is a clean translation/reimplementation of the
+computational algorithms in the upstream R and C sources. It does not include
+R formula parsing, S3 methods, graphics, interactive facilities, R's Matrix
+objects, compiled R registration code, or copies of dependency packages.
+
+Principal upstream files consulted include:
+  src/links.c, src/get_fitted.c, src/utilityFuns.c
+  R/gdist.R, R/gumbel.R, R/lgamma.R, R/AO.R
+  R/utils.R, R/clm.R, R/clm.start.R, R/clm.fitter.R, R/clm.fit.R, R/clm.simple.R
+  R/clm.profile.R, R/drop.coef.R, R/clmm.R, R/clmm.ssr.R, R/clmm.ranef.R
+  R/derivatives.R
+
+Fortran translation prepared in 2026 for Beliavsky/Fortran-from-R-packages.
