@@ -1,0 +1,63 @@
+citHeader("To cite `spam` in publications use:")
+
+# dont change formatting because of Makefile
+bibentry(bibtype = "Manual", year = "2024",
+  title        = "{spam}: SPArse Matrix",
+  author       = c(as.person("Reinhard Furrer"), as.person("Roman Flury"), as.person("Florian Gerber")),
+  note = "R package version 2.11-4",
+  url = {"https://CRAN.R-project.org/package=spam"},
+  doi = {"10.32614/CRAN.package.spam"},
+  textVersion  = paste("Furrer, R., Flury R. and Gerber, F. (2026).
+                       spam: SPArse Matrix. R package version 2.11-4.
+		       doi: 10.32614/CRAN.package.spam,
+                       URL https://CRAN.R-project.org/package=spam"),
+)
+
+bibentry(bibtype = "Article",
+  title        = "{spam}: A Sparse Matrix {R} Package with Emphasis on {MCMC} Methods for {G}aussian {M}arkov Random Fields",
+  author       = c(as.person("Reinhard Furrer"), as.person("Stephan R. Sain")),
+  journal      = "Journal of Statistical Software",
+  year         = "2010",
+  volume       = "36",
+  number       = "10",
+  pages        = "1--25",
+  doi          = "10.18637/jss.v036.i10",
+  textVersion  =
+  paste("Furrer, R. and Sain S. R. (2010).",
+        "spam: A Sparse Matrix R Package with Emphasis on MCMC Methods for Gaussian Markov Random Fields.",
+        "Journal of Statistical Software, 36(10), 1-25.",
+        "https://doi.org/10.18637/jss.v036.i10."),
+)
+
+bibentry(bibtype = "Article",
+  title        = "Pitfalls in the Implementation of {B}ayesian Hierarchical Modeling of Areal Count Data: An Illustration Using {BYM} and {L}eroux Models",
+  author       = c(as.person("Florian Gerber"), as.person("Reinhard Furrer")),
+  journal      = "Journal of Statistical Software, Code Snippets",
+  year         = "2015",
+  volume       = "63",
+  number       = "1",
+  pages        = "1--32",
+  doi          = "10.18637/jss.v063.c01",
+  textVersion  =
+  paste("Gerber, F. and Furrer, R. (2015).",
+        "Pitfalls in the Implementation of Bayesian Hierarchical Modeling of Areal Count Data: An Illustration Using BYM and Leroux Models.",
+        "Journal of Statistical Software, Code Snippets, 63(1), 1-32.",
+        "https://doi.org/10.18637/jss.v063.c01."),
+)
+
+bibentry(bibtype = "Article",
+  title        = "Extending {R} packages to support 64-bit compiled code: An illustration with spam64 and {GIMMS} {NDVI3g} data",
+  author       = c(as.person("Florian Gerber"), as.person("Kaspar Moesinger"), as.person("Reinhard Furrer")),
+  journal      = "Computer & Geoscience",
+  year         = "2017",
+  volume       = "104",
+  number       = "",
+  pages        = "109--119",
+  issn         = "0098-3004",
+  doi          = "10.1016/j.cageo.2016.11.015",
+  textVersion  =
+  paste("Gerber, F., K. Moesinger, K. and Furrer, R. (2017).",
+        "Extending R packages to support 64-bit compiled code: An illustration with spam64 and GIMMS NDVI3g data.",
+        "Computer & Geoscience 104, 109-119, https://doi.org/10.1016/j.cageo.2016.11.015.")
+)
+

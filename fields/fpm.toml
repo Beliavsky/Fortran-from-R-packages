@@ -1,0 +1,25 @@
+name = "fields-fortran"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of fields computational code; upstream authors retained in NOTICE.md"
+maintainer = ""
+copyright = "See NOTICE.md and upstream/"
+description = "Modern Fortran/FPM translation of the computational core of the R fields package"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = true
+implicit-external = true
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["F90"]
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
+spam-fortran = { path = "vendor/spam" }

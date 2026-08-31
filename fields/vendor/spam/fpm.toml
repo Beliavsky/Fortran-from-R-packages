@@ -1,0 +1,24 @@
+name = "spam-fortran"
+version = "0.1.0"
+license = "mixed; see LICENSES/ and NOTICE.md"
+author = "Fortran translation of spam computational code; upstream authors retained in NOTICE.md"
+maintainer = ""
+copyright = "See NOTICE.md and upstream/"
+description = "Modern Fortran/FPM port of the computational core of the R package spam"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack.git", rev = "9982df3b660918761b993eaf0ff2e507547e25b2" }
+
+[fortran]
+implicit-typing = true
+implicit-external = true
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["F90"]
