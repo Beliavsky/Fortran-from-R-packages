@@ -1,0 +1,29 @@
+$ fpm build
+bash: line 5: fpm: command not found
+exit=127
+
+$ fpm test
+bash: line 9: fpm: command not found
+exit=127
+
+$ fpm clean --all
+bash: line 13: fpm: command not found
+exit=127
+
+Bootstrap attempt after confirming current stable FPM v0.13.0:
+$ curl -L --fail --connect-timeout 8 --max-time 20 https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0.F90 -o /mnt/data/fpm-0.13.0.F90
+curl: (6) Could not resolve host: github.com
+exit=6
+
+No substitute or fake fpm executable was used.
+$ fpm build (final pre-archive attempt)
+bash: line 87: fpm: command not found
+exit=127
+
+$ fpm test (final pre-archive attempt)
+bash: line 92: fpm: command not found
+exit=127
+
+$ fpm clean --all (final pre-archive attempt)
+bash: line 97: fpm: command not found
+exit=127
