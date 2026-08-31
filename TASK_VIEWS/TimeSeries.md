@@ -6,7 +6,7 @@ maintained by Rob J Hyndman and Rebecca Killick, version 2026-07-29. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes 23 translated packages from this repository. Its summaries
+This page includes 27 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -47,6 +47,18 @@ each package's documentation for validation status and precise API coverage.
   analytical and bootstrap forecasts.
 - [`forecast`](../forecast/) provides forecasting methods for
   exponential-smoothing, ARIMA, BATS, TBATS, and related time-series models.
+- [`KFAS`](../KFAS/) provides Kalman filtering and smoothing for Gaussian and
+  exponential-family state-space models, including diffuse initialization,
+  non-Gaussian approximation, and importance sampling.
+
+## Structural changes
+
+- [`strucchange`](../strucchange/) provides structural-change tests,
+  breakpoint estimation, fluctuation processes, confidence intervals, and
+  monitoring boundaries for regression and time-series models.
+- [`changepoint`](../changepoint/) detects changes in means, variances,
+  distributions, and regression relationships using AMOC, PELT, binary
+  segmentation, segment-neighborhood, CUSUM, and CROPS methods.
 
 ## Conditional variance models
 
@@ -92,6 +104,9 @@ each package's documentation for validation status and precise API coverage.
 - [`tsmarch`](../tsmarch/) provides DCC, asymmetric DCC, copula-GARCH, and
   GO-GARCH workflows with multivariate volatility forecasting, higher-order
   conditional moments, diagnostics, simulation, and risk calculations.
+- [`vars`](../vars/) provides VAR estimation and lag selection, restrictions,
+  forecasting, impulse responses, forecast-error variance decompositions,
+  causality tests, and structural VAR identification.
 
 ## Continuous-time models
 

@@ -103,6 +103,9 @@ test and demo groups totaling about 4.9 KiB.
 | `tweedie` | `statmod` |
 | `urca` | `forecast` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
+| `rfortran-optional` | `rfortran-core`, `rfortran-linalg` |
+| `rfortran-core` | `bayesm`, `changepoint`, `corpcor`, `DiscreteWeibull`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `gkwdist`, `isotone`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim` |
+| `rfortran-linalg` | `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `compositions`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `gmm`, `gogarch`, `irlba`, `ks`, `lgarch`, `matchingMarkets`, `matrixdist`, `mclust`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `tsdyn`, `tvgarch`, `vars` |
 
 For the earlier consolidation passes, each canonical package and affected
 consumer passed its FPM test suite before the redundant tree was removed.
@@ -123,6 +126,11 @@ linkage on Windows. `forecast` compiles with the canonical dependencies but
 likewise awaits migration of `urca` away from system BLAS/LAPACK flags.
 The four `TruncatedNormal` targets pass individually; an all-target FPM build
 can encounter a Windows executable-file race.
+The newly committed `classInt`, `deldir`, `e1071`, and `multcomp` translations
+currently retain package-local snapshots of `e1071`, `polyclip`, `proxy`, and
+`mvtnorm`, respectively. Those pinned copies are not counted as shared
+consumers above; replacing them with the canonical top-level translations
+requires API and regression validation in a later consolidation pass.
 Unreferenced private dependency trees were also removed from `PSDistr`,
 `compositions`, `NlcOptim`, `Directional`, `tsa`, `survey`, `mstate`, and
 `trawl` after their suites passed without them. The reusable ECOS-MatrixExtra

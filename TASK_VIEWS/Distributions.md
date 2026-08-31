@@ -2,11 +2,11 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Probability Distributions](https://CRAN.R-project.org/view=Distributions), maintained by
-Christophe Dutang, Patrice Kiener, Bruce J. Swihart, version 2026-08-21. The
+Christophe Dutang, Patrice Kiener, Bruce J. Swihart, version 2026-08-29. The
 [source task view](https://github.com/cran-task-views/Distributions/blob/main/Distributions.md) provides the broader annotated
 guide to R packages.
 
-This page includes 119 translated packages. Package membership and broad
+This page includes 121 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -147,6 +147,7 @@ API coverage and validation status.
 
 ## Moments, skewness, kurtosis and etc
 
+- [`e1071`](../e1071/) - Provides support-vector machines, clustering, naive Bayes, nearest neighbors, and related statistical methods.
 - [`moments`](../moments/) - Computes moments, cumulants, skewness, kurtosis, and related tests.
 
 ## Random number generators
@@ -160,6 +161,7 @@ API coverage and validation status.
 
 - [`pdqutils`](../pdqutils/) - Provides distribution approximations using Gram-Charlier, Edgeworth, and Cornish-Fisher expansions.
 - [`DPQ`](../DPQ/) - Provides accurate density, probability, and quantile calculations and approximations.
+- [`LearnBayes`](../LearnBayes/) - Provides Bayesian teaching, inference, simulation, and posterior-computation algorithms.
 - [`MASS`](../MASS/) - Provides statistical methods from Venables and Ripley's MASS.
 - [`fitdistrplus`](../fitdistrplus/) - Fits parametric distributions to censored and uncensored data.
 - [`msm`](../msm/) - Fits continuous-time multi-state and hidden Markov models.

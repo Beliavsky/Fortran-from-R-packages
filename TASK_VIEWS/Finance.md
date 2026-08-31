@@ -6,7 +6,7 @@ Dirk Eddelbuettel, version 2026-08-25. The
 [source task view](https://github.com/cran-task-views/Finance/blob/main/Finance.md) provides the broader annotated
 guide to R packages.
 
-This page includes 85 translated packages. Package membership and broad
+This page includes 87 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -19,6 +19,7 @@ API coverage and validation status.
 
 - [`nlme`](../nlme/) - Fits linear and nonlinear mixed-effects models.
 - [`lmtest`](../lmtest/) - Provides diagnostic and hypothesis tests for linear regression models.
+- [`strucchange`](../strucchange/) - Tests, estimates, and monitors structural changes in regression and time-series models.
 - [`urca`](../urca/) - Performs unit-root, stationarity, cointegration, and structural-break analysis.
 - [`sandwich`](../sandwich/) - Computes robust sandwich covariance-matrix estimators.
 
@@ -37,6 +38,7 @@ API coverage and validation status.
 - [`lgarch`](../lgarch/) - Simulates and estimates log-GARCH models.
 - [`garchx`](../garchx/) - Fits GARCH models with exogenous covariates.
 - [`fmultivar`](../fmultivar/) - Provides multivariate distributions and financial-data analysis.
+- [`vars`](../vars/) - Fits, diagnoses, forecasts, and analyzes vector autoregressive and structural VAR models.
 - [`waveslim`](../waveslim/) - Provides one-, two-, and three-dimensional wavelet methods.
 - [`tserieschaos`](../tserieschaos/) - Analyzes nonlinear and chaotic time series.
 - [`tsdyn`](../tsdyn/) - Fits nonlinear time-series models with regime switching.
