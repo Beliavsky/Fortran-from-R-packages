@@ -1,0 +1,17 @@
+name = "mice"
+version = "3.19.0"
+license = "GPL-2.0-or-later"
+author = "Stef van Buuren, Karin Groothuis-Oudshoorn, and mice contributors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Modern Fortran translation of computational kernels from the R package mice"
+categories = ["statistics", "missing-data", "imputation"]
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
