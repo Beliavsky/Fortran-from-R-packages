@@ -1,0 +1,17 @@
+name = "TMB"
+version = "1.9.25"
+license = "GPL-2.0-only"
+author = "Kasper Kristensen et al.; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran translation of portable computational components from TMB"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

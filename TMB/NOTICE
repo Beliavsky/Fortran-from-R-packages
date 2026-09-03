@@ -1,0 +1,20 @@
+TMB Fortran translation provenance
+=================================
+
+Upstream package: TMB 1.9.25 (Template Model Builder)
+Upstream authors/copyright holders: Kasper Kristensen and contributors listed in DESCRIPTION;
+Bradley M. Bell for bundled CppAD portions; Robert Gentleman, Ross Ihaka and the R Development
+Core Team for spline-related upstream code; see the original TMB inst/COPYRIGHTS.
+Upstream URL: https://github.com/kaskr/adcomp
+Upstream license: GPL-2 for TMB. The original distribution also bundles separately licensed
+third-party components. No third-party CppAD, Eigen, CHOLMOD, BLAS, LAPACK, ARPACK, R, or Rcpp
+source is copied into this translation.
+
+This translation preserves algorithmic provenance for portable numerical components derived from
+TMB headers including distributions_R.hpp and tmbutils/{density,interpol,kronecker,matexp,romberg,
+order}.hpp. The original C++ automatic-differentiation engine, template compiler/runtime glue,
+R interface, plotting/interactive functions, CHOLMOD integration, and bundled third-party source
+are intentionally not copied.
+
+The Fortran source is distributed under GPL-2.0-only, matching the TMB code from which these
+algorithms were translated. See LICENSE.
