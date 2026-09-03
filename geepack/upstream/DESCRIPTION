@@ -1,0 +1,33 @@
+Package: geepack
+Version: 1.3.13
+Title: Generalized Estimating Equation Package
+Authors@R: c(
+    person(given = "Søren", family = "Højsgaard",
+        email = "sorenh@math.aau.dk", role = c("aut", "cre", "cph")),
+    person(given = "Ulrich", family = "Halekoh",
+        email = "uhalekoh@health.sdu.dk", role = c("aut", "cph")),
+    person(given = "Jun", family = "Yan",
+        email = "jun.yan@uconn.edu", role = c("aut", "cph")),
+    person(given = "Claus Thorn", family = "Ekstrøm",
+        email = "ekstrom@sund.ku.dk", role = c("ctb"))	
+  )     
+Maintainer: Søren Højsgaard <sorenh@math.aau.dk>
+Description: Generalized estimating equations solver for parameters in
+    mean, scale, and correlation structures, through mean link,
+    scale link, and correlation link. Can also handle clustered
+    categorical responses. See e.g. Halekoh and Højsgaard, (2005,
+    <doi:10.18637/jss.v015.i02>), for details. 
+Encoding: UTF-8
+LazyData: true
+License: GPL (>= 3)
+NeedsCompilation: yes
+Depends: R (>= 3.5.0), methods
+Imports: MASS, broom, magrittr
+RoxygenNote: 7.3.2
+Packaged: 2025-10-14 05:22:41 UTC; sorenh
+Author: Søren Højsgaard [aut, cre, cph],
+  Ulrich Halekoh [aut, cph],
+  Jun Yan [aut, cph],
+  Claus Thorn Ekstrøm [ctb]
+Repository: CRAN
+Date/Publication: 2025-10-14 06:10:02 UTC

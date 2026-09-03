@@ -1,0 +1,11 @@
+$ fpm build
+bash: line 4: fpm: command not found
+exit=127
+
+$ fpm test
+bash: line 8: fpm: command not found
+exit=127
+
+$ fpm clean --all
+bash: line 12: fpm: command not found
+exit=127
