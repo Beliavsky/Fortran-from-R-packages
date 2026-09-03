@@ -1,0 +1,29 @@
+Package: gRain
+Version: 1.4.6
+Title: Bayesian Networks
+Authors@R: person(given = "Søren",
+                    family = "Højsgaard",
+                    role = c("aut", "cre"),
+                    email = "sorenh@math.aau.dk")
+Maintainer: Søren Højsgaard <sorenh@math.aau.dk>
+Description: Probability propagation in Bayesian networks, also known as graphical independence networks. Documentation
+    of the package is provided in vignettes included in the package and in
+    the paper by Højsgaard (2012, <doi:10.18637/jss.v046.i10>).
+    See 'citation("gRain")' for details. 
+License: GPL (>= 2)
+Depends: R (>= 4.2.0), methods, gRbase (>= 2.0.2),
+Suggests: bnlearn, gRim, knitr, markdown, microbenchmark, Rgraphviz,
+        testthat (>= 2.1.0)
+Imports: igraph, stats4, broom, Rcpp (>= 0.11.1)
+URL: https://people.math.aau.dk/~sorenh/software/gR/
+Encoding: UTF-8
+VignetteBuilder: knitr
+LazyLoad: true
+LinkingTo: Rcpp (>= 0.11.1), RcppArmadillo, RcppEigen, gRbase
+ByteCompile: Yes
+RoxygenNote: 7.3.3
+NeedsCompilation: yes
+Packaged: 2026-03-02 10:02:43 UTC; sorenh
+Author: Søren Højsgaard [aut, cre]
+Repository: CRAN
+Date/Publication: 2026-03-02 10:30:02 UTC
