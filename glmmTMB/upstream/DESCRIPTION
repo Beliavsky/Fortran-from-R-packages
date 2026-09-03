@@ -1,0 +1,103 @@
+Package: glmmTMB
+Title: Generalized Linear Mixed Models using Template Model Builder
+Version: 1.1.14
+Authors@R: c(person("Mollie","Brooks",
+		comment=c(ORCID="0000-0001-6963-8326"),
+		role = c("aut", "cre"),
+		email = "mollieebrooks@gmail.com"),
+	person("Ben","Bolker", role="aut",
+		comment=c(ORCID="0000-0002-2127-0443")),
+	person("Kasper","Kristensen",role="aut"),
+	person("Martin","Maechler", role="aut",
+		comment=c(ORCID="0000-0002-8685-9910")),
+	person("Arni","Magnusson", role="aut",
+		comment=c(ORCID="0000-0003-2769-6741")),
+	person("Maeve","McGillycuddy", role="ctb"),
+	person("Hans","Skaug",role="aut",
+	        comment=c(ORCID="0000-0003-4235-2592")),
+	person("Anders","Nielsen", role="aut",
+		comment=c(ORCID="0000-0001-9683-9262")),
+	person("Casper","Berg", role="aut",
+		comment=c(ORCID="0000-0002-3812-5269")),
+	person("Koen","van Bentham", role="aut"),
+	person("Nafis","Sadat",role="ctb",
+		comment=c(ORCID="0000-0001-5715-616X")),
+	person("Daniel","Lüdecke", role="ctb",
+		comment=c(ORCID="0000-0002-8895-3206")),
+	person("Russ","Lenth", role="ctb"),
+	person("Joseph", "O'Brien", role = "ctb",
+		comment = c(ORCID = "0000-0001-9851-5077")),
+	person("Charles J.","Geyer", role="ctb"),
+	person("Mikael","Jagan", role="ctb",
+		comment = c(ORCID = "0000-0002-3542-2938")),
+	person("Brenton", "Wiernik", role="ctb",
+		comment = c(ORCID = "0000-0001-9560-6336")),
+	person("Daniel B.", "Stouffer", role="ctb",
+		comment = c(ORCID = "0000-0001-9436-9674")),
+  person("Michael", "Agronah", role = "ctb",
+    comment = c(ORCID = "0009-0007-2655-4094")),
+  person("Hatice Tül Kübra", "Akdur", role = "ctb",
+    comment = c(ORCID = "0000-0003-2144-0518")),
+  person("Daniel", "Sabanés Bové", role = "ctb",
+    comment = c(ORCID = "0000-0002-0176-9239")),
+  person("Nikolas", "Krieger", role = "ctb",
+    comment = c(ORCID = "0000-0002-4581-3545")),
+  person("Coralie", "Williams", role = "ctb",
+    comment = c(ORCID = "0000-0003-1312-4953"))
+	)
+Description: Fit linear and generalized linear mixed models with various
+    extensions, including zero-inflation. The models are fitted using maximum
+    likelihood estimation via 'TMB' (Template Model Builder). Random effects are
+    assumed to be Gaussian on the scale of the linear predictor and are integrated
+    out using the Laplace approximation. Gradients are calculated using automatic
+    differentiation.
+License: AGPL-3
+Depends: R (>= 3.6.0)
+Imports: methods, TMB (>= 1.9.0), lme4 (>= 1.1-18.9000), Matrix, nlme,
+        numDeriv, mgcv, reformulas (>= 0.4.3.1), pbkrtest, sandwich
+LinkingTo: TMB, RcppEigen
+Suggests: knitr, rmarkdown, testthat, MASS, lattice, ggplot2 (>=
+        2.2.1), mlmRev, bbmle (>= 1.0.19), pscl, coda, reshape2, car
+        (>= 3.0.6), emmeans (>= 1.4), estimability, DHARMa, multcomp,
+        MuMIn, effects (>= 4.0-1), dotwhisker, broom, broom.mixed,
+        plyr, png, boot, texreg, xtable, huxtable, parallel, blme,
+        purrr, dplyr, ade4, ape, gsl, lmerTest, metafor
+SystemRequirements: GNU make
+VignetteBuilder: knitr, rmarkdown
+URL: https://github.com/glmmTMB/glmmTMB
+LazyData: TRUE
+BugReports: https://github.com/glmmTMB/glmmTMB/issues
+NeedsCompilation: yes
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Packaged: 2026-01-14 11:55:16 UTC; molliebrooks
+Author: Mollie Brooks [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-6963-8326>),
+  Ben Bolker [aut] (ORCID: <https://orcid.org/0000-0002-2127-0443>),
+  Kasper Kristensen [aut],
+  Martin Maechler [aut] (ORCID: <https://orcid.org/0000-0002-8685-9910>),
+  Arni Magnusson [aut] (ORCID: <https://orcid.org/0000-0003-2769-6741>),
+  Maeve McGillycuddy [ctb],
+  Hans Skaug [aut] (ORCID: <https://orcid.org/0000-0003-4235-2592>),
+  Anders Nielsen [aut] (ORCID: <https://orcid.org/0000-0001-9683-9262>),
+  Casper Berg [aut] (ORCID: <https://orcid.org/0000-0002-3812-5269>),
+  Koen van Bentham [aut],
+  Nafis Sadat [ctb] (ORCID: <https://orcid.org/0000-0001-5715-616X>),
+  Daniel Lüdecke [ctb] (ORCID: <https://orcid.org/0000-0002-8895-3206>),
+  Russ Lenth [ctb],
+  Joseph O'Brien [ctb] (ORCID: <https://orcid.org/0000-0001-9851-5077>),
+  Charles J. Geyer [ctb],
+  Mikael Jagan [ctb] (ORCID: <https://orcid.org/0000-0002-3542-2938>),
+  Brenton Wiernik [ctb] (ORCID: <https://orcid.org/0000-0001-9560-6336>),
+  Daniel B. Stouffer [ctb] (ORCID:
+    <https://orcid.org/0000-0001-9436-9674>),
+  Michael Agronah [ctb] (ORCID: <https://orcid.org/0009-0007-2655-4094>),
+  Hatice Tül Kübra Akdur [ctb] (ORCID:
+    <https://orcid.org/0000-0003-2144-0518>),
+  Daniel Sabanés Bové [ctb] (ORCID:
+    <https://orcid.org/0000-0002-0176-9239>),
+  Nikolas Krieger [ctb] (ORCID: <https://orcid.org/0000-0002-4581-3545>),
+  Coralie Williams [ctb] (ORCID: <https://orcid.org/0000-0003-1312-4953>)
+Maintainer: Mollie Brooks <mollieebrooks@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-01-15 06:10:22 UTC
