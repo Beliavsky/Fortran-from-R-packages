@@ -1,0 +1,34 @@
+Package: fda
+Version: 6.3.0
+Date: 2025-05-21
+Title: Functional Data Analysis
+Authors@R: c(person("James", "Ramsay", role=c("aut","cre"),
+             email="ramsay@psych.mcgill.ca"), 
+             person("Giles", "Hooker", role="ctb",
+             email="gjh27@cornell.edu"),
+             person("Spencer", "Graves", role="ctb",
+             email="spencer.graves@effectivedefense.org"))
+Depends: R (>= 3.5), splines, fds, deSolve
+Suggests: rmarkdown, knitr, lattice
+Description: These functions were developed to support functional data
+ analysis as described in Ramsay, J. O. and Silverman, B. W.
+ (2005) Functional Data Analysis. New York: Springer and in 
+ Ramsay, J. O., Hooker, Giles, and Graves, Spencer (2009). 
+ Functional Data Analysis with R and Matlab (Springer). 
+ The package includes data sets and script files working many examples 
+ including all but one of the 76 figures in this latter book.  Matlab versions 
+ are available by ftp from 
+ <https://www.psych.mcgill.ca/misc/fda/downloads/FDAfuns/>.
+License: GPL (>= 2)
+URL: http://www.functionaldata.org
+LazyData: true
+BuildVignettes: yes
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2025-05-21 18:28:12 UTC; jamesramsay
+Author: James Ramsay [aut, cre],
+  Giles Hooker [ctb],
+  Spencer Graves [ctb]
+Maintainer: James Ramsay <ramsay@psych.mcgill.ca>
+Repository: CRAN
+Date/Publication: 2025-05-21 19:10:02 UTC
