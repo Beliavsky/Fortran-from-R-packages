@@ -1,0 +1,24 @@
+name = "pbkrtest"
+version = "0.5.5"
+license = "GPL-2.0-or-later"
+author = "Ulrich Halekoh, Soren Højsgaard; Fortran translation"
+maintainer = "Fortran translation maintainers"
+description = "Fortran computational kernels from the R package pbkrtest"
+keywords = ["mixed-models", "Kenward-Roger", "Satterthwaite", "parametric-bootstrap"]
+categories = ["statistics", "numerical"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+numDeriv-fortran = { path = "../numDeriv" }
