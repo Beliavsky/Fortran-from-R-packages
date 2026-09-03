@@ -1,0 +1,70 @@
+useDynLib(MCMCglmm, .registration = TRUE)
+import(Matrix)
+import(ape)
+importFrom(tensorA, to.tensor)
+importFrom(corpcor, is.positive.definite)
+importFrom(cubature, adaptIntegrate)
+import(coda)
+importFrom(stats, simulate)
+importFrom(grDevices, devAskNewPage)
+importFrom(graphics, plot)
+importFrom(methods, as, is)
+importFrom(stats, D, as.formula, density, get_all_vars, glm, lm, model.frame, model.matrix, na.omit, plogis, pnorm, printCoefmat, qnorm, quantile, reshape, rnorm, runif, sd, terms, update.formula, var, dnorm, dpois, integrate, pexp, qpois, rbinom, dbinom, qbinom, rexp, rgeom, rmultinom, rpois, rt)
+export(
+#  buildZ,
+#  find.components,
+#  split.direct.sum,
+  commutation,
+  Dtensor,
+  evalDtensor,
+  gelman.prior,
+  Ddivergence,
+  knorm,
+  KPPM, 
+  krzanowski.test,
+  kunif,
+  list2bdiag,
+  MCMCglmm,
+  mult.memb,
+  sir,
+  posterior.mode,
+  posterior.cor,
+  posterior.evals,
+  posterior.ante,
+  posterior.inverse,
+  plotsubspace,
+#  priorformat,
+  Ptensor,
+  Tri2M,
+  rbv,
+  rIW,
+  prunePed,
+  Dexpressions,
+  inverseA,
+  sm2asreml,
+  list2bdiag,
+  at.set,
+  at.level,
+#  leg,
+  rtnorm,
+  rtcmvnorm,
+  dcmvnorm,
+  spl,
+  summary.MCMCglmm,
+  predict.MCMCglmm,
+  simulate.MCMCglmm,
+  residuals.MCMCglmm,
+  plot.MCMCglmm,
+  buildV,
+  path,
+# rante,
+# close.bracket,
+   me,
+   pkk
+) 
+S3method(summary, MCMCglmm)
+S3method(print, summary.MCMCglmm)
+S3method(predict, MCMCglmm)
+S3method(simulate, MCMCglmm)
+S3method(residuals, MCMCglmm)
+S3method(plot, MCMCglmm)

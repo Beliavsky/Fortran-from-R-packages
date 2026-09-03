@@ -1,0 +1,25 @@
+name = "MCMCglmm"
+version = "0.5.0"
+license = "GPL-2.0-or-later"
+author = "Jarrod Hadfield (upstream); Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+copyright = "MCMCglmm copyright Jarrod Hadfield; see NOTICE.md"
+homepage = "https://github.com/jarrodhadfield/MCMCglmm"
+description = "Modern Fortran translation of computational kernels from the R package MCMCglmm"
+categories = ["statistics", "bayesian", "mixed-models", "mcmc"]
+keywords = ["MCMCglmm", "GLMM", "MCMC", "pedigree", "inverse-Wishart"]
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+ape = { path = "../ape" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
