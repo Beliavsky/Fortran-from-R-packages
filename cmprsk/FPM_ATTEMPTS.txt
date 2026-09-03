@@ -1,0 +1,14 @@
+$ command -v fpm
+$ fpm build
+bash: line 4: fpm: command not found
+exit=127
+$ fpm test
+bash: line 5: fpm: command not found
+exit=127
+$ fpm clean --all
+bash: line 6: fpm: command not found
+exit=127
+$ command -v fprettify
+$ fpm clean --all (final pre-archive attempt)
+bash: line 10: fpm: command not found
+exit=127
