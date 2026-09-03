@@ -1,0 +1,21 @@
+name = "gRbase"
+version = "2.0.3"
+license = "GPL-2.0-or-later"
+author = "Soren Hojsgaard and gRbase contributors; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Native Fortran translation of the computational core of R gRbase"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+igraph-fortran = { path = "../igraph" }

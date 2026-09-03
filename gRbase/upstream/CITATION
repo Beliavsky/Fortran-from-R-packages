@@ -1,0 +1,20 @@
+citHeader("To cite gRbase in publications use:")
+
+bibentry(bibtype = "Article",
+  title        = "A Common Platform for Graphical Models in {R}: The {gRbase} Package",
+  author       = c("Claus Dethlefsen", 
+                   "S{\\o}ren H{\\o}jsgaard"),
+  journal      = "Journal of Statistical Software",
+  year         = "2005",
+  volume       = "14",
+  number       = "17",
+  pages        = "1--12",
+  url          = "https://www.jstatsoft.org/v14/i17/",
+
+  textVersion  =
+  paste("Claus Dethlefsen, Søren Højsgaard (2005).",
+        "A Common Platform for Graphical Models in R: The gRbase Package.",
+        "Journal of Statistical Software, 14(17), 1-12.",
+        "URL https://www.jstatsoft.org/v14/i17/.")
+)
+
