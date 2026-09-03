@@ -1,0 +1,18 @@
+name = "Rmpfr"
+version = "1.1.2"
+license = "GPL-2.0-or-later"
+author = "Martin Maechler and Rmpfr contributors; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of Rmpfr using GNU MPFR"
+homepage = "https://rmpfr.r-forge.r-project.org/"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+link = ["mpfr", "gmp"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"

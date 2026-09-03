@@ -1,0 +1,565 @@
+2015-04-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* inst/NEWS.Rd: new; this 'ChangeLog' should not be used anymore
+
+2015-02-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (matrix.mpfr): new S3 method for 'matrix(<mpfr>, ...)',
+	mostly to help confused users.
+
+	* R/special-fun.R (pnorm, j0, ...): do *NOT* use as(x, "mpfr") when
+	'x' is an "mpfrMatrix" / "mpfrArray" (-> uses dim(), etc!)
+
+2015-02-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (norm): new matrix norm()'s of "all kinds"
+
+2014-12-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.6-0
+	* is.finite(M), is.na(M) now keep dim() for "mpfrArray" inputs.
+
+2014-11-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-7, released to CRAN, 2014-11-27, r205
+	* R/as.R (as.integer): fix bug, ensuring that "Z" rounding is used
+
+2014-09-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/as.R (mpfrImport, mpfrXport): new utilities, somewhat experimental
+
+2014-06-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/integrate-Romberg.R (integrateR): when 'ord' is specified and
+	one of 'rel.tol' or 'abs.tol', convergence is checked, and if
+	achieved, computations stop earlier.  When 'ord' is NULL (default),
+	and '*.tol' is specified, continue until convergence (or memory
+	explosion). The default (none of these specified) is to try
+	convergence up to 'ord = 13'.
+
+	* DESCRIPTION (Version): 0.5-6, released to CRAN, 2014-09-05, r203
+
+	* R/as.R (mpfr): also allow rounding mode "A" (= "Away from zero")
+	* R/array.R (mpfrArray): as that is supported from MPFR 3.0.0 on
+
+	* R/array.R (toNum): new optional argument 'rnd.mode'
+
+	* man/mpfr.Rd: doku and mini check
+	* src/convert.c (R_rnd2MP): allow "A" as well
+	* src/convert.c (mpfr2d, mpfr2i): extra argument rnd_mode.
+	NOTA BENE: "D" rounding previously, but new default is "N".
+	Consequently, asNumeric(x) etc give 'Inf' instead of 1.797693e+308.
+
+	* R/gmp-convert.R (..bigz2mpfr,...): add 'rnd.mode' argument
+
+
+2014-06-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-5  released to CRAN, 2014-06-19, r190
+
+	* R/integrate-Romberg.R (print.integrateR): own print method: print
+	  _value_ even when warning.
+
+2014-05-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* vignettes/log1mexp-note.Rnw: update to log1pexp(); cosmetics
+
+2014-05-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/special-fun.R: pbetaI(a,b) for larger (a,b); new mpfr versions of
+	* man/distr-etc.Rd: dbinom(), dpois(), dnorm()
+
+	* R/mpfr.R (mpfr_default_prec, .mpfr.minPrec, .mpfr.erange, ..):
+	* src/utils.c (R_mpfr_get_default_prec, ...): new functions to
+	get, check, (and partly working) set default exponent ranges and precision.
+
+2014-01-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Ops.c (Math_mpfr): new sinpi(), cospi() for R >= 3.1.0
+
+2013-10-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-4, released to CRAN, 2013-10-22, r173
+	Now again depends on 'methods' (instead of just importing).
+
+2013-05-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (.mat2ind): from a proposal by Serguei Sokol,
+	new utility, to be used for matrix subsetting and replacement,
+	in .mpfr.subset() and .mpfr.repl().
+__FIXME__ add checking code!
+
+2013-02-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Math.R (sumBinomMpfr): oops: docu had (-1)^k instead of (-1)^(n-k);
+	alternating=FALSE has been wrong, since (r101, 2012-05-15)
+
+2013-02-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/gmp-convert.R (..bigq2mpfr): precB = NULL --> at least 128
+
+2013-02-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-2
+	* R/as.R (asNumeric): new function; mainly for 'mpfrArray'
+
+	* src/Ops.c (R_mpfr_mod): for Arith_mpfr[_i|_d]), R's %% and %/%:
+	now working correctly, checked in
+	* tests/arith-ex.R:
+
+	* R/array.R (mkDet, determinant): provide recursive method for
+	determinant() and hence det(). *Only* for small matrices !!
+
+	* src/Summary.c (R_mpfr_sumprod): new for sum(x * y)  ==  x %*% y
+	-> 20-40% faster matrix multiplication {still not fast!}.
+
+2012-12-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-1, released to CRAN 2012-12-03
+
+	* man/Rmpfr-package.Rd: a nice overview help page
+	* inst/doc/log1mexp-note.Rnw: cosmetic changes {would be ready to submit now}.
+
+2012-06-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-0, released to CRAN on 2012-07-07
+
+	* R/as.R (mpfr): <bigz> or <bigq> arguments now "work" (with a warning).
+
+	* R/gmp-convert.R (.bigz2mpfr, .bigq2mpfr): new optional argument
+	\code{precB}, typically for increasing the default precision.
+
+2012-06-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/optimizers.R (optimizeR): new simple golden ratio, thanks to
+	Hans Werner Borchers.
+
+2012-05-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version, Depends): 0.4-8, released to CRAN on 2012-05-23
+
+	* R/mpfr.R (diff.mpfr): new method; as diff.default() commits unclass(x)
+	(str.mpfr): new.
+
+2012-05-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/as.R (formatN.mpfr): add method
+	* NAMESPACE: import S3 generic 'formatN' from gmp.
+
+2012-05-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* NAMESPACE: import S3 generic 'is.whole' from gmp( >= 0.5-2) now.
+	* man/is.whole.Rd: only mpfr method.
+
+2012-04-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version, Depends): 0.4-7; depend on new gmp;
+	can get rid of  if(<gmp recent enough>) tests.
+
+	* R/gmp-convert.R (.bigq2mpfr): new.
+
+2012-02-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.4-6, released to CRAN on 2012-02-06;
+	(Depends): gmp, not just "suggest", so we have a well-defined
+	search() path order: Rmpfr comes before gmp.
+
+	* R/special-fun.R (pnorm): much improved partly bad code, thanks to
+	a report from Jerry Lewis.
+
+2012-01-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/utils.c (my_mpfr_choose, my_mpfr_poch): fix case n == 0.
+
+	* R/mpfr.R, R/array.R: add argument 'right = TRUE' to the print()
+	* man/mpfr-utils.Rd: methods which looks better, e.g., for integers.
+
+	* src/utils.c (R_MPFR_2_Numeric_Function)
+	(R_MPFR_2_Num_Long_Function): do *not* warn anymore when arguments
+	are of "non-matching" lengths.
+
+	* R/Math.R (chooseMpfr.all): new arguments 'k0', 'alternating'
+	and 'precBits'.
+
+2011-12-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.4-5
+
+	* src/convert.c (mpfr2str): dig_n_max was off
+
+2011-11-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.4-4, released to CRAN on 2011-11-30
+
+	* src/Ops.c (Compare_mpfr, etc): fix (silly!) nx * ny integer
+	overflow; problem reported by Anton Korobeynikov.
+
+	* R/unirootR.R: produce warning when convergence happen to "pole".
+
+2011-09-08  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.4-3, released to CRAN on 2011-09-09
+
+	* R/array.R (applyMpfr): -> apply() method for "mfprArray"
+	(mpfr2array): fix for the case of  dim(<mpfrArray>) <- <newDim>
+	(colSums, etc): also add simple methods for colSums, rowMeans, etc.
+
+	* man/mpfrArray.Rd: add apply() examples
+
+2011-08-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/unirootR.R (unirootR): R-only version of uniroot(), carefully ensuring
+	* man/unirootR.Rd: that as.numeric(.) is used only in some cases;
+	thanks to John Nash's very recent R code in his 'rootoned' package.
+
+2011-08-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Arith.R: add "Logic" methods (mpfr, numeric), avoiding
+	inf.recursion.
+	* tests/arith-ex.R: now checks that.
+
+2011-08-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.4-2,  now with a
+	* NAMESPACE:
+
+2011-07-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Ops.c (Rmpfr_minus, Rmpfr_abs): new C versions,
+	called in
+	* R/Arith.R
+	* R/Math.R
+
+2011-07-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (mpfr2array): speedup, not using new(cl, ...) for
+	check=FALSE (= new default).
+
+2011-07-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R ([[): finished adding a '[[' method which returns one
+	"mpfr" number (instead of a "mpfr1" one).  Needed a bit of changes,
+	notably in .getPrec() etc.
+
+2011-05-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.3-0 -- "finished" integrateR(); using vapply()
+
+2011-04-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/special-fun.R (Bernoulli): B(0) = 1  now also works.
+
+2011-03-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/integrate-Romberg.R (integrateR): new pure Rfunction for Romberg
+	integration; works with "mpfr".
+	* man/integrateR.Rd: docu & examples.
+
+2011-01-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Math.R (roundMpfr): "round" to precBits (bits!) also to
+	*increase* precision for further computation.
+	* src/utils.c (my_mpfr_round): C implementation.
+	* R/Math.R (factorialMpfr, pochMpfr): new functions, e.g., as tools
+	for choose().
+	* src/utils.c (my_mpfr_poch, R_mpfr_fac): underlying C code.
+
+2011-01-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/as.R (formatMpfr): fix the case where 'Ex == digits'
+
+2011-01-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Ops.c (Math_mpfr): enable digamma() for mpfr 3.0.0 and later
+	(Math_mpfr): implement  cummax(), cummin(), cumprod(), cumsum()
+
+	* src/Ops.c, R/special-fun.R: enable Airy function ai()
+
+2011-01-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (.getPrec): return default precision instead of NULL for
+	0-length input; this enables  <mpfr>[FALSE] <- 1.
+
+	* R/array.R (mpfr2array): new utility as alternative to 'dim(.) <- *'
+
+	* R/as.R (mpfr): now also works with matrix or array input,
+	returning "mpfrArray"/"..Matrix".
+
+2011-01-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.2-4
+
+	* R/Math.R (factorial): improve integer test (thanks to Petr Savicky).
+
+2010-01-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.2-3
+
+	* src/convert.c (R_rnd2GMP): new; allow to specify
+	"rounding mode" from R. For now, for conversion to MPFR.
+	Change default to use (round to) [N]earest rather than [D]ownwards.
+
+
+2010-01-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.2-2
+
+	* R/as.R (formatMpfr): add 'showNeg0' argument, and fix printing of
+	zeros.
+
+	* R/mpfr.R ([): ensure out-of-range indexing returns valid "mpfr".
+
+	* tests/create.R: test the above.
+
+2010-01-20  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (.getPrec, getPrec): previous getPrec() renamed to
+	.getPrec(); the new getPrec() also works for simple R "numbers",
+	and is used in mpfr(), and the following :
+
+	* R/mpfr.R ([<-): for non-"mpfr" value, use at least the previous
+	precision, following a chat with Petr Savicky.
+
+	* src/convert.c (d2mpfr1_list): ensure x is recycled when prec
+	is longer than x.
+	(str2mpfr1_list): ditto.
+
+2010-01-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.2-1
+
+	* R/array.R (.matmult.R): "obvious" speed up, replacing the
+	innermost for() loop by a sum(); inspired by a patch from Petr.
+	*However* the real speedup would use a .Call(..) directly!
+
+2010-01-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (.mpfr.repl, [<-): change such that  x[] <- 1  works;
+	also z[i] <- v when i is larger than length(z).
+
+	* tests/create.R: test the above.
+
+2010-01-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (.matmult.R): tcrossprod changes along to the bug fix
+	in R (!).
+
+	* DESCRIPTION (Version): 0.2-0
+
+2010-01-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R ([<-): define for more signatures
+	(%*%, crossprod, tcrossprod): extend signatures to include more
+	pairs, and using "Mnumber" instead of just "array_or_vector".
+
+	* tests/matrix-ex.R: test part of that
+
+	* man/*-class.Rd: additions, notably as.vector() and
+	as(<mpfrMatrix>, "vector").
+
+2010-01-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-8
+
+	* R/Math.R (.mpfr.sign): fix to ensure sign(0) |-> 0.  Reported by
+	Petr Savicky.
+	* tests/arith-ex.R: test it.
+
+	* src/init.c, src/convert.c (d2mpfr): outcomment unused function
+
+2009-10-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R: add "mpfrArray" -> "matrix" coercion
+
+	* R/Arith.R (Arith): fix length check in ("mpfr", "array")
+
+	* R/Consts.R (Const): nicer error message when 'name' is invalid.
+
+2009-10-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/special-fun.R (beta, lbeta): new methods added
+
+	* src/utils.c (my_mpfr_beta, my_mpfr_lbeta): own C functions,
+	calling mpfr_*() ones, for beta() and lbeta().
+
+	* tests/special-fun-ex.R (B,lB): add tests for beta(), lbeta()
+
+2009-09-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Makevars.win: -lmpfr *before* -lgmp  (does matter some places)
+
+2009-09-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (mpfrVersion): factor out .mpfrVersion()
+
+2009-09-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-7; released to CRAN
+
+	* R/mpfr.R (mpfrVersion): amend for funny version string on Debian
+	testings.
+
+	* R/mpfr.R (mpfrVersion): new utility
+	* src/utils.c (R_mpfr_get_version): C level
+	* man/utils.Rd: doc
+
+	* src/Ops.c (Math_mpfr): older MPFR libraries do not provide Li2().
+
+2009-09-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Math.R (factorial): method which rounds in integer case.
+	* man/mpfr-class.Rd: docu and examples.
+
+	* man/is.whole.Rd: new for new  is.whole()
+
+2009-09-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/special-fun.R (Li2): add Li2()
+
+	* man/mpfr-class.Rd: explicitly "enumerate" the 'Math' and
+	'Summary' group functions.
+
+2009-09-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-6, CRAN-released on 2009-09-04
+
+	* R/Math.R (Math2, i.e., round, signif): allow missing digits
+	{ => default digits = 0 or 6, respectively}.
+
+	* R/mpfr.R (print, etc): use drop0trailing = TRUE per default.
+
+	* R/as.R (formatMpfr): renamed from .format.mpfr; finalize using
+	prettyNum(), add corresponding arguments and document:
+	* man/formatMpfr.Rd: new
+
+	* src/convert.c (mpfr2str): allocate the char 'ch' ourselves,
+	carefully using R_alloc() and S_realloc(); unfortunately, the MPFR
+	allocator *still* messes with our SEXPs.
+
+2009-08-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (seqMpfr): seqMpfr(3,1)  works (again?)
+
+2009-08-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/convert.c (mpfr2str): be over-PROTECT()ive, as Kurt
+	reports VECTOR_ELT() errors on some platforms, and I can
+	"randomly systematically" reproduce them with gctorture().
+
+2009-08-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-5 -- release-ready
+
+	* man/seqMpfr.Rd, ...: add all missing *Rd pages.
+
+	* R/mpfr.R (seqMpfr): remove FIXME, using new pmin(), pmax().
+
+	* R/Math.R (Math2): group methods - for round() and signif()
+
+	* src/convert.c (mpfr2i): new, for as(. "integer")
+
+2009-08-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mpfr.R (pmin, pmax): now seem to work
+
+	* R/as.R (mpfr): as(<char>, "mpfr") now uses mpfr()
+	(mpfr): now also works for 'raw' and 'logical'; adding as(*,.) methods
+	==>  x[.] <- NA should work
+
+	* R/array.R (cbind, rbind): correct behavior when length/dims do
+	not quite match.
+
+	* R/array.R (dim<-): make work for NULL.
+
+	* tests/matrix-ex.R: test these.
+
+	* src/convert.c (d2mpfr, etc): PROTECT(.) all coerceVector()s.
+
+2009-04-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/mpfr-class.Rd: mention sort(),.., duplicated(), ...
+
+2009-04-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/convert.c (d2mpfr1_list, str2mpfr1_list): allow 'prec' to be
+	a vector.
+
+	* R/as.R (mpfr): now support mpfr(<character>, prec)
+	* src/convert.c (str2mpfr1_list): implement character |-> mpfr
+
+	* src/utils.c (R_mpfr_set_default_prec, *_get_*):
+
+	* R/array.R (cbind, rbind): also work when there are "character"
+
+	* R/AllClasses.R (array_or_vector): only contain 'atomicVector'
+
+2009-03-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Makevars.win: add this after suggestions from Uwe
+
+2009-02-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Arith.R (Compare): add missing ', .Generic' to some methods.
+	* tests/matrix-ex.R: testing 'A >= 3' etc
+
+2009-02-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (cbind, rbind): new "..." methods for cbind(), rbind(),
+	* R/AllClasses.R:  using new "Mnumber" class
+	* man/bind-methods.Rd: docu
+
+2009-01-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (aperm): method.
+
+	* R/AllClasses.R: 'Dimnames', not 'DimNames'
+	* R/Arith.R: use .Arith.mpfr.num() macros etc, and make sure, these
+	are used also in the <mpfr> o <array> cases.
+
+	* tests/matrix-ex.R: test array / mpfr
+
+
+2009-01-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (.mpfrA.subset): if A[...] has length(dim(.))== 2,
+	ensure it becomes an "mpfrMatrix"
+
+2009-01-24  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/array.R (mpfrArray): make more (user friendly) like array()
+	([<-): render working also for  A[i,j,k] <- val.
+	(.mpfrA.subset): make A[,,1] working
+	(.mA.subAssign): separate auxiliary function for more than 1 method
+
+2009-01-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/Ops.c (Math_mpfr): activate (trunc,floor,ceiling)
+
+	* tests/arith-ex.R: and test them minimally
+
+2009-01-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-1 -- another "snapshot"
+
+	* R/array.R (t . mpfr): -->  [ 1 x n ] - matrix
+
+	* R/Arith.R (.dimCheck): add  <mpfr> o <mpfrArray>  methods,
+		further  <mpfr> o <array> ones, etc.
+	* tests/matrix-ex.R: testing them
+
+2008-12-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Math.R: slightly re-write methods so they automagically work
+	for mpfrArray.
+
+	* R/array.R (.matmult.R): %*%, crossprod(), tcrossprod(), t(), ..
+	* tests/matrix-ex.R: new
+
+2008-12-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/AllClasses.R: add "mpfrArray" and "mpfrMatrix" classes.
+	* R/array.R (dim<-): from "mpfr" to "mpfrArray/Matrix"
+
+2008-12-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.1-0  -- "snapshot", not released.

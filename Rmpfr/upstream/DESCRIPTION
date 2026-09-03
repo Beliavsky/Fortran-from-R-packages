@@ -1,0 +1,50 @@
+Package: Rmpfr
+Title: Interface R to MPFR - Multiple Precision Floating-Point Reliable
+Version: 1.1-2
+VersionNote: Last CRAN: 1.1-1 on 2025-07-18; 1.1-0 on 2025-05-08; 1.0-0
+        on 2024-11-15
+Date: 2025-10-21
+Type: Package
+Authors@R: c(person("Martin","Maechler", role = c("aut","cre"),
+	     email = "maechler@stat.math.ethz.ch", comment = c(ORCID="0000-0002-8685-9910"))
+	, person(c("Richard", "M."), "Heiberger", role = "ctb", email="rmh@temple.edu",
+					comment = "formatHex(), *Bin, *Dec")
+	, person(c("John", "C."), "Nash", role = "ctb", email="nashjc@uottawa.ca",
+					comment = "hjkMpfr(), origin of unirootR()")
+	, person(c("Hans", "W."), "Borchers", role = "ctb", email="hwborchers@googlemail.com",
+					comment = "optimizeR(*, \"GoldenRatio\"); origin of hjkMpfr()")
+	, person("Mikael", "Jagan", role = "ctb", comment = c("safer convert.c; configure.ac etc", ORCID = "0000-0002-3542-2938"))
+	)
+Description: Arithmetic (via S4 classes and methods) for
+  arbitrary precision floating point numbers, including transcendental
+  ("special") functions.  To this end, the package interfaces to
+  the 'LGPL' licensed 'MPFR' (Multiple Precision Floating-Point Reliable) Library
+  which itself is based on the 'GMP' (GNU Multiple Precision) Library.
+SystemRequirements: gmp (>= 4.2.3), mpfr (>= 3.2.0), pdfcrop (part of
+        TexLive) is required to rebuild the vignettes.
+SystemRequirementsNote: 'MPFR' (MP Floating-Point Reliable Library,
+        https://www.mpfr.org/) and 'GMP' (GNU Multiple Precision
+        library, https://gmplib.org/), see >> README.md
+Depends: gmp (>= 0.6-1), R (>= 3.6.0)
+Imports: stats, utils, methods
+Suggests: DPQmpfr, MASS, Bessel, polynom, sfsmisc (>= 1.1-14)
+SuggestsNote: MASS, polynom, sfsmisc: only for vignette;
+Enhances: dfoptim, pracma, DPQ
+EnhancesNote: mentioned in Rd xrefs | used in example
+URL: https://rmpfr.r-forge.r-project.org/
+BugReports: https://r-forge.r-project.org/tracker/?group_id=386
+License: GPL (>= 2)
+Encoding: UTF-8
+NeedsCompilation: yes
+Packaged: 2025-10-21 15:11:29 UTC; maechler
+Author: Martin Maechler [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-8685-9910>),
+  Richard M. Heiberger [ctb] (formatHex(), *Bin, *Dec),
+  John C. Nash [ctb] (hjkMpfr(), origin of unirootR()),
+  Hans W. Borchers [ctb] (optimizeR(*, "GoldenRatio"); origin of
+    hjkMpfr()),
+  Mikael Jagan [ctb] (safer convert.c; configure.ac etc, ORCID:
+    <https://orcid.org/0000-0002-3542-2938>)
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Repository: CRAN
+Date/Publication: 2025-10-27 06:11:02 UTC
