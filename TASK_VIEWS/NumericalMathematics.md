@@ -6,7 +6,7 @@ Hans W. Borchers, Robin Hankin, Serguei Sokol, version 2026-07-20. The
 [source task view](https://github.com/cran-task-views/NumericalMathematics/blob/main/NumericalMathematics.md) provides the broader annotated
 guide to R packages.
 
-This page includes 22 translated packages. Package membership and broad
+This page includes 23 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -44,6 +44,7 @@ API coverage and validation status.
 
 ## Root Finding and Fixed Points
 
+- [`Rmpfr`](../Rmpfr/) - Provides arbitrary-precision arithmetic, special functions, probability kernels, and numerical algorithms using GNU MPFR.
 - [`rootSolve`](../rootSolve/) - Finds nonlinear roots, equilibria, and steady states of ordinary differential equations.
 - [`BB`](../BB/) - Solves and optimizes large-scale nonlinear systems.
 - [`nleqslv`](../nleqslv/) - Solves systems of nonlinear equations.

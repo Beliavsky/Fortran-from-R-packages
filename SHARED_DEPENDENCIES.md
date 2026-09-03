@@ -20,7 +20,7 @@ test and demo groups totaling about 4.9 KiB.
 | `rugarch` | `portvine`, `PWEV`, `quarks` |
 | `spacefillr` | `TruncatedNormal` |
 | `deSolve` | `rootSolve`, `hypergeo`, `flexsurv` |
-| `numDeriv` | `alabama`, `survey`, `compound.Cox`, `gkwdist`, `lavaan`, `flexsurv` |
+| `numDeriv` | `alabama`, `survey`, `compound.Cox`, `gkwdist`, `lavaan`, `flexsurv`, `pbkrtest` |
 | `roptim` | `alabama` |
 | `alabama` | `TruncatedNormal`, `mbbefd` |
 | `nleqslv` | `TruncatedNormal`, `mev` |
@@ -88,6 +88,9 @@ test and demo groups totaling about 4.9 KiB.
 | `fitHeavyTail` | `highOrderPortfolios` |
 | `fastcluster` | `cluster` |
 | `bayesm` | `compositions` |
+| `ape` | `MCMCglmm` |
+| `gRbase` | `gRain` |
+| `TMB` | `glmmTMB` |
 | `RPEGLMEN` | `RPESE` |
 | `fastmatrix` | `L1pack` |
 | `AdequacyModel` | `BGFD` |
@@ -104,8 +107,8 @@ test and demo groups totaling about 4.9 KiB.
 | `urca` | `forecast` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
 | `rfortran-optional` | `rfortran-core`, `rfortran-linalg` |
-| `rfortran-core` | `bayesm`, `changepoint`, `corpcor`, `DiscreteWeibull`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `gkwdist`, `isotone`, `mitml`, `mitools`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim` |
-| `rfortran-linalg` | `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `compositions`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `gmm`, `gogarch`, `irlba`, `ks`, `lgarch`, `matchingMarkets`, `matrixdist`, `mclust`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `tsdyn`, `tvgarch`, `vars` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `DiscreteWeibull`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `tsdyn`, `tvgarch`, `vars` |
 
 For the earlier consolidation passes, each canonical package and affected
 consumer passed its FPM test suite before the redundant tree was removed.
@@ -122,8 +125,11 @@ removed. `SpatialExtremes` additionally uses `rfortran-linalg` for its
 Cholesky, SPD solve, inverse, and log-determinant operations.
 The shared-runtime consumers passed their tests except for `spam`, whose
 bundled legacy ARPACK code still requires system BLAS, LAPACK, and ARPACK
-linkage on Windows. `forecast` compiles with the canonical dependencies but
-likewise awaits migration of `urca` away from system BLAS/LAPACK flags.
+linkage on Windows. `urca` now uses `rfortran-linalg` and its pinned
+pure-Fortran LAPACK dependency, removing the system BLAS/LAPACK linker
+requirement that also blocked consumers such as `forecast`. `lmtest` now uses
+the same shared dependency for least squares, symmetric eigenvalues, dense
+solves, and SPD inversion instead of linking system BLAS/LAPACK.
 The four `TruncatedNormal` targets pass individually; an all-target FPM build
 can encounter a Windows executable-file race.
 The `classInt`, `deldir`, `e1071`, `fields`, and `multcomp` translations
