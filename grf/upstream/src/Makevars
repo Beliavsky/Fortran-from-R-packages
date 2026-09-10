@@ -1,0 +1,4 @@
+PKG_CXXFLAGS = -I. -Isrc -DR_BUILD
+
+SOURCES = $(wildcard *.cpp */*.cpp */*/*.cpp */*/*/*.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)

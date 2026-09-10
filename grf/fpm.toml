@@ -1,0 +1,393 @@
+name = "grf"
+version = "2.6.1"
+license = "GPL-3.0-only"
+author = "GRF upstream authors and Fortran translation contributors"
+maintainer = "Fortran-from-R-packages project"
+description = "Modern Fortran translation of computational generalized random forest routines from the R package grf"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 41
+r_functions_translated = 41
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "average_treatment_effect"
+r_source = "upstream/R/average_treatment_effect.R"
+fortran_module = "grf_analysis"
+fortran_names = ["average_treatment_effect"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Uses translated orthogonal scores and weighted influence-score standard errors. Cluster-robust variants, target-sample/TMLE pathways, subset handling, and full R inference options are omitted."
+
+[[extra.translation.function]]
+r_name = "best_linear_projection"
+r_source = "upstream/R/forest_summary.R"
+fortran_module = "grf_analysis"
+fortran_names = ["best_linear_projection"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Projects translated scalar orthogonal scores on supplied covariates with an intercept and HC0 sandwich errors. R formula handling and alternate sandwich estimators are omitted."
+
+[[extra.translation.function]]
+r_name = "boosted_regression_forest"
+r_source = "upstream/R/boosted_regression_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["boosted_regression_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Fits additive residual regression-forest stages with upstream-style OOB debiased-error stopping when the stage count is omitted. Regression hyperparameters can be tuned on the first stage and reused thereafter; the pure-Fortran kriging tuner is streamlined relative to DiceKriging, and R object/threading behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "causal_forest"
+r_source = "upstream/R/causal_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["causal_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements honest causal relabeling, grouped little-bag sampling, automatic OOB Y/W nuisance forests when needed, and family-specific little-bag prediction variance. Causal-family hyperparameter tuning, clustering/TMLE options, threading, R object construction, and exact upstream RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "causal_survival_forest"
+r_source = "upstream/R/causal_survival_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["causal_survival_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements horizon-specific RMST or survival-probability causal forests with OOB treatment/event/censoring nuisance forests, IPCW augmentation, doubly robust numerator/denominator pseudo-outcomes, and grouped little-bag variance support. Full R option/object/threading/cluster behavior and every upstream failure-time edge case are not reproduced."
+
+[[extra.translation.function]]
+r_name = "generate_causal_data"
+r_source = "upstream/R/dgps.R"
+fortran_module = "grf_simulation"
+fortran_names = ["generate_causal_data"]
+fortran_source = "src/grf_simulation.f90"
+status = "substantial"
+notes = "Implements all twelve upstream causal benchmark selectors and sigma.m/sigma.tau/sigma.noise scaling with the deterministic package RNG. The generated distributions follow the upstream designs, but exact R RNG streams are not reproduced."
+
+[[extra.translation.function]]
+r_name = "generate_causal_survival_data"
+r_source = "upstream/R/dgps.R"
+fortran_module = "grf_simulation"
+fortran_names = ["generate_causal_survival_data"]
+fortran_source = "src/grf_simulation.f90"
+status = "substantial"
+notes = "Implements simple1 and type1 through type5 with selector-specific horizons, supplied or latent-normal-correlated predictors, deterministic Monte Carlo target effects, and effect signs. Exact R RNG streams are not reproduced."
+
+[[extra.translation.function]]
+r_name = "get_forest_weights"
+r_source = "upstream/R/analysis_tools.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_forest_weights"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Returns dense normalized adaptive forest weights, including optional out-of-bag localization. Sparse Matrix object construction and threading are omitted."
+
+[[extra.translation.function]]
+r_name = "get_leaf_node"
+r_source = "upstream/R/analysis_tools.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_leaf_node"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Routes predictor rows through a translated tree and returns terminal node ids. R tree object conventions and alternate node-id formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "get_tree"
+r_source = "upstream/R/analysis_tools.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_tree"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Returns a deep copy of the selected translated tree. R list/graphviz presentation fields are omitted."
+
+[[extra.translation.function]]
+r_name = "instrumental_forest"
+r_source = "upstream/R/instrumental_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["instrumental_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements honest local-IV relabeling with regularized instruments, grouped little-bag sampling and variance, automatic OOB Y/W/Z nuisance forests, and an auxiliary compliance causal forest for binary-instrument orthogonal scores. IV-family tuning, clustering, threading, R objects, and exact upstream RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "ll_regression_forest"
+r_source = "upstream/R/ll_regression_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["ll_regression_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements adaptive localization plus optional upstream-style local-linear ridge-residual splitting, including split lambda, covariance-weighted penalties, variable subsets, and cutoff fallback to an overall ridge fit. Forest tuning is available when residual splitting is disabled; cluster/thread/R object behavior remains omitted."
+
+[[extra.translation.function]]
+r_name = "lm_forest"
+r_source = "upstream/R/lm_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["lm_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements multi-outcome/multi-regressor centered moment relabeling and honest forest training. Absent nuisance matrices are estimated by auxiliary OOB multi-response regression forests. Formula/object layers, gradient weighting options, and upstream inference machinery are streamlined or omitted."
+
+[[extra.translation.function]]
+r_name = "merge_forests"
+r_source = "upstream/R/merge_forests.R"
+fortran_module = "grf_analysis"
+fortran_names = ["merge_forests"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Concatenates compatible translated tree arrays while preserving training metadata. Recomputed R OOB prediction objects are not constructed."
+
+[[extra.translation.function]]
+r_name = "multi_arm_causal_forest"
+r_source = "upstream/R/multi_arm_causal_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["multi_arm_causal_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Uses the translated multi-treatment centered moment relabeling on a caller-supplied treatment-contrast matrix. Absent nuisance components are estimated by the local-moment auxiliary OOB forest path. R factor encoding, gradient weights, and advanced inference options are omitted."
+
+[[extra.translation.function]]
+r_name = "multi_regression_forest"
+r_source = "upstream/R/multi_regression_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["multi_regression_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Uses native honest multi-response forest training with grouped little-bag sampling and response-wise split signal. Family-specific automatic tuning, multi-response prediction variance, threading, R object construction, and exact upstream RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "probability_forest"
+r_source = "upstream/R/probability_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["probability_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Uses native honest probability-forest training with grouped little-bag sampling and class-indicator split responses. Family-specific tuning/variance, threading, R object construction, and factor-level metadata are omitted; one-based integer labels replace R factors."
+
+[[extra.translation.function]]
+r_name = "quantile_forest"
+r_source = "upstream/R/quantile_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["quantile_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Uses node quantile-bin relabeling and honest forest weights for weighted empirical quantiles. R tuning/variance/object behavior and regression-splitting option details are omitted."
+
+[[extra.translation.function]]
+r_name = "rank_average_treatment_effect"
+r_source = "upstream/R/rank_average_treatment.R"
+fortran_module = "grf_analysis"
+fortran_names = ["rank_average_treatment_effect"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Computes translated orthogonal scores, TOC values, and deterministic half-sample bootstrap AUTOC/QINI summaries. Cluster-aware bootstrap and full R output/inference options are omitted."
+
+[[extra.translation.function]]
+r_name = "rank_average_treatment_effect.fit"
+r_source = "upstream/R/rank_average_treatment.R"
+fortran_module = "grf_analysis"
+fortran_names = ["rank_average_treatment_effect_fit"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Computes priority-ranked TOC and trapezoidal AUTOC/QINI summaries with deterministic half-sample bootstrap uncertainty. Exact upstream weighting/kernel/bootstrap details are streamlined."
+
+[[extra.translation.function]]
+r_name = "regression_forest"
+r_source = "upstream/R/regression_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["regression_forest"]
+fortran_source = "src/grf_train.f90"
+status = "substantial"
+notes = "Implements honest regression forests, grouped little-bag sampling, OOB debiased prediction variance, and optional automatic tuning over the upstream seven-parameter ranges using a deterministic pure-Fortran Gaussian-process surrogate. The surrogate is streamlined relative to DiceKriging; clustering, threading, R objects, and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "split_frequencies"
+r_source = "upstream/R/analysis_tools.R"
+fortran_module = "grf_analysis"
+fortran_names = ["split_frequencies"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Counts translated split variables by tree depth. R matrix names and object metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "survival_forest"
+r_source = "upstream/R/survival_forest.R"
+fortran_module = "grf_train"
+fortran_names = ["survival_forest"]
+fortran_source = "src/grf_train.f90"
+status = "partial"
+notes = "Implements honest survival trees with logrank-style node relabeling and failure-count child constraints. Fast-logrank variants, cluster weighting, and full upstream prediction/inference controls are omitted."
+
+[[extra.translation.function]]
+r_name = "test_calibration"
+r_source = "upstream/R/forest_summary.R"
+fortran_module = "grf_analysis"
+fortran_names = ["test_calibration"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Regresses translated orthogonal scores on out-of-bag treatment-effect predictions with HC0 errors. HC1/HC2/HC3 selection and exact upstream mean/differential calibration construction are streamlined."
+
+[[extra.translation.function]]
+r_name = "variable_importance"
+r_source = "upstream/R/analysis_tools.R"
+fortran_module = "grf_analysis"
+fortran_names = ["variable_importance"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Computes normalized depth-decayed split frequencies. R names and presentation behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "get_scores.causal_forest"
+r_source = "upstream/R/get_scores.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_scores_causal_forest"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Forms OOB doubly robust causal scores using stored/estimated nuisances and row-specific conditional treatment variance, including an auxiliary OOB variance forest for continuous treatment. Cluster/subset/TMLE pathways and R object handling are omitted."
+
+[[extra.translation.function]]
+r_name = "get_scores.causal_survival_forest"
+r_source = "upstream/R/get_scores.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_scores_causal_survival_forest"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Forms horizon-specific doubly robust causal-survival scores from the stored IPCW/censoring-adjusted pseudo-outcome numerator and denominator plus conditional treatment variance. Cluster/subset/TMLE and R object pathways are omitted."
+
+[[extra.translation.function]]
+r_name = "get_scores.instrumental_forest"
+r_source = "upstream/R/get_scores.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_scores_instrumental_forest"]
+fortran_source = "src/grf_analysis.f90"
+status = "substantial"
+notes = "Forms OOB locally robust IV scores. For binary instruments it estimates conditional compliance with an auxiliary OOB causal forest and uses the local compliance-weighted instrument variance; cluster/subset and non-binary-instrument score pathways remain streamlined."
+
+[[extra.translation.function]]
+r_name = "get_scores.multi_arm_causal_forest"
+r_source = "upstream/R/get_scores.R"
+fortran_module = "grf_analysis"
+fortran_names = ["get_scores_multi_arm_causal_forest"]
+fortran_source = "src/grf_analysis.f90"
+status = "partial"
+notes = "Forms vector influence scores using the global treatment residual Gram matrix and out-of-bag local effects. R contrast labeling and full nuisance/inference behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.boosted_regression_forest"
+r_source = "upstream/R/boosted_regression_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_boosted_regression_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Sums the translated boosted forest intercept and shrinkage-scaled residual stages. R S3 object wrapping is omitted."
+
+[[extra.translation.function]]
+r_name = "predict.causal_forest"
+r_source = "upstream/R/causal_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_causal_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Solves the local residual causal moment with adaptive honest-leaf weights and optionally returns objective-Bayes-debiased grouped little-bag variance. R S3 list construction, clustering, and threading are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.causal_survival_forest"
+r_source = "upstream/R/causal_survival_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_causal_survival_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Predicts the local ratio of censoring/IPCW-adjusted doubly robust numerator and denominator moments and optionally returns grouped little-bag delta-method variance. R S3 object, cluster, and threading behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "predict.instrumental_forest"
+r_source = "upstream/R/instrumental_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_instrumental_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Solves the local residual IV covariance ratio with adaptive honest-leaf weights and optionally returns objective-Bayes-debiased grouped little-bag variance. R S3 object, clustering, and threading behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "predict.ll_regression_forest"
+r_source = "upstream/R/ll_regression_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_ll_regression_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Uses adaptive forest weights in a query-centered local ridge regression, supports covariance-weighted penalties, cross-validates the upstream ten-value lambda path by OOB error when lambda is absent, and optionally returns grouped little-bag local-linear variance. R S3/thread/cluster behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "predict.lm_forest"
+r_source = "upstream/R/lm_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_lm_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Solves local weighted residual moment equations for all regressor-by-outcome coefficients with optional ridge stabilization. R S3 and variance output are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.multi_arm_causal_forest"
+r_source = "upstream/R/multi_arm_causal_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_multi_arm_causal_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Returns local treatment-contrast coefficients from the translated multi-treatment moment system. R contrast names and variance output are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.multi_regression_forest"
+r_source = "upstream/R/multi_regression_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_multi_regression_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Uses adaptive honest-leaf forest weights and the family local moment; R S3 list construction, variance grouping, and threading are omitted. Returns a weighted mean for every outcome column."
+
+[[extra.translation.function]]
+r_name = "predict.probability_forest"
+r_source = "upstream/R/probability_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_probability_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Uses adaptive honest-leaf forest weights and the family local moment; R S3 list construction, variance grouping, and threading are omitted. Returns normalized class masses for one-based integer labels."
+
+[[extra.translation.function]]
+r_name = "predict.quantile_forest"
+r_source = "upstream/R/quantile_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_quantile_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Uses adaptive honest-leaf forest weights and the family local moment; R S3 list construction, variance grouping, and threading are omitted. Returns weighted empirical quantiles on the requested probability grid."
+
+[[extra.translation.function]]
+r_name = "predict.regression_forest"
+r_source = "upstream/R/regression_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_regression_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "substantial"
+notes = "Returns adaptive honest-leaf weighted means and optionally objective-Bayes-debiased grouped little-bag prediction variances. R S3 list construction, clustering, and threading are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.survival_forest"
+r_source = "upstream/R/survival_forest.R"
+fortran_module = "grf_predict"
+fortran_names = ["predict_survival_forest"]
+fortran_source = "src/grf_predict.f90"
+status = "partial"
+notes = "Returns weighted Kaplan-Meier survival curves or Nelson-Aalen cumulative hazards on observed failure times. Exact upstream survival prediction type/object/variance behavior is streamlined."

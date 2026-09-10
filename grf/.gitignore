@@ -1,0 +1,9 @@
+build/
+.fpm/
+*.o
+*.obj
+*.mod
+*.smod
+*.exe
+*.zip
+__pycache__/

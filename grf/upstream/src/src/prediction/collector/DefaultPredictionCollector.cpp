@@ -1,0 +1,202 @@
+/*-------------------------------------------------------------------------------
+  Copyright (c) 2024 GRF Contributors.
+
+  This file is part of generalized random forest (grf).
+
+  grf is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  grf is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with grf. If not, see <http://www.gnu.org/licenses/>.
+ #-------------------------------------------------------------------------------*/
+
+#include <chrono>
+#include <exception>
+#include <future>
+#include <stdexcept>
+#include <thread>
+
+#include "prediction/collector/DefaultPredictionCollector.h"
+#include "prediction/collector/SampleWeightComputer.h"
+#include "commons/utility.h"
+
+namespace grf {
+
+DefaultPredictionCollector::DefaultPredictionCollector(std::unique_ptr<DefaultPredictionStrategy> strategy,
+                                                       uint num_threads):
+    strategy(std::move(strategy)), num_threads(num_threads) {}
+
+std::vector<Prediction> DefaultPredictionCollector::collect_predictions(
+    const Forest& forest,
+    const Data& train_data,
+    const Data& data,
+    const std::vector<std::vector<size_t>>& leaf_nodes_by_tree,
+    const std::vector<std::vector<bool>>& valid_trees_by_sample,
+    bool estimate_variance,
+    bool estimate_error) const {
+
+  std::atomic<bool> user_interrupt_flag {false};
+
+  size_t num_samples = data.get_num_rows();
+  ProgressBar progress_bar(num_samples, "prediction [collection]: ");
+  std::vector<uint> thread_ranges;
+  split_sequence(thread_ranges, 0, static_cast<uint>(num_samples - 1), num_threads);
+
+  std::vector<std::future<std::vector<Prediction>>> futures;
+  futures.reserve(thread_ranges.size());
+
+  std::vector<Prediction> predictions;
+  predictions.reserve(num_samples);
+
+  for (uint i = 0; i < thread_ranges.size() - 1; ++i) {
+    size_t start_index = thread_ranges[i];
+    size_t num_samples_batch = thread_ranges[i + 1] - start_index;
+
+    futures.push_back(std::async(std::launch::async,
+                                 &DefaultPredictionCollector::collect_predictions_batch,
+                                 this,
+                                 std::ref(forest),
+                                 std::ref(train_data),
+                                 std::ref(data),
+                                 std::ref(leaf_nodes_by_tree),
+                                 std::ref(valid_trees_by_sample),
+                                 estimate_variance,
+                                 start_index,
+                                 num_samples_batch,
+                                 std::ref(progress_bar),
+                                 std::ref(user_interrupt_flag)));
+  }
+
+  // Periodically check for user interrupts + update progress bar while threads are working.
+  bool working = true;
+  while (working) {
+    try {
+      grf::runtime_context.interrupt_handler();
+      progress_bar.update();
+    } catch (...) {
+      user_interrupt_flag = true;
+      // Adhere to good C++ hygiene and clean up the futures before rethrowing
+      for (auto& future : futures) {
+        if (future.valid()) {
+          try { (void) future.get(); } catch (...) {}
+        }
+      }
+      throw;
+    }
+    // Check if we can stop working
+    working = false;
+    for (const auto& future : futures) {
+      if (future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
+        working = true;
+        break;
+      }
+    }
+    if (working) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+  }
+
+  // Collect the final results
+  for (auto& future : futures) {
+    std::vector<Prediction> thread_predictions = future.get();
+    predictions.insert(predictions.end(),
+                       std::make_move_iterator(thread_predictions.begin()),
+                       std::make_move_iterator(thread_predictions.end()));
+  }
+  progress_bar.final_update();
+
+  return predictions;
+}
+
+std::vector<Prediction> DefaultPredictionCollector::collect_predictions_batch(
+    const Forest& forest,
+    const Data& train_data,
+    const Data& data,
+    const std::vector<std::vector<size_t>>& leaf_nodes_by_tree,
+    const std::vector<std::vector<bool>>& valid_trees_by_sample,
+    bool estimate_variance,
+    size_t start,
+    size_t num_samples,
+    ProgressBar& progress_bar,
+    std::atomic<bool>& user_interrupt_flag) const {
+  size_t num_trees = forest.get_trees().size();
+  bool record_leaf_samples = estimate_variance;
+
+  std::vector<Prediction> predictions;
+  predictions.reserve(num_samples);
+
+  SampleWeightComputer weight_computer(train_data.get_num_rows());
+  for (size_t sample = start; sample < num_samples + start; ++sample) {
+    if (user_interrupt_flag) {
+      return std::vector<Prediction>();
+    }
+    std::pair<std::vector<size_t>, std::vector<double>> weights_by_sample = weight_computer.compute_weights(
+        sample, forest, leaf_nodes_by_tree, valid_trees_by_sample);
+    std::vector<std::vector<size_t>> samples_by_tree;
+
+    // If this sample has no neighbors, then return placeholder predictions. Note
+    // that this can only occur when honesty is enabled, and is expected to be rare.
+    if (weights_by_sample.first.empty()) {
+      std::vector<double> nan(strategy->prediction_length(), NAN);
+      std::vector<double> empty;
+      predictions.emplace_back(nan, estimate_variance ? nan : empty, empty, empty);
+      continue;
+    }
+
+    if (record_leaf_samples) {
+      samples_by_tree.resize(num_trees);
+
+      for (size_t tree_index = 0; tree_index < forest.get_trees().size(); ++tree_index) {
+        if (!valid_trees_by_sample[sample][tree_index]) {
+          continue;
+        }
+        const std::vector<size_t>& leaf_nodes = leaf_nodes_by_tree.at(tree_index);
+        size_t node = leaf_nodes.at(sample);
+
+        const std::unique_ptr<Tree>& tree = forest.get_trees()[tree_index];
+        const std::vector<std::vector<size_t>>& leaf_samples = tree->get_leaf_samples();
+        samples_by_tree.push_back(leaf_samples.at(node));
+      }
+    }
+
+    std::vector<double> point_prediction = strategy->predict(sample, weights_by_sample, train_data, data);
+    std::vector<double> variance = estimate_variance
+        ? strategy->compute_variance(sample, samples_by_tree, weights_by_sample, train_data, data, forest.get_ci_group_size())
+        : std::vector<double>();
+
+    // If the returned predictions are empty, then return placeholder predictions.
+    // This can occur if for example all case sample weights are zero,
+    // and the prediction strategy opts to predict nothing.
+    if (point_prediction.empty()) {
+      std::vector<double> nan(strategy->prediction_length(), NAN);
+      std::vector<double> empty;
+      predictions.emplace_back(nan, estimate_variance ? nan : empty, empty, empty);
+      continue;
+    }
+
+    Prediction prediction(point_prediction, variance, {}, {});
+    validate_prediction(sample, point_prediction);
+    predictions.push_back(prediction);
+    progress_bar.increment(1);
+  }
+
+  return predictions;
+}
+
+void DefaultPredictionCollector::validate_prediction(size_t sample,
+                                                     const Prediction& prediction) const {
+  size_t prediction_length = strategy->prediction_length();
+  if (prediction.size() != prediction_length) {
+    throw std::runtime_error("Prediction for sample " + std::to_string(sample) +
+                             " did not have the expected length.");
+  }
+}
+
+} // namespace grf
