@@ -1,0 +1,17 @@
+name = "tidyselect"
+version = "1.2.1"
+license = "MIT"
+author = "Lionel Henry, Hadley Wickham, and tidyselect authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Select from sets of names in modern Fortran"
+categories = ["data-handling", "utilities"]
+keywords = ["selection", "columns", "names", "tidyverse"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
