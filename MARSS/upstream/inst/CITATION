@@ -1,0 +1,46 @@
+citHeader("To cite the 'MARSS' package in publications use:")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+vers <- paste("R package version", meta$Version)
+
+bibentry(bibtype="Manual",
+         title = "MARSS: Multivariate Autoregressive State-Space Modeling",
+         author = c(as.person("Elizabeth Eli Holmes"),
+                             as.person("Eric J. Ward"),
+                             as.person("Mark D. Scheuerell"),
+                             as.person("Kellie Wills")),
+         year = year,
+         note = vers,
+         url = "https://CRAN.R-project.org/package=MARSS",
+         textVersion =
+         paste("Elizabeth E. Holmes, Eric J. Ward, Mark D. Scheuerell and Kellie Wills (", year,
+               "). MARSS: Multivariate Autoregressive State-Space Modeling. ",
+               vers, ".", sep="") )
+
+bibentry(bibtype="Manual",
+         title = paste0("Analysis of multivariate time-series using the MARSS package. Version  ", meta$Version),
+         author = c(as.person("Elizabeth Eli Holmes"),
+                             as.person("Mark D. Scheuerell"),
+                             as.person("Eric J. Ward")),
+         year = year,
+         note = vers,
+         url = "https://CRAN.R-project.org/package=MARSS/vignettes/UserGuide.pdf",
+         doi = "10.5281/zenodo.5781847",
+         textVersion =
+         paste0("Holmes, E. E., M. D. Scheuerell, and E. J. Ward (", year, ") Analysis of multivariate time-series using the MARSS package. Version ", meta$Version, ". NOAA Fisheries, Northwest Fisheries Science Center, 2725 Montlake Blvd E., Seattle, WA 98112, DOI: 10.5281/zenodo.5781847" ) )
+
+bibentry(bibtype="Article",
+         title = "MARSS: Multivariate autoregressive state-space models for analyzing time-series data",
+         author = c(as.person("Elizabeth Eli Holmes"),
+                             as.person("Eric J. Ward"),
+                             as.person("Kellie Wills")),
+         year     = {2012},
+         journal = "The R Journal",
+         volume     = {4},
+         number     = {1},
+         pages     = {11--19},
+
+         textVersion =
+         paste("Holmes, E. E., Ward, E. J. & Wills, K. (2012)",
+          "MARSS: Multivariate Autoregressive State-space Models for Analyzing Time-series Data.", "The R Journal. 4(1):11-19")
+)

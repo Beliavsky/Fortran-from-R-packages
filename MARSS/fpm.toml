@@ -1,0 +1,232 @@
+name = "MARSS"
+version = "0.6.0"
+license = "GPL-2.0-only"
+author = "Elizabeth Eli Holmes, Eric J. Ward, Mark D. Scheuerell, Kellie Wills; Fortran translation by OpenAI"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of computational kernels from the R MARSS package"
+categories = ["statistics", "time-series", "state-space"]
+keywords = ["MARSS", "Kalman-filter", "Kalman-smoother", "EM", "state-space"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+KFAS = { path = "../KFAS" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 22
+r_functions_translated = 22
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "MARSS"
+r_source = "upstream/R/MARSS.R"
+fortran_modules = ["marss_em", "marss_builder", "marss_dfa_mod", "marss_workflow"]
+fortran_names = ["marss", "marss_build", "marss_dfa_build", "marss_from_data"]
+fortran_sources = ["src/marss_em.f90", "src/marss_builder.f90", "src/marss_dfa.f90", "src/marss_workflow.f90"]
+status = "substantial"
+notes = "Fits prepared numerical models and constructs/fits common form=marss, numerical form=marxss, and standard DFA specifications directly from data. Named identity/zero/unconstrained/equal/diagonal/equalvarcov/onestate/scaling structures, G/H/L loadings, optional C/D covariates, and KEM/BFGS dispatch are translated. Mixed numeric/character list-matrix blocks can be converted separately to affine constraints with preserved labels. R formula/S3/factor containers, dimnames, automatic arbitrary-list integration, and exact control semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSaic"
+r_source = "upstream/R/MARSSaic.R"
+fortran_modules = ["marss_analysis", "marss_bootstrap"]
+fortran_names = ["marss_aic", "marss_bootstrap_aic"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_bootstrap.f90"]
+status = "substantial"
+notes = "AIC/AICc plus parametric-bootstrap AICbp and innovations-bootstrap AICbb are translated. Bootstrap refits can preserve affine f+D*beta constraints and use BFGS or generalized EM; optional logL.star arrays are available. R object mutation/progress output is omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSboot"
+r_source = "upstream/R/MARSSboot.R"
+fortran_module = "marss_bootstrap"
+fortran_names = ["marss_boot", "marss_boot_hessian"]
+fortran_source = "src/marss_bootstrap.f90"
+status = "substantial"
+notes = "Parametric and Stoffer-Wall innovations simulation-and-refit bootstrap are translated. Affine f+D*beta constraints can be preserved under BFGS or generalized-EM refitting; constrained outputs use beta coordinates and generated bootstrap data may be returned. param.gen=hessian is available as deterministic multivariate-normal draws from the fitted observed-information covariance in raw or affine-beta coordinates. R progress, RNG-stream, and result-object variants are omitted."
+
+
+[[extra.translation.function]]
+r_name = "MARSScv"
+r_source = "upstream/R/MARSScv.R"
+fortran_module = "marss_cv_mod"
+fortran_names = ["marss_cv"]
+fortran_source = "src/marss_cv.f90"
+status = "substantial"
+notes = "Fold and future cross-validation refitting is translated with missing-data likelihood fitting, deterministic default folds, time-indexed prediction matrices, and prediction standard errors. Affine f+D*beta constraints are preserved under BFGS or generalized-EM refits and fold beta coordinates may be returned. R random-fold/data-frame formatting and all control semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSShessian"
+r_source = "upstream/R/MARSShessian.R"
+fortran_modules = ["marss_analysis", "marss_constraints_mod", "marss_hessian_summary_mod"]
+fortran_names = ["marss_hessian", "marss_hessian_linear", "marss_hessian_summary_linear"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_constraints.f90", "src/marss_hessian_summary.f90"]
+status = "substantial"
+notes = "Numerical packed/constrained Hessians are translated, and marss_hessian_summary_linear reproduces the fitted free-coordinate mean, observed-information matrix, parameter names, and inverse-information covariance with Harvey1989, fdHess, and optim method dispatch. The optim label uses the same central finite-difference information engine as fdHess rather than R optimhess; R object mutation and warning text are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSinits"
+r_source = "upstream/R/MARSSinits.R"
+fortran_modules = ["marss_model_ops", "marss_initialization"]
+fortran_names = ["marss_inits", "marss_inits_linear", "marss_inits_named"]
+fortran_sources = ["src/marss_model_ops.f90", "src/marss_initialization.f90"]
+status = "substantial"
+notes = "Provides simple numerical defaults plus constraint-aware affine initialization. Scalar B/Q/R/V0 defaults are projected from diagonal targets using the upstream nonzero-coefficient time-averaging rule for time-varying affine blocks; Z/U/A/C/D/G/H/L beta defaults follow upstream conventions where applicable; and free x0 is solved from the first observation in constrained coordinates. Partial named beta overrides can be applied using preserved raw or MARSSvectorizeparam-style block-prefixed labels. Specialized R object/list initialization cases and exact error-message semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSkem"
+r_source = "upstream/R/MARSSkem.r"
+fortran_modules = ["marss_em", "marss_constrained_em"]
+fortran_names = ["marss_kem", "marss_kem_linear"]
+fortran_sources = ["src/marss_em.f90", "src/marss_constrained_em.f90"]
+status = "substantial"
+notes = "Implements missing-data-aware EM for unconstrained static blocks and generalized EM for arbitrary affine f+D*beta constraints. Time-varying blocks can be held fixed in ordinary EM and constraint designs may span time-indexed blocks. Diffuse constrained EM and exact specialized upstream analytic M-step/update behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSkemcheck"
+r_source = "upstream/R/MARSSkemcheck.r"
+fortran_module = "marss_kemcheck_mod"
+fortran_names = ["marss_kemcheck"]
+fortran_source = "src/marss_kemcheck.f90"
+status = "partial"
+notes = "Checks numerical dimensions/covariances plus KEM degeneracy restrictions: fully fixed B slices must have spectral radius <= 1; fixed-zero R rows require fixed Z/A/D and satisfy the smoothed fitted-value identity E(y)=Z E(x)+A+Dd within 1e-8; fixed-zero Q placement must be time constant; fixed-zero Q rows require fixed B rows; linked R0-Z-Q0 states and indirectly stochastic zero-Q states require fixed U/C; potential B adjacency is time-constant when zero-Q x0/U components are estimated; and deterministic/indirectly-stochastic state classes are time-constant. Exact R diagnostic messages and higher-level model-construction checks remain omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSkf"
+r_source = "upstream/R/MARSSkf.r"
+fortran_module = "marss_kalman"
+fortran_names = ["marss_kf"]
+fortran_source = "src/marss_kalman.f90"
+status = "substantial"
+notes = "Provides native filtering/smoothing with NaN missing observations, time-indexed B/U/Q/Z/A/R, tinitx=0/1, and positive-semidefinite covariance handling; R marssMLE/newdata object construction is omitted."
+
+[[extra.translation.function]]
+r_name = "MARSShatyt"
+r_source = "upstream/R/MARSShatyt.r"
+fortran_module = "marss_analysis"
+fortran_names = ["marss_hatyt"]
+fortran_source = "src/marss_analysis.f90"
+status = "substantial"
+notes = "Conditional observation means, second moments, state cross-moments, and the extended only.kem=FALSE filtered/one-step/smoothed moment family are translated using MARSS correlated-R conditioning for mixed missing/observed rows and time-indexed Z/A/R. R result-list naming and some object metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSkfss"
+r_source = "upstream/R/MARSSkfss.R"
+fortran_module = "marss_kalman"
+fortran_names = ["marss_kfss"]
+fortran_source = "src/marss_kalman.f90"
+status = "substantial"
+notes = "Forward Kalman filtering, innovations likelihood, RTS smoothing, lag-one covariance smoothing, tinitx=0/1, NaN missing observations, time-indexed B/U/Q/Z/A/R, and positive-semidefinite covariance directions are translated."
+
+[[extra.translation.function]]
+r_name = "MARSSkfas"
+r_source = "upstream/R/MARSSkfas.r"
+fortran_module = "marss_kfas_bridge"
+fortran_names = ["marss_kfas", "marss_kfas_loglik"]
+fortran_source = "src/marss_kfas_bridge.f90"
+status = "substantial"
+notes = "Converts the numerical MARSS model to the sibling Fortran KFAS representation with upstream static/time-varying storage and transition indexing, raw G/Q disturbance coordinates, effective H*R*H' observation covariance, L*V0*L' initialization, exact-diffuse finite/infinite covariance diagnostics, correlated-H LDL handling, missing observations, tinitx=0/1 smoothing semantics, optional stacked lag-one covariance, and a dedicated only-logLik path. R SSModel/KFS object return semantics and exhaustive runtime parity over every diffuse rank pattern are omitted."
+
+
+[[extra.translation.function]]
+r_name = "MARSSoptim"
+r_source = "upstream/R/MARSSoptim.r"
+fortran_modules = ["marss_optim_mod", "marss_constraints_mod"]
+fortran_names = ["marss_optim", "marss_optim_linear"]
+fortran_sources = ["src/marss_optim.f90", "src/marss_constraints.f90"]
+status = "substantial"
+notes = "Finite-difference BFGS is translated for selectable numerical blocks with Cholesky-safe Q/R/V0 coordinates, and a second optimizer supports arbitrary affine f+D*beta fixed/free/equality constraints including time-indexed blocks. R optim bounds/control conventions and exact method dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSparamCIs"
+r_source = "upstream/R/MARSSparamCIs.R"
+fortran_modules = ["marss_analysis", "marss_constraints_mod", "marss_bootstrap"]
+fortran_names = ["marss_param_cis", "marss_param_cis_linear", "marss_bootstrap_param_cis"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_constraints.f90", "src/marss_bootstrap.f90"]
+status = "substantial"
+notes = "Hessian-based normal intervals are translated for packed numerical parameters and affine f+D*beta coordinates. Parametric and innovations bootstrap intervals use R type-7 empirical quantiles, sample standard deviations, and fitted-minus-bootstrap-mean bias; bootstrap refits preserve affine constraints under BFGS or generalized EM and report beta-coordinate inference. R object formatting is omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSresiduals"
+r_source = "upstream/R/MARSSresiduals.R"
+fortran_modules = ["marss_analysis", "marss_residuals_full"]
+fortran_names = ["marss_residuals", "marss_residuals_smoothed", "marss_residuals_filtered", "marss_residuals_one_step", "marss_residuals_harvey"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_residuals_full.f90"]
+status = "substantial"
+notes = "Basic innovations/smoothed-observation residuals plus smoothed, filtered, one-step, and Harvey disturbance-smoothing residual algorithms are translated for the supported numerical model. Exact R tT/tt/tt1 result-object naming/covariance hierarchy and diffuse Harvey behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSsimulate"
+r_source = "upstream/R/MARSSsimulate.R"
+fortran_module = "marss_simulation_mod"
+fortran_names = ["marss_simulate"]
+fortran_source = "src/marss_simulation.f90"
+status = "substantial"
+notes = "Parametric state and observation simulation supports tinitx=0/1, time-indexed B/U/Q/Z/A/R, positive-semidefinite Gaussian covariance matrices, and deterministic package-local RNG streams. R miss.loc behavior is represented by optional repeated 2-D or replicate-specific 3-D logical missingness masks that write NaNs into simulated observations. R object and exact RNG-stream semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSFisherI"
+r_source = "upstream/R/MARSSFisherI.r"
+fortran_modules = ["marss_analysis", "marss_constraints_mod", "marss_harvey_info"]
+fortran_names = ["marss_fisher_i", "marss_fisher_i_linear", "marss_fisher_i_harvey_linear"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_constraints.f90", "src/marss_harvey_info.f90"]
+status = "substantial"
+notes = "Observed Fisher information is available from negative numerical Hessians for packed and affine-beta coordinates, plus a Harvey derivative recursion for supported non-diffuse affine models. Exact R object conventions and diffuse Harvey information are omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSvectorizeparam"
+r_source = "upstream/R/MARSSvectorizeparam.R"
+fortran_modules = ["marss_analysis", "marss_constraints_mod"]
+fortran_names = ["marss_vectorizeparam", "marss_unvectorizeparam", "marss_vectorize_free", "marss_unvectorize_free", "marss_free_parameter_names", "marss_vectorized_parameter_names", "marss_reorder_free_parameters"]
+fortran_sources = ["src/marss_analysis.f90", "src/marss_constraints.f90"]
+status = "substantial"
+notes = "Raw numerical packing/unpacking covers active static or time-indexed B/U/Q/Z/A/R/x0/V0 plus C/D/G/H/L and raw noise-coordinate covariances. Affine vectorization recovers only estimated beta coordinates and verifies the model lies in f+D*beta space. Custom free-column labels are preserved, block-prefixed MARSSvectorizeparam-style names are available, and named vectors can be reordered safely. R dimnames and arbitrary nested object fields are omitted."
+
+[[extra.translation.function]]
+r_name = "zscore"
+r_source = "upstream/R/utility_functions.R"
+fortran_module = "marss_utils"
+fortran_names = ["zscore"]
+fortran_source = "src/marss_utils.f90"
+status = "complete"
+notes = "Vector and row-wise matrix standardization use sample variance, ignore NaNs when estimating moments, and preserve NaNs."
+
+[[extra.translation.function]]
+r_name = "ldiag"
+r_source = "upstream/R/utility_functions.R"
+fortran_module = "marss_utils"
+fortran_names = ["ldiag"]
+fortran_source = "src/marss_utils.f90"
+status = "substantial"
+notes = "Numeric scalar and vector behavior is translated; R list-valued diagonal matrices are not representable in the numeric Fortran API."
+
+
+[[extra.translation.function]]
+r_name = "MARSSinnovationsboot"
+r_source = "upstream/R/MARSSinnovationsboot.R"
+fortran_module = "marss_innovations"
+fortran_names = ["marss_innovations_boot"]
+fortran_source = "src/marss_innovations.f90"
+status = "substantial"
+notes = "Stoffer-Wall innovations resampling is translated for complete data, including time-indexed B/U/Z/A and innovation covariances induced by time-indexed Q/R, using a deterministic package-local resampling RNG. R marssMLE object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "MARSSfit"
+r_source = "upstream/R/MARSS-methods.R"
+fortran_modules = ["marss_em", "marss_dfa_mod", "marss_workflow"]
+fortran_names = ["marss_fit", "marss_dfa_fit_spec", "marss_from_data"]
+fortran_sources = ["src/marss_em.f90", "src/marss_dfa.f90", "src/marss_workflow.f90"]
+status = "substantial"
+notes = "Prepared numerical models can be fit directly, and high-level marss/marxss or standard DFA specifications can be constructed and fit with generalized EM or BFGS, including optional supported covariates. R S3 dispatch, TMB backend selection, arbitrary formula/list object integration, and exact control/result-object semantics are omitted."
