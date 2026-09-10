@@ -1,0 +1,17 @@
+name = "lubridate"
+version = "1.9.5"
+license = "MIT"
+author = "Vitalie Spinu, Garrett Grolemund, Hadley Wickham, and lubridate authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Date-time parsing and calendar arithmetic in modern Fortran"
+categories = ["date-time", "time-series", "utilities"]
+keywords = ["date", "datetime", "duration", "period", "interval", "calendar"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
