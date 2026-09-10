@@ -1,0 +1,78 @@
+name = "bivkld"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Saurav Singla; Rafflesia Chackochan; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of R package BivKLD"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 6
+r_functions_translated = 6
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "biv_kld"
+r_source = "upstream/R/biv-kld.R"
+fortran_module = "bivkld_kernel"
+fortran_names = ["biv_kld"]
+fortran_source = "src/bivkld_kernel.f90"
+status = "substantial"
+notes = "Kernel KDE integration, bandwidth selection, range handling, standardization, and optional details are translated. R data-frame/S3 behavior is omitted; SCV uses a direct unbinned bivariate criterion with a streamlined pilot strategy."
+
+[[extra.translation.function]]
+r_name = "biv_kld_matrix"
+r_source = "upstream/R/biv-kld-matrix.R"
+fortran_module = "bivkld_kernel"
+fortran_names = ["biv_kld_matrix"]
+fortran_source = "src/bivkld_kernel.f90"
+status = "substantial"
+notes = "All directed pairwise kernel divergences on a common grid are translated. R list/group splitting, names, attributes, and S3 construction are replaced by an array of biv_sample values and optional output arrays."
+
+[[extra.translation.function]]
+r_name = "biv_kld_discrete"
+r_source = "upstream/R/exact-kld.R"
+fortran_module = "bivkld_exact"
+fortran_names = ["biv_kld_discrete_vector", "biv_kld_discrete_matrix"]
+fortran_source = "src/bivkld_exact.f90"
+status = "substantial"
+notes = "Vector and rank-2 probability tables are supported, including optional normalization, tolerance checking, zero-support infinity, and NaN on invalid input. Higher-rank R arrays are not separately overloaded."
+
+[[extra.translation.function]]
+r_name = "biv_kld_normal"
+r_source = "upstream/R/exact-kld.R"
+fortran_module = "bivkld_exact"
+fortran_names = ["biv_kld_normal"]
+fortran_source = "src/bivkld_exact.f90"
+status = "complete"
+notes = "The analytic bivariate-normal formula is translated directly with explicit two-by-two determinant and inverse algebra; invalid inputs yield NaN instead of an R exception."
+
+[[extra.translation.function]]
+r_name = "biv_kld_pareto2"
+r_source = "upstream/R/exact-kld.R"
+fortran_module = "bivkld_exact"
+fortran_names = ["biv_kld_pareto2"]
+fortran_source = "src/bivkld_exact.f90"
+status = "complete"
+notes = "The analytic bivariate Pareto type-II formula is translated directly; non-positive or non-finite parameters yield NaN instead of an R exception."
+
+[[extra.translation.function]]
+r_name = "biv_kld_independent_weibull"
+r_source = "upstream/R/exact-kld.R"
+fortran_module = "bivkld_exact"
+fortran_names = ["biv_kld_independent_weibull"]
+fortran_source = "src/bivkld_exact.f90"
+status = "complete"
+notes = "The analytic independent bivariate Weibull formula is translated directly; invalid parameters yield NaN instead of an R exception."

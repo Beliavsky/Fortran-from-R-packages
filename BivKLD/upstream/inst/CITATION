@@ -1,0 +1,31 @@
+year <- if (!is.null(meta$Date) && length(meta$Date) == 1L &&
+            nzchar(meta$Date)) sub("-.*", "", meta$Date) else "2026"
+
+citHeader("To cite the BivKLD package, use both the package and method references:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "BivKLD: Bivariate Kullback-Leibler Divergence",
+  author = c(
+    person("Saurav", "Singla"),
+    person("Rafflesia", "Chackochan")
+  ),
+  year = year,
+  note = paste("R package version", meta$Version)
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "Bivariate Kullback-Leibler Divergence",
+  author = c(
+    person("Rafflesia", "Chackochan"),
+    person("P. G.", "Sankaran"),
+    person("N.", "Unnikrishnan Nair")
+  ),
+  journal = "Communications in Statistics - Theory and Methods",
+  year = "2026",
+  volume = "55",
+  number = "1",
+  pages = "292--312",
+  doi = "10.1080/03610926.2025.2496687"
+)

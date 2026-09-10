@@ -1,0 +1,31 @@
+Package: BivKLD
+Type: Package
+Title: Bivariate Kullback-Leibler Divergence
+Version: 0.1.0
+Date: 2026-08-22
+Authors@R: c(
+    person("Saurav", "Singla", email = "s00singla@gmail.com",
+           role = c("aut", "cre")),
+    person("Rafflesia", "Chackochan",
+           email = "rafflesiachackochan03@gmail.com", role = "aut")
+    )
+Description: Estimates the directed Kullback-Leibler divergence between two
+    bivariate continuous distributions by numerical integration of kernel
+    density estimates. Also computes pairwise divergences among groups and
+    exact divergences for discrete, bivariate normal, bivariate Pareto type II,
+    and independent bivariate Weibull models. The kernel estimator follows
+    Chackochan, Sankaran and Nair (2026) <doi:10.1080/03610926.2025.2496687>.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: ks
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0
+NeedsCompilation: no
+Packaged: 2026-08-22 19:56:54 UTC; Saurav Singla
+Author: Saurav Singla [aut, cre],
+  Rafflesia Chackochan [aut]
+Maintainer: Saurav Singla <s00singla@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-09-02 21:30:09 UTC
