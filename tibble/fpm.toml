@@ -1,0 +1,20 @@
+name = "tibble"
+version = "3.3.1"
+license = "MIT"
+author = "Kirill Müller, Hadley Wickham, and tibble contributors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Typed tabular data structures inspired by the R package tibble"
+categories = ["data-handling", "utilities"]
+keywords = ["tibble", "data-frame", "table", "heterogeneous-columns"]
+
+[dependencies]
+vctrs = { path = "../vctrs" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
