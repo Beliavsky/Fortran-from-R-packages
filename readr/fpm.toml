@@ -1,0 +1,22 @@
+name = "readr"
+version = "2.2.0"
+license = "MIT"
+author = "Hadley Wickham, Jim Hester, Jennifer Bryan, and readr authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Read rectangular text data in modern Fortran"
+categories = ["data-handling", "input-output", "utilities"]
+keywords = ["csv", "tsv", "delimited", "parser", "tibble"]
+
+[dependencies]
+vctrs = { path = "../vctrs" }
+tibble = { path = "../tibble" }
+forcats = { path = "../forcats" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
