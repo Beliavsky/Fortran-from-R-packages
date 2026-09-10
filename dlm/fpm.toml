@@ -1,0 +1,256 @@
+name = "dlm"
+version = "0.2.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation contributors; upstream dlm by Giovanni Petris"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of computational portions of the R package dlm"
+categories = ["statistics", "state-space", "time-series", "bayesian"]
+keywords = ["dynamic-linear-model", "kalman-filter", "smoothing", "forecasting"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+optimx-fortran = { path = "../optimx" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 25
+r_functions_translated = 25
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bdiag"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["block_diag2"]
+fortran_source = "src/dlm_models.f90"
+status = "partial"
+notes = "The numerical two-matrix block-diagonal operation is translated; R's arbitrary list/variadic container interface is omitted."
+
+[[extra.translation.function]]
+r_name = "convex.bounds"
+r_source = "provenance/upstream/R/arms.R"
+fortran_module = "dlm"
+fortran_names = ["convex_bounds"]
+fortran_source = "src/dlm_bounds.f90"
+status = "substantial"
+notes = "The support-boundary doubling and bisection algorithm is translated; R closures and forwarded dots are represented by a typed Fortran indicator object."
+
+[[extra.translation.function]]
+r_name = "arms"
+r_source = "provenance/upstream/R/arms.R"
+fortran_module = "dlm"
+fortran_names = ["arms"]
+fortran_source = "src/dlm_arms.f90"
+status = "substantial"
+notes = "The Gilks adaptive rejection Metropolis envelope, Metropolis correction, bounded-support search, and multivariate random-direction wrapper are translated; R closures/dots are typed objects and Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "ARtransPars"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["ar_trans_pars"]
+fortran_source = "src/dlm_models.f90"
+status = "complete"
+notes = "The tanh reflection-coefficient map and Durbin-Levinson recursion are translated directly."
+
+[[extra.translation.function]]
+r_name = "dlmModReg"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mod_reg"]
+fortran_source = "src/dlm_models.f90"
+status = "substantial"
+notes = "Constructs the same regression-state matrices and time-varying JFF/X mapping; R argument recycling and S3 construction are replaced by typed arguments."
+
+[[extra.translation.function]]
+r_name = "dlmModPoly"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mod_poly"]
+fortran_source = "src/dlm_models.f90"
+status = "complete"
+notes = "Polynomial-trend system matrices and documented defaults are translated."
+
+[[extra.translation.function]]
+r_name = "dlmModSeas"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mod_seas"]
+fortran_source = "src/dlm_models.f90"
+status = "complete"
+notes = "Seasonal-factor system matrices and documented defaults are translated."
+
+[[extra.translation.function]]
+r_name = "dlmModTrig"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mod_trig"]
+fortran_source = "src/dlm_models.f90"
+status = "substantial"
+notes = "Period, angular-frequency, and tau parameterizations are implemented, including the even-period Nyquist state; R recycling is limited to a scalar or full dW vector."
+
+[[extra.translation.function]]
+r_name = "dlmModARMA"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mod_arma"]
+fortran_source = "src/dlm_models.f90"
+status = "partial"
+notes = "The univariate ARMA state-space construction is translated; the upstream multivariate list-of-matrices ARMA branch is not yet implemented."
+
+[[extra.translation.function]]
+r_name = "dlmSum"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_sum"]
+fortran_source = "src/dlm_models.f90"
+status = "substantial"
+notes = "The binary constant-model outer sum is translated; R's variadic recursive convenience interface is omitted."
+
+[[extra.translation.function]]
+r_name = "%+%"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_sum"]
+fortran_source = "src/dlm_models.f90"
+status = "substantial"
+notes = "Maps to the same binary constant-model outer-sum operation as dlmSum; no Fortran operator token is introduced."
+
+[[extra.translation.function]]
+r_name = "dlmMLE"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_mle"]
+fortran_source = "src/dlm_mle.f90"
+status = "substantial"
+notes = "The parameter-to-model callback and dlmLL objective orchestration are translated using the sibling optimx package; typed builder/result objects replace R closures, dots, and optim list construction, and the synchronous callback bridge is non-reentrant."
+
+[[extra.translation.function]]
+r_name = "dlmLL"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_ll"]
+fortran_source = "src/dlm_kalman.f90"
+status = "substantial"
+notes = "Computes the same constant-free Gaussian negative log likelihood with missing and time-varying observations; covariance-form algebra replaces upstream square-root SVD recursions."
+
+[[extra.translation.function]]
+r_name = "dlmFilter"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_filter"]
+fortran_source = "src/dlm_kalman.f90"
+status = "substantial"
+notes = "Filtering, one-step forecasts, missing components, and JFF/JV/JGG/JW time variation are translated; results expose covariance arrays rather than R lists of SVD factors and time-series attributes."
+
+[[extra.translation.function]]
+r_name = "dlmSmooth"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_smooth"]
+fortran_source = "src/dlm_kalman.f90"
+status = "substantial"
+notes = "Rauch-Tung-Striebel state smoothing is translated with pseudoinverse support for semidefinite prior covariances; S3 dispatch and SVD-factor result containers are omitted."
+
+[[extra.translation.function]]
+r_name = "dlmBSample"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_bsample"]
+fortran_source = "src/dlm_random.f90"
+status = "substantial"
+notes = "Backward Gaussian state sampling is translated; intrinsic Fortran RNG streams are not bit-identical to R's RNG."
+
+[[extra.translation.function]]
+r_name = "dlmGibbsDIG"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_gibbs_dig"]
+fortran_source = "src/dlm_random.f90"
+status = "substantial"
+notes = "The constant univariate diagonal-W Gibbs sampler, precision hyperpriors with scalar/full-vector recycling, thinning, selected W indices, and optional state retention are translated; progress display and R RNG identity are omitted."
+
+[[extra.translation.function]]
+r_name = "rwishart"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["rwishart"]
+fortran_source = "src/dlm_random.f90"
+status = "substantial"
+notes = "Bartlett-factor Wishart simulation with Sigma or a supplied square-root factor is translated; p is explicit and RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "dlmSvd2var"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_svd2var"]
+fortran_source = "src/dlm_kalman.f90"
+status = "complete"
+notes = "The matrix covariance reconstruction U diag(d^2) U' is translated; R's list-of-matrices convenience branch is omitted from the public procedure."
+
+[[extra.translation.function]]
+r_name = "dlmForecast"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_forecast"]
+fortran_source = "src/dlm_kalman.f90"
+status = "substantial"
+notes = "Deterministic constant-model state and observation forecast moments are translated; sampleNew simulation and R ts attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "dlmRandom"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["dlm_random_model"]
+fortran_source = "src/dlm_random.f90"
+status = "partial"
+notes = "Generates a stable random constant DLM with Wishart variances; upstream time-varying J-matrix generation and simulated observations are omitted and the transition draw distribution is streamlined."
+
+[[extra.translation.function]]
+r_name = "mcmcSD"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["mcmc_sd"]
+fortran_source = "src/dlm_mcmc.f90"
+status = "substantial"
+notes = "Sokal-window Monte Carlo standard errors are translated for vectors and matrices; R warnings and acf object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "mcmcMean"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["mcmc_mean"]
+fortran_source = "src/dlm_mcmc.f90"
+status = "substantial"
+notes = "Column means and optional Sokal Monte Carlo standard errors are translated; R names, class attributes, and print method behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "mcmcMeans"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["mcmc_mean"]
+fortran_source = "src/dlm_mcmc.f90"
+status = "substantial"
+notes = "The upstream alias mcmcMeans maps to the same Fortran mcmc_mean procedure as mcmcMean."
+
+[[extra.translation.function]]
+r_name = "ergMean"
+r_source = "provenance/upstream/R/DLM.R"
+fortran_module = "dlm"
+fortran_names = ["erg_mean"]
+fortran_source = "src/dlm_mcmc.f90"
+status = "complete"
+notes = "Cumulative ergodic means are translated for vector and matrix inputs, including the m starting-count behavior."

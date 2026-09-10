@@ -1,0 +1,26 @@
+dlm Fortran translation - notices and provenance
+
+Upstream package: dlm
+Upstream version: 1.1-6.1
+Upstream title: Bayesian and Likelihood Analysis of Dynamic Linear Models
+Upstream author/maintainer attribution from DESCRIPTION:
+  Giovanni Petris - author and maintainer
+  Wally Gilks - contributor; original C code for ARMS
+Upstream license: GPL (>= 2)
+
+This directory is a clean-room language translation of computational portions
+of the upstream R package. The original R sources used for provenance are kept
+under provenance/upstream and are not compiled by FPM. Plotting, printing,
+interactive progress interfaces, R S3/list construction, R time-series
+metadata, and formula handling are outside the Fortran runtime interface. R
+closures and optimizer result lists are represented by typed Fortran objects.
+
+The ARMS implementation in `src/dlm_arms.f90` is a modern Fortran translation
+of the adaptive rejection Metropolis algorithm in upstream `src/arms-R.c`. The
+upstream source credits the original C ARMS code to Wally Gilks and the R port
+to Giovanni Petris; those attributions are preserved here.
+
+Shared numerical dependencies are referenced as sibling FPM path dependencies.
+The `dlmMLE` mapping reuses the repository's top-level `optimx` translation. No
+`optimx`, rfortran-core, rfortran-linalg, BLAS, LAPACK, ARPACK, or other
+dependency source is copied into this package.
