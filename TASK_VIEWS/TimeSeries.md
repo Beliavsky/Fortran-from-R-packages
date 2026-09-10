@@ -6,7 +6,7 @@ maintained by Rob J Hyndman and Rebecca Killick, version 2026-07-29. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes 27 translated packages from this repository. Its summaries
+This page includes 33 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -27,6 +27,12 @@ each package's documentation for validation status and precise API coverage.
 - [`timsac`](../timsac/) provides correlation, spectral estimation,
   multivariate time-series analysis, matrix filtering, and related numerical
   routines from the TIMSAC collection.
+
+## Times and dates
+
+- [`lubridate`](../lubridate/) provides typed date and fixed-offset date-time
+  parsing, calendar arithmetic, intervals, periods, durations, accessors, and
+  rounding operations useful in time-series workflows.
 
 ## Forecasting and univariate modeling
 
@@ -50,6 +56,9 @@ each package's documentation for validation status and precise API coverage.
 - [`KFAS`](../KFAS/) provides Kalman filtering and smoothing for Gaussian and
   exponential-family state-space models, including diffuse initialization,
   non-Gaussian approximation, and importance sampling.
+- [`dlm`](../dlm/) provides dynamic-linear-model construction, Kalman
+  filtering and smoothing, likelihood evaluation, forecasting, simulation,
+  maximum-likelihood fitting, and selected Bayesian sampling methods.
 
 ## Structural changes
 
@@ -78,6 +87,14 @@ each package's documentation for validation status and precise API coverage.
   multidimensional, and dual-tree wavelet transforms together with
   multiresolution analysis, denoising, wavelet dependence measures, and
   long-memory spectral methods.
+- [`wavethresh`](../wavethresh/) provides discrete and stationary wavelet
+  transforms, wavelet packets, thresholding, shrinkage, density estimation,
+  spectral analysis, and multidimensional wavelet methods.
+- [`signal`](../signal/) provides digital-filter design and application,
+  frequency and impulse responses, interpolation and resampling,
+  Savitzky-Golay filtering, windows, chirps, and spectrogram calculations.
+- [`Rssa`](../Rssa/) provides singular spectrum analysis, reconstruction,
+  forecasting, gap filling, grouping, and multivariate and oblique variants.
 - [`FKF`](../FKF/) provides fast multivariate linear-Gaussian Kalman filtering
   and smoothing, including support for missing observations.
 
@@ -107,6 +124,9 @@ each package's documentation for validation status and precise API coverage.
 - [`vars`](../vars/) provides VAR estimation and lag selection, restrictions,
   forecasting, impulse responses, forecast-error variance decompositions,
   causality tests, and structural VAR identification.
+- [`MARSS`](../MARSS/) provides multivariate autoregressive state-space model
+  construction, Kalman filtering and smoothing, likelihood and EM fitting,
+  forecasting, simulation, uncertainty calculations, and diagnostics.
 
 ## Continuous-time models
 

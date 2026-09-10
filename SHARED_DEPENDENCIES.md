@@ -58,7 +58,7 @@ test and demo groups totaling about 4.9 KiB.
 | `SACCR` | `xVA` |
 | `copula` | `ewens` |
 | `QCSIS` | `wqc` |
-| `waveslim` | `wqc` |
+| `waveslim` | `wavethresh`, `wqc` |
 | `elliptic` | `hypergeo` |
 | `contfrac` | `hypergeo` |
 | `pbivnorm` | `lavaan` |
@@ -95,7 +95,7 @@ test and demo groups totaling about 4.9 KiB.
 | `fastmatrix` | `L1pack` |
 | `AdequacyModel` | `BGFD` |
 | `tsgarch` | `tsmarch` |
-| `RSpectra` | `bigstatsr` |
+| `RSpectra` | `bigstatsr`, `svd` |
 | `lsei` | `nspmix` |
 | `nnls` | `isotone` |
 | `fracdiff` | `forecast`, `ufRisk` |
@@ -105,10 +105,20 @@ test and demo groups totaling about 4.9 KiB.
 | `qrng` | `TruncatedNormal` |
 | `tweedie` | `statmod` |
 | `urca` | `forecast` |
+| `optimx` | `dlm` |
+| `KFAS` | `MARSS` |
+| `svd` | `Rssa` |
+| `vctrs` | `dplyr`, `readr`, `tibble`, `tidyr` |
+| `tibble` | `dplyr`, `readr`, `tidyr` |
+| `tidyselect` | `dplyr`, `tidyr` |
+| `forcats` | `readr` |
+| `dplyr` | `tidyr` |
+| `readr` | `tidyr` |
+| `stringr` | `tidyr` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
 | `rfortran-optional` | `rfortran-core`, `rfortran-linalg` |
-| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `DiscreteWeibull`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim` |
-| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `tsdyn`, `tvgarch`, `vars` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `DiscreteWeibull`, `dlm`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `vars`, `wavethresh` |
 
 For the earlier consolidation passes, each canonical package and affected
 consumer passed its FPM test suite before the redundant tree was removed.

@@ -6,7 +6,7 @@ Julie Josse, Imke Mayer, Nicholas Tierney, Nathalie Vialaneix, version 2026-05-0
 [source task view](https://github.com/cran-task-views/MissingData/blob/main/MissingData.md) provides the broader annotated
 guide to R packages.
 
-This page includes 9 translated packages. Package membership and broad
+This page includes 11 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -17,6 +17,7 @@ API coverage and validation status.
 
 ## Methods and packages
 
+- [`tidyr`](../tidyr/) - Provides deterministic tools for reshaping and tidying heterogeneous rectangular data.
 - [`mice`](../mice/) - Performs multivariate imputation by chained equations and associated pooling and diagnostic computations.
 - [`lavaan`](../lavaan/) - Fits confirmatory factor, structural-equation, and latent-variable models.
 - [`mitools`](../mitools/) - Combines and analyzes multiply imputed data using Rubin's rules and plausible values.
@@ -25,6 +26,7 @@ API coverage and validation status.
 - [`pan`](../pan/) - Performs multiple imputation for multivariate panel or clustered data.
 - [`forecast`](../forecast/) - Provides forecasting methods for exponential-smoothing, ARIMA, BATS, TBATS, and related time-series models.
 - [`randomForest`](../randomForest/) - Fits classification and regression random forests.
+- [`grf`](../grf/) - Fits generalized random forests for regression, causal inference, quantiles, survival analysis, and related tasks.
 - [`imputeFin`](../imputeFin/) - Imputes missing values and outliers in financial time series.
 
 Packages are listed under their first applicable source-view section to keep

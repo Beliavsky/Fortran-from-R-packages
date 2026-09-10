@@ -6,7 +6,7 @@ Hans W. Borchers, Robin Hankin, Serguei Sokol, version 2026-07-20. The
 [source task view](https://github.com/cran-task-views/NumericalMathematics/blob/main/NumericalMathematics.md) provides the broader annotated
 guide to R packages.
 
-This page includes 23 translated packages. Package membership and broad
+This page includes 27 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -20,6 +20,7 @@ API coverage and validation status.
 - [`Matrix`](../Matrix/) - Provides dense and sparse matrix algorithms.
 - [`MASS`](../MASS/) - Provides statistical methods from Venables and Ripley's MASS.
 - [`expm`](../expm/) - Computes matrix exponentials, logarithms, square roots, and related functions.
+- [`svd`](../svd/) - Provides interfaces to leading singular-value and eigenvalue solvers.
 - [`irlba`](../irlba/) - Computes fast truncated singular-value decompositions.
 - [`RSpectra`](../RSpectra/) - Computes selected eigenvalues, eigenvectors, and singular values of large matrices.
 
@@ -42,6 +43,10 @@ API coverage and validation status.
 - [`cubature`](../cubature/) - Performs adaptive multivariate integration over hypercubes.
 - [`statmod`](../statmod/) - Provides statistical-modeling utilities including inverse-Gaussian methods, quadrature, REML, and randomized quantile residuals.
 
+## Interpolation and Approximation
+
+- [`signal`](../signal/) - Provides digital signal-processing, filter-design, resampling, spectral, and windowing routines.
+
 ## Root Finding and Fixed Points
 
 - [`Rmpfr`](../Rmpfr/) - Provides arbitrary-precision arithmetic, special functions, probability kernels, and numerical algorithms using GNU MPFR.
@@ -51,9 +56,11 @@ API coverage and validation status.
 
 ## Discrete Mathematics and Number Theory
 
+- [`gmp`](../gmp/) - Provides pure-Fortran multiple-precision integer and rational arithmetic.
 - [`contfrac`](../contfrac/) - Evaluates and manipulates continued fractions.
 - [`magic`](../magic/) - Creates and analyzes magic squares, hypercubes, and Latin squares.
 - [`partitions`](../partitions/) - Generates and analyzes additive integer partitions.
+- [`combinat`](../combinat/) - Provides combinatorial utilities for permutations, combinations, and multinomial coefficients.
 
 ## MATLAB Octave Julia and other Interfaces
 
