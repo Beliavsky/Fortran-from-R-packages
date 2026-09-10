@@ -1,0 +1,17 @@
+name = "stringr"
+version = "1.6.0"
+license = "MIT"
+author = "Hadley Wickham and stringr authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Consistent portable string operations in modern Fortran"
+categories = ["strings", "utilities", "data-handling"]
+keywords = ["string", "text", "fixed-matching", "split", "replace"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
