@@ -1,0 +1,25 @@
+name = "tidyr"
+version = "1.3.2"
+license = "MIT"
+author = "Hadley Wickham, Davis Vaughan, Maximilian Girlich, and tidyr authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Tidy rectangular data in modern Fortran"
+categories = ["data-handling", "utilities"]
+keywords = ["reshape", "pivot", "missing-values", "tibble", "tidy-data"]
+
+[dependencies]
+vctrs = { path = "../vctrs" }
+tibble = { path = "../tibble" }
+tidyselect = { path = "../tidyselect" }
+stringr = { path = "../stringr" }
+dplyr = { path = "../dplyr" }
+readr = { path = "../readr" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
