@@ -1,0 +1,17 @@
+name = "vctrs"
+version = "0.7.3"
+license = "MIT"
+author = "Hadley Wickham, Lionel Henry, Davis Vaughan, and vctrs contributors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Type- and size-stable vector operations translated from the R package vctrs"
+categories = ["data-handling", "utilities"]
+keywords = ["vectors", "type-stability", "size-stability", "casting", "recycling"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
