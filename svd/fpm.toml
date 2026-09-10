@@ -1,0 +1,140 @@
+name = "svd"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Modern Fortran translation of svd 0.5.8 by Anton Korobeynikov and contributors"
+maintainer = ""
+copyright = "See NOTICE.md and upstream/LICENSE"
+description = "Modern Fortran/FPM translation of the computational API of the R package svd"
+categories = ["numerical", "linear-algebra"]
+keywords = ["svd", "eigenvalues", "lanczos", "matrix-free"]
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rspectra-fortran = { path = "../RSpectra" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 12
+r_functions_translated = 12
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "is.extmat"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["is_extmat"]
+fortran_source = "src/svd_extmat.f90"
+status = "complete"
+notes = "Typed Fortran checks dynamic operator type and callback validity instead of R S4/external-pointer tags."
+
+[[extra.translation.function]]
+r_name = "extmat.ncol"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["extmat_ncol"]
+fortran_source = "src/svd_extmat.f90"
+status = "complete"
+notes = "Returns the declared matrix-free operator column count without R S4 dispatch."
+
+[[extra.translation.function]]
+r_name = "extmat.nrow"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["extmat_nrow"]
+fortran_source = "src/svd_extmat.f90"
+status = "complete"
+notes = "Returns the declared matrix-free operator row count without R S4 dispatch."
+
+[[extra.translation.function]]
+r_name = "ematmul"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["ematmul"]
+fortran_source = "src/svd_extmat.f90"
+status = "complete"
+notes = "Forward and transpose vector products are translated; R storage-mode coercion is replaced by a typed real(dp) interface."
+
+[[extra.translation.function]]
+r_name = "extmat"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["make_extmat"]
+fortran_source = "src/svd_extmat.f90"
+status = "substantial"
+notes = "R closures/environment capture are represented by typed callback procedure pointers plus caller-owned polymorphic context state."
+
+[[extra.translation.function]]
+r_name = "as.array.extmat"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["materialize_extmat"]
+fortran_source = "src/svd_extmat.f90"
+status = "substantial"
+notes = "The numerical external matrix is materialized directly; R S3/S4 array attributes and ellipsis handling are omitted."
+
+[[extra.translation.function]]
+r_name = "as.matrix.extmat"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["materialize_extmat"]
+fortran_source = "src/svd_extmat.f90"
+status = "substantial"
+notes = "The numerical external matrix is materialized directly; R S3/S4 matrix dispatch and ellipsis handling are omitted."
+
+[[extra.translation.function]]
+r_name = "as.vector.extmat"
+r_source = "upstream/R/extmat.R"
+fortran_module = "svd_extmat"
+fortran_names = ["extmat_vector"]
+fortran_source = "src/svd_extmat.f90"
+status = "substantial"
+notes = "Returns column-major real(dp) values matching the default numeric conversion; R mode coercions are omitted."
+
+[[extra.translation.function]]
+r_name = "propack.svd"
+r_source = "upstream/R/propack_svd.R"
+fortran_module = "svd_solvers"
+fortran_names = ["propack_svd_dense", "propack_svd_operator"]
+fortran_source = "src/svd_solvers.f90"
+status = "substantial"
+notes = "Leading singular triplets and dense/matrix-free operation are preserved using sibling RSpectra; PROPACK restart/reorthogonalization details and verbose statistics differ."
+
+[[extra.translation.function]]
+r_name = "trlan.svd"
+r_source = "upstream/R/trlan.R"
+fortran_module = "svd_solvers"
+fortran_names = ["trlan_svd_dense", "trlan_svd_operator"]
+fortran_source = "src/svd_solvers.f90"
+status = "substantial"
+notes = "Uses the same left-normal A*A^T problem and returns singular values plus left vectors, but sibling RSpectra/ARPACK replaces nuTRLan and only one supplied warm-start vector seeds iteration rather than locking a subspace."
+
+[[extra.translation.function]]
+r_name = "trlan.eigen"
+r_source = "upstream/R/trlan.R"
+fortran_module = "svd_solvers"
+fortran_names = ["trlan_eigen_dense", "trlan_eigen_operator"]
+fortran_source = "src/svd_solvers.f90"
+status = "substantial"
+notes = "Leading symmetric eigenpairs are preserved using sibling RSpectra/ARPACK; nuTRLan thick-restart and locked-subspace continuation semantics are not identical."
+
+[[extra.translation.function]]
+r_name = "ztrlan.svd"
+r_source = "upstream/R/trlan.R"
+fortran_module = "svd_solvers"
+fortran_names = ["ztrlan_svd_complex"]
+fortran_source = "src/svd_solvers.f90"
+status = "substantial"
+notes = "Uses rfortran-linalg conventional Hermitian complex SVD. The upstream native code forms its normal action with unconjugated transpose and nuTRLan; warm-start arrays are validated but not reused by the dense LAPACK path."
