@@ -1,0 +1,17 @@
+name = "purrr"
+version = "1.2.2"
+license = "MIT"
+author = "Hadley Wickham, Lionel Henry, and purrr authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Typed functional programming tools in modern Fortran"
+categories = ["functional-programming", "utilities"]
+keywords = ["map", "reduce", "accumulate", "predicate", "callback"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
