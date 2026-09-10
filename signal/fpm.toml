@@ -1,0 +1,552 @@
+name = "signal"
+version = "1.8.1"
+license = "GPL-2.0-only"
+author = "signal upstream authors and contributors; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages maintainers"
+copyright = "See NOTICE.md and upstream/COPYRIGHTS"
+description = "Modern free-form Fortran translation of computational routines from the R signal package"
+categories = ["signal-processing", "numerical"]
+keywords = ["filters", "signal-processing", "spectral-analysis", "interpolation"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[install]
+library = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 58
+r_functions_translated = 58
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bartlett"
+r_source = "upstream/R/bartlett.R"
+fortran_module = "signal_windows"
+fortran_names = ["bartlett_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the Bartlett window for vector output."
+
+[[extra.translation.function]]
+r_name = "bilinear"
+r_source = "upstream/R/bilinear.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["bilinear_transform"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Bilinear zero/pole/gain transform is mapped; R S3 dispatch and object construction are represented by typed Fortran values."
+
+[[extra.translation.function]]
+r_name = "blackman"
+r_source = "upstream/R/blackman.R"
+fortran_module = "signal_windows"
+fortran_names = ["blackman_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the Blackman window."
+
+[[extra.translation.function]]
+r_name = "boxcar"
+r_source = "upstream/R/boxcar.R"
+fortran_module = "signal_windows"
+fortran_names = ["boxcar_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the rectangular window."
+
+[[extra.translation.function]]
+r_name = "butter"
+r_source = "upstream/R/butter.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["butter_filter"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Low/high/bandpass/bandstop Butterworth design is mapped for analog and digital filters; R S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "buttord"
+r_source = "upstream/R/buttord.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["butter_order"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Filter-order computation is mapped; R warnings and list/class construction are omitted."
+
+[[extra.translation.function]]
+r_name = "chebwin"
+r_source = "upstream/R/chebwin.R"
+fortran_module = "signal_windows"
+fortran_names = ["chebyshev_window"]
+fortran_source = "src/signal_windows.f90"
+status = "substantial"
+notes = "Dolph-Chebyshev window computation is mapped using the package-local DFT; numerical roundoff and runtime differ from R fft."
+
+[[extra.translation.function]]
+r_name = "cheb1ord"
+r_source = "upstream/R/cheb1ord.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["cheby1_order"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Chebyshev-I order computation is mapped; band-reject handling remains limited as in the upstream implementation."
+
+[[extra.translation.function]]
+r_name = "cheby1"
+r_source = "upstream/R/cheby1.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["cheby1_filter"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Chebyshev-I prototype and frequency transforms are mapped; R S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "cheby2"
+r_source = "upstream/R/cheby2.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["cheby2_filter"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Chebyshev-II prototype and frequency transforms are mapped; R S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "chirp"
+r_source = "upstream/R/chirp.R"
+fortran_module = "signal_analysis"
+fortran_names = ["chirp_signal"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Linear, quadratic, and logarithmic chirp calculations are mapped; R argument matching and warning text are omitted."
+
+[[extra.translation.function]]
+r_name = "decimate"
+r_source = "upstream/R/decimate.R"
+fortran_module = "signal_interpolation"
+fortran_names = ["decimate_signal"]
+fortran_source = "src/signal_interpolation.f90"
+status = "substantial"
+notes = "FIR/IIR antialias filtering and downsampling are mapped; endpoint behavior follows the translated filters rather than R object methods."
+
+[[extra.translation.function]]
+r_name = "ellip"
+r_source = "upstream/R/ellip.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["ellip_filter"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Elliptic prototype/design and transforms are mapped; R S3 dispatch and warning behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "ellipord"
+r_source = "upstream/R/ellipord.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["ellip_order"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "Elliptic order computation is mapped with package-local elliptic-integral evaluation; R warnings/list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "FftFilter"
+r_source = "upstream/R/fftfilt.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_fft_filter"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "The computational filter object is represented by a Fortran derived type; requested FFT length is retained as metadata, without an R S3 object."
+
+[[extra.translation.function]]
+r_name = "filter"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["filter_signal"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "Direct-form FIR/IIR filtering and initial-state inputs are mapped; R S3 dispatch, recycling, and exact stats::filter state conventions are not reproduced."
+
+[[extra.translation.function]]
+r_name = "fftfilt"
+r_source = "upstream/R/fftfilt.R"
+fortran_module = "signal_filters"
+fortran_names = ["fft_filter_signal"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "FIR convolution result is mapped, but this standalone translation uses direct convolution instead of overlap-add FFT acceleration."
+
+[[extra.translation.function]]
+r_name = "MedianFilter"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_median_filter"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "The running-median filter configuration is represented by a Fortran derived type rather than an R S3 object."
+
+[[extra.translation.function]]
+r_name = "medfilt1"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["median_filter_signal"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Running median computation is mapped; boundary handling is local-window median and is not an exact clone of stats::runmed endrule behavior."
+
+[[extra.translation.function]]
+r_name = "spencerFilter"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_spencer_filter"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "The 15-term Spencer FIR coefficients are mapped into the Fortran ARMA filter type; R class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "spencer"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["spencer_smooth"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "Spencer smoothing and NaN endpoints are mapped; R names/attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "FilterOfOrder"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_filter_order"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Filter-order metadata is represented by a Fortran derived type; arbitrary R list fields in ... are not supported."
+
+[[extra.translation.function]]
+r_name = "an"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["unit_phasor_degrees"]
+fortran_source = "src/signal_filters.f90"
+status = "complete"
+notes = "Degree-to-unit-phasor computation is mapped as a pure elemental function."
+
+[[extra.translation.function]]
+r_name = "roots"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_utils"
+fortran_names = ["polynomial_roots"]
+fortran_source = "src/signal_utils.f90"
+status = "partial"
+notes = "Polynomial roots are computed with Durand-Kerner iteration; the alternate R eigenvalue method and exact polyroot behavior are not reproduced."
+
+[[extra.translation.function]]
+r_name = "Arma"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_arma"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "ARMA coefficient storage is represented by a typed Fortran value rather than an R S3 list."
+
+[[extra.translation.function]]
+r_name = "as.Arma"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["arma_from_zpg", "make_ma"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Zero/pole/gain and moving-average coefficient conversions are supported numerically; R S3 identity/dispatch behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "Ma"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_ma"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Moving-average coefficients are represented by the shared Fortran ARMA filter type with denominator one."
+
+[[extra.translation.function]]
+r_name = "Zpg"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["make_zpg"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Zero-pole-gain storage is represented by a typed Fortran value rather than an R S3 list."
+
+[[extra.translation.function]]
+r_name = "as.Zpg"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_filters"
+fortran_names = ["zpg_from_arma"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "Polynomial-to-zero/pole/gain conversion is mapped; R S3 identity/dispatch behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "polyval"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_utils"
+fortran_names = ["polyval_real_complex"]
+fortran_source = "src/signal_utils.f90"
+status = "substantial"
+notes = "Polynomial evaluation at complex points is mapped; R vector recycling/coercion rules are omitted."
+
+[[extra.translation.function]]
+r_name = "conv"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_utils"
+fortran_names = ["convolve"]
+fortran_source = "src/signal_utils.f90"
+status = "complete"
+notes = "Linear convolution of real vectors is mapped directly."
+
+[[extra.translation.function]]
+r_name = "ifft"
+r_source = "upstream/R/filter.R"
+fortran_module = "signal_utils"
+fortran_names = ["inverse_dft"]
+fortran_source = "src/signal_utils.f90"
+status = "substantial"
+notes = "Inverse complex transform is mapped with a package-local O(N^2) DFT instead of R fft, so performance and roundoff differ."
+
+[[extra.translation.function]]
+r_name = "filtfilt"
+r_source = "upstream/R/filtfilt.R"
+fortran_module = "signal_filters"
+fortran_names = ["zero_phase_filter"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "Forward/reverse zero-phase filtering with upstream zero padding is mapped; R S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "fir1"
+r_source = "upstream/R/fir1.R"
+fortran_module = "signal_fir_design"
+fortran_names = ["fir1_filter"]
+fortran_source = "src/signal_fir_design.f90"
+status = "substantial"
+notes = "Windowed FIR low/high/bandpass/bandstop design and scaling are mapped; R argument matching and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "fir2"
+r_source = "upstream/R/fir2.R"
+fortran_module = "signal_fir_design"
+fortran_names = ["fir2_filter"]
+fortran_source = "src/signal_fir_design.f90"
+status = "partial"
+notes = "Frequency-sampling FIR design is mapped with a local DFT; duplicate-knot ramp handling is numerically approximated rather than cloning all R interpolation details."
+
+[[extra.translation.function]]
+r_name = "flattopwin"
+r_source = "upstream/R/flattopwin.R"
+fortran_module = "signal_windows"
+fortran_names = ["flattop_window"]
+fortran_source = "src/signal_windows.f90"
+status = "substantial"
+notes = "Symmetric and periodic flat-top windows are mapped, including the upstream periodic n=1 edge case."
+
+[[extra.translation.function]]
+r_name = "freqs"
+r_source = "upstream/R/freqs.R"
+fortran_module = "signal_analysis"
+fortran_names = ["analog_frequency_response"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Analog complex frequency response is mapped; R S3 class, printing, and plotting behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "freqz"
+r_source = "upstream/R/freqz.R"
+fortran_module = "signal_analysis"
+fortran_names = ["digital_frequency_response", "digital_frequency_response_at"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Digital complex frequency response on generated or supplied grids is mapped; R S3 class, printing, plotting, and FFT acceleration are omitted."
+
+[[extra.translation.function]]
+r_name = "gausswin"
+r_source = "upstream/R/gausswin.R"
+fortran_module = "signal_windows"
+fortran_names = ["gaussian_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the Gaussian window."
+
+[[extra.translation.function]]
+r_name = "grpdelay"
+r_source = "upstream/R/grpdelay.R"
+fortran_module = "signal_analysis"
+fortran_names = ["group_delay"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Group-delay computation and frequency grid are mapped; R S3 class, printing, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "hamming"
+r_source = "upstream/R/hamming.R"
+fortran_module = "signal_windows"
+fortran_names = ["hamming_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the Hamming window."
+
+[[extra.translation.function]]
+r_name = "hanning"
+r_source = "upstream/R/hanning.R"
+fortran_module = "signal_windows"
+fortran_names = ["hanning_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the Hann window exposed upstream as hanning."
+
+[[extra.translation.function]]
+r_name = "impz"
+r_source = "upstream/R/impz.R"
+fortran_module = "signal_analysis"
+fortran_names = ["impulse_response"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Impulse response and time grid are mapped; R S3 printing/plotting and exact default-length heuristics are simplified."
+
+[[extra.translation.function]]
+r_name = "interp1"
+r_source = "upstream/R/interp1.R"
+fortran_module = "signal_interpolation"
+fortran_names = ["interp1_signal"]
+fortran_source = "src/signal_interpolation.f90"
+status = "partial"
+notes = "Linear, nearest, PCHIP, and local cubic interpolation are mapped; spline currently falls back to PCHIP, and R matrix/recycling behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "interp"
+r_source = "upstream/R/interp.R"
+fortran_module = "signal_interpolation"
+fortran_names = ["interpolate_signal"]
+fortran_source = "src/signal_interpolation.f90"
+status = "substantial"
+notes = "Integer-rate zero insertion, low-pass FIR filtering, gain, and delay trimming are mapped; FFT acceleration is not used."
+
+[[extra.translation.function]]
+r_name = "kaiser"
+r_source = "upstream/R/kaiser.R"
+fortran_module = "signal_windows"
+fortran_names = ["kaiser_window"]
+fortran_source = "src/signal_windows.f90"
+status = "substantial"
+notes = "Kaiser window computation is mapped with a package-local modified-Bessel approximation."
+
+[[extra.translation.function]]
+r_name = "kaiserord"
+r_source = "upstream/R/kaiserord.R"
+fortran_module = "signal_fir_design"
+fortran_names = ["kaiser_order"]
+fortran_source = "src/signal_fir_design.f90"
+status = "substantial"
+notes = "Kaiser order/beta/cutoff estimation is mapped; R list/class representation and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "levinson"
+r_source = "upstream/R/levinson.R"
+fortran_module = "signal_filters"
+fortran_names = ["levinson_durbin"]
+fortran_source = "src/signal_filters.f90"
+status = "substantial"
+notes = "Levinson-Durbin recursion, prediction variance, and reflection coefficients are mapped; R return-list structure is replaced by output arguments."
+
+[[extra.translation.function]]
+r_name = "pchip"
+r_source = "upstream/R/pchip.R"
+fortran_module = "signal_interpolation"
+fortran_names = ["pchip_interpolate"]
+fortran_source = "src/signal_interpolation.f90"
+status = "substantial"
+notes = "Shape-preserving piecewise cubic Hermite interpolation is mapped numerically; upstream piecewise-polynomial R object construction is omitted."
+
+[[extra.translation.function]]
+r_name = "poly"
+r_source = "upstream/R/poly.R"
+fortran_module = "signal_utils"
+fortran_names = ["polynomial_from_roots"]
+fortran_source = "src/signal_utils.f90"
+status = "partial"
+notes = "Polynomial construction from roots is mapped; the R matrix-characteristic-polynomial input mode is not translated."
+
+[[extra.translation.function]]
+r_name = "remez"
+r_source = "upstream/R/remez.R"
+fortran_module = "signal_fir_design"
+fortran_names = ["remez_filter"]
+fortran_source = "src/signal_fir_design.f90"
+status = "partial"
+notes = "API-level FIR design is provided using weighted least squares on a dense grid; it is not an exact Parks-McClellan/Remez equiripple translation."
+
+[[extra.translation.function]]
+r_name = "resample"
+r_source = "upstream/R/resample.R"
+fortran_module = "signal_interpolation"
+fortran_names = ["resample_signal"]
+fortran_source = "src/signal_interpolation.f90"
+status = "substantial"
+notes = "Windowed-sinc resampling, including non-integer p/q ratios and antialias filtering, is mapped; FFT acceleration and some R endpoint details differ."
+
+[[extra.translation.function]]
+r_name = "sftrans"
+r_source = "upstream/R/sftrans.R"
+fortran_module = "signal_iir_design"
+fortran_names = ["splane_frequency_transform"]
+fortran_source = "src/signal_iir_design.f90"
+status = "substantial"
+notes = "S-plane low/high/bandpass/bandstop zero/pole/gain transforms are mapped; R S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "sgolay"
+r_source = "upstream/R/sgolay.R"
+fortran_module = "signal_sgolay"
+fortran_names = ["savitzky_golay"]
+fortran_source = "src/signal_sgolay.f90"
+status = "substantial"
+notes = "Savitzky-Golay coefficient construction is mapped with a package-local pivoted linear solver rather than MASS::ginv; R class attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "sgolayfilt"
+r_source = "upstream/R/sgolayfilt.R"
+fortran_module = "signal_sgolay"
+fortran_names = ["savitzky_golay_filter"]
+fortran_source = "src/signal_sgolay.f90"
+status = "substantial"
+notes = "Savitzky-Golay filtering and derivative scaling are mapped; R S3 filter dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "specgram"
+r_source = "upstream/R/specgram.R"
+fortran_module = "signal_analysis"
+fortran_names = ["spectrogram"]
+fortran_source = "src/signal_analysis.f90"
+status = "substantial"
+notes = "Windowing, overlap, per-frame DFT, and numeric spectrogram outputs are mapped; R plotting/printing and FFT acceleration are omitted."
+
+[[extra.translation.function]]
+r_name = "triang"
+r_source = "upstream/R/triang.R"
+fortran_module = "signal_windows"
+fortran_names = ["triangular_window"]
+fortran_source = "src/signal_windows.f90"
+status = "complete"
+notes = "Direct numerical translation of the triangular window."
+
+[[extra.translation.function]]
+r_name = "unwrap"
+r_source = "upstream/R/unwrap.R"
+fortran_module = "signal_filters"
+fortran_names = ["unwrap_phase"]
+fortran_source = "src/signal_filters.f90"
+status = "partial"
+notes = "One-dimensional phase unwrapping is mapped; R multi-dimensional dim selection and array attributes are omitted."

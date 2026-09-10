@@ -1,0 +1,6 @@
+bibentry(bibtype = "Manual",
+    title        = "{signal}: Signal processing",
+    author       = person("signal developers"),
+    year         = 2023,
+    url          = "https://r-forge.r-project.org/projects/signal/"
+)
