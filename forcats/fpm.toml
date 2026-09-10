@@ -1,0 +1,17 @@
+name = "forcats"
+version = "1.0.1"
+license = "MIT"
+author = "Hadley Wickham and forcats authors; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Tools for working with categorical variables in modern Fortran"
+categories = ["data-manipulation", "data-structures", "statistics"]
+keywords = ["factor", "categorical", "levels", "recode", "reorder"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[extra.r-fpm-index]
+gams = ["N"]
