@@ -1,0 +1,231 @@
+2024-08-24 Antoine Lucas
+
+	Fix issue "compliation with R_NO_REMAP flag" i.e. use of Rf_error and Rf_warning instead of error / warning.
+
+2024-01-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/biginteger.R (all.equal.bigz): fixed, notably for 'NA'.
+
+2022-02-23 Antoine Lucas
+
+	rework on operator[]. Fix bugs.
+
+2021-03-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Stirling-n-etc.R (dbinomQ): new; providing *exact* binomial
+	probabilities.
+	* DESCRIPTION (Version): 0.6-3 (not yet released)
+
+2021-01-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* configure.ac: add definitions of CFLAGS etc  as from R,
+	from a suggestion by Kaspar Daniel Hansen.
+	* DESCRIPTION (Version) : 0.6-2, released to CRAN
+
+2020-07-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/bigq.R (roundQ): use simpler *vectorized* version, always
+	returning 'bigq' (as documented).
+	* tests/arith-ex.R: check it works.
+
+2020-07-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/bigq.R (round, round0, roundQ): round0(): "round to even"; make
+	'round0()' the default argument to  'round(x, digits)'.
+
+2020-06-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/biginteger.R (c_bigz): export, to be used, e.g.,
+	* R/bigq.R (c_bigq): on  lapply(<big>, Fn) to give a <big[qz]> result, see
+	* man/bigrational.Rd: the  sapplyQ()  utility in the examples.
+
+2020-06-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.6-1  (not yet released)
+
+	* R/Stirling-n-etc.R (BernoulliQ): Bernoulli numbers as exact fractions.
+	* R/zzz.R (NA_bigz_, NA_bigq_): analogous to `NA_integer_` etc
+
+2020-06-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* NAMESPACE: use *same* S3method(<op>, <class>, <method_fn>) for bigz and bigq,
+	* R/bigq.R (add.big): so now "mixed" arithmetic and comparisons work
+
+2020-06-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.6-0  (not yet released)
+
+	* R/biginteger.R (as.bigz): now  as.bigz(<bigz>)  keeps a modulus
+
+2020-05-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/AllClasses-etc.R (.diff.big): diff.big[zq]() methods
+
+2020-03-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/matrixz.R[.dimZQ, .ncolZQ]: use `%/%` to get integer dim() and ncol()
+
+	* R/matrix-prods.R: must crossprod() / tcrossprod() generics with
+	the `...` extra argument, compatibly with "R base"  `implicitGeneric("crossprod")`
+
+2020-03-02  Martin Mächler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-14
+
+	* R/biginteger.R (floor.bigz, round.bigz, ..): implement
+	(c.bigz, max.bigz, sum.bigz, ..): also work when args contain "bigq"
+
+	* R/bigq.R (floor.bigq, round.bigq, ..): implement
+
+2016-01-07
+	** Some fix
+
+	**Indexing/Subassignment:
+	*** Seg.faults in
+	Z <- as.bigz(1:7);     Z[1] <- list(1) # --> seg.fault
+	Q <- as.bigq(1:7, 7);  Q[1] <- list(1) # --> seg.fault
+	Z <- as.bigz(1:7);     Z[1] <- NULL    # --> seg.fault
+	Q <- as.bigq(1:7, 7);  Q[1] <- NULL    # --> seg.fault
+
+	** Not working Arithmetic
+	*** qq <- as.bigq(c(0:5, NA, 7:8), 12) # shows NA fine, is.na(qq), too, but numerator( qq ) gives 0 instead of NA !!
+
+	** Miscellaneous
+	*** unique() silently gives nonsense !
+	*** duplicated()  ditto
+
+	** Matrix stuff
+	***  as.matrix(as.bigq(1:4)),  as.matrix(as.bigz(1:4)) now (~ 2012) work
+	**** NB: to go "back", now have asNumeric()  {instead of expecting as.matrix() to give numeric}
+
+
+2014-07-28
+	* Fix %/% operator
+	* Remove doxygen auto-generated files.
+
+2013-12-03
+	* Fix c++ code to work with new gcc.
+2013-10-29
+	* Fix c++ code to work with new gcc.
+2013-09-12  Antoine Lucas.
+	* Fix Warn / Note.
+
+2013-09-10  Antoine Lucas.
+	* fix man page.
+
+2013-06-09  Antoine Lucas.
+        * fix factorize('33162879029270137')
+
+2013-06-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+	big changes related to  "a/b" and "b^(-1)";
+	also: now give [NA + warning()} rather than an error when
+	there is no inverse, a division to 0, or a modulus mismatch
+
+2013-02-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/biginteger.R (duplicated.bigz, unique.bigz, all.equal.bigz):
+	new (cheap imp.).
+
+	* R/bigq.R (duplicated.bigq, unique.bigq, all.equal.bigq, mean.bigq):
+	new (cheap imp.)
+
+	* R/biginteger.R (rep.bigz): and
+	* R/bigq.R (rep.bigq): allow ('length.out' and 'each') arguments
+
+2013-02-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bigrationalR.cc (bigrational_num): numerator(<NA>)
+
+	* R/matrixz.R (.dimsetZQ): dim(.) <- NULL  now works
+
+2013-02-04  Martin Maechler
+
+	* DESCRIPTION (Version): 0.5-4   (0.5-3 failed in R 2.14.2)
+
+2013-02-03  Antoine Lucas + Martin Maechler
+	* man/sizeinbase.Rd updated
+	* new function asNumeric()
+
+2012-05-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bigrational.cc (^): Q^n  and Z^n now also work for negative
+	'n' and with NA's.
+
+	* R/bigq.R (as.bigz.bigq): as.bigz(as.bigq(NA)) now works
+
+2012-05-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bigrationalR.cc (bigrational_pow, mpqz_pow):
+	* src/bigrational.cc (operator^): add   <bigq> ^ n   functionality.
+	* TODO: (one less :-)
+
+2012-05-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-2
+
+	* src/bigintegerR.cc (bigI_choose, bigI_factorial): now vectorized.
+	* man/factorialZ.Rd: updated, including examples
+
+2012-01-20 Antoine Lucas
+
+	* tests/gmp-test.R: update
+
+2012-01-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* NAMESPACE,
+	* src/init.cc: new file, providing proper registration
+	* R/zzz.R: new gmpVersion() [to get GMP C library version].
+
+2012-01-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/biginteger.R (as.bigz): mod=NULL now is equivalent to NA;
+	 important for  'modulus(x) <- NULL' to work.
+
+2012-01-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/modulus.Rd: example, (and FIXME)
+
+	* TODO: as.bigz(integer()) and as.bigq(integer()) now both work and
+	give a 0-length object; analogously, the basic functions now work
+	with the 0-length big[qz] vectors and return 0-length.
+
+	* src/bigintegerR.cc (create_SEXP): ensure the modulus also has
+	class "bigz".
+
+2012-01-06  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/matrix-prods.R: new file, containing all %*%, and new
+	crossprod, tcrossprod methods.
+	<bigz> %*% <double>  now works, too.
+
+2011-12-31  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bigintegerR.cc (biginteger_as_integer): new
+	(biginteger_log, biginteger_log2): new --> allowing proper log().
+
+	* R/biginteger.R (as.integer.bigz): new -- gave nonsense!
+	* R/biginteger.R (log.bigz): now work correctly also for large numbers.
+
+2011-12-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bigintegerR.cc (bigI_frexp): new, with R interface
+	* man/frexpZ.Rd:
+
+	* R/bigq.R (Math.bigq): define a "fall-back" group method
+	* R/biginteger.R (Math.bigz): ditto
+
+	* R/biginteger.R (print.bigz, print.bigq): Mention class and length,
+	and then do *not* quote, by default.
+
+2011-12-28  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.5-0
+
+	* src/bigintegerR.cc (biginteger_max): na_remove now correct from R code
+	* src/bigrationalR.cc (bigrational_max): ditto
+
+	* R/biginteger.R (factorialZ, chooseZ): new
+
+2010-04-10  Antoine Lucas <antoinelucas@gmail.com>
+
+	* ./Changes : see for 0.4-12 and everything older.

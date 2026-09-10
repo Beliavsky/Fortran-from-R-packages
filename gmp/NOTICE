@@ -1,0 +1,21 @@
+NOTICE / PROVENANCE
+===================
+
+This directory is a Fortran translation of computational portions of the R package
+
+    gmp 0.7-5.1 - Multiple Precision Arithmetic
+
+Upstream authors/contributors listed by DESCRIPTION:
+  Antoine Lucas, Immanuel Scholz, Rainer Boehme, Sylvain Jasson, Martin Maechler
+
+Upstream URL:
+  https://forgemia.inra.fr/sylvain.jasson/gmp
+
+Upstream license:
+  GPL (>= 2)
+
+The upstream package's DESCRIPTION, NAMESPACE, ChangeLog/Changes, MD5 manifest, R sources, native C/C++ sources, and manuals are retained under upstream/ for attribution, provenance, and behavior comparison. They are not built by FPM.
+
+The maintained src/, test/, and example/ Fortran code was created as a translation of the package's computational behavior. It does not contain or link the GNU MP library and does not require a separately installed GMP library. The arbitrary-precision representation and algorithms in src/ are package-specific Fortran implementations rather than copied GMP source.
+
+This translation is distributed under GPL-2.0-or-later consistently with the upstream package's GPL (>= 2) grant. See LICENSE.

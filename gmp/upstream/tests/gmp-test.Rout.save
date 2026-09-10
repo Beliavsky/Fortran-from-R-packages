@@ -1,0 +1,1539 @@
+
+R version 4.3.2 Patched (2024-01-28 r85841) -- "Eye Holes"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(gmp)
+
+Attaching package: 'gmp'
+
+The following objects are masked from 'package:base':
+
+    %*%, apply, crossprod, matrix, tcrossprod
+
+> 
+> ##
+> ##' @title Test a unary (if unary=TRUE) or *binary* function
+> ##' @param FUN a function, such as add.bigq() ...
+> ##' @param x a list of "numbers"
+> ##' @param out string determining output class; if "str", use characters, otherwise double
+> ##' @return
+> ##' @author Antoine Lucas (& Martin Maechler)
+> ##' @examples test(as.bigq, 0)
+> test <- function(FUN, x, xlabs, out = "str", unary = FALSE)
++ {
++   if(missing(xlabs))
++     xlabs <- if(is.character(names(x))) names(x) else sapply(x, formatN)
++   stopifnot(is.function(FUN), is.list(x),
++ 	    (n <- length(x)) >= 1, length(xlabs) == n)
++   if(out == "str") {
++       sortie <- as.character
++       res <- ""
++       error <- "error"
++   } else {
++       sortie <- as.double
++       res <- 0
++       error <- NA
++   }
++   nr <- if(unary) 1 else n
++   xlabs <- gsub(" ", "", xlabs)
++   res <- matrix(res, nr, n,
++                 dimnames = list(if(!unary) abbreviate(xlabs, 11, named=FALSE), xlabs))
++   for(i in 1:nr){
++     classNameI = class(x[[i]])
++     for(j in 1:n) {
++       classNameJ = class(x[[j]])
++ 
++       e <- if(unary) tryCatch(FUN(x[[j]]),        error=identity) else
++                      tryCatch(FUN(x[[i]],x[[j]]), error=identity)
++       if(inherits(e, "error"))
++         e <- error
++       else if(length(e) == 0)
++         e <- numeric()
++       ## we don't test standard R floating operations.
++       if( (classNameI[1] == "numeric" || classNameI[1] == "integer") && ( classNameJ[1] == "numeric" || classNameJ[1] == "integer") && class(e)[1] == "numeric") e <- "-"
++ 
++       ## ## now, for some functions also compute the corresponding numeric values
++       if(length(e) > 0 && is.double(e[1]) && is.finite(e[1]))
++         e <- format(signif(e[1], digits=14), digits=7) # signif(), not round()
++ 
++       res[i,j] <- sortie(e)[1]
++     }
++   }
++   res ## for printing, the user may prefer as.data.frame(.)
++ }## end{test}
+> 
+> 
+> allfunctionid <- c("as.bigz","+","-","*",
++ 		   "divq.bigz","/","%%","^",
++ 		   "inv.bigz", "gcd.bigz", "gcdex", "lcm.bigz",
++ 		   "as.bigq",
++ 		   "chooseZ",
++ 		   "max","min","|","&","xor","c","cbind","rbind")
+> unaryfunctionid <- c("log","log2","log10","c",
++ 		     "isprime","nextprime", "factorialZ",
++ 		     "sizeinbase","fibnum","fibnum2","lucnum","lucnum2",
++ 		     "factorize","abs","!")
+> numericFunName <- function(gmpName) {
++   if(gmpName != (r <- sub("[ZQ]$","", gmpName)) &&
++      r!="as" && existsFunction(r)) # e.g. chooseZ
++     return(r)
++   if(gmpName != (r <- sub("\\.big[zq]$","", gmpName)) &&
++      r!="as" && r!="sub" && existsFunction(r))
++     return(r)
++   ttt <- c("add" = "+",
++            "sub" = "-",
++            "mul" = "*",
++            "pow" = "^",
++            "div" = "/",
++            "divq" = "%/%",
++            "mod" = "%%")
++   if(!is.na(t.r <- ttt[r]))
++     t.r[[1L]]
++   else ## return argument
++     gmpName
++ }
+> 
+> 
+> options(width = 140, nwarnings = 10000)
+> 
+> sapply(allfunctionid,   numericFunName)
+   as.bigz          +          -          *  divq.bigz          /         %%          ^   inv.bigz   gcd.bigz      gcdex   lcm.bigz 
+ "as.bigz"        "+"        "-"        "*"      "%/%"        "/"       "%%"        "^" "inv.bigz"      "gcd"    "gcdex"      "lcm" 
+   as.bigq    chooseZ        max        min          |          &        xor          c      cbind      rbind 
+ "as.bigq"   "choose"      "max"      "min"        "|"        "&"      "xor"        "c"    "cbind"    "rbind" 
+> sapply(unaryfunctionid, numericFunName)
+         log         log2        log10            c      isprime    nextprime   factorialZ   sizeinbase       fibnum      fibnum2 
+       "log"       "log2"      "log10"          "c"    "isprime"  "nextprime"  "factorial" "sizeinbase"     "fibnum"    "fibnum2" 
+      lucnum      lucnum2    factorize          abs            ! 
+    "lucnum"    "lucnum2"  "factorize"        "abs"          "!" 
+> 
+> 
+> ex <- expression(23,as.bigz(23),as.bigq(23),c(3,23),as.bigz(c(3,23)),as.bigq(c(3,23)), "25", 2.3, -4, 4L, 0, as.bigz(34),
++                  as.bigq(32,7), as.bigz(31,45), NULL,NA, -3L)## TODO:  as.bigz(3)^700
+> x <- lapply(ex, eval)
+> 
+> ## Those "numbers" in x for which arithmetic should also work in double precision:
+> ## not modulo-arithmetic, not larger than double.prec
+> useN <- sapply(x, function(u) is.null(u[1]) || is.na(u[1]) ||
++                (is.finite(as.numeric(u[1])) && (!inherits(u[1], "bigz") || is.null(modulus(u[1])))))
+> names(x) <- vapply(ex, format, "")
+> if(FALSE)## shorter & easier {but *not* the original calls from 'ex'}
++     names(x) <- sapply(x, formatN)
+> str(x)
+List of 17
+ $ 23               : num 23
+ $ as.bigz(23)      : 'bigz' raw 23
+ $ as.bigq(23)      : 'bigq' raw 23
+  ..- attr(*, "denominator")= raw [1:16] 01 00 00 00 ...
+ $ c(3, 23)         : num [1:2] 3 23
+ $ as.bigz(c(3, 23)): 'bigz' raw [1:2] 3 23
+ $ as.bigq(c(3, 23)): 'bigq' raw [1:2] 3 23
+  ..- attr(*, "denominator")= raw [1:28] 02 00 00 00 ...
+ $ 25               : chr "25"
+ $ 2.3              : num 2.3
+ $ -4               : num -4
+ $ 4                : int 4
+ $ 0                : num 0
+ $ as.bigz(34)      : 'bigz' raw 34
+ $ as.bigq(32, 7)   : 'bigq' raw 32/7
+  ..- attr(*, "denominator")= raw [1:16] 01 00 00 00 ...
+ $ as.bigz(31, 45)  : 'bigz' raw (31 %% 45)
+  ..- attr(*, "mod")= 'bigz' raw 45
+ $ NULL             : NULL
+ $ NA               : logi NA
+ $ -3L              : int -3
+> x. <- x[useN]
+> nx <- lapply(x., as.numeric)
+> gmp.NS <- asNamespace("gmp")# also get namespace *hidden* functions, i.e. methods:
+> for(fid in allfunctionid)
++   {
++     cat ("------------------------------------------\n", fid," ", sep="")
++     FUN <- get(fid, envir = gmp.NS, mode="function")
++     rc   <- test(FUN, x )
++     res  <- test(FUN, x. , out = "numeric")
++     if((nfid <- numericFunName(fid)) != fid || existsFunction(nfid, where=baseenv())) {
++       FUN <- get(nfid, envir = gmp.NS, mode="function")
++       if(nfid != fid) cat("-> num.fn.:", nfid)
++       nres <- test(FUN, nx, out = "numeric")
++       cat("\n-> all.equal(target = res, current = F(<numeric x>)): ",
++           all.equal(res, nres), "\n")
++     } else cat("\n\n")
++     print(as.data.frame(rc)); cat("\n")
++     ##    ^^^^^^^^^^^^^ (for now, to diminuish difference to last version )
++   }
+------------------------------------------
+as.bigz 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 60 in current 46 in target 
+                       23 as.bigz(23) as.bigq(23)  c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25      2.3        -4        4     0
+23              (0 %% 23)   (0 %% 23)   (0 %% 23) (2 %% 3)         (2 %% 3)         (2 %% 3) (23 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+as.bigz(23)     (0 %% 23)   (0 %% 23)   (0 %% 23) (2 %% 3)         (2 %% 3)         (2 %% 3) (23 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+as.bigq(23)     (0 %% 23)   (0 %% 23)   (0 %% 23) (2 %% 3)         (2 %% 3)         (2 %% 3) (23 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+c(3,23)         (3 %% 23)   (3 %% 23)   (3 %% 23) (0 %% 3)         (0 %% 3)         (0 %% 3)  (3 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+as.bgz((3,23))  (3 %% 23)   (3 %% 23)   (3 %% 23) (0 %% 3)         (0 %% 3)         (0 %% 3)  (3 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+as.bgq((3,23))  (3 %% 23)   (3 %% 23)   (3 %% 23) (0 %% 3)         (0 %% 3)         (0 %% 3)  (3 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+25              (2 %% 23)   (2 %% 23)   (2 %% 23) (1 %% 3)         (1 %% 3)         (1 %% 3)  (0 %% 25) (1 %% 2) (1 %% -4) (1 %% 4) error
+2.3             (2 %% 23)   (2 %% 23)   (2 %% 23) (2 %% 3)         (2 %% 3)         (2 %% 3)  (2 %% 25) (0 %% 2) (2 %% -4) (2 %% 4) error
+-4             (19 %% 23)  (19 %% 23)  (19 %% 23) (2 %% 3)         (2 %% 3)         (2 %% 3) (21 %% 25) (0 %% 2) (0 %% -4) (0 %% 4) error
+4               (4 %% 23)   (4 %% 23)   (4 %% 23) (1 %% 3)         (1 %% 3)         (1 %% 3)  (4 %% 25) (0 %% 2) (0 %% -4) (0 %% 4) error
+0               (0 %% 23)   (0 %% 23)   (0 %% 23) (0 %% 3)         (0 %% 3)         (0 %% 3)  (0 %% 25) (0 %% 2) (0 %% -4) (0 %% 4) error
+as.bigz(34)    (11 %% 23)  (11 %% 23)  (11 %% 23) (1 %% 3)         (1 %% 3)         (1 %% 3)  (9 %% 25) (0 %% 2) (2 %% -4) (2 %% 4) error
+as.bg(32,7)     (4 %% 23)   (4 %% 23)   (4 %% 23) (1 %% 3)         (1 %% 3)         (1 %% 3)  (4 %% 25) (0 %% 2) (0 %% -4) (0 %% 4) error
+as.b(31,45)     (8 %% 23)   (8 %% 23)   (8 %% 23) (1 %% 3)         (1 %% 3)         (1 %% 3)  (6 %% 25) (1 %% 2) (3 %% -4) (3 %% 4) error
+NULL                 <NA>        <NA>        <NA>     <NA>             <NA>             <NA>       <NA>     <NA>      <NA>     <NA>  <NA>
+NA                     NA          NA          NA       NA               NA               NA         NA       NA        NA       NA error
+-3L            (20 %% 23)  (20 %% 23)  (20 %% 23) (0 %% 3)         (0 %% 3)         (0 %% 3) (22 %% 25) (1 %% 2) (1 %% -4) (1 %% 4) error
+               as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA       -3L
+23              (23 %% 34)    (23 %% 32)     (23 %% 31)   23   23 (2 %% -3)
+as.bigz(23)     (23 %% 34)    (23 %% 32)     (23 %% 31)   23   23 (2 %% -3)
+as.bigq(23)     (23 %% 34)    (23 %% 32)     (23 %% 31)   23   23 (2 %% -3)
+c(3,23)          (3 %% 34)     (3 %% 32)      (3 %% 31)    3    3 (0 %% -3)
+as.bgz((3,23))   (3 %% 34)     (3 %% 32)      (3 %% 31)    3    3 (0 %% -3)
+as.bgq((3,23))   (3 %% 34)     (3 %% 32)      (3 %% 31)    3    3 (0 %% -3)
+25              (25 %% 34)    (25 %% 32)     (25 %% 31)   25   25 (1 %% -3)
+2.3              (2 %% 34)     (2 %% 32)      (2 %% 31)    2    2 (2 %% -3)
+-4              (30 %% 34)    (28 %% 32)     (27 %% 31)   -4   -4 (2 %% -3)
+4                (4 %% 34)     (4 %% 32)      (4 %% 31)    4    4 (1 %% -3)
+0                (0 %% 34)     (0 %% 32)      (0 %% 31)    0    0 (0 %% -3)
+as.bigz(34)      (0 %% 34)     (2 %% 32)      (3 %% 31)   34   34 (1 %% -3)
+as.bg(32,7)      (4 %% 34)     (4 %% 32)      (4 %% 31)    4    4 (1 %% -3)
+as.b(31,45)     (31 %% 34)    (31 %% 32)      (0 %% 31)   31   31 (1 %% -3)
+NULL                  <NA>          <NA>           <NA> <NA> <NA>      <NA>
+NA                      NA            NA             NA   NA   NA        NA
+-3L             (31 %% 34)    (29 %% 32)     (28 %% 31)   -3   -3 (0 %% -3)
+
+------------------------------------------
++ 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 120 in target 
+                      23 as.bigz(23)                        as.bigq(23)    c(3,23) as.bigz(c(3,23))                  as.bigq(c(3,23))
+23                     -          46                                 46          -               26                                26
+as.bigz(23)           46          46                                 46         26               26                                26
+as.bigq(23)           46          46                                 46         26               26                                26
+c(3,23)                -          26                                 26          -                6                                 6
+as.bgz((3,23))        26          26                                 26          6                6                                 6
+as.bgq((3,23))        26          26                                 26          6                6                                 6
+25                 error          48                                 48      error               28                                28
+2.3                    -          25 28485267643118387/1125899906842624          -                5 5967269506265907/1125899906842624
+-4                     -          19                                 19          -               -1                                -1
+4                      -          27                                 27          -                7                                 7
+0                      -          23                                 23          -                3                                 3
+as.bigz(34)           57          57                                 57         37               37                                37
+as.bg(32,7)        193/7       193/7                              193/7       53/7             53/7                              53/7
+as.b(31,45)    (9 %% 45)   (9 %% 45)                                 54 (34 %% 45)       (34 %% 45)                                34
+NULL                <NA>        <NA>                               <NA>       <NA>             <NA>                              <NA>
+NA                  <NA>          NA                                 NA       <NA>               NA                                NA
+-3L                    -          20                                 20          -                0                                 0
+                       25                                2.3         -4          4          0 as.bigz(34)
+23                  error                                  -          -          -          -          57
+as.bigz(23)            48                                 25         19         27         23          57
+as.bigq(23)            48 28485267643118387/1125899906842624         19         27         23          57
+c(3,23)             error                                  -          -          -          -          37
+as.bgz((3,23))         28                                  5         -1          7          3          37
+as.bgq((3,23))         28  5967269506265907/1125899906842624         -1          7          3          37
+25                  error                              error      error      error      error          59
+2.3                 error                                  -          -          -          -          36
+-4                  error                                  -          -          -          -          30
+4                   error                                  -          -          8          -          38
+0                   error                                  -          -          -          -          34
+as.bigz(34)            59                                 36         30         38         34          68
+as.bg(32,7)         207/7 54155785519130213/7881299347898368        4/7       60/7       32/7       270/7
+as.b(31,45)    (11 %% 45)                         (33 %% 45) (27 %% 45) (35 %% 45) (31 %% 45)  (20 %% 45)
+NULL                error                               <NA>       <NA>       <NA>       <NA>        <NA>
+NA                  error                               <NA>       <NA>       <NA>       <NA>          NA
+-3L                 error                                  -          -          1          -          31
+                                    as.bigq(32,7) as.bigz(31,45)  NULL    NA        -3L
+23                                          193/7      (9 %% 45)  <NA>  <NA>          -
+as.bigz(23)                                 193/7      (9 %% 45)  <NA>    NA         20
+as.bigq(23)                                 193/7             54  <NA>    NA         20
+c(3,23)                                      53/7     (34 %% 45)  <NA>  <NA>          -
+as.bgz((3,23))                               53/7     (34 %% 45)  <NA>    NA          0
+as.bgq((3,23))                               53/7             34  <NA>    NA          0
+25                                          207/7     (11 %% 45) error error      error
+2.3            54155785519130213/7881299347898368     (33 %% 45)  <NA>  <NA>          -
+-4                                            4/7     (27 %% 45)  <NA>  <NA>          -
+4                                            60/7     (35 %% 45)  <NA>  <NA>          1
+0                                            32/7     (31 %% 45)  <NA>  <NA>          -
+as.bigz(34)                                 270/7     (20 %% 45)  <NA>    NA         31
+as.bg(32,7)                                  64/7          249/7  <NA>    NA       11/7
+as.b(31,45)                                 249/7     (17 %% 45)  <NA>    NA (28 %% 45)
+NULL                                         <NA>           <NA>  <NA>  <NA>       <NA>
+NA                                             NA             NA  <NA>  <NA>       <NA>
+-3L                                          11/7     (28 %% 45)  <NA>  <NA>         -6
+
+------------------------------------------
+- 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 114 in target 
+                      23 as.bigz(23)                         as.bigq(23)    c(3,23) as.bigz(c(3,23))                  as.bigq(c(3,23))
+23                     -           0                                   0          -               20                                20
+as.bigz(23)            0           0                                   0         20               20                                20
+as.bigq(23)            0           0                                   0         20               20                                20
+c(3,23)                -         -20                                 -20          -                0                                 0
+as.bgz((3,23))       -20         -20                                 -20          0                0                                 0
+as.bgq((3,23))       -20         -20                                 -20          0                0                                 0
+25                 error           2                                   2      error               22                                22
+2.3                    -         -21 -23306128071642317/1125899906842624          -               -1 -788129934789837/1125899906842624
+-4                     -         -27                                 -27          -               -7                                -7
+4                      -         -19                                 -19          -                1                                 1
+0                      -         -23                                 -23          -               -3                                -3
+as.bigz(34)           11          11                                  11         31               31                                31
+as.bg(32,7)       -129/7      -129/7                              -129/7       11/7             11/7                              11/7
+as.b(31,45)    (8 %% 45)   (8 %% 45)                                   8 (28 %% 45)       (28 %% 45)                                28
+NULL                <NA>        <NA>                                <NA>       <NA>             <NA>                              <NA>
+NA                  <NA>          NA                                  NA       <NA>               NA                                NA
+-3L                    -         -26                                 -26          -               -6                                -6
+                      25                                2.3         -4          4          0 as.bigz(34)
+23                 error                                  -          -          -          -         -11
+as.bigz(23)           -2                                 21         27         19         23         -11
+as.bigq(23)           -2 23306128071642317/1125899906842624         27         19         23         -11
+c(3,23)            error                                  -          -          -          -         -31
+as.bgz((3,23))       -22                                  1          7         -1          3         -31
+as.bgq((3,23))       -22   788129934789837/1125899906842624          7         -1          3         -31
+25                 error                              error      error      error      error          -9
+2.3                error                                  -          -          -          -         -32
+-4                 error                                  -          -          -          -         -38
+4                  error                                  -          -          0          -         -30
+0                  error                                  -          -          -          -         -34
+as.bigz(34)            9                                 32         38         30         34           0
+as.bg(32,7)       -143/7 17901808518797723/7881299347898368       60/7        4/7       32/7      -206/7
+as.b(31,45)    (6 %% 45)                         (29 %% 45) (35 %% 45) (27 %% 45) (31 %% 45)  (42 %% 45)
+NULL               error                               <NA>       <NA>       <NA>       <NA>        <NA>
+NA                 error                               <NA>       <NA>       <NA>       <NA>          NA
+-3L                error                                  -          -         -7          -         -37
+                                     as.bigq(32,7) as.bigz(31,45)       NULL    NA        -3L
+23                                           129/7     (37 %% 45)       <NA>  <NA>          -
+as.bigz(23)                                  129/7     (37 %% 45)        -23    NA         26
+as.bigq(23)                                  129/7             -8        -23    NA         26
+c(3,23)                                      -11/7     (17 %% 45)       <NA>  <NA>          -
+as.bgz((3,23))                               -11/7     (17 %% 45)         -3    NA          6
+as.bgq((3,23))                               -11/7            -28         -3    NA          6
+25                                           143/7     (39 %% 45)      error error      error
+2.3            -17901808518797723/7881299347898368     (16 %% 45)       <NA>  <NA>          -
+-4                                           -60/7     (10 %% 45)       <NA>  <NA>          -
+4                                             -4/7     (18 %% 45)       <NA>  <NA>          7
+0                                            -32/7     (14 %% 45)       <NA>  <NA>          -
+as.bigz(34)                                  206/7      (3 %% 45)        -34    NA         37
+as.bg(32,7)                                      0         -185/7      -32/7    NA       53/7
+as.b(31,45)                                  185/7      (0 %% 45) (14 %% 45)    NA (34 %% 45)
+NULL                                          <NA>           <NA>       <NA>  <NA>       <NA>
+NA                                              NA             NA       <NA>  <NA>       <NA>
+-3L                                          -53/7     (11 %% 45)       <NA>  <NA>          0
+
+------------------------------------------
+* 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 120 in target 
+                       23 as.bigz(23)                        as.bigq(23)   c(3,23) as.bigz(c(3,23))                  as.bigq(c(3,23))
+23                      -         529                                529         -               69                                69
+as.bigz(23)           529         529                                529        69               69                                69
+as.bigq(23)           529         529                                529        69               69                                69
+c(3,23)                 -          69                                 69         -                9                                 9
+as.bgz((3,23))         69          69                                 69         9                9                                 9
+as.bgq((3,23))         69          69                                 69         9                9                                 9
+25                  error         575                                575     error               75                                75
+2.3                     -          46 59560105071974805/1125899906842624         -                6 7768709357214105/1125899906842624
+-4                      -         -92                                -92         -              -12                               -12
+4                       -          92                                 92         -               12                                12
+0                       -           0                                  0         -                0                                 0
+as.bigz(34)           782         782                                782       102              102                               102
+as.bg(32,7)         736/7       736/7                              736/7      96/7             96/7                              96/7
+as.b(31,45)    (38 %% 45)  (38 %% 45)                                713 (3 %% 45)        (3 %% 45)                                93
+NULL                 <NA>        <NA>                               <NA>      <NA>             <NA>                              <NA>
+NA                   <NA>          NA                                 NA      <NA>               NA                                NA
+-3L                     -         -69                                -69         -               -9                                -9
+                       25                                2.3         -4          4         0 as.bigz(34)                    as.bigq(32,7)
+23                  error                                  -          -          -         -         782                            736/7
+as.bigz(23)           575                                 46        -92         92         0         782                            736/7
+as.bigq(23)           575 59560105071974805/1125899906842624        -92         92         0         782                            736/7
+c(3,23)             error                                  -          -          -         -         102                             96/7
+as.bgz((3,23))         75                                  6        -12         12         0         102                             96/7
+as.bgq((3,23))         75  7768709357214105/1125899906842624        -12         12         0         102                             96/7
+25                  error                              error      error      error     error         850                            800/7
+2.3                 error                                  -          -          -         -          68 2589569785738035/246290604621824
+-4                  error                                  -          -          -         -        -136                           -128/7
+4                   error                                  -          -         16         -         136                            128/7
+0                   error                                  -          -          -         -           0                                0
+as.bigz(34)           850                                 68       -136        136         0        1156                           1088/7
+as.bg(32,7)         800/7   2589569785738035/246290604621824     -128/7      128/7         0      1088/7                          1024/49
+as.b(31,45)    (10 %% 45)                         (17 %% 45) (11 %% 45) (34 %% 45) (0 %% 45)  (19 %% 45)                            992/7
+NULL                error                               <NA>       <NA>       <NA>      <NA>        <NA>                             <NA>
+NA                  error                               <NA>       <NA>       <NA>      <NA>          NA                               NA
+-3L                 error                                  -          -        -12         -        -102                            -96/7
+               as.bigz(31,45)  NULL    NA        -3L
+23                 (38 %% 45)  <NA>  <NA>          -
+as.bigz(23)        (38 %% 45)  <NA>    NA        -69
+as.bigq(23)               713  <NA>    NA        -69
+c(3,23)             (3 %% 45)  <NA>  <NA>          -
+as.bgz((3,23))      (3 %% 45)  <NA>    NA         -9
+as.bgq((3,23))             93  <NA>    NA         -9
+25                 (10 %% 45) error error      error
+2.3                (17 %% 45)  <NA>  <NA>          -
+-4                 (11 %% 45)  <NA>  <NA>          -
+4                  (34 %% 45)  <NA>  <NA>        -12
+0                   (0 %% 45)  <NA>  <NA>          -
+as.bigz(34)        (19 %% 45)  <NA>    NA       -102
+as.bg(32,7)             992/7  <NA>    NA      -96/7
+as.b(31,45)        (16 %% 45)  <NA>    NA (42 %% 45)
+NULL                     <NA>  <NA>  <NA>       <NA>
+NA                         NA  <NA>  <NA>       <NA>
+-3L                (42 %% 45)  <NA>  <NA>          9
+
+------------------------------------------
+divq.bigz -> num.fn.: %/%
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 102 in target 
+                      23 as.bigz(23) as.bigq(23)    c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))        25        2.3         -4         4
+23                     1           1       error          7                7            error         0         11         -6         5
+as.bigz(23)            1           1       error          7                7            error         0         11         -6         5
+as.bigq(23)            1           1       error          7                7            error         0         11         -6         5
+c(3,23)                0           0       error          1                1            error         0          1         -1         0
+as.bgz((3,23))         0           0       error          1                1            error         0          1         -1         0
+as.bgq((3,23))         0           0       error          1                1            error         0          1         -1         0
+25                     1           1       error          8                8            error         1         12         -7         6
+2.3                    0           0       error          0                0            error         0          1         -1         0
+-4                    -1          -1       error         -2               -2            error        -1         -2          1        -1
+4                      0           0       error          1                1            error         0          2         -1         1
+0                      0           0       error          0                0            error         0          0          0         0
+as.bigz(34)            1           1       error         11               11            error         1         17         -9         8
+as.bg(32,7)            1           1       error         10               10            error         1         16         -8         8
+as.b(31,45)    (1 %% 45)   (1 %% 45)       error (10 %% 45)       (10 %% 45)            error (1 %% 45) (15 %% 45) (37 %% 45) (7 %% 45)
+NULL                <NA>        <NA>       error       <NA>             <NA>            error      <NA>       <NA>       <NA>      <NA>
+NA                    NA          NA       error         NA               NA            error        NA         NA         NA        NA
+-3L                   -1          -1       error         -1               -1            error        -1         -2          0        -1
+                  0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA        -3L
+23               NA           0             5      (0 %% 45) <NA>   NA         -8
+as.bigz(23)      NA           0             5      (0 %% 45) <NA>   NA         -8
+as.bigq(23)      NA           0             5      (0 %% 45) <NA>   NA         -8
+c(3,23)          NA           0             0      (0 %% 45) <NA>   NA         -1
+as.bgz((3,23))   NA           0             0      (0 %% 45) <NA>   NA         -1
+as.bgq((3,23))   NA           0             0      (0 %% 45) <NA>   NA         -1
+25               NA           0             6      (0 %% 45) <NA>   NA         -9
+2.3              NA           0             0      (0 %% 45) <NA>   NA         -1
+-4               NA          -1            -1     (44 %% 45) <NA>   NA          1
+4                NA           0             1      (0 %% 45) <NA>   NA         -2
+0                NA           0             0      (0 %% 45) <NA>   NA          0
+as.bigz(34)      NA           1             8      (1 %% 45) <NA>   NA        -12
+as.bg(32,7)      NA           0             8      (1 %% 45) <NA>   NA        -11
+as.b(31,45)      NA   (0 %% 45)     (7 %% 45)      (1 %% 45) <NA>   NA (34 %% 45)
+NULL           <NA>        <NA>          <NA>           <NA> <NA> <NA>       <NA>
+NA               NA          NA            NA             NA <NA>   NA         NA
+-3L              NA          -1            -1     (44 %% 45) <NA>   NA          1
+
+------------------------------------------
+/ 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 130 in target 
+                       23                        as.bigz(23)                        as.bigq(23) c(3,23)                 as.bigz(c(3,23))
+23                      -                                  1                                  1       -                             23/3
+as.bigz(23)             1                                  1                                  1    23/3                             23/3
+as.bigq(23)             1                                  1                                  1    23/3                             23/3
+c(3,23)                 -                               3/23                               3/23       -                                1
+as.bgz((3,23))       3/23                               3/23                               3/23       1                                1
+as.bgq((3,23))       3/23                               3/23                               3/23       1                                1
+25                  error                              25/23                              25/23   error                             25/3
+2.3                     - 2589569785738035/25895697857380352 2589569785738035/25895697857380352       - 863189928579345/1125899906842624
+-4                      -                              -4/23                              -4/23       -                             -4/3
+4                       -                               4/23                               4/23       -                              4/3
+0                       -                                  0                                  0       -                                0
+as.bigz(34)         34/23                              34/23                              34/23    34/3                             34/3
+as.bg(32,7)        32/161                             32/161                             32/161   32/21                            32/21
+as.b(31,45)    (17 %% 45)                         (17 %% 45)                              31/23      NA                               NA
+NULL                 <NA>                               <NA>                               <NA>    <NA>                             <NA>
+NA                   <NA>                                 NA                                 NA    <NA>                               NA
+-3L                     -                              -3/23                              -3/23       -                               -1
+                               as.bigq(c(3,23))     25                                 2.3         -4          4     0
+23                                         23/3  error                                   -          -          -     -
+as.bigz(23)                                23/3  23/25  25895697857380352/2589569785738035      -23/4       23/4 error
+as.bigq(23)                                23/3  23/25  25895697857380352/2589569785738035      -23/4       23/4 error
+c(3,23)                                       1  error                                   -          -          -     -
+as.bgz((3,23))                                1   3/25    1125899906842624/863189928579345       -3/4        3/4 error
+as.bgq((3,23))                                1   3/25    1125899906842624/863189928579345       -3/4        3/4 error
+25                                         25/3  error                               error      error      error error
+2.3            863189928579345/1125899906842624  error                                   -          -          -     -
+-4                                         -4/3  error                                   -          -          -     -
+4                                           4/3  error                                   -          -          -     -
+0                                             0  error                                   -          -          -     -
+as.bigz(34)                                34/3  34/25  38280596832649216/2589569785738035      -17/2       17/2 error
+as.bg(32,7)                               32/21 32/175 36028797018963968/18126988500166245       -8/7        8/7 error
+as.b(31,45)                                31/3     NA                          (38 %% 45) (26 %% 45) (19 %% 45)    NA
+NULL                                       <NA>  error                                <NA>       <NA>       <NA>  <NA>
+NA                                           NA  error                                <NA>       <NA>       <NA>  <NA>
+-3L                                          -1  error                                   -          -          -     -
+                                      as.bigz(34)                       as.bigq(32,7) as.bigz(31,45)  NULL    NA    -3L
+23                                          23/34                              161/32      (8 %% 45)  <NA>  <NA>      -
+as.bigz(23)                                 23/34                              161/32      (8 %% 45)  <NA>    NA  -23/3
+as.bigq(23)                                 23/34                              161/32          23/31  <NA>    NA  -23/3
+c(3,23)                                      3/34                               21/32      (3 %% 45)  <NA>  <NA>      -
+as.bgz((3,23))                               3/34                               21/32      (3 %% 45)  <NA>    NA     -1
+as.bgq((3,23))                               3/34                               21/32           3/31  <NA>    NA     -1
+25                                          25/34                              175/32     (40 %% 45) error error  error
+2.3            2589569785738035/38280596832649216 18126988500166245/36028797018963968     (32 %% 45)  <NA>  <NA>      -
+-4                                          -2/17                                -7/8     (26 %% 45)  <NA>  <NA>      -
+4                                            2/17                                 7/8     (19 %% 45)  <NA>  <NA>      -
+0                                               0                                   0      (0 %% 45)  <NA>  <NA>      -
+as.bigz(34)                                     1                              119/16      (4 %% 45)  <NA>    NA  -34/3
+as.bg(32,7)                                16/119                                   1         32/217  <NA>    NA -32/21
+as.b(31,45)                            (34 %% 45)                              217/32      (1 %% 45)  <NA>    NA     NA
+NULL                                         <NA>                                <NA>           <NA>  <NA>  <NA>   <NA>
+NA                                             NA                                  NA             NA  <NA>  <NA>   <NA>
+-3L                                         -3/34                              -21/32     (42 %% 45)  <NA>  <NA>      -
+
+------------------------------------------
+%% 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 186 in target 
+                      23 as.bigz(23) as.bigq(23)  c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))        25      2.3        -4        4     0
+23                     -           0       error        -                2            error     error        -         -        -     -
+as.bigz(23)            0           0       error        2                2            error        23        1         3        3    NA
+as.bigq(23)        error           0       error    error                2            error     error    error     error    error error
+c(3,23)                -           3       error        -                0            error     error        -         -        -     -
+as.bgz((3,23))         3           3       error        0                0            error         3        1         3        3    NA
+as.bgq((3,23))     error           3       error    error                0            error     error    error     error    error error
+25                 error           2       error    error                1            error     error    error     error    error error
+2.3                    -           2       error        -                2            error     error        -         -        -     -
+-4                     -          19       error        -                2            error     error        -         -        -     -
+4                      -           4       error        -                1            error     error        -         -        0     -
+0                      -           0       error        -                0            error     error        -         -        -     -
+as.bigz(34)           11          11       error        1                1            error         9        0         2        2    NA
+as.bg(32,7)        error           9       error    error                2            error     error    error     error    error error
+as.b(31,45)    (8 %% 23)   (8 %% 23)       error (1 %% 3)         (1 %% 3)            error (6 %% 25) (1 %% 2) (3 %% -4) (3 %% 4)    NA
+NULL                <NA>        <NA>       error     <NA>             <NA>            error     error     <NA>      <NA>     <NA>  <NA>
+NA                  <NA>          NA       error     <NA>               NA            error     error     <NA>      <NA>     <NA>   NaN
+-3L                    -          20       error        -                0            error     error        -         -        1     -
+               as.bigz(34) as.bigq(32,7) as.bigz(31,45)  NULL    NA       -3L
+23                      23         error     (23 %% 31)  <NA>  <NA>         -
+as.bigz(23)             23             3     (23 %% 31)  <NA>    NA         2
+as.bigq(23)             23         error     (23 %% 31) error error     error
+c(3,23)                  3         error      (3 %% 31)  <NA>  <NA>         -
+as.bgz((3,23))           3             3      (3 %% 31)  <NA>    NA         0
+as.bgq((3,23))           3         error      (3 %% 31) error error     error
+25                      25         error     (25 %% 31) error error     error
+2.3                      2         error      (2 %% 31)  <NA>  <NA>         -
+-4                      30         error     (27 %% 31)  <NA>  <NA>         -
+4                        4         error      (4 %% 31)  <NA>  <NA>        -2
+0                        0         error      (0 %% 31)  <NA>  <NA>         -
+as.bigz(34)              0             2      (3 %% 31)  <NA>    NA         1
+as.bg(32,7)             32         error      (1 %% 31) error error     error
+as.b(31,45)     (31 %% 34)      (3 %% 4)      (0 %% 31)  <NA>    NA (1 %% -3)
+NULL                  <NA>         error           <NA>  <NA>  <NA>      <NA>
+NA                      NA         error             NA  <NA>  <NA>      <NA>
+-3L                     31         error     (28 %% 31)  <NA>  <NA>         0
+
+------------------------------------------
+^ 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 143 in target 
+                                                                     23                                              as.bigz(23)
+23                                                                    -                         20880467999847912034355032910567
+as.bigz(23)                            20880467999847912034355032910567                         20880467999847912034355032910567
+as.bigq(23)                            20880467999847912034355032910567                         20880467999847912034355032910567
+c(3,23)                                                               -                                              94143178827
+as.bgz((3,23))                                              94143178827                                              94143178827
+as.bgq((3,23))                                              94143178827                                              94143178827
+25                                                                error                        142108547152020037174224853515625
+2.3                                                                   -                                                  8388608
+-4                                                                    -                                          -70368744177664
+4                                                                     -                                           70368744177664
+0                                                                     -                                                        0
+as.bigz(34)                        167500108222301408246337399112597504                     167500108222301408246337399112597504
+as.bg(32,7)    41538374868278621028243970633760768/27368747340080916343 41538374868278621028243970633760768/27368747340080916343
+as.b(31,45)                                                  (16 %% 45)                                               (16 %% 45)
+NULL                                                               <NA>                                                     <NA>
+NA                                                                 <NA>                                                       NA
+-3L                                                                   -                                             -94143178827
+                                                            as.bigq(23)   c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))
+23                                     20880467999847912034355032910567         -            12167            12167
+as.bigz(23)                            20880467999847912034355032910567     12167            12167            12167
+as.bigq(23)                            20880467999847912034355032910567     12167            12167            12167
+c(3,23)                                                     94143178827         -               27               27
+as.bgz((3,23))                                              94143178827        27               27               27
+as.bgq((3,23))                                              94143178827        27               27               27
+25                                    142108547152020037174224853515625     error            15625            15625
+2.3                                                             8388608         -                8                8
+-4                                                      -70368744177664         -              -64              -64
+4                                                        70368744177664         -               64               64
+0                                                                     0         -                0                0
+as.bigz(34)                        167500108222301408246337399112597504     39304            39304            39304
+as.bg(32,7)    41538374868278621028243970633760768/27368747340080916343 32768/343        32768/343        32768/343
+as.b(31,45)                                                  (16 %% 45) (1 %% 45)        (1 %% 45)        (1 %% 45)
+NULL                                                               <NA>      <NA>             <NA>             <NA>
+NA                                                                   NA      <NA>               NA               NA
+-3L                                                        -94143178827         -              -27              -27
+                                                                          25   2.3           -4            4         0
+23                                                                     error     -            -            -         -
+as.bigz(23)                              11045767571919545466173812409689943 error     1/279841       279841         1
+as.bigq(23)                              11045767571919545466173812409689943 error     1/279841       279841         1
+c(3,23)                                                                error     -            -            -         -
+as.bgz((3,23))                                                  847288609443 error         1/81           81         1
+as.bgq((3,23))                                                  847288609443 error         1/81           81         1
+25                                                                     error error        error        error     error
+2.3                                                                    error     -            -            -         -
+-4                                                                     error     -            -            -         -
+4                                                                      error     -            -            -         -
+0                                                                      error     -            -            -         -
+as.bigz(34)                          193630125104980427932766033374162714624 error    1/1336336      1336336         1
+as.bg(32,7)    42535295865117307932921825928971026432/1341068619663964900807 error 2401/1048576 1048576/2401         1
+as.b(31,45)                                                       (31 %% 45) error   (16 %% 45)   (31 %% 45) (1 %% 45)
+NULL                                                                   error  <NA>         <NA>         <NA>      <NA>
+NA                                                                     error  <NA>         <NA>         <NA>         1
+-3L                                                                    error     -            -            -         -
+                                                                                      as.bigz(34) as.bigq(32,7)
+23                                                19895113660064588580108197261066338165074766609         error
+as.bigz(23)                                       19895113660064588580108197261066338165074766609         error
+as.bigq(23)                                       19895113660064588580108197261066338165074766609         error
+c(3,23)                                                                         16677181699666569         error
+as.bgz((3,23))                                                                  16677181699666569         error
+as.bgq((3,23))                                                                  16677181699666569         error
+25                                               338813178901720135627329000271856784820556640625         error
+2.3                                                                                   17179869184         error
+-4                                                                          295147905179352825856         error
+4                                                                           295147905179352825856         error
+0                                                                                               0         error
+as.bigz(34)                                 11756638905368616011414050501310355554617941909569536         error
+as.bg(32,7)    1496577676626844588240573268701473812127674924007424/54116956037952111668959660849         error
+as.b(31,45)                                                                            (31 %% 45)         error
+NULL                                                                                         <NA>         error
+NA                                                                                             NA         error
+-3L                                                                             16677181699666569         error
+                                                                            as.bigz(31,45)  NULL    NA       -3L
+23                                                                              (32 %% 45)  <NA>  <NA>         -
+as.bigz(23)                                                                     (32 %% 45)  <NA>    NA   1/12167
+as.bigq(23)                                    1635170022196481349560959748587682926364327  <NA>    NA   1/12167
+c(3,23)                                                                         (27 %% 45)  <NA>  <NA>         -
+as.bgz((3,23))                                                                  (27 %% 45)  <NA>    NA      1/27
+as.bgq((3,23))                                                             617673396283947  <NA>    NA      1/27
+25                                                                              (25 %% 45) error error     error
+2.3                                                                             (38 %% 45)  <NA>  <NA>         -
+-4                                                                              (41 %% 45)  <NA>  <NA>         -
+4                                                                                (4 %% 45)  <NA>  <NA>         -
+0                                                                                (0 %% 45)  <NA>  <NA>         -
+as.bigz(34)                                                                     (34 %% 45)  <NA>    NA   1/39304
+as.bg(32,7)    45671926166590716193865151022383844364247891968/157775382034845806615042743  <NA>    NA 343/32768
+as.b(31,45)                                                                     (31 %% 45)  <NA>    NA (1 %% 45)
+NULL                                                                                  <NA>  <NA>  <NA>      <NA>
+NA                                                                                      NA  <NA>  <NA>      <NA>
+-3L                                                                             (18 %% 45)  <NA>  <NA>         -
+
+------------------------------------------
+inv.bigz 
+-> all.equal(target = res, current = F(<numeric x>)):  Mean relative difference: 0.6402439 
+                      23 as.bigz(23) as.bigq(23)   c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25       2.3        -4         4    0
+23                    NA          NA          NA         2                2                2         12         1         3         3   NA
+as.bigz(23)           NA          NA          NA         2                2                2         12         1         3         3   NA
+as.bigq(23)           NA          NA          NA         2                2                2         12         1         3         3   NA
+c(3,23)                8           8           8        NA               NA               NA         17         1         3         3   NA
+as.bgz((3,23))         8           8           8        NA               NA               NA         17         1         3         3   NA
+as.bgq((3,23))         8           8           8        NA               NA               NA         17         1         3         3   NA
+25                    12          12          12         1                1                1         NA         1         1         1   NA
+2.3                   12          12          12         2                2                2         13        NA        NA        NA   NA
+-4                    17          17          17         2                2                2          6        NA        NA        NA   NA
+4                      6           6           6         1                1                1         19        NA        NA        NA   NA
+0                     NA          NA          NA        NA               NA               NA         NA        NA        NA        NA   NA
+as.bigz(34)           21          21          21         1                1                1         14        NA        NA        NA   NA
+as.bg(32,7)           18          18          18         2                2                2         18        NA        NA        NA   NA
+as.b(31,45)    (3 %% 45)   (3 %% 45)   (3 %% 45) (1 %% 45)        (1 %% 45)        (1 %% 45) (21 %% 45) (1 %% 45) (3 %% 45) (3 %% 45)   NA
+NULL                <NA>        <NA>        <NA>      <NA>             <NA>             <NA>       <NA>      <NA>      <NA>      <NA> <NA>
+NA                    NA          NA          NA        NA               NA               NA         NA        NA        NA        NA   NA
+-3L                   15          15          15        NA               NA               NA          8         1         1         1   NA
+               as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA       -3L
+23                       3             7     (27 %% 45) <NA>   NA         2
+as.bigz(23)              3             7     (27 %% 45) <NA>   NA         2
+as.bigq(23)              3             7     (27 %% 45) <NA>   NA         2
+c(3,23)                 23            11     (21 %% 45) <NA>   NA        NA
+as.bgz((3,23))          23            11     (21 %% 45) <NA>   NA        NA
+as.bgq((3,23))          23            11     (21 %% 45) <NA>   NA        NA
+25                      15             9      (5 %% 45) <NA>   NA         1
+2.3                     NA            NA     (16 %% 45) <NA>   NA         2
+-4                      NA            NA     (23 %% 45) <NA>   NA         2
+4                       NA            NA      (8 %% 45) <NA>   NA         1
+0                       NA            NA             NA <NA>   NA        NA
+as.bigz(34)             NA            NA     (21 %% 45) <NA>   NA         1
+as.bg(32,7)             NA            NA      (1 %% 45) <NA>   NA         2
+as.b(31,45)     (11 %% 45)    (31 %% 45)             NA <NA>   NA (1 %% 45)
+NULL                  <NA>          <NA>           <NA> <NA> <NA>      <NA>
+NA                      NA            NA             NA <NA>   NA        NA
+-3L                     11            21     (10 %% 45) <NA>   NA        NA
+
+------------------------------------------
+gcd.bigz -> num.fn.: gcd
+-> all.equal(target = res, current = F(<numeric x>)):  Mean relative difference: 0.875 
+                      23 as.bigz(23) as.bigq(23)   c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))        25       2.3        -4         4
+23                    23          23          23         1                1                1         1         1         1         1
+as.bigz(23)           23          23          23         1                1                1         1         1         1         1
+as.bigq(23)           23          23          23         1                1                1         1         1         1         1
+c(3,23)                1           1           1         3                3                3         1         1         1         1
+as.bgz((3,23))         1           1           1         3                3                3         1         1         1         1
+as.bgq((3,23))         1           1           1         3                3                3         1         1         1         1
+25                     1           1           1         1                1                1        25         1         1         1
+2.3                    1           1           1         1                1                1         1         2         2         2
+-4                     1           1           1         1                1                1         1         2         4         4
+4                      1           1           1         1                1                1         1         2         4         4
+0                     23          23          23         3                3                3        25         2         4         4
+as.bigz(34)            1           1           1         1                1                1         1         2         2         2
+as.bg(32,7)            1           1           1         1                1                1         1         2         4         4
+as.b(31,45)    (1 %% 45)   (1 %% 45)   (1 %% 45) (1 %% 45)        (1 %% 45)        (1 %% 45) (1 %% 45) (1 %% 45) (1 %% 45) (1 %% 45)
+NULL                <NA>        <NA>        <NA>      <NA>             <NA>             <NA>      <NA>      <NA>      <NA>      <NA>
+NA                    NA          NA          NA        NA               NA               NA        NA        NA        NA        NA
+-3L                    1           1           1         3                3                3         1         1         1         1
+                        0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA       -3L
+23                     23           1             1      (1 %% 45) <NA>   NA         1
+as.bigz(23)            23           1             1      (1 %% 45) <NA>   NA         1
+as.bigq(23)            23           1             1      (1 %% 45) <NA>   NA         1
+c(3,23)                 3           1             1      (1 %% 45) <NA>   NA         3
+as.bgz((3,23))          3           1             1      (1 %% 45) <NA>   NA         3
+as.bgq((3,23))          3           1             1      (1 %% 45) <NA>   NA         3
+25                     25           1             1      (1 %% 45) <NA>   NA         1
+2.3                     2           2             2      (1 %% 45) <NA>   NA         1
+-4                      4           2             4      (1 %% 45) <NA>   NA         1
+4                       4           2             4      (1 %% 45) <NA>   NA         1
+0                       0          34            32     (31 %% 45) <NA>   NA         3
+as.bigz(34)            34          34             2      (1 %% 45) <NA>   NA         1
+as.bg(32,7)            32           2            32      (1 %% 45) <NA>   NA         1
+as.b(31,45)    (31 %% 45)   (1 %% 45)     (1 %% 45)     (31 %% 45) <NA>   NA (1 %% 45)
+NULL                 <NA>        <NA>          <NA>           <NA> <NA> <NA>      <NA>
+NA                     NA          NA            NA             NA <NA>   NA        NA
+-3L                     3           1             1      (1 %% 45) <NA>   NA         3
+
+------------------------------------------
+gcdex 
+-> all.equal(target = res, current = F(<numeric x>)):  Mean relative difference: 0.875 
+                 23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))   25  2.3   -4    4    0 as.bigz(34) as.bigq(32,7)
+23               23          23          23       -             <NA>             <NA>    1    1    1    1   23           1             1
+as.bigz(23)      23          23          23    <NA>             <NA>             <NA>    1    1    1    1   23           1             1
+as.bigq(23)      23          23          23    <NA>             <NA>             <NA>    1    1    1    1   23           1             1
+c(3,23)           -        <NA>        <NA>       3                3                3 <NA>    -    -    -    -        <NA>          <NA>
+as.bgz((3,23)) <NA>        <NA>        <NA>       3                3                3 <NA> <NA> <NA> <NA> <NA>        <NA>          <NA>
+as.bgq((3,23)) <NA>        <NA>        <NA>       3                3                3 <NA> <NA> <NA> <NA> <NA>        <NA>          <NA>
+25                1           1           1    <NA>             <NA>             <NA>   25    1    1    1   25           1             1
+2.3               1           1           1       -             <NA>             <NA>    1    2    2    2    2           2             2
+-4                1           1           1       -             <NA>             <NA>    1    2    4    4    4           2             4
+4                 1           1           1       -             <NA>             <NA>    1    2    4    4    4           2             4
+0                23          23          23       -             <NA>             <NA>   25    2    4    4    0          34            32
+as.bigz(34)       1           1           1    <NA>             <NA>             <NA>    1    2    2    2   34          34             2
+as.bg(32,7)       1           1           1    <NA>             <NA>             <NA>    1    2    4    4   32           2            32
+as.b(31,45)       1           1           1    <NA>             <NA>             <NA>    1    1    1    1   31           1             1
+NULL           <NA>        <NA>        <NA>    <NA>             <NA>             <NA> <NA> <NA> <NA> <NA> <NA>        <NA>          <NA>
+NA               23          23          23    <NA>             <NA>             <NA>   25    2    4    4    0          34            32
+-3L               1           1           1       -             <NA>             <NA>    1    1    1    1    3           1             1
+               as.bigz(31,45) NULL   NA  -3L
+23                          1 <NA>   23    1
+as.bigz(23)                 1 <NA>   23    1
+as.bigq(23)                 1 <NA>   23    1
+c(3,23)                  <NA> <NA> <NA>    -
+as.bgz((3,23))           <NA> <NA> <NA> <NA>
+as.bgq((3,23))           <NA> <NA> <NA> <NA>
+25                          1 <NA>   25    1
+2.3                         1 <NA>    2    1
+-4                          1 <NA>    4    1
+4                           1 <NA>    4    1
+0                          31 <NA>    0    3
+as.bigz(34)                 1 <NA>   34    1
+as.bg(32,7)                 1 <NA>   32    1
+as.b(31,45)                31 <NA>   31    1
+NULL                     <NA> <NA> <NA> <NA>
+NA                         31 <NA>    0    3
+-3L                         1 <NA>    3    3
+
+------------------------------------------
+lcm.bigz -> num.fn.: lcm
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 60 in target 
+                       23 as.bigz(23) as.bigq(23)   c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25        2.3         -4          4
+23                     23          23          23        69               69               69        575         46         92         92
+as.bigz(23)            23          23          23        69               69               69        575         46         92         92
+as.bigq(23)            23          23          23        69               69               69        575         46         92         92
+c(3,23)                69          69          69         3                3                3         75          6         12         12
+as.bgz((3,23))         69          69          69         3                3                3         75          6         12         12
+as.bgq((3,23))         69          69          69         3                3                3         75          6         12         12
+25                    575         575         575        75               75               75         25         50        100        100
+2.3                    46          46          46         6                6                6         50          2          4          4
+-4                     92          92          92        12               12               12        100          4          4          4
+4                      92          92          92        12               12               12        100          4          4          4
+0                       0           0           0         0                0                0          0          0          0          0
+as.bigz(34)           782         782         782       102              102              102        850         34         68         68
+as.bg(32,7)           736         736         736        96               96               96        800         32         32         32
+as.b(31,45)    (38 %% 45)  (38 %% 45)  (38 %% 45) (3 %% 45)        (3 %% 45)        (3 %% 45) (10 %% 45) (17 %% 45) (34 %% 45) (34 %% 45)
+NULL                 <NA>        <NA>        <NA>      <NA>             <NA>             <NA>       <NA>       <NA>       <NA>       <NA>
+NA                     NA          NA          NA        NA               NA               NA         NA         NA         NA         NA
+-3L                    69          69          69         3                3                3         75          6         12         12
+                       0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA       -3L
+23                     0         782           736     (38 %% 45) <NA>   NA        69
+as.bigz(23)            0         782           736     (38 %% 45) <NA>   NA        69
+as.bigq(23)            0         782           736     (38 %% 45) <NA>   NA        69
+c(3,23)                0         102            96      (3 %% 45) <NA>   NA         3
+as.bgz((3,23))         0         102            96      (3 %% 45) <NA>   NA         3
+as.bgq((3,23))         0         102            96      (3 %% 45) <NA>   NA         3
+25                     0         850           800     (10 %% 45) <NA>   NA        75
+2.3                    0          34            32     (17 %% 45) <NA>   NA         6
+-4                     0          68            32     (34 %% 45) <NA>   NA        12
+4                      0          68            32     (34 %% 45) <NA>   NA        12
+0                      0           0             0      (0 %% 45) <NA>   NA         0
+as.bigz(34)            0          34           544     (19 %% 45) <NA>   NA       102
+as.bg(32,7)            0         544            32      (2 %% 45) <NA>   NA        96
+as.b(31,45)    (0 %% 45)  (19 %% 45)     (2 %% 45)     (31 %% 45) <NA>   NA (3 %% 45)
+NULL                <NA>        <NA>          <NA>           <NA> <NA> <NA>      <NA>
+NA                    NA          NA            NA             NA <NA>   NA        NA
+-3L                    0         102            96      (3 %% 45) <NA>   NA         3
+
+------------------------------------------
+as.bigq 
+-> all.equal(target = res, current = F(<numeric x>)):  TRUE 
+                                               23                        as.bigz(23)                        as.bigq(23)
+23                                              1                                  1                                  1
+as.bigz(23)                                     1                                  1                                  1
+as.bigq(23)                                     1                                  1                                  1
+c(3,23)                                      3/23                               3/23                               3/23
+as.bgz((3,23))                               3/23                               3/23                               3/23
+as.bgq((3,23))                               3/23                               3/23                               3/23
+25                                          25/23                              25/23                              25/23
+2.3            2589569785738035/25895697857380352 2589569785738035/25895697857380352 2589569785738035/25895697857380352
+-4                                          -4/23                              -4/23                              -4/23
+4                                            4/23                               4/23                               4/23
+0                                               0                                  0                                  0
+as.bigz(34)                                 34/23                              34/23                              34/23
+as.bg(32,7)                                32/161                             32/161                             32/161
+as.b(31,45)                                 31/23                              31/23                              31/23
+NULL                                         <NA>                               <NA>                               <NA>
+NA                                             NA                                 NA                                 NA
+-3L                                         -3/23                              -3/23                              -3/23
+                                        c(3,23)                 as.bigz(c(3,23))                 as.bigq(c(3,23))
+23                                         23/3                             23/3                             23/3
+as.bigz(23)                                23/3                             23/3                             23/3
+as.bigq(23)                                23/3                             23/3                             23/3
+c(3,23)                                       1                                1                                1
+as.bgz((3,23))                                1                                1                                1
+as.bgq((3,23))                                1                                1                                1
+25                                         25/3                             25/3                             25/3
+2.3            863189928579345/1125899906842624 863189928579345/1125899906842624 863189928579345/1125899906842624
+-4                                         -4/3                             -4/3                             -4/3
+4                                           4/3                              4/3                              4/3
+0                                             0                                0                                0
+as.bigz(34)                                34/3                             34/3                             34/3
+as.bg(32,7)                               32/21                            32/21                            32/21
+as.b(31,45)                                31/3                             31/3                             31/3
+NULL                                       <NA>                             <NA>                             <NA>
+NA                                           NA                               NA                               NA
+-3L                                          -1                               -1                               -1
+                                             25                                 2.3                                 -4
+23                                        23/25  25895697857380352/2589569785738035                              -23/4
+as.bigz(23)                               23/25  25895697857380352/2589569785738035                              -23/4
+as.bigq(23)                               23/25  25895697857380352/2589569785738035                              -23/4
+c(3,23)                                    3/25    1125899906842624/863189928579345                               -3/4
+as.bgz((3,23))                             3/25    1125899906842624/863189928579345                               -3/4
+as.bgq((3,23))                             3/25    1125899906842624/863189928579345                               -3/4
+25                                            1    5629499534213120/517913957147607                              -25/4
+2.3            517913957147607/5629499534213120                                   1 -2589569785738035/4503599627370496
+-4                                        -4/25  -4503599627370496/2589569785738035                                  1
+4                                          4/25   4503599627370496/2589569785738035                                 -1
+0                                             0                                   0                                  0
+as.bigz(34)                               34/25  38280596832649216/2589569785738035                              -17/2
+as.bg(32,7)                              32/175 36028797018963968/18126988500166245                               -8/7
+as.b(31,45)                               31/25  34902897112121344/2589569785738035                              -31/4
+NULL                                       <NA>                                <NA>                               <NA>
+NA                                           NA                                  NA                                 NA
+-3L                                       -3/25   -1125899906842624/863189928579345                                3/4
+                                               4     0                        as.bigz(34)                       as.bigq(32,7)
+23                                          23/4 error                              23/34                              161/32
+as.bigz(23)                                 23/4 error                              23/34                              161/32
+as.bigq(23)                                 23/4 error                              23/34                              161/32
+c(3,23)                                      3/4 error                               3/34                               21/32
+as.bgz((3,23))                               3/4 error                               3/34                               21/32
+as.bgq((3,23))                               3/4 error                               3/34                               21/32
+25                                          25/4 error                              25/34                              175/32
+2.3            2589569785738035/4503599627370496 error 2589569785738035/38280596832649216 18126988500166245/36028797018963968
+-4                                            -1 error                              -2/17                                -7/8
+4                                              1 error                               2/17                                 7/8
+0                                              0 error                                  0                                   0
+as.bigz(34)                                 17/2 error                                  1                              119/16
+as.bg(32,7)                                  8/7 error                             16/119                                   1
+as.b(31,45)                                 31/4 error                              31/34                              217/32
+NULL                                        <NA>  <NA>                               <NA>                                <NA>
+NA                                            NA    NA                                 NA                                  NA
+-3L                                         -3/4 error                              -3/34                              -21/32
+                                   as.bigz(31,45) NULL   NA                               -3L
+23                                          23/31 <NA>   NA                             -23/3
+as.bigz(23)                                 23/31 <NA>   NA                             -23/3
+as.bigq(23)                                 23/31 <NA>   NA                             -23/3
+c(3,23)                                      3/31 <NA>   NA                                -1
+as.bgz((3,23))                               3/31 <NA>   NA                                -1
+as.bgq((3,23))                               3/31 <NA>   NA                                -1
+25                                          25/31 <NA>   NA                             -25/3
+2.3            2589569785738035/34902897112121344 <NA>   NA -863189928579345/1125899906842624
+-4                                          -4/31 <NA>   NA                               4/3
+4                                            4/31 <NA>   NA                              -4/3
+0                                               0 <NA>   NA                                 0
+as.bigz(34)                                 34/31 <NA>   NA                             -34/3
+as.bg(32,7)                                32/217 <NA>   NA                            -32/21
+as.b(31,45)                                     1 <NA>   NA                             -31/3
+NULL                                         <NA> <NA> <NA>                              <NA>
+NA                                             NA <NA>   NA                                NA
+-3L                                         -3/31 <NA>   NA                                 1
+
+------------------------------------------
+chooseZ -> num.fn.: choose
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 31 in target 
+                      23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))       25  2.3   -4     4    0 as.bigz(34)
+23                     1           1           1    1771             1771             1771        0  253    0  8855    1           0
+as.bigz(23)            1           1           1    1771             1771             1771        0  253    0  8855    1           0
+as.bigq(23)            1           1           1    1771             1771             1771        0  253    0  8855    1           0
+c(3,23)                0           0           0       1                1                1        0    3    0     0    1           0
+as.bgz((3,23))         0           0           0       1                1                1        0    3    0     0    1           0
+as.bgq((3,23))         0           0           0       1                1                1        0    3    0     0    1           0
+25                   300         300         300    2300             2300             2300        1  300    0 12650    1           0
+2.3                    0           0           0       0                0                0        0    1    0     0    1           0
+-4                 -2600       -2600       -2600     -20              -20              -20    -3276   10    0    35    1        7770
+4                      0           0           0       4                4                4        0    6    0     1    1           0
+0                      0           0           0       0                0                0        0    0    0     0    1           0
+as.bigz(34)    286097760   286097760   286097760    5984             5984             5984 52451256  561    0 46376    1           1
+as.bg(32,7)     28048800    28048800    28048800    4960             4960             4960  3365856  496    0 35960    1           0
+as.b(31,45)      7888725     7888725     7888725    4495             4495             4495   736281  465    0 31465    1           0
+NULL                <NA>        <NA>        <NA>    <NA>             <NA>             <NA>     <NA> <NA> <NA>  <NA> <NA>        <NA>
+NA                     0           0           0       0                0                0        0    0    0     0    1           0
+-3L                 -300        -300        -300     -10              -10              -10     -351    6    0    15    1         630
+               as.bigq(32,7) as.bigz(31,45) NULL   NA  -3L
+23                      8855              0 <NA>    0    0
+as.bigz(23)             8855              0 <NA>    0    0
+as.bigq(23)             8855              0 <NA>    0    0
+c(3,23)                    0              0 <NA>    0    0
+as.bgz((3,23))             0              0 <NA>    0    0
+as.bgq((3,23))             0              0 <NA>    0    0
+25                     12650              0 <NA>    0    0
+2.3                        0              0 <NA>    0    0
+-4                        35          -5984 <NA>    0    0
+4                          1              0 <NA>    0    0
+0                          0              0 <NA>    0    0
+as.bigz(34)            46376           5984 <NA>    0    0
+as.bg(32,7)            35960             32 <NA>    0    0
+as.b(31,45)            31465              1 <NA>    0    0
+NULL                    <NA>           <NA> <NA> <NA> <NA>
+NA                         0              0 <NA>    0    0
+-3L                       15           -528 <NA>    0    0
+
+------------------------------------------
+max 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 130 in target 
+                       23 as.bigz(23) as.bigq(23)    c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25        2.3         -4          4
+23                      -       error       error          -            error            error         25          -          -          -
+as.bigz(23)            23          23          23         23               23               23         25         23         23         23
+as.bigq(23)            23          23          23         23               23               23         25         23         23         23
+c(3,23)                 -       error       error          -            error            error         25          -          -          -
+as.bgz((3,23))         23          23          23         23               23               23         25         23         23         23
+as.bgq((3,23))         23          23          23         23               23               23         25         23         23         23
+25                     25       error       error         25            error            error         25         25         25          4
+2.3                     -       error       error          -            error            error         25          -          -          -
+-4                      -       error       error          -            error            error         25          -          -          -
+4                       -       error       error          -            error            error          4          -          -          4
+0                       -       error       error          -            error            error         25          -          -          -
+as.bigz(34)            34          34          34         34               34               34         34         34         34         34
+as.bg(32,7)            23          23          23         23               23               23         25       32/7       32/7       32/7
+as.b(31,45)    (31 %% 45)  (31 %% 45)          31 (31 %% 45)       (31 %% 45)               31 (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45)
+NULL                   23       error       error         23            error            error         25        2.3         -4          4
+NA                   <NA>       error       error       <NA>            error            error       <NA>       <NA>       <NA>       <NA>
+-3L                     -       error       error          -            error            error         25          -          -          4
+                        0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)       NULL   NA        -3L
+23                      -       error         error          error         23 <NA>          -
+as.bigz(23)            23          34            23             31         23 <NA>         23
+as.bigq(23)            23          34            23             31         23 <NA>         23
+c(3,23)                 -       error         error          error         23 <NA>          -
+as.bgz((3,23))         23          34            23             31         23 <NA>         23
+as.bgq((3,23))         23          34            23             31         23 <NA>         23
+25                     25       error         error          error         25 <NA>         25
+2.3                     -       error         error          error        2.3 <NA>          -
+-4                      -       error         error          error         -4 <NA>          -
+4                       -       error         error          error          4 <NA>          4
+0                       -       error         error          error          0 <NA>          -
+as.bigz(34)            34          34            34             34         34 <NA>         34
+as.bg(32,7)          32/7          34          32/7             31       32/7 <NA>       32/7
+as.b(31,45)    (31 %% 45)  (34 %% 45)            31     (31 %% 45) (31 %% 45) <NA> (31 %% 45)
+NULL                    0       error         error          error       -Inf <NA>         -3
+NA                   <NA>       error         error          error       <NA> <NA>       <NA>
+-3L                     -       error         error          error         -3 <NA>         -3
+
+------------------------------------------
+min 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 130 in target 
+                       23 as.bigz(23) as.bigq(23)   c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25                               2.3
+23                      -       error       error         -            error            error         23                                 -
+as.bigz(23)            23          23          23         3                3                3         23                                 2
+as.bigq(23)            23          23          23         3                3                3         23 2589569785738035/1125899906842624
+c(3,23)                 -       error       error         -            error            error         25                                 -
+as.bgz((3,23))          3           3           3         3                3                3          3                                 2
+as.bgq((3,23))          3           3           3         3                3                3          3 2589569785738035/1125899906842624
+25                     23       error       error        25            error            error         25                               2.3
+2.3                     -       error       error         -            error            error        2.3                                 -
+-4                      -       error       error         -            error            error         -4                                 -
+4                       -       error       error         -            error            error         25                                 -
+0                       -       error       error         -            error            error          0                                 -
+as.bigz(34)            23          23          23         3                3                3         25                                 2
+as.bg(32,7)          32/7        32/7        32/7         3                3                3       32/7 2589569785738035/1125899906842624
+as.b(31,45)    (23 %% 45)  (23 %% 45)          23 (3 %% 45)        (3 %% 45)                3 (25 %% 45)                         (2 %% 45)
+NULL                   23       error       error         3            error            error         25                               2.3
+NA                   <NA>       error       error      <NA>            error            error       <NA>                              <NA>
+-3L                     -       error       error         -            error            error         -3                                 -
+                       -4         4         0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)       NULL   NA        -3L
+23                      -         -         -       error         error          error         23 <NA>          -
+as.bigz(23)            -4         4         0          23          32/7             23         23 <NA>         -3
+as.bigq(23)            -4         4         0          23          32/7             23         23 <NA>         -3
+c(3,23)                 -         -         -       error         error          error          3 <NA>          -
+as.bgz((3,23))         -4         3         0           3             3              3          3 <NA>         -3
+as.bgq((3,23))         -4         3         0           3             3              3          3 <NA>         -3
+25                     -4        25         0       error         error          error         25 <NA>         -3
+2.3                     -         -         -       error         error          error        2.3 <NA>          -
+-4                      -         -         -       error         error          error         -4 <NA>          -
+4                       -         4         -       error         error          error          4 <NA>         -3
+0                       -         -         -       error         error          error          0 <NA>          -
+as.bigz(34)            -4         4         0          34          32/7             31         34 <NA>         -3
+as.bg(32,7)            -4         4         0        32/7          32/7           32/7       32/7 <NA>         -3
+as.b(31,45)    (-4 %% 45) (4 %% 45) (0 %% 45)  (31 %% 45)          32/7     (31 %% 45) (31 %% 45) <NA> (-3 %% 45)
+NULL                   -4         4         0       error         error          error        Inf <NA>         -3
+NA                   <NA>      <NA>      <NA>       error         error          error       <NA> <NA>       <NA>
+-3L                     -        -3         -       error         error          error         -3 <NA>         -3
+
+------------------------------------------
+| 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 34 in current 51 in target 
+                  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25   2.3    -4     4     0 as.bigz(34)
+23              TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+as.bigz(23)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+as.bigq(23)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+c(3,23)         TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+as.bgz((3,23))  TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+as.bgq((3,23))  TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+25             error        TRUE        TRUE   error             TRUE             TRUE error error error error error        TRUE
+2.3             TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+-4              TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+4               TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+0               TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+as.bigz(34)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+as.bg(32,7)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+as.b(31,45)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE  TRUE        TRUE
+NULL            <NA>        <NA>        <NA>    <NA>             <NA>             <NA> error  <NA>  <NA>  <NA>  <NA>        <NA>
+NA              TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  <NA>        TRUE
+-3L             TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE  TRUE        TRUE
+               as.bigq(32,7) as.bigz(31,45)  NULL    NA   -3L
+23                      TRUE           TRUE  <NA>  TRUE  TRUE
+as.bigz(23)             TRUE           TRUE  <NA>  TRUE  TRUE
+as.bigq(23)             TRUE           TRUE  <NA>  TRUE  TRUE
+c(3,23)                 TRUE           TRUE  <NA>  TRUE  TRUE
+as.bgz((3,23))          TRUE           TRUE  <NA>  TRUE  TRUE
+as.bgq((3,23))          TRUE           TRUE  <NA>  TRUE  TRUE
+25                      TRUE           TRUE error error error
+2.3                     TRUE           TRUE  <NA>  TRUE  TRUE
+-4                      TRUE           TRUE  <NA>  TRUE  TRUE
+4                       TRUE           TRUE  <NA>  TRUE  TRUE
+0                       TRUE           TRUE  <NA>  <NA>  TRUE
+as.bigz(34)             TRUE           TRUE  <NA>  TRUE  TRUE
+as.bg(32,7)             TRUE           TRUE  <NA>  TRUE  TRUE
+as.b(31,45)             TRUE           TRUE  <NA>  TRUE  TRUE
+NULL                    <NA>           <NA>  <NA>  <NA>  <NA>
+NA                      TRUE           TRUE  <NA>  <NA>  TRUE
+-3L                     TRUE           TRUE  <NA>  TRUE  TRUE
+
+------------------------------------------
+& 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 58 in current 73 in target 
+                  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25   2.3    -4     4     0 as.bigz(34)
+23              TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+as.bigz(23)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+as.bigq(23)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+c(3,23)         TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+as.bgz((3,23))  TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+as.bgq((3,23))  TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+25             error        TRUE        TRUE   error             TRUE             TRUE error error error error error        TRUE
+2.3             TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+-4              TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+4               TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+0              FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE FALSE       FALSE
+as.bigz(34)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+as.bg(32,7)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+as.b(31,45)     TRUE        TRUE        TRUE    TRUE             TRUE             TRUE  TRUE  TRUE  TRUE  TRUE FALSE        TRUE
+NULL            <NA>        <NA>        <NA>    <NA>             <NA>             <NA> error  <NA>  <NA>  <NA>  <NA>        <NA>
+NA              <NA>        <NA>        <NA>    <NA>             <NA>             <NA> error  <NA>  <NA>  <NA> FALSE        <NA>
+-3L             TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+               as.bigq(32,7) as.bigz(31,45)  NULL    NA   -3L
+23                      TRUE           TRUE  <NA>  <NA>  TRUE
+as.bigz(23)             TRUE           TRUE  <NA>  <NA>  TRUE
+as.bigq(23)             TRUE           TRUE  <NA>  <NA>  TRUE
+c(3,23)                 TRUE           TRUE  <NA>  <NA>  TRUE
+as.bgz((3,23))          TRUE           TRUE  <NA>  <NA>  TRUE
+as.bgq((3,23))          TRUE           TRUE  <NA>  <NA>  TRUE
+25                      TRUE           TRUE error error error
+2.3                     TRUE           TRUE  <NA>  <NA>  TRUE
+-4                      TRUE           TRUE  <NA>  <NA>  TRUE
+4                       TRUE           TRUE  <NA>  <NA>  TRUE
+0                      FALSE          FALSE  <NA> FALSE FALSE
+as.bigz(34)             TRUE           TRUE  <NA>  <NA>  TRUE
+as.bg(32,7)             TRUE           TRUE  <NA>  <NA>  TRUE
+as.b(31,45)             TRUE           TRUE  <NA>  <NA>  TRUE
+NULL                    <NA>           <NA>  <NA>  <NA>  <NA>
+NA                      <NA>           <NA>  <NA>  <NA>  <NA>
+-3L                     TRUE           TRUE  <NA>  <NA>  TRUE
+
+------------------------------------------
+xor 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 60 in current 75 in target 
+                  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25   2.3    -4     4     0 as.bigz(34)
+23             FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+as.bigz(23)    FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+as.bigq(23)    FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+c(3,23)        FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+as.bgz((3,23)) FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+as.bgq((3,23)) FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+25             error       FALSE       FALSE   error            FALSE            FALSE error error error error error       FALSE
+2.3            FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+-4             FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+4              FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+0               TRUE        TRUE        TRUE    TRUE             TRUE             TRUE error  TRUE  TRUE  TRUE FALSE        TRUE
+as.bigz(34)    FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+as.bg(32,7)    FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+as.b(31,45)    FALSE       FALSE       FALSE   FALSE            FALSE            FALSE FALSE FALSE FALSE FALSE  TRUE       FALSE
+NULL            <NA>        <NA>        <NA>    <NA>             <NA>             <NA> error  <NA>  <NA>  <NA>  <NA>        <NA>
+NA              <NA>        <NA>        <NA>    <NA>             <NA>             <NA> error  <NA>  <NA>  <NA>  <NA>        <NA>
+-3L            FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE  TRUE       FALSE
+               as.bigq(32,7) as.bigz(31,45)  NULL    NA   -3L
+23                     FALSE          FALSE  <NA>  <NA> FALSE
+as.bigz(23)            FALSE          FALSE  <NA>  <NA> FALSE
+as.bigq(23)            FALSE          FALSE  <NA>  <NA> FALSE
+c(3,23)                FALSE          FALSE  <NA>  <NA> FALSE
+as.bgz((3,23))         FALSE          FALSE  <NA>  <NA> FALSE
+as.bgq((3,23))         FALSE          FALSE  <NA>  <NA> FALSE
+25                     FALSE          FALSE error error error
+2.3                    FALSE          FALSE  <NA>  <NA> FALSE
+-4                     FALSE          FALSE  <NA>  <NA> FALSE
+4                      FALSE          FALSE  <NA>  <NA> FALSE
+0                       TRUE           TRUE  <NA>  <NA>  TRUE
+as.bigz(34)            FALSE          FALSE  <NA>  <NA> FALSE
+as.bg(32,7)            FALSE          FALSE  <NA>  <NA> FALSE
+as.b(31,45)            FALSE          FALSE  <NA>  <NA> FALSE
+NULL                    <NA>           <NA>  <NA>  <NA>  <NA>
+NA                      <NA>           <NA>  <NA>  <NA>  <NA>
+-3L                    FALSE          FALSE  <NA>  <NA> FALSE
+
+------------------------------------------
+c 
+-> all.equal(target = res, current = F(<numeric x>)):  'is.NA' value mismatch: 256 in current 63 in target 
+                       23 as.bigz(23) as.bigq(23)    c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))         25        2.3         -4          4
+23                      -          23          23          -               23               23         23          -          -          -
+as.bigz(23)            23          23          23         23               23               23         23         23         23         23
+as.bigq(23)            23          23          23         23               23               23         23         23         23         23
+c(3,23)                 -           3           3          -                3                3          3          -          -          -
+as.bgz((3,23))          3           3           3          3                3                3          3          3          3          3
+as.bgq((3,23))          3           3           3          3                3                3          3          3          3          3
+25                     25          25          25         25               25               25         25         25         25         25
+2.3                     -         2.3         2.3          -              2.3              2.3        2.3          -          -          -
+-4                      -          -4          -4          -               -4               -4         -4          -          -          -
+4                       -           4           4          -                4                4          4          -          -          4
+0                       -           0           0          -                0                0          0          -          -          -
+as.bigz(34)            34          34          34         34               34               34         34         34         34         34
+as.bg(32,7)          32/7        32/7        32/7       32/7             32/7             32/7       32/7       32/7       32/7       32/7
+as.b(31,45)    (31 %% 45)  (31 %% 45)          31 (31 %% 45)       (31 %% 45)               31 (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45)
+NULL                   23          01          01          3               02               02         25        2.3         -4          4
+NA                   <NA>        <NA>        <NA>       <NA>             <NA>             <NA>       <NA>       <NA>       <NA>       <NA>
+-3L                     -          -3          -3          -               -3               -3         -3          -          -         -3
+                        0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)       NULL         NA        -3L
+23                      -          23            23             23         23         23          -
+as.bigz(23)            23          23            23             23         23         23         23
+as.bigq(23)            23          23            23             23         23         23         23
+c(3,23)                 -           3             3              3          3          3          -
+as.bgz((3,23))          3           3             3              3          3          3          3
+as.bgq((3,23))          3           3             3              3          3          3          3
+25                     25          25            25             25         25         25         25
+2.3                     -         2.3           2.3            2.3        2.3        2.3          -
+-4                      -          -4            -4             -4         -4         -4          -
+4                       -           4             4              4          4          4          4
+0                       -           0             0              0          0          0          -
+as.bigz(34)            34          34            34             34         34         34         34
+as.bg(32,7)          32/7        32/7          32/7           32/7       32/7       32/7       32/7
+as.b(31,45)    (31 %% 45)  (31 %% 45)            31     (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45)
+NULL                    0          01            01             01       <NA>       <NA>         -3
+NA                   <NA>        <NA>          <NA>           <NA>       <NA>       <NA>       <NA>
+-3L                     -          -3            -3             -3         -3         -3         -3
+
+------------------------------------------
+cbind 
+-> all.equal(target = res, current = F(<numeric x>)):  Mean relative difference: 0.01075094 
+                       23 as.bigz(23)                       as.bigq(23)    c(3,23) as.bigz(c(3,23))                  as.bigq(c(3,23))
+23                     23          23                                23         23               23                                23
+as.bigz(23)            23          23                                23         23               23                                23
+as.bigq(23)            23          23                                23         23               23                                23
+c(3,23)                 3           3                                 3          3                3                                 3
+as.bgz((3,23))          3           3                                 3          3                3                                 3
+as.bgq((3,23))          3           3                                 3          3                3                                 3
+25                     25          25                                25         25               25                                25
+2.3                   2.3           2 2589569785738035/1125899906842624        2.3                2 2589569785738035/1125899906842624
+-4                     -4          -4                                -4         -4               -4                                -4
+4                       4           4                                 4          4                4                                 4
+0                       0           0                                 0          0                0                                 0
+as.bigz(34)            34          34                                34         34               34                                34
+as.bg(32,7)          32/7        32/7                              32/7       32/7             32/7                              32/7
+as.b(31,45)    (31 %% 45)  (31 %% 45)                                31 (31 %% 45)       (31 %% 45)                                31
+NULL                   23          23                                23          3                3                                 3
+NA                   <NA>          NA                                NA       <NA>               NA                                NA
+-3L                    -3          -3                                -3         -3               -3                                -3
+                       25        2.3         -4          4          0 as.bigz(34)                     as.bigq(32,7) as.bigz(31,45)
+23                     23         23         23         23         23          23                                23             23
+as.bigz(23)            23         23         23         23         23          23                                23             23
+as.bigq(23)            23         23         23         23         23          23                                23             23
+c(3,23)                 3          3          3          3          3           3                                 3              3
+as.bgz((3,23))          3          3          3          3          3           3                                 3              3
+as.bgq((3,23))          3          3          3          3          3           3                                 3              3
+25                     25         25         25         25         25          25                                25             25
+2.3                   2.3        2.3        2.3        2.3        2.3           2 2589569785738035/1125899906842624              2
+-4                     -4         -4         -4         -4         -4          -4                                -4             -4
+4                       4          4          4          4          4           4                                 4              4
+0                       0          0          0          0          0           0                                 0              0
+as.bigz(34)            34         34         34         34         34          34                                34             34
+as.bg(32,7)          32/7       32/7       32/7       32/7       32/7        32/7                              32/7           32/7
+as.b(31,45)    (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45)  (31 %% 45)                                31     (31 %% 45)
+NULL                   25        2.3         -4          4          0          34                              32/7     (31 %% 45)
+NA                   <NA>       <NA>       <NA>       <NA>       <NA>          NA                                NA             NA
+-3L                    -3         -3         -3         -3         -3          -3                                -3             -3
+                     NULL         NA        -3L
+23                     23         23         23
+as.bigz(23)            23         23         23
+as.bigq(23)            23         23         23
+c(3,23)                 3          3          3
+as.bgz((3,23))          3          3          3
+as.bgq((3,23))          3          3          3
+25                     25         25         25
+2.3                   2.3        2.3        2.3
+-4                     -4         -4         -4
+4                       4          4          4
+0                       0          0          0
+as.bigz(34)            34         34         34
+as.bg(32,7)          32/7       32/7       32/7
+as.b(31,45)    (31 %% 45) (31 %% 45) (31 %% 45)
+NULL                 <NA>       <NA>         -3
+NA                   <NA>       <NA>       <NA>
+-3L                    -3         -3         -3
+
+------------------------------------------
+rbind 
+-> all.equal(target = res, current = F(<numeric x>)):  Mean relative difference: 0.01075094 
+                       23 as.bigz(23)                       as.bigq(23)    c(3,23) as.bigz(c(3,23))                  as.bigq(c(3,23))
+23                     23          23                                23         23               23                                23
+as.bigz(23)            23          23                                23         23               23                                23
+as.bigq(23)            23          23                                23         23               23                                23
+c(3,23)                 3           3                                 3          3                3                                 3
+as.bgz((3,23))          3           3                                 3          3                3                                 3
+as.bgq((3,23))          3           3                                 3          3                3                                 3
+25                     25          25                                25         25               25                                25
+2.3                   2.3           2 2589569785738035/1125899906842624        2.3                2 2589569785738035/1125899906842624
+-4                     -4          -4                                -4         -4               -4                                -4
+4                       4           4                                 4          4                4                                 4
+0                       0           0                                 0          0                0                                 0
+as.bigz(34)            34          34                                34         34               34                                34
+as.bg(32,7)          32/7        32/7                              32/7       32/7             32/7                              32/7
+as.b(31,45)    (31 %% 45)  (31 %% 45)                                31 (31 %% 45)       (31 %% 45)                                31
+NULL                   23          23                                23          3                3                                 3
+NA                   <NA>          NA                                NA       <NA>               NA                                NA
+-3L                    -3          -3                                -3         -3               -3                                -3
+                       25        2.3         -4          4          0 as.bigz(34)                     as.bigq(32,7) as.bigz(31,45)
+23                     23         23         23         23         23          23                                23             23
+as.bigz(23)            23         23         23         23         23          23                                23             23
+as.bigq(23)            23         23         23         23         23          23                                23             23
+c(3,23)                 3          3          3          3          3           3                                 3              3
+as.bgz((3,23))          3          3          3          3          3           3                                 3              3
+as.bgq((3,23))          3          3          3          3          3           3                                 3              3
+25                     25         25         25         25         25          25                                25             25
+2.3                   2.3        2.3        2.3        2.3        2.3           2 2589569785738035/1125899906842624              2
+-4                     -4         -4         -4         -4         -4          -4                                -4             -4
+4                       4          4          4          4          4           4                                 4              4
+0                       0          0          0          0          0           0                                 0              0
+as.bigz(34)            34         34         34         34         34          34                                34             34
+as.bg(32,7)          32/7       32/7       32/7       32/7       32/7        32/7                              32/7           32/7
+as.b(31,45)    (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45) (31 %% 45)  (31 %% 45)                                31     (31 %% 45)
+NULL                   25        2.3         -4          4          0          34                              32/7     (31 %% 45)
+NA                   <NA>       <NA>       <NA>       <NA>       <NA>          NA                                NA             NA
+-3L                    -3         -3         -3         -3         -3          -3                                -3             -3
+                     NULL         NA        -3L
+23                     23         23         23
+as.bigz(23)            23         23         23
+as.bigq(23)            23         23         23
+c(3,23)                 3          3          3
+as.bgz((3,23))          3          3          3
+as.bgq((3,23))          3          3          3
+25                     25         25         25
+2.3                   2.3        2.3        2.3
+-4                     -4         -4         -4
+4                       4          4          4
+0                       0          0          0
+as.bigz(34)            34         34         34
+as.bg(32,7)          32/7       32/7       32/7
+as.b(31,45)    (31 %% 45) (31 %% 45) (31 %% 45)
+NULL                 <NA>       <NA>         -3
+NA                   <NA>       <NA>       <NA>
+-3L                    -3         -3         -3
+
+There were 3988 warnings (use warnings() to see them)
+> 
+> summary(warnings()) # ideally *not* platform dependent
+Summary of (a total of 3988) warning messages:
+3563x : In sortie(e) : NAs introduced by coercion
+  35x : In FUN(x[[i]], x[[j]]) : returning NA  for (modulus) 0 in RHS
+   5x : In `/.bigz`(x[[i]], x[[j]]) :
+  pow(x, -|n|) returning NA as x has no inverse wrt modulus
+   9x : In `%%.bigz`(x[[i]], x[[j]]) : biginteger division by zero: returning NA
+ 284x : In FUN(x[[i]], x[[j]]) :
+  inv(x,m) returning NA as x has no inverse modulo m
+  52x : In FUN(x[[i]], x[[j]]) : inv(0) returning NA
+  17x : In FUN(x[[i]], x[[j]]) : 'k' (2.30) must be integer, rounded to 2
+  17x : In FUN(x[[i]], x[[j]]) : 'k' (4.57) must be integer, rounded to 5
+   3x : In FUN(x[[i]], x[[j]]) : no non-missing arguments to max; returning -Inf
+   3x : In FUN(x[[i]], x[[j]]) : no non-missing arguments to min; returning Inf
+> 
+> ##==============================================================================
+> 
+> for(fid in unaryfunctionid)
++   {
++     cat ("------------------------------------------\n", fid, "\n\n", sep="")
++     FUN <- get(fid, envir = gmp.NS, mode="function")
++     print(as.data.frame(test(FUN, x, unary=TRUE)))
++   }
+------------------------------------------
+log
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)  NULL   NA
+1  -    3.135494       error       -         1.098612            error error   -  - - -    3.526361         error       3.433987 error <NA>
+  -3L
+1   -
+------------------------------------------
+log2
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)  NULL   NA
+1  -    4.523562       error       -         1.584963            error error   -  - - -    5.087463         error       4.954196 error <NA>
+  -3L
+1   -
+------------------------------------------
+log10
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)  NULL   NA
+1  -    1.361728       error       -        0.4771213            error error   -  - - -    1.531479         error       1.491362 error <NA>
+  -3L
+1   -
+------------------------------------------
+c
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23)) 25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL   NA -3L
+1  -          23          23       -                3                3 25   -  - 4 -          34          32/7     (31 %% 45) <NA> <NA>  -3
+------------------------------------------
+isprime
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23)) 25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL NA -3L
+1  2           2           2       2                2                2  0   2  0 0 0           0             0              2 <NA>  0   2
+------------------------------------------
+nextprime
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23)) 25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL NA -3L
+1 29          29          29       5                5                5 29   3  2 5 2          37            37             37 <NA>  2   2
+------------------------------------------
+factorialZ
+
+                       23             as.bigz(23)             as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))
+1 25852016738884976640000 25852016738884976640000 25852016738884976640000       6                6                6
+                          25 2.3 -4  4 0                             as.bigz(34) as.bigq(32,7)                     as.bigz(31,45) NULL NA
+1 15511210043330985984000000   2  0 24 1 295232799039604140847618609643520000000            24 8222838654177922817725562880000000 <NA>  0
+  -3L
+1   0
+------------------------------------------
+sizeinbase
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23)) 25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL NA -3L
+1  2           2           2       1                1                1  2   1  1 1 1           2             2              2 <NA>  1   1
+------------------------------------------
+fibnum
+
+     23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3    -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL
+1 28657       28657       28657       2                2                2 75025   1 error 3 0     5702887             3        1346269 <NA>
+     NA   -3L
+1 error error
+------------------------------------------
+fibnum2
+
+     23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3    -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)
+1 17711       17711       17711       1                1                1 46368   1 error 2 1     3524578             2         832040
+   NULL    NA   -3L
+1 error error error
+------------------------------------------
+lucnum
+
+     23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))     25 2.3    -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)
+1 64079       64079       64079       4                4                4 167761   3 error 7 2    12752043             7        3010349
+  NULL    NA   -3L
+1 <NA> error error
+------------------------------------------
+lucnum2
+
+     23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))     25 2.3    -4 4  0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)
+1 39603       39603       39603       3                3                3 103682   1 error 4 -1     7881196             4        1860498
+   NULL    NA   -3L
+1 error error error
+------------------------------------------
+factorize
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23)) 25 2.3 -4 4     0 as.bigz(34) as.bigq(32,7) as.bigz(31,45) NULL
+1 23          23          23       3                3                3  5   2 -1 2 error           2             2             31 <NA>
+     NA -3L
+1 error  -1
+------------------------------------------
+abs
+
+  23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25 2.3 -4 4 0 as.bigz(34) as.bigq(32,7) as.bigz(31,45)  NULL   NA
+1  -          23          23       -                3                3 error   -  - 4 -          34          32/7     (31 %% 45) error <NA>
+  -3L
+1   3
+------------------------------------------
+!
+
+     23 as.bigz(23) as.bigq(23) c(3,23) as.bigz(c(3,23)) as.bigq(c(3,23))    25   2.3    -4     4    0 as.bigz(34) as.bigq(32,7)
+1 FALSE       FALSE       FALSE   FALSE            FALSE            FALSE error FALSE FALSE FALSE TRUE       FALSE         FALSE
+  as.bigz(31,45)  NULL   NA   -3L
+1          FALSE error <NA> FALSE
+Warning messages:
+1: In FUN(x[[j]]) : NaNs produced
+2: In FUN(x[[j]]) : NaNs produced
+3: In FUN(x[[j]]) : NaNs produced
+4: In FUN(x[[j]]) : NaNs produced
+5: In FUN(x[[j]]) : NaNs produced
+6: In FUN(x[[j]]) : NaNs produced
+> 
+> ##==============================================================================
+> 
+> ###----------- matrix -----------------------------
+> x  <- matrix(1:6,3)
+> stopifnot(identical(as.bigz(x), matrix(as.bigz(as.vector(x)), 3)),
++           dim(x) == 3:2,
++           dim(x) == dim(ym   <- as.bigz(x, 6:1)),
++           dim(x) == dim(ymr  <- as.bigz(x, 4:6)),
++           dim(x) == dim(ymc  <- as.bigz(x, 4)),
++           dim(x) == dim(ymq  <- as.bigq(x)),
++           dim(x) == dim(y    <- as.bigq(x, 6:1))
++           ,
++           apply(ym,1,max) == 1:3,
++           apply(ym,2,min) == c(1,0))
+> 
+> x %*% t(x)
+     [,1] [,2] [,3]
+[1,]   17   22   27
+[2,]   22   29   36
+[3,]   27   36   45
+> 
+> ym %*% t(ym)
+Big Integer ('bigz') 3 x 3 matrix:
+     [,1] [,2] [,3]
+[1,] 2    3    3   
+[2,] 3    5    6   
+[3,] 3    6    9   
+> ym %*% t(ymr)
+Big Integer ('bigz') 3 x 3 matrix:
+     [,1] [,2] [,3]
+[1,] 1    2    3   
+[2,] 2    4    6   
+[3,] 3    6    9   
+> ymc %*% t(ymc)
+     [,1]     [,2]     [,3]    
+[1,] (1 %% 4) (2 %% 4) (3 %% 4)
+[2,] (2 %% 4) (1 %% 4) (0 %% 4)
+[3,] (3 %% 4) (0 %% 4) (1 %% 4)
+> ymq %*% t(ymq)
+Big Rational ('bigq') 3 x 3 matrix:
+     [,1] [,2] [,3]
+[1,] 17   22   27  
+[2,] 22   29   36  
+[3,] 27   36   45  
+> y %*% t(y)
+Big Rational ('bigq') 3 x 3 matrix:
+     [,1]  [,2]    [,3]  
+[1,] 65/36 17/5    65/8  
+[2,] 17/5  641/100 153/10
+[3,] 65/8  153/10  585/16
+> 
+> dd <- dim(D  <- diag(1:4))
+> stopifnot(dd == dim(Dmq  <- as.bigq(D)),
++           dd == dim(Dz <- as.bigz(D)),
++           dd == dim(Dm   <- as.bigz(D,6:1)),
++           dd == dim(Dmr  <- as.bigz(D,7)),
++           dd == dim(Dmc  <- as.bigz(D,4)),
++           TRUE)
+> solve(D)
+     [,1] [,2]      [,3] [,4]
+[1,]    1  0.0 0.0000000 0.00
+[2,]    0  0.5 0.0000000 0.00
+[3,]    0  0.0 0.3333333 0.00
+[4,]    0  0.0 0.0000000 0.25
+> solve(Dmq)
+Big Rational ('bigq') 4 x 4 matrix:
+     [,1] [,2] [,3] [,4]
+[1,] 1    0    0    0   
+[2,] 0    1/2  0    0   
+[3,] 0    0    1/3  0   
+[4,] 0    0    0    1/4 
+> solve(Dmr)
+     [,1]     [,2]     [,3]     [,4]    
+[1,] (1 %% 7) (0 %% 7) (0 %% 7) (0 %% 7)
+[2,] (0 %% 7) (4 %% 7) (0 %% 7) (0 %% 7)
+[3,] (0 %% 7) (0 %% 7) (5 %% 7) (0 %% 7)
+[4,] (0 %% 7) (0 %% 7) (0 %% 7) (2 %% 7)
+> tools::assertError(solve(Dmc))# Error: argument has no inverse
+> tools::assertError(solve(Dm)) # Error: System is singular
+> 
+> (D.D <- D %*% t(Dm))# now [>= Jan.2012] works too
+Big Integer ('bigz') 4 x 4 matrix:
+     [,1] [,2] [,3] [,4]
+[1,] 1    0    0    0   
+[2,] 0    0    0    0   
+[3,] 0    0    3    0   
+[4,] 0    0    0    4   
+> vq <- as.bigq(1:4, 4)
+> r41 <- cbind(as.bigq((1:4)^2, 4))
+> stopifnot(identical(D.D, tcrossprod(D,Dm)),
++ 	  dim(r41) == c(4,1),
++ 	  identical(r41, Dz %*% vq), ## bigz %*% bigq - used to fail
++ 	  identical(r41, crossprod(Dz, vq))## ditto
++ 	  )
+> 
+> ##
+> ## some specific tests
+> 
+> factorize("33162879029270137")
+Big Integer ('bigz') object of length 5:
+[1] 7      29     11867  75679  181903
+> 
+> factorize(15959989)
+Big Integer ('bigz') object of length 2:
+[1] 3989 4001
+> 
+> ## assignation
+> x = as.bigz(1:8)
+> x[3:2] = 9:10
+> x
+Big Integer ('bigz') object of length 8:
+[1] 1  10 9  4  5  6  7  8 
+> 
+> x = as.bigz(matrix(1:12,3))
+> x[3:2,] = 1:8
+> x
+Big Integer ('bigz') 3 x 4 matrix:
+     [,1] [,2] [,3] [,4]
+[1,] 1    4    7    10  
+[2,] 2    4    6    8   
+[3,] 1    3    5    7   
+> x[,2] = 0
+> x
+Big Integer ('bigz') 3 x 4 matrix:
+     [,1] [,2] [,3] [,4]
+[1,] 1    0    7    10  
+[2,] 2    0    6    8   
+[3,] 1    0    5    7   
+> 
+> tools::assertError(x[,5])
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.952   0.068   1.027 

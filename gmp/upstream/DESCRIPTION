@@ -1,0 +1,32 @@
+Package: gmp
+Version: 0.7-5.1
+Date: 2024-08-23
+Title: Multiple Precision Arithmetic
+Authors@R: c(person("Antoine","Lucas",role = c("aut","cre"),
+	  email = "antoinelucas@gmail.com", comment = c(ORCID="0000-0002-8059-9767")),
+	  person("Immanuel","Scholz", role= "aut"),
+	  person("Rainer","Boehme", role = "ctb", email= "rb-gmp@reflex-studio.de"),
+ 	  person("Sylvain","Jasson", role = "ctb", email= "Sylvain.Jasson@inrae.fr"),
+	  person("Martin", "Maechler", role = "ctb", email="maechler@stat.math.ethz.ch"))
+Maintainer: Antoine Lucas <antoinelucas@gmail.com>
+Description: Multiple Precision Arithmetic (big integers and rationals,
+ prime number tests, matrix computation), "arithmetic without limitations"
+ using the C library GMP (GNU Multiple Precision Arithmetic).
+Depends: R (>= 3.5.0)
+Imports: methods
+Suggests: Rmpfr, MASS, round
+SystemRequirements: gmp (>= 4.2.3)
+License: GPL (>= 2)
+BuildResaveData: no
+LazyDataNote: not available, as we use data/*.R *and* our classes
+NeedsCompilation: yes
+URL: https://forgemia.inra.fr/sylvain.jasson/gmp
+Packaged: 2026-02-09 09:14:53 UTC; ripley
+Author: Antoine Lucas [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-8059-9767>),
+  Immanuel Scholz [aut],
+  Rainer Boehme [ctb],
+  Sylvain Jasson [ctb],
+  Martin Maechler [ctb]
+Repository: CRAN
+Date/Publication: 2026-02-09 09:19:08 UTC

@@ -1,0 +1,113 @@
+* Remove full path in `configure.ac` script, with example of Rmpfr configure.						-*-org-*-
+* Bug Fixes
+** DONE Logical ops should work: 0=FALSE NA=NA, <any_else>=TRUE
+*** DONE !as.bigz(0:3)  crashes R badly (!!), but should return !(0:3) (logical vector).
+*** DONE  as.bigz(0:3) | as.bigz(0) etc should return logical as with regular numbers in R
+** TODO `format()` currently works via as.character(.), particularly unsatisfying for bigz.
+** DONE Not working column assignment :  A[,j] <- vec    does nothing, not warn, nothing -- but  A[i,] <- val  works ??
+** DONE m <- matrix(1:6, 2); Z <- as.bigz(m); str(Z) fails because e.g. Z[5] fails, contrary m[5]
+** TODO asNumeric(x) : the generic must get a "..." argument, so can use "rounding mode" in Rmpfr
+** DONE URGENT / BAD : Segfaults, Wrong Results, etc
+** DONE completely *wrong* pmin() and pmax(<bigq>, <number>): uses Numerator in comparison ???
+*** TODO: Find the *underlying* reason where pmin() goes wrong w/o warning!
+** TODO Missing bigq %% and %/% [was 'Not working Arithmetic']
+*** TODO bigq  %% and %/%  are not even defined (but are for 'numeric')!
+*** DONE as.bigz(1:4) + as.bigq(7) failed, so do '*', '/', ... Fixed (for 0.6-0), via new add.big() etc _S3_ methods
+*** DONE more checking: q <- 2.3; Fn <- gmp:::`^.bigq`;  Fn(q,q) silently gave wrong result; now a good error message
+*** DONE <bigz> %*% <bigq>  silently gave wrong result; now works, as does crossprod(), tcrossprod()
+*** DONE bigz %% and %/% should be R compatible, notably fulfilling
+ 	(a %/% b)*b + (a %% b)  ==  a     for all a and b
+ Examples
+    	as.bigz(-2:2) %/% as.bigz(3)
+**** DONE %% and %/% fail with "division by zero": now warning = ok.
+ whereas the numeric/integer version of these work fine, returning NA;
+ see matOuter() and eqA[] in tests/arith-ex.R
+
+* Miscellaneous
+** TODO provide as.bigq.fractions(): to accept MASS::fractions() results
+** TODO [MM:] is.whole() conflicts with  sfsmisc::is.whole(): maybe get that as default method ?
+*** Note that we use  all(is.whole(.)) importantly. --> Make fast all_whole() via C ?
+** gmp <--> Rmpfr:
+*** Z <- as.bigz(1:7);  Z[1] <- mpfr(1, 20)  now gives an error {did segfault!};
+but later, *with* Rmpfr we should make Z into an 'mpfr'.
+This is completely analogous to
+ I <- 1:7    ;typeof(I) #  "integer"
+ I[1] <- 1.0 ;typeof(I) #  "double" (aka "numeric")
+ I[1] <- 1i  ;typeof(I) #  "complex"
+**** Want *in addition*:  "coercion" from mpfr() to bigz / bigq:
+
+   Solution: Work via GMP's  mpf_t:
+       A. mpfr --> mpf --> mpq  (exact for Q)       -- see below
+       B. mpfr      -->    mpz  (or round() for Z)  -- via  mpfr_get_z(mpz_t ROP, mpfr_t OP, mpfr_rnd_t RND)
+
+     for A) MPFR: int mpfr_get_f (mpf_t ROP, mpfr_t OP, mpfr_rnd_t RND)
+            GMP:  void mpq_set_f (mpq_t ROP, mpf_t OP): Set ROP to the value of OP... conversion is exact.
+
+   BTW: The other direction is via
+      int mpfr_set_z (mpfr_t ROP, mpz_t OP, mpfr_rnd_t RND)
+      int mpfr_set_q (mpfr_t ROP, mpq_t OP, mpfr_rnd_t RND)
+      int mpfr_set_f (mpfr_t ROP, mpf_t OP, mpfr_rnd_t RND)
+
+
+   NB:  also
+   2) provide corresponding  as(<mpfr>, "bigz") and as(<mpfr>, "bigq")
+   3) *and* (careful; these are in R pkg gmp; all the above is in Rmpfr):
+      enhance as.bigz()  and as.bigq() to  work for this case !
+
+** Vectorization; other "desiderata"
+***  fibnum(), etc are *not* vectorized -- learn from chooseZ() !
+
+*** allow  +/- Inf "bigq" ?? --  +Inf :=: 1/0   -Inf :=:  (-1)/0
+   This would allow the bigq (and bigz) arithmetic to be closer to the
+   other R arithmetic rules.
+   Currently we get "division by 0" instead... not really desirably in
+   quite some cases.
+**** 2013-03: Currently  as.bigz(Inf) now gives 2^8000 *very* arbitrarily;
+      this allows    <bigz>  <=  Inf   to give something better than  NA,
+    *but* does not work the same with <bigq>;
+    there, the   +- Inf :=  ( +-1 / 0 )   would seem more sensible.
+   However:  Clearly found that 'mpq' (GMP library) code does *not* work
+   with  "1/0" rational.
+
+   One possibility:  Using   +- <LARGE>/1  for "bigq", as   +- <LARGE> for "bigz"
+
+** Matrix things
+*** DONE want *different*  M[1,] and M[1] for big[zq] matrices
+*** DONE 3*M and M*3  are not the same: the first forgets the "nrow"
+*** DONE x <- as.bigz(2:5);    x[1]  <- -1; x  # -- a matrix !! >> no longer
+*** DONE qq <- as.bigz(2:5)/7; qq[1] <- -1; qq # -- a matrix !!
+***  abs(.) or sign(<big..matrix>) {and probably many others!}
+     return vector instead of matrix, i.e.., lose the "nrow" attribute.
+***  cbind(<bigz>, <bigq>)  returns raw
+
+* More general, previous 'TODO':
+***  The print() method is improved; but matrices are not "noted" yet.
+   Still needs discussion; should be shorter for length 1 ?
+   We could have an option() .. to suppress the initial line. Fine for
+   bigq, but not for bigz
+
+*** frexpZ(z) is sufficient; want faster simpler sizeinbase()
+  i.e.  sizeinbase(x, base)  returning the number "digits" in base 'base'.
+  Notably  sizeinbase(z, 2)  would directly give frexpZ(z)$exp  (minus 1 ?),
+  and could be used in Rmpfr's getPrec() for  bigz -> mpfr conversion.
+
+*** provide more functions for bigintegers & bigrationals, such as
+   sort, order, xtfrm, rank {-> quantile(), median() !};  mean() !! [-> bigq !]
+
+*** Bernoulli() {-> Rmpfr / copula } should return a  "bigq"
+*** more matrix and linear algebra computation functions (SVD, eigen values,
+    determinant).
+
+*** provide basic algorithms and number theoretic symbols (CRA, Jacobi symbol)
+
+*** provide binary-to-biginteger interface with bitwise operations (i.e., bit access to big integers)
+
+*** Create pochZ() for the Pochhammer symbol to complement  chooseZ()
+    the same as pochMpfr() in "Rmpfr" complements chooseMpfr()
+
+* Systematic Testing
+*** Arithmetic, Comparison, etc: ensure pairwise compatibility <bigz>, <bigq>, <numeric>
+
+*** tests/gmp-test.R: contains Antoine's previous test suite;
+    should add more tests about *correct* result.
+

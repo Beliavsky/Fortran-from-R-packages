@@ -1,0 +1,1158 @@
+name = "gmp"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Antoine Lucas, Immanuel Scholz, Rainer Boehme, Sylvain Jasson, Martin Maechler; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages project"
+description = "Pure-Fortran arbitrary-precision integer and rational computational translation of R package gmp"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 132
+r_functions_translated = 126
+frac_functions_translated = 0.954545454545
+untranslated_r_functions = ["is.na.bigz", "is.na.bigq", "modulus", "modulus.bigz", "modulus<-", "modulus<-.bigz"]
+
+[[extra.translation.function]]
+r_name = "add.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_add"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "sub.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_sub"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "mul.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_mul"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "div.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_divide"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Exact integer division returning an arbitrary-precision rational is translated; mixed R coercion, vectorization, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "divq.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_quotient"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Floor integer quotient semantics are translated for scalar bigz values; R vectorization, recycling, modular-object attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "%/%.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_quotient"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Floor integer quotient semantics are translated for scalar bigz values; R vectorization, recycling, modular-object attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "mod.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_modulo"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "R-style modulo with remainder sign following the divisor is translated for integers; vectorization, recycling, object attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "%%.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_modulo"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "R-style modulo with remainder sign following the divisor is translated for integers; vectorization, recycling, object attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "pow.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_pow"]
+fortran_source = "src/gmp_bigz.f90"
+status = "partial"
+notes = "Exact arbitrary-precision integer results are produced, but the exponent is limited to signed 64-bit integer range and R vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "inv.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_invmod"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Modular inverse is translated for scalar arbitrary-precision integers; R vectorization and modular-object attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "!.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_not"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "|.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_or"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "&.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_and"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "xor.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_xor"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "gcd"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_gcd"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "The mathematical greatest-common-divisor operation is translated; the R generic dispatch layer and recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "gcd.default"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_gcd"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "The integer GCD operation underlying the default R method is translated; callers explicitly construct bigz values rather than relying on R coercion."
+
+[[extra.translation.function]]
+r_name = "gcd.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_gcd"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "lcm.default"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_lcm"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "The integer LCM operation underlying the default R method is translated; callers explicitly construct bigz values rather than relying on R coercion."
+
+[[extra.translation.function]]
+r_name = "lcm.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_lcm"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "as.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_from_int64", "bigz_from_string"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Construction from signed 64-bit integers and strings in bases 2 through 36 is translated; R vectors, raw objects, factors, modulus attributes, recycling, and NA conversion are omitted."
+
+[[extra.translation.function]]
+r_name = "as.double.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_to_dp"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Conversion to the package real kind is translated; R dimension/name attributes and NA conversion are omitted."
+
+[[extra.translation.function]]
+r_name = "as.integer.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_to_int64"]
+fortran_source = "src/gmp_bigz.f90"
+status = "partial"
+notes = "Conversion is translated when the value fits signed 64-bit range; R overflow/NA conventions and vector attributes are not reproduced."
+
+[[extra.translation.function]]
+r_name = "powm"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_powm"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Arbitrary-precision modular exponentiation is translated, including negative exponents when a modular inverse exists; R vectorization and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "lt.big"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_lt", "bigq_lt"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "The shared bigz/bigq scalar comparison semantics are translated; R mixed-type coercion, vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "gt.big"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_gt", "bigq_gt"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "The shared bigz/bigq scalar comparison semantics are translated; R mixed-type coercion, vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "lte.big"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_lte", "bigq_lte"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "The shared bigz/bigq scalar comparison semantics are translated; R mixed-type coercion, vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "gte.big"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_gte", "bigq_gte"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "The shared bigz/bigq scalar comparison semantics are translated; R mixed-type coercion, vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "eq.big"
+r_source = "upstream/R/biginteger.R"
+fortran_modules = ["gmp_bigz", "gmp_bigq"]
+fortran_names = ["bigz_equal", "bigq_equal"]
+fortran_sources = ["src/gmp_bigz.f90", "src/gmp_bigq.f90"]
+status = "substantial"
+notes = "The mixed bigz/bigq numerical operation is translated by type-specific public procedures; R vectorization, recycling, coercion dispatch, attributes, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "neq.big"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_neq", "bigq_neq"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "The shared bigz/bigq scalar comparison semantics are translated; R mixed-type coercion, vectorization, recycling, attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "is.whole"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["real_is_whole", "bigz_is_whole", "bigq_is_whole"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Whole-value tests are translated for real(dp), bigz, and bigq inputs; the R generic, logical/complex cases, vector attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "is.whole.default"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["real_is_whole"]
+fortran_source = "src/gmp_api.f90"
+status = "partial"
+notes = "The numeric-real branch of the R default method is translated elementally; R logical, complex, arbitrary-object, attribute, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "is.finite.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_is_finite"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Every representable Fortran bigz value is finite; the R package NA sentinel is not represented."
+
+[[extra.translation.function]]
+r_name = "is.whole.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_is_whole"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Every representable bigz value is integral; R vector shape and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "is.infinite.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_is_infinite"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "No representable Fortran bigz value is infinite; the R package NA sentinel is not represented."
+
+[[extra.translation.function]]
+r_name = "frexpZ"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_frexp"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "A binary fraction/exponent decomposition is translated; return packaging differs from the R list and last-bit floating rounding may differ from GMP conversion."
+
+[[extra.translation.function]]
+r_name = "abs.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_abs"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "sign.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_signum"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "floor.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_floor"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "round.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_round_digits"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Decimal rounding of arbitrary-precision integers is translated with ties-to-even behavior through exact rationals; R vectorization and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "trunc.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_trunc"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "gamma.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_gamma"]
+fortran_source = "src/gmp_vector.f90"
+status = "partial"
+notes = "Integer gamma via factorial(x-1) is translated for positive values fitting the loop-index range; R vectorization, invalid-domain errors, and NA behavior differ."
+
+[[extra.translation.function]]
+r_name = "cumsum.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_cumsum"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "log2.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_log2"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Natural floating conversion is used to compute the logarithm; exact arbitrary-precision integer input is retained but final floating rounding may differ from GMP/R."
+
+[[extra.translation.function]]
+r_name = "log.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_log"]
+fortran_source = "src/gmp_bigz.f90"
+status = "partial"
+notes = "Natural logarithm is translated. The R base argument is not accepted by this procedure; use bigz_log2 or bigz_log10 for those bases."
+
+[[extra.translation.function]]
+r_name = "log10.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_log10"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Base-10 logarithm is translated; final floating rounding may differ from GMP/R."
+
+[[extra.translation.function]]
+r_name = "max.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_max"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "min.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_min"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "prod.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_prod"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "sum.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_sum"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "duplicated.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_duplicated"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "unique.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_unique"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "isprime"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["isprime_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "partial"
+notes = "Deterministic Miller-Rabin is used for signed-64-bit values and a fixed-base probable-prime test for larger values; GMP reps/random-base strategy and exact status nuances are not reproduced."
+
+[[extra.translation.function]]
+r_name = "nextprime"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["nextprime_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The next probable prime greater than the input is translated using the Fortran primality implementation; performance and probabilistic strategy differ from GMP."
+
+[[extra.translation.function]]
+r_name = "gcdex"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_gcdex"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "urand.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["urand_bigz"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "partial"
+notes = "Deterministic arbitrary-width random integers are translated, but a Park-Miller bit generator is used instead of GMP random-state algorithms, so streams are not bit-for-bit compatible."
+
+[[extra.translation.function]]
+r_name = "sizeinbase"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_bigz"
+fortran_names = ["bigz_sizeinbase"]
+fortran_source = "src/gmp_bigz.f90"
+status = "substantial"
+notes = "Digit-count computation in bases 2 through 36 is translated; R vectorization and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "factorialZ"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["factorial_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact factorial values are translated for nonnegative indices fitting signed 64-bit loop range; R vectorization and NA/error conventions are omitted."
+
+[[extra.translation.function]]
+r_name = "chooseZ"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["choose_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact generalized binomial coefficients including negative n are translated; k is limited to signed 64-bit range and R vectorization is omitted."
+
+[[extra.translation.function]]
+r_name = "fibnum"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["fibnum_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Fast-doubling Fibonacci computation is translated for signed-64-bit indices supported by the Fortran API; R vectorization is omitted."
+
+[[extra.translation.function]]
+r_name = "fibnum2"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["fibnum2_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The paired adjacent Fibonacci computation is translated; R return-object packaging and vectorization are omitted."
+
+[[extra.translation.function]]
+r_name = "lucnum"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["lucnum_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Lucas-number computation is translated for signed-64-bit indices supported by the Fortran API; R vectorization is omitted."
+
+[[extra.translation.function]]
+r_name = "lucnum2"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["lucnum2_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The paired adjacent Lucas computation is translated; R return-object packaging and vectorization are omitted."
+
+[[extra.translation.function]]
+r_name = "factorize"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["factorize_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "partial"
+notes = "Prime factorization is translated with deterministic Pollard-rho recursion and the Fortran probable-prime test; GMP algorithms, performance, and failure strategy differ for difficult large inputs."
+
+[[extra.translation.function]]
+r_name = "solve.bigz"
+r_source = "upstream/R/biginteger.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_solve", "bigz_inverse"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Exact non-modular integer matrix solve/inverse over the rationals is translated. R modular-matrix solve semantics, dimnames, vector RHS coercion, and singular-error objects are omitted."
+
+[[extra.translation.function]]
+r_name = "add.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_add"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "add.big"
+r_source = "upstream/R/bigq.R"
+fortran_modules = ["gmp_bigz", "gmp_bigq"]
+fortran_names = ["bigz_add", "bigq_add"]
+fortran_sources = ["src/gmp_bigz.f90", "src/gmp_bigq.f90"]
+status = "substantial"
+notes = "The mixed bigz/bigq numerical operation is translated by type-specific public procedures; R vectorization, recycling, coercion dispatch, attributes, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "sub.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_sub"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = ".sub.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_sub", "bigq_neg"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "The rational subtraction/unary-negation numerical kernel is translated; the exported R helper's dispatch/vector behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "sub.big"
+r_source = "upstream/R/bigq.R"
+fortran_modules = ["gmp_bigz", "gmp_bigq"]
+fortran_names = ["bigz_sub", "bigq_sub", "bigz_neg", "bigq_neg"]
+fortran_sources = ["src/gmp_bigz.f90", "src/gmp_bigq.f90"]
+status = "substantial"
+notes = "The mixed bigz/bigq numerical operation is translated by type-specific public procedures; R vectorization, recycling, coercion dispatch, attributes, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "mul.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_mul"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "mul.big"
+r_source = "upstream/R/bigq.R"
+fortran_modules = ["gmp_bigz", "gmp_bigq"]
+fortran_names = ["bigz_mul", "bigq_mul"]
+fortran_sources = ["src/gmp_bigz.f90", "src/gmp_bigq.f90"]
+status = "substantial"
+notes = "The mixed bigz/bigq numerical operation is translated by type-specific public procedures; R vectorization, recycling, coercion dispatch, attributes, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "div.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_div"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "div.big"
+r_source = "upstream/R/bigq.R"
+fortran_modules = ["gmp_api", "gmp_bigq"]
+fortran_names = ["bigz_divide", "bigq_div"]
+fortran_sources = ["src/gmp_api.f90", "src/gmp_bigq.f90"]
+status = "substantial"
+notes = "The mixed bigz/bigq numerical operation is translated by type-specific public procedures; R vectorization, recycling, coercion dispatch, attributes, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "pow.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_pow"]
+fortran_source = "src/gmp_bigq.f90"
+status = "partial"
+notes = "Exact rational powers are translated for signed-64-bit integer exponents; nonintegral R exponent cases and vectorization are omitted."
+
+[[extra.translation.function]]
+r_name = "pow.big"
+r_source = "upstream/R/bigq.R"
+fortran_modules = ["gmp_bigz", "gmp_bigq"]
+fortran_names = ["bigz_pow", "bigq_pow"]
+fortran_sources = ["src/gmp_bigz.f90", "src/gmp_bigq.f90"]
+status = "partial"
+notes = "Exact bigz/bigq integer-exponent powers are translated; exponent range is signed 64-bit and R mixed/vector coercion behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "as.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_make", "bigq_from_int64", "bigq_from_string"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Construction from exact integer numerator/denominator, signed 64-bit integers, and rational strings is translated; R floating approximation, vectors, attributes, NA, and recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "as.double.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_to_dp"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Conversion to the package real kind is translated; R dimension/name attributes and NA conversion are omitted."
+
+[[extra.translation.function]]
+r_name = "as.integer.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_to_int64"]
+fortran_source = "src/gmp_api.f90"
+status = "partial"
+notes = "Truncating conversion is translated when the result fits signed 64-bit range; R overflow/NA conventions and vector attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "denominator"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_denominator"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "denominator<-"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_set_denominator"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Exact denominator replacement with normalization is translated; R replacement-vector recycling, attributes, and zero-denominator error objects are omitted."
+
+[[extra.translation.function]]
+r_name = "numerator"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_numerator"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "numerator<-"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_set_numerator"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Exact numerator replacement with normalization is translated; R replacement-vector recycling and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "as.bigz.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigz_from_bigq"]
+fortran_source = "src/gmp_api.f90"
+status = "partial"
+notes = "Truncation toward zero to an integer is translated; R modulus argument, vectorization, dimensions, and NA handling are omitted."
+
+[[extra.translation.function]]
+r_name = "is.whole.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_is_whole"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Exact integrality of normalized rationals is translated; R vector shape and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "is.finite.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_is_finite"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Every representable normalized Fortran bigq is finite; the R package NA sentinel is not represented."
+
+[[extra.translation.function]]
+r_name = "is.infinite.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_is_infinite"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "No representable normalized Fortran bigq is infinite; the R package NA sentinel is not represented."
+
+[[extra.translation.function]]
+r_name = "abs.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_abs"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "sign.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_signum"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "trunc.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_trunc"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "floor.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_floor"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "round0"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_round0"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Exact nearest-integer ties-to-even rounding is translated; R vectorization and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "roundQ"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_round_digits"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Exact decimal rational rounding is translated for a scalar integer digits argument; R vectorization over x/digits and injectable rounding function are omitted."
+
+[[extra.translation.function]]
+r_name = "round.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_bigq"
+fortran_names = ["bigq_round_digits"]
+fortran_source = "src/gmp_bigq.f90"
+status = "substantial"
+notes = "Exact decimal rational rounding is translated for a scalar integer digits argument; R vectorization and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "cumsum.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_cumsum"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "mean.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_mean"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "solve.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigq_solve", "bigq_inverse"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Exact Gauss-Jordan rational solve and inverse are translated; R dimnames, vector RHS coercion, and singular-error object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "max.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_max"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "min.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_min"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "sum.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_sum"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "prod.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_prod"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "duplicated.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_duplicated"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "unique.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigq_unique"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "!.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_not"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "|.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_or"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "&.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_and"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "xor.bigq"
+r_source = "upstream/R/bigq.R"
+fortran_module = "gmp_api"
+fortran_names = ["bigq_xor"]
+fortran_source = "src/gmp_api.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "%*%"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_matmul", "bigq_matmul"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Exact arbitrary-precision integer and rational matrix multiplication is translated; the R generic/default dispatch, vector promotion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "%*%.bigz"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_matmul"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Exact integer matrix multiplication is translated; R vector promotion, mixed-type coercion, dimensions metadata, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "%*%.bigq"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigq_matmul"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Exact rational matrix multiplication is translated; R vector promotion, mixed-type coercion, dimensions metadata, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "crossprod"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_crossprod", "bigq_crossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Self cross-products are translated exactly for bigz and bigq matrices; the two-argument R form, generic/default dispatch, vector promotion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "crossprod.bigz"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_crossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Exact self cross-product is translated; the optional y argument, vector promotion, mixed coercion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "crossprod.bigq"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigq_crossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Exact self cross-product is translated; the optional y argument, vector promotion, mixed coercion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "tcrossprod"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_tcrossprod", "bigq_tcrossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Self tcross-products are translated exactly for bigz and bigq matrices; the two-argument R form, generic/default dispatch, vector promotion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "tcrossprod.bigz"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_tcrossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Exact self tcross-product is translated; the optional y argument, vector promotion, mixed coercion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "tcrossprod.bigq"
+r_source = "upstream/R/matrix-prods.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigq_tcrossprod"]
+fortran_source = "src/gmp_matrix.f90"
+status = "partial"
+notes = "Exact self tcross-product is translated; the optional y argument, vector promotion, mixed coercion, and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "t.bigz"
+r_source = "upstream/R/matrixz.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigz_transpose"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = "t.bigq"
+r_source = "upstream/R/matrixq.R"
+fortran_module = "gmp_matrix"
+fortran_names = ["bigq_transpose"]
+fortran_source = "src/gmp_matrix.f90"
+status = "substantial"
+notes = "Scalar/exact numerical behavior is translated; R vectorization, recycling, attributes, S3/S4 dispatch, and NA handling are omitted unless noted."
+
+[[extra.translation.function]]
+r_name = ".diff.big"
+r_source = "upstream/R/AllClasses-etc.R"
+fortran_module = "gmp_vector"
+fortran_names = ["bigz_diff", "bigq_diff"]
+fortran_source = "src/gmp_vector.f90"
+status = "substantial"
+notes = "Repeated lagged differences are translated for bigz and bigq vectors; R S3 dispatch, names/attributes, and NA behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "Stirling1"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["stirling1_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact signed Stirling numbers of the first kind are translated; R vectorization and matrix/table options are omitted."
+
+[[extra.translation.function]]
+r_name = "Stirling1.all"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["stirling1_all_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The exact vector of signed Stirling numbers for one n is translated; R naming/attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "Stirling2"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["stirling2_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact Stirling numbers of the second kind are translated; R vectorization and matrix/table options are omitted."
+
+[[extra.translation.function]]
+r_name = "Stirling2.all"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["stirling2_all_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The exact vector of Stirling numbers of the second kind for one n is translated; R naming/attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "Eulerian"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["eulerian_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact Eulerian numbers are translated; R vectorization is omitted."
+
+[[extra.translation.function]]
+r_name = "Eulerian.all"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["eulerian_all_z"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "The exact vector of Eulerian numbers for one n is translated; R naming/attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "BernoulliQ"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["bernoulli_q"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "substantial"
+notes = "Exact Bernoulli numbers are translated as normalized arbitrary-precision rationals using the package convention B1 = +1/2; R vectorization is omitted."
+
+[[extra.translation.function]]
+r_name = "dbinomQ"
+r_source = "upstream/R/Stirling-n-etc.R"
+fortran_module = "gmp_number_theory"
+fortran_names = ["dbinom_q"]
+fortran_source = "src/gmp_number_theory.f90"
+status = "partial"
+notes = "Exact rational binomial probabilities are translated when size and exponents fit the signed-64-bit iteration API; R vectorization/recycling and all very-large size cases are omitted."

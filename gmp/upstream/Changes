@@ -1,0 +1,128 @@
+Sat Apr 10 2010: 0.4.12
+  * fix for sun c++ compiler
+  * add sum() functions.
+
+Tue Oct 27 2009: 0.4.11
+  * minor R & cpp warnings fix
+
+Sat Jan 24 2009: 0.4.9
+  * move printf to Rprintf function
+  * add powm function.
+
+Mon Feb 25 2008: 0.4.8
+  * correct a bug on extract matrix (in affectation x[y]<- value #...)
+  * correct a bug on extract matrix (an invalid memory read, cause invalid result erraticly)
+
+Mon Feb 17 2008: 0.4.7
+  * suppress a bug on rational matrix.
+
+Tue Sep 14 2007: 0.4-6
+  * correction on c++: supress all g++ warnings
+
+Tue Sep 14 2007: 0.4-5
+  * correction of bug ref 698 [abs.bigz]
+  * man pages corrected
+
+Tue May 12 2007: 0.4-4
+  * Other corrections of S3 generic/method consistency (add parameter ... on some functions)
+
+Tue May 10 2007: 0.4-3
+  * correction of S3 generic/method consistency (add parameter ... on some functions)
+
+Sun Jan 21 2007: 0.4-2
+
+Sun Dec 17 2006 
+  * add apply function
+
+Sun Dec 03 2006
+  * add cumsum & prod 
+  * correct bugs on NA & not finite values.
+    move NA_REAL check to R_FINITE check
+    use carefully getValueTemp as it does not contains NA flag.
+
+Sun Nov 05 2006
+  * add max & min (bigintegers)
+
+Mon Oct 09 2006 0.4-1
+  * Correction of bug on function urand.bigz()
+
+Sat Jun 17 2006 0.4-0
+  * extract functions done with matrix (x[i,j] & x[i,j] <- value)
+
+Sun May 28 2006
+  * Matrix integration & solve function in Z/nZ or Q
+
+Thu May 19 2006
+  * rewritten bigrational class with mpq_t value
+  * use of 2 new class bigvec & bigvec_q that includes vector(s) + nrow value.
+  * catch bug in fibnum & lucnum when negative values or NULL.
+
+Wed Mar 15 2006
+  * catch bug when negative integer values (like as.bigz(as.integer(-4)))
+
+Tue Mar 14 2006
+  * catch bug with c.bigz(3,NULL) (and other bugs with NULL argument
+    while add cas NILSXP in create_vector
+  * check for positive values in lucnum & fibnum.
+
+Thu Jan 20 2006 0.3-4
+  * minor changes on data Oakley
+
+Wed Jul 27 2005 0.3-3
+  * minor changes on man page
+
+Fri May 06 2005
+  Minor bug fixed...
+  * error message corrected on function pow
+  * bug fixed (a test to check 0 values with mpz_sgn instead of
+    as_long)
+  * man page modified for as.bigz
+
+Wed Mar 23 2005
+  * catch illegal base argument at as.character.bigz (fix segfault)
+  * added RFC 2409 global unique Diffie-Hellman groups as data constants
+  * typos in DESCRIPTION
+
+Thu Mar 17 2005
+  * add a base 16 output function
+  * Makevars.win
+
+Thu Jan 13 2005 
+  * bug fixed on rational numbers class & use of negatives values
+    allowed for both rational and integer class.
+
+Mon Jan 10 2005
+  * bug fixed on rational numbers class
+
+Wed Jan 5 2005
+  * First try for a class for rational numbers
+
+Fri Dec 10 2004
+  * Function Factorize
+
+Fri Dec 09 2004: 0.2-2
+
+Thu Dec 02 2004:
+   * biginteger class changed to bigz
+   * man page updated.
+
+Sat Nov 27 2004:
+   * New function c.biginteger, rep.biginteger, sizeinbase
+   * former functions nextprime, isprime, gcdex, random rewritten.
+     => no more gmp.cc, gmp.R
+   * Functions for Fibonacci and Lucas number computation !
+   * Some changes in C++ comments to have a doc with doxygen.
+
+Wed Nov 24 2004:
+   * Modifs on doc
+
+Tue Nov 09 2004: 0.2-1
+   * Suppressed macro definitions in Rinternals.h, and replaced macro calls with
+     plain function names. Trying to avoid collisions with stl definitions, i.e. length()
+
+Wed Oct 27 2004: 0.2
+   * Vectorized engine rewritten
+
+Mon Sep 27 2004: 0.1
+   * Initial revision
+
