@@ -1,0 +1,19 @@
+name = "dplyr"
+version = "1.2.1"
+license = "MIT"
+author = "Hadley Wickham, Romain Francois, Lionel Henry, Kirill Muller, Davis Vaughan, and dplyr authors"
+maintainer = "Beliavsky"
+description = "A grammar of rectangular data manipulation in modern Fortran"
+categories = ["data-manipulation", "data-structures"]
+keywords = ["data-frame", "filter", "join", "group", "summarise"]
+
+[dependencies]
+vctrs = { path = "../vctrs" }
+tibble = { path = "../tibble" }
+tidyselect = { path = "../tidyselect" }
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false

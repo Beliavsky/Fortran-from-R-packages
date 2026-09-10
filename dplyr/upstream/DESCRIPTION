@@ -1,0 +1,19 @@
+Type: Package
+Package: dplyr
+Title: A Grammar of Data Manipulation
+Version: 1.2.1
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre")),
+    person("Romain", "Francois", role = "aut"),
+    person("Lionel", "Henry", role = "aut"),
+    person("Kirill", "Muller", role = "aut"),
+    person("Davis", "Vaughan", , "davis@posit.co", role = "aut"),
+    person("Posit Software, PBC", role = c("cph", "fnd"))
+  )
+Description: A fast, consistent tool for working with data frame like
+    objects, both in memory and out of memory.
+License: MIT + file LICENSE
+URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+BugReports: https://github.com/tidyverse/dplyr/issues
+Encoding: UTF-8
+
