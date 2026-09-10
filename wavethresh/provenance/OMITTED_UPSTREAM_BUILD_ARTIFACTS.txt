@@ -1,0 +1,5 @@
+The supplied wavethresh-master(1).zip contains one generated R build artifact that is intentionally excluded from the release tree to satisfy the no-build-products requirement:
+
+d4472157af2f61d412ceee8debeeffbc4040a40f9f78671fb7dc101be1ed555c  upstream/build/partial.rdb
+
+All other retained upstream files are compared byte-for-byte with the supplied archive during validation. The complete supplied archive itself is identified by SHA-256 in SUPPLIED_ARCHIVE.sha256.

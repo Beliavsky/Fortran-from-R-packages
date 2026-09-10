@@ -1,0 +1,1473 @@
+name = "wavethresh"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Guy Nason and wavethresh contributors; Fortran translation by OpenAI"
+maintainer = "Beliavsky/Fortran-from-R-packages"
+description = "Modern Fortran translation of computational routines from R package wavethresh 4.7.3"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+waveslim = { path = "../waveslim" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 162
+r_functions_translated = 161
+frac_functions_translated = 0.9938271604938271
+untranslated_r_functions = ["putC.wp"]
+
+[[extra.translation.function]]
+r_name = "test.dataCT"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["test_data_ct"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Signal generation is translated; plotting and R RNG sequences are omitted."
+
+[[extra.translation.function]]
+r_name = "filter.select"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_filters"
+fortran_names = ["filter_select"]
+fortran_source = "src/wavethresh_filters.f90"
+status = "substantial"
+notes = "Principal real filter families and several complex descriptors are translated; Lina-Mayrand multiple-wavelet filters are not yet supported."
+
+[[extra.translation.function]]
+r_name = "accessC.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_c_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed scaling-coefficient access replaces packed R object indexing; periodic dense storage is used."
+
+[[extra.translation.function]]
+r_name = "accessC.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_c_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary scaling coefficients use the unified typed wd_t representation."
+
+[[extra.translation.function]]
+r_name = "accessD.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed detail-coefficient access replaces packed R object indexing."
+
+[[extra.translation.function]]
+r_name = "accessD.wd3D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_wd3d"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Returns the seven typed 3-D detail bands for a level."
+
+[[extra.translation.function]]
+r_name = "accessD.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_wp"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Returns a packed R-style decimated packet level from the typed packet tree."
+
+[[extra.translation.function]]
+r_name = "accessD.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary detail coefficients use the unified typed wd_t representation."
+
+[[extra.translation.function]]
+r_name = "AvBasis.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wr_wst"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "The numerical average-basis stationary reconstruction follows the recursive wavethresh packet synthesis; R node-vector and history handling are omitted."
+
+[[extra.translation.function]]
+r_name = "AvBasis.wst2D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["iwst2d"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Numerical average stationary 2-D reconstruction is provided; R object/history handling is omitted."
+
+[[extra.translation.function]]
+r_name = "c2to4"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["c2to4"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Base-two to base-four packet-index conversion is translated directly."
+
+[[extra.translation.function]]
+r_name = "dclaw"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["dclaw"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "Analytic claw-mixture evaluation is translated directly."
+
+[[extra.translation.function]]
+r_name = "denwr"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["denwr"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Legacy numerical reconstruction delegates to the typed decimated inverse; zero/symmetric boundary and return.object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "pclaw"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["pclaw"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "Analytic claw-mixture evaluation is translated directly."
+
+[[extra.translation.function]]
+r_name = "rclaw"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["rclaw"]
+fortran_source = "src/wavethresh_density.f90"
+status = "substantial"
+notes = "Claw-mixture simulation is translated with deterministic optional Fortran seeding; R RNG sequences differ."
+
+[[extra.translation.function]]
+r_name = "compare.filters"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_filters"
+fortran_names = ["compare_filters"]
+fortran_source = "src/wavethresh_filters.f90"
+status = "substantial"
+notes = "Compares translated filter descriptors; R list metadata beyond family/number is omitted."
+
+[[extra.translation.function]]
+r_name = "compress.imwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["compress_imwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "partial"
+notes = "Periodic dense typed storage has no redundant boundary coefficients, so compression is an identity operation."
+
+[[extra.translation.function]]
+r_name = "convert.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["convert_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "partial"
+notes = "Unified typed storage makes packed-array conversion unnecessary; the transform representation label is changed without repacking."
+
+[[extra.translation.function]]
+r_name = "convert.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["convert_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "partial"
+notes = "Unified typed storage makes packed-array conversion unnecessary; the transform representation label is changed without repacking."
+
+[[extra.translation.function]]
+r_name = "Crsswav"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["crsswav"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Compiled cross-validation objective is reproduced by the array-based rsswav calculation rather than the upstream C entry point."
+
+[[extra.translation.function]]
+r_name = "Cthreshold"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_wd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Manual hard/soft thresholding is translated; packed C storage is replaced by typed coefficient levels."
+
+[[extra.translation.function]]
+r_name = "rsswav"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["rsswav"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Odd/even wavelet cross-validation objective and degrees of freedom are translated; R list/printing behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "WaveletCV"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["wavelet_cv"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Golden-section wavelet cross-validation and corrected threshold reconstruction are translated; plotting/verbosity are omitted."
+
+[[extra.translation.function]]
+r_name = "DJ.EX"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["dj_ex"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Donoho-Johnstone test signals are translated; plotting is omitted."
+
+[[extra.translation.function]]
+r_name = "doppler"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["doppler"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "complete"
+notes = "Doppler test-signal formula is translated directly."
+
+[[extra.translation.function]]
+r_name = "simchirp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["simchirp"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "complete"
+notes = "Chirp grid and values are translated directly."
+
+[[extra.translation.function]]
+r_name = "dof"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["dof"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "substantial"
+notes = "Counts retained coefficients in the typed one-dimensional object; R packed boundary coefficients are not represented."
+
+[[extra.translation.function]]
+r_name = "support"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["wavelet_support"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "complete"
+notes = "DaubExPhase/DaubLeAsymm support formula is translated directly."
+
+[[extra.translation.function]]
+r_name = "firstdot"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["firstdot"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "First-dot position calculation is translated directly."
+
+[[extra.translation.function]]
+r_name = "GenW"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["gen_w"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "Builds the periodic dense transform matrix by transforming coordinate vectors; nonperiodic boundary expansion is omitted."
+
+[[extra.translation.function]]
+r_name = "getpacket.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["getpacket_r"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "R-style packet level/index addressing is preserved on the typed decimated packet tree."
+
+[[extra.translation.function]]
+r_name = "HaarConcat"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["haar_concat"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Numerical Haar concatenation simulation is translated with optional deterministic Fortran seeding; R RNG sequences differ."
+
+[[extra.translation.function]]
+r_name = "HaarMA"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["haar_ma"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Numerical Haar moving-average simulation is translated with optional deterministic Fortran seeding; R RNG sequences differ."
+
+[[extra.translation.function]]
+r_name = "imwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["imwd"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Dense periodic real 2-D decimated transform is translated; boundary padding and complex imwdc storage are omitted."
+
+[[extra.translation.function]]
+r_name = "imwr.imwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["imwr"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Dense periodic real 2-D inverse is translated; R object/history behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "IsPowerOfTwo"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["nlevels_from_length"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "complete"
+notes = "Returns the dyadic exponent for power-of-two lengths; invalid lengths use -1 instead of R NA."
+
+[[extra.translation.function]]
+r_name = "l2norm"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["l2norm"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "linfnorm"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["linfnorm"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "levarr"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["levarr"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "logabs"
+r_source = "upstream/R/NSextra.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["logabs"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "madmad"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["madmad"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "ssq"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["ssq"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Array/scalar numerical operation is translated directly."
+
+[[extra.translation.function]]
+r_name = "rcov"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["robust_covariance"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "substantial"
+notes = "Robust covariance formula is translated for dense real arrays; R dimension names are omitted."
+
+[[extra.translation.function]]
+r_name = "newsure"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["newsure"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Heteroscedastic SURE threshold calculation is translated directly."
+
+[[extra.translation.function]]
+r_name = "sure"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["sure"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Donoho-Johnstone SURE threshold calculation is translated directly."
+
+[[extra.translation.function]]
+r_name = "nullevels.imwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["nullevels_imwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Selected 2-D detail levels are zeroed in typed dense storage."
+
+[[extra.translation.function]]
+r_name = "nullevels.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["nullevels_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Selected decimated detail levels are zeroed in typed dense storage."
+
+[[extra.translation.function]]
+r_name = "nullevels.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["nullevels_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Selected stationary detail levels are zeroed in the unified typed storage."
+
+[[extra.translation.function]]
+r_name = "putC.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_c_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed scaling-coefficient replacement replaces packed R object mutation."
+
+[[extra.translation.function]]
+r_name = "putC.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_c_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary scaling-coefficient replacement uses unified typed storage."
+
+[[extra.translation.function]]
+r_name = "putD.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_d_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed detail-coefficient replacement replaces packed R object mutation."
+
+[[extra.translation.function]]
+r_name = "putD.wd3D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_d_wd3d"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed seven-band 3-D coefficient replacement is translated."
+
+[[extra.translation.function]]
+r_name = "putD.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_d_wd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary detail replacement uses unified typed storage."
+
+[[extra.translation.function]]
+r_name = "putpacket.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["putpacket_r"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "R-style packet level/index replacement is preserved on the typed decimated packet tree."
+
+[[extra.translation.function]]
+r_name = "rfft"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_fourier"
+fortran_names = ["rfft"]
+fortran_source = "src/wavethresh_fourier.f90"
+status = "complete"
+notes = "Real Fourier-series operation is translated directly with a dependency-free DFT implementation."
+
+[[extra.translation.function]]
+r_name = "rfftinv"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_fourier"
+fortran_names = ["rfftinv"]
+fortran_source = "src/wavethresh_fourier.f90"
+status = "complete"
+notes = "Real Fourier-series operation is translated directly with a dependency-free DFT implementation."
+
+[[extra.translation.function]]
+r_name = "rfftwt"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_fourier"
+fortran_names = ["rfftwt"]
+fortran_source = "src/wavethresh_fourier.f90"
+status = "complete"
+notes = "Real Fourier-series operation is translated directly with a dependency-free DFT implementation."
+
+[[extra.translation.function]]
+r_name = "Shannon.entropy"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["shannon_entropy"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Coefficient Shannon entropy is translated directly."
+
+[[extra.translation.function]]
+r_name = "threshold.imwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_imwd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Manual/universal hard/soft 2-D thresholding is translated; specialized policies and boundary storage are omitted."
+
+[[extra.translation.function]]
+r_name = "threshold.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_wd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Manual, universal, LSuniversal, and SURE hard/soft thresholding are translated; CV/FDR/Bayes and boundary policies are omitted."
+
+[[extra.translation.function]]
+r_name = "threshold.wd3D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_wd3d"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Manual/universal hard/soft thresholding of 3-D detail bands is translated."
+
+[[extra.translation.function]]
+r_name = "threshold.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_wp"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "partial"
+notes = "Manual hard/soft thresholding is available on the typed packet tree; upstream packet policy breadth is not reproduced."
+
+[[extra.translation.function]]
+r_name = "threshold.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_wd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Stationary detail thresholding uses the unified typed representation; specialized CV/LSW policies are omitted."
+
+[[extra.translation.function]]
+r_name = "TOkolsmi.chi2"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["kolsmi_chi2"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "substantial"
+notes = "Numerical chi-square-style threshold diagnostic is translated; R object/list presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "TOshrinkit"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_stats"
+fortran_names = ["shrink_soft"]
+fortran_source = "src/wavethresh_stats.f90"
+status = "complete"
+notes = "Soft-threshold shrinkage formula is translated directly."
+
+[[extra.translation.function]]
+r_name = "tpwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["tpwd"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Tensor-product 2-D wavelet decomposition uses the dense periodic imwd numerical core."
+
+[[extra.translation.function]]
+r_name = "tpwr"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["tpwr"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Tensor-product 2-D reconstruction uses the dense periodic imwr numerical core."
+
+[[extra.translation.function]]
+r_name = "wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wd"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "Real periodic decimated DWT is translated; symmetric/interval boundaries and complex/multiple-wavelet modes are omitted."
+
+[[extra.translation.function]]
+r_name = "wd3D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["wd3d"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Real periodic 3-D DWT is translated through sibling waveslim; supported filter mapping is a subset of wavethresh families."
+
+[[extra.translation.function]]
+r_name = "wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wp"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "Real periodic decimated packet tree is translated in typed storage; R packed layout is replaced."
+
+[[extra.translation.function]]
+r_name = "wpst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wpst"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "partial"
+notes = "A real stationary binary packet tree is translated; upstream specialized packed wpst indexing/classification machinery is not reproduced."
+
+[[extra.translation.function]]
+r_name = "wr.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wr_wd"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "Real periodic decimated inverse is translated; symmetric/interval and complex modes are omitted."
+
+[[extra.translation.function]]
+r_name = "wr3D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["wr3d"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Real periodic 3-D inverse is translated through sibling waveslim."
+
+[[extra.translation.function]]
+r_name = "wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wst"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "The real periodic recursive wavepackst-style stationary transform is translated; R packed arrays/history are replaced by typed levels."
+
+[[extra.translation.function]]
+r_name = "wst2D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["wst2d"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "substantial"
+notes = "Real periodic stationary 2-D transform is translated; shaped boundary storage and packet access are omitted."
+
+[[extra.translation.function]]
+r_name = "Best1DCols"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["best_1d_cols"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "partial"
+notes = "Correlation-based column selection is translated; BP/S3 object construction and level/packet metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "bestm"
+r_source = "upstream/R/NSextra.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["bestm"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "partial"
+notes = "Correlation ranking and percentage-based selection are translated; w2m object assembly and packet metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "cns"
+r_source = "upstream/R/LSWsim.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["cns"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Construction of an all-zero stationary wavelet transform is translated using typed wd_t storage; R S3 metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "compgrot"
+r_source = "upstream/R/NSextra.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["compgrot"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "complete"
+notes = "Packet rotation-index calculation is translated directly for the supported real filter families."
+
+[[extra.translation.function]]
+r_name = "guyrot"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["guyrot"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "complete"
+notes = "Cyclic right rotation is translated directly with Fortran one-based indexing."
+
+[[extra.translation.function]]
+r_name = "rotateback"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["rotateback"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "complete"
+notes = "Single-position cyclic right rotation is translated directly."
+
+[[extra.translation.function]]
+r_name = "ScalingFunction"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["scaling_function"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "The scaling-function refinement calculation is translated and returns typed sample arrays; plotting and R object presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "first.last"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["first_last"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "First/last coefficient bookkeeping is translated for periodic/stationary paths and the symmetric current-scale-zero case; packed R database objects are replaced by typed tables."
+
+[[extra.translation.function]]
+r_name = "makegrid"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["makegrid"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Sorting, regular-grid interpolation, and interpolation weights are translated; returned left indices are one-based and R class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "TOgetthrda1"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_getthrda1"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "complete"
+notes = "Ogden-Parzen rule-1 threshold selection is translated directly using the one-degree-of-freedom chi-square CDF."
+
+[[extra.translation.function]]
+r_name = "TOgetthrda2"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_getthrda2"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "complete"
+notes = "Ogden-Parzen rule-2 threshold selection is translated with the upstream empirical calibration table."
+
+[[extra.translation.function]]
+r_name = "TOonebyone1"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_one_by_one1"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "complete"
+notes = "Sequential rule-1 test statistic sequence is translated directly."
+
+[[extra.translation.function]]
+r_name = "TOonebyone2"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_one_by_one2"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "complete"
+notes = "Sequential rule-2 statistic sequence and empirical critical-value interpolation are translated directly."
+
+[[extra.translation.function]]
+r_name = "TOthreshda1"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_threshda1", "to_threshda1_thresholds"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "substantial"
+notes = "Per-level rule-1 soft thresholding and threshold-return mode are translated for typed wd_t objects; R verbosity and S3 mutation semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "TOthreshda2"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold_extra"
+fortran_names = ["to_threshda2", "to_threshda2_thresholds"]
+fortran_source = "src/wavethresh_threshold_extra.f90"
+status = "substantial"
+notes = "Per-level rule-2 soft thresholding and threshold-return mode are translated for typed wd_t objects; R verbosity and S3 mutation semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "wvmoments"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["wvmoments"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "partial"
+notes = "Numerical scaling/wavelet moments are integrated from the translated refinement samples; the R draw.default/approx/integrate object path is replaced by direct interpolation and quadrature."
+
+[[extra.translation.function]]
+r_name = "accessD.wpst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_wpst"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "R-style nondecimated packet extraction is translated on the typed stationary packet tree; upstream packed avixstart storage is replaced by explicit nodes."
+
+[[extra.translation.function]]
+r_name = "getarrvec"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["getarrvec"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "complete"
+notes = "Recursive levarr permutations and sort.list-style inverse permutations are translated directly; the integer-valued result uses an integer matrix."
+
+[[extra.translation.function]]
+r_name = "make.dwwt"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["make_dwwt"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "partial"
+notes = "The diagonal WW-transpose energy calculation is translated for supported real filters; the upstream LinaMayrand multiple-wavelet default remains unsupported."
+
+[[extra.translation.function]]
+r_name = "numtonv"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["numtonv"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Binary node-control expansion is translated into a typed node_vector_t; R nv class construction and printing are omitted."
+
+[[extra.translation.function]]
+r_name = "putD.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_d_wp_level"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "A complete R-style decimated packet row can be replaced in typed packet storage; R S3 mutation and packed matrix layout are omitted."
+
+[[extra.translation.function]]
+r_name = "wpst2m"
+r_source = "upstream/R/NSextra.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["wpst2m"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Stationary packet feature-matrix construction, rotations, normalization, levels, and packet indices are translated; transform callbacks are limited to identity and logabs and R w2m class presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "wpstREGR"
+r_source = "upstream/R/NSextra.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["wpst_regr"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "partial"
+notes = "Selected stationary packet feature extraction for new series is translated; callers pass selected level/index arrays instead of an R wpstRO S3 object and arbitrary R transform callbacks are omitted."
+[[extra.translation.function]]
+r_name = "conbar"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["conbar"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "One-level real synthesis from scaling/detail coefficients is translated through the shared explicit-interface IDWT step; upstream packed boundary modes and complex filters are omitted."
+
+[[extra.translation.function]]
+r_name = "first.last.dh"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["first_last_dh"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Periodic, symmetric, and zero-boundary first/last/offset bookkeeping, including firstk, is translated into first_last_t; R list names and presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "getpacket.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["getpacket_wst"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary D/C row packet slicing is translated with R-style level/index conventions; aspect callbacks are limited to Identity and logabs."
+
+[[extra.translation.function]]
+r_name = "putpacket.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["putpacket_wst"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Stationary detail-row packet replacement is translated on typed wd_t storage; R S3 class coercion and object mutation semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "rm.det"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["rm_det"]
+fortran_source = "src/wavethresh_access.f90"
+status = "partial"
+notes = "Detail removal is translated by zeroing all typed detail levels; the upstream wd.int packed-vector/current-scale storage convention is not otherwise implemented."
+[[extra.translation.function]]
+r_name = "imwr.imwdc"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_nd"
+fortran_names = ["imwr"]
+fortran_source = "src/wavethresh_transform_nd.f90"
+status = "partial"
+notes = "Compressed imwd storage is represented densely without a distinct compressed type, so reconstruction uses the same imwr numerical path; sparse/compressed R object layout is omitted."
+
+[[extra.translation.function]]
+r_name = "threshold.imwdc"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_imwd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "partial"
+notes = "The dense typed representation has no distinct compressed coefficient class, so supported 2-D hard/soft threshold policies operate directly through threshold_imwd; R compression metadata and unsupported policies are omitted."
+
+[[extra.translation.function]]
+r_name = "uncompress.imwdc"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["uncompress_imwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "partial"
+notes = "Dense typed 2-D storage contains no compressed boundary payload, making uncompression an identity copy; R compressed-list reconstruction and size-reporting behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "wd.dh"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["wd"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "partial"
+notes = "The real periodic decomposition branch is implemented by wd with the same filter family selection; wd.dh zero/symmetric packed-boundary decomposition is not yet implemented."
+[[extra.translation.function]]
+r_name = "mfilter.select"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_filters"
+fortran_names = ["mfilter_select"]
+fortran_source = "src/wavethresh_filters.f90"
+status = "complete"
+notes = "The Geronimo and Donovan3 multiple-wavelet filter metadata and full H/G coefficient tables are translated directly into a typed multiple_filter_t result."
+
+[[extra.translation.function]]
+r_name = "mfirst.last"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["mfirst_last"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Multiple-wavelet periodic and symmetric first/last/offset bookkeeping is translated into first_last_t; R list names are replaced by typed fields."
+
+
+[[extra.translation.function]]
+r_name = "accessC.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_c_mwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed per-level multiple-scaling coefficient access replaces packed C-matrix/first-last indexing; boundary/index-return behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "accessD.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["access_d_mwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed per-level multiple-wavelet detail access replaces packed D-matrix/first-last indexing; boundary/index-return behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "mpostfilter"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_multiwavelet"
+fortran_names = ["mpostfilter"]
+fortran_source = "src/wavethresh_multiwavelet.f90"
+status = "substantial"
+notes = "All numerical Geronimo and Donovan3 postfilter branches are translated; verbose R output is omitted, and Donovan3 Linear applies the apparent intended first-component formula independent of verbose mode."
+
+[[extra.translation.function]]
+r_name = "mprefilter"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_multiwavelet"
+fortran_names = ["mprefilter"]
+fortran_source = "src/wavethresh_multiwavelet.f90"
+status = "substantial"
+notes = "All numerical Geronimo and Donovan3 prefilter branches are translated into dense component-by-translation matrices; verbose R output is omitted."
+
+[[extra.translation.function]]
+r_name = "mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_multiwavelet"
+fortran_names = ["mwd"]
+fortran_source = "src/wavethresh_multiwavelet.f90"
+status = "substantial"
+notes = "Periodic discrete multiple-wavelet decomposition is translated for Geronimo and Donovan3, using typed per-level matrices instead of packed R first-last storage; symmetric boundaries are omitted."
+
+[[extra.translation.function]]
+r_name = "mwr"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_multiwavelet"
+fortran_names = ["mwr"]
+fortran_source = "src/wavethresh_multiwavelet.f90"
+status = "substantial"
+notes = "Periodic multiple-wavelet synthesis and matching postfilter reconstruction are translated, including start-level synthesis; R returnC and warning/presentation behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "putC.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_c_mwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed multiple-scaling coefficient replacement is translated with exact matrix-shape validation; packed boundary/index-return behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "putD.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["put_d_mwd"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Typed multiple-wavelet detail replacement is translated with exact matrix-shape validation; packed boundary/index-return behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "wr.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_multiwavelet"
+fortran_names = ["mwr"]
+fortran_source = "src/wavethresh_multiwavelet.f90"
+status = "substantial"
+notes = "The R compatibility wrapper delegates to the translated periodic mwr numerical reconstruction; R dispatch and ellipsis behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "AutoBasis"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["auto_basis"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "Bottom-up Shannon-entropy best-basis selection and upstream NaN exclusion markers are translated; the R entropy callback, interactive scan, and verbose tracing are omitted."
+
+[[extra.translation.function]]
+r_name = "av.basis"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_transform_1d"
+fortran_names = ["av_basis"]
+fortran_source = "src/wavethresh_transform_1d.f90"
+status = "substantial"
+notes = "The recursive unshifted/shifted average-basis synthesis is translated against the typed upstream-style stationary packet rows; the separate R filter argument is taken from the transform object."
+
+[[extra.translation.function]]
+r_name = "LSWsim"
+r_source = "upstream/R/LSWsim.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["lsw_sim"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Level-dependent Gaussian innovation scaling and average-basis reconstruction are translated for typed nonnegative stationary spectra; the Fortran intrinsic RNG does not reproduce R's rnorm stream bit-for-bit."
+
+[[extra.translation.function]]
+r_name = "FullWaveletCV"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["full_wavelet_cv"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "The compiled cross-validated threshold operation is reproduced through the translated array-based golden-section WaveletCV kernel; the upstream C acceleration and verbose error codes are omitted."
+
+[[extra.translation.function]]
+r_name = "GetRSSWST"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["get_rss_wst"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Odd/even stationary-wavelet held-out prediction error is translated for scalar manual thresholds, L2 norm, and average-basis inversion; custom norms, vector thresholds, min-entropy inversion, and verbosity are omitted."
+
+[[extra.translation.function]]
+r_name = "wstCV"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["wst_cv"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Golden-section stationary-wavelet cross-validation, finite-sample threshold correction, and universal top-level shrinkage are translated for average-basis/L2 operation; plotting, custom norms, and min-entropy inversion are omitted."
+
+[[extra.translation.function]]
+r_name = "wvcvlrss"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["wvcvlrss", "wvcvlrss_levels"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "substantial"
+notes = "Scalar and level-specific stationary CV objectives are translated for L2 error and average-basis inversion; custom R norm callbacks, min-entropy inversion, and verbosity are omitted."
+
+[[extra.translation.function]]
+r_name = "InvBasis.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["inv_basis_wp"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "Mixed-depth packet synthesis is translated for the NaN-marked best-basis representation produced by auto_basis; arbitrary R nv/pktlist inputs and S3 result construction are omitted."
+
+[[extra.translation.function]]
+r_name = "threshold.mwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_threshold"
+fortran_names = ["threshold_mwd"]
+fortran_source = "src/wavethresh_threshold.f90"
+status = "substantial"
+notes = "Periodic typed multiple-wavelet hard/soft shrinkage supports manual/universal thresholds, componentwise visushrink, and robust or ordinary joint covariance; R return.threshold/return.chisq outputs and symmetric-boundary packed storage are omitted."
+
+[[extra.translation.function]]
+r_name = "wpst2discr"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["wpst2discr"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Rotated/scaled stationary packet features are converted to the upstream log-squared discrimination matrix with typed integer group labels; R list/class presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "PsiJ"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["psi_j"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "substantial"
+notes = "Finite-filter cascade and full discrete autocorrelation are translated; R workspace caching, C error codes, and list naming are omitted."
+
+[[extra.translation.function]]
+r_name = "PsiJmat"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["psi_j_mat"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "substantial"
+notes = "Centered zero-padding of autocorrelation wavelets into the scale-by-lag matrix is translated; R dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "ipndacw"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["ipndacw"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "substantial"
+notes = "The Haar analytic formula and general autocorrelation-wavelet Gram matrix are translated; upstream cache side effects are omitted."
+
+[[extra.translation.function]]
+r_name = "LocalSpec.wd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["local_spec_wd"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "partial"
+notes = "The exact lsmooth=none, nlsmooth=FALSE raw wavelet-periodogram branch is translated; Fourier, linear-wavelet, and nonlinear smoothing branches are omitted."
+
+[[extra.translation.function]]
+r_name = "LocalSpec.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["local_spec_wst"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "partial"
+notes = "The stationary-object dispatch to the raw LocalSpec computation is translated; optional smoothing behavior follows the LocalSpec.wd limitations."
+
+[[extra.translation.function]]
+r_name = "ewspec"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_spectrum"
+fortran_names = ["ewspec"]
+fortran_source = "src/wavethresh_spectrum.f90"
+status = "partial"
+notes = "The DoSWT=FALSE, UseLocalSpec=TRUE, WPsmooth=FALSE correction path is translated using rfortran-linalg inverse_matrix; raw-data transform orchestration and wavelet-periodogram smoothing are omitted."
+
+[[extra.translation.function]]
+r_name = "CWCV"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["cwcv"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "partial"
+notes = "The default noise-interpolation computational path delegates to the translated golden-section WaveletCV kernel; plotting, normal interpolation, and C max-iteration diagnostics are omitted."
+
+
+[[extra.translation.function]]
+r_name = "checkmyews"
+r_source = "upstream/R/LSWsim.r"
+fortran_module = "wavethresh_signals"
+fortran_names = ["check_my_ews"]
+fortran_source = "src/wavethresh_signals.f90"
+status = "substantial"
+notes = "Monte Carlo LSW simulation, Haar stationary transformation, unsmoothed ewspec correction, and coefficient averaging are translated with an optional deterministic seed; R console progress and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "getpacket.wpst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["getpacket_wpst"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Raw stationary packet access is reconstructed from the typed woven wpst representation using the upstream base-four packet-address/interweaving rule; the original flat R buffer is not retained."
+
+[[extra.translation.function]]
+r_name = "InvBasis.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["inv_basis_wst"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "Numerical S/L/R node-vector reconstruction is translated, including right-branch rotation; arbitrary R list shapes, history fields, and S3 presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "makewpstRO"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["makewpst_ro"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Stationary packet regression feature construction and correlation-based basis selection are translated into a typed model; R data.frame/S3 presentation and arbitrary transform callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "MaNoVe.wp"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["manove_wp"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "The upstream minimum-entropy top/bottom dynamic program and tie convention are translated for typed decimated packet trees; R verbose output and object presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "MaNoVe.wst"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_basis"
+fortran_names = ["manove_wst"]
+fortran_source = "src/wavethresh_basis.f90"
+status = "substantial"
+notes = "The upstream minimum-entropy S/L/R node decisions and tie convention are translated for typed stationary transforms; custom entropy callbacks, slow-algorithm selection, and verbosity are omitted."
+
+[[extra.translation.function]]
+r_name = "BMdiscr"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["bm_discr"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Pooled-covariance linear discriminant fitting with empirical class priors is translated; MASS::lda SVD/rank handling and R model-object fields are replaced by a typed numerical model with a tiny singularity ridge fallback."
+
+[[extra.translation.function]]
+r_name = "makewpstDO"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["makewpst_do"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Stationary packet discrimination features, Best1DCols selection, and pooled-covariance LDA fitting are translated into a typed wpst discrimination model; R S3/list presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "wpstCLASS"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_utilities"
+fortran_names = ["wpst_class"]
+fortran_source = "src/wavethresh_utilities.f90"
+status = "substantial"
+notes = "Selected stationary packet features are regenerated and classified with the fitted LDA score rule; MASS predict posterior/scaling object fields and R S3 presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "wstCVl"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_cv"
+fortran_names = ["wst_cvl"]
+fortran_source = "src/wavethresh_cv.f90"
+status = "partial"
+notes = "Level-specific bounded stationary-wavelet CV and final universal top-level shrinkage are translated; coordinate golden-section search replaces nlminb, and custom norm/min-entropy callbacks plus R optimizer objects are omitted."
+
+[[extra.translation.function]]
+r_name = "BAYES.THR"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_bayes"
+fortran_names = ["bayes_thr"]
+fortran_source = "src/wavethresh_bayes.f90"
+status = "substantial"
+notes = "The empirical C1/C2 search, prior probabilities, posterior-median coefficient shrinkage, and reconstruction are translated for periodic real transforms with the default variance noise estimator; custom dev callbacks, plotting, nonperiodic boundaries, and exact R qnorm implementation are omitted."
+
+[[extra.translation.function]]
+r_name = "Chires5"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["chires5"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "The Daubechies-Lagarias binary transition-matrix product and empirical high-resolution scaling coefficients are translated directly."
+
+[[extra.translation.function]]
+r_name = "Chires6"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["chires6"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "The Chires5 coefficients and upstream upper covariance-band layout are translated directly into a typed projection object."
+
+[[extra.translation.function]]
+r_name = "denproj"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["denproj"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "Typed dispatch selects coefficient-only or covariance-band projection consistently with the R covar argument."
+
+[[extra.translation.function]]
+r_name = "CWavDE"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["cwavde"]
+fortran_source = "src/wavethresh_density.f90"
+status = "substantial"
+notes = "The sampled scaling/wavelet coefficient, hard-threshold, support, interpolation, and density-grid kernel is translated; callers supply the sampled basis functions instead of using R draw.default."
+
+[[extra.translation.function]]
+r_name = "denwd"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["denwd"]
+fortran_source = "src/wavethresh_density.f90"
+status = "complete"
+notes = "The arbitrary-index zero-boundary density decomposition is translated directly into density_wavelet_t with per-level coefficient bounds."
+
+[[extra.translation.function]]
+r_name = "dencvwd"
+r_source = "upstream/R/wavde.r"
+fortran_module = "wavethresh_density"
+fortran_names = ["dencvwd"]
+fortran_source = "src/wavethresh_density.f90"
+status = "substantial"
+notes = "Covariance bands are propagated through the zero-boundary scaling/detail operators using clear dense matrix products; returned variance diagonals match the upstream specialized band algorithm."
+
+[[extra.translation.function]]
+r_name = "wd.int"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_interval"
+fortran_names = ["wd_int"]
+fortran_source = "src/wavethresh_interval.f90"
+status = "complete"
+notes = "The adaptive interval decomposition, all eight upstream boundary-filter orders, filter history, and optional preconditioning are translated directly from the upstream C kernel."
+
+[[extra.translation.function]]
+r_name = "wr.int"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_interval"
+fortran_names = ["wr_int"]
+fortran_source = "src/wavethresh_interval.f90"
+status = "complete"
+notes = "Reconstruction follows the recorded adaptive filter history and reverses boundary preconditioning exactly as in the upstream C kernel."
+
+[[extra.translation.function]]
+r_name = "getpacket.wst2D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["getpacket_wst2d"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Base-four path decoding and S/H/V/D packet extraction are translated for the typed dense stationary 2-D representation."
+
+[[extra.translation.function]]
+r_name = "putpacket.wst2D"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_access"
+fortran_names = ["putpacket_wst2d"]
+fortran_source = "src/wavethresh_access.f90"
+status = "substantial"
+notes = "Validated packet replacement updates the selected typed S/H/V/D coefficient block; the coarsest stored smooth matrix remains synchronized for reconstruction."
+
+[[extra.translation.function]]
+r_name = "irregwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_irregular"
+fortran_names = ["irregwd"]
+fortran_source = "src/wavethresh_irregular.f90"
+status = "substantial"
+notes = "The retained makegrid interpolation map is decomposed and its unit-observation noise variance is propagated transparently through the same real periodic DWT; complex filters and symmetric boundaries remain unsupported by the dense backend."
+
+[[extra.translation.function]]
+r_name = "accessc"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_irregular"
+fortran_names = ["accessc"]
+fortran_source = "src/wavethresh_irregular.f90"
+status = "substantial"
+notes = "Returns typed per-coefficient noise-variance multipliers by R-style level; periodic dense storage has no separate boundary-extension slice."
+
+[[extra.translation.function]]
+r_name = "threshold.irregwd"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_irregular"
+fortran_names = ["threshold_irregwd"]
+fortran_source = "src/wavethresh_irregular.f90"
+status = "substantial"
+notes = "Variance-adjusted hard/soft shrinkage is translated for manual and universal policies with pooled or levelwise noise estimation; other upstream threshold policies are not yet exposed."
+
+[[extra.translation.function]]
+r_name = "cthresh"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_complex_threshold"
+fortran_names = ["cthresh"]
+fortran_source = "src/wavethresh_complex_threshold.f90"
+status = "substantial"
+notes = "Periodic decimated Lina-Mayrand 3.1 complex thresholding supports mws and empirical-Bayes policies with hard, soft, and posterior-mean rules; translation omits TI transforms, filter averaging, alternate complex filters, plotting, and R optimizer objects."
+
+[[extra.translation.function]]
+r_name = "find.parameters"
+r_source = "upstream/R/function.r"
+fortran_module = "wavethresh_complex_threshold"
+fortran_names = ["find_parameters"]
+fortran_source = "src/wavethresh_complex_threshold.f90"
+status = "substantial"
+notes = "Fits the upstream levelwise zero/nonzero bivariate-normal mixture with the same bounded parameters and likelihood, using a deterministic bounded coordinate search instead of R optim, nlminb, or the historical NAG executable."

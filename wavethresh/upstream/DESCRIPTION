@@ -1,0 +1,34 @@
+Package: wavethresh
+Type: Package
+Title: Wavelets Statistics and Transforms
+Version: 4.7.3
+Date: 2024-08-19
+Authors@R: c(person("Guy", "Nason", role=c("aut", "cre"),
+        email="g.nason@imperial.ac.uk"),
+	person("Stuart", "Barber", role="ctb", email="s.barber@leeds.ac.uk"),
+	person("Tim", "Downie", role="ctb", email="tim.downie@bht-berlin.de"),
+	person("Piotr", "Frylewicz", role="ctb", email="p.fryzlewicz@lse.ac.uk"),
+	person("Arne", "Kovac", role="ctb", email="A.Kovac@bristol.ac.uk"),
+	person("Todd", "Ogden", role="ctb", email="todd.ogden@columbia.edu"),
+	person("Bernard", "Silverman", role="ctb"))
+Depends: R (>= 2.10), MASS
+Description: Performs 1, 2 and 3D real and complex-valued wavelet transforms,
+	nondecimated transforms, wavelet packet transforms, nondecimated
+	wavelet packet transforms, multiple wavelet transforms,
+	complex-valued wavelet transforms, wavelet shrinkage for
+	various kinds of data, locally stationary wavelet time series,
+	nonstationary multiscale transfer function modeling, density
+	estimation.
+License: GPL (>= 2)
+NeedsCompilation: yes
+Packaged: 2024-08-19 14:03:47 UTC; guynason
+Author: Guy Nason [aut, cre],
+  Stuart Barber [ctb],
+  Tim Downie [ctb],
+  Piotr Frylewicz [ctb],
+  Arne Kovac [ctb],
+  Todd Ogden [ctb],
+  Bernard Silverman [ctb]
+Maintainer: Guy Nason <g.nason@imperial.ac.uk>
+Repository: CRAN
+Date/Publication: 2024-08-19 16:40:02 UTC
