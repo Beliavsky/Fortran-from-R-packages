@@ -1,0 +1,144 @@
+name = "combinat"
+version = "0.0.8"
+license = "GPL-2.0-only"
+author = "Scott Chasalow; Fortran translation by OpenAI ChatGPT"
+maintainer = "Fortran-from-R-packages maintainers"
+description = "Modern Fortran translation of the computational routines in the R combinat package"
+categories = ["combinatorics", "probability", "statistics"]
+keywords = ["combinations", "permutations", "multinomial", "simplex", "hypercube"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 13
+r_functions_translated = 13
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "combn"
+r_source = "upstream/R/combn.R"
+fortran_module = "combinat_api"
+fortran_names = ["combn_indices", "combn_integer", "combn_real"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Combination generation and upstream ordering are translated. R callbacks through fun, list/simplify behavior, character vectors, and scalar-positive-integer coercion to seq(x) are omitted."
+
+[[extra.translation.function]]
+r_name = "combn2"
+r_source = "upstream/R/combn2.R"
+fortran_module = "combinat_api"
+fortran_names = ["combn2_indices", "combn2_integer", "combn2_real"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Index and numeric pair generation are translated in R order. Missing-argument dispatch and arbitrary R vector types are replaced by explicit Fortran procedures."
+
+[[extra.translation.function]]
+r_name = "dmnom"
+r_source = "upstream/R/dmnom.R"
+fortran_module = "combinat_api"
+fortran_names = ["dmnom"]
+fortran_source = "src/combinat_api.f90"
+status = "complete"
+notes = "The multinomial mass calculation, probability normalization, recycling, and default-size semantics are translated for real numeric vectors; R warnings and object coercions are omitted."
+
+[[extra.translation.function]]
+r_name = "fact"
+r_source = "upstream/R/fact.R"
+fortran_module = "combinat_api"
+fortran_names = ["fact"]
+fortran_source = "src/combinat_api.f90"
+status = "complete"
+notes = "Translated directly as the elemental gamma(x + 1) operation."
+
+[[extra.translation.function]]
+r_name = "hcube"
+r_source = "upstream/R/hcube.R"
+fortran_module = "combinat_api"
+fortran_names = ["hcube"]
+fortran_source = "src/combinat_api.f90"
+status = "complete"
+notes = "Hypercuboid lattice ordering, recycled scaling, and recycled translation are translated. Invalid allocations are reported by a status code rather than R errors."
+
+[[extra.translation.function]]
+r_name = "logfact"
+r_source = "upstream/R/logfact.R"
+fortran_module = "combinat_api"
+fortran_names = ["logfact"]
+fortran_source = "src/combinat_api.f90"
+status = "complete"
+notes = "Translated directly as the elemental log_gamma(x + 1) operation."
+
+[[extra.translation.function]]
+r_name = "nCm"
+r_source = "upstream/R/nCm.R"
+fortran_module = "combinat_api"
+fortran_names = ["ncm", "ncm_vec"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Real n, integer-valued m, negative-n reflection, noninteger-n products, rounding tolerance, and R-style vector recycling are translated. Extremely large m values beyond default-integer loop bounds return NaN instead of attempting impractical R-length computations."
+
+[[extra.translation.function]]
+r_name = "nsimplex"
+r_source = "upstream/R/nsimplex.R"
+fortran_module = "combinat_api"
+fortran_names = ["nsimplex", "nsimplex_vec"]
+fortran_source = "src/combinat_api.f90"
+status = "complete"
+notes = "The simplex-point count and R-style recycling are translated using the translated nCm semantics."
+
+[[extra.translation.function]]
+r_name = "permn"
+r_source = "upstream/R/permn.R"
+fortran_module = "combinat_api"
+fortran_names = ["permn_indices", "permn_integer", "permn_real"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "The Reingold-Nievergelt-Deo minimal-change permutation order is translated. R callbacks through fun, list construction, arbitrary vector types, and scalar-positive-integer coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "rmultinomial"
+r_source = "upstream/R/rmultinomial.R"
+fortran_module = "combinat_api"
+fortran_names = ["rmultinomial"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Varying-n and varying-probability multinomial simulation with row recycling is translated. The Fortran API uses an explicit deterministic Park-Miller RNG state, so streams are not bit-compatible with R's sample/RNG implementation."
+
+[[extra.translation.function]]
+r_name = "rmultz2"
+r_source = "upstream/R/rmultz2.R"
+fortran_module = "combinat_api"
+fortran_names = ["rmultz2"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Varying-n, fixed-probability multinomial simulation and output orientation are translated. The explicit Park-Miller RNG is reproducible but not bit-compatible with R's RNG."
+
+[[extra.translation.function]]
+r_name = "x2u"
+r_source = "upstream/R/x2u.R"
+fortran_module = "combinat_api"
+fortran_names = ["x2u_indices", "x2u_integer", "x2u_real"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Count expansion is translated for default indices and integer or real labels. Arbitrary R label types and R coercion behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "xsimplex"
+r_source = "upstream/R/xsimplex.R"
+fortran_module = "combinat_api"
+fortran_names = ["xsimplex"]
+fortran_source = "src/combinat_api.f90"
+status = "substantial"
+notes = "Simplex-lattice point generation and upstream ordering are translated. R callbacks through fun, list/simplify behavior, and object coercions are omitted."
