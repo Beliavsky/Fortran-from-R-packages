@@ -1,0 +1,184 @@
+useDynLib(Rssa, .registration = TRUE)
+
+import(lattice)
+import(svd)
+import(forecast)
+
+export(clone,
+       decompose,
+       reconstruct,
+       nu,
+       nv,
+       nlambda,
+       nsigma,
+       nspecial,
+       contributions,
+       calc.v,
+       precache,
+       cleanup,
+       ssa,
+       wcor,
+       wcor.default,
+       hmatr,
+       wnorm,
+# Capabilities
+       ssa.capabilities,
+# Hankel matrix' routines
+       new.hmat,
+       hmatmul,
+       hankel,
+       hcols,
+       hrows,
+       is.hmat,
+# Hankel-block hankel matrix' routines
+       new.hbhmat,
+       hbhmatmul,
+       hbhcols,
+       hbhrows,
+       is.hbhmat,
+# Symmetric toeplitz matrix' routines
+       new.tmat,
+       tmatmul,
+       tcols,
+       trows,
+       is.tmat,
+# Forecast stuff
+       lrr,
+       roots,
+       rforecast,
+       vforecast,
+       bforecast,
+# Period estimation
+       parestimate,
+# Gap filling and rank estimation
+       cadzow,
+# Non-orthogonal decompositions
+       iossa,
+       eossa,
+       owcor,
+       fossa,
+       frobenius.cor,
+# Gapfilling
+       igapfill,
+       clplot,
+       gapfill,
+       summarize.gaps,
+# Auto-grouping routines
+       grouping.auto,
+       grouping.auto.wcor,
+       grouping.auto.pgram
+       )
+
+S3method("clone", ssa)
+S3method("decompose", "default")
+S3method("decompose", "ssa")
+S3method("decompose", "toeplitz.ssa")
+S3method("decompose", "cssa")
+S3method("decompose", "pssa")
+S3method("decompose", "ossa")
+S3method("decompose", "wossa")
+S3method("reconstruct", ssa)
+S3method("residuals", ssa)
+S3method("residuals", "ssa.reconstruction")
+S3method("calc.v", "ssa")
+S3method("calc.v", "cssa")
+S3method("calc.v", "pssa")
+S3method("$", ssa)
+S3method("print", ssa)
+S3method("print", ossa)
+S3method("summary", ssa)
+S3method("summary", ossa)
+S3method("plot", ssa)
+S3method("plot", "1d.ssa.reconstruction")
+S3method("plot", "toeplitz.ssa.reconstruction")
+S3method("plot", "2d.ssa.reconstruction")
+S3method("plot", "nd.ssa.reconstruction")
+S3method("plot", "mssa.reconstruction")
+S3method("plot", "cssa.reconstruction")
+S3method("plot", "grouping.auto.wcor")
+S3method("plot", "grouping.auto.pgram")
+S3method("wcor", "default")
+S3method("wcor", "ssa")
+S3method("wcor", "ossa")
+S3method("wnorm", "default")
+S3method("wnorm", "ssa")
+S3method("wnorm", "complex")
+S3method("wnorm", "1d.ssa")
+S3method("wnorm", "cssa")
+S3method("wnorm", "nd.ssa")
+S3method("wnorm", "toeplitz.ssa")
+S3method("wnorm", "mssa")
+S3method("plot", wcor.matrix)
+S3method("lrr", "default")
+S3method("lrr", "1d.ssa")
+S3method("lrr", "toeplitz.ssa")
+S3method("lrr", "mssa")
+S3method("lrr", "cssa")
+S3method("forecast", "1d.ssa")
+S3method("forecast", "toeplitz.ssa")
+S3method("predict", "1d.ssa")
+S3method("predict", "toeplitz.ssa")
+S3method("predict", "mssa")
+S3method("rforecast", "1d.ssa")
+S3method("rforecast", "toeplitz.ssa")
+S3method("rforecast", "mssa")
+S3method("rforecast", "cssa")
+S3method("rforecast", "pssa.1d.ssa")
+S3method("vforecast", "1d.ssa")
+S3method("vforecast", "toeplitz.ssa")
+S3method("vforecast", "mssa")
+S3method("vforecast", "cssa")
+S3method("vforecast", "pssa.1d.ssa")
+S3method("roots", "lrr")
+S3method("plot", "lrr")
+S3method("print", "fdimpars.1d")
+S3method("plot", "fdimpars.1d")
+S3method("print", "fdimpars.nd")
+S3method("plot", "fdimpars.nd")
+S3method("plot", "hmatr")
+S3method("print", "iossa.result")
+S3method("print", "ssa.gaps")
+S3method("plot", "ssa.gaps")
+S3method("summary", "iossa.result")
+S3method("bforecast", "1d.ssa")
+S3method("bforecast", "toeplitz.ssa")
+S3method("parestimate", "1d.ssa")
+S3method("parestimate", "nd.ssa")
+S3method("parestimate", "toeplitz.ssa")
+S3method("parestimate", "mssa")
+S3method("parestimate", "cssa")
+S3method("cadzow", "ssa")
+S3method("nspecial", "ssa")
+S3method("nspecial", "pssa")
+S3method("gapfill", "1d.ssa")
+S3method("gapfill", "cssa")
+S3method("gapfill", "toeplitz.ssa")
+S3method("gapfill", "mssa")
+S3method("igapfill", "ssa")
+S3method("igapfill", "1d.ssa")
+S3method("igapfill", "nd.ssa")
+S3method("igapfill", "mssa")
+S3method("igapfill", "cssa")
+S3method("igapfill", "toeplitz.ssa")
+S3method("summarize.gaps", "default")
+S3method("summarize.gaps", "ssa")
+S3method("summarize.gaps", "1d.ssa")
+S3method("summarize.gaps", "cssa")
+S3method("summarize.gaps", "toeplitz.ssa")
+S3method("fossa", "ssa")
+S3method("iossa", "ssa")
+S3method("grouping.auto.wcor", "ssa")
+S3method("grouping.auto.pgram", "default")
+S3method("grouping.auto.pgram", "1d.ssa")
+S3method("grouping.auto.pgram", "toeplitz.ssa")
+S3method("eossa", "ssa")
+
+## Default imports
+importFrom("grDevices", "colorRampPalette", "grey", "heat.colors")
+importFrom("graphics", "image", "matplot", "plot")
+importFrom("stats", "approxfun", "as.dist", "as.formula", "cov2cor",
+           "cutree", "fft", "filter", "frequency", "hclust", "is.ts",
+           "mad", "median", "mvfft", "poly", "predict", "quantile",
+           "residuals", "time", "toeplitz", "ts", "ts.union", "tsp<-")
+importFrom("utils", "head", "modifyList", "object.size", "getS3method")
+importFrom("methods", "new")

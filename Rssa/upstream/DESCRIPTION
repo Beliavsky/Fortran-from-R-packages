@@ -1,0 +1,39 @@
+Package: Rssa
+Type: Package
+Title: A Collection of Methods for Singular Spectrum Analysis
+Version: 1.1
+Depends: R (>= 3.1), svd (>= 0.4), forecast
+Imports: lattice, methods
+Suggests: testthat (>= 0.7), RSpectra, PRIMME, irlba
+SystemRequirements: fftw (>=3.2)
+Author: Anton Korobeynikov [aut, cre],
+  Alex Shlemov [aut],
+  Konstantin Usevich [aut],
+  Nina Golyandina [aut]
+Maintainer: Anton Korobeynikov <anton@korobeynikov.info>
+Authors@R: c(person(given = "Anton",
+                    family = "Korobeynikov",
+                    role = c("aut", "cre"),
+                    email = "anton@korobeynikov.info"),
+             person(given = "Alex",
+                    family = "Shlemov",
+                    role = "aut"),
+             person(given = "Konstantin",
+                    family = "Usevich",
+                    role = "aut"),
+             person(given = "Nina",
+                    family = "Golyandina",
+                    role = "aut"))
+Description: Methods and tools for Singular Spectrum Analysis including decomposition,
+             forecasting and gap-filling for univariate and multivariate time series.
+             General description of the methods with many examples can be found in the book
+             Golyandina (2018, <doi:10.1007/978-3-662-57380-8>).
+             See 'citation("Rssa")' for details.
+License: GPL (>= 2)
+URL: https://github.com/asl/rssa
+BugReports: https://github.com/asl/rssa/issues
+Config/testthat/parallel: true
+NeedsCompilation: yes
+Packaged: 2024-09-04 20:53:58 UTC; asl
+Repository: CRAN
+Date/Publication: 2024-09-05 00:00:02 UTC

@@ -1,0 +1,1123 @@
+name = "rssa"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Rssa upstream authors; Fortran translation generated for Beliavsky/Fortran-from-R-packages"
+maintainer = "Beliavsky/Fortran-from-R-packages"
+description = "Modern Fortran translation of the computational core of Rssa 1.1"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+svd = { path = "../svd" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 122
+r_functions_translated = 122
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "clone"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["clone_ssa"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose"
+r_source = "upstream/R/ssa.R"
+fortran_modules = ["rssa_decomposition", "rssa_projection"]
+fortran_names = ["decompose_ssa", "decompose_toeplitz", "decompose_mssa", "decompose_2d", "decompose_complex", "decompose_pssa"]
+fortran_sources = ["src/rssa_decomposition.f90", "src/rssa_projection.f90"]
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "reconstruct"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_reconstruction"
+fortran_names = ["reconstruct_ssa", "reconstruct_mssa", "reconstruct_2d", "reconstruct_complex"]
+fortran_source = "src/rssa_reconstruction.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nu"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["nu"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nv"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["nv"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nlambda"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["nlambda"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nsigma"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["nsigma"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nspecial"
+r_source = "upstream/R/ssa.R"
+fortran_modules = ["rssa_decomposition", "rssa_projection"]
+fortran_names = ["nspecial", "nspecial_pssa"]
+fortran_sources = ["src/rssa_decomposition.f90", "src/rssa_projection.f90"]
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "contributions"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["contributions"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "calc.v"
+r_source = "upstream/R/ssa.R"
+fortran_modules = ["rssa_decomposition", "rssa_projection"]
+fortran_names = ["calc_v_ssa", "calc_v_complex", "calc_v_pssa"]
+fortran_sources = ["src/rssa_decomposition.f90", "src/rssa_projection.f90"]
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "ssa"
+r_source = "upstream/R/ssa.R"
+fortran_modules = ["rssa_decomposition", "rssa_projection"]
+fortran_names = ["ssa_1d", "ssa_mssa", "ssa_2d", "ssa_toeplitz", "ssa_complex", "decompose_pssa"]
+fortran_sources = ["src/rssa_decomposition.f90", "src/rssa_projection.f90"]
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wcor"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wcor_ssa", "wcor_default"]
+fortran_source = "src/rssa_metrics.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wcor.default"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wcor_default"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hmatr"
+r_source = "upstream/R/hmatr.R"
+fortran_module = "rssa_hmatr"
+fortran_names = ["hmatr"]
+fortran_source = "src/rssa_hmatr.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm"]
+fortran_source = "src/rssa_metrics.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "new.hmat"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["new_hmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hmatmul"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hmatmul"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hankel"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hankel", "hankel_matrix", "hankelize_matrix"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hcols"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hcols"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hrows"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hrows"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "is.hmat"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["is_hmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "new.hbhmat"
+r_source = "upstream/R/hbhankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["new_hbhmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hbhmatmul"
+r_source = "upstream/R/hbhankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hbhmatmul"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hbhcols"
+r_source = "upstream/R/hbhankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hbhcols"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "hbhrows"
+r_source = "upstream/R/hbhankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["hbhrows"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "is.hbhmat"
+r_source = "upstream/R/hbhankel.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["is_hbhmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "new.tmat"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["new_tmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "tmatmul"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["tmatmul"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "tcols"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["tcols"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "trows"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["trows"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "is.tmat"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_matrices"
+fortran_names = ["is_tmat"]
+fortran_source = "src/rssa_matrices.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr", "lrr_default", "lrr_ssa", "lrr_mssa", "lrr_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "roots"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["roots_lrr", "roots_lrr_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "rforecast"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa", "rforecast_mssa", "rforecast_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "vforecast"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_ssa", "vforecast_mssa", "vforecast_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "bforecast"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_ssa", "parestimate_mssa", "parestimate_complex", "parestimate_2d"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "cadzow"
+r_source = "upstream/R/cadzow.R"
+fortran_module = "rssa_cadzow"
+fortran_names = ["cadzow"]
+fortran_source = "src/rssa_cadzow.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "frobenius.cor"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["frobenius_cor"]
+fortran_source = "src/rssa_metrics.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill", "igapfill_2d", "igapfill_mssa", "igapfill_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "gapfill"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["gapfill_ssa", "gapfill_mssa_channel", "gapfill_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "summarize.gaps"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["summarize_gaps", "summarize_gaps_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto.wcor"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto_wcor_ssa"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto.pgram"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto_pgram_ssa"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "clone.ssa"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["clone_ssa"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose.ssa"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["decompose_ssa"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose.toeplitz.ssa"
+r_source = "upstream/R/toeplitz.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["decompose_toeplitz"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose.cssa"
+r_source = "upstream/R/chankel.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["decompose_complex"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose.pssa"
+r_source = "upstream/R/pssa.R"
+fortran_module = "rssa_projection"
+fortran_names = ["decompose_pssa"]
+fortran_source = "src/rssa_projection.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "reconstruct.ssa"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_reconstruction"
+fortran_names = ["reconstruct_ssa"]
+fortran_source = "src/rssa_reconstruction.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "residuals.ssa"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_reconstruction"
+fortran_names = ["residuals_ssa"]
+fortran_source = "src/rssa_reconstruction.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "residuals.ssa.reconstruction"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_reconstruction"
+fortran_names = ["residuals_ssa"]
+fortran_source = "src/rssa_reconstruction.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "calc.v.ssa"
+r_source = "upstream/R/hankel.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["calc_v_ssa"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "calc.v.cssa"
+r_source = "upstream/R/chankel.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["calc_v_complex"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "calc.v.pssa"
+r_source = "upstream/R/pssa.R"
+fortran_module = "rssa_projection"
+fortran_names = ["calc_v_pssa"]
+fortran_source = "src/rssa_projection.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wcor.ssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wcor_ssa"]
+fortran_source = "src/rssa_metrics.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.default"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_default"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.ssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_ssa"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.complex"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_complex"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.1d.ssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_ssa"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.cssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.nd.ssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_2d"]
+fortran_source = "src/rssa_metrics.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.toeplitz.ssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_ssa"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "wnorm.mssa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_metrics"
+fortran_names = ["wnorm_mssa"]
+fortran_source = "src/rssa_metrics.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr.default"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr_default"]
+fortran_source = "src/rssa_forecast.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr.mssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr_mssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "lrr.cssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["lrr_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "forecast.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa", "vforecast_ssa", "bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "forecast.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa", "vforecast_ssa", "bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "predict.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa", "vforecast_ssa", "bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "predict.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa", "vforecast_ssa", "bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "predict.mssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_mssa", "vforecast_mssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "rforecast.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "rforecast.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "rforecast.mssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_mssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "rforecast.cssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "vforecast.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "vforecast.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "vforecast.mssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_mssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "vforecast.cssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_complex"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+
+[[extra.translation.function]]
+r_name = "rforecast.pssa.1d.ssa"
+r_source = "upstream/R/pssa.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["rforecast_pssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Projection-SSA recurrent forecasting, including right-projector drift correction, is translated; R group-list/S3 attributes and cache continuation are omitted."
+
+[[extra.translation.function]]
+r_name = "vforecast.pssa.1d.ssa"
+r_source = "upstream/R/pssa.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["vforecast_pssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "substantial"
+notes = "Projection-SSA vector forecasting is translated with dense least-squares shift matrices and direct Hankelization instead of FFT plans; R S3 attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "roots.lrr"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["roots_lrr"]
+fortran_source = "src/rssa_forecast.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "bforecast.1d.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "bforecast.toeplitz.ssa"
+r_source = "upstream/R/forecast.R"
+fortran_module = "rssa_forecast"
+fortran_names = ["bforecast_ssa"]
+fortran_source = "src/rssa_forecast.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate.1d.ssa"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_ssa"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate.nd.ssa"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_2d"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate.toeplitz.ssa"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_ssa"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate.mssa"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_mssa"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "parestimate.cssa"
+r_source = "upstream/R/parest.R"
+fortran_module = "rssa_parestimate"
+fortran_names = ["parestimate_complex"]
+fortran_source = "src/rssa_parestimate.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "cadzow.ssa"
+r_source = "upstream/R/cadzow.R"
+fortran_module = "rssa_cadzow"
+fortran_names = ["cadzow_ssa"]
+fortran_source = "src/rssa_cadzow.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nspecial.ssa"
+r_source = "upstream/R/ssa.R"
+fortran_module = "rssa_decomposition"
+fortran_names = ["nspecial"]
+fortran_source = "src/rssa_decomposition.f90"
+status = "complete"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "nspecial.pssa"
+r_source = "upstream/R/pssa.R"
+fortran_module = "rssa_projection"
+fortran_names = ["nspecial_pssa"]
+fortran_source = "src/rssa_projection.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "gapfill.1d.ssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["gapfill_ssa"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "gapfill.cssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["gapfill_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "gapfill.toeplitz.ssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["gapfill_ssa"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "gapfill.mssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["gapfill_mssa_channel"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill.1d.ssa"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill.nd.ssa"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill_2d"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill.mssa"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill_mssa"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill.cssa"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "igapfill.toeplitz.ssa"
+r_source = "upstream/R/igapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["igapfill"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "partial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "summarize.gaps.default"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["summarize_gaps"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "summarize.gaps.1d.ssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["summarize_gaps"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "summarize.gaps.cssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["summarize_gaps_complex"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "summarize.gaps.toeplitz.ssa"
+r_source = "upstream/R/gapfill.R"
+fortran_module = "rssa_gapfill"
+fortran_names = ["summarize_gaps"]
+fortran_source = "src/rssa_gapfill.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto.wcor.ssa"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto_wcor_ssa"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto.pgram.1d.ssa"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto_pgram_ssa"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "grouping.auto.pgram.toeplitz.ssa"
+r_source = "upstream/R/autossa.R"
+fortran_module = "rssa_autogroup"
+fortran_names = ["grouping_auto_pgram_ssa"]
+fortran_source = "src/rssa_autogroup.f90"
+status = "substantial"
+notes = "Typed numerical mapping; R S3/list attributes, caching, FFTW acceleration, warnings, and interface-only behavior are omitted where not computationally essential."
+
+[[extra.translation.function]]
+r_name = "decompose.wossa"
+r_source = "upstream/R/wossa.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["decompose_wossa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "substantial"
+notes = "Diagonal weighted-oblique decomposition is translated with dense SVD; non-diagonal oblique metrics, R caches, and continuation are omitted."
+
+[[extra.translation.function]]
+r_name = "owcor"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["owcor_ssa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "substantial"
+notes = "Oblique correlations use SVD least-squares pseudoinverses and typed group labels; R class labels, caching, and warning presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "wcor.ossa"
+r_source = "upstream/R/wcor.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["wcor_ossa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "substantial"
+notes = "Returns the ordinary Hankel-weight correlation for reconstructed OSSA groups; the R warning about non-Frobenius-orthogonal groups is omitted."
+
+
+[[extra.translation.function]]
+r_name = "fossa"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["fossa_ssa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "partial"
+notes = "Maps the computational FOSSA operation to the typed real 1-D implementation. R S3 dispatch, MSSA/nD filters, shaped masks, circular windows, and multiple simultaneous filters are omitted."
+
+[[extra.translation.function]]
+r_name = "fossa.ssa"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["fossa_ssa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "partial"
+notes = "Implements 1-D Filter-adjusted O-SSA with a reversed FIR vector, finite gamma or filter-only infinite-gamma mode, and normalized/non-normalized right-vector filtering. MSSA/nD filter arrays and shaped/circular masks remain omitted."
+
+[[extra.translation.function]]
+r_name = "decompose.ossa"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_oblique"
+fortran_names = ["decompose_ossa"]
+fortran_source = "src/rssa_oblique.f90"
+status = "complete"
+notes = "Upstream always stops because continuation of Oblique SSA decomposition is impossible. The Fortran mapping preserves that behavior with rssa_not_supported status instead of an R exception."
+
+[[extra.translation.function]]
+r_name = "iossa"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_iterative_oblique"
+fortran_names = ["iossa_ssa"]
+fortran_source = "src/rssa_iterative_oblique.f90"
+status = "partial"
+notes = "Real 1-D iterative O-SSA is translated with typed component labels, RMS convergence, kappa separation, dense SVD, and direct Hankelization. R cache/class bookkeeping and non-1-D object families are omitted."
+
+[[extra.translation.function]]
+r_name = "iossa.ssa"
+r_source = "upstream/R/ossa.R"
+fortran_module = "rssa_iterative_oblique"
+fortran_names = ["iossa_ssa"]
+fortran_source = "src/rssa_iterative_oblique.f90"
+status = "partial"
+notes = "Implements the real 1-D I-OSSA iteration, low-rank oblique transform, kappa balancing, and convergence test. Nested R lists are represented by selected indices plus integer group labels; diagnostics/cache metadata are not stored in an R-like object."
+
+[[extra.translation.function]]
+r_name = "eossa"
+r_source = "upstream/R/eossa.R"
+fortran_module = "rssa_iterative_oblique"
+fortran_names = ["eossa_ssa"]
+fortran_source = "src/rssa_iterative_oblique.f90"
+status = "partial"
+notes = "Real 1-D column-subspace EOSSA is translated using the ESPRIT shift solve, general complex eigenvectors, complete-link root clustering, and real basis recovery. Multidimensional, row-subspace, and TLS options are omitted."
+
+[[extra.translation.function]]
+r_name = "eossa.ssa"
+r_source = "upstream/R/eossa.R"
+fortran_module = "rssa_iterative_oblique"
+fortran_names = ["eossa_ssa"]
+fortran_source = "src/rssa_iterative_oblique.f90"
+status = "partial"
+notes = "Implements the default real 1-D column/least-squares EOSSA path, frequency sorting and complete-link root clustering. R hclust/cutree labels are replaced by deterministic complete-link labels ordered by first frequency; row/TLS/multidimensional paths remain omitted."
