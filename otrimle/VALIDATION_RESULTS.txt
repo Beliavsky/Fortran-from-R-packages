@@ -1,0 +1,30 @@
+otrimle Fortran translation validation
+======================================
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+Coverage: 12/12 exported computational functions/methods mapped (100.0%); package status substantial
+
+Compatibility improvements:
+  InitClust mclust hc/hclass sibling dependency: IMPLEMENTED
+  Manhattan fallback validation: PASS
+  robustbase scaleTau2(mu.too=TRUE) calculation: IMPLEMENTED / parity PASS
+  R stats::density binned Gaussian path: IMPLEMENTED / parity PASS
+
+Debug/runtime-check build with interface test double: PASS
+  -O0 -fcheck=all -fbacktrace -Wall -Wextra -Werror -pedantic
+Optimized build with interface test double: PASS
+  -O2 -Wall -Wextra -Werror -pedantic
+Deterministic tests: PASS
+Example: PASS
+Independent NumPy/SciPy parity: PASS
+Static source/policy audit: PASS
+
+Independent parity differences:
+  improper log likelihood        7.461e-14
+  posterior probability          4.258e-11
+  weighted chi-square criterion  2.498e-16
+  R-compatible density measure   0.000e+00
+  scaleTau2 robust location      5.551e-17
+  scaleTau2 robust scale         1.110e-15
+
+FPM build/test/clean --all: NOT RUN successfully; executable unavailable (exit 127)
+fprettify: unavailable (exit 127)

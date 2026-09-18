@@ -1,0 +1,135 @@
+name = "otrimle"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Pietro Coretto and Christian Hennig; Fortran translation by OpenAI"
+maintainer = "Beliavsky/Fortran-from-R-packages"
+description = "Modern Fortran translation of the computational core of the R package otrimle"
+keywords = ["clustering", "robust-statistics", "mixture-models", "outliers"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
+
+
+[dependencies]
+mclust-fortran = { path = "../mclust" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 12
+r_functions_translated = 12
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "InitClust"
+r_source = "upstream/R/init.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["init_clust"]
+fortran_source = "src/otrimle_core.f90"
+status = "substantial"
+notes = "k-nearest-neighbor trimming, mclust::hc/hclass initialization through the sibling mclust translation, and the Manhattan average-linkage fallback are translated; only the final randomized retry is deterministic because exact R RNG parity is out of scope."
+
+[[extra.translation.function]]
+r_name = "otrimle"
+r_source = "upstream/R/otrimle.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["otrimle_fit_grid"]
+fortran_source = "src/otrimle_core.f90"
+status = "substantial"
+notes = "The logicd grid search, ECM objective, eigenratio restriction, noise-proportion constraint, beta penalty, and final refit are translated; R parallel execution, messages, and S3 object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "rimle"
+r_source = "upstream/R/rimle.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["rimle"]
+fortran_source = "src/otrimle_core.f90"
+status = "substantial"
+notes = "Fixed or heuristic logicd RIMLE fitting is translated with explicit numeric arrays; R coercion, warnings, names, and S3 construction are omitted."
+
+[[extra.translation.function]]
+r_name = "kerndensmeasure"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["kerndensmeasure"]
+fortran_source = "src/otrimle_density.f90"
+status = "substantial"
+notes = "Weighted centering, bw.nrd0, R stats::density linear binning, zero-padded Gaussian convolution/interpolation, the paired ordinate envelope, and the discrepancy formula are translated; R NA/object semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "kmeanfun"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["kmeanfun"]
+fortran_source = "src/otrimle_density.f90"
+status = "complete"
+notes = "Both empirical sample-size branches are translated directly."
+
+[[extra.translation.function]]
+r_name = "ksdfun"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["ksdfun"]
+fortran_source = "src/otrimle_density.f90"
+status = "complete"
+notes = "Both empirical sample-size branches are translated directly."
+
+[[extra.translation.function]]
+r_name = "kerndensp"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["kerndensp"]
+fortran_source = "src/otrimle_density.f90"
+status = "substantial"
+notes = "PCA standardization using the supplied component covariance, per-axis density diagnostics, empirical standardization, and positive-part aggregation are translated; R princomp object construction is omitted."
+
+[[extra.translation.function]]
+r_name = "kerndenscluster"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["kerndenscluster"]
+fortran_source = "src/otrimle_density.f90"
+status = "substantial"
+notes = "Per-component posterior-weighted density diagnostics and mixture-weighted aggregation are translated; R list structure is replaced by numeric outputs."
+
+[[extra.translation.function]]
+r_name = "generator.otrimle"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["generator_otrimle"]
+fortran_source = "src/otrimle_simulation.f90"
+status = "substantial"
+notes = "Noise resampling and multivariate-normal component simulation are translated; intrinsic Fortran RNG streams replace R rmultinom/sample and mvtnorm::rmvnorm streams."
+
+[[extra.translation.function]]
+r_name = "otrimleg"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["otrimleg"]
+fortran_source = "src/otrimle_simulation.f90"
+status = "substantial"
+notes = "Candidate-G fitting, parameter counts, improper BIC, OTRIMLE criterion, noise probability, logicd, and density diagnostics are translated serially; multicore R orchestration is omitted."
+
+[[extra.translation.function]]
+r_name = "otrimlesimg"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["otrimlesimg"]
+fortran_source = "src/otrimle_simulation.f90"
+status = "substantial"
+notes = "Simulation from each fitted candidate and repeated refitting with fixed or re-estimated logicd are translated serially; exact R RNG streams and multicore execution are omitted."
+
+[[extra.translation.function]]
+r_name = "summary.otrimlesimgdens"
+r_source = "upstream/R/otrimle_nc.R"
+fortran_module = "otrimle_mod"
+fortran_names = ["summarize_otrimlesimgdens"]
+fortran_source = "src/otrimle_simulation.f90"
+status = "substantial"
+notes = "Noise penalties, robustbase::scaleTau2-compatible robust location/scale, simulation-density standardization, penalized model order, cutoff selection, and selected clustering are translated; R S3/NA presentation semantics are omitted."

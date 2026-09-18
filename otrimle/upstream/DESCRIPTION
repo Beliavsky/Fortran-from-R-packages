@@ -1,0 +1,28 @@
+Package: otrimle
+Type: Package
+Title: Robust Model-Based Clustering
+Description: Performs robust cluster analysis allowing for outliers and noise that cannot be fitted by any cluster. The data are modelled by a mixture of Gaussian distributions and a noise component, which is an improper uniform  distribution covering the whole Euclidean space. Parameters are estimated by  (pseudo) maximum likelihood. This is fitted by a EM-type algorithm. See Coretto and Hennig (2016) <doi:10.1080/01621459.2015.1100996>, and Coretto and Hennig (2017) <https://jmlr.org/papers/v18/16-382.html>.
+Version: 2.0
+Date: 2021-05-28
+Authors@R: c(person("Pietro", "Coretto",
+                    role = c("aut", "cre"),
+		    email = "pcoretto@unisa.it",
+		    comment = "Homepage: <https://pietro-coretto.github.io>"),
+             person("Christian", "Hennig",
+	             role = c("aut"),
+		     email = "christian.hennig@unibo.it",
+		     comment = "Homepage:  <https://www.unibo.it/sitoweb/christian.hennig/en>")
+		     )
+Imports: stats, utils, graphics, grDevices, mvtnorm, parallel, foreach,
+        doParallel, robustbase, mclust
+License: GPL (>= 2)
+LazyData: TRUE
+NeedsCompilation: no
+Packaged: 2021-05-28 19:45:53 UTC; pietro
+Author: Pietro Coretto [aut, cre] (Homepage:
+    <https://pietro-coretto.github.io>),
+  Christian Hennig [aut] (Homepage:
+    <https://www.unibo.it/sitoweb/christian.hennig/en>)
+Maintainer: Pietro Coretto <pcoretto@unisa.it>
+Repository: CRAN
+Date/Publication: 2021-05-29 06:30:02 UTC
