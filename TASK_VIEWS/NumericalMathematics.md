@@ -6,7 +6,7 @@ Hans W. Borchers, Robin Hankin, Serguei Sokol, version 2026-07-20. The
 [source task view](https://github.com/cran-task-views/NumericalMathematics/blob/main/NumericalMathematics.md) provides the broader annotated
 guide to R packages.
 
-This page includes 27 translated packages. Package membership and broad
+This page includes 28 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -46,6 +46,7 @@ API coverage and validation status.
 ## Interpolation and Approximation
 
 - [`signal`](../signal/) - Provides digital signal-processing, filter-design, resampling, spectral, and windowing routines.
+- [`stinepack`](../stinepack/) - Performs Stineman interpolation, slope estimation, and missing-value gap filling.
 
 ## Root Finding and Fixed Points
 

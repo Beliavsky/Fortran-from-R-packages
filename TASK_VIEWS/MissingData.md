@@ -6,7 +6,7 @@ Julie Josse, Imke Mayer, Nicholas Tierney, Nathalie Vialaneix, version 2026-05-0
 [source task view](https://github.com/cran-task-views/MissingData/blob/main/MissingData.md) provides the broader annotated
 guide to R packages.
 
-This page includes 11 translated packages. Package membership and broad
+This page includes 12 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -24,6 +24,7 @@ API coverage and validation status.
 - [`jomo`](../jomo/) - Performs multilevel joint-model multiple imputation for continuous and categorical data.
 - [`mitml`](../mitml/) - Provides multiple-imputation inference and diagnostics for multilevel models.
 - [`pan`](../pan/) - Performs multiple imputation for multivariate panel or clustered data.
+- [`imputeTS`](../imputeTS/) - Imputes missing time-series values using interpolation, smoothing, and model-based methods.
 - [`forecast`](../forecast/) - Provides forecasting methods for exponential-smoothing, ARIMA, BATS, TBATS, and related time-series models.
 - [`randomForest`](../randomForest/) - Fits classification and regression random forests.
 - [`grf`](../grf/) - Fits generalized random forests for regression, causal inference, quantiles, survival analysis, and related tasks.

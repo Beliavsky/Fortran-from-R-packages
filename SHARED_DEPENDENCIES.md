@@ -6,119 +6,134 @@ than carrying independently editable vendored copies. This reduces checkout
 size and, more importantly, prevents fixes and formatting changes from drifting
 between copies.
 
-The consolidation passes removed 17,752 duplicated tracked files totaling
-about 155.39 MiB from the working tree. They established these canonical dependency
-paths:
+Earlier consolidation passes removed 17,752 duplicated tracked files totaling
+about 155.39 MiB from the working tree.
 
-The latest pass also consolidated newly added, previously untracked packages.
+Those passes also consolidated newly added, previously untracked packages.
 The exact-source scan fell from 102 duplicate groups representing about
 7.67 MiB of redundant maintained Fortran to two pre-existing `fe-r`/`FER`
 test and demo groups totaling about 4.9 KiB.
 
+The table below reflects direct sibling dependencies in the current top-level
+FPM manifests, refreshed on 2026-09-18, plus the separately listed integration
+adapters. It excludes development-only dependencies and does not imply that
+every consumer has been rebuilt or tested in this documentation refresh.
+The duplicate-file figures above describe earlier audits, not a fresh scan.
+
 | Canonical package | Consumers using the shared package |
 |---|---|
-| `rugarch` | `portvine`, `PWEV`, `quarks` |
-| `spacefillr` | `TruncatedNormal` |
-| `deSolve` | `rootSolve`, `hypergeo`, `flexsurv` |
-| `numDeriv` | `alabama`, `survey`, `compound.Cox`, `gkwdist`, `lavaan`, `flexsurv`, `pbkrtest` |
-| `roptim` | `alabama` |
-| `alabama` | `TruncatedNormal`, `mbbefd` |
-| `nleqslv` | `TruncatedNormal`, `mev` |
-| `splines` | `survival`, `gamlss`, `mgcv`, `VGAM` |
-| `survival` | `survey`, `gamlss`, `mlr`, `compound.Cox`, `relsurv`, `flexsurv`, `mstate` |
-| `minqa` | `survey`, `lme4` |
-| `survey` | `GB2` |
-| `lpSolve` | `adagio`, `clue`, `limSolve`, `linprog`, `matchingMarkets` |
-| `pracma` | `new.dist`, `poweRlaw` |
-| `rrcov` | `RobStatTM`, `MASS` |
-| `maxLik` | `rumidas` |
-| `rumidas` | `PWEV` |
-| `Rsolnp` | `DiscreteInverseWeibull`, `DiscreteWeibull` |
-| `quadprog` | `limSolve`, `quadprogXT`, `BB`, `flexsurv`, `NlcOptim`, `pracma`, `INFOSET` |
-| `Rfast` | `Rfast2` |
-| `DiceKriging` | `mlrMBO`, `GPareto` |
-| `partitions` | `hyper2`, `MM` |
+| `actuar` | `mbbefd` |
+| `AdequacyModel` | `BGFD` |
+| `alabama` | `mbbefd`, `TruncatedNormal` |
+| `anMC` | `KrigInv` |
+| `ape` | `MCMCglmm` |
+| `bayesm` | `compositions` |
+| `coda` | `MCMCpack` |
+| `COMPoissonReg` | `DiscreteDists` |
+| `contfrac` | `hypergeo` |
+| `copula` | `ewens` |
+| `corpcor` | `REN` |
 | `cubature` | `hyper2` |
+| `DEoptim` | `trawl` |
+| `deoptimr` | `RSDC` |
+| `deSolve` | `flexsurv`, `hypergeo`, `rootSolve` |
+| `DiceKriging` | `GPareto`, `mlrMBO` |
+| `dplyr` | `tidyr` |
+| `elliptic` | `hypergeo` |
+| `expint` | `actuar`, `mev`, `new.dist` |
+| `fastcluster` | `cluster`, `stats` |
+| `fastmatrix` | `L1pack` |
+| `fitdistrplus` | `mbbefd` |
+| `fitHeavyTail` | `highOrderPortfolios` |
+| `forcats` | `readr` |
+| `forecast` | `imputeTS` |
+| `fracdiff` | `forecast`, `ufRisk` |
+| `GA` | `rmoo` |
+| `gamlss.dist` | `gamlss` |
+| `garchx` | `tvgarch` |
+| `ghyp` | `sharpeRratio`, `tsdistributions`, `tsgarch`, `tsmarch` |
+| `GPArotation` | `lavaan` |
+| `gRbase` | `gRain` |
+| `igraph` | `gRbase` |
+| `KFAS` | `MARSS` |
+| `lbfgs` | `RcppNumerical` |
+| `lbfgsb3` | `NFCP`, `RcppNumerical`, `roptim` |
+| `leaps` | `tsa` |
+| `lme4` | `gamm4` |
+| `lpSolve` | `adagio`, `clue`, `limSolve`, `linprog`, `matchingMarkets` |
+| `lsei` | `nspmix` |
+| `matchingR` | `matchingMarkets` |
 | `Matrix` | `MatrixExtra`, `piqp` |
 | `MatrixExtra` | `ECOSolveR/integration/matrixextra-adapter` |
-| `expint` | `actuar`, `mev`, `new.dist` |
-| `VGAM` | `new.dist` |
-| `nlme` | `gamlss`, `segmented` |
-| `mvtnorm` | `ks`, `matrixNormal`, `mc2d`, `mixSPE`, `tmvtnorm` |
-| `fitdistrplus` | `mbbefd` |
-| `zigg` | `Rfast` |
-| `lbfgs` | `RcppNumerical` |
-| `matchingR` | `matchingMarkets` |
-| `polynom` | `orthopolynom` |
-| `coda` | `MCMCpack` |
+| `maxLik` | `dccmidas`, `rumidas` |
+| `mclust` | `otrimle` |
 | `mcmc` | `MCMCpack` |
-| `quantreg` | `MCMCpack` |
-| `robustbase` | `RobStatTM`, `compositions` |
-| `Trading` | `SACCR`, `xVA` |
-| `SACCR` | `xVA` |
-| `copula` | `ewens` |
-| `QCSIS` | `wqc` |
-| `waveslim` | `wavethresh`, `wqc` |
-| `elliptic` | `hypergeo` |
-| `contfrac` | `hypergeo` |
-| `pbivnorm` | `lavaan` |
-| `GPArotation` | `lavaan` |
-| `pdqutils` | `sadists` |
-| `corpcor` | `REN` |
-| `rvinecopulib` | `portvine` |
-| `COMPoissonReg` | `DiscreteDists` |
-| `gamlss.dist` | `gamlss` |
-| `actuar` | `mbbefd` |
-| `lbfgsb3` | `NFCP`, `RcppNumerical`, `roptim` |
-| `ghyp` | `sharpeRratio`, `tsdistributions`, `tsgarch`, `tsmarch` |
-| `tsdistributions` | `tsgarch`, `tsmarch` |
-| `garchx` | `tvgarch` |
-| `tensorA` | `compositions` |
+| `mgcv` | `gamm4` |
+| `minqa` | `lme4`, `survey` |
+| `MTS` | `SteadyStateBVAR` |
+| `mvtnorm` | `ks`, `matrixNormal`, `mc2d`, `mixSPE`, `tmvtnorm` |
+| `nleqslv` | `mev`, `TruncatedNormal` |
+| `nlme` | `gamlss`, `segmented` |
 | `NMOF` | `neighbours/integration/nmof-demo` |
-| `leaps` | `tsa` |
-| `RPEIF` | `RPESE` |
-| `deoptimr` | `RSDC` |
-| `tvm` | `yrnd` |
-| `quadform` | `MM` |
-| `DEoptim` | `trawl` |
-| `rngWELL` | `randtoolbox` |
-| `relsurv` | `flexsurv`, `mstate` |
-| `anMC` | `KrigInv` |
-| `GA` | `rmoo` |
-| `fitHeavyTail` | `highOrderPortfolios` |
-| `fastcluster` | `cluster` |
-| `bayesm` | `compositions` |
-| `ape` | `MCMCglmm` |
-| `gRbase` | `gRain` |
-| `TMB` | `glmmTMB` |
-| `RPEGLMEN` | `RPESE` |
-| `fastmatrix` | `L1pack` |
-| `AdequacyModel` | `BGFD` |
-| `tsgarch` | `tsmarch` |
-| `RSpectra` | `bigstatsr`, `svd` |
-| `lsei` | `nspmix` |
-| `nnls` | `isotone` |
-| `fracdiff` | `forecast`, `ufRisk` |
-| `smoots` | `ufRisk` |
-| `RobStatTM` | `RPEIF` |
 | `nnet` | `forecast` |
-| `qrng` | `TruncatedNormal` |
-| `tweedie` | `statmod` |
-| `urca` | `forecast` |
+| `nnls` | `isotone` |
+| `numDeriv` | `alabama`, `compound.Cox`, `flexsurv`, `gkwdist`, `lavaan`, `pbkrtest`, `survey` |
 | `optimx` | `dlm` |
-| `KFAS` | `MARSS` |
+| `partitions` | `hyper2`, `MM` |
+| `pbivnorm` | `lavaan` |
+| `pdqutils` | `sadists` |
+| `polynom` | `orthopolynom` |
+| `pracma` | `new.dist`, `poweRlaw` |
+| `QCSIS` | `wqc` |
+| `qrng` | `TruncatedNormal` |
+| `quadform` | `MM` |
+| `quadprog` | `BB`, `flexsurv`, `INFOSET`, `limSolve`, `NlcOptim`, `pracma`, `quadprogXT` |
+| `quantreg` | `MCMCpack` |
+| `randompack` | `varmapack` |
+| `readr` | `tidyr` |
+| `relsurv` | `flexsurv`, `mstate` |
+| `Rfast` | `Rfast2` |
+| `rfortran-arpack` | `bigstatsr`, `RSpectra` |
+| `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
+| `rfortran-optional` | `rfortran-core`, `rfortran-linalg`, `stats` |
+| `rngWELL` | `randtoolbox` |
+| `RobStatTM` | `RPEIF` |
+| `robustbase` | `compositions`, `RobStatTM` |
+| `roll` | `dccmidas` |
+| `roptim` | `alabama` |
+| `RPEGLMEN` | `RPESE` |
+| `RPEIF` | `RPESE` |
+| `rrcov` | `MASS`, `RobStatTM` |
+| `Rsolnp` | `DiscreteInverseWeibull`, `DiscreteWeibull` |
+| `RSpectra` | `bigstatsr`, `svd` |
+| `rugarch` | `dccmidas`, `portvine`, `PWEV`, `quarks` |
+| `rumidas` | `dccmidas`, `PWEV` |
+| `rvinecopulib` | `portvine` |
+| `SACCR` | `xVA` |
+| `smoots` | `ufRisk` |
+| `spacefillr` | `TruncatedNormal` |
+| `splines` | `gamlss`, `mgcv`, `survival`, `VGAM` |
+| `stinepack` | `imputeTS` |
+| `stringr` | `tidyr` |
+| `survey` | `GB2` |
+| `survival` | `compound.Cox`, `flexsurv`, `gamlss`, `mlr`, `mstate`, `relsurv`, `survey` |
 | `svd` | `Rssa` |
-| `vctrs` | `dplyr`, `readr`, `tibble`, `tidyr` |
+| `tensorA` | `compositions` |
 | `tibble` | `dplyr`, `readr`, `tidyr` |
 | `tidyselect` | `dplyr`, `tidyr` |
-| `forcats` | `readr` |
-| `dplyr` | `tidyr` |
-| `readr` | `tidyr` |
-| `stringr` | `tidyr` |
-| `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
-| `rfortran-optional` | `rfortran-core`, `rfortran-linalg` |
-| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `DiscreteWeibull`, `dlm`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `rrcov`, `rugarch`, `spantest`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
-| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `fportfolio`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `vars`, `wavethresh` |
+| `TMB` | `glmmTMB` |
+| `Trading` | `SACCR`, `xVA` |
+| `tsdistributions` | `tsgarch`, `tsmarch` |
+| `tsgarch` | `tsmarch` |
+| `tvm` | `yrnd` |
+| `tweedie` | `statmod` |
+| `urca` | `forecast` |
+| `vctrs` | `dplyr`, `readr`, `tibble`, `tidyr` |
+| `VGAM` | `new.dist` |
+| `waveslim` | `wavethresh`, `wqc` |
+| `zigg` | `Rfast` |
 
 For the earlier consolidation passes, each canonical package and affected
 consumer passed its FPM test suite before the redundant tree was removed.

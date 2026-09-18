@@ -6,7 +6,7 @@ Dirk Eddelbuettel, version 2026-08-25. The
 [source task view](https://github.com/cran-task-views/Finance/blob/main/Finance.md) provides the broader annotated
 guide to R packages.
 
-This page includes 88 translated packages. Package membership and broad
+This page includes 89 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -39,6 +39,7 @@ API coverage and validation status.
 - [`garchx`](../garchx/) - Fits GARCH models with exogenous covariates.
 - [`fmultivar`](../fmultivar/) - Provides multivariate distributions and financial-data analysis.
 - [`vars`](../vars/) - Fits, diagnoses, forecasts, and analyzes vector autoregressive and structural VAR models.
+- [`wavelets`](../wavelets/) - Computes discrete and maximal-overlap wavelet transforms, inverse transforms, and multiresolution analyses.
 - [`waveslim`](../waveslim/) - Provides one-, two-, and three-dimensional wavelet methods.
 - [`wavethresh`](../wavethresh/) - Provides wavelet transforms, thresholding, shrinkage, and related statistical methods.
 - [`tserieschaos`](../tserieschaos/) - Analyzes nonlinear and chaotic time series.

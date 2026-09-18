@@ -2,11 +2,11 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Time Series Analysis](https://CRAN.R-project.org/view=TimeSeries),
-maintained by Rob J Hyndman and Rebecca Killick, version 2026-07-29. The
+maintained by Rob J Hyndman and Rebecca Killick, version 2026-09-14. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes 33 translated packages from this repository. Its summaries
+This page includes 38 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -15,6 +15,8 @@ each package's documentation for validation status and precise API coverage.
 
 ## General analysis and diagnostics
 
+- [`roll`](../roll/) computes rolling and expanding summaries, quantiles,
+  covariance, correlation, and weighted linear regression.
 - [`tseries`](../tseries/) provides ARMA and GARCH fitting, stationarity and
   cointegration tests, nonlinear-dependence diagnostics, resampling methods,
   surrogate generation, and selected financial time-series calculations.
@@ -36,6 +38,8 @@ each package's documentation for validation status and precise API coverage.
 
 ## Forecasting and univariate modeling
 
+- [`imputeTS`](../imputeTS/) imputes missing time-series values using
+  interpolation, smoothing, seasonal methods, and model-based estimation.
 - [`fracdiff`](../fracdiff/) estimates, simulates, differences, and forecasts
   fractionally integrated ARMA processes and provides long-memory estimators
   and model diagnostics.
@@ -83,6 +87,10 @@ each package's documentation for validation status and precise API coverage.
 
 ## Frequency analysis, decomposition, and filtering
 
+- [`kza`](../kza/) provides Kolmogorov-Zurbenko and adaptive filtering,
+  local-variance estimation, and spectral calculations.
+- [`wavelets`](../wavelets/) computes discrete and maximal-overlap wavelet
+  transforms, their inverses, and multiresolution analyses.
 - [`waveslim`](../waveslim/) provides discrete, maximal-overlap, packet,
   multidimensional, and dual-tree wavelet transforms together with
   multiresolution analysis, denoising, wavelet dependence measures, and
@@ -115,6 +123,9 @@ each package's documentation for validation status and precise API coverage.
 
 ## Multivariate time-series models
 
+- [`varmapack`](../varmapack/) constructs and simulates VAR, VMA, VARMA, and
+  VARMAX models, with sample and theoretical autocovariances and impulse
+  responses.
 - [`MTS`](../MTS/) provides VAR, VARMA, VMA, VARX, VECM, factor, and
   multivariate volatility models together with forecasting, impulse responses,
   dependence diagnostics, and missing-observation estimation.
