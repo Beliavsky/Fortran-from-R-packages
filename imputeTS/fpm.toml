@@ -1,0 +1,221 @@
+name = "imputeTS"
+version = "3.4.0"
+license = "GPL-3.0-only"
+author = "Steffen Moritz, Sebastian Gatscha, and upstream contributors; Fortran translation by OpenAI"
+maintainer = "Beliavsky/Fortran-from-R-packages project"
+copyright = "Upstream imputeTS authors and contributors"
+description = "Modern Fortran translation of the computational core of the R package imputeTS"
+categories = ["time-series", "missing-data", "statistics"]
+keywords = ["imputation", "interpolation", "kalman", "seasonality"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+forecast-fortran = { path = "../forecast" }
+stinepack = { path = "../stinepack" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 21
+r_functions_translated = 21
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "na_interpolation"
+r_source = "upstream/R/na_interpolation.R"
+fortran_module = "imputets_interpolation"
+fortran_names = ["na_interpolation"]
+fortran_source = "src/imputets_interpolation.f90"
+status = "substantial"
+notes = "Linear and Stineman interpolation preserve the core R behavior. Spline mode uses a natural cubic spline rather than every stats::spline method, and arbitrary ... forwarding is omitted."
+
+[[extra.translation.function]]
+r_name = "na_kalman"
+r_source = "upstream/R/na_kalman.R"
+fortran_module = "imputets_kalman"
+fortran_names = ["na_kalman"]
+fortran_source = "src/imputets_kalman.f90"
+status = "partial"
+notes = "StructTS is represented by an estimated local-linear-trend Kalman filter/smoother. auto.arima reuses the sibling forecast translation with undifferenced ARMA selection and optional two-sided filtering. Arbitrary user state-space lists, nit, and exact R KalmanSmooth/KalmanRun state initialization are omitted."
+
+[[extra.translation.function]]
+r_name = "na_locf"
+r_source = "upstream/R/na_locf.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_locf"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "LOCF/NOCB, reverse edge fill, keep/mean/rm handling, and maxgap are translated for numeric vectors. R class and multivariate tryCatch behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "na_ma"
+r_source = "upstream/R/na_ma.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_ma"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Simple, linear, and exponential moving-window weighting and automatic window expansion to two observations match the upstream C++ algorithm. R matrix/class behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "na_mean"
+r_source = "upstream/R/na_mean.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_mean"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Arithmetic, median, mode, geometric, and harmonic replacements and maxgap are translated. R table/string formatting and multivariate object semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "na_random"
+r_source = "upstream/R/na_random.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_random"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Uniform-bound imputation and maxgap are translated using Fortran random_number. Exact R RNG stream compatibility and R object semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "na_remove"
+r_source = "upstream/R/na_remove.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_remove"]
+fortran_source = "src/imputets_basic.f90"
+status = "complete"
+notes = "NaN missing values are removed from a numeric vector while preserving observation order."
+
+[[extra.translation.function]]
+r_name = "na_replace"
+r_source = "upstream/R/na_replace.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_replace"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "NaN replacement and maxgap restoration are translated directly for numeric vectors. Upstream multicolumn dispatch and R object preservation are omitted."
+
+[[extra.translation.function]]
+r_name = "na_seadec"
+r_source = "upstream/R/na_seadec.R"
+fortran_module = "imputets_seasonal"
+fortran_names = ["na_seadec"]
+fortran_source = "src/imputets_seasonal.f90"
+status = "substantial"
+notes = "Linear pre-imputation, robust STL via the sibling forecast translation, deseasonalization, base-algorithm imputation, seasonal restoration, frequency detection, and maxgap are mapped. Arbitrary ... forwarding and R ts attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "na_seasplit"
+r_source = "upstream/R/na_seasplit.R"
+fortran_module = "imputets_seasonal"
+fortran_names = ["na_seasplit"]
+fortran_source = "src/imputets_seasonal.f90"
+status = "substantial"
+notes = "Seasonal subseries splitting, base-algorithm imputation, frequency detection, and maxgap are translated. Arbitrary ... forwarding and R ts attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "statsNA"
+r_source = "upstream/R/statsNA.R"
+fortran_module = "imputets_stats"
+fortran_names = ["stats_na"]
+fortran_source = "src/imputets_stats.f90"
+status = "substantial"
+notes = "Missing count, percentage, gap count, average gap size, longest gap, most frequent gap, most weighty gap, and full gap-size distribution are returned in a derived type. Printing and the presentation-only bin table are omitted."
+
+[[extra.translation.function]]
+r_name = "na.interpolation"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_interpolation"
+fortran_names = ["na_interpolation"]
+fortran_source = "src/imputets_interpolation.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_interpolation; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.kalman"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_kalman"
+fortran_names = ["na_kalman"]
+fortran_source = "src/imputets_kalman.f90"
+status = "partial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_kalman; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.locf"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_locf"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_locf; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.ma"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_ma"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_ma; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.mean"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_mean"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_mean; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.random"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_random"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_random; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.remove"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_remove"]
+fortran_source = "src/imputets_basic.f90"
+status = "complete"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_remove; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.replace"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_basic"
+fortran_names = ["na_replace"]
+fortran_source = "src/imputets_basic.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_replace; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.seadec"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_seasonal"
+fortran_names = ["na_seadec"]
+fortran_source = "src/imputets_seasonal.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_seadec; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
+
+[[extra.translation.function]]
+r_name = "na.seasplit"
+r_source = "upstream/R/deprecated_defunct.R"
+fortran_module = "imputets_seasonal"
+fortran_names = ["na_seasplit"]
+fortran_source = "src/imputets_seasonal.f90"
+status = "substantial"
+notes = "Deprecated R wrapper mapped to the same Fortran procedure as na_seasplit; deprecation warnings and R argument forwarding syntax are interface behavior and are omitted."
