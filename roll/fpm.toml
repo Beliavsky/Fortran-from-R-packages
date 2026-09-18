@@ -1,0 +1,193 @@
+name = "roll"
+version = "1.2.1"
+license = "GPL-2.0-or-later"
+author = "Jason Foster; Fortran translation contributors"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of computational rolling statistics from the R package roll"
+categories = ["statistics", "time-series"]
+keywords = ["rolling", "moving-window", "statistics", "regression", "R"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 18
+r_functions_translated = 18
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "roll_all"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_all_vec", "roll_all_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Vector and matrix rolling all are translated; R object attributes and parallel online/offline worker selection are omitted."
+
+[[extra.translation.function]]
+r_name = "roll_any"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_any_vec", "roll_any_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Vector and matrix rolling any are translated; R object attributes and parallel online/offline worker selection are omitted."
+
+[[extra.translation.function]]
+r_name = "roll_sum"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_sum_vec", "roll_sum_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted vector and matrix rolling sums are translated; the online flag uses the deterministic batch kernel."
+
+[[extra.translation.function]]
+r_name = "roll_prod"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_prod_vec", "roll_prod_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted vector and matrix rolling products are translated; the online flag uses the deterministic batch kernel."
+
+[[extra.translation.function]]
+r_name = "roll_mean"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_mean_vec", "roll_mean_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted vector and matrix rolling means and missing-value rules are translated."
+
+[[extra.translation.function]]
+r_name = "roll_min"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_min_vec", "roll_min_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Vector and matrix rolling minima are translated."
+
+[[extra.translation.function]]
+r_name = "roll_max"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_max_vec", "roll_max_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Vector and matrix rolling maxima are translated."
+
+[[extra.translation.function]]
+r_name = "roll_idxmin"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_idxmin_vec", "roll_idxmin_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Window-relative one-based minimum indices and upstream tie handling are translated."
+
+[[extra.translation.function]]
+r_name = "roll_idxmax"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_idxmax_vec", "roll_idxmax_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Window-relative one-based maximum indices and upstream tie handling are translated."
+
+[[extra.translation.function]]
+r_name = "roll_median"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_median_vec", "roll_median_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted median uses the same type-2 empirical-quantile convention; online-specific equal-weight restrictions are not separately enforced."
+
+[[extra.translation.function]]
+r_name = "roll_quantile"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_quantile_vec", "roll_quantile_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted Hyndman-Fan type-2 rolling quantiles are translated; online-specific equal-weight restrictions are not separately enforced."
+
+[[extra.translation.function]]
+r_name = "roll_var"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_var_vec", "roll_var_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted unbiased rolling variance with optional zero centering is translated."
+
+[[extra.translation.function]]
+r_name = "roll_sd"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_sd_vec", "roll_sd_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Weighted rolling standard deviation is translated."
+
+[[extra.translation.function]]
+r_name = "roll_scale"
+r_source = "upstream/R/roll.R"
+fortran_modules = ["roll_univariate", "roll_matrix"]
+fortran_names = ["roll_scale_vec", "roll_scale_mat"]
+fortran_sources = ["src/roll_univariate.f90", "src/roll_matrix.f90"]
+status = "substantial"
+notes = "Rolling centering/scaling and latest-finite-observation behavior are translated."
+
+[[extra.translation.function]]
+r_name = "roll_cov"
+r_source = "upstream/R/roll.R"
+fortran_module = "roll_multivariate"
+fortran_names = ["roll_cov_vec", "roll_cov_mat"]
+fortran_source = "src/roll_multivariate.f90"
+status = "substantial"
+notes = "Vector covariance and matrix pair-cube covariance are translated with unbiased weighted denominators and complete/pairwise row handling."
+
+[[extra.translation.function]]
+r_name = "roll_cor"
+r_source = "upstream/R/roll.R"
+fortran_module = "roll_multivariate"
+fortran_names = ["roll_cor_vec", "roll_cor_mat"]
+fortran_source = "src/roll_multivariate.f90"
+status = "substantial"
+notes = "Vector and matrix pair-cube rolling correlations are translated."
+
+[[extra.translation.function]]
+r_name = "roll_crossprod"
+r_source = "upstream/R/roll.R"
+fortran_module = "roll_multivariate"
+fortran_names = ["roll_crossprod_vec", "roll_crossprod_mat"]
+fortran_source = "src/roll_multivariate.f90"
+status = "substantial"
+notes = "Centered/scaled rolling crossproducts are translated for vectors and matrix pair cubes."
+
+[[extra.translation.function]]
+r_name = "roll_lm"
+r_source = "upstream/R/roll.R"
+fortran_module = "roll_multivariate"
+fortran_names = ["roll_lm_vec", "roll_lm_mat"]
+fortran_source = "src/roll_multivariate.f90"
+status = "substantial"
+notes = "Rolling weighted least-squares coefficients, R-squared values, and standard errors are translated; R list/class/dimname construction and warnings are omitted."
