@@ -1,0 +1,42 @@
+citHeader("If you use any of the L2-norm penalties (penalty='grLasso', 'grMCP', or 'grSCAD'), cite the Statistics and Computing article.  If you use the group exponential lasso (penalty='gel'), cite the Biometrics article.  If you use the composite MCP (penalty='cMCP') or group bridge penalties, cite the Statistics and its Interface (2009) article; note that the penalty is referred to as the 'group MCP' in the original article, but it would be better to refer to it as 'composite MCP' in future works.")
+
+bibentry(
+  bibtype = "Article",
+  author = c(
+    person("Patrick", "Breheny"),
+    person("Jian", "Huang")
+  ),
+  title = "Group descent algorithms for nonconvex penalized linear and logistic regression models with grouped predictors",
+  journal = "Statistics and Computing",
+  year = 2015,
+  volume = 25,
+  number = 2,
+  pages = "173--187",
+  doi = "10.1007/s11222-013-9424-2",
+  url = "https://dx.doi.org/10.1007/s11222-013-9424-2")
+
+bibentry(
+  bibtype = "Article",
+  author = person("Patrick", "Breheny"),
+  title = "The group exponential lasso for bi-level variable selection",
+  journal = "Biometrics",
+  year = 2015,
+  volume = 71,
+  number = 3,
+  pages = "731--740",
+  doi = "10.1111/biom.12300",
+  url = "https://dx.doi.org/10.1111/biom.12300")
+
+bibentry(
+  bibtype = "Article",
+  author = c(
+    person("Patrick", "Breheny"),
+    person("Jian", "Huang")
+  ),
+  title = "Penalized methods for bi-level variable selection",
+  journal = "Statistics and Its Interface",
+  year = 2009,
+  volume = 2,
+  pages = "369--380",
+  doi = "10.4310/sii.2009.v2.n3.a10")
+

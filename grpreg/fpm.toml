@@ -1,0 +1,201 @@
+name = "grpreg"
+version = "3.6.0"
+license = "GPL-3.0-only"
+author = "Patrick Breheny, Ryan Miller, Yaohui Zeng, Ryan Kurth; Fortran translation"
+maintainer = "Fortran translation project"
+description = "Modern Fortran translation of the computational core of the R package grpreg"
+categories = ["statistics", "regression", "regularization"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[[test]]
+name = "test_grpreg"
+source-dir = "test"
+main = "test_grpreg.f90"
+
+[[example]]
+name = "basic_usage"
+source-dir = "example"
+main = "basic_usage.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 19
+r_functions_translated = 19
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "grpreg"
+r_source = "upstream/R/grpreg.R"
+fortran_module = "grpreg_api"
+fortran_names = ["grpreg_fit"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Gaussian, binomial, and Poisson grouped paths with grLasso, grMCP, grSCAD, gel, and cMCP are translated. Multitask matrix responses and screening accelerators are omitted."
+
+[[extra.translation.function]]
+r_name = "grpsurv"
+r_source = "upstream/R/grpsurv.R"
+fortran_module = "grpreg_api"
+fortran_names = ["grpsurv_fit"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Grouped Cox paths and the five main penalties are translated. R object construction and screening accelerators are omitted."
+
+[[extra.translation.function]]
+r_name = "gBridge"
+r_source = "upstream/R/gBridge.R"
+fortran_module = "grpreg_api"
+fortran_names = ["gbridge_fit"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Group bridge fitting includes the upstream special lambda path and delta deletion threshold. Multitask response handling is omitted."
+
+[[extra.translation.function]]
+r_name = "cv.grpreg"
+r_source = "upstream/R/cv-grpreg.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["cv_grpreg"]
+fortran_source = "src/grpreg_cv.f90"
+status = "substantial"
+notes = "K-fold deviance cross-validation is translated for Gaussian, binomial, and Poisson models. Default folds are deterministic rather than R-random and multitask responses are omitted."
+
+[[extra.translation.function]]
+r_name = "cv.grpsurv"
+r_source = "upstream/R/cv-grpsurv.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["cv_grpsurv"]
+fortran_source = "src/grpreg_cv.f90"
+status = "substantial"
+notes = "Cross-validated Cox linear predictors and the upstream quick standard-error calculation are translated. Bootstrap SE is omitted and default folds are deterministic."
+
+[[extra.translation.function]]
+r_name = "expand_spline"
+r_source = "upstream/R/expand_spline.R"
+fortran_module = "grpreg_spline"
+fortran_names = ["expand_spline", "predict_spline"]
+fortran_source = "src/grpreg_spline.f90"
+status = "substantial"
+notes = "B-splines reproduce the standard basis construction. Natural cubic splines span the same constrained spline space but may differ from R's ns() by an orthonormal basis rotation."
+
+[[extra.translation.function]]
+r_name = "gen_nonlinear_data"
+r_source = "upstream/R/gen_nonlinear_data.R"
+fortran_module = "grpreg_data"
+fortran_names = ["gen_nonlinear_data"]
+fortran_source = "src/grpreg_data.f90"
+status = "substantial"
+notes = "The six nonlinear signals and Gaussian noise model are translated; Fortran RNG streams intentionally do not match R."
+
+[[extra.translation.function]]
+r_name = "mfdr"
+r_source = "upstream/R/mfdr.R"
+fortran_module = "grpreg_mfdr"
+fortran_names = ["mfdr_grpreg"]
+fortran_source = "src/grpreg_mfdr.f90"
+status = "substantial"
+notes = "Gaussian, binomial, and Cox marginal false-discovery calculations are translated using the package's working group design and chi-square tails."
+
+[[extra.translation.function]]
+r_name = "AUC.cv.grpsurv"
+r_source = "upstream/R/auc.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["auc_cv_grpsurv"]
+fortran_source = "src/grpreg_cv.f90"
+status = "partial"
+notes = "Cross-validated survival concordance is provided with explicit comparable-pair handling. survival::concordancefit tie weighting and all R object semantics are not reproduced."
+
+[[extra.translation.function]]
+r_name = "coef.grpreg"
+r_source = "upstream/R/predict.R"
+fortran_module = "grpreg_api"
+fortran_names = ["coef_grpreg"]
+fortran_source = "src/grpreg_api.f90"
+status = "complete"
+notes = "Raw-scale coefficient extraction with linear interpolation in lambda is translated."
+
+[[extra.translation.function]]
+r_name = "coef.cv.grpreg"
+r_source = "upstream/R/predict-cv.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["coef_cv_grpreg"]
+fortran_source = "src/grpreg_cv.f90"
+status = "complete"
+notes = "Coefficient extraction at the minimum-CV lambda is translated."
+
+[[extra.translation.function]]
+r_name = "logLik.grpreg"
+r_source = "upstream/R/logLik.R"
+fortran_module = "grpreg_api"
+fortran_names = ["loglik_grpreg"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Gaussian, binomial, and Poisson path log likelihoods and effective df are translated, including the Gaussian REML scale switch."
+
+[[extra.translation.function]]
+r_name = "logLik.grpsurv"
+r_source = "upstream/R/logLik.R"
+fortran_module = "grpreg_api"
+fortran_names = ["loglik_grpreg"]
+fortran_source = "src/grpreg_api.f90"
+status = "complete"
+notes = "Cox partial log likelihood and effective df are returned from the shared log-likelihood procedure."
+
+[[extra.translation.function]]
+r_name = "predict.grpreg"
+r_source = "upstream/R/predict.R"
+fortran_module = "grpreg_api"
+fortran_names = ["predict_grpreg", "coef_grpreg", "count_nonzero", "count_nonzero_groups", "group_norms"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Link/response/class predictions, coefficients, active-variable/group counts, and group norms are translated. R naming/drop semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.cv.grpreg"
+r_source = "upstream/R/predict-cv.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["predict_cv_grpreg"]
+fortran_source = "src/grpreg_cv.f90"
+status = "substantial"
+notes = "Prediction at the minimum-CV lambda is translated for regression and Cox objects."
+
+[[extra.translation.function]]
+r_name = "predict.grpsurv"
+r_source = "upstream/R/predict-surv.R"
+fortran_module = "grpreg_api"
+fortran_names = ["predict_grpsurv_link", "predict_grpsurv_survival", "predict_grpsurv_hazard", "predict_grpsurv_median"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Link, survival, cumulative-hazard, and median predictions use the upstream Kalbfleisch-Prentice-style baseline calculation. R function-object return semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "residuals.grpreg"
+r_source = "upstream/R/residuals.R"
+fortran_module = "grpreg_api"
+fortran_names = ["residuals_grpreg"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "Gaussian and GLM deviance residuals plus Cox deviance residuals are translated. Lambda interpolation of residual matrices is not a separate wrapper."
+
+[[extra.translation.function]]
+r_name = "select.grpreg"
+r_source = "upstream/R/select.R"
+fortran_module = "grpreg_api"
+fortran_names = ["select_grpreg"]
+fortran_source = "src/grpreg_api.f90"
+status = "substantial"
+notes = "AIC, BIC, GCV, AICc, and EBIC selection are translated. The optional smooth.spline smoothing of the criterion is omitted."
+
+[[extra.translation.function]]
+r_name = "summary.cv.grpreg"
+r_source = "upstream/R/summary-cv-grpreg.R"
+fortran_module = "grpreg_cv"
+fortran_names = ["summarize_cv_grpreg"]
+fortran_source = "src/grpreg_cv.f90"
+status = "substantial"
+notes = "Cross-validated R-squared/deviance explained, SNR, Gaussian scale, and active variable/group counts are translated without R printing metadata."
