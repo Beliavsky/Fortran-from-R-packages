@@ -1,0 +1,14 @@
+useDynLib("kza", .registration=TRUE, .fixes = "C_")
+export(kz, kzs, kzsv, kza, transfer_function, kzft, kztp, periodogram, rlv)
+
+importFrom("graphics", "par", "plot")
+importFrom("stats", "cycle", "fft", "frequency", "is.ts", "start", "time", "ts", "var")
+importFrom("stats", "sd")
+
+S3method(plot, kza)
+S3method(plot, kzp)
+S3method(plot, kzsv)
+S3method(summary, kzp)
+S3method(summary, kzsv)
+
+

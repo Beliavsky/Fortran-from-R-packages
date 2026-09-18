@@ -1,0 +1,19 @@
+Package: kza
+Version: 4.2.0
+Date: 2026-09-01
+Title: Kolmogorov-Zurbenko Adaptive Filters
+Authors@R: c(person(given = "Brian", family = "Close", role = c("aut", "cre"), email = "brian.close@gmail.com"),
+    person(given = "Igor", family = "Zurbenko", role = "aut", email = "IZurbenko@albany.edu"),
+    person(given = "Mingzeng", family = "Sun", role = "aut", email = "msun@albany.edu"))
+Description: Time Series Analysis including break detection, spectral analysis, KZ Fourier Transforms.
+Suggests: polynom, testthat
+SystemRequirements: fftw (>= 3.2.2)
+License: GPL-3
+NeedsCompilation: yes
+Packaged: 2026-09-01 14:38:14 UTC; brianclose
+Author: Brian Close [aut, cre],
+  Igor Zurbenko [aut],
+  Mingzeng Sun [aut]
+Maintainer: Brian Close <brian.close@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-09-15 02:10:14 UTC

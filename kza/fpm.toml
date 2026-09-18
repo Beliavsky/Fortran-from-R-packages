@@ -1,0 +1,106 @@
+name = "kza"
+version = "4.2.0"
+license = "GPL-3.0-only"
+author = "Brian Close, Igor Zurbenko, Mingzeng Sun; Fortran translation"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran translation of the computational kernels in the R package kza"
+categories = ["time-series", "signal-processing", "statistics"]
+keywords = ["Kolmogorov-Zurbenko", "adaptive-filter", "spectral-analysis", "rolling-variance"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[install]
+library = true
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 9
+r_functions_translated = 9
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "kz"
+r_source = "upstream/R/kza.R"
+fortran_module = "kza_filters"
+fortran_names = ["kz"]
+fortran_source = "src/kza_filters.f90"
+status = "substantial"
+notes = "The 1D, 2D, and 3D iterated finite-value moving-average kernels are translated. R ts metadata and automatic class restoration are omitted."
+
+[[extra.translation.function]]
+r_name = "kza"
+r_source = "upstream/R/kza.R"
+fortran_module = "kza_filters"
+fortran_names = ["kza"]
+fortran_source = "src/kza_filters.f90"
+status = "substantial"
+notes = "The 1D, 2D, and 3D adaptive kernels, full-window 4.2.0 semantics, min_size, tolerance, max/quantile normalization, 1D tail marking, and 2D rotation symmetrization are translated. The heterogeneous R list/class/call object and ts metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "kzsv"
+r_source = "upstream/R/kza.R"
+fortran_module = "kza_filters"
+fortran_names = ["kzsv"]
+fortran_source = "src/kza_filters.f90"
+status = "substantial"
+notes = "The adaptive local sample-variance calculation is translated. Fortran accepts the KZA and KZ numeric series plus window controls directly rather than an R kza S3 object."
+
+[[extra.translation.function]]
+r_name = "kzs"
+r_source = "upstream/R/kza.R"
+fortran_module = "kza_spectral"
+fortran_names = ["kzs"]
+fortran_source = "src/kza_spectral.f90"
+status = "substantial"
+notes = "The zero-frequency KZFT spline and upstream data-driven default window are translated. R ts metadata are omitted; the upstream t argument is retained but remains unused as in R."
+
+[[extra.translation.function]]
+r_name = "transfer_function"
+r_source = "upstream/R/kzft.R"
+fortran_module = "kza_spectral"
+fortran_names = ["transfer_function"]
+fortran_source = "src/kza_spectral.f90"
+status = "complete"
+notes = "The complex KZFT transfer-response calculation and default frequency grid are translated directly."
+
+[[extra.translation.function]]
+r_name = "kzft"
+r_source = "upstream/R/kzft.R"
+fortran_module = "kza_spectral"
+fortran_names = ["kzft"]
+fortran_source = "src/kza_spectral.f90"
+status = "substantial"
+notes = "The iterative missing-aware local Fourier transform, asymmetric even-window alignment, padding, phase factors, and non-integer m behavior are translated. R vector attributes are not reproduced."
+
+[[extra.translation.function]]
+r_name = "kztp"
+r_source = "upstream/R/kzft.R"
+fortran_module = "kza_spectral"
+fortran_names = ["kztp"]
+fortran_source = "src/kza_spectral.f90"
+status = "substantial"
+notes = "The KZFT frequency bank and third-order cross-frequency average are translated, including R ties-to-even rounding for box limits. Progress printing and R array attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "periodogram"
+r_source = "upstream/R/kzft.R"
+fortran_module = "kza_spectral"
+fortran_names = ["periodogram"]
+fortran_source = "src/kza_spectral.f90"
+status = "substantial"
+notes = "The same unnormalized forward-DFT magnitudes and upstream x-axis convention are returned. A dependency-free direct DFT replaces stats::fft, changing performance and floating-point summation order but not the estimator."
+
+[[extra.translation.function]]
+r_name = "rlv"
+r_source = "upstream/R/rlv.R"
+fortran_module = "kza_rlv"
+fortran_names = ["rlv"]
+fortran_source = "src/kza_rlv.f90"
+status = "complete"
+notes = "The 1D, 2D, and 3D centered rolling sample variance, clamp and legacy zero-padding policies, krnl=1 one-sided corner maxima, and clamp-mode missing-data guard are translated."
