@@ -1,0 +1,18 @@
+Validation date: 2026-09-13
+Compiler: GNU Fortran 14.2.0
+
+FPM commands attempted from package root:
+  fpm build       -> exit 127, command not found
+  fpm test        -> exit 127, command not found
+  fpm clean --all -> exit 127, command not found
+
+Direct strict gfortran validation:
+  -O0 -fcheck=all -fbacktrace -Wall -Wextra -Werror -pedantic : PASS
+  -O2 -Wall -Wextra -Werror -pedantic                         : PASS
+  deterministic test suite                                     : PASS
+  example                                                      : PASS
+  independent NumPy/SciPy parity                               : PASS
+  static source/coverage audit                                 : PASS
+
+Coverage: 11/11 exported computational R functions mapped (100%)
+Package status: substantial

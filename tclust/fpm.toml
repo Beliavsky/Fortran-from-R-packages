@@ -1,0 +1,133 @@
+name = "tclust"
+version = "2.2.1"
+license = "GPL-3.0-or-later"
+author = "Valentin Todorov, Luis Angel Garcia Escudero, Agustin Mayo Iscar, Javier Crespo Guerrero, Heinrich Fritz; Fortran translation by contributors to Fortran-from-R-packages"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of the R package tclust"
+categories = ["clustering", "statistics", "robust-statistics"]
+keywords = ["trimmed-clustering", "robust-clustering", "kmeans", "mixture-models"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_tclust"
+source-dir = "test"
+main = "test_tclust.f90"
+
+[[example]]
+name = "tclust_example"
+source-dir = "example"
+main = "tclust_example.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 11
+r_functions_translated = 11
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "simula.rlg"
+r_source = "upstream/R/simul_rlg.R"
+fortran_module = "tclust_mod"
+fortran_names = ["simulate_rlg"]
+fortran_source = "src/tclust_simulation.f90"
+status = "substantial"
+notes = "The three affine components, Gaussian scatter, contamination, and true labels are translated. The intrinsic Fortran RNG is used instead of reproducing R's RNG stream exactly."
+
+[[extra.translation.function]]
+r_name = "simula.tclust"
+r_source = "upstream/R/simul_tclust.R"
+fortran_module = "tclust_mod"
+fortran_names = ["simulate_tclust"]
+fortran_source = "src/tclust_simulation.f90"
+status = "substantial"
+notes = "The spherical and elliptical three- and six-cluster scenarios and contamination are translated. Exact R RNG-stream compatibility is not attempted."
+
+[[extra.translation.function]]
+r_name = "rlg"
+r_source = "upstream/R/rlg.R"
+fortran_module = "tclust_mod"
+fortran_names = ["rlg", "rlg_refine"]
+fortran_source = "src/tclust_rlg.f90"
+status = "substantial"
+notes = "Robust clustering around affine subspaces, trimming, multistart concentration steps, PCA directions, and refinement are translated. R's optional median/MAD scaling, parallel interface, plotting object structure, and exact initialization stream are omitted."
+
+[[extra.translation.function]]
+r_name = "tclust"
+r_source = "upstream/R/tclust.R"
+fortran_modules = ["tclust_mod", "tclust_restrictions"]
+fortran_names = ["tclust", "tclust_refine", "tclust_information_criteria"]
+fortran_sources = ["src/tclust_core.f90", "src/tclust_restrictions.f90"]
+status = "substantial"
+notes = "HARD and MIXT trimmed Gaussian clustering, eigenvalue and determinant/shape restrictions, multistart refinement, posterior probabilities, Mahalanobis distances, and CLA/BIC/ICL criteria are translated. GPCM covariance-pattern restrictions, R center/scale callbacks, parallel execution, S3 object construction, and exact R RNG behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "DiscrFact"
+r_source = "upstream/R/DiscrFact.R"
+fortran_module = "tclust_mod"
+fortran_names = ["discr_fact"]
+fortran_source = "src/tclust_diagnostics.f90"
+status = "substantial"
+notes = "Weighted Gaussian best/second assignments, trimming boundary, discriminant factors, doubtful threshold, and cluster means are translated. Plotting and S3 presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "ctlcurves"
+r_source = "upstream/R/ctlcurves.R"
+fortran_module = "tclust_mod"
+fortran_names = ["ctlcurves"]
+fortran_source = "src/tclust_diagnostics.f90"
+status = "substantial"
+notes = "The k-by-alpha fit grid, objectives, minimum weights, unrestricted factors, doubtful assignments, and chi-square outlier counts are translated. Parallel progress/UI behavior and arbitrary R dots are omitted."
+
+[[extra.translation.function]]
+r_name = "tkmeans"
+r_source = "upstream/R/tkmeans.R"
+fortran_module = "tclust_mod"
+fortran_names = ["tkmeans", "tkmeans_refine"]
+fortran_source = "src/tclust_tkmeans.f90"
+status = "substantial"
+notes = "Trimmed squared-distance assignment, multistart concentration steps, optional initial centers, and refinement are translated. R scaling callbacks, parallel execution, S3 presentation, and drop-empty-cluster interface behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "tclustIC"
+r_source = "upstream/R/tclustIC.R"
+fortran_module = "tclust_mod"
+fortran_names = ["tclust_ic"]
+fortran_source = "src/tclust_grid.f90"
+status = "substantial"
+notes = "CLA, BIC, and ICL grids over cluster counts and restriction factors are translated with HARD and MIXT classifications. The Fortran routine computes all three criteria together and omits parallel/R-list interface behavior."
+
+[[extra.translation.function]]
+r_name = "tclustICsol"
+r_source = "upstream/R/tclustICsol.R"
+fortran_module = "tclust_mod"
+fortran_names = ["tclust_ic_solutions"]
+fortran_source = "src/tclust_grid.f90"
+status = "partial"
+notes = "Adjacent restriction-factor stability using adjusted Rand or adjusted Fowlkes-Mallows indices and criterion ranking are translated. The elaborate R findBestSolutions uniformly-better/stability labeling heuristic and list-shaped outputs are simplified."
+
+[[extra.translation.function]]
+r_name = "randIndex"
+r_source = "upstream/R/randIndex.R"
+fortran_module = "tclust_mod"
+fortran_names = ["rand_index_labels", "rand_index_table"]
+fortran_source = "src/tclust_metrics.f90"
+status = "complete"
+notes = "The adjusted Rand, Rand, Mirkin, and Hubert formulas are translated for integer label vectors and contingency tables, including optional noise-label exclusion."
+
+[[extra.translation.function]]
+r_name = "FowlkesMallowsIndex"
+r_source = "upstream/R/FowlkesMallowsIndex.R"
+fortran_module = "tclust_mod"
+fortran_names = ["fowlkes_mallows_labels", "fowlkes_mallows_table"]
+fortran_source = "src/tclust_metrics.f90"
+status = "complete"
+notes = "Raw and adjusted Fowlkes-Mallows indices, null expectation, and variance are translated for integer label vectors and contingency tables, including optional noise-label exclusion."

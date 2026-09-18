@@ -1,0 +1,72 @@
+useDynLib(tclust, .registration = TRUE)
+importFrom(Rcpp, evalCpp)
+
+importFrom("stats", "mad", "median", "na.omit", "rnorm", "runif")
+importFrom("stats", "heatmap", "princomp", "qchisq", "cov")
+importFrom("stats", "mahalanobis", "qnorm", "quantile", "sd")
+importFrom("stats", "density")
+importFrom("utils", "flush.console", "setTxtProgressBar", "txtProgressBar")
+importFrom("grDevices", "dev.interactive", "n2mfrow", "grey")
+importFrom("graphics", "barplot", "layout", "legend", "lines", "par", "text")
+importFrom("graphics", "axis", "box", "mtext", "plot.new", "points", "title")
+importFrom("graphics", "abline", "polygon")
+importFrom("graphics", "boxplot", "pairs")
+importFrom("MASS", "mvrnorm")
+importFrom("parallel", "detectCores", "makeCluster", "stopCluster")
+importFrom("methods", "is")
+import("foreach", "foreach")
+import(doParallel)
+
+importFrom("rlang", "check_dots_used")
+
+export(
+    simula.rlg,
+    simula.tclust,
+    rlg,
+#    print.rlg,
+    plot.rlg,
+    tclust,
+    print.tclust,
+    plot.tclust,
+    DiscrFact,
+    print.DiscrFact,
+    summary.DiscrFact,
+    plot.DiscrFact,
+#    plot_DiscrFact_p2,
+#    plot_DiscrFact_p3,
+    ctlcurves,
+    print.ctlcurves,
+    plot.ctlcurves,
+    
+#    tclust_c1,
+#    tclust_c2,
+    
+    tkmeans,
+    print.tkmeans,
+    plot.tkmeans,
+    tclustIC,
+    tclustICsol,
+    randIndex,
+    FowlkesMallowsIndex
+)
+
+#   S3method (print, rlg)
+S3method (plot, rlg)
+S3method (print, tclust)
+S3method (plot, tclust)
+S3method (print, DiscrFact)
+S3method (summary, DiscrFact)
+S3method (plot, DiscrFact)
+S3method (print, ctlcurves)
+S3method (plot, ctlcurves)
+S3method (print, tkmeans)
+S3method (plot, tkmeans)
+S3method (print, tclustIC)
+S3method (summary, tclustIC)
+S3method (print, summary.tclustIC)
+S3method (plot, tclustIC)
+S3method (print, tclustICsol)
+S3method (summary, tclustICsol)
+S3method (print, summary.tclustICsol)
+S3method (plot, tclustICsol)
+
