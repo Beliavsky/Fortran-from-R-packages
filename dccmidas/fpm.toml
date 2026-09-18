@@ -1,0 +1,226 @@
+name = "dccmidas"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Vincenzo Candila; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of the R package dccmidas"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+roll = { path = "../roll" }
+rumidas = { path = "../rumidas" }
+rugarch_fortran = { path = "../rugarch" }
+maxlik = { path = "../maxLik" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 22
+r_functions_translated = 22
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "dccmidas_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["dccmidas_loglik"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "substantial"
+notes = "The DCC-MIDAS likelihood recursion is translated; R array/list validation and xts metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "dccmidas_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["dccmidas_mat_est"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "substantial"
+notes = "Conditional covariance, correlation, and long-run correlation recursions are translated using sibling rumidas and roll weighting APIs."
+
+[[extra.translation.function]]
+r_name = "riskmetrics_mat"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["riskmetrics_mat"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "The upstream RiskMetrics recursion, including its lambda placement, is preserved for a complete numeric return matrix."
+
+[[extra.translation.function]]
+r_name = "moving_cov"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["moving_cov"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "The moving average of lagged raw return outer products is translated; xts alignment is omitted."
+
+[[extra.translation.function]]
+r_name = "sBEKK_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_bekk"
+fortran_names = ["sBEKK_loglik"]
+fortran_source = "src/dccmidas_bekk.f90"
+status = "complete"
+notes = "Scalar BEKK likelihood recursion and the upstream lower-triangular C parameter ordering are translated."
+
+[[extra.translation.function]]
+r_name = "sBEKK_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_bekk"
+fortran_names = ["sBEKK_mat_est"]
+fortran_source = "src/dccmidas_bekk.f90"
+status = "complete"
+notes = "Scalar BEKK conditional covariance recursion is translated for two through five assets."
+
+[[extra.translation.function]]
+r_name = "dBEKK_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_bekk"
+fortran_names = ["dBEKK_loglik"]
+fortran_source = "src/dccmidas_bekk.f90"
+status = "complete"
+notes = "Diagonal BEKK likelihood recursion is translated with generalized parameter unpacking equivalent to the upstream 2-5 asset branches."
+
+[[extra.translation.function]]
+r_name = "dBEKK_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_bekk"
+fortran_names = ["dBEKK_mat_est"]
+fortran_source = "src/dccmidas_bekk.f90"
+status = "complete"
+notes = "Diagonal BEKK covariance recursion is translated for two through five assets."
+
+[[extra.translation.function]]
+r_name = "dcc_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["dcc_loglik"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "The upstream corrected-DCC likelihood and lagged diagonal rescaling are translated."
+
+[[extra.translation.function]]
+r_name = "dcc_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["dcc_mat_est"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "Corrected-DCC conditional correlation and covariance paths are translated."
+
+[[extra.translation.function]]
+r_name = "a_dcc_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["a_dcc_loglik"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "Asymmetric-DCC likelihood recursion, negative-residual covariance adjustment, and upstream indexing convention are preserved."
+
+[[extra.translation.function]]
+r_name = "a_dcc_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["a_dcc_mat_est"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "Asymmetric-DCC conditional covariance and correlation paths are translated."
+
+[[extra.translation.function]]
+r_name = "a_dccmidas_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["a_dccmidas_loglik"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "substantial"
+notes = "The asymmetric DCC-MIDAS likelihood is translated, including the upstream t=2 start; R object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "a_dccmidas_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["a_dccmidas_mat_est"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "substantial"
+notes = "The asymmetric DCC-MIDAS matrix recursion and upstream initial-H mean fill are translated."
+
+[[extra.translation.function]]
+r_name = "deco_loglik"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["deco_loglik"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "DECO likelihood estimation from the corrected-DCC path and equicorrelation transform is translated."
+
+[[extra.translation.function]]
+r_name = "deco_mat_est"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_dcc"
+fortran_names = ["deco_mat_est"]
+fortran_source = "src/dccmidas_dcc.f90"
+status = "complete"
+notes = "DECO equicorrelation and covariance paths are translated."
+
+[[extra.translation.function]]
+r_name = "QMLE_sd"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["qmle_sd"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "The sandwich QML standard-error calculation from Hessian and observation-wise gradients is translated."
+
+[[extra.translation.function]]
+r_name = "dcc_fit"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_fit"
+fortran_names = ["dcc_fit", "dcc_fit_second_stage"]
+fortran_source = "src/dccmidas_fit.f90"
+status = "substantial"
+notes = "The in-sample two-step workflow reuses sibling rugarch/rumidas/maxLik translations. Out-of-sample rolling forecasts, xts dates, S3 construction, and non-norm/std first-stage distributions are omitted. GARCH-MIDAS uses precomputed lag matrices rather than R list/date conversion."
+
+[[extra.translation.function]]
+r_name = "cov_eval"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["cov_eval"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "All five upstream covariance-loss formulas are preserved, including the package-specific SFROB, QLIKE, and RMSE definitions."
+
+[[extra.translation.function]]
+r_name = "bekk_fit"
+r_source = "upstream/R/functions.R"
+fortran_module = "dccmidas_fit"
+fortran_names = ["bekk_fit"]
+fortran_source = "src/dccmidas_fit.f90"
+status = "substantial"
+notes = "In-sample scalar/diagonal BEKK fitting uses sibling maxLik and QML errors. Upstream random multi-start selection, out-of-sample handling, and xts/S3 metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "Det"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["det_matrix"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "The Armadillo determinant helper is replaced by rfortran-linalg determinant through a public package wrapper."
+
+[[extra.translation.function]]
+r_name = "Inv"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "dccmidas_evaluation"
+fortran_names = ["inv_matrix"]
+fortran_source = "src/dccmidas_evaluation.f90"
+status = "complete"
+notes = "The Armadillo inverse helper is replaced by rfortran-linalg inverse_matrix through a public package wrapper."
