@@ -1,0 +1,40 @@
+#!/bin/sh
+
+CC_CMD=${CC:-cc}
+ARCH=$(uname -m 2>/dev/null || echo unknown)
+SIMD_OBJECTS=""
+AVX2_CFLAGS=""
+AVX512_CFLAGS=""
+BUILD_SIMD_DEFINES=""
+
+supports_flags() {
+  flags="$1"
+  cat > conftest.c <<'EOF'
+int main(void) {
+  return 0;
+}
+EOF
+  ${CC_CMD} ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} ${flags} -c conftest.c -o conftest.o \
+    >/dev/null 2>&1
+  status=$?
+  rm -f conftest.c conftest.o
+  return $status
+}
+
+case "$ARCH" in
+  x86_64|amd64|i686|i386)
+    if supports_flags "-mavx2 -mfma"; then
+      SIMD_OBJECTS="avx2.o inplace_logexp.o sleef.o"
+      AVX2_CFLAGS="-mavx2 -mfma"
+      BUILD_SIMD_DEFINES="-DBUILD_AVX2"
+    fi
+    ;;
+esac
+
+sed -e "s|@SIMD_OBJECTS@|${SIMD_OBJECTS}|g" \
+    -e "s|@AVX2_CFLAGS@|${AVX2_CFLAGS}|g" \
+    -e "s|@AVX512_CFLAGS@|${AVX512_CFLAGS}|g" \
+    -e "s|@BUILD_SIMD_DEFINES@|${BUILD_SIMD_DEFINES}|g" \
+    src/Makevars.in > src/Makevars
+
+exit 0

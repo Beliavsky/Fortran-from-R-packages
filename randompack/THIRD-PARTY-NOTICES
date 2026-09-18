@@ -1,0 +1,72 @@
+MIT License
+
+Copyright (c) 2026 Kristján Jónasson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+THIRD-PARTY NOTICES
+
+This software includes or adapts code from the following projects:
+
+xoshiro256++ / xoshiro256**
+Blackman, Vigna — https://prng.di.unimi.it/ — Public Domain
+Files: src/xoshiro256pp.inc, src/xoshiro256ss.inc
+
+NumPy random distributions
+NumPy — https://github.com/numpy/numpy — BSD-3-Clause
+Files: src/norm_exp.inc, src/norm_exp_float.inc
+
+
+OpenLibm / fdlibm math routines
+OpenLibm contributors / Sun Microsystems-derived fdlibm — BSD-2-Clause
+Files: upstream/src/openlibm.inc; translated double-precision routines in
+src/randompack_openlibm.f90
+
+Random123 (Philox)
+Salmon et al. — https://www.deshawresearch.com/resources_random123.html — BSD
+Files: src/philox4x64.inc
+
+PCG64-DXSM
+Melissa O’Neill — https://www.pcg-random.org/ — 0BSD (MIT-0)
+Files: src/pcg64_dxsm.inc
+
+ChaCha20 portable
+D. J. Bernstein — https://cr.yp.to/chacha.html — CC0
+Files: src/chacha-portable.inc, src/chacha-portable.h
+
+randutils seed_seq_fe128
+Melissa O’Neill — https://github.com/imneme/pcg-cpp — MIT
+Files: src/seed_seq_fe128.inc, tests/randutils.hpp
+
+SLEEF
+SLEEF Project — https://github.com/shibatch/sleef — Boost Software License 1.0
+Files: src/sleef.c, src/sleef_arm.c, src/sleef_avx512.c
+
+getopt
+OpenBSD / NetBSD — https://github.com/openbsd/src — BSD-style
+Files: common/getopt.c, common/getopt.h
+
+AS241 (PPND16 inverse normal)
+Wichura et al. — Public Domain
+Files: tests/test_util.c
+
+LAPACK routines
+Netlib LAPACK — https://www.netlib.org/lapack/ — BSD-style
+Files: src/rp_dpstrf.c

@@ -1,0 +1,39 @@
+name = "randompack"
+version = "0.1.0"
+license = "BSD-3-Clause"
+author = "Kristjan Jonasson; Fortran translation by Vivek Rao and contributors"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of the R package randompack"
+categories = ["random-number-generation", "statistics"]
+keywords = ["rng", "random", "distributions", "fortran"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 1
+r_functions_translated = 1
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "randompack_rng"
+r_source = "upstream/R/rng.R"
+fortran_module = "randompack_rng_mod"
+fortran_names = ["randompack_rng"]
+fortran_source = "src/randompack_rng_mod.f90"
+status = "substantial"
+notes = "The R6 computational methods, all 14 engine names, state management, distributions, sampling operations, and MVN generation are mapped. Upstream Ziggurat/OpenLibm paths and vector ordering are matched for tested continuous distributions; gamma, beta, Student-t, F, transformed-family, discrete, and full-rank/pivoted-singular MVN PCG64 reference cases match upstream C bit-for-bit. The Fortran API is typed rather than R6/C-ABI compatible, serialization is Fortran-native, and randomize uses portable non-cryptographic entropy."
