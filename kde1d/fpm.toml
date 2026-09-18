@@ -1,0 +1,100 @@
+name = "kde1d"
+version = "1.2.2"
+license = "MIT"
+author = "Thomas Nagler and Thibault Vatter; modern Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "Copyright 2025 Thomas Nagler and Thibault Vatter"
+description = "Modern Fortran translation of the computational API of the R package kde1d"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 8
+r_functions_translated = 8
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "kde1d"
+r_source = "upstream/R/kde1d.R"
+fortran_module = "kde1d_api"
+fortran_names = ["kde1d_fit"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Local-polynomial KDE fitting, plug-in bandwidth selection, bounded support, weights, discrete jittering, zero inflation, and endpoint repair are translated. R ordered-factor/S3 object construction is represented by explicit Fortran arguments, and the binned Gaussian convolutions are evaluated directly rather than through Eigen FFT."
+
+[[extra.translation.function]]
+r_name = "dkde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["dkde1d"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Continuous densities, discrete probability masses, and zero-inflated hurdle values are translated. R ordered-factor coercion and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "pkde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["pkde1d"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Continuous, discrete, and zero-inflated CDF evaluation is translated; R ordered-factor coercion and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "qkde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["qkde1d"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Numerical quantile inversion is translated for all supported variable types. R ordered-factor reconstruction and level labels are omitted."
+
+[[extra.translation.function]]
+r_name = "rkde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["rkde1d"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Random generation uses the translated quantile transform. Pseudorandom streams and quasi-random scrambling are not bitwise compatible with R runif or randtoolbox::sobol."
+
+[[extra.translation.function]]
+r_name = "equi_jitter"
+r_source = "upstream/R/jitter.R"
+fortran_module = "kde1d_api"
+fortran_names = ["equi_jitter"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Numeric input is unchanged and integer category codes receive the same conditionally equidistant jitter. R factor classes and labels are not represented."
+
+[[extra.translation.function]]
+r_name = "logLik.kde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["kde1d_loglik"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "The fitted weighted log-likelihood is returned. R's logLik class and df attribute are represented separately by model%edf rather than attached attributes."
+
+[[extra.translation.function]]
+r_name = "summary.kde1d"
+r_source = "upstream/R/kde1d-methods.R"
+fortran_module = "kde1d_api"
+fortran_names = ["kde1d_summary"]
+fortran_source = "src/kde1d_api.f90"
+status = "substantial"
+notes = "Returns the same five computational summary values: nobs, bw, mult, loglik, and edf. R printing, names, and invisible-return behavior are omitted."

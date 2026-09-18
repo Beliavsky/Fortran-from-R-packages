@@ -1,0 +1,29 @@
+Package: kde1d
+Type: Package
+Title: Univariate Kernel Density Estimation
+Version: 1.2.2
+Authors@R: c(
+        person("Thomas", "Nagler",, "mail@tnagler.com", role = c("aut", "cre")),
+        person("Thibault", "Vatter",, "thibault.vatter@gmail.com", role = c("aut"))
+        )
+Description: Provides an efficient implementation of univariate local polynomial
+    kernel density estimators that can handle bounded, discrete, and zero-inflated
+    data. See Geenens and Wang (2018) <doi:10.48550/arXiv.1602.04862>,
+    Geenens (2014) <doi:10.48550/arXiv.1303.4121>, 
+    Nagler (2018a) <doi:10.48550/arXiv.1704.07457>, 
+    Nagler (2018b) <doi:10.48550/arXiv.1705.05431>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LinkingTo: BH, Rcpp, RcppEigen
+Imports: graphics, Rcpp, randtoolbox, stats, utils
+Suggests: BH, RcppEigen, testthat
+URL: https://tnagler.github.io/kde1d/
+BugReports: https://github.com/tnagler/kde1d/issues/
+Config/roxygen2/version: 8.0.0
+NeedsCompilation: yes
+Packaged: 2026-09-15 07:29:52 UTC; n5
+Author: Thomas Nagler [aut, cre],
+  Thibault Vatter [aut]
+Maintainer: Thomas Nagler <mail@tnagler.com>
+Repository: CRAN
+Date/Publication: 2026-09-15 09:50:02 UTC
