@@ -1,0 +1,123 @@
+name = "SteadyStateBVAR"
+version = "0.2.0"
+license = "GPL-3.0-or-later"
+author = "Mark Becker; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+copyright = "Copyright (c) 2026 Mark Becker"
+description = "Modern Fortran translation of the computational core of SteadyStateBVAR"
+categories = ["statistics", "time-series", "bayesian", "econometrics"]
+keywords = ["BVAR", "VAR", "Bayesian", "forecast", "steady-state"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+mts-fortran = { path = "../MTS" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 10
+r_functions_translated = 10
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bvar"
+r_source = "upstream/R/bvar.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["bvar_create"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "The numerical data container is translated; R S3 class construction, ts metadata, names, and R-specific input coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "setup"
+r_source = "upstream/R/setup.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["setup_model"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Lag embedding, deterministic regressors, OLS estimates, steady-state estimates, and univariate AR residual variances are translated; R object/list semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "priors"
+r_source = "upstream/R/priors.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["set_priors"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Minnesota beta priors, normal steady-state priors, homoscedastic covariance priors, and the complete RW/AR1 stochastic-volatility prior parameter sets are translated. R list naming/class behavior and warning text are omitted."
+
+[[extra.translation.function]]
+r_name = "restrict_beta"
+r_source = "upstream/R/restrict_beta.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["restrict_beta"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Zero restrictions are represented by the same 1e-7 beta-prior variance convention; R warnings and class handling are omitted."
+
+[[extra.translation.function]]
+r_name = "fit"
+r_source = "upstream/R/fit.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["fit_model"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Homoscedastic, RW-SV, and AR1-SV posterior targets and predictive recursions are translated. Homoscedastic blocks use Gibbs updates; SV uses centered Gibbs/Metropolis-within-Gibbs updates equivalent to the upstream noncentered Stan model target. Stan/NUTS adaptation, diagnostics, chains, and exact RNG streams are not reproduced."
+
+[[extra.translation.function]]
+r_name = "forecast"
+r_source = "upstream/R/forecast.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["forecast_model"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Predictive means/medians, R type-7 interval quantiles, and draw-wise annualized growth-rate transformation are translated. Plotting, ts time axes, variable names, and steady-state plot overlays are omitted."
+
+[[extra.translation.function]]
+r_name = "conditional_forecast"
+r_source = "upstream/R/conditional_forecast.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["conditional_forecast_model"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Homoscedastic equality-conditioned Gaussian forecasts are translated. The null-space draw uses an equivalent projection formulation instead of R svd(); plotting and data-frame condition wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "IRF"
+r_source = "upstream/R/irf.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["irf_model"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Orthogonalized and generalized posterior IRFs, R type-7 intervals, draw-wise annualized growth transformations, and time-specific RW/AR1 stochastic-volatility covariance selection are translated. Plot selection and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "ppi"
+r_source = "upstream/R/ppi.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["ppi"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "complete"
+notes = "The implied normal mean and variance, including annualized-growth conversion, are translated using rfortran-core r_qnorm. R list construction is replaced by output arguments."
+
+[[extra.translation.function]]
+r_name = "summary.bvar"
+r_source = "upstream/R/summary.R"
+fortran_module = "steadystatebvar_core"
+fortran_names = ["bvar_summary"]
+fortran_source = "src/steadystatebvar_core.f90"
+status = "substantial"
+notes = "Elementwise posterior mean/median summaries of beta, Psi, homoscedastic or time-specific SV Sigma_u, A, RW phi, and AR1 gamma_0/gamma_1/Phi are translated. R printing, parameter filtering, rounding, and labels are omitted."
