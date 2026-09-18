@@ -1,0 +1,76 @@
+name = "varmapack"
+version = "0.1.1"
+license = "MIT"
+author = "Kristjan Jonasson; Fortran translation by Vivek Rao and contributors"
+maintainer = "Vivek Rao"
+description = "Modern Fortran translation of the computational core of the R package varmapack"
+categories = ["time-series", "statistics", "simulation"]
+keywords = ["varma", "varmax", "simulation", "autocovariance", "impulse-response"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+randompack = { path = "../randompack" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 5
+r_functions_translated = 5
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "varmapack_autocov"
+r_source = "upstream/R/functions.R"
+fortran_module = "varmapack_analysis"
+fortran_names = ["varmapack_autocov"]
+fortran_source = "src/varmapack_analysis.f90"
+status = "complete"
+notes = "The ML and corrected sample-autocovariance calculations are translated; the Fortran API uses an optional logical flag instead of the R norm string."
+
+[[extra.translation.function]]
+r_name = "varmapack_cov2corr"
+r_source = "upstream/R/functions.R"
+fortran_module = "varmapack_analysis"
+fortran_names = ["varmapack_cov2corr"]
+fortran_source = "src/varmapack_analysis.f90"
+status = "complete"
+notes = "Both matrix and autocovariance-array forms are translated through a public generic interface."
+
+[[extra.translation.function]]
+r_name = "varmapack_model"
+r_source = "upstream/R/model.R"
+fortran_module = "varmapack_model_mod"
+fortran_names = ["make_varmapack_model", "model_sim", "model_acvf", "model_psi", "model_irf", "model_specrad", "model_ma_specrad"]
+fortran_source = "src/varmapack_model.f90"
+status = "substantial"
+notes = "Model construction, VARMA/VARMAX simulation, supplied-start conditioning, means, ACVF, PSI, IRF, and spectral radii are translated. The Fortran interface is typed rather than R6, returns shocks alongside X, and uses an iterative state-Lyapunov calculation instead of the upstream VYW/SLICOT setup path."
+
+[[extra.translation.function]]
+r_name = "varmapack_testcase"
+r_source = "upstream/R/functions.R"
+fortran_module = "varmapack_testcases_mod"
+fortran_names = ["testcase_by_name", "testcase_by_index"]
+fortran_source = "src/varmapack_testcases.f90"
+status = "substantial"
+notes = "All 16 named testcases and the random, deterministic, and rho-controlled constructors are translated; errors are reported with integer info codes rather than R conditions."
+
+[[extra.translation.function]]
+r_name = "varmapack_testcases"
+r_source = "upstream/R/functions.R"
+fortran_module = "varmapack_testcases_mod"
+fortran_names = ["varmapack_testcases"]
+fortran_source = "src/varmapack_testcases.f90"
+status = "substantial"
+notes = "The same 16-case metadata are returned in typed arrays rather than an R data.frame."

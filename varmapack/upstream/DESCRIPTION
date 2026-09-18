@@ -1,0 +1,27 @@
+Package: varmapack
+Type: Package
+Title: Burn-in-Free Simulation and Analysis of Gaussian VARMA Models
+Version: 0.1.1
+Authors@R: 
+    person("Kristján", "Jónasson", , "jonasson@hi.is", role = c("aut", "cre"))
+Description: Simulates Gaussian vector autoregressive-moving-average
+    time-series models without a burn-in period by drawing startup shocks from
+    their model-implied conditional distribution. Also provides model
+    test cases, autocovariances, spectral radii, and impulse responses.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.0.0)
+Imports: R6, randompack (>= 0.1.10)
+LinkingTo: randompack
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2
+URL: https://github.com/jonasson2/varmapack
+BugReports: https://github.com/jonasson2/varmapack/issues
+NeedsCompilation: yes
+Packaged: 2026-09-01 05:31:26 UTC; jonasson
+Author: Kristján Jónasson [aut, cre]
+Maintainer: Kristján Jónasson <jonasson@hi.is>
+Repository: CRAN
+Date/Publication: 2026-09-12 07:10:03 UTC
