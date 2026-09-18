@@ -1,0 +1,124 @@
+name = "polca"
+version = "1.6.0"
+license = "GPL-2.0-or-later"
+author = "Drew A. Linzer and Jeffrey Lewis; modern Fortran translation"
+maintainer = "Translation maintained in Fortran-from-R-packages"
+copyright = "Upstream poLCA authors; see NOTICE.md"
+description = "Modern Fortran translation of the computational core of the R package poLCA"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_polca"
+source-dir = "test"
+main = "test_polca.f90"
+
+[[example]]
+name = "latent_class_example"
+source-dir = "example"
+main = "latent_class_example.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 10
+r_functions_translated = 10
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "poLCA"
+r_source = "upstream/R/poLCA.R"
+fortran_module = "polca_core"
+fortran_names = ["polca_fit"]
+fortran_source = "src/polca_core.f90"
+status = "substantial"
+notes = "Latent-class and latent-class-regression maximum likelihood, EM/Newton updates, missing responses, multiple starts, fit statistics, and standard errors are translated. R formula/model.frame processing, plotting, console output, and R object construction are omitted; callers pass integer response matrices and numeric design matrices directly."
+
+[[extra.translation.function]]
+r_name = "poLCA.simdata"
+r_source = "upstream/R/poLCA.simdata.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_simdata"]
+fortran_source = "src/polca_api.f90"
+status = "substantial"
+notes = "Simulation from supplied response probabilities and either fixed or covariate-dependent class priors is translated. The Fortran API uses zero for missing responses and applies independent cell-wise missingness rather than reproducing R's exact RNG stream or duplicate-index missingness mechanism."
+
+[[extra.translation.function]]
+r_name = "poLCA.reorder"
+r_source = "upstream/R/poLCA.reorder.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_reorder_probs"]
+fortran_source = "src/polca_api.f90"
+status = "complete"
+notes = "Reorders the class dimension of all item-response probability tables according to a supplied permutation; R list storage is replaced by a rectangular Fortran array."
+
+[[extra.translation.function]]
+r_name = "poLCA.table"
+r_source = "upstream/R/poLCA.table.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_table_1d", "polca_table_2d"]
+fortran_source = "src/polca_api.f90"
+status = "substantial"
+notes = "One- and two-way expected-count tables with optional conditioning are translated. R formulas, variable names, factor labels, and data-frame presentation are replaced by one-based item indices and integer category conditions."
+
+[[extra.translation.function]]
+r_name = "poLCA.entropy"
+r_source = "upstream/R/poLCA.entropy.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_entropy"]
+fortran_source = "src/polca_api.f90"
+status = "complete"
+notes = "Enumerates the full manifest response table and computes the same negative sum p log(p) entropy from fitted population cell probabilities."
+
+[[extra.translation.function]]
+r_name = "poLCA.predcell"
+r_source = "upstream/R/poLCA.predcell.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_predcell"]
+fortran_source = "src/polca_api.f90"
+status = "complete"
+notes = "Computes population cell probabilities for supplied complete manifest response patterns using fitted class shares and class-conditional response probabilities."
+
+[[extra.translation.function]]
+r_name = "poLCA.posterior"
+r_source = "upstream/R/poLCA.posterior.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_posterior"]
+fortran_source = "src/polca_api.f90"
+status = "substantial"
+notes = "Posterior latent-class probabilities are translated for new response matrices with optional covariate design matrices. R vector/data-frame coercion and formula reconstruction are omitted."
+
+[[extra.translation.function]]
+r_name = "rmulti"
+r_source = "upstream/R/rmulti.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_rmulti"]
+fortran_source = "src/polca_api.f90"
+status = "substantial"
+notes = "Row-wise categorical sampling is translated. The low-level Fortran routine accepts explicit uniform draws so tests and callers can control RNG behavior; polca_simdata supplies draws internally."
+
+[[extra.translation.function]]
+r_name = "coef.poLCA"
+r_source = "upstream/R/coef.poLCA.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_coef"]
+fortran_source = "src/polca_api.f90"
+status = "complete"
+notes = "Returns a copy of the fitted latent-class-regression coefficient matrix; a zero-size matrix represents models without covariate coefficients."
+
+[[extra.translation.function]]
+r_name = "vcov.poLCA"
+r_source = "upstream/R/vcov.poLCA.R"
+fortran_module = "polca_api"
+fortran_names = ["polca_vcov"]
+fortran_source = "src/polca_api.f90"
+status = "complete"
+notes = "Returns a copy of the fitted regression-coefficient covariance matrix; a zero-size matrix represents models without covariate coefficients."

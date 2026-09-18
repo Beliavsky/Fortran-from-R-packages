@@ -1,0 +1,21 @@
+export(poLCA, 
+       poLCA.simdata, 
+       poLCA.reorder, 
+       poLCA.table, 
+       poLCA.entropy, 
+       poLCA.predcell, 
+       poLCA.posterior, 
+       rmulti)
+       
+S3method(print, poLCA)
+S3method(plot, poLCA)
+S3method(coef, poLCA)
+S3method(vcov, poLCA)
+
+importFrom("graphics", "layout", "par")
+importFrom("stats", "model.frame", "model.matrix", "model.response",
+           "pt", "rnorm", "runif")
+importFrom("utils", "flush.console")
+importFrom("MASS", "ginv")
+importFrom("scatterplot3d", "scatterplot3d")
+useDynLib(poLCA, .registration = TRUE)
