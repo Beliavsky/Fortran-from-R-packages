@@ -1,0 +1,33 @@
+Validation compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+Debug/runtime-check build flags:
+-std=f2018 -pedantic -Wall -Wextra -Wimplicit-interface -Werror -fcheck=all -fbacktrace -O0 -g
+Result: PASS
+All earth tests passed.
+forward terms:  3
+selected terms: 3
+R-squared:        1.000000
+maximum error:   6.6613E-16
+
+Release build flags:
+-std=f2018 -pedantic -Wall -Wextra -Wimplicit-interface -Werror -O2
+Result: PASS
+All earth tests passed.
+forward terms:  3
+selected terms: 3
+R-squared:        1.000000
+maximum error:   4.4409E-16
+
+Static audit:
+Static audit passed for 8 maintained Fortran source files.
+Translation coverage: 15/19 computational R functions.
+
+FPM command attempts on this host:
+fpm build: status 127
+bash: line 26: fpm: command not found
+fpm test: status 127
+bash: line 27: fpm: command not found
+fpm clean --all: status 127
+bash: line 28: fpm: command not found
+
+Rscript is not installed on this host. Upstream R numerical parity is therefore tested against the retained saved output in upstream/tests/test.earth.Rout.save.

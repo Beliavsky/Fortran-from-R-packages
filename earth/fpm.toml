@@ -1,0 +1,170 @@
+name = "earth"
+version = "5.3.6"
+license = "GPL-3.0-only"
+author = "Stephen Milborrow, Trevor Hastie, Rob Tibshirani; Fortran translation"
+maintainer = "Fortran-from-R-packages project"
+copyright = "Upstream earth authors and contributors; see NOTICE.md"
+description = "Modern Fortran translation of the computational core of the R earth package"
+categories = ["statistics", "regression", "mars"]
+keywords = ["MARS", "regression", "splines", "earth"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_earth"
+source-dir = "test"
+main = "test_earth.f90"
+
+[[example]]
+name = "basic_earth"
+source-dir = "example"
+main = "basic_earth.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 19
+r_functions_translated = 15
+frac_functions_translated = 0.7894736842105263
+untranslated_r_functions = ["coef.varmod", "mars.to.earth", "predict.varmod", "update.earth"]
+
+[[extra.translation.function]]
+r_name = "contr.earth.response"
+r_source = "upstream/R/expand.arg.R"
+fortran_module = "earth_api"
+fortran_names = ["contr_earth_response"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Returns earth's identity response-contrast matrix. R dimension names are omitted; the R base and contrasts arguments are intentionally irrelevant upstream."
+
+[[extra.translation.function]]
+r_name = "earth.default"
+r_source = "upstream/R/earth.R"
+fortran_module = "earth_fit_mod"
+fortran_names = ["earth_fit"]
+fortran_source = "src/earth_fit.f90"
+status = "substantial"
+notes = "Numeric-matrix MARS fitting is translated, including forward hinge construction, weights, multiple responses, and backward GCV pruning. R data-frame/factor expansion, GLM, CV, formula-object, and ancillary object semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "earth.formula"
+r_source = "upstream/R/earth.R"
+fortran_module = "earth_fit_mod"
+fortran_names = ["earth_fit"]
+fortran_source = "src/earth_fit.f90"
+status = "partial"
+notes = "The numerical fitting operation is available after the caller constructs a numeric design matrix. Formula parsing, model.frame handling, factors, subsets, and R terms metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "earth.fit"
+r_source = "upstream/R/earth.fit.R"
+fortran_module = "earth_fit_mod"
+fortran_names = ["earth_fit"]
+fortran_source = "src/earth_fit.f90"
+status = "substantial"
+notes = "Core MARS regression is translated with degree, penalty, nk, threshold, minspan/endspan, new-variable penalty, linear predictors, case weights, multiple responses, and backward pruning. Advanced earth options and non-backward pruning methods are omitted."
+
+[[extra.translation.function]]
+r_name = "evimp"
+r_source = "upstream/R/evimp.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_evimp"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Computes nsubsets, GCV, and RSS variable importance from the backward pruning path with earth's default square-root normalization. R row naming, sorting, trimming, printing, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "expand.bpairs.default"
+r_source = "upstream/R/bpairs.R"
+fortran_module = "earth_api"
+fortran_names = ["expand_bpairs"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Expands two-column binomial counts, including earth's zero-zero-as-false rule and bpairs.index semantics. Data-frame column selection, names, attributes, and sort=TRUE are omitted."
+
+[[extra.translation.function]]
+r_name = "expand.bpairs.formula"
+r_source = "upstream/R/bpairs.R"
+fortran_module = "earth_api"
+fortran_names = ["expand_bpairs"]
+fortran_source = "src/earth_api.f90"
+status = "partial"
+notes = "The numerical pair expansion is translated after the caller supplies predictors and the two response-count columns. Formula/model.frame handling and R metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "coef.earth"
+r_source = "upstream/R/earth.methods.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_coefficients"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Returns selected earth-regression coefficients for all fitted responses. GLM coefficient selection, R names, decomposition ordering, and first-response-only R presentation behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "deviance.earth"
+r_source = "upstream/R/earth.methods.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_deviance"]
+fortran_source = "src/earth_api.f90"
+status = "complete"
+notes = "Returns the earth-regression residual sum of squares, matching the numerical operation of deviance.earth. R warnings for attached GLM fits are omitted."
+
+[[extra.translation.function]]
+r_name = "extractAIC.earth"
+r_source = "upstream/R/earth.methods.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_extract_aic"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Returns earth's effective parameter count and GCV in place of AIC. R warning behavior and ignored scale/k/dots arguments are omitted."
+
+[[extra.translation.function]]
+r_name = "hatvalues.earth"
+r_source = "upstream/R/earth.methods.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_hatvalues"]
+fortran_source = "src/earth_api.f90"
+status = "complete"
+notes = "Returns the stored leverage values for the selected weighted regression design."
+
+[[extra.translation.function]]
+r_name = "model.matrix.earth"
+r_source = "upstream/R/model.matrix.earth.R"
+fortran_module = "earth_basis"
+fortran_names = ["earth_model_matrix"]
+fortran_source = "src/earth_basis.f90"
+status = "substantial"
+notes = "Evaluates selected linear, hinge, and interaction basis terms on a numeric predictor matrix. R formula expansion, factor-level checks, naming, and object attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.earth"
+r_source = "upstream/R/predict.earth.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_predict"]
+fortran_source = "src/earth_api.f90"
+status = "substantial"
+notes = "Implements response prediction from selected MARS basis terms and coefficients. GLM/interval/variance-model predictions, type='terms', R data-frame handling, and names are omitted."
+
+[[extra.translation.function]]
+r_name = "resid.earth"
+r_source = "upstream/R/residuals.earth.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_residuals"]
+fortran_source = "src/earth_api.f90"
+status = "partial"
+notes = "Returns ordinary earth-regression residuals. GLM, standardized, deleveraged, Pearson, working, and partial residual types are omitted."
+
+[[extra.translation.function]]
+r_name = "residuals.earth"
+r_source = "upstream/R/residuals.earth.R"
+fortran_module = "earth_api"
+fortran_names = ["earth_residuals"]
+fortran_source = "src/earth_api.f90"
+status = "partial"
+notes = "Returns ordinary earth-regression residuals. GLM, standardized, deleveraged, Pearson, working, and partial residual types are omitted."

@@ -1,0 +1,31 @@
+Package: earth
+Version: 5.3.6
+Title: Multivariate Adaptive Regression Splines
+Authors@R: c(person(given = "Stephen", family = "Milborrow",
+               role = c("aut", "cre"), email = "milbo@sonic.net"),
+             person(given = "Trevor",  family = "Hastie",     role = "aut"),
+             person(given = "Rob",     family = "Tibshirani", role = "aut"),
+             person(given = "Alan",    family = "Miller",     role = "ctb"),
+             person(given = "Thomas",  family = "Lumley",     role = "ctb"))
+Depends: R (>= 3.4.0), Formula (>= 1.2-3), plotmo (>= 3.6.0),
+Suggests: gam (>= 1.20), mgcv (>= 1.8-26), mda (>= 0.5-2), MASS (>=
+        7.3-51)
+Description: Build regression models using the techniques in Friedman's
+    papers "Fast MARS" and "Multivariate Adaptive Regression
+    Splines" <doi:10.1214/aos/1176347963>.
+    (The term "MARS" is trademarked and thus not used in
+    the name of the package.)
+License: GPL-3
+LazyData: yes
+URL: http://www.milbo.org/earth/
+Packaged: 2026-08-07 23:13:22 UTC; milbo
+Repository: CRAN
+Date/Publication: 2026-08-21 11:40:02 UTC
+RoxygenNote: 5.1.2
+NeedsCompilation: yes
+Author: Stephen Milborrow [aut, cre],
+  Trevor Hastie [aut],
+  Rob Tibshirani [aut],
+  Alan Miller [ctb],
+  Thomas Lumley [ctb]
+Maintainer: Stephen Milborrow <milbo@sonic.net>
