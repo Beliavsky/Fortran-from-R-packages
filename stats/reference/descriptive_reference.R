@@ -1,0 +1,21 @@
+# Regenerate deterministic fixtures in test/test_descriptive_statistics.f90.
+
+x <- c(1, 2, 4, 8, 16, 32)
+y <- c(3, 1, 4, 1, 5, 9)
+z <- c(2, 7, 1, 8, 2, 8)
+data <- cbind(x, y, z)
+probabilities <- c(0.1, 0.25, 0.5, 0.75, 0.9)
+
+cat("MEDIAN", format(median(x), digits = 17), "\n")
+cat("QUANTILE", format(quantile(x, probabilities, names = FALSE), digits = 17), "\n")
+cat("SD", format(sd(x), digits = 17), "\n")
+cat("VAR", format(var(x), digits = 17), "\n")
+cat("COV", format(cov(x, y), digits = 17), "\n")
+cat("COR", format(cor(x, y), digits = 17), "\n")
+cat("VAR_MATRIX", format(as.vector(var(data)), digits = 17), "\n")
+cat("COR_MATRIX", format(as.vector(cor(data)), digits = 17), "\n")
+cat("COV2COR", format(as.vector(cov2cor(var(data))), digits = 17), "\n")
+cat("IQR", format(IQR(x), digits = 17), "\n")
+cat("MAD", format(mad(x), digits = 17), "\n")
+cat("MAD_CUSTOM", format(mad(x, center = 5, constant = 1), digits = 17), "\n")
+cat("WEIGHTED_MEAN", format(weighted.mean(x, 1:6), digits = 17), "\n")

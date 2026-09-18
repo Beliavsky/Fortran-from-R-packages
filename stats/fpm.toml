@@ -1,0 +1,794 @@
+name = "stats-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Vivek Rao and contributors"
+maintainer = "Vivek Rao"
+description = "Modern Fortran interfaces corresponding to computational functions in the R stats package"
+categories = ["statistics", "regression", "time-series", "numerical"]
+keywords = ["R", "stats", "linear-models", "inference", "clustering"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+fastcluster = { path = "../fastcluster" }
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+rfortran-optional = { path = "../rfortran-optional" }
+
+[dev-dependencies]
+stats-test-support = { path = "test-support" }
+
+[extra.r-fpm-index]
+gams = ["L"]
+
+[extra.translation]
+status = "partial"
+coverage_basis = "R 4.6.0 public namespace exports; partial mappings count as represented"
+r_functions_total = 465
+r_functions_translated = 89
+frac_functions_translated = 0.191398
+
+[[extra.translation.function]]
+r_name = "Box.test"
+r_source = "src/library/stats/R/Box.test.R"
+fortran_module = "r_stats_diagnostics"
+fortran_names = ["box_test"]
+fortran_source = "src/r_stats_diagnostics.f90"
+status = "substantial"
+notes = "Box-Pierce and Ljung-Box tests reuse the shared ACF and support fitted-parameter degrees of freedom. Requires finite input and 0 <= fitdf < lag < sample size. Missing-value handling and partial method names are omitted."
+
+[[extra.translation.function]]
+r_name = "oneway.test"
+r_source = "src/library/stats/R/oneway.test.R"
+fortran_module = "r_stats_anova"
+fortran_names = ["oneway_test"]
+fortran_source = "src/r_stats_anova.f90"
+status = "substantial"
+notes = "Welch and pooled-variance one-way tests support finite observations, arbitrary integer group labels, and real degrees of freedom. Formula processing and missing-value omission are omitted."
+
+[[extra.translation.function]]
+r_name = "fligner.test"
+r_source = "src/library/stats/R/fligner.test.R"
+fortran_module = "r_stats_scale_tests"
+fortran_names = ["fligner_test"]
+fortran_source = "src/r_stats_scale_tests.f90"
+status = "substantial"
+notes = "Median-centered Fligner-Killeen testing supports finite observations, arbitrary integer group labels, tied deviations, and singleton groups. Formula/list interfaces and missing-value omission are omitted."
+
+[[extra.translation.function]]
+r_name = "mcnemar.test"
+r_source = "src/library/stats/R/mcnemar.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["mcnemar_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "substantial"
+notes = "Integer and real square contingency tables support the two-category continuity correction and larger-table symmetry tests. Paired raw observations and factor conversion are omitted."
+
+[[extra.translation.function]]
+r_name = "p.adjust"
+r_source = "src/library/stats/R/p.adjust.R"
+fortran_module = "r_stats_multiple_testing"
+fortran_names = ["p_adjust"]
+fortran_source = "src/r_stats_multiple_testing.f90"
+status = "substantial"
+notes = "All p.adjust methods support ties, NaNs, and explicit hypothesis counts. Names and partial method-name matching are omitted; finite inputs must be in [0,1]."
+
+[[extra.translation.function]]
+r_name = "median"
+r_source = "src/library/stats/R/median.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["median"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "Pure real-vector median with optional NaN removal delegates to rfortran-core."
+
+[[extra.translation.function]]
+r_name = "quantile"
+r_source = "src/library/stats/R/quantile.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["quantile"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "partial"
+notes = "Scalar and vector probabilities support all nine Hyndman-Fan estimators through shared r_quantile, with type 7 default. Names, factors, configurable fuzz, and R's near-boundary probability tolerance are omitted. Empty samples and unremoved NaNs return NaN."
+
+[[extra.translation.function]]
+r_name = "sd"
+r_source = "src/library/stats/R/sd.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["sd"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "Pure real-vector sample standard deviation with optional NaN removal delegates to rfortran-core."
+
+[[extra.translation.function]]
+r_name = "var"
+r_source = "src/library/stats/R/cor.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["var"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "Generic vector sample variance and column covariance matrix are supported."
+
+[[extra.translation.function]]
+r_name = "cov"
+r_source = "src/library/stats/R/cor.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["cov"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "partial"
+notes = "Vector and column-matrix covariance are supported; rank methods and full R use policies are omitted."
+
+[[extra.translation.function]]
+r_name = "cor"
+r_source = "src/library/stats/R/cor.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["cor"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "partial"
+notes = "Vector and column-matrix Pearson correlation are supported; Kendall and Spearman methods are omitted."
+
+[[extra.translation.function]]
+r_name = "cov2cor"
+r_source = "src/library/stats/R/cor.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["cov2cor"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "Pure conversion of square real covariance matrices delegates to rfortran-core."
+
+[[extra.translation.function]]
+r_name = "IQR"
+r_source = "src/library/stats/R/IQR.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["iqr"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "All nine quantile estimators are supported, with type 7 default; delegates to shared r_quantile."
+
+[[extra.translation.function]]
+r_name = "mad"
+r_source = "src/library/stats/R/mad.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["mad"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "partial"
+notes = "Configurable center and scale constant are supported; low and high even-sample rules are omitted."
+
+[[extra.translation.function]]
+r_name = "weighted.mean"
+r_source = "src/library/stats/R/weighted.mean.R"
+fortran_module = "r_stats_descriptive"
+fortran_names = ["weighted_mean"]
+fortran_source = "src/r_stats_descriptive.f90"
+status = "substantial"
+notes = "Pure real-vector weighted mean with optional NaN removal delegates to rfortran-core."
+
+[[extra.translation.function]]
+r_name = "ecdf"
+r_source = "src/library/stats/R/ecdf.R"
+fortran_module = "r_stats_empirical"
+fortran_names = ["ecdf", "predict_ecdf"]
+fortran_source = "src/r_stats_empirical.f90"
+status = "substantial"
+notes = "A compact sorted ECDF object and pure vector evaluator preserve duplicate frequencies; closures and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "bw.nrd0"
+r_source = "src/library/stats/R/bandwidths.R"
+fortran_module = "r_stats_empirical"
+fortran_names = ["bw_nrd0"]
+fortran_source = "src/r_stats_empirical.f90"
+status = "substantial"
+notes = "The robust normal-reference rule and its zero-spread fallbacks are translated."
+
+[[extra.translation.function]]
+r_name = "bw.nrd"
+r_source = "src/library/stats/R/bandwidths.R"
+fortran_module = "r_stats_empirical"
+fortran_names = ["bw_nrd"]
+fortran_source = "src/r_stats_empirical.f90"
+status = "substantial"
+notes = "The normal-reference bandwidth formula is translated."
+
+[[extra.translation.function]]
+r_name = "density"
+r_source = "src/library/stats/R/density.R"
+fortran_module = "r_stats_empirical"
+fortran_names = ["density"]
+fortran_source = "src/r_stats_empirical.f90"
+status = "partial"
+notes = "Direct weighted KDE supports four unit-variance kernels; R's FFT implementation and additional bandwidth selectors are omitted."
+
+[[extra.translation.function]]
+r_name = "approx"
+r_source = "src/library/stats/R/approx.R"
+fortran_module = "r_stats_interpolation"
+fortran_names = ["approx"]
+fortran_source = "src/r_stats_interpolation.f90"
+status = "substantial"
+notes = "Linear and constant interpolation support averaged ties, separate endpoint rules, and constant mixing; generated default grids and missing-value omission are omitted."
+
+[[extra.translation.function]]
+r_name = "approxfun"
+r_source = "src/library/stats/R/approx.R"
+fortran_module = "r_stats_interpolation"
+fortran_names = ["approxfun", "predict_approxfun"]
+fortran_source = "src/r_stats_interpolation.f90"
+status = "substantial"
+notes = "A reusable derived type and pure evaluator replace R's closure."
+
+[[extra.translation.function]]
+r_name = "isoreg"
+r_source = "src/library/stats/R/isoreg.R"
+fortran_module = "r_stats_interpolation"
+fortran_names = ["isoreg"]
+fortran_source = "src/r_stats_interpolation.f90"
+status = "substantial"
+notes = "Increasing PAVA fits return monotone levels and block endpoints for strictly increasing finite predictors."
+
+[[extra.translation.function]]
+r_name = "spline"
+r_source = "src/library/stats/R/spline.R"
+fortran_module = "r_stats_spline_interpolation"
+fortran_names = ["spline"]
+fortran_source = "src/r_stats_spline_interpolation.f90"
+status = "partial"
+notes = "Explicit output points support FMM and natural cubic splines, averaged ties, and derivatives; generated grids and periodic or Hyman methods are omitted."
+
+[[extra.translation.function]]
+r_name = "splinefun"
+r_source = "src/library/stats/R/spline.R"
+fortran_module = "r_stats_spline_interpolation"
+fortran_names = ["splinefun", "predict_splinefun"]
+fortran_source = "src/r_stats_spline_interpolation.f90"
+status = "partial"
+notes = "A reusable coefficient type supports derivatives and method-specific extrapolation; periodic and monotone Hermite methods are omitted."
+
+[[extra.translation.function]]
+r_name = "uniroot"
+r_source = "src/library/stats/R/nlm.R"
+fortran_module = "r_stats_numerical"
+fortran_names = ["uniroot"]
+fortran_source = "src/r_stats_numerical.f90"
+status = "partial"
+notes = "Pure bracketed bisection returns typed diagnostics and supports symmetric, lower, or upper interval expansion; directional hints and callback data are omitted."
+
+[[extra.translation.function]]
+r_name = "optimize"
+r_source = "src/library/stats/R/nlm.R"
+fortran_module = "r_stats_numerical"
+fortran_names = ["optimize"]
+fortran_source = "src/r_stats_numerical.f90"
+status = "substantial"
+notes = "Safeguarded Brent search supports bounded minimization or maximization of a pure scalar callback."
+
+[[extra.translation.function]]
+r_name = "integrate"
+r_source = "src/library/stats/R/integrate.R"
+fortran_module = "r_stats_numerical"
+fortran_names = ["integrate"]
+fortran_source = "src/r_stats_numerical.f90"
+status = "substantial"
+notes = "Adaptive Simpson quadrature supports finite, semi-infinite, and whole-line bounds with explicit error controls; vectorized callbacks and QUADPACK-specific behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "nls"
+r_source = "src/library/stats/R/nls.R"
+fortran_module = "r_stats_nls"
+fortran_names = ["nls_fit", "nls_fit_plinear", "nls_confint_profile"]
+fortran_source = "src/r_stats_nls.f90"
+status = "partial"
+notes = "Pure formula-free projected Gauss-Newton fitting supports ordinary and separable partially linear models, optional analytic Jacobians, bounds, rank diagnostics, covariance, standard errors, and profile-RSS confidence intervals. Formula processing and the complete port algorithm are omitted."
+
+[[extra.translation.function]]
+r_name = "SSasymp, SSgompertz, SSlogis, SSmicmen, SSweibull"
+r_source = "src/library/stats/R/zzModels.R"
+fortran_module = "r_stats_self_start"
+fortran_names = ["ss_asymp", "ss_gompertz", "ss_logis", "ss_micmen", "ss_weibull"]
+fortran_source = "src/r_stats_self_start.f90"
+status = "substantial"
+notes = "Pure elemental curve formulas and pure NLS model and Jacobian callbacks are implemented. Formula interfaces and automatic starting-value estimation are omitted."
+
+[[extra.translation.function]]
+r_name = "t.test"
+r_source = "src/library/stats/R/t.test.R"
+fortran_module = "r_stats_tests"
+fortran_names = ["t_test", "t_test_one", "t_test_two", "t_test_p_value"]
+fortran_source = "src/r_stats_tests.f90"
+status = "partial"
+notes = "Two-sided one-sample, Welch, equal-variance, and paired tests with 95 percent confidence intervals are translated; formula input, missing-value handling, and alternative confidence levels remain omitted."
+
+[[extra.translation.function]]
+r_name = "chisq.test"
+r_source = "src/library/stats/R/chisq.test.R"
+fortran_module = "r_stats_tests"
+fortran_names = ["chisq_test"]
+fortran_source = "src/r_stats_tests.f90"
+status = "partial"
+notes = "Goodness-of-fit and contingency-table tests are translated, including optional probability rescaling and Yates correction; paired factor inputs and simulated p-values are omitted."
+
+[[extra.translation.function]]
+r_name = "prop.test"
+r_source = "src/library/stats/R/prop.test.R"
+fortran_module = "r_stats_tests"
+fortran_names = ["prop_test"]
+fortran_source = "src/r_stats_tests.f90"
+status = "partial"
+notes = "One- and multiple-sample two-sided proportion tests are translated with continuity correction and the R score-interval formulas; directional alternatives and configurable confidence levels are omitted."
+
+[[extra.translation.function]]
+r_name = "cor.test"
+r_source = "src/library/stats/R/cor.test.R"
+fortran_module = "r_stats_tests"
+fortran_names = ["cor_test"]
+fortran_source = "src/r_stats_tests.f90"
+status = "partial"
+notes = "Two-sided Pearson tests with Fisher confidence intervals and asymptotic Spearman tests are translated; exact Spearman, Kendall, missing-value removal, and directional alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "binom.test"
+r_source = "src/library/stats/R/binom.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["binom_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "partial"
+notes = "Exact two-sided probabilities and Clopper-Pearson intervals are supported; directional alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "poisson.test"
+r_source = "src/library/stats/R/poisson.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["poisson_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "partial"
+notes = "Exact two-sided one-sample rate inference is supported; multiple-sample conditional tests and directional alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "var.test"
+r_source = "src/library/stats/R/var.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["var_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "partial"
+notes = "Two-sided F inference supports explicit samples, null ratios, and confidence levels; formula input and directional alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "bartlett.test"
+r_source = "src/library/stats/R/bartlett.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["bartlett_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "substantial"
+notes = "Grouped finite observations and positive integer labels are supported; formula and list inputs are omitted."
+
+[[extra.translation.function]]
+r_name = "friedman.test"
+r_source = "src/library/stats/R/friedman.test.R"
+fortran_module = "r_stats_additional_tests"
+fortran_names = ["friedman_test"]
+fortran_source = "src/r_stats_additional_tests.f90"
+status = "substantial"
+notes = "Complete block-by-treatment matrices use average ranks and tie correction; formula and unstacked-vector inputs are omitted."
+
+[[extra.translation.function]]
+r_name = "fisher.test"
+r_source = "src/library/stats/R/fisher.test.R"
+fortran_module = "r_stats_rank_tests"
+fortran_names = ["fisher_test"]
+fortran_source = "src/r_stats_rank_tests.f90"
+status = "partial"
+notes = "Two-sided exact inference and the conditional maximum-likelihood odds ratio are translated for two-by-two tables; larger tables, directional alternatives, and confidence intervals are omitted."
+
+[[extra.translation.function]]
+r_name = "wilcox.test"
+r_source = "src/library/stats/R/wilcox.test.R"
+fortran_module = "r_stats_rank_tests"
+fortran_names = ["wilcox_test", "wilcox_test_two_sample"]
+fortran_source = "src/r_stats_rank_tests.f90"
+status = "partial"
+notes = "Two-sided asymptotic rank-sum and paired signed-rank tests include tie and continuity corrections; exact inference, one-sample input, confidence intervals, and directional alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "kruskal.test"
+r_source = "src/library/stats/R/kruskal.test.R"
+fortran_module = "r_stats_rank_tests"
+fortran_names = ["kruskal_test"]
+fortran_source = "src/r_stats_rank_tests.f90"
+status = "substantial"
+notes = "The tie-corrected rank statistic and chi-square approximation are translated for explicit observations and integer group labels; formula and list inputs are omitted."
+
+[[extra.translation.function]]
+r_name = "ks.test"
+r_source = "src/library/stats/R/ks.test.R"
+fortran_module = "r_stats_rank_tests"
+fortran_names = ["ks_test", "ks_test_normal", "ks_test_two_sample"]
+fortran_source = "src/r_stats_rank_tests.f90"
+status = "partial"
+notes = "Two-sided asymptotic tests are translated for a normal reference distribution and for two samples; exact inference, arbitrary procedure arguments, and one-sided alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "prcomp"
+r_source = "src/library/stats/R/prcomp.R"
+fortran_module = "r_stats_multivariate"
+fortran_names = ["prcomp"]
+fortran_source = "src/r_stats_multivariate.f90"
+status = "substantial"
+notes = "Dense real PCA uses the shared economy-size SVD, supports optional centering, scaling, and rank truncation, and applies a deterministic loading-sign convention; formula input, tolerance truncation, and complex data are omitted."
+
+[[extra.translation.function]]
+r_name = "scale"
+r_source = "src/library/base/R/scale.R"
+fortran_module = "r_stats_multivariate"
+fortran_names = ["scale", "scale_columns", "scale_matrix", "scale_vector"]
+fortran_source = "src/r_stats_multivariate.f90"
+status = "partial"
+notes = "Logical centering and scaling options are translated for vectors and dense matrices, with applied transformations available in scale_result_t; user-supplied numeric center and scale vectors are omitted."
+
+[[extra.translation.function]]
+r_name = "mahalanobis"
+r_source = "src/library/stats/R/mahalanobis.R"
+fortran_module = "r_stats_multivariate"
+fortran_names = ["mahalanobis"]
+fortran_source = "src/r_stats_multivariate.f90"
+status = "substantial"
+notes = "Squared distances are translated for dense real observations and covariance or inverse-covariance input; singular covariance matrices return NaNs instead of raising an R error."
+
+[[extra.translation.function]]
+r_name = "dist"
+r_source = "src/library/stats/R/dist.R"
+fortran_module = "r_stats_clustering"
+fortran_names = ["dist", "dist_matrix"]
+fortran_source = "src/r_stats_clustering.f90"
+status = "substantial"
+notes = "R-layout condensed and full symmetric distances delegate to fastcluster and support Euclidean, maximum, Manhattan, Canberra, binary, and Minkowski metrics; attributes and arbitrary custom metrics are omitted."
+
+[[extra.translation.function]]
+r_name = "kmeans"
+r_source = "src/library/stats/R/kmeans.R"
+fortran_module = "r_stats_clustering"
+fortran_names = ["kmeans", "kmeans_matrix", "kmeans_vector"]
+fortran_source = "src/r_stats_clustering.f90"
+status = "partial"
+notes = "Deterministic Lloyd fitting from explicit initial centers is translated for real vectors and matrices; random integer-center initialization, multiple starts, Hartigan-Wong, Forgy, and MacQueen variants are omitted."
+
+[[extra.translation.function]]
+r_name = "hclust"
+r_source = "src/library/stats/R/hclust.R"
+fortran_module = "r_stats_clustering"
+fortran_names = ["hclust", "hclust_condensed"]
+fortran_source = "src/r_stats_clustering.f90"
+status = "substantial"
+notes = "Hierarchical clustering delegates to the BSD-2-Clause fastcluster translation and preserves R merge, height, and leaf-order conventions across its supported linkage methods."
+
+[[extra.translation.function]]
+r_name = "cutree"
+r_source = "src/library/stats/R/cutree.R"
+fortran_module = "r_stats_clustering"
+fortran_names = ["cutree"]
+fortran_source = "src/r_stats_clustering.f90"
+status = "partial"
+notes = "Single cluster-count or height cuts return one-based assignments; vector-valued k and h requests and nonmonotone height-cut diagnostics are omitted."
+
+[[extra.translation.function]]
+r_name = "lm.fit"
+r_source = "src/library/stats/R/lm.R"
+fortran_module = "r_stats_regression"
+fortran_names = ["lm_fit", "lm_fit_general"]
+fortran_source = "src/r_stats_regression.f90"
+status = "substantial"
+notes = "Fits dense real linear models with an optional intercept, prior weights, numerical rank detection, and alias metadata; formula, model-frame, offsets, and R object dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "aov, anova.lm"
+r_source = "src/library/stats/R/aov.R; src/library/stats/R/lm.R"
+fortran_module = "r_stats_anova"
+fortran_names = ["one_way_anova", "anova_lm"]
+fortran_source = "src/r_stats_anova.f90"
+status = "partial"
+notes = "Formula-free one-way ANOVA and extra-sum-of-squares comparison of two nested linear fits are implemented. General formula terms, strata, and sequential multi-term tables are omitted."
+
+[[extra.translation.function]]
+r_name = "manova, summary.manova"
+r_source = "src/library/stats/R/manova.R"
+fortran_module = "r_stats_manova"
+fortran_names = ["mlm_fit", "manova_lm"]
+fortran_source = "src/r_stats_manova.f90"
+status = "partial"
+notes = "Full-rank multivariate linear models and nested-model Pillai, Wilks, Hotelling-Lawley, and Roy tests are implemented without formula or sequential-term tables."
+
+[[extra.translation.function]]
+r_name = "cancor"
+r_source = "src/library/stats/R/cancor.R"
+fortran_module = "r_stats_multivariate"
+fortran_names = ["cancor"]
+fortran_source = "src/r_stats_multivariate.f90"
+status = "substantial"
+notes = "Full-rank dense canonical correlation supports optional logical centering and returns correlations, coefficient matrices, and centers."
+
+[[extra.translation.function]]
+r_name = "glm.fit"
+r_source = "src/library/stats/R/glm.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_fit", "glm_binomial_fit", "glm_poisson_fit", "glm_gaussian_fit", "glm_gamma_fit", "glm_quasibinomial_fit", "glm_quasipoisson_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Rank-aware dense IRLS covers six families and eight links with prior weights, offsets, optional intercepts, covariance, dispersion, and deviance; starts, control objects, missing values, and arbitrary family callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.glm"
+r_source = "src/library/stats/R/predict.glm.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_predict_response"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Response-scale predictions are translated for all supported families and links, including explicit offsets."
+
+[[extra.translation.function]]
+r_name = "residuals.glm"
+r_source = "src/library/stats/R/glm.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_pearson_resid"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Prior-weighted Pearson residuals are translated for all supported families."
+
+[[extra.translation.function]]
+r_name = "binomial"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_binomial_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "The binomial variance and logit, probit, complementary-log-log, and cauchit links are embedded in the typed fitter rather than exposed as an R-style family object."
+
+[[extra.translation.function]]
+r_name = "poisson"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_poisson_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "The Poisson variance and log, identity, and square-root links are embedded in the typed fitter rather than exposed as an R-style family object."
+
+[[extra.translation.function]]
+r_name = "gaussian"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_gaussian_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Identity and log links and the Gaussian variance function are embedded in the typed fitter rather than exposed as an R-style family object."
+
+[[extra.translation.function]]
+r_name = "Gamma"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_gamma_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Inverse and log links and the Gamma variance function are embedded in the typed fitter rather than exposed as an R-style family object."
+
+[[extra.translation.function]]
+r_name = "quasibinomial"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_quasibinomial_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "substantial"
+notes = "Supported binomial links use Pearson dispersion and scaled covariance; dynamic family objects are omitted."
+
+[[extra.translation.function]]
+r_name = "quasipoisson"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_quasipoisson_fit"]
+fortran_source = "src/r_stats_glm.f90"
+status = "substantial"
+notes = "Supported Poisson links use Pearson dispersion and scaled covariance; dynamic family objects are omitted."
+
+[[extra.translation.function]]
+r_name = "make.link"
+r_source = "src/library/stats/R/family.R"
+fortran_module = "r_stats_glm"
+fortran_names = ["glm_link_value", "glm_inverse_link", "glm_mu_eta"]
+fortran_source = "src/r_stats_glm.f90"
+status = "partial"
+notes = "Pure elemental forward, inverse, and derivative helpers cover eight standard links; name-based construction and validity callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "runmed"
+r_source = "src/library/stats/R/runmed.R"
+fortran_module = "r_stats_smoothing"
+fortran_names = ["runmed"]
+fortran_source = "src/r_stats_smoothing.f90"
+status = "substantial"
+notes = "Odd windows and the median, keep, and constant endpoint rules are translated; algorithm selection, missing values, and diagnostic printing are omitted."
+
+[[extra.translation.function]]
+r_name = "ksmooth"
+r_source = "src/library/stats/R/ksmooth.R"
+fortran_module = "r_stats_smoothing"
+fortran_names = ["ksmooth"]
+fortran_source = "src/r_stats_smoothing.f90"
+status = "substantial"
+notes = "Normal and box kernels use R's bandwidth scaling and tail truncation; missing-value filtering is omitted."
+
+[[extra.translation.function]]
+r_name = "lowess"
+r_source = "src/library/stats/R/lowess.R"
+fortran_module = "r_stats_smoothing"
+fortran_names = ["lowess"]
+fortran_source = "src/r_stats_smoothing.f90"
+status = "substantial"
+notes = "Robust locally linear smoothing supports f, iter, and delta; non-finite input removal is omitted."
+
+[[extra.translation.function]]
+r_name = "loess"
+r_source = "src/library/stats/R/loess.R"
+fortran_module = "r_stats_smoothing"
+fortran_names = ["loess_fit", "predict_loess"]
+fortran_source = "src/r_stats_smoothing.f90"
+status = "substantial"
+notes = "Univariate direct-surface local polynomials support degrees zero through two, prior weights, Gaussian and symmetric robust families, stored diagnostics, and arbitrary finite prediction locations. Formula input, multiple predictors, interpolated surfaces, standard errors, and influence diagnostics are omitted."
+
+[[extra.translation.function]]
+r_name = "smooth.spline"
+r_source = "src/library/stats/R/smspline.R"
+fortran_module = "r_stats_smoothing_spline"
+fortran_names = ["smooth_spline", "predict_smooth_spline"]
+fortran_source = "src/r_stats_smoothing_spline.f90"
+status = "substantial"
+notes = "Pure natural cubic smoothing splines support default or explicit reduced knots, all-knots bases, prior weights, R-compatible tolerance grouping, automatic GCV or ordinary CV, explicit spar, positive lambda, or target degrees of freedom, retained leverages, derivative orders zero through two, and natural extrapolation."
+
+[[extra.translation.function]]
+r_name = "filter"
+r_source = "src/library/stats/R/filter.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["filter", "filter_linear"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "partial"
+notes = "One-sided and centered finite convolution and recursive filtering are translated, including explicit initial states; circular filtering, ts attributes, and missing-value processing are omitted."
+
+[[extra.translation.function]]
+r_name = "acf"
+r_source = "src/library/stats/R/acf.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["acf"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "partial"
+notes = "Univariate correlations and biased covariances reuse rfortran-core; multivariate input, na.action, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "ccf"
+r_source = "src/library/stats/R/acf.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["ccf"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "partial"
+notes = "Univariate cross-correlations and biased cross-covariances preserve R's negative-to-positive lag ordering; missing-value processing and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "pacf"
+r_source = "src/library/stats/R/acf.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["pacf"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "partial"
+notes = "Univariate Yule-Walker MLE partial autocorrelations reuse the shared pure Durbin-Levinson kernel; alternative estimators, missing-value processing, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "ARMAacf"
+r_source = "src/library/stats/R/ARMAtheory.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["arma_acf"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "substantial"
+notes = "Stationary ARMA autocorrelations are obtained from finite covariance equations rather than a truncated infinite-MA approximation; the pacf option is available separately through pacf."
+
+[[extra.translation.function]]
+r_name = "arima.sim"
+r_source = "src/library/stats/R/ts.R"
+fortran_module = "r_stats_time_series"
+fortran_names = ["arima_sim"]
+fortran_source = "src/r_stats_time_series.f90"
+status = "partial"
+notes = "Nonseasonal ARIMA simulation accepts explicit innov and start.innov equivalents and supports R-compatible ordinary integration; RNG callbacks, automatic burn-in generation, seasonal terms, and ts attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "ar"
+r_source = "src/library/stats/R/ar.R"
+fortran_module = "r_stats_autoregression"
+fortran_names = ["ar", "ar_yw", "ar_burg", "ar_ols", "ar_mle"]
+fortran_source = "src/r_stats_autoregression.f90"
+status = "partial"
+notes = "Univariate Yule-Walker, Burg, unconstrained OLS, and exact stationary Gaussian ML methods support fixed orders or AIC selection and return typed fit metadata; multivariate and missing-value paths are omitted, and ML defaults to exact rather than ar.mle's historical approximate likelihood."
+
+[[extra.translation.function]]
+r_name = "spec.ar"
+r_source = "src/library/stats/R/spectrum.R"
+fortran_module = "r_stats_autoregression"
+fortran_names = ["spec_ar"]
+fortran_source = "src/r_stats_autoregression.f90"
+status = "partial"
+notes = "Univariate spectra are evaluated from fixed-order or AIC-selected Yule-Walker, Burg, OLS, or ML fits; multivariate models are omitted."
+
+[[extra.translation.function]]
+r_name = "spec.pgram"
+r_source = "src/library/stats/R/spectrum.R"
+fortran_module = "r_stats_spectral"
+fortran_names = ["spec_pgram"]
+fortran_source = "src/r_stats_spectral.f90"
+status = "partial"
+notes = "Raw and repeated modified-Daniell-smoothed univariate and multivariate periodograms support cross-spectra, coherence, phase, detrending, demeaning, tapering, padding, sampling frequency, and R scaling metadata."
+
+[[extra.translation.function]]
+r_name = "spectrum"
+r_source = "src/library/stats/R/spectrum.R"
+fortran_module = "r_stats_spectral"
+fortran_names = ["spectrum"]
+fortran_source = "src/r_stats_spectral.f90"
+status = "partial"
+notes = "The default spec.pgram path is translated; method dispatch, plotting, logarithmic output, and confidence intervals are omitted."
+
+[[extra.translation.function]]
+r_name = "HoltWinters"
+r_source = "src/library/stats/R/HoltWinters.R"
+fortran_module = "r_stats_holt_winters"
+fortran_names = ["holt_winters", "holt_winters_auto", "holt_winters_optimize", "holt_winters_reduced"]
+fortran_source = "src/r_stats_holt_winters.f90"
+status = "substantial"
+notes = "Additive and multiplicative seasonal filtering supports explicit or automatically derived initial states and deterministic bounded optimization; Holt trend, simple exponential smoothing, and seasonal models without trend are included."
+
+[[extra.translation.function]]
+r_name = "decompose"
+r_source = "src/library/stats/R/HoltWinters.R"
+fortran_module = "r_stats_decomposition"
+fortran_names = ["decompose"]
+fortran_source = "src/r_stats_decomposition.f90"
+status = "substantial"
+notes = "Classical additive and multiplicative decomposition uses R's default centered moving-average filters or caller-supplied convolution weights; missing observations are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.HoltWinters"
+r_source = "src/library/stats/R/HoltWinters.R"
+fortran_module = "r_stats_holt_winters"
+fortran_names = ["predict_holt_winters", "predict_holt_winters_interval"]
+fortran_source = "src/r_stats_holt_winters.f90"
+status = "substantial"
+notes = "Point forecasts and configurable normal prediction intervals use R's residual sample variance and horizon-variance recurrences; multiplicative intervals require trend, and time-series metadata is omitted."
+
+[[extra.translation.function]]
+r_name = "stl"
+r_source = "src/library/stats/R/stl.R"
+fortran_module = "r_stats_stl"
+fortran_names = ["stl"]
+fortran_source = "src/r_stats_stl.f90"
+status = "substantial"
+notes = "STL supports configurable windows, local degrees, jumps, inner and robust outer iterations, periodic seasonality, and final robustness weights; missing observations and time-series metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "arima"
+r_source = "src/library/stats/R/arima.R"
+fortran_module = "r_stats_arima"
+fortran_names = ["arima_css", "arima_ml"]
+fortran_source = "src/r_stats_arima.f90"
+status = "partial"
+notes = "Explicit multiplicative seasonal ARIMA models use deterministic CSS fitting with R-compatible conditioning, residual alignment, variance, and log-likelihood conventions. Exact Gaussian likelihood reproduces R for complete finite series and handles internal response gaps through stationary Gaussian conditioning or exact diffuse state-space initialization after ordinary and seasonal integration. User regressors are differenced with the response. Explicit values and logical masks support fixed coefficients. Observed numerical-Hessian covariance is stored in full parameter order with fixed rows and columns zero."
+
+[[extra.translation.function]]
+r_name = "predict.Arima"
+r_source = "src/library/stats/R/arima.R"
+fortran_module = "r_stats_arima"
+fortran_names = ["predict_arima", "predict_arima_interval"]
+fortran_source = "src/r_stats_arima.f90"
+status = "partial"
+notes = "Point forecasts are translated for exact and CSS fits, including future regressors, multiplicative seasonal terms, and inversion of ordinary and seasonal differences. Exact fits use finite-history covariance prediction; R state-space initialization can give different seasonal-MA CSS forecasts. Innovation-based standard errors and configurable normal intervals are included but condition on estimated coefficients."

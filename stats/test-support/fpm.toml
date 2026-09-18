@@ -1,0 +1,14 @@
+name = "stats-test-support"
+version = "0.1.0"
+license = "MIT"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
