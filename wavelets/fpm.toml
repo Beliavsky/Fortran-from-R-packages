@@ -1,0 +1,178 @@
+name = "wavelets"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Eric Aldrich; modern Fortran translation contributors"
+maintainer = "Modern Fortran translation contributors"
+copyright = "Upstream wavelets package authors and contributors"
+description = "Modern Fortran translation of the computational core of the R package wavelets"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 17
+r_functions_translated = 17
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "align"
+r_source = "upstream/R/align.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["align"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "Numerical coefficient alignment and inverse alignment are translated; R S4/class metadata handling is represented by typed Fortran components."
+
+[[extra.translation.function]]
+r_name = "dwt"
+r_source = "upstream/R/dwt.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["dwt_named", "dwt_with_filter"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "DWT computation, periodic/reflection boundaries, level selection, and filter handling are translated; R S4/ts/data-frame metadata and the R fast flag are omitted."
+
+[[extra.translation.function]]
+r_name = "dwt.backward"
+r_source = "upstream/R/dwt.backward.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["dwt_backward"]
+fortran_source = "src/wavelets_transform.f90"
+status = "complete"
+notes = "The numerical inverse DWT kernel is translated directly from the upstream compiled kernel behavior."
+
+[[extra.translation.function]]
+r_name = "dwt.forward"
+r_source = "upstream/R/dwt.forward.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["dwt_forward"]
+fortran_source = "src/wavelets_transform.f90"
+status = "complete"
+notes = "The numerical forward DWT kernel is translated directly from the upstream compiled kernel behavior."
+
+[[extra.translation.function]]
+r_name = "extend.series"
+r_source = "upstream/R/extend.series.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["extend_series"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "Periodic, reflection, inverse-reflection, zero, and mean extension with arbitrary, power-of-two, and double targets are translated; R ts/data-frame class restoration is omitted."
+
+[[extra.translation.function]]
+r_name = "idwt"
+r_source = "upstream/R/idwt.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["idwt"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "Inverse DWT, alignment undoing, reflection trimming, and upstream five-decimal output rounding are translated; R object/class reconstruction is omitted."
+
+[[extra.translation.function]]
+r_name = "imodwt"
+r_source = "upstream/R/imodwt.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["imodwt"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "Inverse MODWT, alignment undoing, reflection trimming, and upstream five-decimal output rounding are translated; R object/class reconstruction is omitted."
+
+[[extra.translation.function]]
+r_name = "modwt"
+r_source = "upstream/R/modwt.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["modwt_named", "modwt_with_filter"]
+fortran_source = "src/wavelets_transform.f90"
+status = "substantial"
+notes = "MODWT computation, periodic/reflection boundaries, level selection, and named/custom filters are translated; R S4/ts/data-frame metadata and the R fast flag are omitted."
+
+[[extra.translation.function]]
+r_name = "modwt.backward"
+r_source = "upstream/R/modwt.backward.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["modwt_backward"]
+fortran_source = "src/wavelets_transform.f90"
+status = "complete"
+notes = "The numerical inverse MODWT kernel is translated directly from the upstream compiled kernel behavior."
+
+[[extra.translation.function]]
+r_name = "modwt.forward"
+r_source = "upstream/R/modwt.forward.R"
+fortran_module = "wavelets_transform"
+fortran_names = ["modwt_forward"]
+fortran_source = "src/wavelets_transform.f90"
+status = "complete"
+notes = "The numerical forward MODWT kernel is translated directly from the upstream compiled kernel behavior."
+
+[[extra.translation.function]]
+r_name = "mra"
+r_source = "upstream/R/mra.R"
+fortran_module = "wavelets_analysis"
+fortran_names = ["mra_named", "mra_with_filter"]
+fortran_source = "src/wavelets_analysis.f90"
+status = "substantial"
+notes = "DWT- and MODWT-based multiresolution detail/smooth reconstruction is translated; R S4/ts/data-frame metadata and presentation methods are omitted."
+
+[[extra.translation.function]]
+r_name = "scalingshift.dwt"
+r_source = "upstream/R/scalingshift.dwt.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["scalingshift_dwt"]
+fortran_source = "src/wavelets_filters.f90"
+status = "complete"
+notes = "The upstream integer phase-shift formulas and optional modulo-N adjustment are translated."
+
+[[extra.translation.function]]
+r_name = "waveletshift.dwt"
+r_source = "upstream/R/waveletshift.dwt.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["waveletshift_dwt"]
+fortran_source = "src/wavelets_filters.f90"
+status = "complete"
+notes = "The upstream integer phase-shift formulas and optional modulo-N adjustment are translated."
+
+[[extra.translation.function]]
+r_name = "wt.filter"
+r_source = "upstream/R/wt.filter.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["wt_filter_named", "wt_filter_coefficients"]
+fortran_source = "src/wavelets_filters.f90"
+status = "substantial"
+notes = "All 25 upstream named filters, aliases, QMF construction, MODWT normalization, custom coefficients, and equivalent-level construction are represented; R S4 object construction is replaced by wt_filter_type."
+
+[[extra.translation.function]]
+r_name = "wt.filter.equivalent"
+r_source = "upstream/R/wt.filter.equivalent.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["wt_filter_equivalent"]
+fortran_source = "src/wavelets_filters.f90"
+status = "complete"
+notes = "The numerical equivalent-filter cascade is translated for positive decomposition levels."
+
+[[extra.translation.function]]
+r_name = "wt.filter.qmf"
+r_source = "upstream/R/wt.filter.qmf.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["wt_filter_qmf"]
+fortran_source = "src/wavelets_filters.f90"
+status = "complete"
+notes = "Quadrature-mirror reversal and alternating-sign conventions, including inverse phase, are translated."
+
+[[extra.translation.function]]
+r_name = "wt.filter.shift"
+r_source = "upstream/R/wt.filter.shift.R"
+fortran_module = "wavelets_filters"
+fortran_names = ["wt_filter_shift"]
+fortran_source = "src/wavelets_filters.f90"
+status = "substantial"
+notes = "Filter-family phase rules, center-of-energy option, and DWT/MODWT shift formulas are translated; the R polymorphic argument interface is replaced by a typed wt_filter_type argument."
