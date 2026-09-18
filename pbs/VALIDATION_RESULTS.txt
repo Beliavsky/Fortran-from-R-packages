@@ -1,0 +1,34 @@
+Validation date: 2026-09-15
+Compiler: GNU Fortran (Debian 14.2.0-19) 14.2.0
+
+$ fpm build
+bash: line 8: fpm: command not found
+exit=127
+
+$ fpm test
+bash: line 12: fpm: command not found
+exit=127
+
+$ fpm clean --all
+bash: line 16: fpm: command not found
+exit=127
+
+$ fprettify --version
+bash: line 20: fprettify: command not found
+exit=127
+
+Direct strict gfortran validation:
+PASS: -O0 -fcheck=all -fbacktrace -Wall -Wextra -Werror -pedantic
+PASS: deterministic tests
+PASS: example
+PASS: independent SciPy parity
+periodic max abs diff: 1.110e-16
+ordinary max abs diff: 3.997e-15
+
+Direct optimized gfortran validation:
+PASS: -O2 -Wall -Wextra -Werror -pedantic
+PASS: deterministic tests
+PASS: example
+PASS: independent SciPy parity
+
+SOURCE AUDIT PASSED: 7 Fortran files; 2/2 coverage mapping consistent.

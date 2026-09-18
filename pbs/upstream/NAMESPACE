@@ -1,0 +1,14 @@
+##  Load the shared object library
+# useDynLib(pbs)
+## functions
+export(pbs)
+
+## functions not exported
+#export(predict.pbs, makepredictcall.pbs)
+
+importFrom(graphics, plot)
+importFrom(stats, as.formula, coef, makepredictcall, na.fail, predict)
+importFrom(splines, spline.des, splineDesign)
+
+S3method(predict, pbs)
+S3method(makepredictcall, pbs)
