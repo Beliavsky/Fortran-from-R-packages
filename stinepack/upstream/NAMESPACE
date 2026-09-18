@@ -1,0 +1,4 @@
+importFrom("stats", "na.omit", "time")
+S3method(na.stinterp,default)
+# Export all names
+exportPattern(".")

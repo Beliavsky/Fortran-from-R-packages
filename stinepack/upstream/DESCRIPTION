@@ -1,0 +1,15 @@
+Package: stinepack
+Date: 2024-03-07
+Title: Stineman, a Consistently Well Behaved Method of Interpolation
+Version: 1.5
+Type: Package
+Imports: stats
+Repository: CRAN
+Author: Tomas Johannesson & Halldor Bjornsson, Icelandic Met. Office;
+        Gabor Grothendieck
+Description: A consistently well behaved method of interpolation based on piecewise rational functions using Stineman's algorithm.
+Maintainer: Tomas Johannesson <tj@vedur.is>
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2024-03-07 10:15:24 UTC; tj
+Date/Publication: 2024-03-07 11:40:02 UTC

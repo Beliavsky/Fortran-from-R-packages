@@ -1,0 +1,64 @@
+name = "stinepack"
+version = "1.5.0"
+license = "GPL-2.0-or-later"
+author = "Tomas Johannesson, Halldor Bjornsson, Gabor Grothendieck; Fortran translation by OpenAI"
+maintainer = "Beliavsky/Fortran-from-R-packages project"
+copyright = "Upstream stinepack authors and contributors"
+description = "Modern Fortran translation of the computational core of the R package stinepack"
+categories = ["interpolation", "numerical-analysis"]
+keywords = ["stineman", "interpolation", "gap-filling"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 4
+r_functions_translated = 4
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "na.stinterp.default"
+r_source = "upstream/R/na.stinterp.R"
+fortran_module = "stinepack_api"
+fortran_names = ["na_stinterp"]
+fortran_source = "src/stinepack_api.f90"
+status = "substantial"
+notes = "Numeric vector and matrix gap filling, default equidistant coordinates, explicit coordinates, na.rm behavior, and slope-method forwarding are translated. R S3/class/time attributes and arbitrary ... forwarding are omitted."
+
+[[extra.translation.function]]
+r_name = "parabolaSlopes"
+r_source = "upstream/R/parabolaSlopes.R"
+fortran_module = "stinepack_api"
+fortran_names = ["parabola_slopes"]
+fortran_source = "src/stinepack_api.f90"
+status = "complete"
+notes = "The slope formulas are translated directly for valid numeric knot vectors; R vector object semantics are not applicable."
+
+[[extra.translation.function]]
+r_name = "stinemanSlopes"
+r_source = "upstream/R/stinemanSlopes.R"
+fortran_module = "stinepack_api"
+fortran_names = ["stineman_slopes"]
+fortran_source = "src/stinepack_api.f90"
+status = "complete"
+notes = "Scaled and unscaled Stineman slope calculations are translated directly."
+
+[[extra.translation.function]]
+r_name = "stinterp"
+r_source = "upstream/R/stinterp.R"
+fortran_module = "stinepack_api"
+fortran_names = ["stinterp"]
+fortran_source = "src/stinepack_api.f90"
+status = "substantial"
+notes = "The numerical interpolant, optional supplied slopes, three slope methods, unique-prefix method matching, endpoint tolerance, and out-of-range NaNs are translated. R stop() errors are represented by status/message fields in a derived-type result."
