@@ -1,0 +1,41 @@
+gamm4 Fortran translation validation - 2026-09-15
+
+Compiler: GNU Fortran 14.2.0
+Coverage: 1/1 exported computational R functions mapped (100%)
+Package status: substantial
+
+Debug/runtime-check build:
+  -std=f2018 -O0 -fcheck=all -fbacktrace -Wall -Wextra -Werror -pedantic
+  PASS: deterministic tests
+  PASS: example
+  PASS: independent NumPy/SciPy parity
+
+Optimized build:
+  -std=f2018 -O2 -Wall -Wextra -Werror -pedantic
+  PASS: deterministic tests
+  PASS: example
+  PASS: independent NumPy/SciPy parity
+
+Independent parity differences (debug):
+  objective:    3.476e-08
+  scale:        5.994e-09
+  coefficients: 4.183e-07
+  eta:          9.964e-05
+  vcov diagonal:1.582e-15
+
+Source audit:
+  SOURCE AUDIT PASSED: 6 Fortran files; 1/1 coverage mapping consistent.
+
+FPM commands:
+  fpm build       -> exit 127 (fpm not installed)
+  fpm test        -> exit 127 (fpm not installed)
+  fpm clean --all -> exit 127 (fpm not installed)
+
+fprettify:
+  fprettify --version -> exit 127 (not installed)
+
+Dependency integration limitation:
+  The sibling mgcv/lme4/rfortran-linalg checkouts are not mounted here and the
+  container cannot resolve github.com. Compilation was therefore validated
+  against non-shipped API-compatible interface test modules after checking the
+  current public dependency APIs.

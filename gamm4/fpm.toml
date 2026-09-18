@@ -1,0 +1,49 @@
+name = "gamm4"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "gamm4 authors; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of the R package gamm4"
+categories = ["statistics", "mixed-models", "smoothing"]
+keywords = ["GAMM", "GAM", "mixed models", "smoothing", "REML"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+mgcv-fortran = { path = "../mgcv" }
+lme4 = { path = "../lme4" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[[test]]
+name = "test_gamm4"
+source-dir = "test"
+main = "test_gamm4.f90"
+
+[[example]]
+name = "example_gamm4"
+source-dir = "example"
+main = "example_gamm4.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 1
+r_functions_translated = 1
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "gamm4"
+r_source = "upstream/R/gamm4.r"
+fortran_module = "gamm4_fit_mod"
+fortran_names = ["gamm4_fit"]
+fortran_source = "src/gamm4_fit.f90"
+status = "substantial"
+notes = "The mixed-model/smoothing computation is translated for explicit numeric designs, single-penalty smooths, and supported lme4 families. R formula/model-frame processing, S3 object construction, multi-penalty t2 smooths, and reticulate/CHOLMOD acceleration are omitted."

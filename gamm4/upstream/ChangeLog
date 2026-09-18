@@ -1,0 +1,150 @@
+ISSUES:
+
+* gamm4 isn't handling NA's properly with formulae like y~factor(z).
+  When inserting z into dataframe, it fails to drop.
+
+* gamm4 (and indeed gamm) will fail if the fixed effects are not identifiable. 
+  This can happen, quite easily. e.g.  s(x,by=fac1) + s(x,by=fac2) means that
+  the columns x:fac1 and x:fac2 are not independent.
+
+0.3-0
+
+* Pass optimizer arguments to lme4 / lmer
+
+* Speed up random effect design matrix creation with a sparse non-zero 
+  indexing approach
+
+* Disable condVar when calling ranef
+
+* Add the option to use scikit-sparse to compute the Cholesky decomposition 
+  of the data covariance matrix.
+
+* Use Woodbury identity to speed up cov matrix computation when random effect
+  cov matrix has more rows than columns (currently without python option).
+
+* Fix of nested random effect example in helpfile where effects were not 
+  nested! 
+
+0.2-7
+
+* Matrix::chol no longer (since 1.6-3) returns the pivot sequence, rendering 
+  it not very useful for many purposes and breaking the covariance matrix 
+  computation in gamm4 - fixed by this version. Thanks to Balint Tamasi for
+  reporting the covariance matrix problem. 
+
+0.2-6
+
+* Removal of code branch compatible with lme<1.0 to avoid warnings.
+
+0.2-5
+
+* Fix of problem dealing with long random effect formulae. Thanks to 
+  Iain Malcolm.
+
+* Added control ability to pass control arguments to underlying lme4 fitting
+  functions.
+
+0.2-4
+
+* start up message changed to use packageStartupMessage.
+
+* Various imports in NAMESPACE.
+
+0.2-3
+
+* modified to extract REML using REMLcrit to avoid lme4 warning
+
+* argument drop.unused.levels added to gamm4, to facilitate mrf smoothing when
+  some regions are data-less. 
+
+0.2-2
+
+* Some tidying and modification to avoid cran check problems for code
+  back compatible with old lme4.
+
+* Fix of erroroneous passing of '...' to modular lme4 fitting functions.
+
+0.2-1
+
+* Some restructuring - initial model setup in common for both old and new 
+  lme4, but actual fitting work then branches depending on version. 
+	
+0.2-0
+
+* Updated for new lme4. gamm4 tests for lme4 version installed, and behaves 
+  accordingly. Will generate notes on testing with old lme4 - unavoidable. Some 
+  testing still to do - awaiting some lme4 fixes. 
+
+* fix to variance computation - prior weights were not used correctly - could
+  cause incorrect interval estimation for smooths when prior weights used
+  (e.g. binomial with n > 1, or weighted gaussian case).
+
+0.1-6
+
+* added return of R factor from QR of WX.
+
+* cov matrix computation modified to use LAPACK and pivoting properly.
+
+* some changes to replace direct slot access with getME, but incomplete (y, pWt
+  and var still direct).
+
+0.1-5
+
+* gamm4 return object now of class "gamm4"
+
+0.1-4
+
+* upgrade to gamm4.setup to make smooth to r.e. conversion object oriented
+  and hence cleaner.
+
+* gamm4 can now deal with "sf" class smooth factor interactions. This gives 
+  an efficient way to handle subject specific random smooths.
+
+0.1-3
+
+* Incorrect pivoting of covariance matrix of data/pseudodata could lead 
+  to incorrect covariance matrix for coefficients and incorrect EDF 
+  computation. Pivoting now corrected, and results tested. 
+
+0.1-2
+
+* Bad bug fix: I'd failed to track an internal lme4 change, so that 
+  gamm4 had stopped extracting random effect variances correctly. 
+  This meant that gamm4 standard errors were typically too low. 
+  Fixed and checks added to test suite to detect this sort of problem.  
+
+0.1-1
+
+* Allow for centering of smooth model matrix columns, when there is an 
+  intercept, but columns are not centered by constraint.
+
+0.1-0
+
+* Upgraded to use `t2' type tensor product smooths
+
+* bug fix so that s(...,fx=TRUE) works
+
+* workaround in gamm4 so that g/lmer handles offset properly.
+
+0.0-4
+
+* covariance matrix calculation was still not robust enough. Improved 
+further.
+
+0.0-3
+
+* solving for the coefficient covariance matrix could fail under heavy 
+  smoothing --- now made more robust. 
+
+* `gamm4' can now be supplied with prior weights. 
+
+* The `cbind(success,failure)' form for a binomial response now works 
+  properly.
+
+* help file has been updated for mgcv_1.6-2, and to avoid running to 
+  many slow `gamm' calls in checking.
+
+0.0-2
+
+* gamm4 now returns a `scale.estimated' field in its `gam' object
+  part. 
