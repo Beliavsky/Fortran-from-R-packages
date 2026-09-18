@@ -1,0 +1,22 @@
+# CXX_STD = CXX11
+
+SOURCES = \
+	ANN/perf.cpp ANN/bd_fix_rad_search.cpp ANN/bd_search.cpp \
+	ANN/kd_split.cpp ANN/kd_pr_search.cpp ANN/kd_search.cpp \
+	ANN/ANN.cpp ANN/brute.cpp ANN/bd_tree.cpp ANN/kd_fix_rad_search.cpp \
+	ANN/bd_pr_search.cpp ANN/kd_util.cpp ANN/kd_tree.cpp ANN/kd_dump.cpp \
+	utilities.cpp cleanup.cpp \
+	kNN.cpp connectedComps.cpp \
+	frNN.cpp regionQuery.cpp density.cpp \
+	dbscan.cpp \
+	optics.cpp \
+	JP.cpp \
+	hdbscan.cpp \
+	dendrogram.cpp UnionFind.cpp \
+	mrd.cpp \
+	mst.cpp \
+	lof.cpp \
+	dbcv.cpp \
+	RcppExports.cpp
+
+OBJECTS = $(SOURCES:.cpp=.o)

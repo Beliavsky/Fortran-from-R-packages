@@ -1,0 +1,255 @@
+name = "dbscan"
+version = "1.2.6"
+license = "GPL-2.0-or-later"
+author = "Michael Hahsler, Matthew Piekenbrock, and dbscan contributors"
+maintainer = "Fortran translation maintainers"
+copyright = "Upstream copyrights retained; see NOTICE.md and PROVENANCE.md"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[[test]]
+name = "test_dbscan"
+source-dir = "test"
+main = "test_dbscan.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example"
+main = "basic.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 25
+r_functions_translated = 25
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "adjacencylist"
+r_source = "upstream/R/NN.R"
+fortran_modules = ["dbscan_nn", "dbscan_api"]
+fortran_names = ["adjacencylist_knn", "adjacencylist_frnn"]
+fortran_sources = ["src/dbscan_nn.f90", "src/dbscan_api.f90"]
+status = "substantial"
+notes = "Numeric kNN/frNN adjacency conversion is translated; R S3 class dispatch and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "as.dendrogram"
+r_source = "upstream/R/dendrogram.R"
+fortran_module = "dbscan_conversion"
+fortran_names = ["optics_to_dendrogram"]
+fortran_source = "src/dbscan_conversion.f90"
+status = "partial"
+notes = "A numeric hclust-like dendrogram representation is produced from OPTICS reachability; R dendrogram objects, attributes, and general hclust dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "as.reachability"
+r_source = "upstream/R/reachability.R"
+fortran_module = "dbscan_conversion"
+fortran_names = ["dendrogram_to_reachability"]
+fortran_source = "src/dbscan_conversion.f90"
+status = "partial"
+notes = "A numeric reachability reconstruction is provided for the translated dendrogram type; R dendrogram traversal metadata are not reproduced exactly."
+
+[[extra.translation.function]]
+r_name = "comps"
+r_source = "upstream/R/comps.R"
+fortran_module = "dbscan_api"
+fortran_names = ["comps_knn", "comps_frnn"]
+fortran_source = "src/dbscan_api.f90"
+status = "substantial"
+notes = "Connected components for kNN and frNN graphs are translated, including optional mutual kNN edges; R dist/S3 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "coredist"
+r_source = "upstream/R/hdbscan.R"
+fortran_module = "dbscan_hdbscan"
+fortran_names = ["coredist"]
+fortran_source = "src/dbscan_hdbscan.f90"
+status = "substantial"
+notes = "Euclidean matrix core distances are translated exactly using the exact neighbor backend; R dist-object input is omitted."
+
+[[extra.translation.function]]
+r_name = "dbcv"
+r_source = "upstream/R/dbcv.R"
+fortran_module = "dbscan_dbcv"
+fortran_names = ["dbcv"]
+fortran_source = "src/dbscan_dbcv.f90"
+status = "substantial"
+notes = "DBCV core-distance, mutual-reachability MST, separation, and weighted validity calculations are translated for matrix input and three built-in metrics."
+
+[[extra.translation.function]]
+r_name = "dbscan"
+r_source = "upstream/R/dbscan.R"
+fortran_module = "dbscan_cluster"
+fortran_names = ["dbscan", "dbscan_from_frnn"]
+fortran_source = "src/dbscan_cluster.f90"
+status = "substantial"
+notes = "DBSCAN/DBSCAN* clustering, weighted core tests, and border-point control are translated; ANN approximation/search controls and R object dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "extractDBSCAN"
+r_source = "upstream/R/optics.R"
+fortran_module = "dbscan_optics"
+fortran_names = ["extract_dbscan"]
+fortran_source = "src/dbscan_optics.f90"
+status = "complete"
+notes = "The computational OPTICS-to-DBSCAN extraction loop is translated; only R object presentation is absent."
+
+[[extra.translation.function]]
+r_name = "extractFOSC"
+r_source = "upstream/R/extractFOSC.R"
+fortran_module = "dbscan_hdbscan"
+fortran_names = ["extract_fosc"]
+fortran_source = "src/dbscan_hdbscan.f90"
+status = "substantial"
+notes = "Unsupervised and semi-supervised FOSC extraction are translated, including mixed alpha objectives and unstable-branch pruning. Fortran accepts a symmetric full n-by-n constraint matrix; R list/dist-vector forms, automatic constraint repair, and augmented hclust object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "extractXi"
+r_source = "upstream/R/optics.R"
+fortran_module = "dbscan_optics"
+fortran_names = ["extract_xi"]
+fortran_source = "src/dbscan_optics.f90"
+status = "substantial"
+notes = "Xi steep-area extraction and predecessor correction are translated; R reachability plotting/object attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "frNN"
+r_source = "upstream/R/frNN.R"
+fortran_module = "dbscan_nn"
+fortran_names = ["frnn", "frnn_query", "frnn_from_dist"]
+fortran_source = "src/dbscan_nn.f90"
+status = "substantial"
+notes = "Exact fixed-radius search is translated for data, query, and distance-matrix inputs. ANN kd-tree/approximate search controls are intentionally omitted."
+
+[[extra.translation.function]]
+r_name = "glosh"
+r_source = "upstream/R/GLOSH.R"
+fortran_module = "dbscan_hdbscan"
+fortran_names = ["glosh"]
+fortran_source = "src/dbscan_hdbscan.f90"
+status = "substantial"
+notes = "Matrix-input GLOSH uses the upstream condensed-hierarchy noise-exit and leaf-death epsilon calculation. R dist-object and arbitrary hclust input forms are omitted."
+
+[[extra.translation.function]]
+r_name = "hdbscan"
+r_source = "upstream/R/hdbscan.R"
+fortran_module = "dbscan_hdbscan"
+fortran_names = ["hdbscan"]
+fortran_source = "src/dbscan_hdbscan.f90"
+status = "substantial"
+notes = "Mutual-reachability MST, upstream-style condensed hierarchy and stability, EOM extraction, exact GLOSH scoring, cluster_selection_epsilon, and core-distance membership probabilities are translated for matrix input. R dist-object input and optional presentation-tree objects are omitted."
+
+[[extra.translation.function]]
+r_name = "is.corepoint"
+r_source = "upstream/R/dbscan.R"
+fortran_module = "dbscan_cluster"
+fortran_names = ["is_corepoint"]
+fortran_source = "src/dbscan_cluster.f90"
+status = "substantial"
+notes = "Core-point classification including optional observation weights is translated for numeric matrix input; ANN search controls are omitted."
+
+[[extra.translation.function]]
+r_name = "jpclust"
+r_source = "upstream/R/jpclust.R"
+fortran_module = "dbscan_snn"
+fortran_names = ["jpclust"]
+fortran_source = "src/dbscan_snn.f90"
+status = "substantial"
+notes = "Jarvis-Patrick mutual-kNN/shared-neighbor clustering is translated with exact nearest neighbors; R wrapper/search controls are omitted."
+
+[[extra.translation.function]]
+r_name = "kNN"
+r_source = "upstream/R/kNN.R"
+fortran_module = "dbscan_nn"
+fortran_names = ["knn", "knn_query", "knn_from_dist"]
+fortran_source = "src/dbscan_nn.f90"
+status = "substantial"
+notes = "Exact k-nearest-neighbor search is translated for data, query, and distance-matrix inputs. ANN kd-tree, priority search, bucket, split-rule, and approximation options are omitted."
+
+[[extra.translation.function]]
+r_name = "kNNdist"
+r_source = "upstream/R/kNNdist.R"
+fortran_module = "dbscan_nn"
+fortran_names = ["knn_dist"]
+fortran_source = "src/dbscan_nn.f90"
+status = "substantial"
+notes = "Per-observation k-th nearest-neighbor distance is translated for numeric matrix input; all-k and R dist-object conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "lof"
+r_source = "upstream/R/LOF.R"
+fortran_module = "dbscan_outlier"
+fortran_names = ["lof"]
+fortran_source = "src/dbscan_outlier.f90"
+status = "substantial"
+notes = "LOF including k-distance ties and duplicate-point handling is translated for numeric matrices using exact Euclidean neighbors; R dist/search options are omitted."
+
+[[extra.translation.function]]
+r_name = "mrdist"
+r_source = "upstream/R/hdbscan.R"
+fortran_module = "dbscan_hdbscan"
+fortran_names = ["mrdist"]
+fortran_source = "src/dbscan_hdbscan.f90"
+status = "substantial"
+notes = "Euclidean mutual-reachability distances are translated for numeric matrix input; R dist-object metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "ncluster"
+r_source = "upstream/R/ncluster.R"
+fortran_module = "dbscan_api"
+fortran_names = ["ncluster"]
+fortran_source = "src/dbscan_api.f90"
+status = "complete"
+notes = "Positive flat cluster labels are counted for translated DBSCAN/OPTICS/HDBSCAN result types."
+
+[[extra.translation.function]]
+r_name = "nnoise"
+r_source = "upstream/R/ncluster.R"
+fortran_module = "dbscan_api"
+fortran_names = ["nnoise"]
+fortran_source = "src/dbscan_api.f90"
+status = "complete"
+notes = "Zero-valued noise labels are counted for translated DBSCAN/OPTICS/HDBSCAN result types."
+
+[[extra.translation.function]]
+r_name = "optics"
+r_source = "upstream/R/optics.R"
+fortran_module = "dbscan_optics"
+fortran_names = ["optics"]
+fortran_source = "src/dbscan_optics.f90"
+status = "substantial"
+notes = "OPTICS ordering, core/reachability distances, predecessor bookkeeping, and upstream-style priority tie handling are translated; ANN search controls and R attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "pointdensity"
+r_source = "upstream/R/pointdensity.R"
+fortran_module = "dbscan_outlier"
+fortran_names = ["pointdensity"]
+fortran_source = "src/dbscan_outlier.f90"
+status = "substantial"
+notes = "Frequency, uniform density, and Gaussian-kernel point-density modes are translated for numeric matrix input; R search controls are omitted."
+
+[[extra.translation.function]]
+r_name = "sNN"
+r_source = "upstream/R/sNN.R"
+fortran_module = "dbscan_snn"
+fortran_names = ["snn"]
+fortran_source = "src/dbscan_snn.f90"
+status = "substantial"
+notes = "Shared-nearest-neighbor similarity and optional Jarvis-Patrick mutual-edge restriction are translated using exact kNN search."
+
+[[extra.translation.function]]
+r_name = "sNNclust"
+r_source = "upstream/R/sNNclust.R"
+fortran_module = "dbscan_snn"
+fortran_names = ["snnclust"]
+fortran_source = "src/dbscan_snn.f90"
+status = "substantial"
+notes = "Shared-nearest-neighbor DBSCAN clustering and border-point control are translated; R search/object presentation options are omitted."
