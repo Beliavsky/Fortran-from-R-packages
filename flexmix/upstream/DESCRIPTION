@@ -1,0 +1,39 @@
+Package: flexmix
+Type: Package
+Title: Flexible Mixture Modeling
+Version: 2.3-21
+Authors@R: c(person("Bettina", "Gruen", role = c("aut", "cre"),
+                    email = "Bettina.Gruen@R-project.org",
+	            comment = c(ORCID = "0000-0001-7265-4773")),
+             person("Friedrich", "Leisch", role = "aut",
+	     	    comment = c(ORCID = "0000-0001-7278-1983")),
+             person("Deepayan", "Sarkar", role = "ctb",
+	            comment = c(ORCID = "0000-0003-4107-1553")),
+	     person("Frederic", "Mortier", role = "ctb"),
+	     person("Nicolas", "Picard", role = "ctb",
+	            comment = c(ORCID = "0000-0001-5548-9171")))
+Description: A general framework for finite mixtures of regression
+  models using the EM algorithm is implemented. The E-step and all
+  data handling are provided, while the M-step can be supplied by the
+  user to easily define new models. Existing drivers implement
+  mixtures of standard linear models, generalized linear models and
+  model-based clustering.
+Depends: R (>= 2.15.0)
+Imports: graphics, grid, grDevices, lattice, methods, modeltools (>=
+        0.2-16), nnet, stats, stats4, utils
+Suggests: actuar, codetools, diptest, Ecdat, ellipse, gclus, glmnet,
+        lme4 (>= 1.1), MASS, mgcv (>= 1.8-0), mlbench, multcomp,
+        mvtnorm, SuppDists, survival
+License: GPL (>= 2)
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2026-08-25 10:39:34 UTC; bettina
+Author: Bettina Gruen [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-7265-4773>),
+  Friedrich Leisch [aut] (ORCID: <https://orcid.org/0000-0001-7278-1983>),
+  Deepayan Sarkar [ctb] (ORCID: <https://orcid.org/0000-0003-4107-1553>),
+  Frederic Mortier [ctb],
+  Nicolas Picard [ctb] (ORCID: <https://orcid.org/0000-0001-5548-9171>)
+Maintainer: Bettina Gruen <Bettina.Gruen@R-project.org>
+Repository: CRAN
+Date/Publication: 2026-08-25 21:00:10 UTC

@@ -1,0 +1,627 @@
+name = "flexmix"
+version = "2.3.21"
+license = "GPL-2.0-or-later"
+author = "Bettina Gruen, Friedrich Leisch; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "2004-2016 Friedrich Leisch and Bettina Gruen; Fortran translation under GPL-2.0-or-later"
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[[test]]
+name = "test_flexmix"
+source-dir = "test"
+main = "test_flexmix.f90"
+
+[[example]]
+name = "basic_flexmix"
+source-dir = "example"
+main = "basic_flexmix.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 68
+r_functions_translated = 66
+frac_functions_translated = 0.9705882352941176
+untranslated_r_functions = ["FLXgetModelmatrix", "Lapply"]
+
+[[extra.translation.function]]
+r_name = "ExNPreg"
+r_source = "upstream/R/examples.R"
+fortran_module = "flexmix_api"
+fortran_names = ["ex_npreg"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The nonlinear Gaussian, Poisson, and Bernoulli two-class generator and its id1/id2 grouping labels are translated; the Fortran RNG stream intentionally differs from R."
+
+[[extra.translation.function]]
+r_name = "ExNclus"
+r_source = "upstream/R/examples.R"
+fortran_module = "flexmix_api"
+fortran_names = ["ex_nclus"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The four bivariate Gaussian clusters, means, covariance structures, and sample-size proportions are translated with direct normal generation; RNG identity with mvtnorm/R is omitted."
+
+[[extra.translation.function]]
+r_name = "FLXdist"
+r_source = "upstream/R/flxdist.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_make_distribution"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "A fixed numerical regression-mixture distribution can be constructed from explicit priors and Gaussian, Poisson, binomial, or Gamma component parameters; R formula/S4 component construction and arbitrary model lists are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXgradlogLikfun"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_refit"
+fortran_names = ["flexmix_gradient_regression"]
+fortran_source = "src/flexmix_refit.f90"
+status = "substantial"
+notes = "Analytic observed-data mixture scores are translated for Gaussian, Poisson, and binomial regressions, including constant or multinomial concomitant priors and case weights; grouped and Gamma gradients remain omitted."
+
+[[extra.translation.function]]
+r_name = "FLXglmFix"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_fixed"
+fortran_names = ["flexmix_glmfix_gaussian", "flexmix_glmfix_poisson", "flexmix_glmfix_binomial", "flexmix_glmfix_gamma"]
+fortran_source = "src/flexmix_fixed.f90"
+status = "substantial"
+notes = "The legacy alias to FLXMRglmfix maps to the numeric fixed/shared-coefficient Gaussian, Poisson, binomial, and Gamma drivers."
+
+[[extra.translation.function]]
+r_name = "FLXMRglmfix"
+r_source = "upstream/R/glmFix.R"
+fortran_module = "flexmix_fixed"
+fortran_names = ["flexmix_glmfix_gaussian", "flexmix_glmfix_poisson", "flexmix_glmfix_binomial", "flexmix_glmfix_gamma"]
+fortran_source = "src/flexmix_fixed.f90"
+status = "substantial"
+notes = "Fixed/shared coefficients are translated through explicit component-specific numeric design arrays and an incidence matrix, including Gaussian variance-sharing groups; R formula/nested-model construction and automatic component deletion are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXgetDesign"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_refit"
+fortran_names = ["flexmix_get_design"]
+fortran_source = "src/flexmix_refit.f90"
+status = "substantial"
+notes = "Component-to-unique-parameter incidence matrices are returned for ordinary translated models and for shared/fixed GLM coefficients, Gaussian variance groups, and Gamma shape parameters."
+
+[[extra.translation.function]]
+r_name = "FLXreplaceParameters"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_refit"
+fortran_names = ["flexmix_replace_parameters"]
+fortran_source = "src/flexmix_refit.f90"
+status = "substantial"
+notes = "Packed component and prior/concomitant parameters can be replaced and propagated through translated ordinary and fixed/shared models; R S4 component reconstruction is not reproduced."
+
+[[extra.translation.function]]
+r_name = "existGradient"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_refit"
+fortran_names = ["flexmix_exist_gradient"]
+fortran_source = "src/flexmix_refit.f90"
+status = "substantial"
+notes = "Reports analytic observed-data score availability for translated Gaussian, Poisson, and binomial regression mixtures, matching the supported gradient path."
+
+[[extra.translation.function]]
+r_name = "refit_optim"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_refit"
+fortran_names = ["flexmix_refit_optim_regression"]
+fortran_source = "src/flexmix_refit.f90"
+status = "partial"
+notes = "Gaussian, Poisson, and binomial regression mixtures obtain optimizer-style parameter estimates, numerical observed-information covariance, and standard errors from the analytic score; R Coefmat/S4 formatting and general-model optim orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "boot"
+r_source = "upstream/R/boot.R"
+fortran_module = "flexmix_bootstrap"
+fortran_names = ["flexmix_boot_regression"]
+fortran_source = "src/flexmix_bootstrap.f90"
+status = "partial"
+notes = "Parametric and row-resampling bootstrap workflows are translated for ordinary Gaussian, Poisson, binomial, and Gamma regression mixtures, retaining per-replicate fits, log likelihoods, retained component counts, and convergence flags; grouped/concomitant and non-regression models are omitted."
+
+[[extra.translation.function]]
+r_name = "LR_test"
+r_source = "upstream/R/boot.R"
+fortran_module = "flexmix_bootstrap"
+fortran_names = ["flexmix_lr_test_regression"]
+fortran_source = "src/flexmix_bootstrap.f90"
+status = "partial"
+notes = "The adjacent-component parametric-bootstrap likelihood-ratio test is translated for ordinary regression mixtures, including the upstream tail-probability convention; general FLXM and grouped/concomitant cases are omitted."
+
+[[extra.translation.function]]
+r_name = "unique"
+r_source = "upstream/R/stepFlexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["step_flexmix_unique"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Duplicate retained component counts in a stepwise candidate collection are collapsed by keeping the maximum-log-likelihood fit and its repetition diagnostics; R S4 call/rownames metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "ExLinear"
+r_source = "upstream/R/examples.R"
+fortran_module = "flexmix_api"
+fortran_names = ["ex_linear"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Gaussian and Poisson linear-mixture generation is translated with uniform predictors; R distribution-function dispatch and RNG identity are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXlogLikfun"
+r_source = "upstream/R/refit.R"
+fortran_modules = ["flexmix_api", "flexmix_refit"]
+fortran_names = ["flexmix_loglik", "flexmix_loglik_regression_at"]
+fortran_sources = ["src/flexmix_api.f90", "src/flexmix_refit.f90"]
+status = "substantial"
+notes = "Stored maximized log likelihood and arbitrary packed-parameter observed-data likelihood evaluation are translated for Gaussian, Poisson, binomial, and Gamma regression mixtures; grouped objective closures and arbitrary multi-model FLXdist objects remain omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMCfactanal"
+r_source = "upstream/R/factanal.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_factanal"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Mixtures of factor analyzers use cov.wt-style weighted covariance and the factanal.fit.mle concentrated likelihood with bounded uniquenesses and correlation-scale loadings; R formula/S4 handling, loading rotation/reporting, and factor-analyzer simulation are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMCdist1"
+r_source = "upstream/R/FLXMCdist1.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_dist1"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Lognormal, exponential, inverse-Gaussian, Gamma, and Weibull component fitting/densities are translated; Burr and inverse-Burr variants are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMCmvbinary"
+r_source = "upstream/R/models.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvbinary"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Independent Bernoulli mixtures and the upstream zero-truncated probability iteration are translated; R formula/S4 construction is omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMCmvcombi"
+r_source = "upstream/R/models.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvcombi"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Mixed Bernoulli/independent-Gaussian component estimation and likelihood are translated from numeric matrices."
+
+[[extra.translation.function]]
+r_name = "FLXMCmvnorm"
+r_source = "upstream/R/models.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvnorm"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Full or diagonal multivariate-normal clustering is translated using cov.wt-style weighted covariance; R formula/S4 handling is omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMCmvpois"
+r_source = "upstream/R/flxmcmvpois.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvpois"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Independent multivariate-Poisson mixture estimation and likelihood are translated from numeric matrices."
+
+[[extra.translation.function]]
+r_name = "FLXMCnorm1"
+r_source = "upstream/R/models.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_norm1"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The one-dimensional normal clustering driver is translated through the multivariate-normal implementation."
+
+[[extra.translation.function]]
+r_name = "FLXPmultinom"
+r_source = "upstream/R/concomitant.R"
+fortran_module = "flexmix_em_utils"
+fortran_names = ["fit_multinomial_prior", "multinomial_prior"]
+fortran_source = "src/flexmix_em_utils.f90"
+status = "substantial"
+notes = "Concomitant softmax priors are fit by Newton iterations with a reference component; nnet/R formula object behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "FLXPconstant"
+r_source = "upstream/R/concomitant.R"
+fortran_module = "flexmix_em_utils"
+fortran_names = ["fit_constant_prior"]
+fortran_source = "src/flexmix_em_utils.f90"
+status = "substantial"
+notes = "Constant component priors are estimated from classified posteriors with case weights and grouped-observation semantics."
+
+[[extra.translation.function]]
+r_name = "FLXfit"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_core"
+fortran_names = ["flexmix_fit_regression", "flexmix_fit_binomial", "flexmix_fit_multinomial", "flexmix_fit_conditional_logit", "flexmix_fit_multivariate", "flexmix_fit_univariate"]
+fortran_source = "src/flexmix_core.f90"
+status = "substantial"
+notes = "The EM loop, weighted/hard M-steps, stable E-step, grouping, minprior deletion, convergence test, and concomitant priors are translated."
+
+[[extra.translation.function]]
+r_name = "FLXglm"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_gaussian", "flexmix_poisson", "flexmix_binomial", "flexmix_gamma"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The alias to FLXMRglm is represented by Gaussian, Poisson, binomial, and Gamma mixture-regression entry points with numeric offsets; R formula/family objects are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXbclust"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvbinary"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The legacy alias to multivariate-binary clustering maps to the translated Bernoulli-product mixture."
+
+[[extra.translation.function]]
+r_name = "FLXmclust"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mvnorm"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "The legacy alias to multivariate-normal clustering maps to the translated Gaussian mixture."
+
+[[extra.translation.function]]
+r_name = "FLXconstant"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_em_utils"
+fortran_names = ["fit_constant_prior"]
+fortran_source = "src/flexmix_em_utils.f90"
+status = "substantial"
+notes = "The legacy constant-concomitant alias maps to translated constant prior fitting."
+
+[[extra.translation.function]]
+r_name = "FLXmultinom"
+r_source = "upstream/R/z.R"
+fortran_module = "flexmix_em_utils"
+fortran_names = ["fit_multinomial_prior", "multinomial_prior"]
+fortran_source = "src/flexmix_em_utils.f90"
+status = "substantial"
+notes = "The legacy multinomial-concomitant alias maps to translated softmax prior fitting."
+
+[[extra.translation.function]]
+r_name = "FLXMRcondlogit"
+r_source = "upstream/R/condlogit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_conditional_logit"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "One-choice-per-stratum conditional-logit mixtures are translated with explicit no-intercept design matrices, exact stratum log-sum-exp likelihoods, stratum-constant frequency weights, and Newton M-steps; R formula preprocessing and the general survival::coxph exact-tie interface are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRglm"
+r_source = "upstream/R/models.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_gaussian", "flexmix_poisson", "flexmix_binomial", "flexmix_gamma"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Gaussian, Poisson, binomial, and Gamma inverse-link weighted mixture regression are translated with numeric offsets; R formula and family-object dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRmultinom"
+r_source = "upstream/R/multinom.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_multinomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Mixtures of multinomial logistic regressions are translated with class one as reference and Newton/Fisher scoring; factor/formula handling and nnet object compatibility are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRrobglm"
+r_source = "upstream/R/robust.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_robust_gaussian", "flexmix_robust_poisson"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Gaussian and Poisson robust-background drivers are translated, including bgw weighting and zero-df background components; R formula/family object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRziglm"
+r_source = "upstream/R/ziglm.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_ziglm_poisson", "flexmix_ziglm_binomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Poisson and binomial zero-inflated drivers are translated with a parameter-free structural-zero first component and ordinary GLM components; R formula/family objects are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXgetParameters"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_parameters"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Numeric component parameters are packed by supported family; R S4 names/classes and unsupported driver parameters are omitted."
+
+[[extra.translation.function]]
+r_name = "flexmix"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_gaussian", "flexmix_poisson", "flexmix_binomial", "flexmix_gamma", "flexmix_multinomial", "flexmix_conditional_logit", "flexmix_ziglm_poisson", "flexmix_ziglm_binomial", "flexmix_robust_gaussian", "flexmix_robust_poisson", "flexmix_mvnorm", "flexmix_factanal", "flexmix_mvbinary", "flexmix_mvpois", "flexmix_mvcombi", "flexmix_dist1"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Top-level numeric-matrix mixture fitting is translated for the supported regression, clustering, and univariate families; formula/S4 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "group"
+r_source = "upstream/R/group.R"
+fortran_module = "flexmix_em_utils"
+fortran_names = ["group_first_mask", "group_log_densities"]
+fortran_source = "src/flexmix_em_utils.f90"
+status = "partial"
+notes = "Integer group labels are supported directly in the EM engine; extraction of grouping metadata from R model objects/formulas is omitted."
+
+[[extra.translation.function]]
+r_name = "initFlexmix"
+r_source = "upstream/R/initFlexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["step_flexmix_gaussian"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Repeated deterministic initial partitions are implemented for Gaussian regression mixtures; the full R initialization-method framework is omitted."
+
+[[extra.translation.function]]
+r_name = "relabel"
+r_source = "upstream/R/relabel.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_relabel"]
+fortran_source = "src/flexmix_api.f90"
+status = "complete"
+notes = "Retained components, parameters, posteriors, priors, sizes, and modal labels are permuted consistently."
+
+[[extra.translation.function]]
+r_name = "stepFlexmix"
+r_source = "upstream/R/stepFlexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["step_flexmix_gaussian"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Candidate-k repeated fitting and best-log-likelihood retention are translated for Gaussian regression mixtures; arbitrary model dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "EIC"
+r_source = "upstream/R/infocrit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_eic"]
+fortran_source = "src/flexmix_api.f90"
+status = "complete"
+notes = "The group-first posterior entropy criterion and the upstream -1000 log-probability floor are reproduced."
+
+[[extra.translation.function]]
+r_name = "FLXcheckComponent"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_check_result"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Core fitted-result dimensions, priors, posteriors, and labels are validated; specialized R driver checks are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXdeterminePostunscaled"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_components"
+fortran_names = ["gaussian_regression_log_density", "poisson_regression_log_density", "binomial_regression_log_density", "gamma_regression_log_density", "multinomial_regression_log_density", "conditional_logit_log_density", "mvnormal_log_density", "mvbinary_log_density", "mvpois_log_density", "mvcombi_log_density", "lognormal_log_density", "exponential_log_density", "inverse_gaussian_log_density", "gamma_log_density", "weibull_log_density"]
+fortran_source = "src/flexmix_components.f90"
+status = "substantial"
+notes = "Supported component log densities are translated and are combined with priors in the EM E-step; unsupported drivers are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXgetK"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_k"]
+fortran_source = "src/flexmix_api.f90"
+status = "complete"
+notes = "Returns the retained fitted component count."
+
+[[extra.translation.function]]
+r_name = "FLXgetObs"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_obs"]
+fortran_source = "src/flexmix_api.f90"
+status = "complete"
+notes = "Returns the stored observation-row count for translated models."
+
+[[extra.translation.function]]
+r_name = "FLXmstep"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_components"
+fortran_names = ["fit_gaussian_regression_component", "fit_poisson_regression_component", "fit_binomial_regression_component", "fit_gamma_regression_component", "fit_multinomial_regression_component", "fit_conditional_logit_component", "fit_mvnormal_component", "fit_factor_analysis_component", "fit_mvbinary_component", "fit_mvpois_component", "fit_mvcombi_component", "fit_lognormal_component", "fit_exponential_component", "fit_inverse_gaussian_component", "fit_gamma_component", "fit_weibull_component"]
+fortran_source = "src/flexmix_components.f90"
+status = "substantial"
+notes = "Weighted M-step estimators are translated for all supported component families; specialized upstream drivers are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXremoveComponent"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_remove_component"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "A retained component can be removed from a fitted translated result with posterior renormalization; arbitrary nested R driver mutation is omitted."
+
+[[extra.translation.function]]
+r_name = "KLdiv"
+r_source = "upstream/R/kldiv.R"
+fortran_module = "flexmix_api"
+fortran_names = ["kl_divergence_matrix", "kl_divergence_regression", "kl_divergence_mvnorm"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Discrete posterior KL, Gaussian/Poisson/binomial regression KL, and multivariate-normal KL are translated; Gamma-regression KL is omitted."
+
+[[extra.translation.function]]
+r_name = "ICL"
+r_source = "upstream/R/infocrit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_icl"]
+fortran_source = "src/flexmix_api.f90"
+status = "complete"
+notes = "The upstream classification-log-likelihood ICL expression is reproduced using stored unscaled posterior logs, group-first rows, df, and nobs."
+
+[[extra.translation.function]]
+r_name = "clusters"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_clusters"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Stored modal fitted-component labels are returned; prediction of clusters for arbitrary new R data objects is omitted."
+
+[[extra.translation.function]]
+r_name = "fitted"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_predict_regression", "flexmix_predict_multinomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Component conditional means/probabilities are produced for supported scalar and multinomial regression families; R fitted-value object conventions and other drivers are omitted."
+
+[[extra.translation.function]]
+r_name = "getModel"
+r_source = "upstream/R/stepFlexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["get_model"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Selects among translated step fits by logLik, AIC, BIC, or ICL; R argument forms and non-Gaussian step objects are omitted."
+
+[[extra.translation.function]]
+r_name = "logLik"
+r_source = "upstream/R/infocrit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_loglik"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Returns the stored maximized log likelihood; newdata evaluation through R data/model dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "parameters"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_parameters"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Returns numeric supported-family component parameter matrices; R list/S4 presentation conventions are omitted."
+
+[[extra.translation.function]]
+r_name = "posterior"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_posterior"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Returns stored scaled or unscaled fitted posteriors; posterior calculation for arbitrary new R data is omitted."
+
+[[extra.translation.function]]
+r_name = "predict"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_predict_regression", "flexmix_predict_multinomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Component predictions cover Gaussian, Poisson, binomial, Gamma, multinomial, robust, and structural-zero regression mixtures; R newdata/formula shaping and other drivers are omitted."
+
+[[extra.translation.function]]
+r_name = "prior"
+r_source = "upstream/R/flexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_get_prior"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Returns marginal fitted component priors; R concomitant-object presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "rFLXM"
+r_source = "upstream/R/rFLXmodel.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_simulate_regression"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Simulation from fitted Gaussian, Poisson, and Bernoulli regression components is translated; other drivers and identical R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "refit"
+r_source = "upstream/R/refit.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_refit_gaussian"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Gaussian mixture refitting from a previous fitted posterior is translated; optimizer-based and arbitrary-driver refitting are omitted."
+
+[[extra.translation.function]]
+r_name = "rflexmix"
+r_source = "upstream/R/rflexmix.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_simulate_regression"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "Mixture-component selection and response simulation are translated for supported regression families; newdata/model dispatch and R RNG identity are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRglmnet"
+r_source = "upstream/R/glmnet.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_glmnet_gaussian", "flexmix_glmnet_poisson", "flexmix_glmnet_binomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "substantial"
+notes = "Gaussian, Poisson, and binomial mixture regressions use a self-contained weighted elastic-net/lasso solver with adaptive penalty factors, explicit offsets, selection masks, fixed-fold cross-validation, and per-component lambda selection; exact glmnet path generation, standardization, and RNG/fold defaults are not reproduced."
+
+[[extra.translation.function]]
+r_name = "FLXMRlmm"
+r_source = "upstream/R/lmm.R"
+fortran_module = "flexmix_mixed"
+fortran_names = ["flexmix_lmm"]
+fortran_source = "src/flexmix_mixed.f90"
+status = "substantial"
+notes = "Grouped Gaussian linear mixed-model mixtures translate the upstream random-effect EM updates for numeric fixed/random design matrices, arbitrary random-effect dimension, and optional shared random/residual variance controls; R formulas and smooth.spline fixed-effect fitting are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRlmmc"
+r_source = "upstream/R/lmmc.R"
+fortran_module = "flexmix_mixed"
+fortran_names = ["flexmix_lmc", "flexmix_lmmc"]
+fortran_source = "src/flexmix_mixed.f90"
+status = "substantial"
+notes = "Both upstream censored-Gaussian branches are translated on explicit numeric designs: flexmix_lmc covers the no-random-effects FLXMRlmc path, and flexmix_lmmc covers random effects. One censored response in a mixed-model group uses exact analytic truncated-normal moments; multiple censored responses use a deterministic Genz-style Halton quasi-Monte-Carlo upper-truncation integral (up to 32 censored dimensions). Shared residual variance and, for the mixed branch, shared random covariance are supported. R formula/model-frame construction and mvtnorm integration-control arguments are omitted."
+
+[[extra.translation.function]]
+r_name = "FLXMRlmer"
+r_source = "upstream/R/lmer.R"
+fortran_module = "flexmix_mixed"
+fortran_names = ["flexmix_lmer"]
+fortran_source = "src/flexmix_mixed.f90"
+status = "partial"
+notes = "A numeric grouped Gaussian mixed-model path returns the same marginal model class and likelihood using the translated EM covariance updates; lme4 formula parsing, optimizer/control choices, and general crossed/nested random-effect syntax are not reproduced."
+
+[[extra.translation.function]]
+r_name = "FLXMRmgcv"
+r_source = "upstream/R/mgcv.R"
+fortran_module = "flexmix_api"
+fortran_names = ["flexmix_mgcv_gaussian", "flexmix_mgcv_poisson", "flexmix_mgcv_binomial"]
+fortran_source = "src/flexmix_api.f90"
+status = "partial"
+notes = "The post-formula numerical GAM core is translated for explicit design and smoothing-penalty matrices with Gaussian, Poisson, and binomial families, offsets, weighted penalized fitting, smoothing-grid selection, and effective degrees of freedom; mgcv formula/basis construction, multiple smooth penalties, and exact mgcv ML smoothing optimization are omitted."
+

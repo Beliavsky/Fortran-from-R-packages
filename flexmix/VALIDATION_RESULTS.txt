@@ -1,0 +1,18 @@
+flexmix Fortran translation validation
+upstream_version=2.3-21
+compiler=GNU Fortran 14.2.0
+standard=f2018
+debug_build=PASS
+runtime_checks=PASS
+release_O2_build=PASS
+deterministic_tests=PASS
+example=PASS
+independent_numpy_scipy_sklearn_statsmodels_parity=PASS
+static_source_audit=PASS
+coverage=66/68
+coverage_fraction=0.9705882352941176
+fpm_available=NO
+fpm_build=NOT_RUN_COMMAND_NOT_FOUND_EXIT_127
+fpm_test=NOT_RUN_COMMAND_NOT_FOUND_EXIT_127
+fpm_clean_all=NOT_RUN_COMMAND_NOT_FOUND_EXIT_127
+upstream_sha256=55539189569e874fd78652edc308e7a8b71cd194f72814ca832a591509a29d20
