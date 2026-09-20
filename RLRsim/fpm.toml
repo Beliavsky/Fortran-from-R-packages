@@ -1,0 +1,60 @@
+name = "RLRsim"
+version = "3.1.9"
+license = "GPL-2.0-or-later"
+author = "Fabian Scheipl (upstream); Fortran translation generated for Beliavsky/Fortran-from-R-packages"
+maintainer = "Beliavsky/Fortran-from-R-packages"
+description = "Fortran translation of the computational finite-sample LRT/RLRT simulation core of RLRsim"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 5
+r_functions_translated = 4
+frac_functions_translated = 0.8
+untranslated_r_functions = ["extract.lmeDesign"]
+
+[[extra.translation.function]]
+r_name = "LRTSim"
+r_source = "upstream/R/LRTSim.R"
+fortran_module = "rlrsim_api"
+fortran_names = ["lrt_sim"]
+fortran_source = "src/rlrsim_api.f90"
+status = "substantial"
+notes = "Finite-sample LRT simulation is translated, including design residualization, singular-value reduction, lambda-grid search, and chi-square simulation. Parallel execution and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "RLRTSim"
+r_source = "upstream/R/RLRTSim.R"
+fortran_module = "rlrsim_api"
+fortran_names = ["rlrt_sim"]
+fortran_source = "src/rlrsim_api.f90"
+status = "substantial"
+notes = "Finite-sample RLRT simulation is translated, including the balanced-ANOVA shortcut, the single-dominating-eigenvalue shortcut, general eigenvalue truncation, and nonzero-lambda0 grid construction. R parallel backends and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "exactLRT"
+r_source = "upstream/R/exactLRT.R"
+fortran_module = "rlrsim_api"
+fortran_names = ["exact_lrt_from_design"]
+fortran_source = "src/rlrsim_api.f90"
+status = "substantial"
+notes = "The simulation-based test and p-value calculation are translated for explicit design matrices and an observed LRT statistic. R lm/lme/lmer object extraction, S3 htest construction, messages, and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "exactRLRT"
+r_source = "upstream/R/exactRLRT.R"
+fortran_module = "rlrsim_api"
+fortran_names = ["exact_rlrt_from_design"]
+fortran_source = "src/rlrsim_api.f90"
+status = "substantial"
+notes = "The simulation-based restricted test and p-value calculation are translated for explicit design matrices and an observed RLRT statistic, including the zero-statistic shortcut. R mixed-model object inspection and S3 behavior are omitted."
