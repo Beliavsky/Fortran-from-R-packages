@@ -1,0 +1,1260 @@
+name = "Hmisc"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Frank E Harrell Jr, Cole Beck, Charles Dupont; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages project"
+description = "Substantial modern Fortran translation of computational routines from the R package Hmisc"
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_hmisc"
+source-dir = "test"
+main = "test_hmisc.f90"
+
+[[example]]
+name = "basic_stats"
+source-dir = "example"
+main = "basic_stats.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 142
+r_functions_translated = 136
+frac_functions_translated = 0.957746478873
+untranslated_r_functions = ["aregImpute", "biVar", "curveRep", "estSeqMarkovOrd", "transace", "transcan"]
+
+[[extra.translation.function]]
+r_name = "GiniMd"
+r_source = "upstream/R/GiniMd.s"
+fortran_module = "hmisc"
+fortran_names = ["gini_md"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Numeric kernel translated; R NA removal option is represented by caller-side filtering."
+
+[[extra.translation.function]]
+r_name = "trap.rule"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["trap_rule"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Direct trapezoidal integration translation."
+
+[[extra.translation.function]]
+r_name = "samplesize.bin"
+r_source = "upstream/R/samplesize.bin.s"
+fortran_module = "hmisc"
+fortran_names = ["samplesize_bin"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Arcsine sample-size calculation translated with an internal high-accuracy normal quantile approximation."
+
+[[extra.translation.function]]
+r_name = "wtd.mean"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["weighted_mean"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Weighted numeric mean translated; caller handles missing-value filtering."
+
+[[extra.translation.function]]
+r_name = "wtd.var"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["weighted_variance"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Frequency-weight and normalized/ML variance paths translated."
+
+[[extra.translation.function]]
+r_name = "wtd.quantile"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["weighted_quantile"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The default type='quantile' frequency-weight algorithm is translated; alternate ECDF interpolation types are omitted."
+
+[[extra.translation.function]]
+r_name = "wtd.rank"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["weighted_rank"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Weighted midrank computation translated for numeric values."
+
+[[extra.translation.function]]
+r_name = "wtd.table"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["weighted_table"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Numeric weighted aggregation is translated; factors, dates, character values, and R table/list object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "somers2"
+r_source = "upstream/R/somers2.s"
+fortran_module = "hmisc"
+fortran_names = ["somers2"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Weighted binary-outcome concordance kernel translated; missing-value filtering is caller-side."
+
+[[extra.translation.function]]
+r_name = "rcorr"
+r_source = "upstream/R/rcorr.s"
+fortran_module = "hmisc"
+fortran_names = ["rcorr"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Pairwise Pearson and Spearman correlations and pair counts translated; R t-distribution P-value matrix and class construction are omitted."
+
+[[extra.translation.function]]
+r_name = "hoeffd"
+r_source = "upstream/R/hoeffd.s"
+fortran_module = "hmisc"
+fortran_names = ["hoeffd"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Hoeffding D, average absolute discrepancy, maximum discrepancy, and pair counts translated from the upstream compiled kernel; R P-value interpolation is omitted."
+
+[[extra.translation.function]]
+r_name = "rcorr.cens"
+r_source = "upstream/R/rcorr.cens.s"
+fortran_module = "hmisc"
+fortran_names = ["rcorr_cens"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Right-censored concordance, Dxy, pair counts, and Quade standard error translated; R Surv-object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "rcorrp.cens"
+r_source = "upstream/R/rcorrp.cens.s"
+fortran_module = "hmisc"
+fortran_names = ["rcorrp_cens"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Paired right-censored concordance comparison methods 1 and 2 are translated; R Surv-object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "cutGn"
+r_source = "upstream/R/cut2.s"
+fortran_module = "hmisc"
+fortran_names = ["cut_gn"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The upstream compiled grouping kernel is translated for already sorted numeric input; R factor/summary/cut/function return modes are omitted."
+
+[[extra.translation.function]]
+r_name = "whichClosest"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["which_closest"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Nearest-reference-index kernel translated."
+
+[[extra.translation.function]]
+r_name = "whichClosePW"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["which_close_pw"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Probability-weighted nearest lookup translated; uniform draws are supplied explicitly instead of using R RNG state."
+
+[[extra.translation.function]]
+r_name = "pMedian"
+r_source = "upstream/R/pMedian.r"
+fortran_module = "hmisc"
+fortran_names = ["pseudomedian"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Exact Hodges-Lehmann pseudomedian is translated using explicit pair midpoints; upstream large-n randomized selection and bootstrap confidence intervals are omitted."
+
+
+[[extra.translation.function]]
+r_name = "dualSD"
+r_source = "upstream/R/dualSD.r"
+fortran_module = "hmisc"
+fortran_names = ["dual_sd"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Dual lower/upper standard deviations about the full-sample mean are translated; caller-side filtering represents na.rm behavior."
+
+[[extra.translation.function]]
+r_name = "bpower"
+r_source = "upstream/R/bpower.s"
+fortran_module = "hmisc"
+fortran_names = ["bpower"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Two-sample binary power formula translated; odds-ratio and percent-reduction convenience argument transformations are caller-side."
+
+[[extra.translation.function]]
+r_name = "bsamsize"
+r_source = "upstream/R/bpower.s"
+fortran_module = "hmisc"
+fortran_names = ["bsamsize"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Continuous two-group binary sample-size calculation translated."
+
+[[extra.translation.function]]
+r_name = "ballocation"
+r_source = "upstream/R/bpower.s"
+fortran_module = "hmisc"
+fortran_names = ["ballocation"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Minimum-variance allocation formulas and optional 1000-point maximum-power search are translated; alpha for the optional search is fixed at the upstream default 0.05."
+
+[[extra.translation.function]]
+r_name = "Weibull2"
+r_source = "upstream/R/spower.s"
+fortran_module = "hmisc"
+fortran_names = ["weibull2_fit", "weibull_survival"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Two-point parameter recovery and survival evaluation are translated; Fortran returns parameters instead of an R closure."
+
+[[extra.translation.function]]
+r_name = "Gompertz2"
+r_source = "upstream/R/spower.s"
+fortran_module = "hmisc"
+fortran_names = ["gompertz2_fit", "gompertz_survival"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Two-point parameter recovery and survival evaluation are translated; Fortran returns parameters instead of an R closure."
+
+[[extra.translation.function]]
+r_name = "Lognorm2"
+r_source = "upstream/R/spower.s"
+fortran_module = "hmisc"
+fortran_names = ["lognorm2_fit", "lognorm_survival"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Two-point lognormal parameter recovery and survival evaluation are translated using the shared internal normal quantile approximation."
+
+[[extra.translation.function]]
+r_name = "improveProb"
+r_source = "upstream/R/rcorrp.cens.s"
+fortran_module = "hmisc"
+fortran_names = ["improve_prob"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Continuous event, non-event, and total NRI components are translated; upstream standard errors, z statistics, IDI, and output object assembly remain untranslated."
+
+[[extra.translation.function]]
+r_name = "rcspline.eval"
+r_source = "upstream/R/rcspline.eval.s"
+fortran_module = "hmisc"
+fortran_names = ["rcspline_eval"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Restricted cubic spline basis evaluation is translated for caller-supplied knots, ordinary and integral bases, inclx, and norm modes 0-2; automatic knot selection, rpm replacement, knots.only, and PCA rotation are omitted."
+
+[[extra.translation.function]]
+r_name = "popower"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["popower"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Proportional-odds power, efficiency, and approximate standard-error formulas are translated; R list/class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "posamsize"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["posamsize"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Proportional-odds total sample-size and efficiency formulas are translated; R list/class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "pomodm"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["pomodm"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The proportional-odds transformation of category probabilities is translated; optional x-based mean and interpolated median summaries are omitted."
+
+[[extra.translation.function]]
+r_name = "groupn"
+r_source = "upstream/R/groupn.s"
+fortran_module = "hmisc"
+fortran_names = ["groupn"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Complete-pair filtering, sorting, fixed-size group means, and the upstream final overlapping m-observation group behavior are translated; errors are returned through an optional status code instead of R conditions."
+
+[[extra.translation.function]]
+r_name = "spearman"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["spearman_rho"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Complete-pair Spearman rank correlation with midranks is translated; R coercion and named-vector construction are omitted."
+
+[[extra.translation.function]]
+r_name = "stepfun.eval"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["stepfun_eval"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Left/right constant interpolation on increasing complete numeric abscissae is translated, including NA-equivalent out-of-range results; R approx tie handling for duplicate x values is omitted."
+
+[[extra.translation.function]]
+r_name = "xySortNoDupNoNA"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["xy_sort_no_dup_no_na"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Numeric complete-pair filtering, sorting by x, and duplicate-x removal are translated; the alternate two-element-list input form is omitted."
+
+[[extra.translation.function]]
+r_name = "nCoincident"
+r_source = "upstream/R/nCoincident.r"
+fortran_module = "hmisc"
+fortran_names = ["n_coincident"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Coincident binned-pair counting is translated, preserving the current upstream hard-coded 300 scaling despite its bins argument; Fortran nearest-integer rounding can differ from R only at exact half-bin boundaries."
+
+[[extra.translation.function]]
+r_name = "matxv"
+r_source = "upstream/R/matxv.s"
+fortran_module = "hmisc"
+fortran_names = ["matxv"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Matrix-times-vector behavior and optional selected leading intercept are translated; matrix-valued b, intercept attributes, and associated multi-intercept matching are omitted."
+
+[[extra.translation.function]]
+r_name = "cpower"
+r_source = "upstream/R/cpower.s"
+fortran_module = "hmisc"
+fortran_names = ["cpower"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Exponential-survival power calculation, unequal allocation, noncompliance attenuation, and zero-accrual branch are translated; printing is omitted."
+
+[[extra.translation.function]]
+r_name = "ciapower"
+r_source = "upstream/R/ciapower.s"
+fortran_module = "hmisc"
+fortran_names = ["ciapower"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Two-stratum interaction power calculation under exponential survival is translated; the upstream printing interface is omitted."
+
+[[extra.translation.function]]
+r_name = "wtd.Ecdf"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["wtd_ecdf"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Weighted numeric empirical CDF is translated for all three upstream plotting-position types; factors/date attributes and R list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "smean.sd"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["smean_sd"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Mean and sample standard deviation with NaN removal corresponding to na.rm=TRUE are translated."
+
+[[extra.translation.function]]
+r_name = "smean.sdl"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["smean_sdl"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Mean plus/minus a caller-selected multiple of the sample standard deviation is translated with NaN removal."
+
+[[extra.translation.function]]
+r_name = "smedian.hilow"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["smedian_hilow"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Median and central interval are translated using R-compatible type-7 quantiles with NaN removal; named-vector construction is omitted."
+
+[[extra.translation.function]]
+r_name = "approxExtrap"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["approx_extrap"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Linear interpolation with linear endpoint extrapolation, complete-pair filtering, sorting, and duplicate-x removal is translated; constant interpolation and alternate approx tie controls are omitted."
+
+[[extra.translation.function]]
+r_name = "james.stein"
+r_source = "upstream/R/james.stein.s"
+fortran_module = "hmisc"
+fortran_names = ["james_stein"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Group means, mean variances, bounded James-Stein shrinkage factors, and shrunk means are translated for integer group labels; R character/factor labeling and list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "ftupwr"
+r_source = "upstream/R/ftu.s"
+fortran_module = "hmisc"
+fortran_names = ["ftupwr"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "The Fleiss-Tytun-Ury two-sample binary power approximation is translated directly; invalid inputs return NaN instead of an R warning/error path."
+
+[[extra.translation.function]]
+r_name = "ftuss"
+r_source = "upstream/R/ftu.s"
+fortran_module = "hmisc"
+fortran_names = ["ftuss"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "The Fleiss-Tytun-Ury approximate two-group sample-size calculation and upstream integer rounding convention are translated directly."
+
+[[extra.translation.function]]
+r_name = "ecdfSteps"
+r_source = "upstream/R/ecdfSteps.r"
+fortran_module = "hmisc"
+fortran_names = ["ecdf_steps"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Sorted unique ECDF coordinates, NaN removal, default 5-percent range extension, explicit extension points, and no-extension mode are translated; R's dynamic logical/numeric extend argument is represented by typed optional arguments."
+
+[[extra.translation.function]]
+r_name = "Lag"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["lag_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Numeric positive and negative shifts are translated with NaN padding; character vectors and R attribute/label preservation are omitted."
+
+[[extra.translation.function]]
+r_name = "nomiss"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["nomiss"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Numeric vector NaN removal and numeric-matrix complete-row filtering are translated through a generic interface; data-frame handling and R class attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "fillin"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["fillin"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Scalar and recycled-vector replacement of numeric NaNs are translated; R labels and other attributes are not constructed."
+
+[[extra.translation.function]]
+r_name = "cumcategory"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["cumcategory"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Cumulative category indicator construction is translated for integer-coded ordered levels; factor coercion and R dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "deff"
+r_source = "upstream/R/deff.s"
+fortran_module = "hmisc"
+fortran_names = ["deff"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The one-way cluster ANOVA decomposition, intracluster correlation estimate, and design-effect formula are translated for numeric responses and integer cluster labels; R factor coercion and named-vector construction are omitted."
+
+[[extra.translation.function]]
+r_name = "R2Measures"
+r_source = "upstream/R/R2Measures.r"
+fortran_module = "hmisc"
+fortran_names = ["r2_measures"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Maddala-Cox-Snell R2, both upstream adjustment formulas, direct effective sample size, and frequency-derived effective sample size are translated; R result names are omitted."
+
+[[extra.translation.function]]
+r_name = "binconf"
+r_source = "upstream/R/binconf.s"
+fortran_module = "hmisc"
+fortran_names = ["binconf_wilson", "binconf_asymptotic"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Wilson and asymptotic binomial confidence intervals, including Hmisc's x=1 and x=n-1 Wilson corrections, are translated; exact Clopper-Pearson intervals requiring an F quantile and R matrix/data-frame assembly remain untranslated."
+
+[[extra.translation.function]]
+r_name = "invertTabulated"
+r_source = "upstream/R/transcan.s"
+fortran_module = "hmisc"
+fortran_names = ["invert_tabulated_linear"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The linearInterp inverse path is translated with duplicate transformed values averaged and rule=2 endpoint clamping; the stochastic sample inverse mode and its weighted random draws are omitted."
+
+[[extra.translation.function]]
+r_name = "score.binary"
+r_source = "upstream/R/score.binary.s"
+fortran_module = "hmisc"
+fortran_names = ["score_binary_max", "score_binary_sum"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Numeric row-wise max and sum scoring with per-item points and missing-value handling are translated; arbitrary R callbacks, factor labels, argument-name labels, and dynamic return types are omitted."
+
+[[extra.translation.function]]
+r_name = "mhgr"
+r_source = "upstream/R/epi.s"
+fortran_module = "hmisc"
+fortran_names = ["mhgr"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Mantel-Haenszel common risk ratio and Greenland-Robins confidence interval are translated for numeric outcomes, two integer-coded groups, and integer strata; R factor construction, class output, and printing are omitted."
+
+[[extra.translation.function]]
+r_name = "lrcum"
+r_source = "upstream/R/epi.s"
+fortran_module = "hmisc"
+fortran_names = ["lrcum"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Threshold-specific and cumulative positive/negative likelihood ratios and confidence limits are translated, including the upstream global 0.5 correction when any cell frequency is zero; R warning/class/print behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "num.denom.setup"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["num_denom_setup"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "Numeric numerator/denominator expansion into source indices, binary outcomes, and weights is translated; Fortran returns arrays instead of an R list."
+
+[[extra.translation.function]]
+r_name = "rMultinom"
+r_source = "upstream/R/transcan.s"
+fortran_module = "hmisc"
+fortran_names = ["rmultinom"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Row-wise multinomial sampling is translated with caller-supplied uniform variates for deterministic RNG-independent behavior; arbitrary R level labels and R RNG state are omitted."
+
+[[extra.translation.function]]
+r_name = "qrxcenter"
+r_source = "upstream/R/qrxcenter.r"
+fortran_module = "hmisc"
+fortran_names = ["qrxcenter"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Mean centering, full-rank QR orthogonalization, unit-SD scaling, forward transform, inverse transform, and column means are translated using modified Gram-Schmidt; base-R QR options, pivoting, and rank-deficient behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "solvet"
+r_source = "upstream/R/solvet.s"
+fortran_module = "hmisc"
+fortran_names = ["solvet", "solvet_inverse"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Full-column-rank QR least-squares solves for vector or matrix right-hand sides and square-matrix inversion are translated with the upstream tolerance default; R qr-object input and pivoted/rank-deficient behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "pc1"
+r_source = "upstream/R/pc1.s"
+fortran_module = "hmisc"
+fortran_names = ["pc1"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Complete-case standardization, first principal component from a symmetric Jacobi eigensolver, variance fraction, regression coefficients on original variables, sign orientation, and optional [0,hi] scaling are translated; console printing and R attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "smean.cl.normal"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["smean_cl_normal"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Mean and confidence limits with NaN removal are translated; the Student-t confidence multiplier is supplied explicitly by the caller instead of being computed from R's qt default expression."
+
+[[extra.translation.function]]
+r_name = "whichClosek"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["which_close_k"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Tie-breaking jitter, k-nearest candidate selection, and random choice among candidates are translated with caller-supplied uniform variates, avoiding dependence on R RNG state."
+
+
+
+[[extra.translation.function]]
+r_name = "abs.error.pred"
+r_source = "upstream/R/abs.error.pred.s"
+fortran_module = "hmisc"
+fortran_names = ["abs_error_pred"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Complete-pair filtering plus mean/median absolute prediction-spread, prediction-error, outcome-spread, and ratio calculations are translated; fitted-model object extraction and R class/printing are omitted."
+
+[[extra.translation.function]]
+r_name = "lm.fit.qr.bare"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["lm_fit_qr_bare"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Intercept handling, least-squares coefficients, fitted values, residuals, and R-squared are translated using the package QR-style solver; xpxi output, pivoted rank-deficient behavior, and singzero compatibility are omitted."
+
+[[extra.translation.function]]
+r_name = "rcorrcens"
+r_source = "upstream/R/biVar.s"
+fortran_module = "hmisc"
+fortran_names = ["rcorrcens_summary"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric predictor path is translated, returning C, Dxy, absolute Dxy, SD, Z, and a two-sided normal P value; formula interfaces, factor-special handling, biVar aggregation, and R presentation metadata are omitted."
+
+
+[[extra.translation.function]]
+r_name = "logrank"
+r_source = "upstream/R/spower.s"
+fortran_module = "hmisc"
+fortran_names = ["logrank"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Two-group right-censored log-rank chi-square and observed/expected hazard-ratio estimate are translated, including tied event times; R Surv object handling, arbitrary missing group labels, and class attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "spearman2"
+r_source = "upstream/R/biVar.s"
+fortran_module = "hmisc"
+fortran_names = ["spearman2_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric predictor path for p=1 or p=2 is translated with midranks, rho-squared, F statistic, degrees of freedom, F-tail P value, and adjusted rho-squared; factor predictors, combine.levels, formula methods, and imputation attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "equalBins"
+r_source = "upstream/R/print.char.list.s"
+fortran_module = "hmisc"
+fortran_names = ["equal_bins"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Subcolumn width redistribution is translated using a rectangular integer array plus per-row counts to represent R's list of subwidth vectors; R list construction is replaced by a concatenated integer result."
+
+[[extra.translation.function]]
+r_name = "jitter2"
+r_source = "upstream/R/scat1d.s"
+fortran_module = "hmisc"
+fortran_names = ["jitter2_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric default method's tied-run spacing, fill, optional cap, eps-based tie grouping, and randomized within-run order are translated; caller-supplied uniforms replace R RNG state, and data-frame dispatch is omitted."
+[[extra.translation.function]]
+r_name = "hdquantile"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["hdquantile"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Harrell-Davis quantile estimates, endpoint handling, NaN omission, and beta-weight calculation are translated; jackknife standard errors, returned weight attributes, and R naming behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "catTestchisq"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["cat_test_chisq"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Pearson chi-square statistic, degrees of freedom, zero-row handling, and upper-tail probability are translated; R list metadata and warning behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "conTestkw"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["con_test_kw"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The numeric test calculation is translated through the existing spearman2 numeric implementation; R list labels and presentation metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "t.test.cluster"
+r_source = "upstream/R/t.test.cluster.s"
+fortran_module = "hmisc"
+fortran_names = ["t_test_cluster"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Two-group clustered mean comparison, intracluster correlation, variance correction, design effect, confidence interval, Z statistic, and P value are translated; R factor labels, matrix formatting, and print method are omitted."
+[[extra.translation.function]]
+r_name = "km.quick"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["km_quick"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Right-censored Kaplan-Meier curve construction and constant-step evaluation are translated. Fleming-Harrington variants, left censoring, quantile-only returns, linear interpolation, and n.risk attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "bystats"
+r_source = "upstream/R/bystats.s"
+fortran_module = "hmisc"
+fortran_names = ["bystats_mean"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Default complete-row grouped means, group counts, missing counts, and ALL summary are translated for numeric response matrices and integer group labels. Arbitrary R fun callbacks, factors/labels, subset expressions, and object attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "bystats2"
+r_source = "upstream/R/bystats.s"
+fortran_module = "hmisc"
+fortran_names = ["bystats2_mean"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Default complete-row means and counts are translated for two integer grouping variables, including row, column, and grand ALL margins. Arbitrary callbacks and R factor/object handling are omitted."
+
+[[extra.translation.function]]
+r_name = "all.digits"
+r_source = "upstream/R/sedit.s"
+fortran_module = "hmisc"
+fortran_names = ["all_digits"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "ASCII decimal-digit testing is translated as an elemental character procedure."
+
+[[extra.translation.function]]
+r_name = "all.is.numeric"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["all_is_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The what='test' behavior is translated with trimming and default extras '.' and 'NA'; vector conversion and nonnum return modes are omitted."
+
+[[extra.translation.function]]
+r_name = "find.matches"
+r_source = "upstream/R/find.matches.s"
+fortran_module = "hmisc"
+fortran_names = ["find_matches"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Numeric matrix matching, tolerance filtering, upstream scaled squared distances, distance ordering, and maxmatch truncation are translated; R row names and character match labels are omitted."
+
+[[extra.translation.function]]
+r_name = "seqFreq"
+r_source = "upstream/R/seqFreq.r"
+fortran_module = "hmisc"
+fortran_names = ["seq_freq"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The hierarchical positive-condition selection algorithm and counts by number of positive conditions are translated for a pre-normalized 0/1 indicator matrix; R logical/numeric/character coercion, factor labels, and attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "pairUpDiff"
+r_source = "upstream/R/pairUpDiff.r"
+fortran_module = "hmisc"
+fortran_names = ["pair_up_diff"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Paired alternate-minus-reference differences, optional CI propagation, minkeep filtering, midpoints, and major/difference sorting are translated for integer category identifiers; R data-frame reconstruction, string labels, and returned original-row table are omitted."
+
+
+
+[[extra.translation.function]]
+r_name = "smean.cl.boot"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["smean_cl_boot"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Bootstrap percentile confidence limits for the mean are translated with explicit caller-supplied resample indices, preserving deterministic behavior; R RNG sampling and reps attributes are replaced by explicit outputs."
+
+[[extra.translation.function]]
+r_name = "smearingEst"
+r_source = "upstream/R/transace.s"
+fortran_module = "hmisc"
+fortran_names = ["smearing_est_tabulated"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Mean, quantile/median, fitted inverse, and transformed-scale estimates are translated for tabulated inverse transformations using linear interpolation/extrapolation; arbitrary R inverse functions and statistic callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "bpower.sim"
+r_source = "upstream/R/bpower.s"
+fortran_module = "hmisc"
+fortran_names = ["bpower_sim_counts"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The replicate-level Pearson 2x2 chi-square power calculation and upstream normal-approximation power interval are translated for caller-supplied binomial event counts; R binomial RNG generation and alternate p2 parameterizations remain caller-side."
+
+[[extra.translation.function]]
+r_name = "spower"
+r_source = "upstream/R/spower.s"
+fortran_module = "hmisc"
+fortran_names = ["spower_simulated"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The log-rank simulation aggregation is translated for caller-supplied control/intervention failure and censoring times, including the upstream censor-support diagnostic; R function callbacks, RNG generation, progress output, and optional Cox-model coefficient simulation are omitted."
+
+[[extra.translation.function]]
+r_name = "inverseFunction"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["inverse_function_all"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Piecewise-linear inversion over monotone branches is translated, returning every root per query and nearest endpoint when no branch contains the query. R closure construction, derivative-based refined turning points, and random what='sample' root selection are omitted."
+
+
+[[extra.translation.function]]
+r_name = "bezier"
+r_source = "upstream/R/drawPlot.s"
+fortran_module = "hmisc"
+fortran_names = ["bezier_curve"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Bezier-curve evaluation over an equally spaced parameter grid is translated for numeric control points; R list-style input convenience and plotting-related context are omitted."
+
+[[extra.translation.function]]
+r_name = "cut2"
+r_source = "upstream/R/cut2.s"
+fortran_module = "hmisc"
+fortran_names = ["cut2_explicit"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The explicit-cut numeric categorization path is translated with left-inclusive intervals, final right-end inclusion, missing-value handling, and optional observed-range extension. Automatic quantile-group construction, factor labels, formatting callbacks, and levels.mean behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "simPOcuts"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["sim_po_cuts"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Proportional-odds category simulation and cumulative cut-specific odds ratios are translated using caller-supplied uniform draws for deterministic RNG independence; undefined 0/1 sample proportions return NaN rather than relying on R Inf/NaN arithmetic."
+
+[[extra.translation.function]]
+r_name = "rcsplineFunction"
+r_source = "upstream/R/rcspline.restate.s"
+fortran_module = "hmisc"
+fortran_names = ["rcspline_function"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Ordinary and integrated restricted-cubic-spline numerical evaluation is translated for supplied knots and coefficients with all normalization modes; the R closure-construction interface is replaced by an explicit array evaluator."
+
+[[extra.translation.function]]
+r_name = "rcspline.restate"
+r_source = "upstream/R/rcspline.restate.s"
+fortran_module = "hmisc"
+fortran_names = ["rcspline_restate_coefficients"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric conversion to the unrestricted truncated-power coefficient representation is translated for ordinary and integral forms. Generated R functions, function text, LaTeX, formatting, coefficient names, and presentation attributes are omitted."
+
+
+[[extra.translation.function]]
+r_name = "spearman.test"
+r_source = "upstream/R/spearman.test.s"
+fortran_module = "hmisc"
+fortran_names = ["spearman_test"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The numeric p=1 and p=2 rank-regression tests, F statistic, degrees of freedom, P value, and complete-pair count are translated; R vector names and coercion metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "chiSquare"
+r_source = "upstream/R/biVar.s"
+fortran_module = "hmisc"
+fortran_names = ["chi_square_codes"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The Pearson contingency-table statistic, degrees of freedom, chi-square-minus-df summary, and P value are translated for integer-coded categories. Formula parsing, automatic cut2 binning, combine.levels preprocessing, biVar object construction, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "combine.levels"
+r_source = "upstream/R/combine.levels.r"
+fortran_module = "hmisc"
+fortran_names = ["combine_levels_codes"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Ordered adjacent pooling and unordered rare-level pooling are translated for positive integer category codes and an absolute minimum count. R factor labels, minlev proportion syntax, plevels text construction, and ordered-factor attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "princmp"
+r_source = "upstream/R/princmp.r"
+fortran_module = "hmisc"
+fortran_names = ["princmp_regular"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Regular numeric PCA is translated with complete-case fitting, optional correlation scaling, all component variances, leading loadings on standardized/original scales, and scores with NaNs restored to incomplete rows. Formula expansion, sparse PCA, plotting, and stepwise component approximations are omitted."
+
+[[extra.translation.function]]
+r_name = "bootkm"
+r_source = "upstream/R/bootkm.s"
+fortran_module = "hmisc"
+fortran_names = ["bootkm_resampled"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Kaplan-Meier bootstrap survival-at-time and survival-quantile calculations are translated using caller-supplied one-based bootstrap resample indices. R survfit objects, progress printing, and implicit sample() RNG generation are omitted."
+
+[[extra.translation.function]]
+r_name = "matchCases"
+r_source = "upstream/R/find.matches.s"
+fortran_module = "hmisc"
+fortran_names = ["match_cases_core"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The scalar tolerance-matching core is translated, including closest-control truncation and deterministic random-score ordering. R data-frame reconstruction, IDs, y-matrix copying, printed match frequencies, and implicit sample() calls are omitted."
+
+[[extra.translation.function]]
+r_name = "largest.empty"
+r_source = "upstream/R/labcurve.s"
+fortran_module = "hmisc"
+fortran_names = ["largest_empty_rexhaustive"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The pure-R rexhaustive maximum-empty-rectangle branch is translated, including NaN omission, width/height constraints, center, bounds, and area. The compiled exhaustive/area/maxdim branches and plotting are omitted."
+
+
+[[extra.translation.function]]
+r_name = "gbayes"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes_update"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Gaussian conjugate posterior and optional predictive mean/variance updates are translated for explicit numeric sampling variances. R callback-valued var.stat and cut.prior-to-variance convenience processing are omitted."
+
+[[extra.translation.function]]
+r_name = "gbayesMixPredNoData"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes_mix_pred_density", "gbayes_mix_pred_cdf"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The two-component Gaussian-mixture predictive density and CDF calculations are translated as direct evaluators. R closure construction and dynamic distribution-function selection are replaced by explicit density/CDF procedures."
+
+[[extra.translation.function]]
+r_name = "gbayesMixPost"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes_mix_post_density", "gbayes_mix_post_cdf", "gbayes_mix_post_mean"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Posterior component updating, posterior mixture weights, density, CDF, and posterior mean are translated for the two-component Gaussian mixture. R closure construction is replaced by direct evaluators."
+
+[[extra.translation.function]]
+r_name = "gbayes1PowerNP"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes1_power_np"]
+fortran_source = "src/hmisc.f90"
+status = "complete"
+notes = "The analytic single-Gaussian-prior posterior-tail power calculation is translated directly."
+
+
+[[extra.translation.function]]
+r_name = "gbayesMixPowerNP"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes_mix_power_np"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The deterministic root-solved power calculation is translated for the Hmisc two-Gaussian-mixture posterior CDF, using a caller-supplied bracketing interval. Arbitrary pcdf callbacks and the nsim Monte Carlo branch are omitted."
+
+[[extra.translation.function]]
+r_name = "gbayes2"
+r_source = "upstream/R/gbayes.s"
+fortran_module = "hmisc"
+fortran_names = ["gbayes2_tabulated"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The Bayesian success-probability integral is translated for a caller-supplied tabulated prior density. Arbitrary R prior callbacks and infinite-limit adaptive quadrature are omitted."
+
+[[extra.translation.function]]
+r_name = "propsPO"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["props_po_counts"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Observed category proportions and proportional-odds projected proportions are translated from count tables with caller-supplied group odds ratios. Formula/data.table processing and ggplot output are omitted."
+
+[[extra.translation.function]]
+r_name = "propsTrans"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["props_trans_counts"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Adjacent-time transition counts and row-conditional transition proportions are translated for integer-coded subject-by-time state matrices. Formula parsing, factor labels, long-data reshaping, HTML text, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "ynbind"
+r_source = "upstream/R/ynbind.s"
+fortran_module = "hmisc"
+fortran_names = ["ynbind_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Numeric 0/1 variables, NaN preservation, nonmissing one proportions, and optional ascending proportion sorting are translated. Character yes/no coercion and R label/class attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "reformM"
+r_source = "upstream/R/reformM.r"
+fortran_module = "hmisc"
+fortran_names = ["reformm_missing_order"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The missingness counts, decreasing-missingness variable ordering, and recommended-imputation heuristic are translated. Formula parsing, data-frame subsetting, character-empty handling, and random formula permutation generation are omitted."
+
+[[extra.translation.function]]
+r_name = "mApply"
+r_source = "upstream/R/mApply.s"
+fortran_module = "hmisc"
+fortran_names = ["mapply_group_mean"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Grouped matrix computation is translated for arithmetic means with per-column NaN omission and sorted integer group codes. Arbitrary R FUN callbacks, multi-index arrays, list outputs, and dynamic simplification are omitted."
+
+[[extra.translation.function]]
+r_name = "soprobMarkovOrd"
+r_source = "upstream/R/simMarkovOrd.r"
+fortran_module = "hmisc"
+fortran_names = ["soprob_markov_ord"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Exact state-occupancy propagation for first-order proportional-odds Markov models is translated, including absorbing states. The R g callback is replaced by caller-supplied initial and transition linear-predictor offsets; character/factor state labels are omitted."
+
+[[extra.translation.function]]
+r_name = "ordGroupBoot"
+r_source = "upstream/R/ordGroupBoot.r"
+fortran_module = "hmisc"
+fortran_names = ["ord_group_boot_mean"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Mean-grouping path translated. Coverage can use the upstream coupon-collector approximation or caller-supplied bootstrap resample indices; factor labels and implicit R RNG sampling are omitted."
+
+[[extra.translation.function]]
+r_name = "clowess"
+r_source = "upstream/R/Misc.s"
+fortran_module = "hmisc"
+fortran_names = ["clowess_smooth"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Robust local-linear LOWESS with tricube neighborhoods and bisquare residual reweighting is translated, including the upstream fallback to an unrobust fit if robust smoothing leaves the response range. Exact base-R lowess implementation details may differ."
+
+[[extra.translation.function]]
+r_name = "curveSmooth"
+r_source = "upstream/R/curveRep.s"
+fortran_module = "hmisc"
+fortran_names = ["curve_smooth_observed"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Observed-point smoothing path is translated for integer curve identifiers using clowess_smooth; incomplete rows are omitted and curves with fewer than three unique x values are unchanged. The p-point resampling path and R list/character-id interface are omitted."
+
+
+[[extra.translation.function]]
+r_name = "wtd.loess.noiter"
+r_source = "upstream/R/wtd.stats.s"
+fortran_module = "hmisc"
+fortran_names = ["wtd_loess_noiter"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Weighted local-polynomial smoothing is translated for degree 0, 1, or 2 with tricube neighborhoods and caller-supplied weights. R loess cell acceleration, output ordering/evaluation modes, and exact loess implementation details are omitted."
+
+[[extra.translation.function]]
+r_name = "simMarkovOrd"
+r_source = "upstream/R/simMarkovOrd.r"
+fortran_module = "hmisc"
+fortran_names = ["sim_markov_ord"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Ordinal proportional-odds Markov simulation is translated with absorbing-state carry/truncation. The R g callback is replaced by caller-supplied subject/time/previous-state offsets and caller-supplied uniforms; response-dependent sampling and data-frame packaging are omitted."
+
+
+[[extra.translation.function]]
+r_name = "impute"
+r_source = "upstream/R/impute.s"
+fortran_module = "hmisc"
+fortran_names = ["impute_median", "impute_constant"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric default method is translated for median and explicit constant replacement, with one-based imputed positions returned separately. Factor/logical special cases, random replacement, arbitrary R function callbacks, names/classes, and imputed attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "movStats"
+r_source = "upstream/R/movStats.r"
+fortran_module = "hmisc"
+fortran_names = ["mov_stats_n_raw"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The default numeric response statistics for space='n' raw moving windows are translated: complete-pair omission, x sorting, observation-index windows, mean x, mean y, type-7 quartiles, median, and N. Formula/strata handling, space='x', discrete mode, post-window smoothing, survival outcomes, and optional loess/rms/polspline model fits are omitted."
+
+[[extra.translation.function]]
+r_name = "summarize"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["summarize_mean_codes"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Multi-key grouped arithmetic means are translated for integer-coded grouping variables, with per-variable NaN omission, counts, and lexicographically ordered group combinations. Arbitrary R FUN callbacks, labels, data frames, character/factor grouping, subset evaluation, and dynamic output shaping are omitted."
+
+[[extra.translation.function]]
+r_name = "aregTran"
+r_source = "upstream/R/areg.s"
+fortran_module = "hmisc"
+fortran_names = ["areg_tran_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Linear, supplied-knot restricted-cubic-spline, and integer-coded categorical design transformations are translated. Automatic knot selection, R factor labels/attributes, generated transformation closures, and inverse-function closures are omitted."
+
+[[extra.translation.function]]
+r_name = "areg"
+r_source = "upstream/R/areg.s"
+fortran_module = "hmisc"
+fortran_names = ["areg_linear_fit"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The all-numeric, all-linear xtype/ytype path is translated with complete-row deletion, intercept fitting, fitted values, residuals, R-squared, and mean/median absolute error. Canonical-correlation optimal transformations, bootstrap/cross-validation, nonlinear response inversion, and R object methods are omitted."
+
+[[extra.translation.function]]
+r_name = "dataframeReduce"
+r_source = "upstream/R/upData.s"
+fortran_module = "hmisc"
+fortran_names = ["dataframe_reduce_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Numeric-matrix reduction is translated for missing-fraction filtering and low-prevalence binary-variable filtering, returning retained columns and removal reason codes. Factor category grouping, character handling, data-frame attributes, and printing are omitted."
+
+[[extra.translation.function]]
+r_name = "dataRep"
+r_source = "upstream/R/dataRep.s"
+fortran_module = "hmisc"
+fortran_names = ["data_rep_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "The numeric representativeness core is translated: incomplete rows are omitted and distinct descriptor combinations with their frequencies are returned. Formula/model-frame processing, factor categories, percentile metadata, prediction methods, and R object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "varclus"
+r_source = "upstream/R/varclus.s"
+fortran_module = "hmisc"
+fortran_names = ["varclus_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Numeric-data Pearson, Spearman, and 30*Hoeffding-D similarities are translated with square/absolute/no correlation transforms and complete, single, or average agglomerative linkage. Formula/model-matrix input, bothpos/ccbothpos modes, arbitrary hclust methods, labels, plotting, and R hclust object layout are omitted."
+
+[[extra.translation.function]]
+r_name = "redun"
+r_source = "upstream/R/redun.s"
+fortran_module = "hmisc"
+fortran_names = ["redun_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Ordinary numeric linear redundancy elimination is translated by repeatedly regressing each active variable on the others and removing the largest R-squared above threshold, with optional adjusted R-squared. Canonical-correlation transformations, categorical/spline/rank modes, formula processing, scores, and R reporting objects are omitted."
+
+[[extra.translation.function]]
+r_name = "gbayesSeqSim"
+r_source = "upstream/R/gbayesSeqSim.r"
+fortran_module = "hmisc"
+fortran_names = ["gbayes_seq"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "The Gaussian posterior-update core is translated for supplied sequential estimates/variances and multiple less-than, greater-than, or interval assertions, returning posterior probabilities, means, and standard deviations. Assertion labels/data-frame attributes and automatic prior sigma derivation from cutprior/tailprob are omitted."
+
+[[extra.translation.function]]
+r_name = "soprobMarkovOrdm"
+r_source = "upstream/R/simMarkovOrd.r"
+fortran_module = "hmisc"
+fortran_names = ["soprob_markov_ordm_core"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Exact state-occupancy propagation is translated for caller-supplied initial probabilities and conditional transition matrices at each interval. Model-object prediction for rms/rmsb/VGAM fits, posterior-draw dimensions, data expansion, and character state labels are omitted."
+[[extra.translation.function]]
+r_name = "areg.boot"
+r_source = "upstream/R/transace.s"
+fortran_module = "hmisc"
+fortran_names = ["areg_boot_linear"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates the all-linear areg bootstrap validation core using caller-supplied resample indices; nonlinear transformations, AVAS, transformation grids, and R formula/object handling are omitted."
+
+[[extra.translation.function]]
+r_name = "fit.mult.impute"
+r_source = "upstream/R/fit.mult.impute.s"
+fortran_module = "hmisc"
+fortran_names = ["fit_mult_impute_combine"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Translates Rubin combination of coefficient vectors and within-imputation covariance matrices, including variance inflation, missing information, and coefficient degrees of freedom; model fitting and stacking are caller responsibilities."
+
+[[extra.translation.function]]
+r_name = "impute.transcan"
+r_source = "upstream/R/transcan.s"
+fortran_module = "hmisc"
+fortran_names = ["impute_transcan_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates numeric insertion of a selected stored imputation by observation position; R names, factors, logical variables, environments, classes, and multi-variable object dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "estSeqSim"
+r_source = "upstream/R/gbayesSeqSim.r"
+fortran_module = "hmisc"
+fortran_names = ["est_seq_sim_mean_difference"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates sequential-look estimation for pre-simulated two-group responses using the difference in means and its estimated variance; arbitrary R gendat and fitter callbacks are replaced by caller-supplied arrays and this fixed fitter."
+
+[[extra.translation.function]]
+r_name = "rm.boot"
+r_source = "upstream/R/rm.boot.s"
+fortran_module = "hmisc"
+fortran_names = ["rm_boot_linear"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates the no-subject, nk=0 linear-time, x-fixed residual-bootstrap core with caller-supplied residual resampling indices; spline, subject-effect, dependence, x-random, plotting, and likelihood branches are omitted."
+[[extra.translation.function]]
+r_name = "ordTestpo"
+r_source = "upstream/R/summary.formula.s"
+fortran_module = "hmisc"
+fortran_names = ["ord_test_po_numeric"]
+fortran_source = "src/hmisc.f90"
+status = "substantial"
+notes = "Translates the numeric-group proportional-odds likelihood-ratio test with direct ordinal-logistic maximum likelihood, one model degree of freedom, and chi-square P value. R formula/model-frame handling and rms::lrm object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "intMarkovOrd"
+r_source = "upstream/R/simMarkovOrd.r"
+fortran_module = "hmisc"
+fortran_names = ["int_markov_ord_intercepts"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates intercept-only calibration of proportional-odds Markov occupancy probabilities to supplied targets using exact translated occupancy propagation and deterministic coordinate search. Extra parameters, arbitrary g/ftarget/constraints callbacks, nlm controls, group-2 reporting, and printing are omitted."
+
+[[extra.translation.function]]
+r_name = "simRegOrd"
+r_source = "upstream/R/popower.s"
+fortran_module = "hmisc"
+fortran_names = ["sim_reg_ord_supplied"]
+fortran_source = "src/hmisc.f90"
+status = "partial"
+notes = "Translates replicate-wise proportional-odds treatment fitting and likelihood-ratio power calculation for caller-supplied simulated ordinal outcomes. R-side outcome generation, continuous latent-noise simulation, arbitrary Eyx covariate callbacks, and rms::orm.fit object behavior are omitted."
+
