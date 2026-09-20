@@ -8,7 +8,7 @@ The classifications describe broad mathematical-software capabilities and
 supplement the repository's subject-based categories and keywords. See the
 [NIST GAMS Classification Scheme](https://gams.nist.gov/cgi-bin/serve.cgi).
 
-Projects scanned: 547.
+Projects scanned: 549.
 
 ## Projects by classification
 
@@ -82,4 +82,4 @@ Projects scanned: 547.
 
 ## Unclassified projects
 
-Missing `gams`: [`dbscan`](dbscan/), [`dccmidas`](dccmidas/), [`earth`](earth/), [`flexmix`](flexmix/), [`gamm4`](gamm4/), [`grpreg`](grpreg/), [`imputeTS`](imputeTS/), [`kde1d`](kde1d/), [`kza`](kza/), [`otrimle`](otrimle/), [`pbs`](pbs/), [`poLCA`](poLCA/), [`randompack`](randompack/), [`roll`](roll/), [`SteadyStateBVAR`](SteadyStateBVAR/), [`stinepack`](stinepack/), [`tclust`](tclust/), [`varmapack`](varmapack/), [`wavelets`](wavelets/)
+Missing `gams`: [`dbscan`](dbscan/), [`dccmidas`](dccmidas/), [`earth`](earth/), [`flexmix`](flexmix/), [`gamm4`](gamm4/), [`grpreg`](grpreg/), [`Hmisc`](Hmisc/), [`imputeTS`](imputeTS/), [`kde1d`](kde1d/), [`kza`](kza/), [`otrimle`](otrimle/), [`pbs`](pbs/), [`poLCA`](poLCA/), [`randompack`](randompack/), [`RLRsim`](RLRsim/), [`roll`](roll/), [`SteadyStateBVAR`](SteadyStateBVAR/), [`stinepack`](stinepack/), [`tclust`](tclust/), [`varmapack`](varmapack/), [`wavelets`](wavelets/)

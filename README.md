@@ -2,7 +2,7 @@
 
 This repository collects experimental modern Fortran translations and
 ports by ChatGPT on High mode (Extra High starting 2026-08-29) of
-computational code in 542 package directories derived from R packages.
+computational code in 544 package directories derived from R packages.
 Each subdirectory is an independent Fortran Package Manager (fpm)
 project with its own documentation, tests, provenance record, and
 license.
@@ -164,6 +164,11 @@ installation. Cross-language tests cover numerical results and shape-error
 handling while leaving the existing computational implementations intact.
 
 ## Packages and licenses
+
+To plan a new translation, run `python xcheck_dependents.py PACKAGE`. It reports
+existing translations and missing prerequisites in dependency-first order,
+with configurable exemptions for R infrastructure and other out-of-scope
+packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER.md).
 
 | Package | What it does | Upstream version · License |
 | --- | --- | --- |
@@ -358,6 +363,7 @@ handling while leaving the existing computational implementations intact.
 | [`hdshop`](hdshop/) | Constructs high-dimensional shrinkage optimal portfolios. | `0.1.7` · `GPL-3.0-only` |
 | [`hermite`](hermite/) | Provides the generalized Hermite distribution. | `1.2.1` · `GPL-2.0-or-later` |
 | [`HierPortfolios`](HierPortfolios/) | Constructs portfolios using hierarchical risk clustering. | `1.0.2` · `GPL-2.0-only` |
+| [`Hmisc`](Hmisc/) | Provides weighted summaries, correlations, spline transformations, survival concordance, and power and sample-size calculations; advanced imputation workflows remain omitted. | `5.3-0` · `GPL-2.0-or-later` |
 | [`highfrequency`](highfrequency/) | Analyzes high-frequency trade and quote data. | `1.0.2` · `GPL-2.0-or-later` |
 | [`highOrderPortfolios`](highOrderPortfolios/) | Designs portfolios using mean, variance, skewness, and kurtosis. | `0.1.1` · `GPL-3.0-only` |
 | [`highs`](highs/) | Provides a Fortran interface to the HiGHS optimization solver. | `1.14.0-2` · `GPL-2.0-or-later` |
@@ -574,6 +580,7 @@ handling while leaving the existing computational implementations intact.
 | [`RiskPortfolios`](RiskPortfolios/) | Constructs portfolios using risk-based allocation methods. | `2.1.7` · `GPL-2.0-or-later` |
 | [`risksimul`](risksimul/) | Simulates rare portfolio losses under t-copulas with t or generalized-hyperbolic marginals. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`RM2006`](RM2006/) | Estimates conditional covariance using the RiskMetrics 2006 methodology. | `0.1.1` · `GPL-2.0-or-later` |
+| [`RLRsim`](RLRsim/) | Simulates finite-sample likelihood-ratio and restricted likelihood-ratio tests for a single variance component from explicit design matrices. | `3.1-9` · `GPL-2.0-or-later` |
 | [`Rmalschains`](Rmalschains/) | Performs continuous optimization with memetic algorithms and local search chains. | `0.2-11` · `GPL-3.0-only` |
 | [`rmgarch`](rmgarch/) | Fits and analyzes multivariate GARCH models. | `1.4-2` · `GPL-3.0-only` |
 | [`RMKdiscrete`](RMKdiscrete/) | Provides discrete probability distributions and helper functions. | `0.1` · `GPL-2.0-or-later` |

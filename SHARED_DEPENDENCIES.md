@@ -20,6 +20,11 @@ adapters. It excludes development-only dependencies and does not imply that
 every consumer has been rebuilt or tested in this documentation refresh.
 The duplicate-file figures above describe earlier audits, not a fresh scan.
 
+The newly added `Hmisc` and `RLRsim` translations were checked on 2026-09-20.
+Neither declares FPM dependencies, so neither adds a shared-consumer entry
+below. Both currently use package-local numerical helpers; their addition is
+not a new consolidation or validation pass.
+
 | Canonical package | Consumers using the shared package |
 |---|---|
 | `actuar` | `mbbefd` |
