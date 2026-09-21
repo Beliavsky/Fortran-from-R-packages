@@ -25,6 +25,12 @@ Neither declares FPM dependencies, so neither adds a shared-consumer entry
 below. Both currently use package-local numerical helpers; their addition is
 not a new consolidation or validation pass.
 
+The 2026-09-21 additions include `fda.usc`, which uses `rfortran-core` and
+`rfortran-linalg`, and `kSamples`, which uses `rfortran-core` and `SuppDists`.
+The added `abind`, `ecp`, `fdapace`, `funData`, `geometry`, and `pcaPP`
+packages declare no external FPM dependencies. These are manifest checks,
+not new build or numerical-validation results.
+
 | Canonical package | Consumers using the shared package |
 |---|---|
 | `actuar` | `mbbefd` |
@@ -100,8 +106,8 @@ not a new consolidation or validation pass.
 | `Rfast` | `Rfast2` |
 | `rfortran-arpack` | `bigstatsr`, `RSpectra` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
-| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
-| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `fda.usc`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `kSamples`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fda.usc`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
 | `rfortran-optional` | `rfortran-core`, `rfortran-linalg`, `stats` |
 | `rngWELL` | `randtoolbox` |
 | `RobStatTM` | `RPEIF` |
@@ -122,6 +128,7 @@ not a new consolidation or validation pass.
 | `splines` | `gamlss`, `mgcv`, `survival`, `VGAM` |
 | `stinepack` | `imputeTS` |
 | `stringr` | `tidyr` |
+| `SuppDists` | `kSamples` |
 | `survey` | `GB2` |
 | `survival` | `compound.Cox`, `flexsurv`, `gamlss`, `mlr`, `mstate`, `relsurv`, `survey` |
 | `svd` | `Rssa` |

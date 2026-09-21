@@ -2,11 +2,11 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Time Series Analysis](https://CRAN.R-project.org/view=TimeSeries),
-maintained by Rob J Hyndman and Rebecca Killick, version 2026-09-14. The
+maintained by Rob J Hyndman and Rebecca Killick, version 2026-09-21. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes 38 translated packages from this repository. Its summaries
+This page includes 39 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -66,6 +66,8 @@ each package's documentation for validation status and precise API coverage.
 
 ## Structural changes
 
+- [`ecp`](../ecp/) detects multiple change points in univariate and multivariate
+  data using energy statistics, hierarchical segmentation, and kernel methods.
 - [`strucchange`](../strucchange/) provides structural-change tests,
   breakpoint estimation, fluctuation processes, confidence intervals, and
   monitoring boundaries for regression and time-series models.

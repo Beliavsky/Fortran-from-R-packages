@@ -2,7 +2,7 @@
 
 This repository collects experimental modern Fortran translations and
 ports by ChatGPT on High mode (Extra High starting 2026-08-29) of
-computational code in 544 package directories derived from R packages.
+computational code in 552 package directories derived from R packages.
 Each subdirectory is an independent Fortran Package Manager (fpm)
 project with its own documentation, tests, provenance record, and
 license.
@@ -173,6 +173,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | Package | What it does | Upstream version · License |
 | --- | --- | --- |
 | [`ABCoptim`](ABCoptim/) | Performs artificial bee colony optimization. | `0.15.0` · `MIT` |
+| [`abind`](abind/) | Combines, subsets, fills, and reshapes multidimensional numeric arrays. | `1.4-8` · `MIT` |
 | [`ACDm`](ACDm/) | Estimates and simulates autoregressive conditional duration models. | `1.1.0` · `GPL-3.0-or-later` |
 | [`actuar`](actuar/) | Provides actuarial distributions, aggregate-loss and ruin models, coverage transformations, credibility methods, and minimum-distance estimation. | `3.3-7` · `GPL-2.0-or-later` |
 | [`adagio`](adagio/) | Provides discrete and global optimization routines. | `0.9.2` · `GPL-3.0-or-later` |
@@ -276,6 +277,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`earth`](earth/) | Fits multivariate adaptive regression splines with basis selection, pruning, prediction, and diagnostics. | `5.3.6` · `GPL-3.0-only` |
 | [`ecd`](ecd/) | Models elliptic lambda distributions and prices options. | `0.9.2.4` · `Artistic-2.0` |
 | [`ECOSolveR`](ECOSolveR/) | Solves conic optimization problems with an embedded conic solver. | `0.6.1` · `GPL-3.0-or-later` |
+| [`ecp`](ecp/) | Detects multiple change points using energy statistics, hierarchical segmentation, and kernel methods. | `3.1.6` · `GPL-2.0-or-later` |
 | [`ecpdist`](ecpdist/) | Provides the extended Chen-Poisson lifetime distribution. | `0.2.1` · `GPL-3.0-only` |
 | [`elliptic`](elliptic/) | Computes Weierstrass and Jacobi elliptic functions. | `1.5-1` · `GPL-2.0-only` |
 | [`epo`](epo/) | Performs enhanced portfolio optimization with correlation shrinkage. | `0.1.0.9000` · `MIT` |
@@ -294,7 +296,9 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`fbonds`](fbonds/) | Prices bonds and fits Nelson-Siegel family term structures. | `3042.78` · `GPL-2.0-or-later` |
 | [`fcl`](fcl/) | Provides dated cash-flow, bond, yield, duration, and financial-calendar calculations. | `0.1.4` · `MIT` |
 | [`fcopulae`](fcopulae/) | Models dependence with elliptical, Archimedean, and empirical copulas. | `4052.86` · `GPL-2.0-or-later` |
+| [`fda.usc`](fda.usc/) | Provides numerical methods for functional-data analysis, including smoothing, depth, regression, and classification. | `2.2.0` · `GPL-2` |
 | [`fda`](fda/) | Provides basis representations, smoothing, functional principal-components analysis, and other functional-data methods. | `0.1.0` · `GPL-2.0-or-later` |
+| [`fdapace`](fdapace/) | Provides functional-data analysis and empirical-dynamics methods, including functional principal components. | `0.6.0` · `BSD-3-Clause` |
 | [`FER`](FER/) | Provides financial-engineering option-pricing formulas. | `0.94` · `GPL-2.0-or-later` |
 | [`fextremes`](fextremes/) | Models extreme values and financial tail risk. | `4032.84` · `GPL-2.0-or-later` |
 | [`ffp`](ffp/) | Computes fully flexible probabilities for stress testing and portfolio construction. | `0.2.2.9000` · `MIT` |
@@ -322,6 +326,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`fracdiff`](fracdiff/) | Estimates, simulates, and analyzes fractionally differenced time-series models. | `1.5-4` · `GPL-2.0-or-later` |
 | [`frapo`](frapo/) | Provides financial risk modelling and portfolio optimization methods. | `0.4-2` · `GPL-3.0-or-later` |
 | [`frbinom`](frbinom/) | Provides fractional binomial distributions. | `1.0.0` · `MIT` |
+| [`funData`](funData/) | Represents and manipulates regular, irregular, and multivariate functional data, with numerical integration. | `1.3-9` · `GPL-2.0-only` |
 | [`GA`](GA/) | Performs optimization with genetic algorithms. | `3.2.5` · `GPL-2.0-or-later` |
 | [`gamlss.dist`](gamlss.dist/) | Provides distributions for generalized additive location-scale-shape models. | `6.1-1` · `GPL-3.0-only` |
 | [`gamlss`](gamlss/) | Fits generalized additive models for location, scale, and shape. | `5.5-0` · `GPL-3.0-only` |
@@ -337,6 +342,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`GenBinomApps`](GenBinomApps/) | Computes generalized-binomial probabilities and Clopper-Pearson confidence intervals. | `1.2.1` · `GPL-3.0-only` |
 | [`GeneralizedHyperbolic`](GeneralizedHyperbolic/) | Provides generalized hyperbolic and related probability distributions. | `0.8-7` · `GPL-2.0-or-later` |
 | [`GenSA`](GenSA/) | Performs global optimization using generalized simulated annealing. | `1.1.15` · `GPL-2.0-only` |
+| [`geometry`](geometry/) | Computes convex hulls, Delaunay triangulations, simplex searches, coordinate transforms, and mesh operations. | `0.5.2` · `GPL-3.0-or-later` |
 | [`ghyp`](ghyp/) | Evaluates, fits, and simulates generalized hyperbolic distributions. | `1.6.5` · `GPL-2.0-or-later` |
 | [`gkwdist`](gkwdist/) | Provides the generalized Kumaraswamy distribution family. | `1.1.4` · `MIT` |
 | [`glmmTMB`](glmmTMB/) | Provides numerical kernels for generalized linear mixed models, zero inflation, dispersion models, and structured random effects. | `1.1.14` · `AGPL-3.0-only` |
@@ -363,10 +369,10 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`hdshop`](hdshop/) | Constructs high-dimensional shrinkage optimal portfolios. | `0.1.7` · `GPL-3.0-only` |
 | [`hermite`](hermite/) | Provides the generalized Hermite distribution. | `1.2.1` · `GPL-2.0-or-later` |
 | [`HierPortfolios`](HierPortfolios/) | Constructs portfolios using hierarchical risk clustering. | `1.0.2` · `GPL-2.0-only` |
-| [`Hmisc`](Hmisc/) | Provides weighted summaries, correlations, spline transformations, survival concordance, and power and sample-size calculations; advanced imputation workflows remain omitted. | `5.3-0` · `GPL-2.0-or-later` |
 | [`highfrequency`](highfrequency/) | Analyzes high-frequency trade and quote data. | `1.0.2` · `GPL-2.0-or-later` |
 | [`highOrderPortfolios`](highOrderPortfolios/) | Designs portfolios using mean, variance, skewness, and kurtosis. | `0.1.1` · `GPL-3.0-only` |
 | [`highs`](highs/) | Provides a Fortran interface to the HiGHS optimization solver. | `1.14.0-2` · `GPL-2.0-or-later` |
+| [`Hmisc`](Hmisc/) | Provides weighted summaries, correlations, spline transformations, survival concordance, and power and sample-size calculations; advanced imputation workflows remain omitted. | `5.3-0` · `GPL-2.0-or-later` |
 | [`hyper2`](hyper2/) | Provides hyperdirichlet distributions and likelihood calculations. | `3.2-3` · `GPL-3.0-or-later` |
 | [`hypergeo`](hypergeo/) | Computes the Gauss hypergeometric function. | `1.2-14` · `GPL-2.0-only` |
 | [`ICSNP`](ICSNP/) | Provides tools for multivariate nonparametric statistics. | `1.1-3` · `GPL-2.0-or-later` |
@@ -394,6 +400,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`kofnGA`](kofnGA/) | Uses a genetic algorithm for fixed-size subset selection. | `1.3` · `GPL-2.0-only` |
 | [`KrigInv`](KrigInv/) | Performs Gaussian-process-based inversion and contour estimation. | `1.4.2` · `GPL-3.0-only` |
 | [`ks`](ks/) | Provides multivariate kernel-smoothing methods. | `1.15.3` · `GPL-2.0-only` |
+| [`kSamples`](kSamples/) | Performs k-sample rank tests and their combinations, with asymptotic, simulated, and selected exact distributions. | `1.2-12` · `GPL-2.0-or-later` |
 | [`kza`](kza/) | Applies Kolmogorov-Zurbenko adaptive filters, local-variance estimation, and spectral analysis. | `4.2.0` · `GPL-3.0-only` |
 | [`L1pack`](L1pack/) | Provides routines for L1 estimation. | `0.62-4` · `GPL-3.0-only` |
 | [`LaplacesDemon`](LaplacesDemon/) | Provides Bayesian inference and Markov-chain Monte Carlo algorithms. | `16.1.8` · `MIT` |
@@ -515,6 +522,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`pbkrtest`](pbkrtest/) | Computes Kenward-Roger, Satterthwaite, and parametric-bootstrap inference for mixed models. | `0.5.5` · `GPL-2.0-or-later` |
 | [`pbo`](pbo/) | Estimates the probability of backtest overfitting. | `1.3.5` · `MIT` |
 | [`pbs`](pbs/) | Constructs periodic and ordinary B-spline bases and evaluates them at new predictor values. | `1.1` · `GPL-2.0-only` |
+| [`pcaPP`](pcaPP/) | Performs robust and sparse projection-pursuit PCA, robust scale estimation, and spatial-median calculations. | `2.0-5` · `GPL-3.0-or-later` |
 | [`pdqutils`](pdqutils/) | Provides distribution approximations using Gram-Charlier, Edgeworth, and Cornish-Fisher expansions. | `0.1.6` · `LGPL-3.0-or-later` |
 | [`pearsonds`](pearsonds/) | Evaluates, simulates, and fits distributions in the Pearson distribution system. | `1.3.2` · `GPL-2.0-or-later` |
 | [`peerperformance`](peerperformance/) | Performs luck-corrected peer-performance analysis. | `2.4.0` · `GPL-2.0-or-later` |
@@ -579,8 +587,8 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`riskParityPortfolio`](riskParityPortfolio/) | Designs risk-parity and risk-budgeting portfolios. | `0.2.2.9000` · `GPL-3.0-only` |
 | [`RiskPortfolios`](RiskPortfolios/) | Constructs portfolios using risk-based allocation methods. | `2.1.7` · `GPL-2.0-or-later` |
 | [`risksimul`](risksimul/) | Simulates rare portfolio losses under t-copulas with t or generalized-hyperbolic marginals. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
-| [`RM2006`](RM2006/) | Estimates conditional covariance using the RiskMetrics 2006 methodology. | `0.1.1` · `GPL-2.0-or-later` |
 | [`RLRsim`](RLRsim/) | Simulates finite-sample likelihood-ratio and restricted likelihood-ratio tests for a single variance component from explicit design matrices. | `3.1-9` · `GPL-2.0-or-later` |
+| [`RM2006`](RM2006/) | Estimates conditional covariance using the RiskMetrics 2006 methodology. | `0.1.1` · `GPL-2.0-or-later` |
 | [`Rmalschains`](Rmalschains/) | Performs continuous optimization with memetic algorithms and local search chains. | `0.2-11` · `GPL-3.0-only` |
 | [`rmgarch`](rmgarch/) | Fits and analyzes multivariate GARCH models. | `1.4-2` · `GPL-3.0-only` |
 | [`RMKdiscrete`](RMKdiscrete/) | Provides discrete probability distributions and helper functions. | `0.1` · `GPL-2.0-or-later` |
