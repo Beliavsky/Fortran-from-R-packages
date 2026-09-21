@@ -1,0 +1,29 @@
+Package: funData
+Type: Package
+Title: An S4 Class for Functional Data
+Version: 1.3-9
+Date: 2024-02-10
+Authors@R: person("Clara", "Happ-Kurz", email = "chk_R@gmx.de",
+                  role = c("aut", "cre"))
+Author: Clara Happ-Kurz [aut, cre]
+Maintainer: Clara Happ-Kurz <chk_R@gmx.de>
+Description: S4 classes for univariate and multivariate functional data with
+    utility functions. See <doi:10.18637/jss.v093.i05> for a detailed description 
+    of the package functionalities and its interplay with the MFPCA package for 
+    multivariate functional principal component analysis 
+    <https://CRAN.R-project.org/package=MFPCA>. 
+URL: https://github.com/ClaraHapp/funData
+License: GPL-2
+Depends: methods
+Imports: abind, fields, foreach, graphics, grDevices, stats
+Suggests: covr, fda, ggplot2 (>= 3.0.0), gridExtra, reshape2, zoo,
+        testthat (>= 2.0.0)
+RoxygenNote: 7.3.1
+Encoding: UTF-8
+Collate: 'funDataClass.R' 'coerce.R' 'funDataMethods.R' 'get_set.R'
+        'names.R' 'plotMethods.R' 'simulation.R' 'str.R' 'subset.R'
+        'summary.R' 'zzz.R'
+NeedsCompilation: no
+Packaged: 2024-02-14 12:52:25 UTC; clara
+Repository: CRAN
+Date/Publication: 2024-02-14 16:10:02 UTC

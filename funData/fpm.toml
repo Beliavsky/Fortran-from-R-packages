@@ -1,0 +1,217 @@
+name = "funData"
+version = "1.3.9"
+license = "GPL-2.0-only"
+author = "Clara Happ-Kurz (upstream); Fortran translation"
+maintainer = "Fortran translation maintainers"
+description = "Modern Fortran translation of computational funData operations."
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "test_core.f90"
+
+[[test]]
+name = "simulation"
+source-dir = "test/simulation"
+main = "test_simulation.f90"
+
+[[example]]
+name = "basic_usage"
+source-dir = "example"
+main = "basic_usage.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 20
+r_functions_translated = 20
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = ".intWeights"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["int_weights"]
+fortran_source = "src/funData_numeric.f90"
+status = "complete"
+notes = "Trapezoidal and midpoint quadrature weights are translated, including the upstream short-grid fallback."
+
+[[extra.translation.function]]
+r_name = "addError"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["add_error_fun_data", "add_error_multi_fun_data"]
+fortran_source = "src/funData_simulation.f90"
+status = "substantial"
+notes = "Gaussian white-noise addition is translated; Fortran random_number/Box-Muller replaces R RNG streams."
+
+[[extra.translation.function]]
+r_name = "approxNA"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["approx_na"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "Interior missing runs on one-dimensional regular grids are linearly interpolated; leading/trailing NaNs remain NaN. R/S4 and zoo dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "as.funData"
+r_source = "upstream/R/funDataClass.R"
+fortran_module = "funData_core"
+fortran_names = ["as_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "Irregular curves are embedded on the sorted union grid using IEEE NaNs; R S4 metadata and names are omitted."
+
+[[extra.translation.function]]
+r_name = "as.irregFunData"
+r_source = "upstream/R/funDataClass.R"
+fortran_module = "funData_core"
+fortran_names = ["as_irreg_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "One-dimensional regular data are converted by dropping IEEE-NaN points; R S4 metadata and names are omitted."
+
+[[extra.translation.function]]
+r_name = "as.multiFunData"
+r_source = "upstream/R/funDataClass.R"
+fortran_module = "funData_core"
+fortran_names = ["as_multi_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "A regular functional object is wrapped as one multivariate component; R S4 construction details are omitted."
+
+[[extra.translation.function]]
+r_name = "eFun"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["eigenfunctions"]
+fortran_source = "src/funData_simulation.f90"
+status = "substantial"
+notes = "Poly, PolyHigh, Fourier, FourierLin, and Wiener eigenfunction families are translated; argument-validation messages and R object construction differ."
+
+[[extra.translation.function]]
+r_name = "eVal"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["eigenvalues"]
+fortran_source = "src/funData_simulation.f90"
+status = "complete"
+notes = "Linear, exponential, and Wiener eigenvalue sequences are translated."
+
+[[extra.translation.function]]
+r_name = "extractObs"
+r_source = "upstream/R/subset.R"
+fortran_module = "funData_core"
+fortran_names = ["extract_fun_data", "extract_irreg_fun_data", "extract_multi_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "Observation/support extraction is translated for all native Fortran data types; regular support selectors use resolved integer indices rather than R expressions."
+
+[[extra.translation.function]]
+r_name = "flipFuns"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["flip_fun_data", "flip_fun_irreg_data", "flip_irreg_fun_data", "flip_multi_fun_data"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "Regular, regular-reference/irregular, irregular, and multivariate orientation flipping are translated using scalar-product sign equivalence."
+
+[[extra.translation.function]]
+r_name = "integrate"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["integrate_fun_data", "integrate_irreg_fun_data", "integrate_multi_fun_data"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "One- through three-dimensional regular integration and irregular/multivariate integration are translated. One-point irregular full-domain extrapolation follows the documented constant-value behavior."
+
+[[extra.translation.function]]
+r_name = "meanFunction"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["mean_fun_data", "mean_irreg_fun_data", "mean_multi_fun_data"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "Pointwise regular, irregular, and multivariate means are translated; R naming/S4 metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "scalarProduct"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["scalar_product_fun_data", "scalar_product_fun_irreg", "scalar_product_irreg_fun", "scalar_product_irreg_fun_data", "scalar_product_multi_fun_data"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "Pairwise regular, irregular, mixed, and weighted multivariate L2 scalar products are translated with one-observation broadcasting."
+
+[[extra.translation.function]]
+r_name = "simFunData"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["sim_fun_data"]
+fortran_source = "src/funData_simulation.f90"
+status = "substantial"
+notes = "Truncated Karhunen-Loeve simulation on one- through three-dimensional supports is translated; Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "simMultiFunData"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["sim_multi_fun_data"]
+fortran_source = "src/funData_simulation.f90"
+status = "substantial"
+notes = "Split and weighted multivariate basis constructions and common-score simulation are translated; Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "sparsify"
+r_source = "upstream/R/simulation.R"
+fortran_module = "funData_simulation"
+fortran_names = ["sparsify_fun_data", "sparsify_multi_fun_data"]
+fortran_source = "src/funData_simulation.f90"
+status = "substantial"
+notes = "Random one-dimensional sparsification using IEEE NaNs is translated for regular and multivariate data; RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "tensorProduct"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["tensor_product2", "tensor_product3"]
+fortran_source = "src/funData_numeric.f90"
+status = "complete"
+notes = "Two- and three-way tensor products of one-dimensional regular functional observations are translated for all observation combinations."
+
+[[extra.translation.function]]
+r_name = "norm"
+r_source = "upstream/R/funDataMethods.R"
+fortran_module = "funData_numeric"
+fortran_names = ["norm_fun_data", "norm_irreg_fun_data", "norm_multi_fun_data"]
+fortran_source = "src/funData_numeric.f90"
+status = "substantial"
+notes = "Weighted squared and ordinary L2 norms are translated for regular, irregular, and multivariate data, including full-domain irregular extrapolation."
+
+[[extra.translation.function]]
+r_name = "subset"
+r_source = "upstream/R/subset.R"
+fortran_module = "funData_core"
+fortran_names = ["extract_fun_data", "extract_irreg_fun_data", "extract_multi_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "The computational subset alias maps to the native extraction procedures; R non-standard evaluation and S4 dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "["
+r_source = "upstream/R/subset.R"
+fortran_module = "funData_core"
+fortran_names = ["extract_fun_data", "extract_irreg_fun_data", "extract_multi_fun_data"]
+fortran_source = "src/funData_core.f90"
+status = "substantial"
+notes = "The bracket observation/subdomain method maps to the native extraction procedures; R indexing syntax and S4 dispatch are omitted."

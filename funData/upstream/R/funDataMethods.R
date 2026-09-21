@@ -1,0 +1,1557 @@
+### generic functions ###
+
+# general setting for all examples using plot functions
+#' @importFrom graphics par
+NULL
+
+#### show ####
+
+#' A print method for univariate functional data
+#'
+#' This function prints basic information about a \code{funData} object. This is
+#' the standard console output for \code{funData} objects.
+#'
+#' @param x A \code{funData} object.
+#'
+#' @keywords internal
+print.funData <- function(x,...){
+  cat("Functional data with ", nObs(x) ," observations of ", dimSupp(x) ,"-dimensional support\nargvals:\n", sep = "")
+  
+  for(i in seq_len(dimSupp(x)))
+  {
+    cat("\t")
+    if(length(x@argvals[[i]]) > 5)
+      cat(x@argvals[[i]][1], x@argvals[[i]][2], "...", x@argvals[[i]][length(x@argvals[[i]])])
+    else
+      cat(x@argvals[[i]])
+    cat("\t\t(", length(x@argvals[[i]]), " sampling points)\n", sep = "")
+  }
+  
+  cat("X:\n\tarray of size", paste(dim(x@X), collapse = " x "),"\n")
+}
+
+#' @describeIn funData Print basic information about the \code{funData} object
+#'   in the console. The default console output for \code{funData} objects.
+#'
+#' @param object A \code{funData} object.
+#'
+#' @docType methods
+#'
+#' @exportMethod show
+setMethod("show", signature = "funData",
+          function(object){print.funData(object)})
+
+
+#' A print method for irregular functional data
+#'
+#' This function prints basic information about a \code{irregFunData} object. This is
+#' the standard console output for \code{irregFunData} objects.
+#'
+#' @param x An \code{irregFunData} object.
+#'
+#' @keywords internal
+print.irregFunData <- function(x,...){
+  cat("Irregular functional data with ", nObs(x) ," observations of ", dimSupp(x) ,"-dimensional support\n", sep = "")
+  
+  cat("argvals:\n\tValues in ", paste(round(range(x@argvals),3), collapse = " ... "), ".\n", sep = "")
+  
+  cat("X:\n\tValues in ", paste(round(range(x@X),3), collapse = " ... "),".\n", sep = "")
+  
+  cat("Total:\n\t", length(unlist(x@argvals)), " observations on " , length(unique(unlist(x@argvals))), " different argvals (",
+      paste(range(nObsPoints(x)), collapse = " - "), " per observation).\n", sep = "")
+}
+
+
+#' @describeIn irregFunData Print basic information about the \code{irregFunData} object
+#'   in the console. The default console output for \code{irregFunData} objects.
+#'
+#' @param object An \code{irregFunData} object.
+#'
+#' @docType methods
+#'
+#' @exportMethod show
+setMethod("show", signature = "irregFunData",
+          function(object){print.irregFunData(object)})
+
+#### dimSupp ####
+
+#' Support dimension of functional data
+#'
+#' This function returns the support dimension of an object of class
+#' \code{funData}, \code{irregFunData} or \code{multiFunData}.
+#'
+#' @param object An object of  class \code{funData}, \code{irregFunData} or \code{multiFunData}.
+#'
+#' @return If \code{object} is univariate (i.e. of class \code{funData} or \code{irregFunData}), the
+#'   function returns the dimension of the support of \code{object}. If
+#'   \code{object} is multivariate (i.e. of class \code{multiFunData}), the
+#'   function returns a vector, giving the support dimension of each element.
+#'
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}}, \code{\linkS4class{multiFunData}}
+#' 
+#' @importFrom stats rnorm
+#'
+#' @export dimSupp
+#'
+#' @examples
+#' # Univariate (one-dimensional)
+#' object1 <- funData(argvals = 1:5, X = rbind(1:5, 6:10))
+#' dimSupp(object1)
+#'
+#' # Univariate (two-dimensional)
+#' object2 <- funData(argvals = list(1:10, 1:5), X = array(rnorm(100), dim = c(2,10,5)))
+#' dimSupp(object2)
+#' 
+#' # Univariate (irregular)
+#' irregObject <- irregFunData(argvals = list(1:5, 2:4), X = list(2:6, 3:5))
+#' dimSupp(irregObject)
+#'
+#' # Multivariate
+#' multiObject <- multiFunData(object1, object2)
+#' dimSupp(multiObject)
+setGeneric("dimSupp", function(object) {standardGeneric("dimSupp")})
+
+
+#' dimSupp for funData objects
+#'
+#' @keywords internal
+setMethod("dimSupp", signature = "funData",
+          function(object){length(object@argvals)})
+
+
+#' dimSupp for multiFunData objects
+#'
+#' @keywords internal
+setMethod("dimSupp", signature = "multiFunData",
+          function(object){vapply(object, FUN = dimSupp, FUN.VALUE = 0)})
+
+#' dimSupp for irregular functional data objects
+#'
+#' @keywords internal
+setMethod("dimSupp", signature = "irregFunData",
+          function(object){length(dim(as.array(object@argvals[[1]])))})
+
+
+#### ApproxNA ####
+
+#' Approximate missing values for funData objects
+#' 
+#' This function approximates missing values for \code{funData} objects based on
+#' the \link[zoo]{na.approx} interpolation method from the package \pkg{zoo}.
+#' 
+#' @section Warning: This function requires the package \pkg{zoo} to be 
+#'   installed, otherwise it will throw a warning.
+#'   
+#' @param object An object of  class \code{funData} with missing values (coded 
+#'   by \code{NA}).
+#'   
+#' @return A \code{funData} object where missing values have been imputed.
+#'   
+#' @export approxNA
+#'   
+#' @examples
+#' # Simulate some data
+#' f <- simFunData(N = 10, M = 8, eVal = "linear", eFun = "Poly", argvals = seq(0, 1, 0.01))$simData
+#' 
+#' # Sparsify, i.e. generate artificial missings in the data
+#' fSparse <- sparsify(f, minObs = 10, maxObs = 50)
+#' 
+#' # plot
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow = c(1,3))
+#' plot(f, main = "Original Data") 
+#' plot(fSparse, main = "Sparse Data")
+#' plot(approxNA(fSparse), main = "Reconstructed Data")
+#' # faster with plot(fSparse, plotNA = TRUE, main = "Reconstructed Data")
+#' 
+#' par(oldpar)
+setGeneric("approxNA", function(object) {standardGeneric("approxNA")})
+
+#' approxNA for funData objects
+#'
+#' @keywords internal
+setMethod("approxNA", signature = "funData",
+          function(object){
+            # require zoo
+            if (requireNamespace("zoo", quietly = TRUE))
+            {
+              return(funData(object@argvals, t(zoo::na.approx(t(object@X), na.rm = FALSE))))
+            }
+            else
+              warning("Package zoo needed for interpolating missing values in plot for funData. Ignoring plotNA = TRUE.")
+          })
+
+#### Arith ####
+
+#' Arithmetics for functional data objects
+#'
+#' These functions allow basic arithmetics (such as `+`, `-`, `*`, `sqrt`) for
+#' functional data and numerics based on \code{\link[methods]{Arith}}.  The
+#' operations are made pointwise for each observation. See examples below.
+#'
+#' If two objects of a functional data class (\code{funData},
+#' \code{irregFunData} or \code{multiFunData}) are used, they normally must be
+#' of the same class, have the same domain and the same number of observations.
+#' Exceptions are accepted if \itemize{\item one object has only one
+#' observation. In this case, the arithmetic operations (`+`, `-`, `*`, ...) are
+#' done pairwise for this single function and all functions of the other object.
+#' A typical example would be when subtracting the mean function from all
+#' observations in a \code{funData} object. This single function must be defined
+#' on the same domain as the other functions (or, in case of
+#' \code{irregFunData}, on the union of all observation grids). \item one of the
+#' two objects is of class \code{irregFunData}. Then, the other object can be of
+#' class \code{funData}, too, if it is defined on the union of all observation
+#' grids. The result is an \code{irregFunData} object which is defined on the
+#' same observation grid as the original \code{irregFunData} object.}
+#'
+#' @section Warning: Note that not all combinations of operations and classes
+#'   make sense, e.g. \code{e1 ^ e2} is sensible if \code{e1} is of class
+#'   \code{funData}, \code{irregFunData} or \code{multiFunData} and \code{e2} is
+#'   numeric. The reverse is not true.
+#'
+#' @param e1,e2 Objects of class \code{funData}, \code{irregFunData},
+#'   \code{multiFunData} or \code{numeric}. If two functional data objects are
+#'   used, they must be of the same class, have the same domain and the same
+#'   number of observations. For exceptions, see Details.
+#'
+#' @return An object of the same functional data class as \code{e1} or
+#'   \code{e2}, respectively.
+#'
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}},
+#'   \code{\linkS4class{multiFunData}}, \link[methods]{Arith}
+#'
+#' @name Arith.funData
+#'
+#' @examples
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow = c(3,2), mar = rep(2.1,4))
+#'
+#' argvals <- seq(0, 2*pi, 0.01)
+#' object1 <- funData(argvals, outer(seq(0.75, 1.25, by = 0.05), sin(argvals)))
+#' object2 <- funData(argvals, outer(seq(0.75, 1.25, by = 0.05), cos(argvals)))
+#'
+#' plot(object1, main = "Object1")
+#' plot(object2, main = "Object2")
+#'
+#' # Only functional data objects
+#' plot(object1 + object2, main = "Sum")
+#' plot(object1 - object2, main = "Difference")
+#'
+#' # Mixed
+#' plot(4 * object1 + 5,  main = "4 * Object1 + 5") # Note y-axis!
+#' plot(object1^2 + object2^2, main = "Pythagoras")
+#'
+#' ### Irregular
+#' ind <- replicate(11, sort(sample(1:length(argvals), sample(5:10, 1))))
+#' i1 <- irregFunData(
+#'    argvals = lapply(1:11, function(i, ind, x){x[ind[[i]]]}, ind = ind, x = object1@@argvals[[1]]),
+#'    X = lapply(1:11, function(i, ind, y){y[i, ind[[i]]]}, ind = ind, y = object1@@X))
+#' i2 <- irregFunData(
+#'    argvals = lapply(1:11, function(i, ind, x){x[ind[[i]]]}, ind = ind, x = object2@@argvals[[1]]),
+#'    X = lapply(1:11, function(i, ind, y){y[i, ind[[i]]]}, ind = ind, y = object2@@X))
+#'
+#' plot(i1, main = "Object 1 (irregular)")
+#' plot(i2, main = "Object 2 (irregular)")
+#'
+#' # Irregular and regular functional data objects
+#' plot(i1 + i2, main = "Sum")
+#' plot(i1 - object2, main = "Difference")
+#'
+#' # Mixed
+#' plot(4 * i1 + 5,  main = "4 * i1 + 5") # Note y-axis!
+#' plot(i1^2 + i2^2, main = "Pythagoras")
+#' par(oldpar)
+NULL
+
+#' @rdname Arith.funData
+#' 
+#' @importFrom abind abind
+setMethod("Arith", signature = c(e1 = "funData", e2 = "funData"),
+          function(e1, e2){
+            if(!isTRUE(all.equal(e1@argvals, e2@argvals)))
+              stop("Functions must be defined on the same domain!")        
+            
+            # different number of observations
+            if(nObs(e1) != nObs(e2))
+            {
+              if(all(c(nObs(e1), nObs(e2)) > 1))
+                stop("nObs of funData objects is neither equal nor one.")
+              
+              # if one of e1, e2 has only one observation: replicate it nObs(e2) / nObs(e1) times 
+              # is more efficient than aaply / apply
+              if(nObs(e1) == 1 & nObs(e2) > 1) 
+                e1@X <- do.call(abind::abind, args = list(rep(list(e1@X), nObs(e2)), along = 1) )
+              
+              if(nObs(e1) > 1 & nObs(e2) == 1) 
+                e2@X <- do.call(abind::abind, args = list(rep(list(e2@X), nObs(e1)), along = 1) )  
+            }
+            
+            funData(argvals = e1@argvals, X =  methods::callGeneric(e1@X, e2@X))
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "funData", e2 = "numeric"),
+          function(e1, e2) {
+            funData(argvals = e1@argvals, X = methods::callGeneric(e1@X, e2))
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "numeric", e2 = "funData"),
+          function(e1, e2) {
+            funData(argvals = e2@argvals, X = methods::callGeneric(e1, e2@X))
+          })
+
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = signature(e1 = "multiFunData", e2 = "multiFunData"),
+          function(e1, e2) {
+            if(length(e1) != length(e2))
+              stop("Multivariate functional data must have same length!")
+            
+            m <- vector("list", length(e1))
+            for(i in seq_len(length(e1)))
+              m[[i]] <- methods::callGeneric(e1[[i]], e2[[i]])
+            multiFunData(m)
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = signature(e1 = "multiFunData", e2 = "numeric"),
+          function(e1, e2) {
+            m <- vector("list", length(e1))
+            for(i in seq_len(length(e1)))
+              m[[i]] <- methods::callGeneric(e1[[i]], e2)
+            multiFunData(m)
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = signature(e1 = "numeric", e2 = "multiFunData"),
+          function(e1, e2) {
+            m <- vector("list", length(e2))
+            for(i in seq_len(length(e2)))
+              m[[i]] <- methods::callGeneric(e1, e2[[i]])
+            multiFunData(m)
+          })
+
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "irregFunData", e2 = "numeric"),
+          function(e1, e2) {
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            irregFunData(argvals = e1@argvals, X = lapply(e1@X, function(x){do.call(f, list(x,e2))}))
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "numeric", e2 = "irregFunData"),
+          function(e1, e2) {
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            irregFunData(argvals = e2@argvals, X = lapply(e2@X, function(x){do.call(f, list(e1,x))}))
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "irregFunData", e2 = "irregFunData"),
+          function(e1,e2){
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            
+            if(nObs(e1) != nObs(e2))
+            {
+              if(nObs(e1) == 1)
+              {
+                if(!all(unlist(e2@argvals) %in% unlist(e1@argvals)))
+                  stop("Multiple functions must be defined on subdomain of single function.")
+                
+                res <- irregFunData(argvals = e2@argvals, 
+                                    X = sapply(seq_len(nObs(e2)), function(i){
+                                      do.call(f, list(e1@X[[1]][which(e1@argvals[[1]] %in% e2@argvals[[i]])], e2@X[[i]]))}, simplify = FALSE))
+              }
+              else
+              {
+                if(nObs(e2) == 1)
+                {
+                  if(!all(unlist(e1@argvals) %in% unlist(e2@argvals)))
+                    stop("Multiple functions must be defined on subdomain of single function.")
+                  
+                  res <- irregFunData(argvals = e1@argvals,
+                                      X = sapply(seq_len(nObs(e1)), function(i){do.call(f, list(e1@X[[i]], e2@X[[1]][which(e2@argvals[[1]] %in% e1@argvals[[i]])]))}, simplify = FALSE))
+                }
+                else
+                  stop("IrregFunData objects must have either the same number of observations or just one.")
+              } 
+            }            
+            else
+            {
+              if(!isTRUE(all.equal(e1@argvals, e2@argvals)))
+                stop("Arithmetics for two irregular functional data objects are defined only for functions on the same domain.")
+              
+              res <- irregFunData(argvals = e1@argvals, X = mapply(function(x,y){do.call(f, list(x,y))}, e1@X, e2@X) )
+            }
+            
+            return(res)
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "irregFunData", e2 = "funData"),
+          function(e1, e2){
+            #  if(any(c(dimSupp(e1), dimSupp(e2)) != 1))
+            #    stop("defined only for irregFunData objects with one-dimensional domain")
+            
+            if(!all(unlist(e1@argvals) %in% e2@argvals[[1]]))
+              stop("irregFunData object must be defined on a subdomain of the funData object!")
+            
+            # if funData object has only a single observation: apply to all of the other object
+            if(nObs(e1) != nObs(e2))
+            {
+              if(nObs(e2) == 1 & nObs(e1) > 1) 
+                e2@X <- t(replicate(nObs(e1),e2@X[1,]))            
+              else
+                stop("funData object must have either one observation or the same number of observations as the irregFunData object")
+            }
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            irregFunData(argvals = e1@argvals, X = sapply(seq_len(nObs(e1)), function(i){do.call(f, list(e1@X[[i]], e2@X[i,e2@argvals[[1]] %in% e1@argvals[[i]]]))}, simplify = FALSE))
+          })
+
+#' @rdname Arith.funData
+setMethod("Arith", signature = c(e1 = "funData", e2 = "irregFunData"),
+          function(e1, e2){
+            #  if(any(c(dimSupp(e1), dimSupp(e2)) != 1))
+            #    stop("defined only for irregFunData objects with one-dimensional domain")
+            
+            if(!all(unlist(e2@argvals) %in% e1@argvals[[1]]))
+              stop("irregFunData object must be defined on a subdomain of the funData object!")
+            
+            # if funData object has only a single observation: apply to all of the other object
+            if(nObs(e1) != nObs(e2))
+            {
+              if(nObs(e1) == 1 & nObs(e2) > 1) 
+                e1@X <- t(replicate(nObs(e2),e1@X[1,]))            
+              else
+                stop("funData object must have either one observation or the same number of observations as the irregFunData object")
+            }
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            irregFunData(argvals = e2@argvals, X = sapply(seq_len(nObs(e2)), function(i){do.call(f, list(e2@X[[i]], e1@X[i,e1@argvals[[1]] %in% e2@argvals[[i]]]))}, simplify = FALSE))
+          })
+
+
+
+#' Mathematical operations for functional data objects
+#' 
+#' These functions allow to apply mathematical operations (such as \eqn{exp(),
+#' log(), sin(), cos()} or \eqn{abs()} to functional data objects based on
+#' \code{\link[methods]{Math}}.  The operations are made pointwise for each
+#' observation.
+#'   
+#' @param x An object of class \code{funData}, \code{irregFunData} or
+#'   \code{multiFunData}.
+#'   
+#' @return An object of the same functional data class as \code{x}.
+#'   
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}},
+#'   \code{\linkS4class{multiFunData}}, \link[methods]{Math}
+#'   
+#' @name Math.funData
+#'   
+#' @examples
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow = c(1,2))
+#' 
+#' # simulate a funData object on 0..1 with 10 observations
+#' argvals <- seq(0, 1, 0.01)
+#' f <- simFunData(argvals = argvals, N = 10, 
+#'                 M = 5, eFunType = "Fourier", eValType = "linear")$simData
+#' 
+#' ### FunData
+#' plot(f, main = "Original data")
+#' plot(abs(f), main = "Absolute values")
+#' 
+#' ### Irregular
+#' # create an irrgFunData object by sparsifying f
+#' i <- as.irregFunData(sparsify(f, minObs = 5, maxObs = 10))
+#' 
+#' plot(i, main = "Sparse data")
+#' plot(cumsum(i), main = "'cumsum' of sparse data")
+#' 
+#' ### Multivariate
+#' m <- multiFunData(f, -1*f)
+#' plot(m, main = "Multivariate Data")
+#' plot(exp(m), main = "Exponential")
+#' 
+#' par(oldpar)
+NULL
+#' @rdname Math.funData
+setMethod("Math", signature = c(x = "funData"),
+          function(x){
+            funData(x@argvals, methods::callGeneric(x@X))
+          })
+
+#' @rdname Math.funData
+setMethod("Math", signature = c(x = "multiFunData"),
+          function(x){
+            m <- vector("list", length(x))
+            for(i in seq_len(length(x)))
+              m[[i]] <- methods::callGeneric(x[[i]])
+            multiFunData(m)
+          })
+          
+#' @rdname Math.funData
+setMethod("Math", signature = c(x = "irregFunData"),
+          function(x){
+            generic <- methods::getGeneric(as.character(sys.call())[[1]], mustFind = TRUE, where = environment())
+            f <- environment(generic)$.Generic # helper function (callGeneric not applicable in lapply)
+            
+            irregFunData(argvals = x@argvals, X = lapply(x@X, f))
+          })
+
+#### nObs ####
+
+#' Get the number of observations
+#'
+#' This functions returns the number of observations in a \code{funData}, \code{irregFunData} or \code{multiFunData} object.
+#'
+#' @param object An object of class \code{funData}, \code{irregFunData} or \code{multiFunData}.
+#'
+#' @return The number of observations in \code{object}.
+#'
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}}, \code{\linkS4class{multiFunData}}
+#'
+#' @export nObs
+#'
+#' @examples
+#' # Univariate
+#' object <- funData(argvals = 1:5, X = rbind(1:5, 6:10))
+#' nObs(object)
+#' 
+#' # Univariate (irregular)
+#' irregObject <- irregFunData(argvals = list(1:5, 2:4), X = list(2:6, 3:5))
+#' nObs(irregObject)
+#'
+#' # Multivariate
+#' multiObject <- multiFunData(object, funData(argvals = 1:3, X = rbind(3:5, 6:8)))
+#' nObs(multiObject)
+setGeneric("nObs", function(object) {standardGeneric("nObs")})
+
+#' nObs for funData objects
+#'
+#' @keywords internal
+setMethod("nObs", signature = "funData",
+          function(object){dim(object@X)[1]})
+
+#' nObs for multiFunData objects
+#'
+#' @keywords internal
+setMethod("nObs", signature = "multiFunData",
+          function(object){nObs(object[[1]])})
+
+#' nObs for irregular functional data objects
+#'
+#' @keywords internal
+setMethod("nObs", signature = "irregFunData",
+          function(object){length(object@X)})
+
+#### nObsPoints ####
+
+#' Get the number of observation points
+#' 
+#' This functions returns the number of observation points in an object of class
+#' \code{funData}, \code{multiFunData} or \code{irregFunData}.
+#' 
+#' Depending on the class of \code{object}, the function returns different 
+#' values: \itemize{ \item If \code{object} is of class \code{funData}, the 
+#' function returns a vector of length \code{dimSupp(object)}, giving the number
+#' of observations in each dimension. \item If \code{object} is of class 
+#' \code{multiFunData}, the function returns a list of the same length as 
+#' \code{object}, where the \code{j}-th entry is a vector, corresponding to the 
+#' observations point of \code{object[[j]]}. \item If \code{object} is of class
+#' \code{irregFunData}, the function returns an array of length
+#' \code{nObs(object)}, where the \code{j}-th entry corresponds to the number of
+#' observations in the \code{j}-th observed function.}
+#' 
+#' @section Warning: Do not confound with \code{\link{nObs}}, which returns the 
+#'   number of observations (i.e. the number of observed functions) in an object
+#'   of a functional data class.
+#'   
+#' @param object An object of class \code{funData}, \code{multiFunData} or 
+#'   \code{irregFunData}.
+#'   
+#' @return The number of observation points in \code{object}. See Details.
+#'   
+#' @seealso \code{\linkS4class{irregFunData}}, \code{\link{extractObs}}
+#'   
+#' @export nObsPoints
+#'   
+#' @examples
+#' # Univariate (one-dimensional)
+#' object1 <- funData(argvals = 1:5, X = rbind(1:5, 6:10))
+#' nObsPoints(object1)
+#' 
+#' # Univariate (two-dimensional)
+#' object2 <- funData(argvals = list(1:5, 1:6), X = array(1:60, dim = c(2, 5, 6)))
+#' nObsPoints(object2)
+#' 
+#' # Multivariate
+#' multiObject <- multiFunData(object1, object2)
+#' nObsPoints(multiObject)
+#' 
+#' # Univariate (irregular)
+#' irregObject <- irregFunData(argvals = list(1:5, 2:4), X = list(2:6, 3:5))
+#' nObsPoints(irregObject)
+setGeneric("nObsPoints", function(object) {standardGeneric("nObsPoints")})
+
+#' nObsPoints for funData objects
+#'
+#' @keywords internal
+setMethod("nObsPoints", signature = "funData", 
+          function(object){vapply(object@argvals, FUN = length, FUN.VALUE = 0)})
+
+#' nObsPoints for multiFunData objects
+#'
+#' @keywords internal
+setMethod("nObsPoints", signature = "multiFunData", 
+          function(object){lapply(object, nObsPoints)})
+
+#' nObsPoints for irregular functional data objects
+#'
+#' @keywords internal
+setMethod("nObsPoints", signature = "irregFunData", 
+          function(object){vapply(object@argvals, FUN = length, FUN.VALUE = 0)})
+
+#### integrate ####
+
+#' Integrate functional data
+#'
+#' Integrate all observations of a \code{funData}, \code{irregFunData} or
+#' \code{multiFunData} object over their domain.
+#'
+#' Further parameters passed to this function may include: \itemize{ \item
+#' \code{method}: Character string. The integration rule to be used, passed to
+#' the internal function \code{.intWeights}. Defaults to \code{"trapezoidal"}
+#' (alternative: \code{"midpoint"}). \item \code{fullDom}: Logical. If
+#' \code{object} is of class \code{irregFunData}, setting fullDom = \code{TRUE}
+#' extrapolates all functions linearly to the full domain before calculating the
+#' integrals. Defaults to \code{FALSE}. For details on the extrapolation, see
+#' \code{\link{extrapolateIrreg}}.}
+#'
+#' @section Warning: The function is currently implemented only for functional
+#'   data with up to three-dimensional domains. In the default case, this
+#'   function calls \link[stats]{integrate}.
+#'
+#' @param object An object of class \code{funData}, \code{irregFunData} or
+#'   \code{multiFunData}.
+#' @param ... Further parameters (see Details).
+#'
+#' @return A vector of numerics, containing the integral values for each
+#'   observation.
+#'
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}},
+#'   \code{\linkS4class{multiFunData}}
+#'
+#' @export integrate
+#'
+#' @examples
+#' # Univariate
+#' object <- funData(argvals = 1:5, X = rbind(1:5, 6:10))
+#' integrate(object)
+#'
+#' # Univariate (irregular)
+#' irregObject <-irregFunData(argvals = list(1:5, 2:4), X = list(2:6, 3:5))
+#' integrate(irregObject) # fullDom = FALSE
+#' integrate(irregObject, fullDom = TRUE)
+#'
+#' # Multivariate
+#' multiObject <- multiFunData(object, funData(argvals = 1:3, X = rbind(3:5, 6:8)))
+#' integrate(multiObject)
+setGeneric("integrate", function(object, ...) {standardGeneric("integrate")},
+           useAsDefault = function(object, ...) stats::integrate(f = object, ...))
+
+# integration weights (internal functions)
+
+#' Calculate weights for numerical integration
+#'
+#' This function calculates the weights for numerical integration
+#'
+#' @param argvals A numeric vector of x-Values
+#' @param method A character string, giving the numerical integration method to use (default is \code{trapezoidal}, alternatively use \code{midpoint})
+#'
+#' @return A vector of integration weights
+#'
+#' @seealso \code{\link{integrate}}
+#' 
+#' @export
+.intWeights <- function(argvals, method = "trapezoidal")
+{
+  if(method == "trapezoidal" & (length(argvals) < 3))
+  {
+    method <- "midpoint"
+    warning("Trapezoidal quadrature is not applicable for functions with < 3 observation points. 'method' changed to 'midpoint'.")
+  } 
+  
+  ret <- switch(method,
+                midpoint = c(0,diff(argvals)),
+                trapezoidal = {D <- length(argvals)
+                               1/2 * c(argvals[2] - argvals[1], argvals[3:D] -argvals[seq_len((D-2))], argvals[D] - argvals[D-1])},
+                stop("function intWeights: choose either midpoint or trapezoidal quadrature rule"))
+  
+  return(ret)
+}
+
+#' Integrate a function on a rectangular 3D grid
+#' 
+#' @param f A 3D array, representing the function evaluations on the grid
+#' @param argvals A list with 3 elements, representing the grid points in the first, second and third dimension of f
+#' 
+#' @return The result of the numerical integration of f on the given grid.
+#' 
+#' @keywords internal
+integrate3D <- function(f, argvals)
+{
+  res <- t(.intWeights(argvals[[1]])) %*% apply(f, 1:2, function(w){w %*% .intWeights(argvals[[3]])}) %*% .intWeights(argvals[[2]])
+  
+  return(as.numeric(res))
+}
+
+#' Integrate method for funData objects
+#'
+#' @seealso \code{\link{integrate}}, \code{\linkS4class{funData}}
+#'
+#' @keywords internal
+setMethod("integrate", signature = "funData",
+          function(object, method = "trapezoidal"){
+            if(dimSupp(object) > 3)
+              stop("Integration is not yet defined for functional data objects with dim > 3")
+            
+            if(! all(is.character(method), length(method) == 1) )
+              stop("Parameter 'method' must be a string.")
+            
+            if(dimSupp(object) == 1)
+              res <- object@X %*% .intWeights(object@argvals[[1]],method)
+            
+            if(dimSupp(object) == 2)
+              res <- apply( object@X , 1, function(x){t(.intWeights(object@argvals[[1]])) %*% x %*% .intWeights(object@argvals[[2]])})
+            
+            if(dimSupp(object) == 3)
+              res <- apply(object@X, 1, integrate3D, argvals = object@argvals)
+            
+            return(as.numeric(res))
+          })
+
+#' Integrate method for multiFunData objects
+#'
+#' @seealso \code{\link{integrate}}, \code{\linkS4class{multiFunData}}
+#'
+#' @keywords internal
+setMethod("integrate", signature = "multiFunData",
+          function(object, ...){
+            uniIntegrate <- vapply(object, FUN = integrate, FUN.VALUE = rep(0, nObs(object)), ...)
+            
+            if(nObs(object) == 1)
+              res <- sum(uniIntegrate)
+            else
+              res <- rowSums(uniIntegrate)
+            
+            return(res)
+          })
+
+
+#' Integrate method for irregular functional data objects
+#'
+#' @seealso \code{\link{integrate}}, \code{\linkS4class{irregFunData}}
+#'
+#' @keywords internal
+setMethod("integrate", signature = c(object = "irregFunData"),
+          function(object, method = "trapezoidal", fullDom = FALSE){
+            if(! all(is.logical(fullDom), length(fullDom) == 1))
+              stop("Parameter 'fullDom' must be a logical.")
+            
+            if(fullDom) # fullDomain: extrapolate each function linearly (or by a constant, if only one value is observed)
+              object <- extrapolateIrreg(object)
+            
+            return(mapply(function(x,y, method){sum(.intWeights(x, method)*y)}, 
+                          x = object@argvals, y = object@X, MoreArgs = list(method = method)))
+          })
+
+
+#### extrapolateIrreg ####
+
+#' Extrapolate irregular functional data to a given domain
+#' 
+#' This function extrapolates an \code{irregFunData} object to a given domain.
+#' If only one point is observed, the function is extrapolated as a constant; in
+#' all other cases it is extrapolated linearly.
+#' 
+#' @keywords internal
+extrapolateIrreg <- function(object, rangex = range(object@argvals))
+{  
+  for(i in seq_len(nObs(object)))
+  {
+    e <- .extrapolate(object@argvals[[i]], object@X[[i]], rangex)
+    object@argvals[[i]] <- e$x
+    object@X[[i]] <- e$y
+  } 
+  
+  return(object)
+}
+
+# extrapolate function linearly (or set constant, if only one value is observed)
+.extrapolate <- function(x,y, xrange)
+{
+  # add minimum and maximum observation point (no matter if already present)
+  n <- length(x)
+  
+  if(n == 1)
+    y <- rep(x,3)
+  else
+    y <- c(y[1] + (y[2] - y[1]) / (x[2] - x[1]) * (xrange[1] - x[1]),
+           y,
+           y[n-1] + (y[n] - y[n-1]) / (x[n] - x[n-1]) * (xrange[2] - x[n-1]))
+  
+  x <- c(xrange[1], x, xrange[2])
+  
+  return(list(x = x, y = y))
+}
+
+
+#### norm ####
+
+#' Calculate the norm of functional data
+#' 
+#' This function calculates the norm for each observation of a \code{funData}, 
+#' \code{irregFunData} or \code{multiFunData} object.
+#' 
+#' For \code{funData} objects, the standard \eqn{L^2} norm is calculated: 
+#' \deqn{||f|| = \left( \int_{\mathcal{T}} f(t)^2 dt \right)^{1/2}.}{||f|| = (\int
+#' f(t)^2 dt)^{1/2}.} For \code{irregFunData} objects, each observed function is
+#' integrated only on the observed grid points (unless \code{fullDom = TRUE}).
+#' 
+#' The (weighted) norm of a multivariate functional data object \eqn{f = (f_1 ,
+#' \ldots, f_p)}{f = (f_1 , \ldots, f_p)} is defined as \deqn{||| f ||| :=
+#' \left(\sum_{j=1}^p w_j || f_j ||^2 \right) ^{1/2}.}{||| f ||| := ( \sum w_j
+#' || f_j ||^2 )^{1/2}.}
+#' 
+#' Further parameters passed to this function may include: \itemize{ \item 
+#' \code{squared}: Logical. If \code{TRUE} (default), the function calculates 
+#' the squared norm, otherwise the result is not squared. \item \code{obs}: A 
+#' numeric vector, giving the indices of the observations, for which the norm is
+#' to be calculated. Defaults to all observations. \item \code{method}: A 
+#' character string, giving the integration method to be used. See 
+#' \code{\link{integrate}} for details. \item \code{weight}: An optional vector
+#' of weights for the scalar product; particularly useful for multivariate 
+#' functional data, where each entry can be weighted in the scalar product / 
+#' norm. Defaults to \code{1} for each element. \item \code{fullDom}: Logical.
+#' If \code{object} is of class \code{\linkS4class{irregFunData}} and
+#' \code{fullDom = TRUE}, all functions are extrapolated to the same domain.
+#' Defaults to \code{FALSE}. See \code{\link{integrate}} for details. }
+#' 
+#' @section Warning: The function is currently implemented only for functional 
+#'   data with one- and two-dimensional domains.
+#'   
+#' @param object An object of class \code{funData}, \code{irregFunData} or 
+#'   \code{multiFunData}.
+#' @param ... Further parameters (see Details).
+#'   
+#' @return A numeric vector representing the norm of each observation.
+#'   
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}}, 
+#'   \code{\linkS4class{multiFunData}}, \code{\link{integrate}}
+#'   
+#' @name norm
+#' @exportMethod norm
+#'   
+#' @examples
+#' # Univariate
+#' object <- funData(argvals = 1:5, X = rbind(1:5, 6:10))
+#' norm(object)
+#' 
+#' # Univariate (irregular)
+#' irregObject <- irregFunData(argvals = list(1:5, 2:4), X = list(2:6, 3:5))
+#' norm(irregObject) # no extrapolation
+#' norm(irregObject, fullDom = TRUE) # extrapolation (of second function)
+#' 
+#' # Multivariate
+#' multiObject <- multiFunData(object, funData(argvals = 1:3, X = rbind(3:5, 6:8)))
+#' norm(multiObject)
+#' norm(multiObject, weight = c(2,1)) # with weight vector, giving more weight to the first element
+NULL
+
+#' Calculate the norm for univariate functional data
+#'
+#' @seealso \code{\link{norm}}
+#'
+#' @keywords internal
+norm.funData <- function(object, squared, obs, method, weight)
+{
+  res <- weight * integrate(object[obs]^2, method = method)
+  
+  if(!squared)
+    res <- sqrt(res)
+  
+  return(res)
+}
+
+#' Calculate the norm for univariate functional data
+#'
+#' @seealso \code{\link{norm}}, \code{\linkS4class{funData}}
+#'
+#' @keywords internal
+setMethod("norm", signature = signature(x = "funData", type = "missing"),
+          function(x, squared = TRUE, obs = seq_len(nObs(x)), method = "trapezoidal", weight = 1){
+            
+            if(! all(is.logical(squared), length(squared) == 1))
+              stop("Parameter 'squared' must be passed as a logical.")
+            
+            if(! all(is.numeric(weight), length(weight) == 1, weight > 0))
+              stop("Parameter 'weight' must be passed as a positive number.") 
+            
+            norm.funData(object = x, squared, obs, method, weight)
+          })
+
+#' Calculate the norm for multivariate functional data
+#'
+#' @seealso \code{\link{norm}}, \code{\linkS4class{multiFunData}}
+#'
+#' @keywords internal
+setMethod("norm", signature = signature(x = "multiFunData", type = "missing"),
+          function(x, squared = TRUE, obs = seq_len(nObs(x)), method = "trapezoidal", weight = rep(1, length(x)))
+          {
+            if(! all(is.numeric(weight), length(weight) == length(x), weight > 0))
+              stop("Parameter 'weight' must be passed as a vector of ", length(x), " positive numbers.") 
+            
+            # univariate functions must be squared in any case!
+            uniNorms <- mapply(norm, x, weight = weight, 
+                               MoreArgs = list(squared = TRUE, obs = obs, method = method), SIMPLIFY = "array")
+            
+            # handle one observation separate, as rowSums does not work in that case...
+            if(length(obs) == 1)
+              res <- sum(uniNorms)
+            else res <- rowSums(uniNorms)
+            
+            # should the norm be squared or not
+            if(!squared) res <- sqrt(res)
+            
+            return(res)
+          })
+
+
+#' Calculate the norm for irregular functional data
+#'
+#' @seealso \code{\link{norm}}
+#'
+#' @keywords internal
+norm.irregFunData <- function(object, squared, obs, method, weight, fullDom)
+{
+  object <- object[obs]
+  
+  if(fullDom == TRUE) # extrapolate first
+    object <- extrapolateIrreg(object)
+  
+  res <- weight * integrate(object^2, method = method, fullDom = FALSE)
+  
+  if(!squared)
+    res <- sqrt(res)
+  
+  return(res)
+}
+
+#' Calculate the norm for irregular functional data
+#'
+#' @seealso \code{\link{norm}}, \code{\linkS4class{irregFunData}}
+#'
+#' @keywords internal
+setMethod("norm", signature = signature(x = "irregFunData", type = "missing"),
+          function(x, squared = TRUE, obs = seq_len(nObs(x)), method = "trapezoidal", weight = 1, fullDom = FALSE){
+            
+            if(! all(is.logical(squared), length(squared) == 1))
+              stop("Parameter 'squared' must be passed as a logical.")
+            
+            if(! all(is.numeric(weight), length(weight) == 1, weight > 0))
+              stop("Parameter 'weight' must be passed as a positive number.") 
+            
+            norm.irregFunData(object = x, squared, obs, method, weight, fullDom)
+          })
+
+#### Scalar product ####
+
+#' Calculate the scalar product for functional data objects
+#' 
+#' This function calculates the scalar product between two objects of the class 
+#' \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}} and 
+#' \code{\linkS4class{multiFunData}}. For univariate functions \eqn{f,g} on a
+#' domain \eqn{\mathcal{T}}{T}, the scalar product is defined as 
+#' \deqn{\int_\mathcal{T} f(t) g(t) \mathrm{d}t}{\int_T f(t) g(t) dt} and 
+#' for multivariate functions \eqn{f,g} on domains \eqn{\mathcal{T}_1, \ldots, 
+#' \mathcal{T}_p}{T_1,\ldots,T_p}, it is defined as \deqn{\sum_{j = 1}^p
+#' \int_{\mathcal{T}_j} f^{(j)}(t) g^{(j)}(t) \mathrm{d}t.}{\sum_{j = 1}^p 
+#' \int_T_j f^{(j)}(t) g^{(j)}(t) dt.} As seen in the formula, the objects 
+#' must be defined on the same domain. The scalar product is calculated pairwise
+#' for all observations, thus the objects must also have the same number of 
+#' observations or one object may have only one observation (for which the 
+#' scalar product is calculated with all observations of the other object)). 
+#' Objects of the classes \code{\link{funData}} and \code{\link{irregFunData}} 
+#' can be combined, see \code{\link{integrate}} for details.
+#' 
+#' For \code{\linkS4class{multiFunData}} one can pass an optional vector
+#' \code{weight} for calculating a weighted scalar product. This vector must
+#' have the same number of elements as the \code{\link{multiFunData}} objects
+#' and have to be non-negative with at least one weight that is different from
+#' 0. Defaults to \code{1} for each element. See also \code{\link{norm}}.
+#' 
+#' @param object1,object2 Two objects of class\code{\link{funData}}, 
+#'   \code{\link{irregFunData}} or \code{\link{multiFunData}}, for that the 
+#'   scalar product is to be calculated.
+#' @param ... Additional parameters passed to \code{\link{integrate}}. For
+#'   \code{\linkS4class{multiFunData}} objects, one can also pass a
+#'   \code{weight} argument. See Details.
+#'   
+#' @return A vector of length \code{nObs(object1)} (or \code{nObs(object2)}, if 
+#'   \code{object1} has only one observation), containing the pairwise scalar 
+#'   product for each observation.
+#'   
+#' @seealso \code{\link{integrate}}, \code{\link{norm}},
+#'   
+#' @export scalarProduct
+#'   
+#' @examples 
+#' # create two funData objectw with 5 observations on [0,1]
+#' f <- simFunData(N = 5, M = 7, eValType = "linear",
+#'                 eFunType = "Fourier", argvals = seq(0,1,0.01))$simData
+#' g <- simFunData(N = 5, M = 4, eValType = "linear",
+#'                 eFunType = "Poly", argvals = seq(0,1,0.01))$simData
+#'                 
+#' # calculate the scalar product
+#' scalarProduct(f,g)
+#' 
+#' # the scalar product of an object with itself equals the squared norm
+#' all.equal(scalarProduct(f,f), norm(f, squared = TRUE))
+#' 
+#' # This works of course also for multiFunData objects...
+#' m <- multiFunData(f,g)
+#' all.equal(scalarProduct(m,m), norm(m, squared = TRUE))
+#' 
+#' # ...and for irregFunData objects
+#' i <- as.irregFunData(sparsify(f, minObs = 5, maxObs = 10))
+#' all.equal(scalarProduct(i,i), norm(i, squared = TRUE))
+#' 
+#' # Scalar product between funData and irregFunData objects
+#' scalarProduct(i,f)
+#' 
+#' # Weighted scalar product for multiFunData objects
+#' scalarProduct(m,m, weight = c(1,2))
+setGeneric("scalarProduct", function(object1, object2, ...) {standardGeneric("scalarProduct")})
+
+#' Generic method for scalar products, based on integrate
+#' 
+#' @param object1,object2 Generic objects
+#' @param ... Further objects passed to \code{\link{integrate}}
+.scalarProduct <-  function(object1, object2, ...){
+  return(integrate(object1 * object2, ...))
+}
+
+#' Scalar product for functional data
+#'
+#' @seealso \code{\link{integrate}}, \code{\link{norm}}.
+#'
+#' @keywords internal
+setMethod("scalarProduct", signature = c("funData", "funData"),
+         .scalarProduct)
+
+#' Scalar product for multivariate functional data
+#'
+#' @seealso \code{\link{integrate}}, \code{\link{norm}}.
+#'
+#' @keywords internal
+setMethod("scalarProduct", signature = c("multiFunData", "multiFunData"),
+          function(object1, object2, weight = rep(1, length(object1)),...)
+          {
+            if(length(object1) != length(object2))
+              stop("multiFunData objects must have the same number of elements.")
+            
+            if(length(weight) != length(object1))
+              stop("Weight vector must have the same number of elements as the multiFunData objects.")
+            
+            if(any(weight < 0))
+              stop("Weights must be non-negative.")
+            
+            if(all(weight == 0))
+              stop("At least one weighting factor must be different from 0.")
+            
+            if(length(object1) == 1)
+              return(.scalarProduct(object1,object2,...)*weight)
+            # else: more than one element
+            return(as.numeric(mapply(funData:::.scalarProduct, object1, object2, MoreArgs = list(...), SIMPLIFY = "array") %*% weight))
+          })
+
+#' Scalar product for irregular functional data
+#'
+#' @seealso \code{\link{integrate}}, \code{\link{norm}}.
+#'
+#' @keywords internal
+setMethod("scalarProduct", signature = c("irregFunData", "irregFunData"),
+          .scalarProduct)
+
+#' Scalar product for irregular and functional data
+#'
+#' @seealso \code{\link{integrate}}, \code{\link{norm}}.
+#'
+#' @keywords internal
+setMethod("scalarProduct", signature = c("funData", "irregFunData"),
+          .scalarProduct)
+
+#' Scalar product for irregular and functional data
+#'
+#' @seealso \code{\link{integrate}}, \code{\link{norm}}.
+#'
+#' @keywords internal
+setMethod("scalarProduct", signature = c("irregFunData", "funData"),
+          .scalarProduct)
+
+
+#### flipFuns ####
+
+#' Flip functional data objects
+#' 
+#' This function flips an object \code{newObject} of class \code{funData}, 
+#' \code{irregFunData} or \code{multiFunData} with respect to a reference object
+#' \code{refObject} of the same class (or of class \code{funData}, if 
+#' \code{newObject} is irregular). This is particularly useful when dealing with
+#' functional principal components, as they are only defined up to a sign 
+#' change. For details, see below.
+#' 
+#' Functional principal component analysis is an important tool in functional 
+#' data analysis. Just as eigenvectors, eigenfunctions (or functional principal 
+#' components) are only defined up to a sign change. This may lead to 
+#' difficulties in simulation studies or when bootstrapping pointwise confidence
+#' bands, as in these cases one wants the estimates to have the same 
+#' "orientation" as the true function (in simulation settings) or the 
+#' non-bootstrapped estimate (when calculating bootstrap confidence bands). This
+#' function allows to flip (i.e. multiply by \eqn{-1}{-1}) all observations in 
+#' \code{newObject} that have a different orientation than their counterparts in
+#' \code{refData}.
+#' 
+#' Technically, the function compares the distance between \code{newObject} and 
+#' \code{refObject} \deqn{|||f_\mathrm{new} - f_\mathrm{ref}|||}{||| f_{new} - 
+#' f_{ref}|||} and the distance between  \code{newObject} and 
+#' \code{-1 * refObject} \deqn{|||f_\mathrm{new} + f_\mathrm{ref}|||.}{||| f_{new} + 
+#' f_{ref}|||.} If \code{newObject} is closer to \code{-1 * refObject}, it is 
+#' flipped, i.e. multiplied by -1.
+#' 
+#' @section Warning:
+#' The function is currently implemented only for functional data with one- and 
+#' two-dimensional domains.
+#' 
+#' @param refObject An object of class \code{funData}, \code{irregFunData} or
+#'   \code{multiFunData} that serves as reference. It must have the same number
+#'   of observations as \code{newObject} or have only one observation. In this
+#'   case, all observations in \code{newObject} are flipped with respect to this
+#'   single observation.
+#' @param newObject An object of class \code{funData}, \code{irregFunData} or
+#'   \code{multiFunData} that is to be flipped with respect to \code{refObject}.
+#' @param ... Further parameters passed to \code{\link{norm}}.
+#'   
+#' @return An object of the same class as \code{newData} with flipped 
+#'   observations.
+#'   
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}},
+#'   \code{\linkS4class{multiFunData}}, \code{\link{Arith.funData}}
+#'   
+#' @export flipFuns
+#'   
+#' @examples
+#' 
+#' ### Univariate
+#' argvals <- seq(0,2*pi,0.01)
+#' refData <- funData(argvals, rbind(sin(argvals))) # one observation as reference
+#' newData <- funData(argvals, outer(sample(c(-1,1), 11, replace = TRUE) * seq(0.75, 1.25, by = 0.05),
+#'                                sin(argvals)))
+#' 
+#' oldpar <- par(no.readonly = TRUE)
+#' par(mfrow = c(1,2))
+#' 
+#' plot(newData, col = "grey", main = "Original data")
+#' plot(refData, col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(flipFuns(refData, newData), col = "grey", main = "Flipped data")
+#' plot(refData, col = "red", lwd = 2, add = TRUE)
+#' 
+#' ### Univariate (irregular)
+#' ind <- replicate(11, sort(sample(1:length(argvals), sample(5:10,1)))) # sample observation points
+#' argvalsIrreg <- lapply(ind, function(i){argvals[i]})
+#' argvalsIrregAll <- unique(sort(unlist(argvalsIrreg)))
+#'  # one observation as reference (fully observed)
+#' refDataFull <- funData(argvals, rbind(sin(argvals)))
+#'  # one observation as reference (irregularly observed)
+#' refDataIrreg <- irregFunData(argvals = list(argvalsIrregAll), X = list(sin(argvalsIrregAll)))
+#' newData <- irregFunData(argvals = argvalsIrreg, X = mapply(function(x, a, s){s * a * sin(x)},
+#'      x = argvalsIrreg, a = seq(0.75, 1.25, by = 0.05), s = sample(c(-1,1), 11, replace = TRUE)))
+#' 
+#' plot(newData, col = "grey", main = "Original data (regular reference)")
+#' plot(refDataFull, col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(flipFuns(refDataFull, newData), col = "grey", main = "Flipped data")
+#' plot(refDataFull, col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(newData, col = "grey", main = "Original data (irregular reference)")
+#' plot(refDataIrreg, col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(flipFuns(refDataIrreg, newData), col = "grey", main = "Flipped data")
+#' plot(refDataIrreg, col = "red", lwd = 2, add = TRUE)
+#' 
+#' ### Multivariate
+#' refData <- multiFunData(funData(argvals, rbind(sin(argvals))), # one observation as reference
+#'                         funData(argvals, rbind(cos(argvals)))) 
+#' sig <- sample(c(-1,1), 11, replace = TRUE) 
+#' newData <- multiFunData(funData(argvals, outer(sig * seq(0.75, 1.25, by = 0.05), sin(argvals))),
+#'                         funData(argvals, outer(sig * seq(0.75, 1.25, by = 0.05), cos(argvals))))
+#'                         
+#' par(mfrow = c(2,2))
+#' 
+#' plot(newData[[1]], col = topo.colors(11), main = "Original data")
+#' plot(refData[[1]], col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(newData[[2]], col = topo.colors(11), main = "Original data")
+#' plot(refData[[2]], col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(flipFuns(refData, newData)[[1]], col = topo.colors(11), main = "Flipped data")
+#' plot(refData[[1]], col = "red", lwd = 2, add = TRUE)
+#' 
+#' plot(flipFuns(refData, newData)[[2]], col = topo.colors(11), main = "Flipped data")
+#' plot(refData[[2]], col = "red", lwd = 2, add = TRUE)
+#' 
+#' par(oldpar)
+setGeneric("flipFuns", function(refObject, newObject, ...) {standardGeneric("flipFuns")})
+
+
+#' Flip univariate functional data
+#'
+#' @seealso \code{\link{flipFuns}}
+#'
+#' @keywords internal
+setMethod("flipFuns", signature = c("funData", "funData"),
+          function(refObject, newObject){
+            
+            if(dimSupp(newObject) > 2)
+              stop("Function is only implemented for data of dimension <= 2")
+            
+            if( (! nObs(refObject) == nObs(newObject)) & (! nObs(refObject) == 1))
+              stop("Functions must have the same number of observations or use a single function as reference.")
+            
+            if(dimSupp(refObject) != dimSupp(newObject))
+              stop("Functions must have the dimension.")
+            
+            if(!isTRUE(all.equal(refObject@argvals, newObject@argvals)))
+              stop("Functions must be defined on the same domain.")
+            
+            # calculate signs: flip if newObject is closer to -refObject than to refObject
+            sig <- ifelse(norm(newObject + refObject) < norm(newObject - refObject), -1, 1)
+            
+            # flip functions
+            newObject@X <- sig * newObject@X
+            
+            return(newObject)
+          })
+
+
+#' Flip multivariate functional data
+#'
+#' @seealso \code{\link{flipFuns}}
+#'
+#' @keywords internal
+setMethod("flipFuns", signature = signature("multiFunData", "multiFunData"),
+          function(refObject, newObject){
+            if(length(refObject) != length(newObject))
+              stop("multiFunData objects must have the same length")
+            
+            if( (! nObs(refObject) == nObs(newObject)) & (! nObs(refObject) == 1))
+              stop("Functions must have the same number of observations or use a single function as reference.")
+            
+            if(any(dimSupp(refObject) != dimSupp(newObject)))
+              stop("Functions must have the dimension.")
+            
+            if(!isTRUE(all.equal(argvals(refObject), argvals(newObject))))
+              stop("Functions must be defined on the same domain.")
+            
+            # calculate signs: flip if newObject is closer to -refObject than to refObject
+            sig <- ifelse(norm(newObject + refObject) < norm(newObject - refObject), -1, 1)
+            
+            for(j in seq_len(length(newObject)))
+              newObject[[j]]@X <- sig * newObject[[j]]@X
+            
+            return(newObject)
+          })
+
+
+#' Flip irregular functional data - funData as reference
+#'
+#' @seealso \code{\link{flipFuns}}
+#'
+#' @keywords internal
+setMethod("flipFuns", signature = c("funData", "irregFunData"),
+          function(refObject, newObject,...){
+            
+            if(any(c(dimSupp(refObject), dimSupp(newObject)) > 1))
+              stop("Function is only implemented for irregular data with one-dimensional support")
+            
+            if( (! nObs(refObject) == nObs(newObject)) & (! nObs(refObject) == 1))
+              stop("Functions must have the same number of observations or use a single function as reference.")
+            
+            if(!all(unlist(newObject@argvals) %in% unlist(refObject@argvals)))
+              stop("Irregular functions must be defined on a sub-domain of the reference function(s).")
+            
+            # calculate signs: flip if newObject is closer to -refObject than to refObject
+            sig <- ifelse(norm(newObject + refObject,...) < norm(newObject - refObject,...), -1, 1)
+            
+            # flip functions
+            newObject@X <- mapply(function(s,y){s*y}, s = sig, y = newObject@X, SIMPLIFY = FALSE)
+            
+            return(newObject)
+          })
+
+
+#' Flip irregular functional data - irregFunData as reference
+#'
+#' @seealso \code{\link{flipFuns}}
+#'
+#' @keywords internal
+setMethod("flipFuns", signature = c("irregFunData", "irregFunData"),
+          function(refObject, newObject,...){
+            
+            #    if(any(dimSupp(refObject), dimSupp(newObject)) > 1)
+            #      stop("Function is only implemented for irregular data with one-dimensional support")
+            
+            if( (! nObs(refObject) == nObs(newObject)) & (! nObs(refObject) == 1))
+              stop("Functions must have the same number of observations or use a single function as reference.")
+            
+            if(!all(unlist(newObject@argvals) %in% unlist(refObject@argvals)))
+              stop("New functions must be defined on a sub-domain of the reference function(s).")
+            
+            # calculate signs: flip if newObject is closer to -refObject than to refObject
+            sig <- ifelse(norm(newObject + refObject,...) < norm(newObject - refObject,...), -1, 1)
+            
+            # flip functions
+            newObject@X <- mapply(function(s,y){s*y}, s = sig, y = newObject@X, SIMPLIFY = FALSE)
+            
+            return(newObject)
+          })
+
+
+#### meanFunction ####
+
+#' Mean for functional data
+#' 
+#' This function calculates the pointwise mean function for objects of class 
+#' \code{funData}, \code{irregFunData} or \code{multiFunData}.
+#' 
+#' @section Warning:
+#' If \code{object} is of class \code{irregFunData}, the option \code{na.rm =
+#' TRUE} is not implemented and throws an error. If \code{na.rm = FALSE}, the
+#' functions must be observed on the same domain.
+#' 
+#' @param object An object of class \code{funData}, \code{irregFunData} or 
+#'   \code{multiFunData}.
+#' @param na.rm Logical. If \code{TRUE}, NA values are removed before computing 
+#'   the mean. Defaults to \code{FALSE}.
+#'   
+#' @return An object of the same class as \code{object} with one observation 
+#'   that corresponds to the pointwise mean function of the functions in 
+#'   \code{object}.
+#'   
+#' @seealso \code{\linkS4class{funData}}, \code{\linkS4class{irregFunData}}, 
+#'   \code{\linkS4class{multiFunData}}, \code{\link{Arith.funData}}
+#'   
+#' @export meanFunction
+#'   
+#' @examples
+#' ### Univariate (one-dimensional support)
+#' x <- seq(0, 2*pi, 0.01)
+#' f1 <- funData(x, outer(seq(0.75, 1.25, 0.05), sin(x)))
+#' 
+#' plot(f1)
+#' plot(meanFunction(f1), col = 1, lwd = 2, add = TRUE)
+#' 
+#' ### Univariate (two-dimensional support)
+#' f2 <- funData(list(1:5, 1:3), array(rep(1:5,each = 11, times = 3), dim = c(11,5,3)))
+#' all.equal(f2[1], meanFunction(f2)) # f2 has 11 identical observations
+#' 
+#' ### Multivariate
+#' m1 <- multiFunData(f1,f2)
+#' all.equal(m1[6], meanFunction(m1)) # observation 6 equals the pointwise mean
+#' 
+#' ### Irregular
+#' i1 <- irregFunData(argvals = list(1:3,1:3,1:3), X = list(1:3,2:4,3:5))
+#' all.equal(meanFunction(i1), i1[2])
+#' # don't run: functions are not defined on the same domain
+#' \dontrun{meanFunction(irregFunData(argvals = list(1:3,1:5), X = list(1:3,1:5))) }
+setGeneric("meanFunction", function(object, na.rm = FALSE) {standardGeneric("meanFunction")})
+
+
+#' Mean for functional data
+#'
+#' @seealso \code{\link{meanFunction}}
+#'
+#' @keywords internal
+setMethod("meanFunction", signature = c("funData", "ANY"),
+          function(object, na.rm){
+            if(! all(is.logical(na.rm), length(na.rm) == 1))
+              stop("Parameter 'na.rm' must be a logical.")
+            
+            meanX <- colMeans(object@X, na.rm = na.rm, dims = 1) 
+            
+            # resize to array with one observation
+            if(dimSupp(object) == 1)
+              dim(meanX) <- length(meanX)
+            dim(meanX) <- c(1, dim(meanX))
+            
+            funData(argvals = object@argvals, X = meanX)
+          })
+
+#' Mean for multivariate functional data
+#'
+#' @seealso \code{\link{meanFunction}}
+#'
+#' @keywords internal
+setMethod("meanFunction", signature = c("multiFunData", "ANY"),
+          function(object, na.rm){
+            univMean <- selectMethod("meanFunction", "funData")
+            multiFunData(lapply(object, univMean, na.rm))
+          })
+
+#' Mean for irregular functional data
+#'
+#' @seealso \code{\link{meanFunction}}
+#'
+#' @keywords internal
+setMethod("meanFunction", signature = c("irregFunData", "ANY"),
+          function(object, na.rm){
+            if(! all(is.logical(na.rm), length(na.rm) == 1))
+              stop("Parameter 'na.rm' must be a logical.")
+            
+            if(na.rm == TRUE)
+              stop("Option na.rm = TRUE is not implemented for mean functions of irregular data.")
+            
+            if(!all(vapply(object@argvals[-1], function(x){isTRUE(all.equal(object@argvals[[1]], x))}, FUN.VALUE = TRUE)))
+              stop("Mean function defined only for irregular functional data objects on the same domain.")
+            
+            irregFunData(object@argvals[1], list(Reduce('+', object@X) / nObs(object)))
+          })
+
+
+#### tensorProduct ####
+
+#' Function to expand integers to a grid of indices
+#' 
+#' This function takes an arbitrary number \eqn{K} of integer values \eqn{n_1,\ldots, n_K} and 
+#' creates a data frame with all combinations from \code{1:}\eqn{n_k}, where the first column 
+#' (taking values from 1 to \eqn{n_1}) varies slowest and the last column (())taking values from 1 
+#' to \eqn{n_K}) varies fastest. Internally, this function depends on \code{\link{expand.grid}}
+#' 
+#' @param ... An arbitrary number of integer values.
+#'   
+#' @return A dataframe with the same number of columns as integers supplied and containing all 
+#'   combinations of indices from 1 to the given integers. If no number is supplied, the function
+#'   returns \code{NULL}.
+#'   
+#' @keywords internal
+#'   
+#' @examples 
+#' # For two integers
+#' funData:::expand.int(2,5) # first column varies slowest
+#' 
+#' # For three integers
+#' funData:::expand.int(2,3,4)
+expand.int <- function(...)
+{
+  dots <- list(...)
+  p <- length(dots)
+  
+  if(p == 0)
+    return(NULL)
+  else
+  {
+    res <- expand.grid(lapply(dots[p:1], function(x){seq_len(x)}))[,p:1]
+    names(res) <- rev(names(res))
+  }  
+  
+    return(res)
+}
+
+#' Tensor product for univariate functions on one-dimensional domains
+#' 
+#' This function calculates tensor product functions for up to three objects of
+#' class \code{funData} defined on one-dimensional domains.
+#' 
+#' @section Warning: The function is only implemented for up to three functions
+#'   on one-dimensional domains.
+#'   
+#' @param ... Two or three objects of class \code{funData}, that must be defined
+#'   on a one-dimensional domain, each.
+#'   
+#' @return An object of class as \code{funData} that corresponds to the tensor 
+#'   product of the input functions.
+#'   
+#' @seealso \code{\linkS4class{funData}}
+#'   
+#' @export tensorProduct
+#'   
+#' @examples
+#' 
+#' ### Tensor product of two functional data objects
+#' x <- seq(0, 2*pi, 0.1)
+#' f1 <- funData(x, outer(seq(0.75, 1.25, 0.1), sin(x)))
+#' y <- seq(-pi, pi, 0.1)
+#' f2 <- funData(y, outer(seq(0.25, 0.75, 0.1), sin(y)))
+#' 
+#' plot(f1, main = "f1")
+#' plot(f2, main = "f2")
+#' 
+#' tP <- tensorProduct(f1, f2)
+#' dimSupp(tP)
+#' plot(tP, obs = 1)
+#' 
+#' ### Tensor product of three functional data objects
+#' z <- seq(-1, 1, 0.05)
+#' f3 <- funData(z, outer(seq(0.75, 1.25, 0.1), z^2))
+#' 
+#' plot(f1, main = "f1")
+#' plot(f2, main = "f2")
+#' plot(f3, main = "f3")
+#' 
+#' tP2 <- tensorProduct(f1, f2, f3)
+#' dimSupp(tP2)
+setGeneric("tensorProduct", function(...) {standardGeneric("tensorProduct")})
+
+
+#' Tensor product for functional data
+#'
+#' @seealso \code{\link{tensorProduct}}
+#'
+#' @keywords internal
+setMethod("tensorProduct", signature = c("funData"),
+          function(...){
+            
+            l <- list(...) # combine all arguments in a list
+            
+            if(length(l) != 2 & length(l) != 3)
+              stop("tensorProduct currently accepts only 2 or 3 arguments.")
+            
+            if(any(vapply(l, dimSupp, FUN.VALUE = 0) != 1))
+              stop("tensorProduct is defined only for funData objects on one-dimensional domains!")
+            
+            # expand grid of indices: first varies slowest, last varies fastest
+            g <- do.call(expand.int, lapply(l, nObs))
+            
+            if(length(l) == 2)
+            {
+              res <- vapply(seq_len(dim(g)[1]), function(i){l[[1]]@X[g[i,1],] %o% l[[2]]@X[g[i,2],] }, FUN.VALUE = array(0, dim = c(dim(l[[1]]@X)[2], dim(l[[2]]@X)[2])))
+              res <- aperm(res, c(3,1,2))
+            } 
+            else # length(l) = 3
+            {
+              res <- vapply(seq_len(dim(g)[1]), function(i){l[[1]]@X[g[i,1],] %o% l[[2]]@X[g[i,2],] %o% l[[3]]@X[g[i,3],]}, FUN.VALUE = array(0, dim = c(dim(l[[1]]@X)[2], dim(l[[2]]@X)[2], dim(l[[3]]@X)[2])))
+              res <- aperm(res, c(4,1,2,3))
+            } 
+            
+            resFun <- funData(argvals = lapply(l, function(f){f@argvals[[1]]}), X = res)
+            
+            return(resFun)
+          })
