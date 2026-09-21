@@ -1,0 +1,75 @@
+Package: fdapace
+Type: Package
+Title: Functional Data Analysis and Empirical Dynamics
+URL: https://github.com/functionaldata/tPACE
+BugReports: https://github.com/functionaldata/tPACE/issues
+Version: 0.6.0
+Encoding: UTF-8
+Date: 2024-07-02
+Language: en-US
+Authors@R: c(person("Yidong", "Zhou", email="ydzhou@ucdavis.edu", role=c("cre","aut"), comment=c(ORCID="0000-0003-1423-1857")),
+    person("Han", "Chen", role=c("aut")),
+    person("Su I", "Iao", role=c("aut")),
+    person("Poorbita", "Kundu", role=c("aut")),
+    person("Hang", "Zhou", role=c("aut")),
+    person("Satarupa","Bhattacharjee", role=c("aut")),
+    person("Cody","Carroll", role=c("aut"), comment=c(ORCID="0000-0003-3525-8653")),
+    person("Yaqing","Chen", role=c("aut")),
+    person("Xiongtao","Dai", role=c("aut")),
+    person("Jianing","Fan", role=c("aut")),
+    person("Alvaro","Gajardo", role=c("aut")),
+    person("Pantelis Z.","Hadjipantelis", role=c("aut")),
+    person("Kyunghee","Han", role="aut"),
+    person("Hao","Ji", role=c("aut")),
+    person("Changbo","Zhu", role=c("aut")),
+    person("Paromita", "Dubey", role="ctb"),
+    person("Shu-Chin", "Lin", role="ctb"),
+    person("Hans-Georg", "Müller", role=c("cph","ths","aut")),
+    person("Jane-Ling", "Wang", role=c("cph","ths","aut"))) 
+Maintainer: Yidong Zhou <ydzhou@ucdavis.edu>
+Description: A versatile package that provides implementation of various
+    methods of Functional Data Analysis (FDA) and Empirical Dynamics. The core of this
+    package is Functional Principal Component Analysis (FPCA), a key technique for
+    functional data analysis, for sparsely or densely sampled random trajectories
+    and time courses, via the Principal Analysis by Conditional Estimation
+    (PACE) algorithm. This core algorithm yields covariance and mean functions,
+    eigenfunctions and principal component (scores), for both functional data and
+    derivatives, for both dense (functional) and sparse (longitudinal) sampling designs.
+    For sparse designs, it provides fitted continuous trajectories with confidence bands,
+    even for subjects with very few longitudinal observations. PACE is a viable and
+    flexible alternative to random effects modeling of longitudinal data. There is also a
+    Matlab version (PACE) that contains some methods not available on fdapace and vice
+    versa. Updates to fdapace were supported by grants from NIH Echo and NSF DMS-1712864 and DMS-2014626. 
+    Please cite our package if you use it (You may run the command citation("fdapace") to get the citation format and bibtex entry).
+    References: Wang, J.L., Chiou, J., Müller, H.G. (2016) <doi:10.1146/annurev-statistics-041715-033624>; Chen, K., Zhang, X., Petersen, A., Müller, H.G. (2017) <doi:10.1007/s12561-015-9137-5>.
+License: BSD_3_clause + file LICENSE
+LazyData: false
+Imports: Rcpp (>= 0.11.5), Hmisc, MASS, Matrix, pracma, numDeriv
+LinkingTo: Rcpp, RcppEigen
+Suggests: plot3D, rgl, aplpack, mgcv, ks, gtools, knitr, rmarkdown,
+        EMCluster, minqa, testthat
+NeedsCompilation: yes
+RoxygenNote: 7.3.1
+VignetteBuilder: knitr
+Packaged: 2024-07-03 05:34:58 UTC; yidong
+Author: Yidong Zhou [cre, aut] (<https://orcid.org/0000-0003-1423-1857>),
+  Han Chen [aut],
+  Su I Iao [aut],
+  Poorbita Kundu [aut],
+  Hang Zhou [aut],
+  Satarupa Bhattacharjee [aut],
+  Cody Carroll [aut] (<https://orcid.org/0000-0003-3525-8653>),
+  Yaqing Chen [aut],
+  Xiongtao Dai [aut],
+  Jianing Fan [aut],
+  Alvaro Gajardo [aut],
+  Pantelis Z. Hadjipantelis [aut],
+  Kyunghee Han [aut],
+  Hao Ji [aut],
+  Changbo Zhu [aut],
+  Paromita Dubey [ctb],
+  Shu-Chin Lin [ctb],
+  Hans-Georg Müller [cph, ths, aut],
+  Jane-Ling Wang [cph, ths, aut]
+Repository: CRAN
+Date/Publication: 2024-07-03 07:20:08 UTC

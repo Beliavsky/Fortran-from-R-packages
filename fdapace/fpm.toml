@@ -1,0 +1,471 @@
+name = "fdapace"
+version = "0.1.0"
+license = "BSD-3-Clause"
+author = "fdapace authors; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages project"
+description = "Substantial modern Fortran translation of computational routines from the R package fdapace"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_fdapace"
+source-dir = "test/basic"
+main = "test_fdapace.f90"
+
+[[test]]
+name = "test_advanced"
+source-dir = "test/advanced"
+main = "test_advanced.f90"
+
+[[example]]
+name = "dense_fpca"
+source-dir = "example"
+main = "dense_fpca.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 48
+r_functions_translated = 48
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "BwNN"
+r_source = "upstream/R/BwNN.R"
+fortran_module = "fdapace_statistics"
+fortran_names = ["bw_nn"]
+fortran_source = "src/fdapace_statistics.f90"
+status = "substantial"
+notes = "Unique-neighbor mean/covariance bandwidths are translated. The Fortran path makes onlyMean work as documented instead of reproducing an upstream undefined-variable edge case."
+
+[[extra.translation.function]]
+r_name = "ConvertSupport"
+r_source = "upstream/R/ConvertSupport.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["convert_support", "convert_support_functions", "convert_support_covariance"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "substantial"
+notes = "Linear 1-D and bilinear covariance interpolation are translated, including covariance symmetrization. R NULL-based dispatch is represented by typed procedures."
+
+[[extra.translation.function]]
+r_name = "CreateBasis"
+r_source = "upstream/R/CreateBasis.R"
+fortran_module = "fdapace_basis"
+fortran_names = ["create_basis"]
+fortran_source = "src/fdapace_basis.f90"
+status = "substantial"
+notes = "cos, sin, fourier, legendre01, and raw polynomial bases are translated; R warnings for very high polynomial order are omitted."
+
+[[extra.translation.function]]
+r_name = "DynCorr"
+r_source = "upstream/R/DynCorr.R"
+fortran_module = "fdapace_statistics"
+fortran_names = ["dyn_corr"]
+fortran_source = "src/fdapace_statistics.f90"
+status = "complete"
+notes = "Dense paired dynamic correlation and rule=2-style linear missing-value interpolation are translated."
+
+[[extra.translation.function]]
+r_name = "Dyn_test"
+r_source = "upstream/R/Dyn_test.R"
+fortran_module = "fdapace_statistics"
+fortran_names = ["dyn_test"]
+fortran_source = "src/fdapace_statistics.f90"
+status = "substantial"
+notes = "One- and paired two-sample bootstrap tests are translated; Fortran RNG streams differ from R. The sample-two missing-value interpolation follows the documented x2/t2 intent rather than the apparent upstream x1/t1 typo."
+
+[[extra.translation.function]]
+r_name = "FCCor"
+r_source = "upstream/R/FCCor.R"
+fortran_module = "fdapace_statistics"
+fortran_names = ["fc_cor"]
+fortran_source = "src/fdapace_statistics.f90"
+status = "substantial"
+notes = "Concurrent sparse functional correlation is translated using the translated local smoother; R warnings/names/list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "FPCA"
+r_source = "upstream/R/FPCA.R"
+fortran_module = "fdapace_fpca"
+fortran_names = ["fpca_dense"]
+fortran_source = "src/fdapace_fpca.f90"
+status = "partial"
+notes = "Dense regular cross-sectional FPCA with optional second-difference error variance, FVE selection, numerical-integration scores, shrinkage, fitted covariance/correlation, and fitted curves is translated. Sparse PACE, dense missing-value, smoothing, CE-score, rho, user-grid, and many option branches are omitted."
+
+[[extra.translation.function]]
+r_name = "FSVD"
+r_source = "upstream/R/FSVD.R"
+fortran_module = "fdapace_fpca"
+fortran_names = ["fsvd_dense"]
+fortran_source = "src/fdapace_fpca.f90"
+status = "partial"
+notes = "Paired dense regular sample cross-covariance SVD, singular functions/values, FVE/fixed selection, canonical correlations, and integration scores are translated. Sparse/cross-covariance smoothing and CE-score branches are omitted."
+
+[[extra.translation.function]]
+r_name = "GetNormalisedSample"
+r_source = "upstream/R/GetNormalisedSample.R"
+fortran_module = "fdapace_fpca"
+fortran_names = ["get_normalised_sample"]
+fortran_source = "src/fdapace_fpca.f90"
+status = "partial"
+notes = "Normalization by fitted mean and covariance diagonal is translated for caller-supplied dense observations and grid; R list extraction from fpcaObj inputData is omitted."
+
+[[extra.translation.function]]
+r_name = "GetNormalizedSample"
+r_source = "upstream/R/GetNormalisedSample.R"
+fortran_module = "fdapace_fpca"
+fortran_names = ["get_normalized_sample"]
+fortran_source = "src/fdapace_fpca.f90"
+status = "partial"
+notes = "US-spelling alias translated for the dense Fortran normalization interface."
+
+[[extra.translation.function]]
+r_name = "Lwls1D"
+r_source = "upstream/R/Lwls1D.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["lwls1d"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "substantial"
+notes = "Local polynomial fitting, derivatives, NaN omission, and the five upstream kernels are translated from the R/C++ path; R warning/error text and Eigen-specific singular handling are not reproduced exactly."
+
+[[extra.translation.function]]
+r_name = "Lwls2D"
+r_source = "upstream/R/Lwls2D.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["lwls2d"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "partial"
+notes = "Grid-output 2-D local linear smoothing and covariance symmetry are translated with all five kernels. R subset, xout point-list, and alternate plain/sort2 interface branches are omitted."
+
+[[extra.translation.function]]
+r_name = "Lwls2DDeriv"
+r_source = "upstream/R/Lwls2DDeriv.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["lwls2d_deriv"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "partial"
+notes = "Total-degree 2-D local polynomial derivative smoothing is translated for grid outputs; R subset, xout point-list, and method dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "MakeBWtoZscore02y"
+r_source = "upstream/R/MakeBWtoZscore02y.R"
+fortran_module = "fdapace_growth"
+fortran_names = ["make_bw_to_zscore_02y"]
+fortran_source = "src/fdapace_growth.f90"
+status = "substantial"
+notes = "WHO LMS body-weight z-score calculation and FMM/not-a-knot spline interpolation are translated. The documented 0-24 month range is accepted rather than the upstream time[24] indexing edge case."
+
+[[extra.translation.function]]
+r_name = "MakeFPCAInputs"
+r_source = "upstream/R/MakeFPCAInputs.R"
+fortran_module = "fdapace_simulation"
+fortran_names = ["make_fpca_inputs_dense"]
+fortran_source = "src/fdapace_simulation.f90"
+status = "partial"
+notes = "The dense matrix plus common-grid branch is translated; ID-vector grouping, NA removal, sorting, and deduplication branches are omitted."
+
+[[extra.translation.function]]
+r_name = "MakeGPFunctionalData"
+r_source = "upstream/R/MakeGPFunctionalData.R"
+fortran_module = "fdapace_simulation"
+fortran_names = ["make_gp_functional_data"]
+fortran_source = "src/fdapace_simulation.f90"
+status = "substantial"
+notes = "Dense Gaussian-process simulation, standardized score columns, basis generation, and optional Gaussian noise are translated; Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "MakeHCtoZscore02y"
+r_source = "upstream/R/MakeHCtoZscore02y.R"
+fortran_module = "fdapace_growth"
+fortran_names = ["make_hc_to_zscore_02y"]
+fortran_source = "src/fdapace_growth.f90"
+status = "substantial"
+notes = "WHO head-circumference mean/SD tables and FMM/not-a-knot interpolation are translated; the documented 0-24 month range is accepted."
+
+[[extra.translation.function]]
+r_name = "MakeLNtoZscore02y"
+r_source = "upstream/R/MakeLNtoZscore02y.R"
+fortran_module = "fdapace_growth"
+fortran_names = ["make_ln_to_zscore_02y"]
+fortran_source = "src/fdapace_growth.f90"
+status = "substantial"
+notes = "WHO length mean/SD tables and FMM/not-a-knot interpolation are translated. The upstream male month-22 value 6.0477 is preserved verbatim and documented in NOTICE."
+
+[[extra.translation.function]]
+r_name = "NormCurvToArea"
+r_source = "upstream/R/NormCurveToArea.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["norm_curv_to_area"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "complete"
+notes = "Direct trapezoidal area normalization translation."
+
+[[extra.translation.function]]
+r_name = "SelectK"
+r_source = "upstream/R/SelectK.R"
+fortran_module = "fdapace_fpca"
+fortran_names = ["select_k_fve", "select_k_fixed"]
+fortran_source = "src/fdapace_fpca.f90"
+status = "partial"
+notes = "FVE and fixed-K selection are translated; AIC and BIC branches requiring sparse likelihood machinery are omitted."
+
+[[extra.translation.function]]
+r_name = "Sparsify"
+r_source = "upstream/R/Sparsify.R"
+fortran_module = "fdapace_simulation"
+fortran_names = ["sparsify"]
+fortran_source = "src/fdapace_simulation.f90"
+status = "substantial"
+notes = "Basic, aggressive remote-spacing, and fragment sparsification modes are translated; Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "Wiener"
+r_source = "upstream/R/Wiener.R"
+fortran_module = "fdapace_simulation"
+fortran_names = ["wiener"]
+fortran_source = "src/fdapace_simulation.f90"
+status = "substantial"
+notes = "Karhunen-Loeve Wiener simulation is translated; optional inline sparsification is provided separately through sparsify, and Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "cumtrapzRcpp"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["cumtrapz_rcpp"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "complete"
+notes = "Direct cumulative trapezoidal integration translation of the upstream compiled routine."
+
+[[extra.translation.function]]
+r_name = "trapzRcpp"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "fdapace_smoothing"
+fortran_names = ["trapz_rcpp"]
+fortran_source = "src/fdapace_smoothing.f90"
+status = "complete"
+notes = "Direct trapezoidal integration translation of the upstream compiled routine."
+
+
+[[extra.translation.function]]
+r_name = "FAM"
+r_source = "upstream/R/FAM.R"
+fortran_module = "fdapace_models"
+fortran_names = ["fam"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Dense common-grid FPCA plus FPC-score additive smoothing is translated. R CV/GCV bandwidth search, ragged input, and new-subject prediction branches are omitted."
+
+[[extra.translation.function]]
+r_name = "FCReg"
+r_source = "upstream/R/FCReg.R"
+fortran_module = "fdapace_models"
+fortran_names = ["fc_reg"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Dense common-grid concurrent functional regression is translated with pointwise multivariate least squares. Mixed scalar/ragged covariates, covariance smoothing, GAM, and diag1D branches are omitted."
+
+[[extra.translation.function]]
+r_name = "FClust"
+r_source = "upstream/R/FClust.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["fclust"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "partial"
+notes = "Dense FPCA-score clustering is translated with deterministic k-means. The external EMCluster implementation and sparse-input branch are omitted; kCFC is available separately."
+
+[[extra.translation.function]]
+r_name = "FLM"
+r_source = "upstream/R/FLM.R"
+fortran_module = "fdapace_models"
+fortran_names = ["flm_scalar_dense"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Scalar-response functional linear regression with one or more dense common-grid functional predictors, held-out prediction, and optional permutation R2 testing is translated. Functional responses and scalar predictor fields are omitted."
+
+[[extra.translation.function]]
+r_name = "FLMCI"
+r_source = "upstream/R/FLMCI.R"
+fortran_module = "fdapace_models"
+fortran_names = ["flm_ci_scalar_dense"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Subject-bootstrap percentile intervals for the dense scalar-response FLM mapping are translated. Sparse support-preservation logic and functional-response intervals are omitted."
+
+[[extra.translation.function]]
+r_name = "FOptDes"
+r_source = "upstream/R/FOptDes.R"
+fortran_module = "fdapace_models"
+fortran_names = ["f_opt_des"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Dense trajectory-recovery and scalar-response design criteria are translated with greedy grid selection and a caller-supplied ridge. R ridge cross-validation and combinatorial/sequential helper variants are omitted."
+
+[[extra.translation.function]]
+r_name = "FPCAder"
+r_source = "upstream/R/FPCAder.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["fpca_der"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "partial"
+notes = "The FPC local-polynomial differentiation path for fitted mean and eigenfunctions is translated. DIFF, FPC1, derivative-score, and sparse conditional-expectation branches are omitted."
+
+[[extra.translation.function]]
+r_name = "FPCquantile"
+r_source = "upstream/R/FPCquantile.R"
+fortran_module = "fdapace_models"
+fortran_names = ["fpc_quantile"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Dense FPCA scores, threshold-wise logistic fits, CDF smoothing, and conditional quantile extraction are translated. Ragged/new-subject interfaces and exact R glm convergence behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "FVPA"
+r_source = "upstream/R/FVPA.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["fvpa"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "substantial"
+notes = "Dense FPCA fitting, squared-residual quantile adjustment, log variance process construction, and residual-process FPCA are translated. R option/list handling is omitted."
+
+[[extra.translation.function]]
+r_name = "GetCovSurface"
+r_source = "upstream/R/GetCovSurface.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_cov_surface"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "partial"
+notes = "Dense common-grid cross-sectional covariance and second-difference measurement-error estimation are translated. Sparse smoothing, binning, GCV/CV bandwidth selection, user covariance, and rho branches are omitted."
+
+[[extra.translation.function]]
+r_name = "GetCrCorYX"
+r_source = "upstream/R/GetCrCorYX.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_cr_cor_yx"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "complete"
+notes = "Cross-covariance normalization by auto-covariance diagonals is translated for both diagonal-vector and square-matrix inputs."
+
+[[extra.translation.function]]
+r_name = "GetCrCorYZ"
+r_source = "upstream/R/GetCrCorYZ.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_cr_cor_yz"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "complete"
+notes = "Functional-scalar cross-covariance normalization is translated for diagonal-vector and square functional auto-covariance inputs."
+
+[[extra.translation.function]]
+r_name = "GetCrCovYX"
+r_source = "upstream/R/GetCrCovYX.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_cr_cov_yx"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "partial"
+notes = "The upstream dense matrix branch is translated as paired cross-sectional functional cross-covariance. Ragged raw-pair construction, GAM, 2-D smoothing, GCV, and bandwidth optimization are omitted."
+
+[[extra.translation.function]]
+r_name = "GetCrCovYZ"
+r_source = "upstream/R/GetCrCovYZ.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_cr_cov_yz"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "partial"
+notes = "The dense functional-scalar cross-covariance operation is translated. Ragged smoothing, GCV, support interpolation, and automatic bandwidth search are omitted."
+
+[[extra.translation.function]]
+r_name = "GetMeanCI"
+r_source = "upstream/R/GetMeanCI.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_mean_ci"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "partial"
+notes = "Dense subject-bootstrap pointwise percentile intervals for the cross-sectional mean are translated. Sparse/smoothed support-preservation behavior is omitted; Fortran RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "GetMeanCurve"
+r_source = "upstream/R/GetMeanCurve.R"
+fortran_module = "fdapace_covariance"
+fortran_names = ["get_mean_curve"]
+fortran_source = "src/fdapace_covariance.f90"
+status = "partial"
+notes = "Dense common-grid cross-sectional mean and optional local-linear smoothing are translated. Ragged input, binning, option dispatch, user-mean objects, and automatic bandwidth selection are omitted."
+
+[[extra.translation.function]]
+r_name = "MakeSparseGP"
+r_source = "upstream/R/MakeSparseGP.R"
+fortran_module = "fdapace_simulation"
+fortran_names = ["make_sparse_gp"]
+fortran_source = "src/fdapace_simulation.f90"
+status = "substantial"
+notes = "Finite-rank sparse Gaussian-process simulation, random observation counts/times, standardized scores, and optional Gaussian noise are translated. Custom rdist/muFun and full CovFun simulation are omitted; RNG streams differ from R."
+
+[[extra.translation.function]]
+r_name = "MultiFAM"
+r_source = "upstream/R/MultiFAM.R"
+fortran_module = "fdapace_models"
+fortran_names = ["multi_fam"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Multiple dense common-grid functional predictors are reduced by FPCA and fitted jointly by translated additive backfitting. R bandwidth CV/GCV, ragged inputs, and test-subject prediction branches are omitted."
+
+[[extra.translation.function]]
+r_name = "SBFitting"
+r_source = "upstream/R/SBFitting.R"
+fortran_module = "fdapace_models"
+fortran_names = ["sb_fitting"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Epanechnikov additive backfitting with local component updates, centering, convergence checks, and marginal fits is translated. The upstream explicit marginal/joint density weighting formulas are approximated by direct local backfitting."
+
+[[extra.translation.function]]
+r_name = "Stringing"
+r_source = "upstream/R/Stringing.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["stringing"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "partial"
+notes = "Standardization and the documented distance families are translated, with one-dimensional classical MDS used to order variables. Upstream MASS::isoMDS stress optimization is not reproduced exactly."
+
+[[extra.translation.function]]
+r_name = "TVAM"
+r_source = "upstream/R/TVAM.R"
+fortran_module = "fdapace_models"
+fortran_names = ["tvam"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "Pooled longitudinal time-window additive backfitting and subsequent time smoothing are translated. The Fortran interface uses pooled arrays rather than R ragged lists and does not reproduce all default-bandwidth logic."
+
+[[extra.translation.function]]
+r_name = "VCAM"
+r_source = "upstream/R/VCAM.R"
+fortran_module = "fdapace_models"
+fortran_names = ["vcam"]
+fortran_source = "src/fdapace_models.f90"
+status = "partial"
+notes = "A dense two-stage varying-coefficient additive model is translated using additive integral effects followed by pointwise varying-coefficient least squares. R B-spline knot/order machinery and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "WFDA"
+r_source = "upstream/R/WFDA.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["wfda"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "partial"
+notes = "Dense curve normalization, regularized monotone warp estimation, inverse warps, aligned curves, and costs are translated using a deterministic one-parameter monotone warp search. R pairwise random/PWL optimizer and subset averaging are not reproduced exactly."
+
+[[extra.translation.function]]
+r_name = "kCFC"
+r_source = "upstream/R/kCFC.R"
+fortran_module = "fdapace_analysis"
+fortran_names = ["k_cfc"]
+fortran_source = "src/fdapace_analysis.f90"
+status = "partial"
+notes = "Dense sample-wide FPCA initialization, k-means seeding, cluster-specific FPCA refits, reconstruction-error reassignment, and convergence checks are translated. Sparse and exact R option branches are omitted."

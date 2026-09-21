@@ -1,0 +1,20 @@
+# NOTICE and provenance
+
+This is a derived modern Fortran translation of selected computational code from the R package `fdapace` version 0.6.0.
+
+Upstream package metadata identifies the license as `BSD_3_clause + file LICENSE` and records:
+
+- YEAR: 2019
+- COPYRIGHT HOLDER: Hans-Georg Mueller and Jane-Ling Wang
+- ORGANIZATION: University of California, Davis
+
+The upstream `DESCRIPTION`, `NAMESPACE`, license metadata, and source files directly relevant to translated routines are retained under `upstream/`. The original package lists Yidong Zhou, Han Chen, Su I Iao, Poorbita Kundu, Hang Zhou, Satarupa Bhattacharjee, Cody Carroll, Yaqing Chen, Xiongtao Dai, Jianing Fan, Alvaro Gajardo, Pantelis Z. Hadjipantelis, Kyunghee Han, Hao Ji, Changbo Zhu, Paromita Dubey, Shu-Chin Lin, Hans-Georg Mueller, and Jane-Ling Wang among authors/contributors/copyright holders; consult `upstream/DESCRIPTION` for the authoritative role metadata.
+
+No source from Hmisc, MASS, Matrix, pracma, numDeriv, rfortran-core, rfortran-linalg, BLAS, LAPACK, ARPACK, or other translated dependency is copied into this package. The current `Fortran-from-R-packages` repository was checked before implementation and already contains top-level translations for Hmisc, MASS, Matrix, pracma, and numDeriv as well as shared rfortran modules. The present translated scope does not require those APIs and therefore declares no external FPM dependency. Direct LAPACK is not used, so the Federico Perini / Beliavsky `fortran-lapack` fork is not a dependency of this package.
+
+Compatibility-preservation notes:
+
+1. `MakeLNtoZscore02y` in the supplied upstream source contains the male mean-length sequence entry `6.0477` at month 22. This literal value is preserved in the Fortran translation rather than silently replaced by a presumed correction.
+2. The upstream growth helpers document ages 0-24 months but validate against `time[24]` in R, which evaluates to 23 because R arrays are one-based. The Fortran translation accepts the documented 0-24 range and records this behavioral difference.
+3. In the upstream two-sample `Dyn_test` missing-data branch, `x2` is assigned from an interpolation of `x1`/`t1`. The Fortran implementation follows the documented intent and independently imputes each sample through `dyn_corr`; this is recorded as a compatibility difference rather than reproducing the apparent typo.
+4. RNG streams are not intended to match R.
