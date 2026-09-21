@@ -1,0 +1,1661 @@
+name = "fda-usc"
+version = "2.2.0"
+license = "GPL-2"
+author = "Manuel Febrero Bande, Manuel Oviedo de la Fuente; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "Upstream fda.usc authors and contributors"
+description = "Modern Fortran translation of computational routines from the R package fda.usc"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "test_fdausc.f90"
+
+[[test]]
+name = "statistics"
+source-dir = "test/statistics"
+main = "test_statistics.f90"
+
+[[test]]
+name = "extended"
+source-dir = "test/extended"
+main = "test_extended.f90"
+
+[[test]]
+name = "generalized"
+source-dir = "test/generalized"
+main = "test_generalized.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example"
+main = "basic.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 179
+r_functions_translated = 179
+frac_functions_translated = 1
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "AKer.cos"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_cos"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "AKer.epa"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_epa"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "AKer.norm"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_norm"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "AKer.quar"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_quar"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "AKer.tri"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_tri"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "AKer.unif"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["aker_unif"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Adot"
+r_source = "upstream/R/Adot.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["adot_matrix_vector"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Packed Adot computation translated from the upstream compiled Fortran kernel."
+
+[[extra.translation.function]]
+r_name = "CV.S"
+r_source = "upstream/R/CV.S.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["cv_score"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "FDR"
+r_source = "upstream/R/FDR.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["fdr_reject"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Benjamini-Hochberg/dependency-adjusted rejection rule translated."
+
+[[extra.translation.function]]
+r_name = "Ftest.statistic"
+r_source = "upstream/R/flm.Ftest.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["flm_f_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "complete"
+notes = "Functional linear-model covariance norm statistic translated."
+
+[[extra.translation.function]]
+r_name = "GCCV.S"
+r_source = "upstream/R/GCCV.S.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["gccv_score"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "GCV.S"
+r_source = "upstream/R/GCV.S.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["gcv_score"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "IKer.cos"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_cos"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "IKer.epa"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_epa"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "IKer.norm"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_norm"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "IKer.quar"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_quar"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "IKer.tri"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_tri"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "IKer.unif"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["iker_unif"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.cos"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_cos"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.epa"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_epa"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.norm"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_norm"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.quar"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_quar"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.tri"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_tri"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Ker.unif"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["ker_unif"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel formula translated directly from upstream numeric definition."
+
+[[extra.translation.function]]
+r_name = "Kernel"
+r_source = "upstream/R/Kernel.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["kernel_value"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Kernel dispatcher translated with the supported upstream kernel formulas."
+
+[[extra.translation.function]]
+r_name = "Kernel.asymmetric"
+r_source = "upstream/R/Kernel.asymmetric.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["asymmetric_kernel_value"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Asymmetric-kernel dispatcher translated with upstream support conventions."
+
+[[extra.translation.function]]
+r_name = "Kernel.integrate"
+r_source = "upstream/R/kernels.R"
+fortran_module = "fdausc_kernels"
+fortran_names = ["integrated_kernel_value"]
+fortran_source = "src/fdausc_kernels.f90"
+status = "complete"
+notes = "Integrated-kernel dispatcher translated with upstream formulas."
+
+[[extra.translation.function]]
+r_name = "LMDC.select"
+r_source = "upstream/R/LMDC.select.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["local_distance_correlation_select"]
+fortran_source = "src/fdausc_extended.f90"
+status = "substantial"
+notes = "Distance-correlation scoring and local-maxima selection are translated for numeric candidate distance matrices; R formula/model dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "MMD.test"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["mmd_rbf_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "RBF MMD statistic is translated; permutation/bootstrap calibration and R metric dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "MMDA.test"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["mmd_rbf_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Scaled RBF MMDA statistic core is translated; calibration and R object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "P.penalty"
+r_source = "upstream/R/fdata2pc.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["penalty_matrix"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "partial"
+notes = "Finite-difference roughness penalty is translated with a common-grid numerical API; some upstream higher-order irregular-grid coefficient conventions differ."
+
+[[extra.translation.function]]
+r_name = "PCvM.statistic"
+r_source = "upstream/R/Adot.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["pcvm_statistic_value"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Projected Cramer-von Mises quadratic statistic translated from the upstream compiled kernel."
+
+[[extra.translation.function]]
+r_name = "S.KNN"
+r_source = "upstream/R/S.np.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["smoothing_knn"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Smoothing-matrix numerical operation translated; R function-valued arguments and object conveniences are represented by explicit numeric/kernel selectors."
+
+[[extra.translation.function]]
+r_name = "S.LCR"
+r_source = "upstream/R/S.np.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["smoothing_lcr"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Smoothing-matrix numerical operation translated; R function-valued arguments and object conveniences are represented by explicit numeric/kernel selectors."
+
+[[extra.translation.function]]
+r_name = "S.LLR"
+r_source = "upstream/R/S.np.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["smoothing_llr"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Smoothing-matrix numerical operation translated; R function-valued arguments and object conveniences are represented by explicit numeric/kernel selectors."
+
+[[extra.translation.function]]
+r_name = "S.LPR"
+r_source = "upstream/R/S.np.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["smoothing_lpr"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Smoothing-matrix numerical operation translated; R function-valued arguments and object conveniences are represented by explicit numeric/kernel selectors."
+
+[[extra.translation.function]]
+r_name = "S.NW"
+r_source = "upstream/R/S.np.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["smoothing_nw"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Smoothing-matrix numerical operation translated; R function-valued arguments and object conveniences are represented by explicit numeric/kernel selectors."
+
+[[extra.translation.function]]
+r_name = "S.basis"
+r_source = "upstream/R/S.basis.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["basis_smoothing_matrix"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Basis smoother algebra is translated for a supplied basis design and penalty matrix; fda basis-object construction and Lfd evaluation are delegated to callers."
+
+[[extra.translation.function]]
+r_name = "Var.e"
+r_source = "upstream/R/Var.e.r"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["residual_variance"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "Var.y"
+r_source = "upstream/R/Var.y.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["fitted_variance"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "XYRP.test"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["projected_two_sample_ks"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Projection, two-sample KS statistic/asymptotic p-values, and FDR aggregation are translated for supplied projection directions; PC-direction generation and the Anderson-Darling branch are omitted."
+
+[[extra.translation.function]]
+r_name = "bcdcor.dist"
+r_source = "upstream/R/dcor.xy.r"
+fortran_module = "fdausc_metrics"
+fortran_names = ["bias_corrected_distance_correlation"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Distance-correlation numerical computation is translated; R test/list formatting and optional metric dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "cat2meas"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["confusion_accuracy", "confusion_kappa", "confusion_iou", "confusion_recall", "confusion_precision", "confusion_f1"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "partial"
+notes = "Confusion-matrix measures are translated; callers supply the contingency table rather than R factor vectors."
+
+[[extra.translation.function]]
+r_name = "classif.DD"
+r_source = "upstream/R/classif.DD.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["depth_classify"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "The maximum-depth DD classification core is translated from supplied class-depth scores; alternative DD separator learners and R formula behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.depth"
+r_source = "upstream/R/classif.depth.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["depth_classify"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Maximum-depth classification from caller-supplied class depth scores is translated; R depth estimation and object assembly are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.gkam"
+r_source = "upstream/R/classif.gkam.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["multiclass_additive_classify"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "One-versus-all additive logistic local-scoring/backfitting is translated for caller-supplied fixed smoother matrices; functional metric/bandwidth construction, weighted smoother updates, and R orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.glm"
+r_source = "upstream/R/classif.glm.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["multiclass_glm_classify"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "One-versus-all binomial GLM classification is translated for an explicit design matrix; R formulas, class-weight modes, and model objects are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.gsam"
+r_source = "upstream/R/classif.gsam.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["multiclass_penalized_glm_classify"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "One-versus-all penalized binomial classification is translated for a caller-supplied expanded smooth-term design and penalty matrix; mgcv smooth construction, formula parsing, and R classification objects are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.gsam.vs"
+r_source = "upstream/R/classif.gsam.vs.R"
+fortran_modules = ["fdausc_generalized"]
+fortran_names = ["forward_glm_select", "multiclass_penalized_glm_classify"]
+fortran_sources = ["src/fdausc_generalized.f90"]
+status = "partial"
+notes = "Grouped forward selection and one-versus-all penalized binomial classification are translated for pre-expanded smooth-term design blocks; R multiclass selection orchestration, mgcv construction, and nested CV are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.kernel"
+r_source = "upstream/R/classif.np.r"
+fortran_module = "fdausc_models"
+fortran_names = ["kernel_classify"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Kernel classification core is translated for a supplied distance matrix; R bandwidth optimization and object handling are omitted."
+
+[[extra.translation.function]]
+r_name = "classif.kfold"
+r_source = "upstream/R/classif.kfold.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["select_classification_cv"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Weighted cross-validation selection from candidate class predictions is translated; R model-fitting dispatch across folds is omitted."
+
+[[extra.translation.function]]
+r_name = "classif.knn"
+r_source = "upstream/R/classif.np.r"
+fortran_module = "fdausc_models"
+fortran_names = ["knn_classify"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "k-nearest-neighbor classification core is translated for a supplied train-to-test distance matrix; R CV/object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "classif.np"
+r_source = "upstream/R/classif.np.r"
+fortran_modules = ["fdausc_models", "fdausc_regression"]
+fortran_names = ["kernel_classify", "select_bandwidth_cv"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_regression.f90"]
+status = "partial"
+notes = "Nonparametric classification and a bandwidth-CV kernel are translated; the exact R classifier CV orchestration and fdata dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "cond.F"
+r_source = "upstream/R/cond.F.R"
+fortran_module = "fdausc_models"
+fortran_names = ["conditional_cdf"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Conditional nonparametric numerical core is translated for precomputed functional distances; R metric dispatch and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "cond.mode"
+r_source = "upstream/R/cond.mode.R"
+fortran_module = "fdausc_models"
+fortran_names = ["conditional_mode"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Conditional nonparametric numerical core is translated for precomputed functional distances; R metric dispatch and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "cond.quantile"
+r_source = "upstream/R/cond.quantile.R"
+fortran_module = "fdausc_models"
+fortran_names = ["conditional_quantile"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Conditional nonparametric numerical core is translated for precomputed functional distances; R metric dispatch and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "cov.test.fdata"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["covariance_hs_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Covariance Hilbert-Schmidt discrepancy statistic is translated; bootstrap calibration and R output objects are omitted."
+
+[[extra.translation.function]]
+r_name = "dcor.dist"
+r_source = "upstream/R/dcor.xy.r"
+fortran_module = "fdausc_metrics"
+fortran_names = ["distance_correlation"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Distance-correlation numerical computation is translated; R test/list formatting and optional metric dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "dcor.test"
+r_source = "upstream/R/dcor.xy.r"
+fortran_module = "fdausc_metrics"
+fortran_names = ["distance_correlation_test"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Distance-correlation numerical computation is translated; R test/list formatting and optional metric dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "dcor.xy"
+r_source = "upstream/R/dcor.xy.r"
+fortran_module = "fdausc_metrics"
+fortran_names = ["ordinary_distance_matrix", "distance_correlation_test"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "partial"
+notes = "Distance construction and distance-correlation test core are translated; R mixed object dispatch and return-list behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.FM"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["fraiman_muniz_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Fraiman-Muniz functional depth is translated on discretized curves; R plotting and object summaries are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.FMp"
+r_source = "upstream/R/depth.mfdata.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["multicomponent_mahalanobis_depth"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Multicomponent pointwise Mahalanobis/FM-style depth core is translated; R mfdata traversal and alternate depth functions are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.FSD"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["functional_spatial_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Functional spatial depth is translated on discretized curves."
+
+[[extra.translation.function]]
+r_name = "depth.KFSD"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["kernel_functional_spatial_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Kernel functional spatial depth is translated with its Gaussian-distance numerical core."
+
+[[extra.translation.function]]
+r_name = "depth.RP"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "Random-projection Tukey-depth aggregation is translated for caller-supplied directions; R random direction generation and alternate dfunc choices are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.RPD"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["rpd_depth_scores"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Random-projection depth aggregation is translated for caller-supplied projected scores; R projection generation and depth-function dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.RPp"
+r_source = "upstream/R/depth.mfdata.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["rpd_depth_scores"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Projection-depth aggregation for supplied projected scores is translated; mfdata projection generation and R depth dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.RT"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "Random-Tukey minimum projection depth is translated for caller-supplied directions; R random direction generation and summary objects are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.mode"
+r_source = "upstream/R/depth.fdata.r"
+fortran_module = "fdausc_depth"
+fortran_names = ["depth_mode_scores"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Modal-depth score from a supplied distance matrix is translated; automatic bandwidth estimation and fdata output construction are omitted."
+
+[[extra.translation.function]]
+r_name = "depth.modep"
+r_source = "upstream/R/depth.mfdata.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["multicomponent_modal_depth"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Multicomponent modal-depth numerical aggregation is translated; R mfdata object handling and automatic bandwidth construction are omitted."
+
+[[extra.translation.function]]
+r_name = "dev.S"
+r_source = "upstream/R/dev.S.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["deviance_smoother_score"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "substantial"
+notes = "The smoothing-matrix deviance/GCV correction is translated for Gaussian, binomial-logit, and Poisson-log families, including type-4 residual trimming; arbitrary R family objects are omitted."
+
+[[extra.translation.function]]
+r_name = "dfv.statistic"
+r_source = "upstream/R/dfv.test.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["dfv_statistics"]
+fortran_source = "src/fdausc_testing.f90"
+status = "substantial"
+notes = "Delsol-Ferraty-Vieu statistic over bandwidths is translated; R wrapper conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "dfv.test"
+r_source = "upstream/R/dfv.test.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["dfv_statistics"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "DFV statistic core is translated; bootstrap calibration, model fitting, and htest object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "dis.cos.cor"
+r_source = "upstream/R/dis.cos.cor.R"
+fortran_module = "fdausc_integration"
+fortran_names = ["cosine_proximity"]
+fortran_source = "src/fdausc_integration.f90"
+status = "substantial"
+notes = "Numerical curve integration operation translated for arrays; fdata class handling and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "fEqDistrib.test"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["distribution_equality_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Equality-of-distribution statistic and studentization are translated; resampling calibration is omitted."
+
+[[extra.translation.function]]
+r_name = "fanova.RPm"
+r_source = "upstream/R/fanova.RPm.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["random_projection_anova"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "One-factor ordinary or heteroscedastic ANOVA statistics over caller-supplied random projections are translated; formula/contrast handling, p-value tables, FDR/Bonferroni orchestration, and bootstrap calibration are omitted."
+
+[[extra.translation.function]]
+r_name = "fanova.hetero"
+r_source = "upstream/R/fanova.hetero.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["hetero_anova_onefactor"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "The Brunner-Dette-Munk one-factor heteroscedastic ANOVA statistic and approximate degrees of freedom are translated; multifactor formula/contrast tables are omitted."
+
+[[extra.translation.function]]
+r_name = "fanova.onefactor"
+r_source = "upstream/R/fanova.onefactor.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["fanova_mean_distance_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Observed one-factor functional ANOVA mean-separation statistic is translated; Gaussian-process bootstrap calibration and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata.bootstrap"
+r_source = "upstream/R/fdata.bootstrap.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["bootstrap_mean_replicates"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Bootstrap resampling and mean-curve statistic kernel is translated for caller-supplied resample indices/noise; smoothing and R RNG orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata.cen"
+r_source = "upstream/R/fdata.cen.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["center_curves"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Core array computation translated; fdata object construction and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata.deriv"
+r_source = "upstream/R/fdata.deriv.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["difference_derivative"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Core array computation translated; fdata object construction and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata2basis"
+r_source = "upstream/R/fdata2basis.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["basis_project_grid"]
+fortran_source = "src/fdausc_extended.f90"
+status = "substantial"
+notes = "Least-squares projection of common-grid curves onto supplied basis values is translated; fda basis-object construction and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata2pc"
+r_source = "upstream/R/fdata2pc.R"
+fortran_module = "fdausc_models"
+fortran_names = ["functional_pca"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Dense-grid functional PCA is translated using shared SVD support; R basis objects, formula handling, and some penalized/options behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "fdata2pls"
+r_source = "upstream/R/fdata2pc.R"
+fortran_module = "fdausc_models"
+fortran_names = ["functional_pls1"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "PLS1/NIPALS numerical core is translated; multivariate-response and full R object behavior are not reproduced."
+
+[[extra.translation.function]]
+r_name = "flm.Ftest"
+r_source = "upstream/R/flm.Ftest.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["flm_f_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Observed F-type statistic core is translated; bootstrap calibration and htest construction are omitted."
+
+[[extra.translation.function]]
+r_name = "flm.test"
+r_source = "upstream/R/flm.test.R"
+fortran_modules = ["fdausc_statistics", "fdausc_simulation"]
+fortran_names = ["adot_matrix_vector", "pcvm_statistic_value", "wild_residuals"]
+fortran_sources = ["src/fdausc_statistics.f90", "src/fdausc_simulation.f90"]
+status = "partial"
+notes = "PCvM and wild-bootstrap numerical kernels are translated; R basis/formula fitting, bootstrap orchestration, and htest construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fmean.test.fdata"
+r_source = "upstream/R/TestFunctions.R"
+fortran_module = "fdausc_testing"
+fortran_names = ["mean_difference_statistic"]
+fortran_source = "src/fdausc_testing.f90"
+status = "partial"
+notes = "Integrated mean-difference statistic is translated; bootstrap/permutation calibration and R output objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.basis"
+r_source = "upstream/R/fregre.basis.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["basis_scalar_regression"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Basis projection, cross-basis transformation, weighted/ridge scalar regression, fitted values, residuals, and hat matrix are translated; fda basis construction, formulas, and S3 model assembly are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.basis.cv"
+r_source = "upstream/R/fregre.basis.cv.R"
+fortran_modules = ["fdausc_generalized", "fdausc_extended"]
+fortran_names = ["basis_scalar_regression", "select_basis_gcv"]
+fortran_sources = ["src/fdausc_generalized.f90", "src/fdausc_extended.f90"]
+status = "partial"
+notes = "Basis-regression fit and GCV candidate selection are translated; R generation of basis/lambda candidate families and S3 result construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.basis.fr"
+r_source = "upstream/R/fregre.basis.fr.r"
+fortran_module = "fdausc_generalized"
+fortran_names = ["basis_response_regression"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Functional-response regression of response basis scores on predictor basis scores is translated with optional ridge regularization; fda basis construction, Kronecker penalty options, and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.bootstrap"
+r_source = "upstream/R/fregre.bootstrap.r"
+fortran_module = "fdausc_generalized"
+fortran_names = ["bootstrap_linear_refits"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Deterministic residual/wild-bootstrap regression refits and optional predictions are translated for caller-supplied resampling indices and multipliers; PC/PLS/basis reselection, functional predictor perturbation, and R RNG orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.gkam"
+r_source = "upstream/R/fregre.gkam.r"
+fortran_module = "fdausc_generalized"
+fortran_names = ["additive_backfit"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "The additive backfitting core is translated for caller-supplied linear smoother matrices; automatic functional metrics/bandwidth selection and generalized-family local scoring are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.glm"
+r_source = "upstream/R/fregre.glm.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["glm_irls"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Gaussian, binomial-logit, and Poisson-log IRLS is translated for an explicit numeric design matrix; R formula parsing and functional-covariate basis construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.glm.vs"
+r_source = "upstream/R/fregre.glm.vs.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["forward_glm_select"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Grouped forward Gaussian/binomial/Poisson selection is translated by repeated IRLS fits using a deviance-plus-2df score; upstream distance-correlation screening, nested CV, formula construction, and all selection options are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.gls"
+r_source = "upstream/R/fregre.gls.r"
+fortran_module = "fdausc_generalized"
+fortran_names = ["gls_fit"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Generalized least squares with a supplied covariance matrix is translated; R formula parsing and nlme correlation-object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.gsam"
+r_source = "upstream/R/fregre.gsam.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["penalized_glm_irls"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Penalized Gaussian/binomial/Poisson IRLS is translated for a caller-supplied expanded smooth-term design and penalty matrix; mgcv formula interpretation, smooth-basis construction, smoothing-parameter estimation, and GAM objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.gsam.vs"
+r_source = "upstream/R/fregre.gsam.vs.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["forward_glm_select"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Grouped forward selection is translated for pre-expanded smooth-term column blocks; mgcv smooth construction, distance-correlation screening, nested CV, and GAM-specific criteria are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.igls"
+r_source = "upstream/R/fregre.igls.r"
+fortran_module = "fdausc_generalized"
+fortran_names = ["gls_fit"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "The GLS numerical fitting stage is translated for a supplied estimated covariance matrix; iterative nlme correlation-parameter estimation and formula/S3 behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.lm"
+r_source = "upstream/R/fregre.lm.r"
+fortran_module = "fdausc_regression"
+fortran_names = ["weighted_linear_fit"]
+fortran_source = "src/fdausc_regression.f90"
+status = "partial"
+notes = "Weighted/ridge linear algebra core is translated for an explicit design matrix; R formula parsing and fdata-to-design construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.np"
+r_source = "upstream/R/fregre.np.r"
+fortran_module = "fdausc_regression"
+fortran_names = ["nonparametric_regression"]
+fortran_source = "src/fdausc_regression.f90"
+status = "substantial"
+notes = "Functional nonparametric regression core is translated for precomputed distances; R object and metric dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.np.cv"
+r_source = "upstream/R/fregre.np.cv.r"
+fortran_module = "fdausc_regression"
+fortran_names = ["select_bandwidth_cv"]
+fortran_source = "src/fdausc_regression.f90"
+status = "partial"
+notes = "Leave-one-out bandwidth selection for nonparametric regression is translated; R search-grid construction and model-object assembly are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.pc"
+r_source = "upstream/R/fregre.pc.R"
+fortran_modules = ["fdausc_models", "fdausc_regression"]
+fortran_names = ["functional_pca", "component_regression"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_regression.f90"]
+status = "partial"
+notes = "PCA-score regression numerical core is translated; R component selection/CV, formula behavior, and model object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.pc.cv"
+r_source = "upstream/R/fregre.pc.R"
+fortran_modules = ["fdausc_models", "fdausc_regression"]
+fortran_names = ["functional_pca", "component_regression"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_regression.f90"]
+status = "partial"
+notes = "PCA-score regression numerical core is translated; R component selection/CV, formula behavior, and model object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.plm"
+r_source = "upstream/R/fregre.plm.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["partially_linear_fit"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "Partially-linear residualization, scalar coefficient fitting, nonparametric component, and hat-matrix algebra are translated for a supplied smoother; R metric/bandwidth selection and formula parsing are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.pls"
+r_source = "upstream/R/fregre.pc.R"
+fortran_modules = ["fdausc_models", "fdausc_regression"]
+fortran_names = ["functional_pls1", "component_regression"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_regression.f90"]
+status = "partial"
+notes = "PLS-score regression numerical core is translated; R component selection/CV and model object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "fregre.pls.cv"
+r_source = "upstream/R/fregre.pc.R"
+fortran_modules = ["fdausc_models", "fdausc_regression"]
+fortran_names = ["functional_pls1", "component_regression"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_regression.f90"]
+status = "partial"
+notes = "PLS-score regression numerical core is translated; R component selection/CV and model object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "func.mean"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["functional_mean"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Core array computation translated; fdata object construction and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "func.med.FM"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["fraiman_muniz_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "FM depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.med.RP"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RP depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.med.RPD"
+r_source = "upstream/R/Descriptive.R"
+fortran_modules = ["fdausc_extended", "fdausc_depth"]
+fortran_names = ["rpd_depth_scores", "depth_summary"]
+fortran_sources = ["src/fdausc_extended.f90", "src/fdausc_depth.f90"]
+status = "partial"
+notes = "RPD depth aggregation and the corresponding median/trimmed functional summary kernel are translated; random projection generation and fdata object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "func.med.RT"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RT depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.med.mode"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["depth_mode_scores", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "mode depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trim.FM"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["fraiman_muniz_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "FM depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trim.RP"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RP depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trim.RPD"
+r_source = "upstream/R/Descriptive.R"
+fortran_modules = ["fdausc_extended", "fdausc_depth"]
+fortran_names = ["rpd_depth_scores", "depth_summary"]
+fortran_sources = ["src/fdausc_extended.f90", "src/fdausc_depth.f90"]
+status = "partial"
+notes = "RPD depth aggregation and the corresponding median/trimmed functional summary kernel are translated; random projection generation and fdata object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trim.RT"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RT depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trim.mode"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["depth_mode_scores", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "mode depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trimvar.FM"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["fraiman_muniz_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "FM depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trimvar.RP"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RP depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trimvar.RPD"
+r_source = "upstream/R/Descriptive.R"
+fortran_modules = ["fdausc_extended", "fdausc_depth"]
+fortran_names = ["rpd_depth_scores", "depth_summary"]
+fortran_sources = ["src/fdausc_extended.f90", "src/fdausc_depth.f90"]
+status = "partial"
+notes = "RPD depth aggregation and the corresponding median/trimmed functional summary kernel are translated; random projection generation and fdata object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trimvar.RT"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "RT depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.trimvar.mode"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["depth_mode_scores", "depth_summary"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "mode depth and median/trimmed-summary numerical kernels are translated; R fdata objects, drawing, and automatic projection generation where applicable are omitted."
+
+[[extra.translation.function]]
+r_name = "func.var"
+r_source = "upstream/R/Descriptive.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["functional_variance"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Core array computation translated; fdata object construction and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "gridfdata"
+r_source = "upstream/R/rcombfdata.R"
+fortran_module = "fdausc_simulation"
+fortran_names = ["grid_basis_combinations"]
+fortran_source = "src/fdausc_simulation.f90"
+status = "substantial"
+notes = "Deterministic grid combinations of supplied basis curves are translated; fdata object wrapping is omitted."
+
+[[extra.translation.function]]
+r_name = "h.default"
+r_source = "upstream/R/h.default.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["default_bandwidth_grid"]
+fortran_source = "src/fdausc_extended.f90"
+status = "substantial"
+notes = "Upstream distance-quantile bandwidth grid and kernel scaling are translated for a supplied distance matrix; R metric and smoother dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "influence_quan"
+r_source = "upstream/R/influence.quan.R"
+fortran_module = "fdausc_generalized"
+fortran_names = ["influence_quantile_summary"]
+fortran_source = "src/fdausc_generalized.f90"
+status = "partial"
+notes = "The empirical bootstrap-CDF aggregation that turns pooled influence replicates into observation quantiles is translated; bootstrap model refitting and fdata perturbation orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "inprod.fdata"
+r_source = "upstream/R/inprod.fdata.R"
+fortran_module = "fdausc_integration"
+fortran_names = ["inprod_curves"]
+fortran_source = "src/fdausc_integration.f90"
+status = "substantial"
+notes = "Numerical curve integration operation translated for arrays; fdata class handling and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "int.simpson"
+r_source = "upstream/R/int.simpson.R"
+fortran_module = "fdausc_integration"
+fortran_names = ["integrate_curve"]
+fortran_source = "src/fdausc_integration.f90"
+status = "substantial"
+notes = "Numerical curve integration operation translated for arrays; fdata class handling and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "int.simpson2"
+r_source = "upstream/R/int.simpson.R"
+fortran_module = "fdausc_integration"
+fortran_names = ["integrate_curve"]
+fortran_source = "src/fdausc_integration.f90"
+status = "substantial"
+notes = "Numerical curve integration operation translated for arrays; fdata class handling and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "kmeans.center.ini"
+r_source = "upstream/R/kmeans.center.ini.R"
+fortran_module = "fdausc_models"
+fortran_names = ["functional_kmeans"]
+fortran_source = "src/fdausc_models.f90"
+status = "partial"
+notes = "Deterministic center initialization used by the Fortran k-means implementation is available; upstream sampling/iterative initialization modes are not all reproduced."
+
+[[extra.translation.function]]
+r_name = "kmeans.fd"
+r_source = "upstream/R/kmeans.fd.R"
+fortran_module = "fdausc_models"
+fortran_names = ["functional_kmeans"]
+fortran_source = "src/fdausc_models.f90"
+status = "substantial"
+notes = "Functional Lloyd k-means on L2 curves is translated; alternate initialization/depth centers and R object methods are omitted."
+
+[[extra.translation.function]]
+r_name = "ldata.cen"
+r_source = "upstream/R/ldata.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["center_curves"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "partial"
+notes = "Per-component centering kernel is translated; R list/mfdata traversal and metadata reconstruction are omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.FM"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["tukey_coordinate_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "Coordinatewise Tukey/Fraiman-style multivariate depth core translated; alternate depth-function dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.FSD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["multivariate_spatial_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Multivariate spatial depth translated."
+
+[[extra.translation.function]]
+r_name = "mdepth.HS"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "Half-space projection minimum-depth core translated for caller-supplied directions; exact/random R direction generation is omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.KFSD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["multivariate_kernel_spatial_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Kernelized multivariate spatial depth translated."
+
+[[extra.translation.function]]
+r_name = "mdepth.LD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["likelihood_depth"]
+fortran_source = "src/fdausc_extended.f90"
+status = "substantial"
+notes = "Gaussian likelihood depth for numeric multivariate data is translated; alternate R covariance controls are omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.MhD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["mahalanobis_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Mahalanobis depth translated for numeric matrices."
+
+[[extra.translation.function]]
+r_name = "mdepth.RP"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["projection_tukey_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "partial"
+notes = "Projection depth translated for caller-supplied directions; R random direction generation is omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.SD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["bivariate_simplicial_depth"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Bivariate simplicial depth is translated by exact triangle enumeration; higher-dimensional geometry and R object conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "mdepth.TD"
+r_source = "upstream/R/depth.mdata.R"
+fortran_module = "fdausc_depth"
+fortran_names = ["tukey_coordinate_depth"]
+fortran_source = "src/fdausc_depth.f90"
+status = "substantial"
+notes = "Coordinatewise Tukey depth core translated; R method selection and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "metric.DTW"
+r_source = "upstream/R/metric.DTW.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["dtw_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.TWED"
+r_source = "upstream/R/metric.DTW.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["twed_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.WDTW"
+r_source = "upstream/R/metric.DTW.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["wdtw_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.dist"
+r_source = "upstream/R/metric.dist.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["ordinary_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.hausdorff"
+r_source = "upstream/R/metric.hausdorff.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["hausdorff_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.kl"
+r_source = "upstream/R/metric.kl.r"
+fortran_module = "fdausc_metrics"
+fortran_names = ["kl_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.ldata"
+r_source = "upstream/R/metric.ldata.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["combine_distance_matrices"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "partial"
+notes = "Component-distance combination is translated; component selection and R ldata/mfdata traversal remain outside the numeric API."
+
+[[extra.translation.function]]
+r_name = "metric.lp"
+r_source = "upstream/R/metric.lp.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["lp_distance_matrix"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "substantial"
+notes = "Pairwise distance computation translated for numeric arrays; fdata/ldata class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "metric.mfdata"
+r_source = "upstream/R/metric.ldata.R"
+fortran_module = "fdausc_metrics"
+fortran_names = ["combine_distance_matrices"]
+fortran_source = "src/fdausc_metrics.f90"
+status = "partial"
+notes = "Component-distance combination is translated; component selection and R ldata/mfdata traversal remain outside the numeric API."
+
+[[extra.translation.function]]
+r_name = "mfdata.cen"
+r_source = "upstream/R/ldata.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["center_curves"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "partial"
+notes = "Per-component centering kernel is translated; R list/mfdata traversal and metadata reconstruction are omitted."
+
+[[extra.translation.function]]
+r_name = "norm.fdata"
+r_source = "upstream/R/norm.fdata.r"
+fortran_module = "fdausc_integration"
+fortran_names = ["norm_curves"]
+fortran_source = "src/fdausc_integration.f90"
+status = "substantial"
+notes = "Numerical curve integration operation translated for arrays; fdata class handling and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "optim.basis"
+r_source = "upstream/R/optim.basis.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["select_basis_gcv"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "GCV selection among caller-supplied candidate smoother matrices is translated; R basis-family construction and optimizer orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "optim.np"
+r_source = "upstream/R/optim.np.r"
+fortran_module = "fdausc_regression"
+fortran_names = ["select_bandwidth_cv"]
+fortran_source = "src/fdausc_regression.f90"
+status = "partial"
+notes = "Numerical bandwidth-selection core is translated; R optimizer wrapper and function-valued metric/smoother dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "outliers.depth.pond"
+r_source = "upstream/R/outliers.depth.pond.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["depth_outlier_flags"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Depth-threshold outlier flagging core is translated for supplied depths and cutoff; R bootstrap threshold estimation, plotting, and fdata objects are omitted."
+
+[[extra.translation.function]]
+r_name = "outliers.depth.trim"
+r_source = "upstream/R/outliers.depth.trim.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["depth_outlier_flags"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Depth-threshold outlier flagging core is translated for supplied depths and cutoff; R bootstrap threshold estimation, plotting, and fdata objects are omitted."
+
+[[extra.translation.function]]
+r_name = "outliers.lrt"
+r_source = "upstream/R/outliers.lrt.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["lrt_outlier_statistic"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Likelihood-ratio-style curve discrepancy statistic is translated for supplied center/scale; R iterative trimming, threshold simulation, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "outliers.thres.lrt"
+r_source = "upstream/R/outliers.thres.lrt.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["lrt_outlier_statistic"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Likelihood-ratio-style curve discrepancy statistic is translated for supplied center/scale; R iterative trimming, threshold simulation, and plotting are omitted."
+
+[[extra.translation.function]]
+r_name = "pred.MAE"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["pred_mae"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Regression accuracy calculation translated for numeric vectors."
+
+[[extra.translation.function]]
+r_name = "pred.MSE"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["pred_mse"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Regression accuracy calculation translated for numeric vectors."
+
+[[extra.translation.function]]
+r_name = "pred.RMSE"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["pred_rmse"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Regression accuracy calculation translated for numeric vectors."
+
+[[extra.translation.function]]
+r_name = "pred2meas"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["prediction_measures"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Regression accuracy calculation translated for numeric vectors."
+
+[[extra.translation.function]]
+r_name = "pvalue.FDR"
+r_source = "upstream/R/FDR.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["fdr_adjusted_pvalue"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "FDR adjusted minimum p-value calculation translated."
+
+[[extra.translation.function]]
+r_name = "r.ou"
+r_source = "upstream/R/r.ou.R"
+fortran_module = "fdausc_simulation"
+fortran_names = ["simulate_ou_process"]
+fortran_source = "src/fdausc_simulation.f90"
+status = "substantial"
+notes = "Ornstein-Uhlenbeck simulation is translated; RNG streams are not intended to match R exactly."
+
+[[extra.translation.function]]
+r_name = "rcombfdata"
+r_source = "upstream/R/rcombfdata.R"
+fortran_module = "fdausc_simulation"
+fortran_names = ["random_basis_combinations"]
+fortran_source = "src/fdausc_simulation.f90"
+status = "substantial"
+notes = "Random linear combinations of supplied basis curves are translated; RNG streams and fdata metadata differ from R."
+
+[[extra.translation.function]]
+r_name = "rdir.pc"
+r_source = "upstream/R/rp.flm.test.R"
+fortran_modules = ["fdausc_models", "fdausc_simulation"]
+fortran_names = ["functional_pca", "random_basis_combinations"]
+fortran_sources = ["src/fdausc_models.f90", "src/fdausc_simulation.f90"]
+status = "partial"
+notes = "PC-basis construction and random combinations are translated; R-specific component-fraction selection and RNG parity are omitted."
+
+[[extra.translation.function]]
+r_name = "rp.flm.statistic"
+r_source = "upstream/R/rp.flm.test.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["rp_projection_statistics"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "complete"
+notes = "Projection-wise CvM and KS statistic kernel translated; projection order and residuals are supplied numerically."
+
+[[extra.translation.function]]
+r_name = "rp.flm.test"
+r_source = "upstream/R/rp.flm.test.R"
+fortran_modules = ["fdausc_statistics", "fdausc_simulation"]
+fortran_names = ["rp_projection_statistics", "wild_residuals"]
+fortran_sources = ["src/fdausc_statistics.f90", "src/fdausc_simulation.f90"]
+status = "partial"
+notes = "Test statistic and wild-bootstrap numerical kernels are translated; R projection generation, model fitting, resampling orchestration, and htest construction are omitted."
+
+[[extra.translation.function]]
+r_name = "rproc2fdata"
+r_source = "upstream/R/rproc2fdata.R"
+fortran_module = "fdausc_simulation"
+fortran_names = ["process_covariance", "simulate_gaussian_process"]
+fortran_source = "src/fdausc_simulation.f90"
+status = "substantial"
+notes = "Gaussian-process covariance families and simulation are translated; R covariance-function dispatch and exact RNG parity are omitted."
+
+[[extra.translation.function]]
+r_name = "rwild"
+r_source = "upstream/R/rwild.R"
+fortran_module = "fdausc_simulation"
+fortran_names = ["wild_residuals"]
+fortran_source = "src/fdausc_simulation.f90"
+status = "substantial"
+notes = "Wild-bootstrap multiplier generation is translated; RNG streams are not intended to match R exactly."
+
+[[extra.translation.function]]
+r_name = "semimetric.basis"
+r_source = "upstream/R/semimetric.basis.R"
+fortran_module = "fdausc_extended"
+fortran_names = ["basis_semimetric"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Basis-score semimetric is translated for caller-supplied basis values; fda basis object dispatch and automatic basis construction are omitted."
+
+[[extra.translation.function]]
+r_name = "semimetric.deriv"
+r_source = "upstream/R/semimetric.NPFDA.r"
+fortran_modules = ["fdausc_statistics", "fdausc_models"]
+fortran_names = ["difference_derivative", "derivative_distance"]
+fortran_sources = ["src/fdausc_statistics.f90", "src/fdausc_models.f90"]
+status = "substantial"
+notes = "Finite-difference derivative construction and derivative Lp distances are translated; spline derivative smoothing options are omitted."
+
+[[extra.translation.function]]
+r_name = "semimetric.fourier"
+r_source = "upstream/R/semimetric.NPFDA.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["fourier_semimetric"]
+fortran_source = "src/fdausc_extended.f90"
+status = "partial"
+notes = "Fourier projection/derivative semimetric is translated for a common grid; R basis-object construction and all edge conventions are omitted."
+
+[[extra.translation.function]]
+r_name = "semimetric.hshift"
+r_source = "upstream/R/semimetric.NPFDA.r"
+fortran_module = "fdausc_extended"
+fortran_names = ["horizontal_shift_distance_matrix"]
+fortran_source = "src/fdausc_extended.f90"
+status = "substantial"
+notes = "Horizontal-shift semimetric is translated for common-grid numeric curves; fdata object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "semimetric.mplsr"
+r_source = "upstream/R/semimetric.NPFDA.r"
+fortran_modules = ["fdausc_models"]
+fortran_names = ["functional_pls1", "pca_score_distance"]
+fortran_sources = ["src/fdausc_models.f90"]
+status = "partial"
+notes = "PLS score semimetric core is translated; the R penalized/multivariate PLS options are omitted."
+
+[[extra.translation.function]]
+r_name = "semimetric.pca"
+r_source = "upstream/R/semimetric.NPFDA.r"
+fortran_modules = ["fdausc_models"]
+fortran_names = ["functional_pca", "pca_score_distance"]
+fortran_sources = ["src/fdausc_models.f90"]
+status = "partial"
+notes = "PCA score semimetric is translated for numeric curves; fdata object and automatic q-selection behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "tab2meas"
+r_source = "upstream/R/accuracy.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["confusion_accuracy", "confusion_kappa", "confusion_iou", "confusion_iou_by_class", "confusion_recall", "confusion_precision", "confusion_f1"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Major confusion-matrix measures are translated; R aliases, cost conventions, and formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "trace.matrix"
+r_source = "upstream/R/fda.usc.internal.R"
+fortran_module = "fdausc_smoothing"
+fortran_names = ["matrix_trace"]
+fortran_source = "src/fdausc_smoothing.f90"
+status = "substantial"
+notes = "Core matrix criterion is translated; R dimnames and object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "weights4class"
+r_source = "upstream/R/weights4class.R"
+fortran_module = "fdausc_statistics"
+fortran_names = ["class_weights"]
+fortran_source = "src/fdausc_statistics.f90"
+status = "substantial"
+notes = "Class-frequency weighting is translated for integer class labels; R factor level metadata is omitted."
+
