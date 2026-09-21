@@ -1,0 +1,209 @@
+name = "pcapp"
+version = "2.0.5"
+license = "GPL-3.0-or-later"
+author = "pcaPP authors; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of pcaPP computational routines"
+categories = ["statistics", "robust-statistics", "principal-component-analysis"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "main.f90"
+
+[[test]]
+name = "algorithms"
+source-dir = "test/algorithms"
+main = "main.f90"
+
+[[example]]
+name = "robust_pca"
+source-dir = "example"
+main = "robust_pca.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 19
+r_functions_translated = 19
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "PCAgrid"
+r_source = "upstream/R/PCAgrid.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["pca_grid"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "The robust grid-search PCA computation is translated; R princomp/S3 construction, tracing, callback centers, and some high-dimensional acceleration controls are omitted."
+
+[[extra.translation.function]]
+r_name = "PCAproj"
+r_source = "upstream/R/PCAproj.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["pca_proj"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "Projection-pursuit candidate directions and sign refinement are translated; R object construction and R RNG compatibility are omitted."
+
+[[extra.translation.function]]
+r_name = "ScaleAdv"
+r_source = "upstream/R/ScaleAdv.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["scale_adv"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "Numeric centering and scaling are translated; arbitrary R function-valued center/scale callbacks are represented by method codes or explicit vectors."
+
+[[extra.translation.function]]
+r_name = "cor.fk"
+r_source = "upstream/R/cor.fk.R"
+fortran_module = "pcapp_api"
+fortran_names = ["cor_fk_vec_api", "cor_fk_mat_api"]
+fortran_source = "src/pcapp_api.f90"
+status = "substantial"
+notes = "Kendall tau-b with ties is translated for vector pairs and matrices using an independent O(n^2) implementation rather than the upstream O(n log n) native algorithm."
+
+[[extra.translation.function]]
+r_name = "covPC"
+r_source = "upstream/R/covPC.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["cov_pc"]
+fortran_source = "src/pcapp_pca.f90"
+status = "complete"
+notes = "The covariance reconstruction L diag(sdev**2) transpose(L) is translated directly for numeric PCA results."
+
+[[extra.translation.function]]
+r_name = "covPCAgrid"
+r_source = "upstream/R/covPC.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["cov_pca_grid"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "Robust PCAgrid fitting followed by covariance reconstruction is translated; R control-list and S3 behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "covPCAproj"
+r_source = "upstream/R/covPC.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["cov_pca_proj"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "Robust PCAproj fitting followed by covariance reconstruction is translated; R control-list and S3 behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "data.Zou"
+r_source = "upstream/R/data.Zou.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["data_zou"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "The latent-factor simulation and replicated-variable structure are translated; random streams use Fortran RANDOM_NUMBER rather than R RNG state."
+
+[[extra.translation.function]]
+r_name = "l1median"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "The spatial L1 median is translated using the numerical NLM-style solver; R vector special cases and warning/trace presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "l1median_BFGS"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_bfgs"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "A BFGS optimizer for the spatial-median objective is translated; status codes and line-search details are Fortran-native rather than identical to R/native optimizer internals."
+
+[[extra.translation.function]]
+r_name = "l1median_CG"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_cg"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "Nonlinear conjugate-gradient minimization of the spatial-median objective is translated; R optimizer status/trace behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "l1median_HoCr"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_hocr"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "The HoCr weighted update and step-halving spatial-median iteration are translated; timing and R warning behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "l1median_NLM"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_nlm"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "A damped Newton/NLM-style spatial-median optimization is translated; it does not reproduce R nlm control/status semantics exactly."
+
+[[extra.translation.function]]
+r_name = "l1median_NM"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_nm"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "Nelder-Mead optimization of the spatial-median objective is translated; R optimizer bookkeeping and trace output are omitted."
+
+[[extra.translation.function]]
+r_name = "l1median_VaZh"
+r_source = "upstream/R/l1median.R"
+fortran_module = "pcapp_l1median"
+fortran_names = ["l1median_vazh"]
+fortran_source = "src/pcapp_l1median.f90"
+status = "substantial"
+notes = "The modified Vardi-Zhang/Weiszfeld spatial-median iteration is translated, including handling of coincident observations; R warning/timing behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "opt.BIC"
+r_source = "upstream/R/opt.TPO.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["opt_bic"]
+fortran_source = "src/pcapp_pca.f90"
+status = "partial"
+notes = "The sparse-PCA penalty-grid scan and BIC-style numerical criterion are translated; R object/control orchestration and plotting methods are omitted."
+
+[[extra.translation.function]]
+r_name = "opt.TPO"
+r_source = "upstream/R/opt.TPO.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["opt_tpo"]
+fortran_source = "src/pcapp_pca.f90"
+status = "partial"
+notes = "The sparse-PCA penalty-grid scan and TPO-style numerical criterion are translated; R object/control orchestration and plotting methods are omitted."
+
+[[extra.translation.function]]
+r_name = "qn"
+r_source = "upstream/R/qn.R"
+fortran_module = "pcapp_api"
+fortran_names = ["qn"]
+fortran_source = "src/pcapp_api.f90"
+status = "substantial"
+notes = "Qn uses the pcaPP normalization and finite-sample corrections; pairwise distances are explicitly formed rather than using the upstream specialized selection algorithm."
+
+[[extra.translation.function]]
+r_name = "sPCAgrid"
+r_source = "upstream/R/PCAgrid.R"
+fortran_module = "pcapp_pca"
+fortran_names = ["spca_grid"]
+fortran_source = "src/pcapp_pca.f90"
+status = "substantial"
+notes = "The robust grid search with the sparse loading penalty is translated; R S3 construction and several advanced control/high-dimensional options are omitted."
