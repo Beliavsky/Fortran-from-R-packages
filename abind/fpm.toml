@@ -1,0 +1,82 @@
+name = "abind"
+version = "1.4.8"
+license = "MIT"
+author = "Tony Plate, Richard Heiberger; Fortran translation by OpenAI"
+maintainer = "Fortran-from-R-packages maintainers"
+description = "Modern Fortran translation of the computational array-manipulation code in the R package abind"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "test_unit.f90"
+
+[[test]]
+name = "metadata"
+source-dir = "test/metadata"
+main = "test_metadata.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example/basic"
+main = "main.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 5
+r_functions_translated = 5
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "abind"
+r_source = "upstream/R/abind.R"
+fortran_module = "abind_core"
+fortran_names = ["abind_arrays"]
+fortran_source = "src/abind_core.f90"
+status = "substantial"
+notes = "Arbitrary-rank numeric array binding, along/rev.along dimension insertion, dimension labels, hierarchical join labels, first/last non-join labels, and optional dimension-name propagation are translated. R S3/list/data-frame coercion, force.array=FALSE cbind/rbind return types, expression-derived make.names, and new.names replacement are omitted."
+
+[[extra.translation.function]]
+r_name = "asub"
+r_source = "upstream/R/asub.R"
+fortran_module = "abind_core"
+fortran_names = ["asub_array"]
+fortran_source = "src/abind_core.f90"
+status = "substantial"
+notes = "Arbitrary-rank subsetting on selected dimensions, NULL-like full selectors, drop behavior, and dimension-label propagation are translated. The Fortran API accepts resolved integer selectors rather than arbitrary R index expressions; helper routines convert labels and logical masks to positions."
+
+[[extra.translation.function]]
+r_name = "afill<-"
+r_source = "upstream/R/afill.R"
+fortran_module = "abind_core"
+fortran_names = ["afill_array"]
+fortran_source = "src/abind_core.f90"
+status = "substantial"
+notes = "Name-driven RHS dimension matching, excess.ok handling, explicit-dimension replication, and in-place numeric assignment are translated. R replacement-function syntax, unevaluated missing arguments, negative/logical/character LHS expressions, and local=FALSE caller-environment mutation are omitted from the Fortran interface."
+
+[[extra.translation.function]]
+r_name = "adrop"
+r_source = "upstream/R/adrop.R"
+fortran_module = "abind_core"
+fortran_names = ["adrop_array"]
+fortran_source = "src/abind_core.f90"
+status = "substantial"
+notes = "Explicit singleton-dimension dropping and label retention are translated. ARRAY_VALUE always carries explicit rank metadata, so R's distinction between a named vector and a one-dimensional array is represented only through retained label metadata rather than a different language-level object type."
+
+[[extra.translation.function]]
+r_name = "acorn"
+r_source = "upstream/R/acorn.R"
+fortran_module = "abind_core"
+fortran_names = ["acorn_array"]
+fortran_source = "src/abind_core.f90"
+status = "substantial"
+notes = "Leading/trailing slices on arbitrary dimensions and optional synthetic [i] labels are translated through the general subsetting engine. The Fortran API uses a signed counts vector instead of separate n, m, r, and ... arguments."
