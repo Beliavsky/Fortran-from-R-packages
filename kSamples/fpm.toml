@@ -1,0 +1,163 @@
+name = "ksamples"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fritz Scholz and Angie Zhu (upstream); Fortran translation contributors"
+copyright = "Upstream kSamples authors and contributors"
+description = "Modern Fortran translation of the computational core of the R package kSamples"
+keywords = ["statistics", "rank-tests", "anderson-darling", "jonckheere-terpstra", "steel-test"]
+
+[library]
+source-dir = "src"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+suppdists-fortran = { path = "../SuppDists" }
+
+[[test]]
+name = "basic"
+source-dir = "test/basic"
+main = "main.f90"
+
+[[test]]
+name = "exact"
+source-dir = "test/exact"
+main = "main.f90"
+
+[[example]]
+name = "rank-tests"
+source-dir = "example"
+main = "main.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 14
+r_functions_translated = 14
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "ad.pval"
+r_source = "upstream/R/ad.pval.R"
+fortran_module = "ksamples_ad"
+fortran_names = ["ad_pval"]
+fortran_source = "src/ksamples_ad.f90"
+status = "partial"
+notes = "The Scholz-Stephens quantile tables and both statistic versions are translated. The two R smooth.spline interpolation stages are replaced by deterministic linear interpolation in 1/sqrt(m) and logit probability."
+
+[[extra.translation.function]]
+r_name = "ad.test"
+r_source = "upstream/R/ad.test.R"
+fortran_module = "ksamples_ad"
+fortran_names = ["ad_test"]
+fortran_source = "src/ksamples_ad.f90"
+status = "substantial"
+notes = "Both Anderson-Darling statistics, tie-aware standardization, asymptotic approximation, exact enumeration, simulation, and optional null distributions are translated. R list/formula dispatch, NA removal, warnings, and S3 object construction are omitted; asymptotic p-values inherit ad_pval interpolation differences."
+
+[[extra.translation.function]]
+r_name = "ad.test.combined"
+r_source = "upstream/R/ad.test.combined.R"
+fortran_module = "ksamples_ad"
+fortran_names = ["ad_test_combined"]
+fortran_source = "src/ksamples_ad.f90"
+status = "substantial"
+notes = "Independent block statistics, asymptotic combination, exact product enumeration, simulation, and optional null distributions are translated. R list normalization, NA handling, printing, and S3 object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "contingency2xt"
+r_source = "upstream/R/contingency2xt.R"
+fortran_module = "ksamples_contingency"
+fortran_names = ["contingency2xt"]
+fortran_source = "src/ksamples_contingency.f90"
+status = "substantial"
+notes = "The Kruskal-Wallis criterion, asymptotic chi-square probability, exact conditional composition distribution, simulation, and optional tabulated null distribution are translated. R object construction and presentation behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "contingency2xt.comb"
+r_source = "upstream/R/contingency2xt.comb.R"
+fortran_module = "ksamples_contingency"
+fortran_names = ["contingency2xt_comb"]
+fortran_source = "src/ksamples_contingency.f90"
+status = "substantial"
+notes = "Blocked summation with asymptotic, exact convolution, and simulated null distributions is translated. R list dispatch and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "conv"
+r_source = "upstream/R/conv.R"
+fortran_module = "ksamples"
+fortran_names = ["conv"]
+fortran_source = "src/ksamples.f90"
+status = "complete"
+notes = "Discrete probability-mass convolution is translated directly, with support values merged at the same 1e-8 working precision used by the translated exact-combination machinery."
+
+[[extra.translation.function]]
+r_name = "qn.test"
+r_source = "upstream/R/qn.test.R"
+fortran_module = "ksamples_qn"
+fortran_names = ["qn_test"]
+fortran_source = "src/ksamples_qn.f90"
+status = "substantial"
+notes = "KW, van der Waerden, and normal-score variants, tie-score averaging, asymptotic chi-square probabilities, exact enumeration, simulation, and optional null distributions are translated. Normal scores reuse SuppDists; R dispatch, NA removal, warnings, and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "qn.test.combined"
+r_source = "upstream/R/qn.test.combined.R"
+fortran_module = "ksamples_qn"
+fortran_names = ["qn_test_combined"]
+fortran_source = "src/ksamples_qn.f90"
+status = "substantial"
+notes = "Independent-block QN statistics and asymptotic, exact-convolution, and simulated combination paths are translated for all supported score types. R list normalization, NA handling, and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "Steel.test"
+r_source = "upstream/R/Steel.test.R"
+fortran_module = "ksamples_steel"
+fortran_names = ["steel_test"]
+fortran_source = "src/ksamples_steel.f90"
+status = "substantial"
+notes = "Greater, less, and two-sided Steel statistics, tie-conditioned variance parameters, continuity-corrected multivariate-normal integration, exact enumeration, simulation, and adjusted p-values are translated. R dispatch, NA removal, warnings, RNG identity, and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "SteelConfInt"
+r_source = "upstream/R/SteelConfInt.R"
+fortran_module = "ksamples_steel"
+fortran_names = ["steel_confint"]
+fortran_source = "src/ksamples_steel.f90"
+status = "partial"
+notes = "The simultaneous asymptotic Steel confidence-bound inversion and conservative/closest integer calibration are translated. The R routine's exact/simulated confidence-level refinement is not yet translated; a requested non-asymptotic method currently returns the asymptotic calibration."
+
+[[extra.translation.function]]
+r_name = "djt"
+r_source = "upstream/R/djt.R"
+fortran_module = "ksamples_jt"
+fortran_names = ["djt"]
+fortran_source = "src/ksamples_jt.f90"
+status = "complete"
+notes = "The Harding exact Jonckheere-Terpstra probability mass calculation and off-support zero behavior are translated."
+
+[[extra.translation.function]]
+r_name = "pjt"
+r_source = "upstream/R/pjt.R"
+fortran_module = "ksamples_jt"
+fortran_names = ["pjt"]
+fortran_source = "src/ksamples_jt.f90"
+status = "complete"
+notes = "The Harding exact Jonckheere-Terpstra cumulative distribution with floor semantics is translated."
+
+[[extra.translation.function]]
+r_name = "qjt"
+r_source = "upstream/R/qjt.R"
+fortran_module = "ksamples_jt"
+fortran_names = ["qjt"]
+fortran_source = "src/ksamples_jt.f90"
+status = "substantial"
+notes = "The exact Jonckheere-Terpstra inverse CDF is translated, including negative infinity at nonpositive probabilities and NaN for probabilities above one. R vector attributes and diagnostics are omitted."
+
+[[extra.translation.function]]
+r_name = "jt.test"
+r_source = "upstream/R/jt.test.R"
+fortran_module = "ksamples_jt"
+fortran_names = ["jt_test"]
+fortran_source = "src/ksamples_jt.f90"
+status = "substantial"
+notes = "The trend statistic, tie-corrected mean/variance, asymptotic upper-tail probability, exact enumeration, simulation, and optional null distribution are translated. R dispatch, NA removal, warnings, RNG identity, and S3 output are omitted."

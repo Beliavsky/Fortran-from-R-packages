@@ -1,0 +1,12 @@
+useDynLib("kSamples", .registration = TRUE)
+
+export(ad.pval,ad.test,ad.test.combined,contingency2xt,contingency2xt.comb)
+export(conv,pp.kSamples,qn.test,qn.test.combined)
+export(Steel.test,SteelConfInt,djt,pjt,qjt,jt.test)
+S3method(print,kSamples)
+importFrom("SuppDists","normOrder")
+importFrom("graphics","abline","par","plot","text")
+importFrom("methods","is")
+importFrom("stats","dnorm","integrate","model.response","pchisq",
+   "pnorm","predict","qnorm","smooth.spline","uniroot","var")
+
