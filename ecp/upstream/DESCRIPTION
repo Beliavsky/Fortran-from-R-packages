@@ -1,0 +1,39 @@
+Package: ecp
+Type: Package
+Title: Non-Parametric Multiple Change-Point Analysis of Multivariate
+        Data
+Version: 3.1.6
+Date: 2024-8-25
+Authors@R: c(person(given = c("Nicholas", "A."),
+                    family = "James",
+                    role = "aut"),
+             person(given = "Wenyu",
+                    family = "Zhang",
+                    role = c("aut", "cre"),
+                    email = "wz258@cornell.edu"),
+             person(given = c("David", "S."),
+                    family = "Matteson",
+                    role = "aut"))
+Maintainer: Wenyu Zhang <wz258@cornell.edu>
+Description: Implements various procedures for finding 
+	     multiple change-points from Matteson D. et al (2013)
+	     <doi:10.1080/01621459.2013.849605>, Zhang W. et al (2017) 
+	     <doi:10.1109/ICDMW.2017.44>, Arlot S. et al (2019).
+	     Two methods make use of dynamic  
+	     programming and pruning, with no distributional 
+	     assumptions other than the existence of certain absolute 
+	     moments in one method. Hierarchical and exact search methods 
+	     are included. All methods return the set of estimated change-
+	     points as well as other summary information.
+License: GPL (>= 2)
+Depends: R (>= 3.00), Rcpp
+Suggests: mvtnorm, MASS, combinat, R.rsp
+LinkingTo: Rcpp
+NeedsCompilation: yes
+Repository: CRAN
+VignetteBuilder: R.rsp
+Packaged: 2024-08-25 17:13:46 UTC; wenyuzhang
+Author: Nicholas A. James [aut],
+  Wenyu Zhang [aut, cre],
+  David S. Matteson [aut]
+Date/Publication: 2024-08-26 05:50:02 UTC

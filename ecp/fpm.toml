@@ -1,0 +1,124 @@
+name = "ecp"
+version = "3.1.6"
+license = "GPL-2.0-or-later"
+author = "Nicholas A. James, Wenyu Zhang, David S. Matteson; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of ecp nonparametric change-point algorithms"
+categories = ["statistics", "change-point-analysis", "energy-statistics"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "main.f90"
+
+[[test]]
+name = "algorithms"
+source-dir = "test/algorithms"
+main = "main.f90"
+
+[[test]]
+name = "cp3o_parity"
+source-dir = "test/cp3o_parity"
+main = "main.f90"
+
+[[example]]
+name = "change_points"
+source-dir = "example"
+main = "change_points.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 9
+r_functions_translated = 9
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "e.agglo"
+r_source = "upstream/R/e_agglomerative.R"
+fortran_module = "ecp_agglo"
+fortran_names = ["e_agglo"]
+fortran_source = "src/ecp_agglo.f90"
+status = "substantial"
+notes = "The cyclic energy-distance agglomerative merge and progression calculations are translated; arbitrary R penalty closures are replaced by an optional stage-penalty vector, and R list/timing presentation is omitted."
+
+[[extra.translation.function]]
+r_name = "e.divisive"
+r_source = "upstream/R/e_divisive.R"
+fortran_module = "ecp_divisive"
+fortran_names = ["e_divisive"]
+fortran_source = "src/ecp_divisive.f90"
+status = "substantial"
+notes = "Divisive energy splitting, fixed-k fitting, within-segment permutation testing, p-values, discovery order, and clusters are translated; R environment caching and R RNG compatibility are omitted."
+
+[[extra.translation.function]]
+r_name = "getBetween"
+r_source = "upstream/R/energyChangePoint.R"
+fortran_module = "ecp_energy"
+fortran_names = ["get_between"]
+fortran_source = "src/ecp_energy.f90"
+status = "complete"
+notes = "The exported numerical operation 2 times the mean alpha-powered Euclidean distance between samples is translated directly."
+
+[[extra.translation.function]]
+r_name = "getWithin"
+r_source = "upstream/R/energyChangePoint.R"
+fortran_module = "ecp_energy"
+fortran_names = ["get_within"]
+fortran_source = "src/ecp_energy.f90"
+status = "complete"
+notes = "The exported mean alpha-powered Euclidean distance over all ordered within-sample pairs is translated directly."
+
+[[extra.translation.function]]
+r_name = "e.cp3o"
+r_source = "upstream/R/cp3o.R"
+fortran_module = "ecp_cp3o"
+fortran_names = ["e_cp3o"]
+fortran_source = "src/ecp_cp3o.f90"
+status = "substantial"
+notes = "The CP3O energy objective, dynamic-programming recurrence, upstream-style candidate pruning, GOF sequence, stopping rule, and path reconstruction are translated. Pairwise-distance prefix sums make each energy candidate statistic O(1) after preprocessing; prune=.false. retains an exhaustive verification path. Verbose output and timing are omitted."
+
+[[extra.translation.function]]
+r_name = "e.cp3o_delta"
+r_source = "upstream/R/cp3o.R"
+fortran_module = "ecp_cp3o"
+fortran_names = ["e_cp3o_delta"]
+fortran_source = "src/ecp_cp3o.f90"
+status = "substantial"
+notes = "The documented windowed energy approximation, CP3O dynamic programming, and candidate pruning are translated. Prefix sums evaluate complete-window and adjacent-tail terms in O(1) per candidate; prune=.false. retains an exhaustive verification path rather than reproducing the upstream incremental C++ bookkeeping."
+
+[[extra.translation.function]]
+r_name = "ks.cp3o"
+r_source = "upstream/R/cp3o.R"
+fortran_module = "ecp_cp3o"
+fortran_names = ["ks_cp3o"]
+fortran_source = "src/ecp_cp3o.f90"
+status = "substantial"
+notes = "The scalar two-sample KS CP3O objective, dynamic programming, candidate pruning, and cached pruning statistics are translated; prune=.false. exposes the exhaustive reference path. For multivariate input, Fortran uses the maximum marginal statistic instead of the upstream native code's matrix linear-index behavior."
+
+[[extra.translation.function]]
+r_name = "ks.cp3o_delta"
+r_source = "upstream/R/cp3o.R"
+fortran_module = "ecp_cp3o"
+fortran_names = ["ks_cp3o_delta"]
+fortran_source = "src/ecp_cp3o.f90"
+status = "substantial"
+notes = "Windowed KS CP3O is translated with the minimum segment size as the comparison window, upstream-style candidate pruning, and cached candidate statistics; prune=.false. exposes the exhaustive reference path. Multivariate data use the maximum marginal KS statistic."
+
+[[extra.translation.function]]
+r_name = "kcpa"
+r_source = "upstream/R/kernelCPA.R"
+fortran_module = "ecp_kernel"
+fortran_names = ["kcpa"]
+fortran_source = "src/ecp_kernel.f90"
+status = "substantial"
+notes = "Gaussian-kernel segment costs, dynamic programming, penalty selection, and boundary reconstruction are translated. Kernel block-prefix sums reduce segment-cost construction from quartic to quadratic time. Bandwidth estimation is deterministic by default using all rows; optional bandwidth_rows lets callers supply the same 1-based subset as an upstream sample."
