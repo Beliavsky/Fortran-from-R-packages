@@ -1,0 +1,8 @@
+useDynLib(geigen, .registration=TRUE, .fixes="F_")
+S3method(gevalues,xdgges)
+S3method(gevalues,xzgges)
+S3method(print,xdgges)
+S3method(print,xzgges)
+export(geigen,gqz,gevalues)
+export(gsvd)
+export(gsvd.R,gsvd.oR,gsvd.D1,gsvd.D2)

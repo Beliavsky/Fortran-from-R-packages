@@ -1,0 +1,109 @@
+name = "geigen"
+version = "2.4.0"
+license = "GPL-2.0-or-later"
+author = "Berend Hasselman; Jonathan M. Lees; LAPACK authors; Fortran translation contributors"
+maintainer = "Jonathan M. Lees <jonathan.lees@unc.edu>"
+copyright = "See LICENSE, NOTICE.md, NOTICE_UPSTREAM.txt, and LICENSES/LAPACK_LICENSE.txt"
+description = "Modern Fortran translation of the computational API of the R package geigen"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/Beliavsky/fortran-lapack.git" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 9
+r_functions_translated = 9
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "geigen"
+r_source = "upstream/R/geigen.R"
+fortran_module = "geigen_api"
+fortran_names = ["geigen"]
+fortran_source = "src/geigen_api.f90"
+status = "substantial"
+notes = "Real and complex generalized eigensystems, including symmetric/Hermitian definite paths, are translated; R matrix coercion, list construction, and errors are represented by typed inputs/results and status codes."
+
+[[extra.translation.function]]
+r_name = "gqz"
+r_source = "upstream/R/gqz.R"
+fortran_module = "geigen_api"
+fortran_names = ["gqz"]
+fortran_source = "src/geigen_api.f90"
+status = "substantial"
+notes = "Real and complex generalized Schur decompositions and upstream ordering codes are translated; R S3 result classes are replaced by a derived type."
+
+[[extra.translation.function]]
+r_name = "gevalues.xdgges"
+r_source = "upstream/R/gqz.R"
+fortran_module = "geigen_api"
+fortran_names = ["gevalues"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Generalized eigenvalues are returned from the typed generalized-Schur result using the translated stable alpha/beta ratios."
+
+[[extra.translation.function]]
+r_name = "gevalues.xzgges"
+r_source = "upstream/R/gqz.R"
+fortran_module = "geigen_api"
+fortran_names = ["gevalues"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Complex generalized eigenvalues are returned from the typed generalized-Schur result using the translated stable alpha/beta ratios."
+
+[[extra.translation.function]]
+r_name = "gsvd"
+r_source = "upstream/R/gsvd.R"
+fortran_module = "geigen_api"
+fortran_names = ["gsvd"]
+fortran_source = "src/geigen_api.f90"
+status = "substantial"
+notes = "Real and complex GSVD identities are translated with supported fortran-lapack primitives (GESVD, SYEV/HEEV, GERQF, ORMRQ/UNMRQ) because the dependency does not export GGSVD3; R S3 storage layout is replaced by an explicit result type."
+
+[[extra.translation.function]]
+r_name = "gsvd.R"
+r_source = "upstream/R/gsvd.R"
+fortran_module = "geigen_api"
+fortran_names = ["gsvd_r"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Returns the common upper-triangular R factor directly from the translated GSVD result."
+
+[[extra.translation.function]]
+r_name = "gsvd.oR"
+r_source = "upstream/R/gsvd.R"
+fortran_module = "geigen_api"
+fortran_names = ["gsvd_or"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Constructs the upstream [0 R] factor with the same dimensions as the GSVD identities."
+
+[[extra.translation.function]]
+r_name = "gsvd.D1"
+r_source = "upstream/R/gsvd.R"
+fortran_module = "geigen_api"
+fortran_names = ["gsvd_d1"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Constructs the first GSVD diagonal/block factor from alpha and the translated rank partition."
+
+[[extra.translation.function]]
+r_name = "gsvd.D2"
+r_source = "upstream/R/gsvd.R"
+fortran_module = "geigen_api"
+fortran_names = ["gsvd_d2"]
+fortran_source = "src/geigen_api.f90"
+status = "complete"
+notes = "Constructs the second GSVD diagonal/block factor from beta and the translated rank partition."

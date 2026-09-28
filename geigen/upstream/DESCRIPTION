@@ -1,0 +1,28 @@
+Package: geigen
+Version: 2.4
+Title: Calculate Generalized Eigenvalues, the Generalized Schur
+        Decomposition and the Generalized Singular Value Decomposition
+        of a Matrix Pair with Lapack
+Date: 2026-07-20
+Depends: R (>= 3.5.0)
+Authors@R: c(
+    person("Berend", "Hasselman", role = c("aut"),
+           email = "bhh@xs4all.nl"),
+    person("Jonathan M. ", "Lees", role = c("cre"),
+           email = "jonathan.lees@unc.edu"),
+    person("Lapack authors", role = c("aut", "cph")))
+Author: Berend Hasselman [aut],
+  Jonathan M. Lees [cre],
+  Lapack authors [aut, cph]
+Maintainer: Jonathan M. Lees <jonathan.lees@unc.edu>
+Description: Functions to compute generalized eigenvalues and eigenvectors,
+             the generalized Schur decomposition and
+             the generalized Singular Value Decomposition of a matrix pair,
+             using Lapack routines.
+License: GPL (>= 2)
+Encoding: UTF-8
+Copyright: see inst/COPYRIGHTS for the files in src/.
+NeedsCompilation: yes
+Packaged: 2026-07-21 10:10:50 UTC; lees
+Repository: CRAN
+Date/Publication: 2026-07-22 05:50:06 UTC
