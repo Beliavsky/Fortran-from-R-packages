@@ -1,0 +1,24 @@
+useDynLib(QZ)
+import(methods)
+import(Matrix)
+
+### S3 functions
+exportPattern("^qz\\.[[:alpha:]]+")
+exportPattern("^[[:alpha:]]+")
+
+### S3 methods
+S3method(print, zgees)
+S3method(print, zgeev)
+S3method(print, ztrsen)
+
+S3method(print, zgges)
+S3method(print, zggev)
+S3method(print, ztgsen)
+
+S3method(print, dgees)
+S3method(print, dgeev)
+S3method(print, dtrsen)
+
+S3method(print, dgges)
+S3method(print, dggev)
+S3method(print, dtgsen)

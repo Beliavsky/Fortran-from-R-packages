@@ -1,0 +1,26 @@
+Package: QZ
+Version: 0.2-4
+Date: 2025-04-12
+Title: Generalized Eigenvalues and QZ Decomposition
+Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email=
+    "wccsnow@gmail.com"), person("LAPACK authors", role = c("aut", "cph")))
+Depends: R (>= 3.6.0), methods, Matrix
+Suggests: fda
+LazyLoad: yes
+LazyData: yes
+Copyright: See QZ/inst/LAPACK_LICENSE.txt for the files in src/qz/.
+Description: Generalized eigenvalues and eigenvectors
+        use QZ decomposition (generalized Schur decomposition).
+        The decomposition needs an N-by-N non-symmetric
+        matrix A or paired matrices (A,B) with eigenvalues reordering
+        mechanism. The decomposition functions are mainly based Fortran
+        subroutines in complex*16 and double precision of LAPACK
+        library (version 3.10.0 or later).
+License: Mozilla Public License 2.0
+NeedsCompilation: yes
+Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
+Packaged: 2025-04-13 00:19:15 UTC; snoweye
+Author: Wei-Chen Chen [aut, cre],
+  LAPACK authors [aut, cph]
+Repository: CRAN
+Date/Publication: 2025-04-13 04:40:02 UTC

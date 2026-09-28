@@ -1,0 +1,190 @@
+name = "qz"
+version = "0.2.4"
+license = "MPL-2.0"
+author = "Wei-Chen Chen; LAPACK authors; Fortran translation contributors"
+maintainer = "Wei-Chen Chen <wccsnow@gmail.com>"
+copyright = "See LICENSE, NOTICE.md, and LICENSES/LAPACK_LICENSE.txt"
+description = "Modern Fortran translation of the computational API of the R package QZ"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+fortran-lapack = { git = "https://github.com/Beliavsky/fortran-lapack.git" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 18
+r_functions_translated = 18
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "qz.dgees"
+r_source = "upstream/R/qz_dgees.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dgees"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real Schur decomposition is translated through the explicit GEE(S) interface in fortran-lapack; R list/class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "qz.dgeev"
+r_source = "upstream/R/qz_dgeev.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dgeev"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real nonsymmetric eigendecomposition is translated, including reconstruction of complex eigenvectors from LAPACK packed real storage."
+
+[[extra.translation.function]]
+r_name = "qz.dgges"
+r_source = "upstream/R/qz_dgges.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dgges"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real generalized Schur decomposition is translated through fortran-lapack; R S3 result construction is omitted."
+
+[[extra.translation.function]]
+r_name = "qz.dggev"
+r_source = "upstream/R/qz_dggev.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dggev"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real generalized eigendecomposition is translated, including ALPHA/BETA factors and complex eigenvector reconstruction."
+
+[[extra.translation.function]]
+r_name = "qz.dtgsen"
+r_source = "upstream/R/qz_dtgsen.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dtgsen"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real generalized Schur reordering and condition estimates are translated through TGSEN."
+
+[[extra.translation.function]]
+r_name = "qz.dtrsen"
+r_source = "upstream/R/qz_dtrsen.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_dtrsen"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Real Schur reordering and condition estimates are translated through TRSEN."
+
+[[extra.translation.function]]
+r_name = "qz.zgees"
+r_source = "upstream/R/qz_zgees.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_zgees"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex Schur decomposition is translated through fortran-lapack; R list/class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "qz.zgeev"
+r_source = "upstream/R/qz_zgeev.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_zgeev"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex nonsymmetric eigendecomposition is translated through the explicit GEEV interface."
+
+[[extra.translation.function]]
+r_name = "qz.zgges"
+r_source = "upstream/R/qz_zgges.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_zgges"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex generalized Schur decomposition is translated through fortran-lapack."
+
+[[extra.translation.function]]
+r_name = "qz.zggev"
+r_source = "upstream/R/qz_zggev.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_zggev"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex generalized eigendecomposition is translated, including ALPHA/BETA factors and left/right eigenvectors."
+
+[[extra.translation.function]]
+r_name = "qz.ztgsen"
+r_source = "upstream/R/qz_ztgsen.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_ztgsen"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex generalized Schur reordering and condition estimates are translated through TGSEN."
+
+[[extra.translation.function]]
+r_name = "qz.ztrsen"
+r_source = "upstream/R/qz_ztrsen.r"
+fortran_module = "qz_lapack"
+fortran_names = ["qz_ztrsen"]
+fortran_source = "src/qz_lapack.f90"
+status = "complete"
+notes = "Complex Schur reordering and condition estimates are translated through TRSEN."
+
+[[extra.translation.function]]
+r_name = "fda.geigen"
+r_source = "upstream/R/s3_fda_geigen.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["fda_geigen"]
+fortran_source = "src/qz_highlevel.f90"
+status = "substantial"
+notes = "The augmented generalized-eigenproblem and B/C normalization are translated; R errors and object conventions are represented by status codes and derived types."
+
+[[extra.translation.function]]
+r_name = "ordqz"
+r_source = "upstream/R/s3_ordqz.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["ordqz"]
+fortran_source = "src/qz_highlevel.f90"
+status = "substantial"
+notes = "Keyword and explicit-cluster Schur/QZ ordering are translated for real/complex standard/generalized problems; R S3 dispatch is replaced by Fortran generics."
+
+[[extra.translation.function]]
+r_name = "qz"
+r_source = "upstream/R/s3_qz.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["qz_decompose"]
+fortran_source = "src/qz_highlevel.f90"
+status = "substantial"
+notes = "Real/complex standard/generalized Schur dispatch and optional reordering are translated with Fortran generic resolution instead of R type dispatch."
+
+[[extra.translation.function]]
+r_name = "qz.geigen"
+r_source = "upstream/R/s3_qz_geigen.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["qz_geigen"]
+fortran_source = "src/qz_highlevel.f90"
+status = "substantial"
+notes = "Real/complex standard/generalized eigensystem dispatch is translated with Fortran generics; R S3 list classes are omitted."
+
+[[extra.translation.function]]
+r_name = "geigen"
+r_source = "upstream/R/s3_qz_geigen.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["geigen"]
+fortran_source = "src/qz_highlevel.f90"
+status = "complete"
+notes = "Public generic alias of qz_geigen, matching the upstream geigen alias computational behavior."
+
+[[extra.translation.function]]
+r_name = "H"
+r_source = "upstream/R/transpose.r"
+fortran_module = "qz_highlevel"
+fortran_names = ["h_transpose"]
+fortran_source = "src/qz_highlevel.f90"
+status = "complete"
+notes = "Hermitian transpose is translated directly as conjugate-transpose."
