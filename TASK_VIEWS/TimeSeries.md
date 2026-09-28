@@ -2,11 +2,11 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Time Series Analysis](https://CRAN.R-project.org/view=TimeSeries),
-maintained by Rob J Hyndman and Rebecca Killick, version 2026-09-21. The
+maintained by Rob J Hyndman and Rebecca Killick, version 2026-09-22. The
 [source task view](https://github.com/cran-task-views/TimeSeries/blob/main/TimeSeries.md)
 provides the broader annotated guide to R packages.
 
-This page includes 39 translated packages from this repository. Its summaries
+This page includes 40 translated packages from this repository. Its summaries
 are original descriptions of the high-level computational capabilities present
 in the Fortran translations, rather than copies of the CRAN annotations.
 Plotting, interactive displays, R time-series classes, and other untranslated
@@ -38,6 +38,8 @@ each package's documentation for validation status and precise API coverage.
 
 ## Forecasting and univariate modeling
 
+- [`ftsa`](../ftsa/) provides functional time-series summaries, principal
+  components, forecasting, dependence measures, and forecast-error metrics.
 - [`imputeTS`](../imputeTS/) imputes missing time-series values using
   interpolation, smoothing, seasonal methods, and model-based estimation.
 - [`fracdiff`](../fracdiff/) estimates, simulates, differences, and forecasts

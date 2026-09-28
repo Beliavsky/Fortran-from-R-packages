@@ -2,7 +2,7 @@
 
 This repository collects experimental modern Fortran translations and
 ports by ChatGPT on High mode (Extra High starting 2026-08-29) of
-computational code in 552 package directories derived from R packages.
+computational code in 566 package directories derived from R packages.
 Each subdirectory is an independent Fortran Package Manager (fpm)
 project with its own documentation, tests, provenance record, and
 license.
@@ -213,6 +213,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`bvls`](bvls/) | Solves bounded-variable least-squares problems with the Stark-Parker algorithm. | `1.4` · `GPL-2.0-or-later` |
 | [`bzinb`](bzinb/) | Estimates bivariate zero-inflated negative-binomial models. | `1.0.8` · `GPL-2.0-only` |
 | [`calibrar`](calibrar/) | Automates parameter estimation for complex models. | `0.9.0` · `GPL-2.0-only` |
+| [`car`](car/) | Provides regression diagnostics, power transformations, hypothesis tests, and robust covariance calculations. | `3.1-5` · `GPL-2.0-or-later` |
 | [`caRamel`](caRamel/) | Performs multi-objective evolutionary optimization. | `1.5` · `GPL-3.0-only` |
 | [`cbinom`](cbinom/) | Provides the continuous analogue of the binomial distribution. | `1.6` · `GPL-2.0-or-later` |
 | [`cccp`](cccp/) | Solves cone-constrained convex optimization problems. | `0.3-3` · `GPL-3.0-or-later` |
@@ -326,6 +327,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`fracdiff`](fracdiff/) | Estimates, simulates, and analyzes fractionally differenced time-series models. | `1.5-4` · `GPL-2.0-or-later` |
 | [`frapo`](frapo/) | Provides financial risk modelling and portfolio optimization methods. | `0.4-2` · `GPL-3.0-or-later` |
 | [`frbinom`](frbinom/) | Provides fractional binomial distributions. | `1.0.0` · `MIT` |
+| [`ftsa`](ftsa/) | Provides functional time-series summaries, principal components, forecasting, and forecast-error measures. | `6.7` · `GPL-3.0-only` |
 | [`funData`](funData/) | Represents and manipulates regular, irregular, and multivariate functional data, with numerical integration. | `1.3-9` · `GPL-2.0-only` |
 | [`GA`](GA/) | Performs optimization with genetic algorithms. | `3.2.5` · `GPL-2.0-or-later` |
 | [`gamlss.dist`](gamlss.dist/) | Provides distributions for generalized additive location-scale-shape models. | `6.1-1` · `GPL-3.0-only` |
@@ -338,6 +340,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`gbm3`](gbm3/) | Fits stochastic gradient-boosted trees for regression and related prediction problems. | `3.0.3` · `GPL-2.0-or-later` |
 | [`gcpm`](gcpm/) | Models credit-portfolio risk analytically and by Monte Carlo simulation. | `1.2.2` · `GPL-2.0-only` |
 | [`geepack`](geepack/) | Fits generalized estimating equations for clustered and longitudinal data. | `0.1.0` · `GPL-3.0-or-later` |
+| [`geigen`](geigen/) | Computes generalized eigenproblems, Schur decompositions, and singular value decompositions of matrix pairs. | `2.4` · `GPL-2.0-or-later` |
 | [`genalg`](genalg/) | Performs optimization with genetic algorithms. | `0.2.1` · `GPL-2.0-only` |
 | [`GenBinomApps`](GenBinomApps/) | Computes generalized-binomial probabilities and Clopper-Pearson confidence intervals. | `1.2.1` · `GPL-3.0-only` |
 | [`GeneralizedHyperbolic`](GeneralizedHyperbolic/) | Provides generalized hyperbolic and related probability distributions. | `0.8-7` · `GPL-2.0-or-later` |
@@ -437,11 +440,13 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`matchingR`](matchingR/) | Provides algorithms for stable and optimal matching. | `2.0.0` · `GPL-2.0-or-later` |
 | [`matlab`](matlab/) | Provides numerical and matrix utilities modelled after MATLAB functions. | `1.0.4.1` · `Artistic-2.0` |
 | [`Matrix`](Matrix/) | Provides dense and sparse matrix algorithms. | `1.7-6` · `GPL-3.0-only` |
+| [`matrixcalc`](matrixcalc/) | Provides matrix transformations, products, norms, decompositions, predicates, and special-matrix constructors. | `1.0-6` · `GPL-2.0-or-later` |
 | [`matrixdist`](matrixdist/) | Provides matrix-exponential and matrix phase-type distributions, fitting, regression, and simulation. | `1.1.9` · `GPL-3.0-only` |
 | [`MatrixExtra`](MatrixExtra/) | Provides additional methods for sparse matrices. | `0.1.15` · `GPL-3.0-only` |
 | [`matrixNormal`](matrixNormal/) | Provides matrix-variate normal distribution calculations and simulation. | `0.1.2` · `GPL-3.0-only` |
 | [`maxLik`](maxLik/) | Performs maximum-likelihood estimation and related calculations. | `1.5-2.2` · `GPL-2.0-or-later` |
 | [`mbbefd`](mbbefd/) | Provides Maxwell-Boltzmann, Bose-Einstein, and Fermi-Dirac distributions. | `0.8.14` · `GPL-2.0-only` |
+| [`mbend`](mbend/) | Adjusts symmetric matrices to positive-definite form using weighted or unweighted matrix bending. | `1.3.1` · `GPL-3.0-only` |
 | [`mc2d`](mc2d/) | Provides tools for two-dimensional Monte Carlo simulations. | `0.2.2` · `GPL-2.0-or-later` |
 | [`mcga`](mcga/) | Performs real-valued optimization with machine-coded genetic algorithms. | `3.0.9` · `GPL-2.0-or-later` |
 | [`mclust`](mclust/) | Performs Gaussian-mixture modelling and model-based clustering. | `6.1.3` · `GPL-2.0-or-later` |
@@ -510,6 +515,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`optimx`](optimx/) | Provides an expanded toolkit for general-purpose optimization. | `2025-4.9` · `GPL-2.0-only` |
 | [`optionpricing`](optionpricing/) | Prices options with efficient simulation algorithms. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`optmatch`](optmatch/) | Performs optimal distance-based matching for observational studies. | `0.10.8` · `MIT` |
+| [`optR`](optR/) | Solves linear systems and provides matrix inversion, projection matrices, numerical Jacobians, and Newton root finding. | `1.2.5` · `GPL-2.0-or-later` |
 | [`ordinal`](ordinal/) | Fits cumulative-link models for ordinal responses, including mixed models. | `2026.7-26` · `GPL-2.0-or-later` |
 | [`orthopolynom`](orthopolynom/) | Provides orthogonal and orthonormal polynomial families. | `1.0-6.1` · `GPL-2.0-only` |
 | [`osqp`](osqp/) | Solves convex quadratic programs using the OSQP algorithm. | `1.0.0` · `Apache-2.0` |
@@ -523,6 +529,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`pbo`](pbo/) | Estimates the probability of backtest overfitting. | `1.3.5` · `MIT` |
 | [`pbs`](pbs/) | Constructs periodic and ordinary B-spline bases and evaluates them at new predictor values. | `1.1` · `GPL-2.0-only` |
 | [`pcaPP`](pcaPP/) | Performs robust and sparse projection-pursuit PCA, robust scale estimation, and spatial-median calculations. | `2.0-5` · `GPL-3.0-or-later` |
+| [`pdfCluster`](pdfCluster/) | Performs density-based clustering using multivariate kernel density estimates and neighborhood graphs. | `1.0-4` · `GPL-2` |
 | [`pdqutils`](pdqutils/) | Provides distribution approximations using Gram-Charlier, Edgeworth, and Cornish-Fisher expansions. | `0.1.6` · `LGPL-3.0-or-later` |
 | [`pearsonds`](pearsonds/) | Evaluates, simulates, and fits distributions in the Pearson distribution system. | `1.3.2` · `GPL-2.0-or-later` |
 | [`peerperformance`](peerperformance/) | Performs luck-corrected peer-performance analysis. | `2.4.0` · `GPL-2.0-or-later` |
@@ -552,6 +559,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`pso`](pso/) | Performs particle-swarm optimization. | `1.0.4` · `LGPL-3.0-only` |
 | [`psoptim`](psoptim/) | Performs particle-swarm optimization. | `1.0` · `GPL-2.0-or-later` |
 | [`psqn`](psqn/) | Performs partially separable quasi-Newton optimization. | `0.3.2` · `Apache-2.0` |
+| [`psych`](psych/) | Provides psychometric statistics, reliability analysis, factor analysis, principal components, and correlation diagnostics. | `2.6.5` · `GPL-2.0-or-later` |
 | [`purrr`](purrr/) | Provides typed functional programming operations over arrays. | `1.2.2` · `MIT` |
 | [`PWEV`](PWEV/) | Builds weighted ensembles for volatility modelling using particle-swarm optimization. | `0.1.0` · `GPL-3.0-only` |
 | [`qap`](qap/) | Provides heuristics for the quadratic assignment problem. | `0.1-2` · `GPL-3.0-only` |
@@ -564,6 +572,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`QuantBondCurves`](QuantBondCurves/) | Values bonds and swaps and calibrates interest-rate curves. | `0.3.3` · `GPL-3.0-or-later` |
 | [`quantreg`](quantreg/) | Fits quantile-regression models. | `6.1` · `GPL-2.0-or-later` |
 | [`quarks`](quarks/) | Calculates and backtests value at risk and expected shortfall. | `1.1.6` · `GPL-3.0-only` |
+| [`QZ`](QZ/) | Computes real and complex eigendecompositions, Schur and generalized Schur decompositions, and their reorderings. | `0.2-4` · `MPL-2.0` |
 | [`R-fixedincome`](R-fixedincome/) | Provides fixed-income rates, curves, interpolation, and Nelson-Siegel models. | `0.0.5` · `MIT` |
 | [`R4GoodPersonalFinances`](R4GoodPersonalFinances/) | Supports optimization of personal financial decisions. | `1.2.0.9000` · `MIT` |
 | [`ragtop`](ragtop/) | Prices equity derivatives with extensions of Black-Scholes. | `2.0.0` · `GPL-2.0-or-later` |
@@ -572,6 +581,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`randtoolbox`](randtoolbox/) | Provides pseudo-random and quasi-random number generators. | `2.0.5` · `BSD-3-Clause AND LicenseRef-WELL-Upstream` |
 | [`rangen`](rangen/) | Provides fast random-number and matrix generators and sampling utilities. | `0.0.1` · `GPL-3.0-only` |
 | [`ranger`](ranger/) | Fits fast random forests for classification, regression, probability, and survival models. | `0.18.0` · `GPL-3.0-only` |
+| [`rARPACK`](rARPACK/) | Computes selected eigenpairs and singular triplets using shared ARPACK routines. | `0.11-0` · `BSD-3-Clause` |
 | [`RCEIM`](RCEIM/) | Performs optimization using a cross-entropy-inspired method. | `0.3` · `GPL-2.0-or-later` |
 | [`RcppNumerical`](RcppNumerical/) | Provides numerical optimization, integration, and linear-algebra algorithms. | `0.7-0` · `GPL-2.0-or-later` |
 | [`Rcsdp`](Rcsdp/) | Solves semidefinite programs using CSDP algorithms. | `0.1.57.6` · `CPL-1.0` |
@@ -587,6 +597,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`riskParityPortfolio`](riskParityPortfolio/) | Designs risk-parity and risk-budgeting portfolios. | `0.2.2.9000` · `GPL-3.0-only` |
 | [`RiskPortfolios`](RiskPortfolios/) | Constructs portfolios using risk-based allocation methods. | `2.1.7` · `GPL-2.0-or-later` |
 | [`risksimul`](risksimul/) | Simulates rare portfolio losses under t-copulas with t or generalized-hyperbolic marginals. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`Rlinsolve`](Rlinsolve/) | Solves dense and sparse linear systems using stationary and Krylov iterative methods. | `0.3.3` · `MIT` |
 | [`RLRsim`](RLRsim/) | Simulates finite-sample likelihood-ratio and restricted likelihood-ratio tests for a single variance component from explicit design matrices. | `3.1-9` · `GPL-2.0-or-later` |
 | [`RM2006`](RM2006/) | Estimates conditional covariance using the RiskMetrics 2006 methodology. | `0.1.1` · `GPL-2.0-or-later` |
 | [`Rmalschains`](Rmalschains/) | Performs continuous optimization with memetic algorithms and local search chains. | `0.2-11` · `GPL-3.0-only` |
@@ -594,6 +605,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`RMKdiscrete`](RMKdiscrete/) | Provides discrete probability distributions and helper functions. | `0.1` · `GPL-2.0-or-later` |
 | [`rmoo`](rmoo/) | Performs multi-objective optimization. | `0.3.2` · `GPL-2.0-or-later` |
 | [`Rmpfr`](Rmpfr/) | Provides arbitrary-precision arithmetic, special functions, probability kernels, and numerical algorithms using GNU MPFR. | `1.1.2` · `GPL-2.0-or-later` |
+| [`rmumps`](rmumps/) | Provides triplet-matrix solves, inverses, and determinants through a dense serial LU backend; not a full sparse MUMPS implementation. | `5.2.1-43` · `GPL-2.0-or-later` |
 | [`rmutil`](rmutil/) | Provides utilities for nonlinear regression and repeated measurements. | `1.1.10` · `GPL-2.0-or-later` |
 | [`Rnanoflann`](Rnanoflann/) | Performs nearest-neighbor searches with multiple distance measures. | `0.0.3` · `GPL-3.0-or-later` |
 | [`rnd`](rnd/) | Extracts option-implied risk-neutral densities. | `1.2` · `GPL-2.0-or-later` |
@@ -623,6 +635,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`SACCR`](SACCR/) | Calculates counterparty credit risk under the standardized approach. | `3.4` · `GPL-3.0-only` |
 | [`sadists`](sadists/) | Provides additional probability distributions. | `0.2.6` · `LGPL-3.0-or-later` |
 | [`sandwich`](sandwich/) | Computes robust sandwich covariance-matrix estimators. | `3.1-2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`sanic`](sanic/) | Provides direct and sparse iterative linear solvers, eigendecomposition, SVD, and Arnoldi/Lanczos routines. | `0.0.2` · `GPL-3.0-or-later` |
 | [`scip`](scip/) | Provides an interface to the SCIP optimization suite. | `1.10.0-3` · `Apache-2.0` |
 | [`scs`](scs/) | Solves convex cone problems using the splitting conic solver. | `3.2.7` · `GPL-3.0-only` |
 | [`sde`](sde/) | Simulates and performs inference for stochastic differential equations. | `2.0.21` · `GPL-2.0-or-later` |
@@ -646,6 +659,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`spam`](spam/) | Provides sparse-matrix storage, Cholesky methods, eigensolvers, and spatial-statistics utilities. | `2.11-4` · `mixed; see package licenses` |
 | [`spantest`](spantest/) | Performs mean-variance spanning tests. | `1.4-0` · `GPL-3.0-only` |
 | [`sparseIndexTracking`](sparseIndexTracking/) | Designs sparse portfolios that track a financial index. | `0.1.1` · `GPL-3.0-only` |
+| [`SparseM`](SparseM/) | Provides sparse matrix representations and operations, ordering, and supernodal Cholesky factorization and solves. | `1.84-2` · `GPL-2.0-or-later` |
 | [`SpatialExtremes`](SpatialExtremes/) | Models, fits, and simulates spatial extreme-value and max-stable processes. | `2.1-0` · `GPL-2.0-or-later` |
 | [`spdep`](spdep/) | Provides spatial-neighbor, spatial-weight, autocorrelation, and spatial-regression computations. | `1.4-2` · `GPL-2.0-or-later` |
 | [`spectralGraphTopology`](spectralGraphTopology/) | Learns graph topologies from data using spectral constraints. | `0.2.3` · `GPL-3.0-only` |

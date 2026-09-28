@@ -15,7 +15,7 @@ The exact-source scan fell from 102 duplicate groups representing about
 test and demo groups totaling about 4.9 KiB.
 
 The table below reflects direct sibling dependencies in the current top-level
-FPM manifests, refreshed on 2026-09-18, plus the separately listed integration
+FPM manifests, refreshed on 2026-09-28, plus the separately listed integration
 adapters. It excludes development-only dependencies and does not imply that
 every consumer has been rebuilt or tested in this documentation refresh.
 The duplicate-file figures above describe earlier audits, not a fresh scan.
@@ -30,6 +30,14 @@ The 2026-09-21 additions include `fda.usc`, which uses `rfortran-core` and
 The added `abind`, `ecp`, `fdapace`, `funData`, `geometry`, and `pcaPP`
 packages declare no external FPM dependencies. These are manifest checks,
 not new build or numerical-validation results.
+
+The latest additions reuse shared modules in `ftsa`, `matrixcalc`, `mbend`,
+and `psych`; `pdfCluster` uses `geometry`, and `rARPACK` uses
+`rfortran-arpack`. The `geigen` and `QZ` packages declare direct Git
+dependencies on the [Beliavsky fork of fortran-lapack](https://github.com/Beliavsky/fortran-lapack),
+originally developed by Federico Perini. Those Git dependencies are not sibling
+paths and therefore are not listed in the table. These observations describe
+manifests, not a fresh build or regression-test pass.
 
 | Canonical package | Consumers using the shared package |
 |---|---|
@@ -62,6 +70,7 @@ not new build or numerical-validation results.
 | `GA` | `rmoo` |
 | `gamlss.dist` | `gamlss` |
 | `garchx` | `tvgarch` |
+| `geometry` | `pdfCluster` |
 | `ghyp` | `sharpeRratio`, `tsdistributions`, `tsgarch`, `tsmarch` |
 | `GPArotation` | `lavaan` |
 | `gRbase` | `gRain` |
@@ -104,10 +113,10 @@ not new build or numerical-validation results.
 | `readr` | `tidyr` |
 | `relsurv` | `flexsurv`, `mstate` |
 | `Rfast` | `Rfast2` |
-| `rfortran-arpack` | `bigstatsr`, `RSpectra` |
+| `rfortran-arpack` | `bigstatsr`, `rARPACK`, `RSpectra` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
-| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `fda.usc`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `kSamples`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
-| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fda.usc`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixdist`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `fda.usc`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `ftsa`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `kSamples`, `matrixcalc`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `psych`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fda.usc`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `ftsa`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixcalc`, `matrixdist`, `mbend`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `psych`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
 | `rfortran-optional` | `rfortran-core`, `rfortran-linalg`, `stats` |
 | `rngWELL` | `randtoolbox` |
 | `RobStatTM` | `RPEIF` |

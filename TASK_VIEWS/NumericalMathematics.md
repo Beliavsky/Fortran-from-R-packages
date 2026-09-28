@@ -6,7 +6,7 @@ Hans W. Borchers, Robin Hankin, Serguei Sokol, version 2026-07-20. The
 [source task view](https://github.com/cran-task-views/NumericalMathematics/blob/main/NumericalMathematics.md) provides the broader annotated
 guide to R packages.
 
-This page includes 28 translated packages. Package membership and broad
+This page includes 38 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -20,9 +20,19 @@ API coverage and validation status.
 - [`Matrix`](../Matrix/) - Provides dense and sparse matrix algorithms.
 - [`MASS`](../MASS/) - Provides statistical methods from Venables and Ripley's MASS.
 - [`expm`](../expm/) - Computes matrix exponentials, logarithms, square roots, and related functions.
+- [`QZ`](../QZ/) - Computes real and complex eigendecompositions, Schur and generalized Schur decompositions, and their reorderings.
+- [`geigen`](../geigen/) - Computes generalized eigenproblems, Schur decompositions, and singular value decompositions of matrix pairs.
+- [`SparseM`](../SparseM/) - Provides sparse matrix representations and operations, ordering, and supernodal Cholesky factorization and solves.
+- [`rmumps`](../rmumps/) - Provides triplet-matrix solves, inverses, and determinants through a dense serial LU backend; not a full sparse MUMPS implementation.
+- [`sanic`](../sanic/) - Provides direct and sparse iterative linear solvers, eigendecomposition, SVD, and Arnoldi/Lanczos routines.
+- [`Rlinsolve`](../Rlinsolve/) - Solves dense and sparse linear systems using stationary and Krylov iterative methods.
 - [`svd`](../svd/) - Provides interfaces to leading singular-value and eigenvalue solvers.
 - [`irlba`](../irlba/) - Computes fast truncated singular-value decompositions.
+- [`rARPACK`](../rARPACK/) - Computes selected eigenpairs and singular triplets using shared ARPACK routines.
 - [`RSpectra`](../RSpectra/) - Computes selected eigenvalues, eigenvectors, and singular values of large matrices.
+- [`optR`](../optR/) - Solves linear systems and provides matrix inversion, projection matrices, numerical Jacobians, and Newton root finding.
+- [`mbend`](../mbend/) - Adjusts symmetric matrices to positive-definite form using weighted or unweighted matrix bending.
+- [`matrixcalc`](../matrixcalc/) - Provides matrix transformations, products, norms, decompositions, predicates, and special-matrix constructors.
 
 ## Special Functions
 
