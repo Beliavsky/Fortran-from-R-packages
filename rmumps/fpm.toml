@@ -1,0 +1,143 @@
+name = "rmumps"
+version = "0.3.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation of rmumps; upstream rmumps by Serguei Sokol and contributors"
+maintainer = ""
+copyright = "Upstream wrapper copyright 2015-2026 INRAE/INSA/CNRS; see NOTICE.md and UPSTREAM_COPYRIGHTS"
+description = "Modern Fortran translation of the computational API of the R package rmumps"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "partial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 13
+r_functions_translated = 13
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "Rmumps"
+r_source = "upstream/R/zzz.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_init_triplet", "rmumps_init_triplet_zero_based"]
+fortran_source = "src/rmumps_api.f90"
+status = "partial"
+notes = "Constructs the Fortran rmumps_matrix type from one-based or upstream-style zero-based sparse triplets. Matrix/dgTMatrix/simple_triplet_matrix object conversion, Rcpp ownership, copy=FALSE aliasing, and the MUMPS sparse backend are omitted."
+
+[[extra.translation.function]]
+r_name = "Rmumps__solveptr"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_solve_vector_inplace", "rmumps_solve_matrix_inplace"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Solves dense vector or matrix right-hand sides in place while reusing cached factors. Fortran arrays replace raw external pointers."
+
+[[extra.translation.function]]
+r_name = "Rmumps__ptr_ijv"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_init_triplet_zero_based", "rmumps_init_triplet"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Supports the wrapper's zero-based sparse-triplet convention as well as a natural one-based Fortran entry point. Rcpp external-pointer ownership is omitted."
+
+[[extra.translation.function]]
+r_name = "Rmumps__triplet"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_get_triplet"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Returns cloned triplet arrays through allocatable Fortran outputs rather than an R slam::simple_triplet_matrix object."
+
+[[extra.translation.function]]
+r_name = "Rmumps__set_mat_ptr"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_set_values"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Updates values for the existing sparsity pattern and invalidates the numeric factorization. Raw pointer aliasing is omitted."
+
+[[extra.translation.function]]
+r_name = "Rmumps__set_permutation"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_set_permutation"]
+fortran_source = "src/rmumps_api.f90"
+status = "partial"
+notes = "Validates and stores the rmumps permutation code and invalidates cached analysis/factors. The dense fallback does not run AMD/AMF/SCOTCH/PORD/METIS/QAMD ordering."
+
+[[extra.translation.function]]
+r_name = "Rmumps__get_permutation"
+r_source = "upstream/R/RcppExports.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_get_permutation"]
+fortran_source = "src/rmumps_api.f90"
+status = "complete"
+notes = "Returns the stored permutation code."
+
+[[extra.translation.function]]
+r_name = "solve.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_solve_vector", "rmumps_solve_matrix", "rmumps_solve_sparse_rhs", "rmumps_inverse"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Supports dense vector/matrix RHS, sparse triplet RHS with duplicate summation, cached factors, and inverse requests. R S4 classes, automatic coercion, pointer aliasing, and MUMPS sparse-factor behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "solvet.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_solvet_vector", "rmumps_solvet_matrix", "rmumps_solvet_sparse_rhs", "rmumps_inverse_transpose"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Supports dense and sparse-triplet RHS plus inverse-transpose requests while reusing the same LU factorization. R object coercion and MUMPS-specific controls are omitted."
+
+[[extra.translation.function]]
+r_name = "determinant.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_determinant"]
+fortran_source = "src/rmumps_api.f90"
+status = "substantial"
+notes = "Returns determinant sign and either absolute modulus or natural-log modulus, matching the computational result of the R method. R determinant-class object construction is omitted."
+
+[[extra.translation.function]]
+r_name = "dim.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_dim"]
+fortran_source = "src/rmumps_api.f90"
+status = "complete"
+notes = "Returns the square matrix dimensions."
+
+[[extra.translation.function]]
+r_name = "nrow.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_nrow"]
+fortran_source = "src/rmumps_api.f90"
+status = "complete"
+notes = "Returns the matrix row count."
+
+[[extra.translation.function]]
+r_name = "ncol.Rcpp_Rmumps"
+r_source = "upstream/R/methods.R"
+fortran_module = "rmumps_api"
+fortran_names = ["rmumps_ncol"]
+fortran_source = "src/rmumps_api.f90"
+status = "complete"
+notes = "Returns the matrix column count."
