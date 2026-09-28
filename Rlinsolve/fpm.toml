@@ -1,0 +1,133 @@
+name = "rlinsolve"
+version = "0.3.3"
+license = "MIT"
+author = "Kisung You; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "Copyright (c) 2021 Rlinsolve authors"
+description = "Modern Fortran translation of computational routines from the Rlinsolve R package"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 12
+r_functions_translated = 12
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "aux.fisch"
+r_source = "upstream/R/aux_FISCH.R"
+fortran_module = "rlinsolve"
+fortran_names = ["aux_fisch"]
+fortran_source = "src/rlinsolve.f90"
+status = "complete"
+notes = "Dense and COO sparse five-point Poisson matrices are generated directly; the R Matrix-class selector becomes a Fortran generic output type."
+
+[[extra.translation.function]]
+r_name = "lsolve.bicg"
+r_source = "upstream/R/lsolve_BICG.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_bicg"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Dense and COO sparse BiCG kernels, preconditioning, flags, overdetermined normal equations, and matrix-RHS column looping are translated. The Fortran matrix-RHS overload corrects an upstream R wrapper defect that references nonexistent errors1/errors2 fields."
+
+[[extra.translation.function]]
+r_name = "lsolve.bicgstab"
+r_source = "upstream/R/lsolve_BICGSTAB.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_bicgstab"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Dense and COO sparse BiCGSTAB with preconditioning, breakdown flags, and matrix-RHS column looping is translated; R warning/message text and object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "lsolve.cg"
+r_source = "upstream/R/lsolve_CG.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_cg"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Preconditioned CG, symmetry adjustment, sparse matvecs, overdetermined normal equations, and matrix-RHS column looping are translated; R list/object construction and RNG defaults are omitted."
+
+[[extra.translation.function]]
+r_name = "lsolve.cgs"
+r_source = "upstream/R/lsolve_CGS.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_cgs"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Preconditioned CGS and symmetry/normal-equation preprocessing are translated for dense and COO sparse A, including matrix-RHS column looping."
+
+[[extra.translation.function]]
+r_name = "lsolve.cheby"
+r_source = "upstream/R/lsolve_CHEBY.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_cheby"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Chebyshev semi-iteration and matrix-RHS column looping are translated. Optional exact spectral bounds can be supplied; otherwise portable power/inverse-power estimates replace R's general eigen() call."
+
+[[extra.translation.function]]
+r_name = "lsolve.gmres"
+r_source = "upstream/R/lsolve_GMRES.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_gmres"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Restarted left-preconditioned GMRES with Arnoldi/Givens updates is translated for dense and COO sparse A, including matrix-RHS column looping."
+
+[[extra.translation.function]]
+r_name = "lsolve.gs"
+r_source = "upstream/R/lsolve_GS.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_gs"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Forward Gauss-Seidel, symmetry adjustment, deterministic zero-diagonal perturbation, overdetermined normal equations, and matrix-RHS column looping are translated; the R random start is replaced by a deterministic fallback."
+
+[[extra.translation.function]]
+r_name = "lsolve.jacobi"
+r_source = "upstream/R/lsolve_JACOBI.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_jacobi"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "Weighted Jacobi, symmetry adjustment, sparse matvecs, normal-equation preprocessing, and matrix-RHS column looping are translated; R messages and object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "lsolve.qmr"
+r_source = "upstream/R/lsolve_QMR.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_qmr"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "QMR recurrence, upstream breakdown flags, and matrix-RHS column looping are translated. General preconditioners use a portable no-pivot L/U split; R Matrix LU object handling is omitted."
+
+[[extra.translation.function]]
+r_name = "lsolve.sor"
+r_source = "upstream/R/lsolve_SOR.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_sor"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "SOR with w in (0,2), symmetry adjustment, overdetermined normal equations, and matrix-RHS column looping is translated for dense and COO sparse inputs."
+
+[[extra.translation.function]]
+r_name = "lsolve.ssor"
+r_source = "upstream/R/lsolve_SSOR.R"
+fortran_module = "rlinsolve"
+fortran_names = ["lsolve_ssor"]
+fortran_source = "src/rlinsolve.f90"
+status = "substantial"
+notes = "The upstream SSOR iteration matrix, constant term, and matrix-RHS column looping are translated. Sparse inputs retain the public sparse API but triangular SSOR factors are materialized densely."
