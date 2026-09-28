@@ -1,0 +1,115 @@
+name = "sanic"
+version = "0.0.2"
+license = "GPL-3.0-or-later"
+author = "Nikolas Kuschnig; Lukas Vashold; Yixuan Qiu; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational API of the R package sanic"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 10
+r_functions_translated = 10
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "sparsify"
+r_source = "upstream/R/helpers.R"
+fortran_module = "sanic_sparse"
+fortran_names = ["sparsify"]
+fortran_source = "src/sanic_sparse.f90"
+status = "substantial"
+notes = "Dense matrices are converted to a package-local coordinate sparse type rather than Matrix::dgCMatrix; numerical entries and dimensions are preserved."
+
+[[extra.translation.function]]
+r_name = "solve2"
+r_source = "upstream/R/solve.R"
+fortran_module = "sanic_direct"
+fortran_names = ["solve2_dense", "solve2_sparse"]
+fortran_source = "src/sanic_direct.f90"
+status = "substantial"
+notes = "The QR/symmetry/Cholesky/LU dispatch is translated. Sparse Cholesky/LU use fill-permitting sparse rows; sparse QR performs sparse Givens factorization after structural ordering and does not densify the coefficient matrix."
+
+[[extra.translation.function]]
+r_name = "solve_chol"
+r_source = "upstream/R/solve_direct.R"
+fortran_module = "sanic_direct"
+fortran_names = ["solve_chol_dense", "solve_chol_sparse"]
+fortran_source = "src/sanic_direct.f90"
+status = "substantial"
+notes = "LLT and LDLT solve paths are translated for dense and sparse inputs. Sparse factorization permits fill-in; natural ordering is exact while sparse dynamic minimum-degree ordering approximates Eigen AMD. The Fortran selector follows the documented intent instead of sanic 0.0.2 C++ block-scope shadowing that leaves the outer LDLT solver active."
+
+[[extra.translation.function]]
+r_name = "solve_lu"
+r_source = "upstream/R/solve_direct.R"
+fortran_module = "sanic_direct"
+fortran_names = ["solve_lu_dense", "solve_lu_sparse"]
+fortran_source = "src/sanic_direct.f90"
+status = "substantial"
+notes = "Partial and full dense pivoting are implemented. Sparse LU permits fill-in with row pivoting; natural ordering is exact while sparse dynamic minimum-degree graph permutations approximate AMD/COLAMD. The documented selector semantics are implemented rather than the upstream C++ shadowing defect that leaves the default solver object active."
+
+[[extra.translation.function]]
+r_name = "solve_qr"
+r_source = "upstream/R/solve_direct.R"
+fortran_module = "sanic_direct"
+fortran_names = ["solve_qr_dense", "solve_qr_sparse"]
+fortran_source = "src/sanic_direct.f90"
+status = "substantial"
+notes = "Dense QR keeps unpivoted, column-pivoted, and complete row/column-pivoted Householder paths distinct and returns rank-revealing basic solutions for wide systems. Sparse QR uses sparse Givens rotations with structural ordering and numerical column pivoting for tall, square, and wide matrices without densifying A. Documented selector semantics are implemented rather than the sanic 0.0.2 C++ shadowing defect."
+
+[[extra.translation.function]]
+r_name = "solve_cg"
+r_source = "upstream/R/solve_iterative.R"
+fortran_module = "sanic_iterative"
+fortran_names = ["solve_cg_sparse"]
+fortran_source = "src/sanic_iterative.f90"
+status = "substantial"
+notes = "CG, BiCGSTAB, and least-squares CG operate directly on sparse storage and support initial guesses, multiple RHS columns, and convergence diagnostics. precond=2 uses scaled/permuted/shifted limited-memory incomplete Cholesky for CG, dual-threshold fill-limited ILUT for BiCGSTAB, and the upstream diagonal/default behavior for LSCG. Fortran honors explicit iter and documented preconditioner selectors instead of upstream wrapper/C++ shadowing defects. Exact Eigen numerical identity is not claimed. Verbose R printing is omitted."
+
+[[extra.translation.function]]
+r_name = "eigen2"
+r_source = "upstream/R/eigen.R"
+fortran_module = "sanic_spectral"
+fortran_names = ["eigen2"]
+fortran_source = "src/sanic_spectral.f90"
+status = "partial"
+notes = "Symmetric eigenpairs primarily use Householder tridiagonalization plus implicit QL with a Jacobi fallback; when symmetry is requested, the lower triangle alone defines the self-adjoint matrix as in Eigen. General real matrices use Hessenberg reduction, shifted complex Householder QR, and inverse iteration. Complex eigenvalues are supported; ordering and roundoff need not match Eigen exactly."
+
+[[extra.translation.function]]
+r_name = "svd2"
+r_source = "upstream/R/svd.R"
+fortran_module = "sanic_spectral"
+fortran_names = ["svd2"]
+fortran_source = "src/sanic_spectral.f90"
+status = "partial"
+notes = "Thin/full vectors and values-only mode are translated without Gram matrices. BDC selects Householder bidiagonalization plus implicit QR, while Jacobi selects column-pivoted Householder QR preconditioning plus two-sided Jacobi sweeps with a one-sided fallback. The BDC path is not Eigen's divide-and-conquer implementation."
+
+[[extra.translation.function]]
+r_name = "arnoldi"
+r_source = "upstream/R/arnoldi.R"
+fortran_module = "sanic_krylov"
+fortran_names = ["arnoldi_sparse", "lanczos_sparse"]
+fortran_source = "src/sanic_krylov.f90"
+status = "substantial"
+notes = "Arnoldi and symmetry dispatch are translated. Missing b uses a deterministic 1:n starting vector rather than R rnorm(). Early breakdown preserves the requested projection/basis shapes with zero-filled inactive entries while iterations records the achieved Krylov dimension."
+
+[[extra.translation.function]]
+r_name = "lanczos"
+r_source = "upstream/R/arnoldi.R"
+fortran_module = "sanic_krylov"
+fortran_names = ["lanczos_sparse"]
+fortran_source = "src/sanic_krylov.f90"
+status = "substantial"
+notes = "Lanczos with optional full reorthogonalization and projected eigenvalues is translated. Missing b uses a deterministic start instead of R rnorm(); early breakdown preserves requested diagonal/subdiagonal/basis shapes with zero-filled inactive entries."
