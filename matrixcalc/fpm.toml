@@ -1,0 +1,569 @@
+name = "matrixcalc"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Frederick Novomestky; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran translation of computational routines from the R package matrixcalc"
+categories = ["mathematics", "linear-algebra"]
+
+[build]
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 60
+r_functions_translated = 60
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "D.matrix"
+r_source = "upstream/R/D.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["d_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "Duplication transformation D is translated directly; Fortran integer typing replaces R argument-type checks."
+
+[[extra.translation.function]]
+r_name = "E.matrices"
+r_source = "upstream/R/E.matrices.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["e_matrices"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "substantial"
+notes = "The complete basis matrices are returned as E(:,:,i,j) in one rank-4 Fortran array instead of nested R lists."
+
+[[extra.translation.function]]
+r_name = "H.matrices"
+r_source = "upstream/R/H.matrices.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["h_matrices"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "substantial"
+notes = "The complete rectangular basis matrices are returned as H(:,:,i,j) in one rank-4 Fortran array instead of nested R lists."
+
+[[extra.translation.function]]
+r_name = "K.matrix"
+r_source = "upstream/R/K.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["k_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "The rc by rc commutation matrix is translated directly."
+
+[[extra.translation.function]]
+r_name = "L.matrix"
+r_source = "upstream/R/L.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["l_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "The elimination transformation from vec(A) to vech(A) is translated directly."
+
+[[extra.translation.function]]
+r_name = "N.matrix"
+r_source = "upstream/R/N.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["n_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "The symmetrizer 0.5*(K+I) is translated directly."
+
+[[extra.translation.function]]
+r_name = "T.matrices"
+r_source = "upstream/R/T.matrices.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["t_matrices"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "substantial"
+notes = "The symmetric basis matrices are returned as T(:,:,i,j) in one rank-4 Fortran array instead of nested R lists."
+
+[[extra.translation.function]]
+r_name = "commutation.matrix"
+r_source = "upstream/R/commutation.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["commutation_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "Alias behavior for K.matrix is translated."
+
+[[extra.translation.function]]
+r_name = "creation.matrix"
+r_source = "upstream/R/creation.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["creation_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The shifted diagonal creation matrix is translated directly."
+
+[[extra.translation.function]]
+r_name = "direct.prod"
+r_source = "upstream/R/direct.prod.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["direct_prod"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Kronecker products are translated for matrix and vector inputs; vectors are interpreted as column matrices as upstream."
+
+[[extra.translation.function]]
+r_name = "direct.sum"
+r_source = "upstream/R/direct.sum.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["direct_sum"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Block-diagonal direct sums are translated for matrix and vector inputs."
+
+[[extra.translation.function]]
+r_name = "duplication.matrix"
+r_source = "upstream/R/duplication.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["duplication_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "substantial"
+notes = "Alias behavior for D.matrix is translated; the unusable upstream default n=1 is not reproduced."
+
+[[extra.translation.function]]
+r_name = "elimination.matrix"
+r_source = "upstream/R/elimination.matrix.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["elimination_matrix"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "complete"
+notes = "Alias behavior for L.matrix is translated."
+
+[[extra.translation.function]]
+r_name = "entrywise.norm"
+r_source = "upstream/R/entrywise.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["entrywise_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "substantial"
+notes = "Entrywise p-norms for vectors and matrices are translated; R invalid-argument error text is omitted."
+
+[[extra.translation.function]]
+r_name = "fibonacci.matrix"
+r_source = "upstream/R/fibonacci.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["fibonacci_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The upstream (n+1) by (n+1) Fibonacci matrix construction is translated directly."
+
+[[extra.translation.function]]
+r_name = "frobenius.matrix"
+r_source = "upstream/R/frobenius.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["frobenius_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The shifted identity and signed binomial last-column construction is translated directly."
+
+[[extra.translation.function]]
+r_name = "frobenius.norm"
+r_source = "upstream/R/frobenius.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["frobenius_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Frobenius norms for vectors and matrices are translated."
+
+[[extra.translation.function]]
+r_name = "frobenius.prod"
+r_source = "upstream/R/frobenius.prod.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["frobenius_prod"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The sum of the Hadamard product is translated for equal-shaped inputs."
+
+[[extra.translation.function]]
+r_name = "hadamard.prod"
+r_source = "upstream/R/hadamard.prod.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["hadamard_prod"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Elementwise products are translated for equal-sized vectors and matrices."
+
+[[extra.translation.function]]
+r_name = "hankel.matrix"
+r_source = "upstream/R/hankel.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["hankel_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The upstream cyclic-shift Hankel construction is translated directly."
+
+[[extra.translation.function]]
+r_name = "hilbert.matrix"
+r_source = "upstream/R/hilbert.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["hilbert_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "Hilbert matrix entries 1/(i+j-1) are translated directly."
+
+[[extra.translation.function]]
+r_name = "hilbert.schmidt.norm"
+r_source = "upstream/R/hilbert.schmidt.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["hilbert_schmidt_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Hilbert-Schmidt norms are translated for vectors and matrices."
+
+[[extra.translation.function]]
+r_name = "inf.norm"
+r_source = "upstream/R/inf.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["inf_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The induced infinity norm is translated; vector inputs follow upstream column-matrix semantics."
+
+[[extra.translation.function]]
+r_name = "is.diagonal.matrix"
+r_source = "upstream/R/is.diagonal.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_diagonal_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "complete"
+notes = "Tolerance-based off-diagonal testing is translated."
+
+[[extra.translation.function]]
+r_name = "is.idempotent.matrix"
+r_source = "upstream/R/is.idempotent.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_idempotent_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "complete"
+notes = "Tolerance-based X*X=X testing is translated."
+
+[[extra.translation.function]]
+r_name = "is.indefinite"
+r_source = "upstream/R/is.indefinite.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_indefinite"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Symmetric eigenvalue sign testing is translated through rfortran-linalg; R exception text is omitted."
+
+[[extra.translation.function]]
+r_name = "is.negative.definite"
+r_source = "upstream/R/is.negative.definite.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_negative_definite"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Negative-definiteness eigenvalue testing with upstream tolerance semantics is translated through rfortran-linalg."
+
+[[extra.translation.function]]
+r_name = "is.negative.semi.definite"
+r_source = "upstream/R/is.negative.semi.definite.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_negative_semi_definite"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Negative-semidefiniteness eigenvalue testing with upstream tolerance semantics is translated through rfortran-linalg."
+
+[[extra.translation.function]]
+r_name = "is.non.singular.matrix"
+r_source = "upstream/R/is.non.singular.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_non_singular_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Determinant-magnitude nonsingularity testing is translated using pivoted elimination."
+
+[[extra.translation.function]]
+r_name = "is.positive.definite"
+r_source = "upstream/R/is.positive.definite.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_positive_definite"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Positive-definiteness eigenvalue testing with upstream tolerance semantics is translated through rfortran-linalg."
+
+[[extra.translation.function]]
+r_name = "is.positive.semi.definite"
+r_source = "upstream/R/is.positive.semi.definite.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_positive_semi_definite"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Positive-semidefiniteness eigenvalue testing with upstream tolerance semantics is translated through rfortran-linalg."
+
+[[extra.translation.function]]
+r_name = "is.singular.matrix"
+r_source = "upstream/R/is.singular.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_singular_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Determinant-magnitude singularity testing is translated using pivoted elimination."
+
+[[extra.translation.function]]
+r_name = "is.skew.symmetric.matrix"
+r_source = "upstream/R/is.skew.symmetric.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_skew_symmetric_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "complete"
+notes = "Tolerance-based skew-symmetry testing is translated."
+
+[[extra.translation.function]]
+r_name = "is.square.matrix"
+r_source = "upstream/R/is.square.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_square_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "complete"
+notes = "Square-shape testing is translated for numeric Fortran matrices."
+
+[[extra.translation.function]]
+r_name = "is.symmetric.matrix"
+r_source = "upstream/R/is.symmetric.matrix.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["is_symmetric_matrix"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "complete"
+notes = "Exact numeric symmetry testing is translated."
+
+[[extra.translation.function]]
+r_name = "lower.triangle"
+r_source = "upstream/R/lower.triangle.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["lower_triangle"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The lower triangle including the diagonal is retained and the upper triangle is zeroed."
+
+[[extra.translation.function]]
+r_name = "lu.decomposition"
+r_source = "upstream/R/lu.decomposition.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["lu_decomposition"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "The upstream unpivoted Doolittle LU algorithm is translated; a numeric status replaces R stop messages."
+
+[[extra.translation.function]]
+r_name = "matrix.inverse"
+r_source = "upstream/R/matrix.inverse.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["matrix_inverse"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Square-matrix inversion is translated through rfortran-linalg solve_system with explicit status reporting."
+
+[[extra.translation.function]]
+r_name = "matrix.power"
+r_source = "upstream/R/matrix.power.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["matrix_power"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "All integer powers including zero and negative powers are translated using repeated squaring and matrix inversion."
+
+[[extra.translation.function]]
+r_name = "matrix.rank"
+r_source = "upstream/R/matrix.rank.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["matrix_rank"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Numerical rank is computed from Gram-matrix eigenvalues; upstream QR versus pivoted-Cholesky method selection is omitted."
+
+[[extra.translation.function]]
+r_name = "matrix.trace"
+r_source = "upstream/R/matrix.trace.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["matrix_trace"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The diagonal sum is translated directly."
+
+[[extra.translation.function]]
+r_name = "maximum.norm"
+r_source = "upstream/R/maximum.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["maximum_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "substantial"
+notes = "Maximum absolute entry is translated for matrices and vectors; this implements the intended vector behavior despite an upstream variable-name bug."
+
+[[extra.translation.function]]
+r_name = "one.norm"
+r_source = "upstream/R/one.norm.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["one_norm"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The induced one-norm is translated; vector inputs follow upstream column-matrix semantics."
+
+[[extra.translation.function]]
+r_name = "pascal.matrix"
+r_source = "upstream/R/pascal.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["pascal_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "substantial"
+notes = "The lower Pascal factor is generated directly from binomial coefficients rather than recovered by LU of the symmetric Pascal matrix."
+
+[[extra.translation.function]]
+r_name = "%s%"
+r_source = "upstream/R/s.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["direct_sum"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The infix direct-sum operator maps to the same Fortran direct_sum generic as direct.sum."
+
+[[extra.translation.function]]
+r_name = "set.submatrix"
+r_source = "upstream/R/set.submatrix.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["set_submatrix"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "substantial"
+notes = "One-based numeric submatrix replacement is translated; invalid ranges leave the copy unchanged rather than raising R-style text errors."
+
+[[extra.translation.function]]
+r_name = "shift.down"
+r_source = "upstream/R/shift.down.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["shift_down"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Downward row shifts with configurable fill are translated, including shifts at least as large as the row count."
+
+[[extra.translation.function]]
+r_name = "shift.left"
+r_source = "upstream/R/shift.left.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["shift_left"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Left column shifts with configurable fill are translated."
+
+[[extra.translation.function]]
+r_name = "shift.right"
+r_source = "upstream/R/shift.right.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["shift_right"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Right column shifts with configurable fill are translated."
+
+[[extra.translation.function]]
+r_name = "shift.up"
+r_source = "upstream/R/shift.up.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["shift_up"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "Upward row shifts with configurable fill are translated."
+
+[[extra.translation.function]]
+r_name = "spectral.norm"
+r_source = "upstream/R/spectral.norm.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["spectral_norm"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "Matrix spectral norms are computed from the largest Gram-matrix eigenvalue and vector inputs use the Euclidean norm."
+
+[[extra.translation.function]]
+r_name = "stirling.matrix"
+r_source = "upstream/R/stirling.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["stirling_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "substantial"
+notes = "Stirling numbers of the second kind are translated; n=1 returns the mathematically intended matrix instead of the upstream undefined-variable error."
+
+[[extra.translation.function]]
+r_name = "svd.inverse"
+r_source = "upstream/R/svd.inverse.R"
+fortran_module = "matrixcalc_linalg"
+fortran_names = ["svd_inverse"]
+fortran_source = "src/matrixcalc_linalg.f90"
+status = "substantial"
+notes = "The full-rank Moore-Penrose inverse is obtained from a Gram eigendecomposition to avoid platform-sensitive DGESDD paths; rank-deficient input returns status 2."
+
+[[extra.translation.function]]
+r_name = "symmetric.pascal.matrix"
+r_source = "upstream/R/symmetric.pascal.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["symmetric_pascal_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The symmetric Pascal matrix is translated directly from binomial coefficients."
+
+[[extra.translation.function]]
+r_name = "toeplitz.matrix"
+r_source = "upstream/R/toeplitz.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["toeplitz_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "The upstream 2*n-1-vector Toeplitz indexing is translated directly."
+
+[[extra.translation.function]]
+r_name = "u.vectors"
+r_source = "upstream/R/u.vectors.R"
+fortran_module = "matrixcalc_structured"
+fortran_names = ["u_vectors"]
+fortran_source = "src/matrixcalc_structured.f90"
+status = "substantial"
+notes = "The lower-triangle index map and identity matrix are returned in a typed Fortran result instead of an R list."
+
+[[extra.translation.function]]
+r_name = "upper.triangle"
+r_source = "upstream/R/upper.triangle.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["upper_triangle"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "complete"
+notes = "The upper triangle including the diagonal is retained and the lower triangle is zeroed."
+
+[[extra.translation.function]]
+r_name = "vandermonde.matrix"
+r_source = "upstream/R/vandermonde.matrix.R"
+fortran_module = "matrixcalc_special"
+fortran_names = ["vandermonde_matrix"]
+fortran_source = "src/matrixcalc_special.f90"
+status = "complete"
+notes = "Vandermonde powers from zero through n-1 are translated directly."
+
+[[extra.translation.function]]
+r_name = "vec"
+r_source = "upstream/R/vec.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["vec"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "substantial"
+notes = "Column-major matrix stacking is translated as a rank-1 Fortran vector rather than an n-by-1 R matrix."
+
+[[extra.translation.function]]
+r_name = "vech"
+r_source = "upstream/R/vech.R"
+fortran_module = "matrixcalc_core"
+fortran_names = ["vech"]
+fortran_source = "src/matrixcalc_core.f90"
+status = "substantial"
+notes = "Column-major lower-triangle stacking is translated as a rank-1 Fortran vector rather than an n-by-1 R matrix."
