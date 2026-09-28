@@ -1,0 +1,39 @@
+name = "mbend"
+version = "1.3.1"
+license = "GPL-3.0-only"
+author = "Mohammad Ali Nilforooshan; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational matrix-bending code from the R package mbend"
+categories = ["numerical", "linear-algebra", "statistics"]
+keywords = ["matrix-bending", "positive-definite", "covariance", "correlation"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 1
+r_functions_translated = 1
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bend"
+r_source = "upstream/R/bend.R"
+fortran_module = "mbend_api"
+fortran_names = ["bend"]
+fortran_source = "src/mbend_api.f90"
+status = "substantial"
+notes = "Both hj and lrs numerical methods, reciprocal/fixed weights, correlation-matrix handling, convergence metadata, and ordinary/weighted diagnostics are translated. R row/column names, messages, warnings, and list-object construction are represented by Fortran status/result fields rather than R objects."
