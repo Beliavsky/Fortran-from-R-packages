@@ -1,0 +1,32 @@
+name = "rARPACK"
+version = "0.11.0"
+license = "BSD-3-Clause"
+author = "Yixuan Qiu, Jiali Mei, and Fortran translation contributors"
+maintainer = ""
+copyright = "Copyright (c) 2016 Yixuan Qiu; see NOTICE.md for upstream ARPACK attribution"
+description = "Modern Fortran implementation of the rARPACK eigensolver and truncated-SVD API"
+keywords = ["arpack", "eigenvalues", "eigenvectors", "svd", "linear-algebra"]
+
+[library]
+source-dir = "src"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[dependencies]
+rfortran-arpack = { path = "../rfortran-arpack" }
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 0
+r_functions_translated = 0
+frac_functions_translated = 0.0
+untranslated_r_functions = []
