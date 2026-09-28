@@ -1,0 +1,3158 @@
+name = "psych"
+version = "2.6.5"
+license = "GPL-2.0-or-later"
+author = "William Revelle (upstream); Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of computational portions of the R package psych"
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+module-naming = false
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "test_unit.f90"
+
+[[test]]
+name = "algorithms"
+source-dir = "test/algorithms"
+main = "test_algorithms.f90"
+
+[[test]]
+name = "extended"
+source-dir = "test/extended"
+main = "test_extended.f90"
+
+[[test]]
+name = "computational-extended"
+source-dir = "test/computational_extended"
+main = "test_computational_extended.f90"
+
+[[test]]
+name = "more-extended"
+source-dir = "test/more_extended"
+main = "test_more_extended.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example"
+main = "basic_example.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 344
+r_functions_translated = 344
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+
+
+[[extra.translation.function]]
+r_name = "circadian.reliability"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["circadian_reliability_split"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "substantial"
+notes = "Implements the grouped numerical split-half core by fitting cosinors within each subject, correlating split phases circularly and fit statistics linearly across subjects, and applying the Spearman-Brown correction. R data-frame grouping, plotting, and the split-phase F table are omitted."
+
+[[extra.translation.function]]
+r_name = "crossValidationBoot"
+r_source = "upstream/R/crossValidation.r"
+fortran_module = "psych_computational_extended"
+fortran_names = ["cross_validation_bootstrap"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Implements complete-data bootstrap derivation and out-of-bag validation using standardized correlation-regression weights, returning trial fits and mean coefficients. Formula parsing, lmCor object handling, product terms, missing-data behavior, and exact R resampling streams are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.multi"
+r_source = "upstream/R/fa.multi.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["factor_analysis_multi"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "substantial"
+notes = "Implements two-stratum factor analysis from a correlation matrix: first-stratum MINRES with promax factor correlations followed by MINRES extraction of the higher stratum. Alternative extraction/rotation methods, scores, residual options, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.poly"
+r_source = "upstream/R/fa.poly.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["factor_analysis_poly_data"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Implements the mixed Pearson/polyserial/polychoric correlation construction and MINRES/promax factor-analysis core for numeric data. Bootstrap confidence intervals, factor-score construction, R object handling, and alternate extraction/rotation choices are omitted."
+
+[[extra.translation.function]]
+r_name = "irt.fa"
+r_source = "upstream/R/irt.fa.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["irt_factor_analysis"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "substantial"
+notes = "Builds pairwise tetrachoric/polychoric correlations from ordered items, fits MINRES factors with optional promax rotation, estimates thresholds, and transforms loadings to discrimination and difficulty parameters. Sorting, plotting, S3 objects, and alternate factor methods are omitted."
+
+[[extra.translation.function]]
+r_name = "multilevel.reliability"
+r_source = "upstream/R/multilevel.reliability.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["multilevel_reliability_balanced"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Implements the balanced complete person-by-time-by-item crossed-ANOVA variance components and the RkF, R1R, RkR, and Rc generalizability coefficients. Long-data reshaping, item reversal, per-person alpha/ICC, missing/unbalanced data, nlme/lme4 models, plots, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "mlr"
+r_source = "upstream/R/multilevel.reliability.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["multilevel_reliability_balanced"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Maps the mlr alias to the balanced crossed-ANOVA and generalizability-coefficient core used for multilevel.reliability. Mixed-model and R-interface features are omitted."
+
+
+[[extra.translation.function]]
+r_name = "omegaSem"
+r_source = "upstream/R/omegaSem.R"
+fortran_module = "psych_omega_sem"
+fortran_names = ["omega_sem_bifactor"]
+fortran_source = "src/psych_omega_sem.f90"
+status = "substantial"
+notes = "Implements omegaSem's specialized numerical path without a generic lavaan dependency: Schmid-Leiman loadings define the bifactor zero pattern, an orthogonal standardized bifactor CFA is fitted by normal-theory maximum likelihood with analytic gradients and BFGS, and omegaFromSem statistics are computed from the fitted loadings. Correlation-matrix input is supported; raw-data conversion, arbitrary lavaan model syntax/options, lavaan fit objects, labels, plotting, and exact lavaan optimizer/fit-test metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "omegaFromSem"
+r_source = "upstream/R/omegaSem.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["omega_from_cfa_loadings"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "substantial"
+notes = "Computes omega hierarchical, omega total, score-determinacy diagnostics, and group/general/subscale omegas directly from a standardized CFA loading matrix and item correlation matrix. Extraction from lavaan/sem objects, sign-flipping labels, plotting, and fit-object metadata are omitted."
+
+
+
+[[extra.translation.function]]
+r_name = "faCor"
+r_source = "upstream/R/faCor.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["factor_solution_correlation"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Fits two MINRES factor solutions with promax rotation, computes regression score weights, normalized interfactor score correlations, score variances, and Tucker congruence. Alternative extraction/rotation/correlation methods, Ten Berge scoring, raw-data conversion, targets, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.organize"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["organize_factor_loadings"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "substantial"
+notes = "Implements the numeric-matrix branch: factor sign normalization plus optional factor-column and item-row reordering. List/S3 factor-analysis object mutation, echelon inference for object inputs, labels, and companion slots are omitted."
+
+[[extra.translation.function]]
+r_name = "paSelect"
+r_source = "upstream/R/fa.parallel.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["parallel_select_by_keys"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Runs translated Horn normal-reference parallel analysis independently on item subsets selected by a key matrix and returns factor/component counts. List-key parsing, non-Pearson correlation modes, alternate factor methods, plotting, and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "vssSelect"
+r_source = "upstream/R/VSS.R"
+fortran_module = "psych_computational_extended"
+fortran_names = ["vss_select_by_keys"]
+fortran_source = "src/psych_computational_extended.f90"
+status = "partial"
+notes = "Runs keyed-subset MINRES factor solutions with varimax rotation and returns the first factor counts maximizing VSS complexity-one and complexity-two fit. List-key parsing, alternate correlations/extraction/rotations, plots, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.parallel"
+r_source = "upstream/R/fa.parallel.R"
+fortran_module = "psych_parallel_extended"
+fortran_names = ["parallel_analysis_normal"]
+fortran_source = "src/psych_parallel_extended.f90"
+status = "partial"
+notes = "Implements Horn-style normal-reference parallel analysis for a supplied correlation matrix, including PC eigenvalues, optional SMC-diagonal factor reference eigenvalues, means, quantiles, and retained counts. Raw-data column resampling, non-Pearson/polychoric modes, plotting, multicore execution, and R result objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.random"
+r_source = "upstream/R/fa.random.R"
+fortran_module = "psych_parallel_extended"
+fortran_names = ["random_effect_factor"]
+fortran_source = "src/psych_parallel_extended.f90"
+status = "substantial"
+notes = "Computes subject means and item-with-subject correlations, removes subject mean effects, optionally adds the R-style small Gaussian fix noise, and fits translated MINRES factors. Missing-data imputation, alternate correlation/extraction methods, rotations, and R score objects are omitted."
+
+[[extra.translation.function]]
+r_name = "VSS.sim"
+r_source = "upstream/R/VSS.simulate.R"
+fortran_module = "psych_remaining"
+fortran_names = ["simulate_vss_data"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Maps the duplicate simple-structure VSS simulator to the existing translated latent-column recycling, Gaussian error, common loading, and optional dichotomization kernel; exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "VSS.simulate"
+r_source = "upstream/R/VSS.simulate.R"
+fortran_module = "psych_remaining"
+fortran_names = ["simulate_vss_data"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Maps the duplicate simple-structure VSS simulator to the existing translated latent-column recycling, Gaussian error, common loading, and optional dichotomization kernel; exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "directSl"
+r_source = "upstream/R/schmid.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["direct_schmid_leiman"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "substantial"
+notes = "Implements Waller's direct Schmid-Leiman target/Procrustes algorithm from a correlation matrix. The target is derived from the translated promax rotation rather than GPArotation oblimin, and plotting/S3 output is omitted."
+
+[[extra.translation.function]]
+r_name = "glb"
+r_source = "upstream/R/glb.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["glb_reliability_summary"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "partial"
+notes = "Computes the factor-based GLB, alpha-PC, SMC/lambda-6-like reliability, and Ten Berge bounds. ICLUST/k-means split searches, keys, and R result objects are omitted."
+
+[[extra.translation.function]]
+r_name = "glb.fa"
+r_source = "upstream/R/glb.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["glb_factor_reliability"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "substantial"
+notes = "Selects positive reduced-correlation factors subject to nonnegative degrees of freedom, fits MINRES communalities, and computes the factor-communality GLB. R data-frame coercion and call metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "omega"
+r_source = "upstream/R/omega.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["omega_from_correlation"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "partial"
+notes = "Implements the one-pass correlation-matrix omega workflow through translated Schmid-Leiman loadings, including omega_h, omega total/limit, alpha, G6, ECV, and group omegas. Bootstrap iterations, raw-data/polychoric orchestration, plots, scores, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "omegah"
+r_source = "upstream/R/omega.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["omega_from_correlation"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "substantial"
+notes = "Implements the correlation-matrix omegah numerical path with Schmid-Leiman decomposition, optional item flipping, omega_h/total/limit, alpha, G6, ECV, and group omegas. Default oblimin is approximated with the translated promax rotation; plotting and R object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "omegaDirect"
+r_source = "upstream/R/schmid.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["omega_direct_from_correlation"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "substantial"
+notes = "Computes omega statistics and group omegas from Waller direct Schmid-Leiman loadings. Diagram/S3 output is omitted and target construction uses the translated promax path."
+
+[[extra.translation.function]]
+r_name = "schmid"
+r_source = "upstream/R/schmid.R"
+fortran_module = "psych_omega_extended"
+fortran_names = ["schmid_leiman_decomposition"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "substantial"
+notes = "Implements first-order MINRES extraction, oblique rotation, higher-order general-factor extraction, and Schmid-Leiman general/group loadings with h2, u2, p2, and complexity. GPArotation choices are represented by the translated promax path; raw-data and S3 behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "testRetest"
+r_source = "upstream/R/testRetest.r"
+fortran_module = "psych_omega_extended"
+fortran_names = ["test_retest_summary"]
+fortran_source = "src/psych_omega_extended.f90"
+status = "partial"
+notes = "Implements matched numeric test-retest scale-score correlation, time-specific alpha/G6, per-item temporal correlations, and within-person profile correlations. Key parsing, automatic reversal, profile-distance details, lme4 variance components, and R data-frame/S3 handling are omitted."
+
+[[extra.translation.function]]
+r_name = "%+%"
+r_source = "upstream/R/matrix.addition.R"
+fortran_module = "psych_matrix"
+fortran_names = ["matrix_addition_operator"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Outer addition of row sums and column sums; R vector coercion/warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "AUC"
+r_source = "upstream/R/auc.r"
+fortran_module = "psych_basic"
+fortran_names = ["auc_from_table"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Computes AUC from a 2x2 table through the equivalent signal-detection transformation; R object/printing behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "ICC"
+r_source = "upstream/R/ICC.R"
+fortran_module = "psych_reliability_extended"
+fortran_names = ["icc_complete_matrix"]
+fortran_source = "src/psych_reliability_extended.f90"
+status = "partial"
+notes = "Complete-data two-way ANOVA ICC1/2/3 and average-rater variants; lme4 missing-data path, CIs, and ANOVA objects are omitted."
+
+[[extra.translation.function]]
+r_name = "KMO"
+r_source = "upstream/R/correct.cor.R"
+fortran_module = "psych_correlations"
+fortran_names = ["kmo_statistic"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Overall and item-level Kaiser-Meyer-Olkin statistics."
+
+[[extra.translation.function]]
+r_name = "Pinv"
+r_source = "upstream/R/Pinv.R"
+fortran_module = "psych_correlations"
+fortran_names = ["pseudoinverse"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "SVD pseudoinverse using rfortran-linalg; R dimname behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "Procrustes"
+r_source = "upstream/R/direct.sl.R"
+fortran_module = "psych_factor"
+fortran_names = ["procrustes_rotate"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Orthogonal Procrustes rotation core."
+
+[[extra.translation.function]]
+r_name = "Promax"
+r_source = "upstream/R/Promax.R"
+fortran_module = "psych_factor"
+fortran_names = ["promax_rotate"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Promax numerical rotation of a loading matrix."
+
+[[extra.translation.function]]
+r_name = "RMSEA"
+r_source = "upstream/R/rmsea.R"
+fortran_module = "psych_basic"
+fortran_names = ["rmsea_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Core RMSEA point estimate; confidence-limit/object wrappers are omitted."
+
+[[extra.translation.function]]
+r_name = "RV"
+r_source = "upstream/R/RV.R"
+fortran_module = "psych_correlations"
+fortran_names = ["rv_coefficient"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "RV matrix association coefficient kernel."
+
+[[extra.translation.function]]
+r_name = "SD"
+r_source = "upstream/R/SD.R"
+fortran_module = "psych_basic"
+fortran_names = ["sd_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Finite-observation standard deviation for a numeric vector."
+
+[[extra.translation.function]]
+r_name = "TargetQ"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor"
+fortran_names = ["target_rotation"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Target-rotation numerical core is available for a supplied target; GPArotation oblique optimizer/result metadata are simplified."
+
+[[extra.translation.function]]
+r_name = "TargetT"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["target_orthogonal_rotate"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Orthogonal target rotation through the Procrustes solution; GPArotation object metadata is omitted."
+
+[[extra.translation.function]]
+r_name = "VSS"
+r_source = "upstream/R/VSS.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["vss_complexity_fit"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "VSS complexity fits from a supplied correlation matrix/loadings/Phi; repeated factor extraction, rotation selection, plotting and full fit-stat objects are omitted."
+
+[[extra.translation.function]]
+r_name = "Yule"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_basic"
+fortran_names = ["yule_q", "yule_y"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Computes Yule Q/Y from a 2x2 table; R list formatting is omitted."
+
+[[extra.translation.function]]
+r_name = "Yule.inv"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_basic"
+fortran_names = ["yule_inverse"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Numerically inverts Yule association to an odds-ratio scale."
+
+[[extra.translation.function]]
+r_name = "Yule2phi"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_basic"
+fortran_names = ["yule_to_phi"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Yule-to-phi conversion for a 2x2 table."
+
+[[extra.translation.function]]
+r_name = "Yule2phi.matrix"
+r_source = "upstream/R/polychor.matrix.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_to_phi_values"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Matrix-wide Yule-Q to phi conversion for supplied first-category margins."
+
+[[extra.translation.function]]
+r_name = "Yule2poly"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_to_tetrachoric_value"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Scalar Yule-Q plus fixed margins is inverted to a 2x2 table and converted to a tetrachoric correlation."
+
+[[extra.translation.function]]
+r_name = "Yule2poly.matrix"
+r_source = "upstream/R/polychor.matrix.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_to_tetrachoric_values"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Deprecated matrix-wide Yule-Q to tetrachoric operation mapped to the maintained implementation."
+
+[[extra.translation.function]]
+r_name = "Yule2tetra"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_to_tetrachoric_value"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Scalar Yule-Q plus fixed margins is inverted to a 2x2 table and converted to a tetrachoric correlation."
+
+[[extra.translation.function]]
+r_name = "YuleBonett"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_bonett_interval"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Bonett/generalized-Yule point estimate, SE, and normal-theory confidence limits from a 2x2 table."
+
+[[extra.translation.function]]
+r_name = "YuleCor"
+r_source = "upstream/R/Yule.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["yule_correlation_matrix"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Pairwise generalized-Yule correlations, confidence limits and z/p matrices for binary integer data; R factor/table coercion is omitted."
+
+[[extra.translation.function]]
+r_name = "alpha"
+r_source = "upstream/R/alpha.R"
+fortran_module = "psych_reliability"
+fortran_names = ["cronbach_alpha_data"]
+fortran_source = "src/psych_reliability.f90"
+status = "partial"
+notes = "Raw/standardized alpha, G6, average r, and signal/noise are translated; key checking, item-drop tables, bootstrap CIs, and S3 output are omitted."
+
+[[extra.translation.function]]
+r_name = "alpha.ci"
+r_source = "upstream/R/alpha.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["alpha_confidence_interval"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Cronbach-alpha F confidence interval and implied mean inter-item correlation; R list formatting is omitted."
+
+[[extra.translation.function]]
+r_name = "alpha2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["alpha_to_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct Spearman-Brown/Cronbach conversion."
+
+[[extra.translation.function]]
+r_name = "autoR"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["auto_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Numeric autocorrelation kernel; grouped result objects are omitted."
+
+[[extra.translation.function]]
+r_name = "bifactor"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["bifactor_rotate"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Orthogonal bifactor rotation by deterministic pair search; GPArotation object/control semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "biquartimin"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["biquartimin_rotate"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Oblique bifactor-quartimin coordinate search with transformation and factor-correlation output."
+
+[[extra.translation.function]]
+r_name = "biserial"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["biserial_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Point/biserial numerical conversion with typed binary grouping."
+
+[[extra.translation.function]]
+r_name = "cd.validity"
+r_source = "upstream/R/validity.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["effect_validity_by_keys"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Mean signed keyed effect sizes for supplied item effects and numeric keys."
+
+[[extra.translation.function]]
+r_name = "chi2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["chi2_to_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct chi-square to correlation transform."
+
+[[extra.translation.function]]
+r_name = "circ.tests"
+r_source = "upstream/R/circ.tests.R"
+fortran_module = "psych_circular"
+fortran_names = ["circ_tests_values"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Gap, Fisher radial, rotation, and variance circumplex diagnostics on a two-column loading matrix."
+
+[[extra.translation.function]]
+r_name = "circadian.F"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circadian_f_test"]
+fortran_source = "src/psych_circular.f90"
+status = "partial"
+notes = "Between/within resultant F-ratio core; group summaries and p-value table formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "circadian.cor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circadian_correlation_matrix"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Sine-centered circular correlation matrix."
+
+[[extra.translation.function]]
+r_name = "circadian.linear.cor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circadian_linear_correlation"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Linear-circular multiple-correlation formula."
+
+[[extra.translation.function]]
+r_name = "circadian.mean"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circular_mean_value"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Circular mean in radians or clock units."
+
+[[extra.translation.function]]
+r_name = "circadian.phase"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["cosinor_fit"]
+fortran_source = "src/psych_circular.f90"
+status = "partial"
+notes = "Single-series linear cosinor fit; grouped/data-frame parsing, plotting, and iterative phase optimization are omitted."
+
+[[extra.translation.function]]
+r_name = "circadian.sd"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circadian_stats_vector"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Resultant length and circular SD core in radians/clock units."
+
+[[extra.translation.function]]
+r_name = "circadian.stats"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circadian_stats_vector"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Circular n/mean/SD/resultant/Rayleigh-z/p core."
+
+[[extra.translation.function]]
+r_name = "circular.cor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circular_correlation_matrix"]
+fortran_source = "src/psych_circular.f90"
+status = "substantial"
+notes = "Circular correlation and sine-deviation variance core."
+
+[[extra.translation.function]]
+r_name = "circular.mean"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["circular_mean_value"]
+fortran_source = "src/psych_circular.f90"
+status = "complete"
+notes = "Circular mean on radian input."
+
+[[extra.translation.function]]
+r_name = "cluster.cor"
+r_source = "upstream/R/cluster.cor.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["cluster_correlation_summary"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Keyed cluster covariance/correlation, alpha, average-r, G6 and attenuation-corrected cluster correlations."
+
+[[extra.translation.function]]
+r_name = "cluster.loadings"
+r_source = "upstream/R/cluster.loadings.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["cluster_loadings_summary"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Item-to-cluster loading/pattern core plus cluster correlations and reliability summaries."
+
+[[extra.translation.function]]
+r_name = "cluster2keys"
+r_source = "upstream/R/cluster2keys.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["cluster_assignments_to_keys"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "complete"
+notes = "Converts integer cluster assignments to a zero/one item-by-cluster key matrix."
+
+[[extra.translation.function]]
+r_name = "cohen.d"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_correlations"
+fortran_names = ["cohen_d_value"]
+fortran_source = "src/psych_correlations.f90"
+status = "partial"
+notes = "Two-group standardized mean difference kernel is translated; formula/grouped summaries, CIs, and Mahalanobis output are omitted."
+
+[[extra.translation.function]]
+r_name = "cohen.d.ci"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["effect_size_confidence_interval"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "partial"
+notes = "Typed two-group d confidence interval using the standard large-sample approximation; upstream noncentral-t inversion is not reproduced."
+
+[[extra.translation.function]]
+r_name = "cohen.kappa"
+r_source = "upstream/R/kappa.R"
+fortran_module = "psych_correlations"
+fortran_names = ["cohen_kappa_value"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Unweighted kappa from a square confusion table; R confidence/output fields are omitted."
+
+[[extra.translation.function]]
+r_name = "cohenPooled"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_correlations"
+fortran_names = ["pooled_sd_value"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Pooled standard-deviation kernel."
+
+[[extra.translation.function]]
+r_name = "congeneric.sim"
+r_source = "upstream/R/congeneric.sim.R"
+fortran_module = "psych_simulation"
+fortran_names = ["congeneric_correlation", "simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Congeneric population correlation construction and Gaussian sampling core; R naming/seed/object features are omitted."
+
+[[extra.translation.function]]
+r_name = "congruence"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_correlations"
+fortran_names = ["congruence_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Factor congruence matrix computation; R naming/S3 handling is omitted."
+
+[[extra.translation.function]]
+r_name = "cor.ci"
+r_source = "upstream/R/cor.ci.R"
+fortran_module = "psych_basic"
+fortran_names = ["correlation_ci"]
+fortran_source = "src/psych_basic.f90"
+status = "partial"
+notes = "Core Fisher-z confidence interval is translated; bootstrap/data-frame and matrix orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "cor.smooth"
+r_source = "upstream/R/tetrachor.R"
+fortran_module = "psych_correlations"
+fortran_names = ["smooth_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Eigenvalue clipping/reconstruction for non-positive-semidefinite correlation matrices."
+
+[[extra.translation.function]]
+r_name = "cor.smoother"
+r_source = "upstream/R/tetrachor.R"
+fortran_module = "psych_correlations"
+fortran_names = ["smooth_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Eigenvalue clipping/reconstruction for non-positive-semidefinite correlation matrices."
+
+[[extra.translation.function]]
+r_name = "cor.wt"
+r_source = "upstream/R/cor.ci.R"
+fortran_module = "psych_correlations"
+fortran_names = ["weighted_correlation_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Weighted covariance/correlation computation for numeric matrices; R data-frame fields are omitted."
+
+[[extra.translation.function]]
+r_name = "cor2cov"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_covariance"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct covariance reconstruction from correlations and standard deviations."
+
+[[extra.translation.function]]
+r_name = "cor2dist"
+r_source = "upstream/R/cor2dist.R"
+fortran_module = "psych_correlations"
+fortran_names = ["correlation_to_distance"]
+fortran_source = "src/psych_correlations.f90"
+status = "complete"
+notes = "Direct correlation-to-distance transform."
+
+[[extra.translation.function]]
+r_name = "corCi"
+r_source = "upstream/R/cor.ci.R"
+fortran_module = "psych_basic"
+fortran_names = ["correlation_ci"]
+fortran_source = "src/psych_basic.f90"
+status = "partial"
+notes = "Core Fisher-z confidence interval is translated; bootstrap/data-frame and matrix orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "corInfo"
+r_source = "upstream/R/cortest.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["correlation_information"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Fisher-z information, chi-square, df, and Fisher information calculations for supplied correlations and pair counts."
+
+[[extra.translation.function]]
+r_name = "corTest"
+r_source = "upstream/R/corr.test.R"
+fortran_module = "psych_correlations"
+fortran_names = ["correlation_significance"]
+fortran_source = "src/psych_correlations.f90"
+status = "partial"
+notes = "Correlation p-value matrix core is translated; raw-data correlation computation, multiple-testing adjustment, and confidence intervals are omitted."
+
+[[extra.translation.function]]
+r_name = "corr.p"
+r_source = "upstream/R/corr.test.R"
+fortran_module = "psych_correlations"
+fortran_names = ["correlation_significance"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Computes correlation p-value matrices from r and n; R list labels are omitted."
+
+[[extra.translation.function]]
+r_name = "corr.test"
+r_source = "upstream/R/corr.test.R"
+fortran_module = "psych_correlations"
+fortran_names = ["correlation_significance"]
+fortran_source = "src/psych_correlations.f90"
+status = "partial"
+notes = "Correlation p-value matrix core is translated; raw-data correlation computation, multiple-testing adjustment, and confidence intervals are omitted."
+
+[[extra.translation.function]]
+r_name = "correct.cor"
+r_source = "upstream/R/correct.cor.R"
+fortran_module = "psych_correlations"
+fortran_names = ["correct_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Correction-for-attenuation numerical matrix operation."
+
+[[extra.translation.function]]
+r_name = "cortest"
+r_source = "upstream/R/cortest.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["correlation_normal_test"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "partial"
+notes = "Typed normal-theory matrix-comparison path is translated; R method dispatch across all correlation-test variants is omitted."
+
+[[extra.translation.function]]
+r_name = "cortest.bartlett"
+r_source = "upstream/R/cortest.bartlett.R"
+fortran_module = "psych_correlations"
+fortran_names = ["bartlett_correlation_test"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Bartlett sphericity test statistic core."
+
+[[extra.translation.function]]
+r_name = "cortest.jennrich"
+r_source = "upstream/R/cortest.jennrich.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["jennrich_correlation_test"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Jennrich two-correlation-matrix chi-square calculation; R naming and print objects are omitted."
+
+[[extra.translation.function]]
+r_name = "cortest.mat"
+r_source = "upstream/R/cortest.mat.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["correlation_matrix_test"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Bartlett one-matrix and determinant-based two-matrix comparison core with RMSEA/SRMR outputs."
+
+[[extra.translation.function]]
+r_name = "cortest.normal"
+r_source = "upstream/R/cortest.normal.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["correlation_normal_test"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Fisher-z normal-theory correlation-matrix comparison core; R plot/result-object behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "cosinor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["cosinor_fit"]
+fortran_source = "src/psych_circular.f90"
+status = "partial"
+notes = "Single-series linear cosinor fit; grouped/data-frame parsing, plotting, and iterative phase optimization are omitted."
+
+[[extra.translation.function]]
+r_name = "count.pairwise"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["pairwise_count_matrix"]
+fortran_source = "src/psych_descriptive.f90"
+status = "substantial"
+notes = "Deprecated pairwise-count operation mapped to the maintained numeric count-matrix implementation."
+
+[[extra.translation.function]]
+r_name = "d.ci"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["effect_size_confidence_interval"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "partial"
+notes = "Typed two-group d confidence interval using the standard large-sample approximation; upstream noncentral-t inversion is not reproduced."
+
+[[extra.translation.function]]
+r_name = "d.robust"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["robust_effect_size_two_groups"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Two-group robust d from trimmed means and pooled Winsorized variance; grouped R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "d2CL"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_common_language"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct common-language effect transform."
+
+[[extra.translation.function]]
+r_name = "d2OVL"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_overlap"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct overlap transform."
+
+[[extra.translation.function]]
+r_name = "d2OVL2"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_overlap2"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct overlap transform."
+
+[[extra.translation.function]]
+r_name = "d2U3"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_u3"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct U3 effect transform."
+
+[[extra.translation.function]]
+r_name = "d2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct standardized-effect conversion."
+
+[[extra.translation.function]]
+r_name = "d2t"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["d_to_t"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Implements the documented equal/unequal group size conversions with typed optional sample sizes."
+
+[[extra.translation.function]]
+r_name = "describe"
+r_source = "upstream/R/describe.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["describe_vector", "describe_matrix"]
+fortran_source = "src/psych_descriptive.f90"
+status = "substantial"
+notes = "Core numeric descriptive statistics are translated; nonnumeric-column handling, trimming, and S3 formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "describe.by"
+r_source = "upstream/R/describe.by.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["grouped_describe_matrix"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "partial"
+notes = "Grouped finite means, standard deviations, and counts with group levels derived from integer labels; R formula/data-frame summaries are omitted."
+
+[[extra.translation.function]]
+r_name = "describeBy"
+r_source = "upstream/R/describe.by.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["grouped_describe_matrix"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "partial"
+notes = "Grouped finite means, standard deviations, and counts with group levels derived from integer labels; R formula/data-frame summaries are omitted."
+
+[[extra.translation.function]]
+r_name = "distance"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_correlations"
+fortran_names = ["profile_distance_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Pairwise profile Minkowski distance matrix."
+
+[[extra.translation.function]]
+r_name = "dummy.code"
+r_source = "upstream/R/dummy.code.R"
+fortran_module = "psych_scoring"
+fortran_names = ["dummy_code_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "substantial"
+notes = "Numeric dummy/indicator coding for integer categories."
+
+[[extra.translation.function]]
+r_name = "eigen.loadings"
+r_source = "upstream/R/eigen.loadings.R"
+fortran_module = "psych_factor"
+fortran_names = ["eigen_loadings"]
+fortran_source = "src/psych_factor.f90"
+status = "complete"
+notes = "Eigenvector-times-sqrt-eigenvalue loading construction."
+
+[[extra.translation.function]]
+r_name = "equamax"
+r_source = "upstream/R/Promax.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["equamax_rotate"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Deterministic orthogonal Crawford-Ferguson equamax pair-rotation search; GPArotation optimizer bookkeeping is omitted."
+
+[[extra.translation.function]]
+r_name = "fa"
+r_source = "upstream/R/fa.R"
+fortran_module = "psych_factor"
+fortran_names = ["principal_axis_factor"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Meaningful principal-axis extraction path only; minres/WLS/ML/GLS extraction, S3 orchestration, and rotation options remain untranslated."
+
+[[extra.translation.function]]
+r_name = "fa.congruence"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_correlations"
+fortran_names = ["congruence_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Factor congruence matrix computation; R naming/S3 handling is omitted."
+
+[[extra.translation.function]]
+r_name = "fa.extend"
+r_source = "upstream/R/fa.extension.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_extension_loadings"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Extension-variable loadings are computed from cross correlations, the fitted correlation matrix, and supplied factor loadings."
+
+[[extra.translation.function]]
+r_name = "fa.extension"
+r_source = "upstream/R/fa.extension.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_extension_loadings"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Extension-variable loadings are computed from cross correlations, the fitted correlation matrix, and supplied factor loadings."
+
+[[extra.translation.function]]
+r_name = "fa.sort"
+r_source = "upstream/R/fa.sort.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["sort_factor_loadings"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Orders factors by loading sums of squares and optionally reflects signs; R row/item presentation ordering is omitted."
+
+[[extra.translation.function]]
+r_name = "fa.stats"
+r_source = "upstream/R/factor.stats.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_fit_statistics"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "partial"
+notes = "Residual RMS, off-diagonal fit, approximate chi-square, df and p-value core; the full psych fit-statistic object is not reproduced."
+
+[[extra.translation.function]]
+r_name = "fa2irt"
+r_source = "upstream/R/irt.fa.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_to_irt_parameters"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Transforms latent-normal loadings and thresholds to discrimination and difficulty arrays."
+
+[[extra.translation.function]]
+r_name = "faReg"
+r_source = "upstream/R/faReg.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_regression_partition"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "partial"
+notes = "Correlation/covariance block regression core with beta, residual covariance and multiple R-squared; formula/data-frame orchestration is omitted."
+
+[[extra.translation.function]]
+r_name = "faRegression"
+r_source = "upstream/R/faReg.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_regression_partition"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "partial"
+notes = "Correlation/covariance block regression core with beta, residual covariance and multiple R-squared; formula/data-frame orchestration is omitted."
+
+[[extra.translation.function]]
+r_name = "faRotate"
+r_source = "upstream/R/faRotate.r"
+fortran_module = "psych_factor"
+fortran_names = ["varimax_rotate", "promax_rotate", "target_rotation"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Varimax, Promax and target numerical rotations are available; GPArotation/external/custom rotation dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "faRotations"
+r_source = "upstream/R/faRotate.r"
+fortran_module = "psych_factor"
+fortran_names = ["varimax_rotate", "promax_rotate", "target_rotation"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Varimax, Promax and target numerical rotations are available; GPArotation/external/custom rotation dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "factor.congruence"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_correlations"
+fortran_names = ["congruence_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Factor congruence matrix computation; R naming/S3 handling is omitted."
+
+[[extra.translation.function]]
+r_name = "factor.fit"
+r_source = "upstream/R/factor.fit.R"
+fortran_module = "psych_correlations"
+fortran_names = ["factor_fit_value"]
+fortran_source = "src/psych_correlations.f90"
+status = "partial"
+notes = "Core residual-based factor fit measure; R object extraction and multiple diagnostics are omitted."
+
+[[extra.translation.function]]
+r_name = "factor.minres"
+r_source = "upstream/R/factor.minres.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["minimum_residual_factor"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "MINRES off-diagonal residual objective with bounded uniqueness coordinate search; upstream optim/L-BFGS control details differ."
+
+[[extra.translation.function]]
+r_name = "factor.model"
+r_source = "upstream/R/factor.model.R"
+fortran_module = "psych_correlations"
+fortran_names = ["factor_model_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Model-implied covariance/correlation matrix from loadings and factor correlations."
+
+[[extra.translation.function]]
+r_name = "factor.pa"
+r_source = "upstream/R/factor.pa.R"
+fortran_module = "psych_factor"
+fortran_names = ["principal_axis_factor"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Principal-axis communality iteration and factor extraction."
+
+[[extra.translation.function]]
+r_name = "factor.residuals"
+r_source = "upstream/R/factor.residuals.R"
+fortran_module = "psych_factor"
+fortran_names = ["factor_residuals"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Residual correlation/covariance matrix from loadings and factor correlations."
+
+[[extra.translation.function]]
+r_name = "factor.rotate"
+r_source = "upstream/R/faRotate.r"
+fortran_module = "psych_factor"
+fortran_names = ["varimax_rotate", "promax_rotate", "target_rotation"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Varimax, Promax and target numerical rotations are available; GPArotation/external/custom rotation dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "factor.scores"
+r_source = "upstream/R/factor.scores.R"
+fortran_module = "psych_factor"
+fortran_names = ["factor_scores_regression"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Regression factor-score weights/scores core; alternative scoring methods and data/formula handling are omitted."
+
+[[extra.translation.function]]
+r_name = "factor.stats"
+r_source = "upstream/R/factor.stats.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["factor_fit_statistics"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "partial"
+notes = "Residual RMS, off-diagonal fit, approximate chi-square, df and p-value core; the full psych fit-statistic object is not reproduced."
+
+[[extra.translation.function]]
+r_name = "factor.wls"
+r_source = "upstream/R/factor.wls.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["weighted_least_squares_factor"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Weighted least-squares factor objective with bounded uniqueness coordinate search and inverse-correlation weights."
+
+[[extra.translation.function]]
+r_name = "factor2cluster"
+r_source = "upstream/R/factor2cluster.R"
+fortran_module = "psych_factor"
+fortran_names = ["factor_to_clusters"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Assigns variables to the factor with largest absolute loading."
+
+[[extra.translation.function]]
+r_name = "fisherz"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["fisher_z"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct Fisher z transform."
+
+[[extra.translation.function]]
+r_name = "fisherz2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["fisher_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct inverse Fisher z transform."
+
+[[extra.translation.function]]
+r_name = "g2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["g_to_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct standardized effect-to-r transform."
+
+[[extra.translation.function]]
+r_name = "geometric.mean"
+r_source = "upstream/R/geometric.mean.R"
+fortran_module = "psych_basic"
+fortran_names = ["geometric_mean"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Finite numeric-vector computation; R NA option is represented by IEEE-NaN omission."
+
+[[extra.translation.function]]
+r_name = "guttman"
+r_source = "upstream/R/guttman.R"
+fortran_module = "psych_reliability"
+fortran_names = ["guttman_lambdas"]
+fortran_source = "src/psych_reliability.f90"
+status = "substantial"
+notes = "Six Guttman lambda numerical estimates from a correlation matrix."
+
+[[extra.translation.function]]
+r_name = "harmonic.mean"
+r_source = "upstream/R/harmonic.mean.R"
+fortran_module = "psych_basic"
+fortran_names = ["harmonic_mean"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Finite numeric-vector computation; R NA option is represented by IEEE-NaN omission."
+
+[[extra.translation.function]]
+r_name = "interp.median"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_quantile"]
+fortran_source = "src/psych_interpolation.f90"
+status = "substantial"
+notes = "Interpolated median with tied-category width."
+
+[[extra.translation.function]]
+r_name = "interp.q"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_quantile"]
+fortran_source = "src/psych_interpolation.f90"
+status = "partial"
+notes = "Scalar interpolated quantile core; matrix column dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "interp.quantiles"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_quantile"]
+fortran_source = "src/psych_interpolation.f90"
+status = "partial"
+notes = "Scalar interpolated quantile core; matrix column dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "interp.quart"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_quartiles"]
+fortran_source = "src/psych_interpolation.f90"
+status = "partial"
+notes = "Interpolated quartile vector core; matrix/data-frame naming behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "interp.quartiles"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_quartiles"]
+fortran_source = "src/psych_interpolation.f90"
+status = "partial"
+notes = "Interpolated quartile vector core; matrix/data-frame naming behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "interp.values"
+r_source = "upstream/R/interp.median.R"
+fortran_module = "psych_interpolation"
+fortran_names = ["interpolated_values"]
+fortran_source = "src/psych_interpolation.f90"
+status = "substantial"
+notes = "Within-category evenly-spaced interpolation core."
+
+[[extra.translation.function]]
+r_name = "irt.0p"
+r_source = "upstream/R/irt.0p.R"
+fortran_module = "psych_irt"
+fortran_names = ["irt_zero_parameter"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "0-parameter raw/logit person score with upstream endpoint correction."
+
+[[extra.translation.function]]
+r_name = "irt.1p"
+r_source = "upstream/R/irt.1p.R"
+fortran_module = "psych_irt"
+fortran_names = ["rasch_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "Bounded scalar MLE of person theta under the Rasch model; R data-frame output is omitted."
+
+[[extra.translation.function]]
+r_name = "irt.2p"
+r_source = "upstream/R/irt.2p.R"
+fortran_module = "psych_irt"
+fortran_names = ["two_parameter_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "Bounded scalar MLE of person theta under supplied 2PL difficulty/discrimination parameters."
+
+[[extra.translation.function]]
+r_name = "irt.discrim"
+r_source = "upstream/R/irt.discrim.R"
+fortran_module = "psych_irt"
+fortran_names = ["irt_discrimination"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "Bounded per-item likelihood optimization for discrimination with fixed theta/difficulty."
+
+[[extra.translation.function]]
+r_name = "irt.item.diff.rasch"
+r_source = "upstream/R/irt.item.diff.rasch.R"
+fortran_module = "psych_irt"
+fortran_names = ["rasch_item_difficulty"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "Rasch item log-odds difficulty estimates."
+
+[[extra.translation.function]]
+r_name = "irt.person.rasch"
+r_source = "upstream/R/irt.1p.R"
+fortran_module = "psych_irt"
+fortran_names = ["rasch_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "substantial"
+notes = "Bounded scalar MLE of person theta under the Rasch model; R data-frame output is omitted."
+
+[[extra.translation.function]]
+r_name = "irt.responses"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt_extended"
+fortran_names = ["irt_response_curves"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "partial"
+notes = "Theta-bin item response proportions and counts are translated; plotting and R bin labels are omitted."
+
+[[extra.translation.function]]
+r_name = "irt.se"
+r_source = "upstream/R/plot.irt.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["irt_standard_errors"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "substantial"
+notes = "Test information and reciprocal-square-root standard-error curves from supplied difficulty/discrimination parameters."
+
+[[extra.translation.function]]
+r_name = "irt.stats.like"
+r_source = "upstream/R/plot.irt.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["irt_stats_from_loadings"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "partial"
+notes = "Threshold plus loading-to-IRT conversion core; upstream keys/list parsing and factor-object extraction are omitted."
+
+[[extra.translation.function]]
+r_name = "irt.tau"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt_extended"
+fortran_names = ["irt_thresholds"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "substantial"
+notes = "Ordered-response cumulative proportions are transformed to latent-normal thresholds; R data-frame naming is omitted."
+
+[[extra.translation.function]]
+r_name = "isCorrelation"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["is_correlation_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Numerical correlation-matrix validity checks; R messages are omitted."
+
+[[extra.translation.function]]
+r_name = "isCovariance"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["is_covariance_matrix"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Numerical covariance-matrix validity checks; R messages are omitted."
+
+[[extra.translation.function]]
+r_name = "item.sim"
+r_source = "upstream/R/item.sim.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["simulate_item_circumplex"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "partial"
+notes = "Continuous/categorical circumplex or four-direction item simulation with general factor and truncation; exact R RNG stream/options differ."
+
+[[extra.translation.function]]
+r_name = "item.validity"
+r_source = "upstream/R/validity.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["item_validity_by_keys"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Mean signed item-criterion correlations for a supplied numeric key matrix."
+
+[[extra.translation.function]]
+r_name = "itemSort"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["item_sort_indices"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "partial"
+notes = "Numeric item-ordering core; psych item-statistics object reconstruction and printing are omitted."
+
+[[extra.translation.function]]
+r_name = "kaiser"
+r_source = "upstream/R/kaiser.R"
+fortran_module = "psych_factor"
+fortran_names = ["kaiser_normalize"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Kaiser loading normalization."
+
+[[extra.translation.function]]
+r_name = "keysort"
+r_source = "upstream/R/parcels.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["key_sort_columns"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Orders key-matrix columns by weighted item position; key-list names and R attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "kurtosi"
+r_source = "upstream/R/describe.R"
+fortran_module = "psych_basic"
+fortran_names = ["excess_kurtosis"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Excess kurtosis for finite observations; R type/group options are omitted."
+
+[[extra.translation.function]]
+r_name = "lmCor"
+r_source = "upstream/R/lmCor.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["regression_from_matrices"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Core covariance/correlation block regression, residual covariance, R2 and determinant set-correlation; formula parsing, CIs, canonical weights and diagrams are omitted."
+
+[[extra.translation.function]]
+r_name = "logistic"
+r_source = "upstream/R/logistic.R"
+fortran_module = "psych_basic"
+fortran_names = ["logistic_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "General logistic curve kernel; R vector/list conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "logit"
+r_source = "upstream/R/logistic.R"
+fortran_module = "psych_basic"
+fortran_names = ["logit_value"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct probability logit."
+
+[[extra.translation.function]]
+r_name = "lowerUpper"
+r_source = "upstream/R/lowerUpper.R"
+fortran_module = "psych_matrix"
+fortran_names = ["lower_upper_merge"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Numerical lower/upper triangle combination; dimname and NA-diagonal presentation details are omitted."
+
+[[extra.translation.function]]
+r_name = "m2d"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["means_to_d"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Numerical pooled/unpooled standardized mean-difference calculation; R printing is omitted."
+
+[[extra.translation.function]]
+r_name = "m2t"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["means_to_t"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Numerical pooled/Welch t and d calculation; R printing/list construction is omitted."
+
+[[extra.translation.function]]
+r_name = "mardia"
+r_source = "upstream/R/skew.R"
+fortran_module = "psych_correlations"
+fortran_names = ["mardia_statistics"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Multivariate skewness/kurtosis numerical statistics; R significance/result-object details are omitted."
+
+[[extra.translation.function]]
+r_name = "mat.regress"
+r_source = "upstream/R/mat.regress.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["regression_from_matrices"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Deprecated matrix-regression entry point maps to the typed covariance-block regression core."
+
+[[extra.translation.function]]
+r_name = "mat.sort"
+r_source = "upstream/R/mat.sort.R"
+fortran_module = "psych_matrix"
+fortran_names = ["sort_matrix_by_loadings"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Reorders a matrix by dominant factor and within-factor loading magnitude."
+
+[[extra.translation.function]]
+r_name = "matMult"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_matrix"
+fortran_names = ["missing_matmul"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Matrix multiplication omitting NaN products in each dot product."
+
+[[extra.translation.function]]
+r_name = "matReg"
+r_source = "upstream/R/matReg.r"
+fortran_module = "psych_validity_extended"
+fortran_names = ["regression_from_matrices"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Covariance-block regression weights, residual covariance, R2 and set correlation; raw-moment/formula standard-error fields are omitted."
+
+[[extra.translation.function]]
+r_name = "matSort"
+r_source = "upstream/R/mat.sort.R"
+fortran_module = "psych_matrix"
+fortran_names = ["sort_matrix_by_loadings"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Reorders a matrix by dominant factor and within-factor loading magnitude."
+
+[[extra.translation.function]]
+r_name = "minkowski"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_basic"
+fortran_names = ["minkowski_distance"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Minkowski distance kernel for two numeric vectors."
+
+[[extra.translation.function]]
+r_name = "mssd"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_basic"
+fortran_names = ["mssd_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Successive-difference statistic for a numeric vector; grouped/data-frame dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "nfactors"
+r_source = "upstream/R/VSS.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["vss_complexity_fit"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Numerical VSS complexity-fit core underlying nfactors is translated; plotting and complete model-selection table orchestration are omitted."
+
+[[extra.translation.function]]
+r_name = "omegaStats"
+r_source = "upstream/R/omega.stats.r"
+fortran_module = "psych_reliability_extended"
+fortran_names = ["omega_statistics"]
+fortran_source = "src/psych_reliability_extended.f90"
+status = "partial"
+notes = "Omega hierarchical/total/limit, alpha and lambda-6 from supplied r/loadings; lavaan extraction, factor score adequacy, and group tables are omitted."
+
+[[extra.translation.function]]
+r_name = "outlier"
+r_source = "upstream/R/outlier.R"
+fortran_module = "psych_correlations"
+fortran_names = ["mahalanobis_squared"]
+fortran_source = "src/psych_correlations.f90"
+status = "partial"
+notes = "Mahalanobis squared-distance kernel is translated; plotting/cutoff/list behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "paired.r"
+r_source = "upstream/R/paired.r.R"
+fortran_module = "psych_correlations"
+fortran_names = ["paired_correlation_test"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Dependent-correlation comparison statistic and p-value core."
+
+[[extra.translation.function]]
+r_name = "pairwiseCount"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["pairwise_count_matrix"]
+fortran_source = "src/psych_descriptive.f90"
+status = "substantial"
+notes = "Pairwise finite-observation count matrix."
+
+[[extra.translation.function]]
+r_name = "pairwiseCountBig"
+r_source = "upstream/R/bigCor.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["pairwise_count_blocked"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Blocked pairwise finite-count calculation without the upstream bigCor file/backing-store interface."
+
+[[extra.translation.function]]
+r_name = "pairwiseDescribe"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["pairwise_describe_counts"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Descriptive statistics of pairwise finite-observation counts."
+
+[[extra.translation.function]]
+r_name = "pairwiseImpute"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["pairwise_impute_by_keys"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Key-block pairwise-correlation averaging and optional finite-fraction imputation core."
+
+[[extra.translation.function]]
+r_name = "pairwiseZero"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["pairwise_zero_matrix"]
+fortran_source = "src/psych_descriptive.f90"
+status = "partial"
+notes = "Core zero/missing pair indicator computation; reporting shortcuts are omitted."
+
+[[extra.translation.function]]
+r_name = "partial.r"
+r_source = "upstream/R/partial.r.R"
+fortran_module = "psych_correlations"
+fortran_names = ["partial_correlation"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Partial correlation matrix from a supplied correlation matrix; formula/name selection is omitted."
+
+[[extra.translation.function]]
+r_name = "pca"
+r_source = "upstream/R/principal.R"
+fortran_module = "psych_factor"
+fortran_names = ["principal_components_data"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "PCA eigen/loadings/scores core; R options for missing data, rotation, residuals, and complex scoring are omitted."
+
+[[extra.translation.function]]
+r_name = "phi"
+r_source = "upstream/R/phi.R"
+fortran_module = "psych_basic"
+fortran_names = ["phi_coefficient"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "2x2 phi coefficient kernel; table construction from raw factors is omitted."
+
+[[extra.translation.function]]
+r_name = "phi2poly"
+r_source = "upstream/R/phi2poly.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["phi_to_tetrachoric"]
+fortran_source = "src/psych_polychoric.f90"
+status = "partial"
+notes = "Scalar phi-plus-margins construction followed by tetrachoric estimation; matrix forms are omitted."
+
+[[extra.translation.function]]
+r_name = "phi2poly.matrix"
+r_source = "upstream/R/polychor.matrix.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["phi_to_tetrachoric_values"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Deprecated matrix-wide phi-to-tetrachoric conversion mapped to the maintained implementation."
+
+[[extra.translation.function]]
+r_name = "phi2tetra"
+r_source = "upstream/R/phi2poly.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["phi_to_tetrachoric"]
+fortran_source = "src/psych_polychoric.f90"
+status = "partial"
+notes = "Scalar phi-plus-margins construction followed by tetrachoric estimation; matrix forms are omitted."
+
+[[extra.translation.function]]
+r_name = "poly.mat"
+r_source = "upstream/R/polychor.matrix.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["polychoric_categories"]
+fortran_source = "src/psych_polychoric.f90"
+status = "partial"
+notes = "Deprecated polychoric entry point maps to the pairwise ordered-category latent-normal correlation core."
+
+[[extra.translation.function]]
+r_name = "polychoric"
+r_source = "upstream/R/polychoric.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["polychoric_categories"]
+fortran_source = "src/psych_polychoric.f90"
+status = "partial"
+notes = "Pairwise ordered-category latent-normal ML correlation; multi-variable parallel orchestration, global-threshold options, weights and smoothing are omitted."
+
+[[extra.translation.function]]
+r_name = "predicted.validity"
+r_source = "upstream/R/validity.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["predicted_validity_summary"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Predicted and asymptotic scale-validity formulas from supplied item validities, mean r and item counts; reliability estimation is supplied separately."
+
+[[extra.translation.function]]
+r_name = "principal"
+r_source = "upstream/R/principal.R"
+fortran_module = "psych_factor"
+fortran_names = ["principal_components_data"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "PCA eigen/loadings/scores core; R options for missing data, rotation, residuals, and complex scoring are omitted."
+
+[[extra.translation.function]]
+r_name = "r.con"
+r_source = "upstream/R/r.con.R"
+fortran_module = "psych_basic"
+fortran_names = ["correlation_ci"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Fisher-z correlation interval with typed confidence probability; R tail-selection syntax is simplified."
+
+[[extra.translation.function]]
+r_name = "r.test"
+r_source = "upstream/R/r.test.R"
+fortran_module = "psych_inference_extended"
+fortran_names = ["correlation_test_general"]
+fortran_source = "src/psych_inference_extended.f90"
+status = "substantial"
+notes = "Single, independent, overlapping-dependent, and nonoverlapping-dependent correlation comparison statistics are translated with typed scalar inputs."
+
+[[extra.translation.function]]
+r_name = "r2alpha"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_alpha"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct Spearman-Brown/Cronbach conversion."
+
+[[extra.translation.function]]
+r_name = "r2c"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_covariance"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct covariance reconstruction from correlations and standard deviations."
+
+[[extra.translation.function]]
+r_name = "r2chi"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_chi2"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct r-to-chi-square transform."
+
+[[extra.translation.function]]
+r_name = "r2d"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_d"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct r-to-d transform."
+
+[[extra.translation.function]]
+r_name = "r2p"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_basic"
+fortran_names = ["correlation_p_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Student-t p-value for a correlation; Fortran uses df=n-2."
+
+[[extra.translation.function]]
+r_name = "r2t"
+r_source = "upstream/R/r.con.R"
+fortran_module = "psych_basic"
+fortran_names = ["r_to_t"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct r-to-t transform."
+
+[[extra.translation.function]]
+r_name = "rangeCorrection"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["range_correction"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Range restriction/correction numerical transformation."
+
+[[extra.translation.function]]
+r_name = "reflect"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_factor"
+fortran_names = ["reflect_loadings"]
+fortran_source = "src/psych_factor.f90"
+status = "partial"
+notes = "Loading sign reflection core; score/weight/Phi object updates are not bundled into one R-style object."
+
+[[extra.translation.function]]
+r_name = "reliability"
+r_source = "upstream/R/reliability.R"
+fortran_module = "psych_reliability"
+fortran_names = ["reliability_summary"]
+fortran_source = "src/psych_reliability.f90"
+status = "partial"
+notes = "Core alpha/Guttman reliability summaries; R key/object interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "rescale"
+r_source = "upstream/R/rescale.R"
+fortran_module = "psych_scoring"
+fortran_names = ["rescale_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "substantial"
+notes = "Columnwise standardize-and-rescale numerical operation; data.frame wrapping is omitted."
+
+[[extra.translation.function]]
+r_name = "response.frequencies"
+r_source = "upstream/R/score.multiple.choice.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["response_frequencies"]
+fortran_source = "src/psych_descriptive.f90"
+status = "substantial"
+notes = "Numeric response-frequency table core; category labels and deprecated wrapper behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "responseFrequency"
+r_source = "upstream/R/score.multiple.choice.R"
+fortran_module = "psych_descriptive"
+fortran_names = ["response_frequencies"]
+fortran_source = "src/psych_descriptive.f90"
+status = "substantial"
+notes = "Numeric response-frequency table core; category labels and deprecated wrapper behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "reverse.code"
+r_source = "upstream/R/reverse.code.R"
+fortran_module = "psych_scoring"
+fortran_names = ["reverse_code_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "substantial"
+notes = "Numeric key-based reversal with optional item bounds; character/list key parsing and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "rmssd"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_basic"
+fortran_names = ["rmssd_value"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Root mean square successive difference for a numeric vector; grouped dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "score.alpha"
+r_source = "upstream/R/score.alpha.r"
+fortran_module = "psych_reliability"
+fortran_names = ["cronbach_alpha_data"]
+fortran_source = "src/psych_reliability.f90"
+status = "partial"
+notes = "Deprecated scoring/reliability wrapper maps to the translated alpha numerical core."
+
+[[extra.translation.function]]
+r_name = "score.irt"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt"
+fortran_names = ["two_parameter_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "partial"
+notes = "Dichotomous 2PL person-scoring numerical core; automatic item-stat estimation, key selection, polytomous scoring, and R lists are omitted."
+
+[[extra.translation.function]]
+r_name = "score.irt.2"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt"
+fortran_names = ["two_parameter_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "partial"
+notes = "Dichotomous 2PL person-scoring numerical core; automatic item-stat estimation, key selection, polytomous scoring, and R lists are omitted."
+
+[[extra.translation.function]]
+r_name = "score.irt.poly"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt_extended"
+fortran_names = ["irt_score_poly"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "substantial"
+notes = "Ordinal graded-response person scoring by bounded likelihood optimization; R key selection/result objects are omitted."
+
+[[extra.translation.function]]
+r_name = "score.items"
+r_source = "upstream/R/score.items.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["score_items_summary"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "partial"
+notes = "Numerical keyed scale scores, alpha/G6, scale correlations and item-scale correlations; R missing-data/key-list result objects are simplified."
+
+[[extra.translation.function]]
+r_name = "score.multiple.choice"
+r_source = "upstream/R/score.multiple.choice.R"
+fortran_module = "psych_scoring"
+fortran_names = ["score_multiple_choice_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "partial"
+notes = "Correct-response scoring core; item-analysis summaries and labels are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreFast"
+r_source = "upstream/R/scoreFast.r"
+fortran_module = "psych_scoring"
+fortran_names = ["score_key_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "partial"
+notes = "Keyed sum/mean scores, reversal, missing handling, and response counts; list/name parsing and parallel execution are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreIrt"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt"
+fortran_names = ["two_parameter_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "partial"
+notes = "Dichotomous 2PL person-scoring numerical core; automatic item-stat estimation, key selection, polytomous scoring, and R lists are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreIrt.1pl"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt"
+fortran_names = ["rasch_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "partial"
+notes = "1PL person-scoring numerical core; R key-list item selection is omitted."
+
+[[extra.translation.function]]
+r_name = "scoreIrt.2pl"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_irt"
+fortran_names = ["two_parameter_person_scores"]
+fortran_source = "src/psych_irt.f90"
+status = "partial"
+notes = "2PL person-scoring numerical core; R item-list selection and output structure are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreItems"
+r_source = "upstream/R/score.items.R"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["score_items_summary"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "partial"
+notes = "Numerical keyed scale scores, alpha/G6, scale correlations and item-scale correlations; R missing-data/key-list result objects are simplified."
+
+[[extra.translation.function]]
+r_name = "scoreOverlap"
+r_source = "upstream/R/scoreOverlap.r"
+fortran_module = "psych_scoring_extended"
+fortran_names = ["score_overlap_summary"]
+fortran_source = "src/psych_scoring_extended.f90"
+status = "substantial"
+notes = "Overlap-adjusted keyed scale correlations, reliability, and item-scale correlations from a supplied item correlation matrix."
+
+[[extra.translation.function]]
+r_name = "scoreVeryFast"
+r_source = "upstream/R/scoreFast.r"
+fortran_module = "psych_scoring"
+fortran_names = ["score_key_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "partial"
+notes = "Keyed sum/mean scores, reversal, missing handling, and response counts; list/name parsing and parallel execution are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreWtd"
+r_source = "upstream/R/scoreWtd.R"
+fortran_module = "psych_scoring"
+fortran_names = ["score_weighted_matrix"]
+fortran_source = "src/psych_scoring.f90"
+status = "partial"
+notes = "Weighted matrix scoring core; upstream key/list construction and statistics are omitted."
+
+[[extra.translation.function]]
+r_name = "set.cor"
+r_source = "upstream/R/lmCor.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["regression_from_matrices"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Deprecated set-correlation/regression entry points map to the typed covariance-block regression core; R formula and plotting interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "setCor"
+r_source = "upstream/R/lmCor.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["regression_from_matrices"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "Deprecated set-correlation/regression entry points map to the typed covariance-block regression core; R formula and plotting interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "shannon"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_basic"
+fortran_names = ["shannon_entropy"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Computes Shannon entropy of numeric observations; table/data-frame presentation paths are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.congeneric"
+r_source = "upstream/R/congeneric.sim.R"
+fortran_module = "psych_simulation"
+fortran_names = ["congeneric_correlation", "simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Congeneric population correlation construction and Gaussian sampling core; R naming/seed/object features are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.correlation"
+r_source = "upstream/R/simCor.r"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Multivariate normal generation from a supplied target matrix; R seed/naming and model-construction conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.dichot"
+r_source = "upstream/R/sim.dichot.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_dichotomous"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Independent Bernoulli response generation from item probabilities; latent-correlation construction options are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.irt"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npl_items", "simulate_npn_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Both logistic and normal-ogive dichotomous IRT simulation paths are translated with asymptotes, supplied or generated theta, and Bernoulli responses; R dispatch strings, names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.rasch"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_rasch"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Rasch simulation with normal latent traits and Bernoulli item responses; exact R RNG stream is not reproduced."
+
+[[extra.translation.function]]
+r_name = "sim.simplex"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simplex_correlation", "simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Simplex/AR(1)-style target correlation plus Gaussian sampling core."
+
+[[extra.translation.function]]
+r_name = "sim.structural"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_simulation"
+fortran_names = ["structure_correlation", "simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Factor-model correlation construction plus Gaussian sampling core; path-model/structural orchestration is omitted."
+
+[[extra.translation.function]]
+r_name = "sim.structure"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_simulation"
+fortran_names = ["structure_correlation", "simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Factor-model correlation construction plus Gaussian sampling core; path-model/structural orchestration is omitted."
+
+[[extra.translation.function]]
+r_name = "simCor"
+r_source = "upstream/R/simCor.r"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_correlated_normal"]
+fortran_source = "src/psych_simulation.f90"
+status = "partial"
+notes = "Multivariate normal generation from a supplied target matrix; R seed/naming and model-construction conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "skew"
+r_source = "upstream/R/describe.R"
+fortran_module = "psych_basic"
+fortran_names = ["skewness"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Moment skewness for finite observations; R type/group options are omitted."
+
+[[extra.translation.function]]
+r_name = "smc"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_correlations"
+fortran_names = ["squared_multiple_correlations"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Squared multiple correlations from an inverse/pseudoinverse correlation matrix."
+
+[[extra.translation.function]]
+r_name = "splitHalf"
+r_source = "upstream/R/reliability.R"
+fortran_module = "psych_reliability"
+fortran_names = ["split_half_extremes"]
+fortran_source = "src/psych_reliability.f90"
+status = "partial"
+notes = "Extreme split-half reliability search for manageable item counts; R key/list reporting is omitted."
+
+[[extra.translation.function]]
+r_name = "super.matrix"
+r_source = "upstream/R/superMatrix.R"
+fortran_module = "psych_matrix"
+fortran_names = ["super_matrix_pair"]
+fortran_source = "src/psych_matrix.f90"
+status = "partial"
+notes = "Two-matrix block-diagonal supermatrix operation; recursive list input is omitted."
+
+[[extra.translation.function]]
+r_name = "superMatrix"
+r_source = "upstream/R/superMatrix.R"
+fortran_module = "psych_matrix"
+fortran_names = ["super_matrix_pair"]
+fortran_source = "src/psych_matrix.f90"
+status = "partial"
+notes = "Two-matrix block-diagonal supermatrix operation; recursive list input is omitted."
+
+[[extra.translation.function]]
+r_name = "t2d"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_basic"
+fortran_names = ["t_to_d"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Implements the documented equal/unequal group size conversions with typed optional sample sizes."
+
+[[extra.translation.function]]
+r_name = "t2r"
+r_source = "upstream/R/fisherz.R"
+fortran_module = "psych_basic"
+fortran_names = ["t_to_r"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Direct t-to-r transform."
+
+[[extra.translation.function]]
+r_name = "target.rot"
+r_source = "upstream/R/factor.rotate.R"
+fortran_module = "psych_factor"
+fortran_names = ["target_rotation"]
+fortran_source = "src/psych_factor.f90"
+status = "substantial"
+notes = "Target rotation numerical core."
+
+[[extra.translation.function]]
+r_name = "tetrachoric"
+r_source = "upstream/R/polychoric.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["tetrachoric_table"]
+fortran_source = "src/psych_polychoric.f90"
+status = "partial"
+notes = "2x2 tetrachoric likelihood/moment root using direct bivariate-normal integration; matrix-of-items orchestration, weights and smoothing are omitted."
+
+[[extra.translation.function]]
+r_name = "tr"
+r_source = "upstream/R/matrix.addition.R"
+fortran_module = "psych_basic"
+fortran_names = ["trace_value"]
+fortran_source = "src/psych_basic.f90"
+status = "complete"
+notes = "Matrix trace."
+
+[[extra.translation.function]]
+r_name = "unidim"
+r_source = "upstream/R/unidim.r"
+fortran_module = "psych_validity_extended"
+fortran_names = ["unidimensionality_statistics"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "One-factor fit/alpha-model unidimensionality, standardized alpha, average/median r, MAP and F1/F2 diagnostics from a supplied correlation matrix."
+
+[[extra.translation.function]]
+r_name = "validityItem"
+r_source = "upstream/R/validity.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["item_validity_by_keys"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "substantial"
+notes = "Mean signed item-criterion correlations for a supplied numeric key matrix."
+
+[[extra.translation.function]]
+r_name = "varimin"
+r_source = "upstream/R/Promax.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["varimin_rotate"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Orthogonal pair-search minimization of the varimin squared-loading criterion."
+
+[[extra.translation.function]]
+r_name = "vech"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_matrix"
+fortran_names = ["vech_values"]
+fortran_source = "src/psych_matrix.f90"
+status = "substantial"
+notes = "Lower/upper triangular vectorization with optional diagonal."
+
+[[extra.translation.function]]
+r_name = "vgQ.bimin"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["bimin_objective_gradient"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "complete"
+notes = "Direct Jennrich-Bentler bifactor-min criterion and gradient."
+
+[[extra.translation.function]]
+r_name = "vgQ.targetQ"
+r_source = "upstream/R/bifactor.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["target_objective_gradient"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "substantial"
+notes = "Target sum-of-squares criterion and gradient with IEEE-NaN unconstrained cells."
+
+[[extra.translation.function]]
+r_name = "vgQ.varimin"
+r_source = "upstream/R/Promax.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["varimin_objective_gradient"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "complete"
+notes = "Direct varimin criterion and loading gradient."
+
+[[extra.translation.function]]
+r_name = "vss"
+r_source = "upstream/R/VSS.R"
+fortran_module = "psych_validity_extended"
+fortran_names = ["vss_complexity_fit"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "VSS complexity fits from a supplied correlation matrix/loadings/Phi; repeated factor extraction, rotation selection, plotting and full fit-stat objects are omitted."
+
+[[extra.translation.function]]
+r_name = "winsor"
+r_source = "upstream/R/winsor.R"
+fortran_module = "psych_basic"
+fortran_names = ["winsorize", "winsor_mean"]
+fortran_source = "src/psych_basic.f90"
+status = "partial"
+notes = "Numeric winsorization and winsorized mean are translated; grouped/formula/data-frame interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "winsor.mean"
+r_source = "upstream/R/winsor.R"
+fortran_module = "psych_basic"
+fortran_names = ["winsorize", "winsor_mean"]
+fortran_source = "src/psych_basic.f90"
+status = "partial"
+notes = "Numeric winsorization and winsorized mean are translated; grouped/formula/data-frame interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "winsor.means"
+r_source = "upstream/R/winsor.R"
+fortran_module = "psych_basic"
+fortran_names = ["winsorize", "winsor_mean"]
+fortran_source = "src/psych_basic.f90"
+status = "partial"
+notes = "Numeric winsorization and winsorized mean are translated; grouped/formula/data-frame interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "winsor.sd"
+r_source = "upstream/R/winsor.R"
+fortran_module = "psych_basic"
+fortran_names = ["winsor_sd"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Winsorized standard deviation kernel."
+
+[[extra.translation.function]]
+r_name = "winsor.var"
+r_source = "upstream/R/winsor.R"
+fortran_module = "psych_basic"
+fortran_names = ["winsor_variance"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Winsorized variance kernel."
+
+[[extra.translation.function]]
+r_name = "wkappa"
+r_source = "upstream/R/kappa.R"
+fortran_module = "psych_correlations"
+fortran_names = ["weighted_kappa_value"]
+fortran_source = "src/psych_correlations.f90"
+status = "substantial"
+notes = "Weighted kappa numerical kernel; R weight-construction conveniences are omitted."
+
+[[extra.translation.function]]
+r_name = "block.random"
+r_source = "upstream/R/block.random.R"
+fortran_module = "psych_additional"
+fortran_names = ["block_random_design"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Blocked balanced random assignment for one or more condition factors; subject/column names and exact R RNG stream compatibility are omitted."
+
+[[extra.translation.function]]
+r_name = "cluster.fit"
+r_source = "upstream/R/cluster.fit.R"
+fortran_module = "psych_additional"
+fortran_names = ["cluster_fit_metrics"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Cluster, structure, and pattern fit statistics and RMSE values are translated for numeric matrices; R list/class/message behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "cohen.profile"
+r_source = "upstream/R/factor.congruence.R"
+fortran_module = "psych_additional"
+fortran_names = ["cohen_profile_similarity"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Cohen profile similarity via midpoint-centered congruence; R dimnames and object classes are omitted."
+
+[[extra.translation.function]]
+r_name = "cor2"
+r_source = "upstream/R/misc.R"
+fortran_module = "psych_additional"
+fortran_names = ["cor2_matrix"]
+fortran_source = "src/psych_additional.f90"
+status = "partial"
+notes = "Numeric Pearson correlation/covariance matrix and cross-matrix paths are translated; rank, tetrachoric, polychoric, mixed, printing, list-input, and p-value interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "fsi"
+r_source = "upstream/R/fsi.R"
+fortran_module = "psych_additional"
+fortran_names = ["factor_score_indeterminacy"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Nicewander projection and Grice factor-score indeterminacy calculations are translated; R list/naming behavior is omitted."
+
+[[extra.translation.function]]
+r_name = "interbattery"
+r_source = "upstream/R/esem.R"
+fortran_module = "psych_additional"
+fortran_names = ["interbattery_loadings"]
+fortran_source = "src/psych_additional.f90"
+status = "partial"
+notes = "Core interbattery cross-correlation eigendecomposition is translated from a supplied r12 block; raw-data correlation selection, labels, n.obs, and R list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "p.rep"
+r_source = "upstream/R/p.rep.R"
+fortran_module = "psych_additional"
+fortran_names = ["replication_probability"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Replication probability and optional n-based d-prime/equivalent-r calculations are translated; R default-argument/list packaging is represented by typed optional outputs."
+
+[[extra.translation.function]]
+r_name = "p.rep.f"
+r_source = "upstream/R/p.rep.R"
+fortran_module = "psych_additional"
+fortran_names = ["replication_probability_f"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "F-statistic replication-probability transformation, effect approximation, probability, and equivalent correlation are translated."
+
+[[extra.translation.function]]
+r_name = "p.rep.r"
+r_source = "upstream/R/p.rep.R"
+fortran_module = "psych_additional"
+fortran_names = ["replication_probability_r"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Correlation-based replication probability, d-prime approximation, and probability are translated."
+
+[[extra.translation.function]]
+r_name = "p.rep.t"
+r_source = "upstream/R/p.rep.R"
+fortran_module = "psych_additional"
+fortran_names = ["replication_probability_t"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "One- and two-group t-statistic replication-probability formulas are translated, including equivalent d-prime and r values."
+
+[[extra.translation.function]]
+r_name = "superCor"
+r_source = "upstream/R/superMatrix.R"
+fortran_module = "psych_additional"
+fortran_names = ["super_correlation_matrix"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Numeric block assembly from score-score and item-score correlations is translated; psych object extraction and dimnames are omitted."
+
+
+[[extra.translation.function]]
+r_name = "comorbidity"
+r_source = "upstream/R/comorbidity.R"
+fortran_module = "psych_additional"
+fortran_names = ["comorbidity_statistics"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Joint 2-by-2 probability construction plus phi, Yule Q, and tetrachoric association are translated; labels and R list/class packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "item.dichot"
+r_source = "upstream/R/item.dichot.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_item_dichot"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "The latent-normal dichotomous item simulation, circumplex/non-circumplex angles, thresholds, and regrouping are translated; exact R RNG streams are not reproduced."
+
+[[extra.translation.function]]
+r_name = "logistic.grm"
+r_source = "upstream/R/logistic.R"
+fortran_module = "psych_basic"
+fortran_names = ["graded_response_probability"]
+fortran_source = "src/psych_basic.f90"
+status = "substantial"
+notes = "Graded-response category probabilities are translated for arbitrary threshold vectors; R vector recycling and interface behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "make.congeneric"
+r_source = "upstream/R/make.congeneric.R"
+fortran_module = "psych_simulation"
+fortran_names = ["make_congeneric_model"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Congeneric model/pattern construction and optional latent/observed simulation are translated; dimnames and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "make.hierarchical"
+r_source = "upstream/R/make.hierarchical.R"
+fortran_module = "psych_simulation"
+fortran_names = ["make_hierarchical_model"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Hierarchical population-model construction and optional raw/sample-correlation simulation are translated; dimnames and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "scaling.fits"
+r_source = "upstream/R/scaling.fits.R"
+fortran_module = "psych_additional"
+fortran_names = ["scaling_fit"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Logit, normal, and choice pairwise probabilities plus residual sums of squares and goodness of fit are translated; R list labels are omitted."
+
+[[extra.translation.function]]
+r_name = "tableF"
+r_source = "upstream/R/polychoric.R"
+fortran_module = "psych_polychoric"
+fortran_names = ["integer_contingency_table"]
+fortran_source = "src/psych_polychoric.f90"
+status = "substantial"
+notes = "Fast two-way integer frequency tabulation is translated with zero/one/negative category bases; R NA semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "cosinor.period"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "psych_circular"
+fortran_names = ["cosinor_period_fit"]
+fortran_source = "src/psych_circular.f90"
+status = "partial"
+notes = "Candidate-period search using the translated linear cosinor fit is implemented for one or more response columns; grouped subject-ID handling, plotting, and the optimize-based path are omitted."
+
+[[extra.translation.function]]
+r_name = "crossValidation"
+r_source = "upstream/R/crossValidation.r"
+fortran_module = "psych_validity_extended"
+fortran_names = ["cross_validation_from_correlation"]
+fortran_source = "src/psych_validity_extended.f90"
+status = "partial"
+notes = "The correlation-matrix weighted-score cross-validation core is translated; R model-class extraction, raw-data scoring, names, and object packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "eigenCi"
+r_source = "upstream/R/VSS.R"
+fortran_module = "psych_additional"
+fortran_names = ["eigen_confidence_intervals"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Observed correlation eigenvalues, normal-approximation limits, and row-bootstrap quantile limits are translated; plotting/root display behavior and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "pairwiseSample"
+r_source = "upstream/R/count.pairwise.R"
+fortran_module = "psych_additional"
+fortran_names = ["pairwise_sample_description"]
+fortran_source = "src/psych_additional.f90"
+status = "substantial"
+notes = "Random column sampling, pairwise observation counts, descriptive statistics, and the five upstream count quantiles are translated; exact R RNG streams and R data-frame formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "circ.sim"
+r_source = "upstream/R/circ.sim.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["simulate_item_circumplex"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "substantial"
+notes = "Circumplex/four-direction continuous or categorical item simulation with general loading, bias, and truncation is translated; exact R RNG streams and column names are omitted."
+
+[[extra.translation.function]]
+r_name = "polyserial"
+r_source = "upstream/R/tetrachor.R"
+fortran_module = "psych_remaining"
+fortran_names = ["polyserial_correlations"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "The upstream normal-threshold approximation is translated for integer-coded ordinal columns with pairwise-missing Pearson correlations; R names and noninteger category labels are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.bonds"
+r_source = "upstream/R/sim.hierarchical.R"
+fortran_module = "psych_remaining"
+fortran_names = ["simulate_bonds_model"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Random loading permutations, criterion rows, and the implied correlation matrix are translated; exact R RNG streams and labels are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.circ"
+r_source = "upstream/R/sim.circ.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["simulate_item_circumplex"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "substantial"
+notes = "The numerical simulation matches the shared circumplex/four-direction item generator; exact R RNG streams and column names are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.general"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_remaining"
+fortran_names = ["simulate_general_structure"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Equal-block population correlation construction and optional correlated-normal sampling are translated; exact R RNG streams and variable names are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.item"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_irt_extended"
+fortran_names = ["simulate_item_circumplex"]
+fortran_source = "src/psych_irt_extended.f90"
+status = "partial"
+notes = "The default continuous/categorical item-generation core is translated; threshold-vector sampling and returned latent-score/general-factor components are omitted, and RNG streams differ."
+
+[[extra.translation.function]]
+r_name = "sim.VSS"
+r_source = "upstream/R/sim.VSS.R"
+fortran_module = "psych_remaining"
+fortran_names = ["simulate_vss_data"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Simple-structure latent-column recycling, Gaussian error, common loading, and optional dichotomization are translated; exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "tenberge"
+r_source = "upstream/R/tenberge.R"
+fortran_module = "psych_remaining"
+fortran_names = ["ten_berge_bounds"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "All four Ten Berge lower-bound formulas are translated for correlation matrices or rectangular raw-data input; R list packaging is omitted."
+
+[[extra.translation.function]]
+r_name = "thurstone"
+r_source = "upstream/R/thurstone.R"
+fortran_module = "psych_remaining"
+fortran_names = ["thurstone_scaling"]
+fortran_source = "src/psych_remaining.f90"
+status = "substantial"
+notes = "Pairwise-choice scaling, optional rank-to-choice conversion, fitted probabilities, residuals, and goodness of fit are translated; R rounding, names, and object packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.npl"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npl_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Logistic n-parameter response probabilities, lower/upper asymptotes, optional supplied traits, normal trait generation, and Bernoulli responses are translated; R default difficulty/discrimination vector construction, names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.npn"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npn_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Normal-ogive n-parameter response probabilities, lower/upper asymptotes, optional supplied traits, normal trait generation, and Bernoulli responses are translated; R default difficulty/discrimination vector construction, names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npl_items", "simulate_npn_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Both logistic and normal-ogive binomial polytomous simulation kernels are translated; the R character dispatcher is represented by separate Fortran procedures, and exact RNG streams and names are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.npl"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npl_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "The logistic binomial-count simulation kernel is translated by setting `trials = cat - 1`; R default vector construction, names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.npn"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_npn_items"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "The normal-ogive binomial-count simulation kernel is translated by setting `trials = cat - 1`; R default vector construction, names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.mat"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation"
+fortran_names = ["simulate_polychoric_marginals"]
+fortran_source = "src/psych_simulation.f90"
+status = "substantial"
+notes = "Latent correlated-normal simulation followed by per-item threshold categorization is translated; exact R RNG streams and dimnames are omitted."
+
+[[extra.translation.function]]
+r_name = "bigCor"
+r_source = "upstream/R/bigCor.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["big_correlation_matrix"]
+fortran_source = "src/psych_data_extended.f90"
+status = "substantial"
+notes = "Blockwise Pearson, pairwise Spearman, and polychoric correlation assembly are translated; R data-frame coercion, names, and multicore scheduling are omitted."
+
+[[extra.translation.function]]
+r_name = "describeData"
+r_source = "upstream/R/describe.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["describe_data_numeric"]
+fortran_source = "src/psych_data_extended.f90"
+status = "partial"
+notes = "Numeric-matrix observation counts, complete-case counts, and head/tail extraction are translated; factor, logical, character typing and R data-frame presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "describeFast"
+r_source = "upstream/R/describe.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["describe_fast_numeric"]
+fortran_source = "src/psych_data_extended.f90"
+status = "partial"
+notes = "Fast per-column valid counts and complete-case counting are translated for numeric matrices; R factor/logical/character type classification and data-frame packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "mixedCor"
+r_source = "upstream/R/mixed.cor.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["mixed_correlation_matrix"]
+fortran_source = "src/psych_data_extended.f90"
+status = "substantial"
+notes = "Automatic or explicit continuous/polytomous/dichotomous classification and Pearson, polyserial, biserial, and latent categorical correlations are translated; R list classes, weights, progress reporting, global-threshold options, and smoothing are omitted."
+
+[[extra.translation.function]]
+r_name = "mixed.cor"
+r_source = "upstream/R/mixed.cor.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["mixed_correlation_matrix"]
+fortran_source = "src/psych_data_extended.f90"
+status = "substantial"
+notes = "The deprecated R wrapper maps to the shared mixed-correlation numerical core; the deprecation message and R argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "polydi"
+r_source = "upstream/R/polychoric.R"
+fortran_module = "psych_data_extended"
+fortran_names = ["polydi_correlations"]
+fortran_source = "src/psych_data_extended.f90"
+status = "substantial"
+notes = "Polytomous-by-dichotomous latent-normal correlations are translated through the shared ordered-category likelihood estimator with pairwise missing-value omission; R multicore, weights, threshold-return, and object packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "statsBy"
+r_source = "upstream/R/statsBy.r"
+fortran_module = "psych_data_extended"
+fortran_names = ["stats_by_numeric"]
+fortran_source = "src/psych_data_extended.f90"
+status = "partial"
+notes = "Grouped means, sample SDs, finite counts, grand means, between/within mean squares, F ratios, ICC1, and ICC2 are translated; grouped correlation matrices, confidence intervals, p-values, formula/data-frame dispatch, and R object packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "sim"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_structural_model"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Structural model construction, reliability, correlated latent scores, residual simulation, optional item discretization, thresholds, and sample correlations are translated; lavaan parsing, R names/classes, argument recycling, and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.anova"
+r_source = "upstream/R/sim.anova.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_anova_data"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "partial"
+notes = "Three-factor balanced ANOVA simulation with main, interaction, quadratic effects, contrast scaling, centering, and random error is translated; the optional repeated-measures within branch and R factor/data-frame packaging are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.spherical"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_spherical_items"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Spherical loading geometry, general/specific latent-score simulation, residual error, optional categorization, thresholds, and returned latent/loadings matrices are translated; R labels, threshold sampling/recycling, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.minor"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_minor_factors"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Major, minor, and optional general loading construction, communality validation, model correlation construction, and optional observed simulation are translated; R sampling/recycling, labels, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.ideal"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_poly_ideal"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Ideal-point polytomous simulation dispatch with logistic or normal response kernels and binomial category draws is translated; R object naming and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.ideal.npl"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_poly_ideal_logistic"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "The logistic ideal-point response probability and polytomous binomial simulation kernel are translated; R argument recycling, labels, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.poly.ideal.npn"
+r_source = "upstream/R/sim.item.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_poly_ideal_normal"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "partial"
+notes = "The upstream normal-ogive ideal-point probability formula and polytomous simulation kernel are translated; the upstream routine itself is marked experimental, and R argument recycling, labels, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.hierarchical"
+r_source = "upstream/R/sim.hierarchical.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_hierarchical_data"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Hierarchical factor correlations, model correlations, Schmid-Leiman-style general/group loadings, optional raw simulation, factor scores, categorization, and thresholds are translated; the optional minor-factor augmentation, R classes/names, and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.multilevel"
+r_source = "upstream/R/sim.multilevel.R"
+fortran_module = "psych_simulation_algorithms"
+fortran_names = ["simulate_multilevel_data"]
+fortran_source = "src/psych_simulation_algorithms.f90"
+status = "substantial"
+notes = "Within- and between-group correlated latent-score generation and eta-weighted multilevel composition are translated; R recycling/naming behavior and exact RNG streams are omitted."
+
+
+
+[[extra.translation.function]]
+r_name = "bestItems"
+r_source = "upstream/R/bestItems.r"
+fortran_module = "psych_selection_extended"
+fortran_names = ["best_items_from_correlation"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "substantial"
+notes = "Implements correlation-matrix item ranking by signed or absolute criterion association, cutoffs, and top-item limits. Raw-data correlation construction, dictionaries, and R list/key formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "cohen.d.by"
+r_source = "upstream/R/cohen.d.R"
+fortran_module = "psych_selection_extended"
+fortran_names = ["cohen_d_by_groups"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "partial"
+notes = "Computes stratum-specific Cohen d, Hedges-style pooled-SD effects, equivalent r values, implied t statistics, and finite counts for two comparison groups. Formula parsing, confidence intervals, Mahalanobis distance, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "parcels"
+r_source = "upstream/R/parcels.R"
+fortran_module = "psych_selection_extended"
+fortran_names = ["parcel_keys_from_correlation"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "substantial"
+notes = "Implements size-two and size-three parcel construction from a correlation/similarity matrix, including sign reversals for negatively aligned items. Raw-data conversion, congruence preprocessing, and R naming are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.parallel"
+r_source = "upstream/R/sim.parallel.r"
+fortran_module = "psych_selection_extended"
+fortran_names = ["simulate_parallel_recovery"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "substantial"
+notes = "Runs the sim.minor/parallel-analysis recovery experiment over grids of true factor counts, item counts, and sample sizes, returning FA, SMC-FA, and PC retained counts. RNG streams need not match R exactly."
+
+[[extra.translation.function]]
+r_name = "VSS.parallel"
+r_source = "upstream/R/VSS.parallel.R"
+fortran_module = "psych_selection_extended"
+fortran_names = ["vss_parallel_random"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "partial"
+notes = "Generates independent normal data, fits MINRES solutions across factor counts, and returns VSS complexity-one/two fits. Scree plotting and non-default rotation handling are omitted."
+
+[[extra.translation.function]]
+r_name = "circ.simulation"
+r_source = "upstream/R/circ.simulation.R"
+fortran_module = "psych_selection_extended"
+fortran_names = ["simulate_circumplex_benchmark"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "substantial"
+notes = "Runs the circumplex, elliptical, and simple-structure simulation benchmark and computes the four translated circular diagnostics after two-component PCA. R data-frame labeling is omitted and RNG streams need not match exactly."
+
+[[extra.translation.function]]
+r_name = "simulation.circ"
+r_source = "upstream/R/simulation.circ.R"
+fortran_module = "psych_selection_extended"
+fortran_names = ["simulate_circumplex_benchmark"]
+fortran_source = "src/psych_selection_extended.f90"
+status = "substantial"
+notes = "Implements the same circumplex benchmark kernel as circ.simulation, including circular, elliptical, and simple-structure diagnostic comparisons. R data-frame labeling is omitted and RNG streams need not match exactly."
+
+[[extra.translation.function]]
+r_name = "ICLUST.cluster"
+r_source = "upstream/R/ICLUST.cluster.R"
+fortran_module = "psych_iclust_extended"
+fortran_names = ["iclust_hierarchical"]
+fortran_source = "src/psych_iclust_extended.f90"
+status = "substantial"
+notes = "Implements signed agglomerative ICLUST merging with reliability-corrected composite similarity, weighted beta, alpha/beta stopping rules, sign reversal, and fixed-cluster-count operation. Some legacy weighting/general-correlation options and R bookkeeping are omitted."
+
+[[extra.translation.function]]
+r_name = "ICLUST"
+r_source = "upstream/R/ICLUST.R"
+fortran_module = "psych_iclust_extended"
+fortran_names = ["iclust_hierarchical"]
+fortran_source = "src/psych_iclust_extended.f90"
+status = "partial"
+notes = "Maps the central hierarchical clustering computation. Raw-data/non-Pearson correlation construction, purification iterations, reliability summaries, plots, and R result-object assembly are omitted."
+
+[[extra.translation.function]]
+r_name = "iclust"
+r_source = "upstream/R/ICLUST.R"
+fortran_module = "psych_iclust_extended"
+fortran_names = ["iclust_hierarchical"]
+fortran_source = "src/psych_iclust_extended.f90"
+status = "partial"
+notes = "Maps the central hierarchical clustering computation shared with ICLUST. Raw-data/non-Pearson correlation construction, purification iterations, reliability summaries, plots, and R object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "ICLUST.sort"
+r_source = "upstream/R/ICLUST.sort.R"
+fortran_module = "psych_iclust_extended"
+fortran_names = ["iclust_sort_loadings"]
+fortran_source = "src/psych_iclust_extended.f90"
+status = "substantial"
+notes = "Sorts clusters by loading/pattern strength, assigns items to their strongest loading subject to a cutoff, and orders items within clusters by absolute primary loading. Labels and R class formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "iclust.sort"
+r_source = "upstream/R/ICLUST.sort.R"
+fortran_module = "psych_iclust_extended"
+fortran_names = ["iclust_sort_loadings"]
+fortran_source = "src/psych_iclust_extended.f90"
+status = "substantial"
+notes = "Implements the computational alias of ICLUST.sort using the same cluster-strength and item-loading ordering kernel. Labels and R class formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "cta.15"
+r_source = "upstream/R/cta.15.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["cta15_dynamics"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Implements the non-plot 0.05-step cue-tendency-action dynamics, inhibition, consumption, winner counts, trajectories, and summary means. Plotting, transition labels, and R result classes are omitted."
+
+[[extra.translation.function]]
+r_name = "cta"
+r_source = "upstream/R/cta.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["cta_dynamics"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Implements the core cue-tendency-action difference equations, inhibition/consumption, optional reward learning, winner fractions, trajectories, and final expectancy matrix. Plotting and R object formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "statsBy.boot"
+r_source = "upstream/R/statsBy.boot.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["stats_by_bootstrap"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Bootstraps or permutes group labels and recomputes grouped ANOVA/ICC statistics. R list assembly, progress display, and optional correlation-object output are omitted."
+
+[[extra.translation.function]]
+r_name = "scoreBy"
+r_source = "upstream/R/scoreBy.r"
+fortran_module = "psych_more_extended"
+fortran_names = ["score_by_correlations"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Computes keyed overlap-adjusted scale correlations and reliability statistics independently by group using the translated score-overlap kernel. R formula/key-name handling and result classes are omitted."
+
+[[extra.translation.function]]
+r_name = "mediate"
+r_source = "upstream/R/mediate.r"
+fortran_module = "psych_more_extended"
+fortran_names = ["mediate_from_covariance"]
+fortran_source = "src/psych_more_extended.f90"
+status = "partial"
+notes = "Implements the covariance-matrix numerical core for a, b, direct, total, and product indirect effects. Formula parsing, moderation, covariates, bootstrap inference, diagrams, and R object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.sapa"
+r_source = "upstream/R/fa.sapa.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["factor_analysis_sapa"]
+fortran_source = "src/psych_more_extended.f90"
+status = "partial"
+notes = "Implements correlation-input Monte Carlo replication of MINRES/promax solutions with Procrustes alignment and loading means/standard deviations. Raw SAPA sampling interfaces, alternate extraction methods, quantile intervals, and R objects are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.pooled"
+r_source = "upstream/R/fa.pooled.r"
+fortran_module = "psych_more_extended"
+fortran_names = ["factor_analysis_pooled"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Fits MINRES/promax to multiple supplied correlation matrices, Procrustes-aligns group solutions, and returns pooled loading means and standard deviations. Raw-data preprocessing and R object/inference layers are omitted."
+
+[[extra.translation.function]]
+r_name = "fa.parallel.poly"
+r_source = "upstream/R/fa.parallel.poly.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["parallel_analysis_poly"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Implements the deprecated polychoric/mixed-correlation parallel-analysis core using marginal resampling and observed/random component and factor eigenvalues. Plotting, progress display, and R result formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.omega"
+r_source = "upstream/R/sim.structural.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["simulate_omega_study"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Simulates major/minor-factor data repeatedly and reports omega, omega-hierarchical, eigenvalue, one-factor, ICLUST, ECV, loading-variation, and residual diagnostics. SEM fitting/plots and exact R RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "bassAckward"
+r_source = "upstream/R/bassAckward.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["bass_ackward_factor"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Fits successive MINRES/promax solutions, computes regression factor-score weights, adjacent-level score correlations, and strongest-parent links. Graphing, labels, and R object formatting are omitted."
+
+[[extra.translation.function]]
+r_name = "faBy"
+r_source = "upstream/R/faBy.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["factor_analysis_by_groups"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Fits a pooled MINRES/promax target and group-specific factor solutions, Procrustes-aligns them, and returns loading means/standard deviations and mean factor correlations. R statsBy object interfaces and reporting are omitted."
+
+[[extra.translation.function]]
+r_name = "sim.multi"
+r_source = "upstream/R/sim.multilevel.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["simulate_multi_subject"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Simulates repeated-measures subject factor scores with trend, sinusoidal, between-person, and AR(1) components and maps them through a loading model to observed variables. R data-frame labels and exact RNG streams are omitted."
+
+[[extra.translation.function]]
+r_name = "bestScales"
+r_source = "upstream/R/bestScale.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["best_scales_from_correlation"]
+fortran_source = "src/psych_more_extended.f90"
+status = "partial"
+notes = "Implements the correlation-matrix dust-bowl selection core with signed keys, cut/top-N item selection, and composite criterion validity. Raw-data cross-validation/bootstrap, dictionaries, and R object behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "esem"
+r_source = "upstream/R/esem.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["exploratory_sem"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Implements two-set MINRES factor extraction, factor extension, structure matrices, cross-set factor correlations, residuals, RMS, and off-diagonal fit. Raw-data correlation selection, plots, labels, and full fit-statistic/R object layers are omitted."
+
+[[extra.translation.function]]
+r_name = "corFiml"
+r_source = "upstream/R/fiml.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["correlation_fiml"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Fits the multivariate-normal observed-data likelihood with an EM algorithm over arbitrary IEEE-NaN missing patterns and returns ML means, covariance, correlation, and objective. Upstream uses nlminb on the same likelihood; R missing-pattern/result objects are omitted."
+
+[[extra.translation.function]]
+r_name = "phi.demo"
+r_source = "upstream/R/phi.demo.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["phi_demo_simulation"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Simulates correlated latent/observed normals, thresholds them to binary items, and returns tetrachoric, Pearson/phi-to-tetrachoric, and Yule-Q matrices. The pairs plot, labels, and exact R RNG stream are omitted."
+
+[[extra.translation.function]]
+r_name = "test.irt"
+r_source = "upstream/R/score.irt.r"
+fortran_module = "psych_more_extended"
+fortran_names = ["test_irt_benchmark"]
+fortran_source = "src/psych_more_extended.f90"
+status = "partial"
+notes = "Simulates logistic or normal-ogive dichotomous items, fits the translated one-factor IRT analysis, scores persons with fitted 2PL parameters, and reports trait recovery. Upstream comparison plots and multiple alternative scoring columns are omitted."
+
+[[extra.translation.function]]
+r_name = "fac"
+r_source = "upstream/R/fa.R"
+fortran_module = "psych_factor_extended"
+fortran_names = ["minimum_residual_factor"]
+fortran_source = "src/psych_factor_extended.f90"
+status = "partial"
+notes = "Maps the exported factor-analysis engine to its default MINRES numerical extraction core. The upstream fac engine also supports alternate extraction methods, raw-data preprocessing, rotations, score methods, confidence intervals, and R objects."
+
+[[extra.translation.function]]
+r_name = "glb.algebraic"
+r_source = "upstream/R/glb.algebraic.R"
+fortran_module = "psych_more_extended"
+fortran_names = ["glb_algebraic_admm"]
+fortran_source = "src/psych_more_extended.f90"
+status = "substantial"
+notes = "Solves the same bounded minimum-trace semidefinite reliability problem with an in-package ADMM method using exact off-diagonal projection and PSD eigenvalue projection. Upstream delegates the SDP to Rcsdp; solver iteration/status details therefore differ."
