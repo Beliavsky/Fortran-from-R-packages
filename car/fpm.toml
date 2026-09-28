@@ -1,0 +1,494 @@
+name = "car"
+version = "3.1.5"
+license = "GPL-2.0-or-later"
+author = "John Fox, Sanford Weisberg, Brad Price, and car contributors; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages maintainers"
+description = "Modern Fortran translation of computational kernels from the R car package"
+categories = ["statistics"]
+keywords = ["regression", "diagnostics", "power-transforms", "statistics"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "car-tests"
+source-dir = "test"
+main = "test_car.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example/basic"
+main = "main.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 51
+r_functions_translated = 51
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "contr.Helmert"
+r_source = "upstream/R/Contrasts.R"
+fortran_module = "car"
+fortran_names = ["helmert_contrast"]
+fortran_source = "src/car_contrasts.f90"
+status = "substantial"
+notes = "Numeric contrast construction is translated; R factor labels and decorate attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "contr.Sum"
+r_source = "upstream/R/Contrasts.R"
+fortran_module = "car"
+fortran_names = ["sum_contrast"]
+fortran_source = "src/car_contrasts.f90"
+status = "substantial"
+notes = "Numeric contrast construction is translated; R factor labels and decorate attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "contr.Treatment"
+r_source = "upstream/R/Contrasts.R"
+fortran_module = "car"
+fortran_names = ["treatment_contrast"]
+fortran_source = "src/car_contrasts.f90"
+status = "substantial"
+notes = "Numeric treatment contrasts and baseline selection are translated; R factor labels and decorate attributes are omitted."
+
+[[extra.translation.function]]
+r_name = "ellipse"
+r_source = "upstream/R/Ellipse.R"
+fortran_module = "car"
+fortran_names = ["ellipse_coordinates"]
+fortran_source = "src/car_geometry.f90"
+status = "substantial"
+notes = "Ellipse coordinate generation and log-axis back-transformation are translated; all graphics are omitted."
+
+[[extra.translation.function]]
+r_name = "logit"
+r_source = "upstream/R/logit.R"
+fortran_module = "car"
+fortran_names = ["logit_transform"]
+fortran_source = "src/car_transforms.f90"
+status = "substantial"
+notes = "Numeric logit conversion, percent inference, and endpoint adjustment are translated; R warning text is represented by status codes."
+
+[[extra.translation.function]]
+r_name = "recode"
+r_source = "upstream/R/recode.R"
+fortran_module = "car"
+fortran_names = ["recode_numeric"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Numeric interval recoding is translated; R expression parsing, character/factor recoding, and recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "Recode"
+r_source = "upstream/R/recode.R"
+fortran_module = "car"
+fortran_names = ["recode_numeric"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "The exported alias maps to the numeric recoding kernel; R expression parsing and factor handling are omitted."
+
+[[extra.translation.function]]
+r_name = "sigmaHat"
+r_source = "upstream/R/sigmaHat.R"
+fortran_module = "car"
+fortran_names = ["sigma_hat"]
+fortran_source = "src/car_matrix.f90"
+status = "partial"
+notes = "Residual standard-error computation is translated from numeric residuals and degrees of freedom; S3 model extraction is omitted."
+
+[[extra.translation.function]]
+r_name = "basicPower"
+r_source = "upstream/R/powerTransform.R"
+fortran_module = "car"
+fortran_names = ["basic_power"]
+fortran_source = "src/car_transforms.f90"
+status = "substantial"
+notes = "Vector and matrix numerical transformations and optional gamma shifts are translated; R column-name decoration is omitted."
+
+[[extra.translation.function]]
+r_name = "bcPower"
+r_source = "upstream/R/powerTransform.R"
+fortran_module = "car"
+fortran_names = ["bc_power"]
+fortran_source = "src/car_transforms.f90"
+status = "substantial"
+notes = "Vector and matrix Box-Cox transformations, gamma shifts, NaN handling, and Jacobian adjustment are translated."
+
+[[extra.translation.function]]
+r_name = "yjPower"
+r_source = "upstream/R/powerTransform.R"
+fortran_module = "car"
+fortran_names = ["yj_power"]
+fortran_source = "src/car_transforms.f90"
+status = "substantial"
+notes = "Vector and matrix Yeo-Johnson transformations and Jacobian adjustment are translated."
+
+[[extra.translation.function]]
+r_name = "powerTransform"
+r_source = "upstream/R/powerTransform.R"
+fortran_module = "car"
+fortran_names = ["power_transform_fit"]
+fortran_source = "src/car_power_fit.f90"
+status = "partial"
+notes = "Univariate numerical lambda estimation for supplied design matrices is translated; multivariate optimization, Hessian inference, formulas, S3 objects, and lmer methods are omitted."
+
+[[extra.translation.function]]
+r_name = "bcnPower"
+r_source = "upstream/R/bcnPower.R"
+fortran_module = "car"
+fortran_names = ["bcn_power"]
+fortran_source = "src/car_transforms.f90"
+status = "substantial"
+notes = "Vector and matrix BCN transformations, gamma handling, and Jacobian normalization are translated; BCN parameter estimation is not."
+
+[[extra.translation.function]]
+r_name = "bcnPowerInverse"
+r_source = "upstream/R/bcnPower.R"
+fortran_module = "car"
+fortran_names = ["bcn_power_inverse"]
+fortran_source = "src/car_transforms.f90"
+status = "complete"
+notes = "The scalar inverse transformation is translated directly as a pure elemental function."
+
+[[extra.translation.function]]
+r_name = "boxCox"
+r_source = "upstream/R/boxCox.R"
+fortran_module = "car"
+fortran_names = ["box_cox_profile"]
+fortran_source = "src/car_power_fit.f90"
+status = "substantial"
+notes = "Numerical profile log-likelihood evaluation over a supplied lambda grid is translated; spline interpolation, plotting, formula/S3 handling, and two-parameter BCN profiling are omitted."
+
+[[extra.translation.function]]
+r_name = "boxCoxVariable"
+r_source = "upstream/R/boxCoxVariable.R"
+fortran_module = "car"
+fortran_names = ["box_cox_variable"]
+fortran_source = "src/car_transforms.f90"
+status = "complete"
+notes = "The positive-response Box-Cox constructed variable is translated with NaN propagation."
+
+[[extra.translation.function]]
+r_name = "dbiwt"
+r_source = "upstream/R/adaptiveKernel.R"
+fortran_module = "car"
+fortran_names = ["biweight_kernel"]
+fortran_source = "src/car_kernels.f90"
+status = "complete"
+notes = "The biweight kernel is translated as a pure elemental function."
+
+[[extra.translation.function]]
+r_name = "deltaMethod"
+r_source = "upstream/R/deltaMethod.R"
+fortran_module = "car"
+fortran_names = ["delta_method_gradient"]
+fortran_source = "src/car_matrix.f90"
+status = "partial"
+notes = "The delta-method variance calculation from a supplied numerical gradient and covariance matrix is translated; R expression differentiation and model dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "depan"
+r_source = "upstream/R/adaptiveKernel.R"
+fortran_module = "car"
+fortran_names = ["epanechnikov_kernel"]
+fortran_source = "src/car_kernels.f90"
+status = "complete"
+notes = "The Epanechnikov kernel is translated as a pure elemental function."
+
+[[extra.translation.function]]
+r_name = "dwt"
+r_source = "upstream/R/durbinWatsonTest.R"
+fortran_module = "car"
+fortran_names = ["durbin_watson"]
+fortran_source = "src/car_diagnostics.f90"
+status = "partial"
+notes = "The alias maps to deterministic generalized Durbin-Watson statistics; model extraction and simulation-based p-values are omitted."
+
+[[extra.translation.function]]
+r_name = "durbinWatsonTest"
+r_source = "upstream/R/durbinWatsonTest.R"
+fortran_module = "car"
+fortran_names = ["durbin_watson"]
+fortran_source = "src/car_diagnostics.f90"
+status = "partial"
+notes = "The deterministic residual-vector statistics and autocorrelations are translated; S3 model extraction and simulation p-values are omitted."
+
+[[extra.translation.function]]
+r_name = "testTransform"
+r_source = "upstream/R/powerTransform.R"
+fortran_module = "car"
+fortran_names = ["power_transform_test"]
+fortran_source = "src/car_power_fit.f90"
+status = "partial"
+notes = "A one-parameter likelihood-ratio test for a supplied design matrix is translated; multivariate and S3 powerTransform object interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "hccm"
+r_source = "upstream/R/hccm.R"
+fortran_module = "car"
+fortran_names = ["hccm_matrix"]
+fortran_source = "src/car_matrix.f90"
+status = "substantial"
+notes = "HC0 through HC4 sandwich covariance construction is translated from numeric model components; S3 model extraction and aliased-coefficient handling are omitted."
+
+[[extra.translation.function]]
+r_name = "invTranEstimate"
+r_source = "upstream/R/invTranPlot.R"
+fortran_module = "car"
+fortran_names = ["inv_transform_estimate"]
+fortran_source = "src/car_power_fit.f90"
+status = "substantial"
+notes = "Lambda estimation and optional likelihood confidence limits are translated for numeric x/y vectors; robust MASS::rlm fitting is omitted."
+
+[[extra.translation.function]]
+r_name = "leveneTest"
+r_source = "upstream/R/leveneTest.R"
+fortran_module = "car"
+fortran_names = ["levene_test"]
+fortran_source = "src/car_diagnostics.f90"
+status = "substantial"
+notes = "The default numeric Levene test with mean or median centers is translated; formula/lm interfaces and arbitrary R center functions are omitted."
+
+[[extra.translation.function]]
+r_name = "lht"
+r_source = "upstream/R/linearHypothesis.R"
+fortran_module = "car"
+fortran_names = ["linear_hypothesis_test"]
+fortran_source = "src/car_matrix.f90"
+status = "partial"
+notes = "The alias maps to numeric Wald F/chi-square testing; model dispatch and character hypothesis parsing are omitted."
+
+[[extra.translation.function]]
+r_name = "linearHypothesis"
+r_source = "upstream/R/linearHypothesis.R"
+fortran_module = "car"
+fortran_names = ["linear_hypothesis_test"]
+fortran_source = "src/car_matrix.f90"
+status = "partial"
+notes = "Numeric Wald F/chi-square testing is translated; model dispatch, character hypotheses, and multivariate-response tests are omitted."
+
+[[extra.translation.function]]
+r_name = "ncvTest"
+r_source = "upstream/R/ncvTest.R"
+fortran_module = "car"
+fortran_names = ["ncv_test"]
+fortran_source = "src/car_diagnostics.f90"
+status = "partial"
+notes = "The default fitted-value variance score test is translated from residuals and fitted values; custom variance formulas and model extraction are omitted."
+
+[[extra.translation.function]]
+r_name = "outlierTest"
+r_source = "upstream/R/outlierTest.R"
+fortran_module = "car"
+fortran_names = ["outlier_bonferroni"]
+fortran_source = "src/car_diagnostics.f90"
+status = "partial"
+notes = "Student-t probabilities and Bonferroni adjustment are translated from supplied externally studentized residuals; model extraction, labeling, sorting, and GLM-normal behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "vif"
+r_source = "upstream/R/vif.R"
+fortran_module = "car"
+fortran_names = ["gvif_from_covariance"]
+fortran_source = "src/car_matrix.f90"
+status = "substantial"
+notes = "The covariance/correlation determinant calculation for term-level GVIFs is translated; model-matrix extraction and predictor interaction reporting are omitted."
+
+[[extra.translation.function]]
+r_name = "adaptiveKernel"
+r_source = "upstream/R/adaptiveKernel.R"
+fortran_module = "car"
+fortran_names = ["adaptive_kernel"]
+fortran_source = "src/car_kernels.f90"
+status = "substantial"
+notes = "The adaptive density algorithm, normal/Epanechnikov/biweight kernels, bandwidth selection, and grid construction are translated; R density object metadata is omitted."
+
+[[extra.translation.function]]
+r_name = "Tapply"
+r_source = "upstream/R/Tapply.R"
+fortran_module = "car"
+fortran_names = ["tapply_numeric"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "One-factor numeric sum, mean, and median reductions are translated; formulas, multiple grouping factors, arbitrary R functions, and do.call semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "linearHypothesis.default"
+r_source = "upstream/R/linearHypothesis.R"
+fortran_module = "car"
+fortran_names = ["linear_hypothesis_test"]
+fortran_source = "src/car_matrix.f90"
+status = "substantial"
+notes = "The core numeric Wald quadratic form and F/chi-square p-values are translated; model extraction and character hypothesis parsing are omitted."
+
+[[extra.translation.function]]
+r_name = "wcrossprod"
+r_source = "upstream/R/wcrossprod.R"
+fortran_module = "car"
+fortran_names = ["wcrossprod"]
+fortran_source = "src/car_matrix.f90"
+status = "substantial"
+notes = "Unweighted, vector-weighted, and matrix-weighted cross-products are translated through public Fortran procedures; scalar-weight convenience and R coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "boxTidwell"
+r_source = "upstream/R/boxTidwell.R"
+fortran_module = "car"
+fortran_names = ["box_tidwell"]
+fortran_source = "src/car_box_tidwell.f90"
+status = "substantial"
+notes = "The numeric default Box-Tidwell iteration, initial score t tests, and omnibus F test are translated; formula/model-frame handling, arbitrary lm options, and R warning text are omitted."
+
+[[extra.translation.function]]
+r_name = "poTest"
+r_source = "upstream/R/poTest.R"
+fortran_module = "car"
+fortran_names = ["po_test"]
+fortran_source = "src/car_po_test.f90"
+status = "substantial"
+notes = "The proportional-odds diagnostic is translated for a supplied design matrix, ordered response, and optional weights using deterministic logistic IRLS; polr extraction, labels, and exact glm.fit iteration details are omitted."
+
+[[extra.translation.function]]
+r_name = "Predict"
+r_source = "upstream/R/Predict.R"
+fortran_module = "car"
+fortran_names = ["predict_lm"]
+fortran_source = "src/car_lm.f90"
+status = "substantial"
+notes = "Linear-model response prediction, coefficient-covariance standard errors, confidence/prediction intervals, and offsets are translated for explicit design matrices; formula/model-frame construction, term-wise prediction, R weight formulas, and S3 dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "Confint"
+r_source = "upstream/R/S.R"
+fortran_module = "car"
+fortran_names = ["confint_lm"]
+fortran_source = "src/car_lm.f90"
+status = "partial"
+notes = "Student-t coefficient intervals for linear models and supplied covariance matrices are translated; non-lm methods, profile likelihood, exponentiation, parameter-name selection, and S3 dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "S"
+r_source = "upstream/R/S.R"
+fortran_module = "car"
+fortran_names = ["lm_summary"]
+fortran_source = "src/car_lm.f90"
+status = "partial"
+notes = "The linear-model numerical summary is translated, including coefficients, classical covariance, t tests, residual scale, R-squared, adjusted R-squared, and the overall F test; GLM, mixed-model, multinomial, ordinal, printing, and S3 behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "Anova"
+r_source = "upstream/R/Anova.R"
+fortran_module = "car"
+fortran_names = ["anova_lm_type3"]
+fortran_source = "src/car_anova.f90"
+status = "partial"
+notes = "Type III linear-model term tests are translated for explicit full-rank design matrices and coefficient-term assignments; Type II construction, GLM and other model classes, robust covariance dispatch, repeated measures, and R model semantics are omitted."
+
+[[extra.translation.function]]
+r_name = "makeHypothesis"
+r_source = "upstream/R/linearHypothesis.R"
+fortran_module = "car"
+fortran_names = ["make_hypothesis"]
+fortran_source = "src/car_hypothesis.f90"
+status = "partial"
+notes = "Linear hypotheses with ordinary coefficient names, numeric multipliers, +/-, optional *, and one equals sign are parsed into L beta = rhs form; coefficient names containing arithmetic operators and the full R text-parsing permissiveness are omitted."
+
+[[extra.translation.function]]
+r_name = "Manova"
+r_source = "upstream/R/Anova.R"
+fortran_module = "car"
+fortran_names = ["manova_type3_ssp", "manova_test_statistics"]
+fortran_source = "src/car_manova.f90"
+status = "partial"
+notes = "Type III hypothesis/error SSP matrices plus Pillai, Wilks, and Hotelling-Lawley statistics and approximate F tests are translated; Type II construction, Roy's largest root, repeated-measures designs, and R mlm object handling are omitted."
+
+[[extra.translation.function]]
+r_name = "bootCase"
+r_source = "upstream/R/car-deprecated.R"
+fortran_module = "car"
+fortran_names = ["lm_bootstrap_case"]
+fortran_source = "src/car_lm.f90"
+status = "partial"
+notes = "Deprecated case-resampling behavior is represented for linear models using caller-supplied deterministic bootstrap index matrices; R RNG, update(), arbitrary statistics, and non-lm methods are omitted."
+
+[[extra.translation.function]]
+r_name = "nextBoot"
+r_source = "upstream/R/car-deprecated.R"
+fortran_module = "car"
+fortran_names = ["lm_refit_rows"]
+fortran_source = "src/car_lm.f90"
+status = "partial"
+notes = "The deprecated linear-model row-resampling refit is translated for explicit X/y arrays and optional weights; R update(), object reconstruction, and nls methods are omitted."
+
+[[extra.translation.function]]
+r_name = "matchCoefs"
+r_source = "upstream/R/linearHypothesis.R"
+fortran_module = "car"
+fortran_names = ["match_coefficient_names"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Coefficient-name matching is translated for explicit name arrays using literal substring matching; R regular expressions and model-specific coefficient extraction are omitted."
+
+[[extra.translation.function]]
+r_name = "Boot"
+r_source = "upstream/R/Boot.R"
+fortran_module = "car"
+fortran_names = ["lm_bootstrap_case"]
+fortran_source = "src/car_lm.f90"
+status = "partial"
+notes = "Case bootstrap coefficient refitting for linear models is translated using caller-supplied deterministic resampling indices; residual bootstrap, RNG, parallel execution, arbitrary statistic callbacks, model updates, and boot-class construction are omitted."
+
+[[extra.translation.function]]
+r_name = "strings2factors"
+r_source = "upstream/R/strings2factors.R"
+fortran_module = "car"
+fortran_names = ["strings2factors_codes"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Character-column factor coding is translated for homogeneous character matrices, with column selection, sorted inferred levels, and exclude.unique behavior; heterogeneous R data frames, per-column custom level lists, NA strings, and verbose messages are omitted."
+
+[[extra.translation.function]]
+r_name = "some"
+r_source = "upstream/R/some.R"
+fortran_module = "car"
+fortran_names = ["some_indices"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Sorted sampling without replacement is translated as returned row/element indices; callers apply the indices to their arrays. Fortran RNG behavior differs from R, and deterministic uniform draws may be supplied for reproducible tests."
+
+[[extra.translation.function]]
+r_name = "which.names"
+r_source = "upstream/R/which.names.R"
+fortran_module = "car"
+fortran_names = ["which_names"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Exact name lookup is translated for explicit source and query name arrays; R object-name extraction, warning text, and duplicate-name indexing semantics are simplified."
+
+[[extra.translation.function]]
+r_name = "whichNames"
+r_source = "upstream/R/which.names.R"
+fortran_module = "car"
+fortran_names = ["which_names"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "Exact name lookup is translated for explicit source and query name arrays; R S3 dispatch, object-name extraction, warning text, and duplicate-name indexing semantics are simplified."
+
+[[extra.translation.function]]
+r_name = "compareCoefs"
+r_source = "upstream/R/compareCoefs.R"
+fortran_module = "car"
+fortran_names = ["compare_coefs_numeric"]
+fortran_source = "src/car_data.f90"
+status = "partial"
+notes = "The coefficient-comparison numerical core computes standard errors, z statistics, and two-sided normal p-values across supplied coefficient/covariance arrays; model extraction, name alignment, call formatting, and printing are omitted."
+
