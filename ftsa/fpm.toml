@@ -1,0 +1,381 @@
+name = "ftsa"
+version = "0.1.0"
+license = "GPL-3.0-only"
+author = "Rob Hyndman, Han Lin Shang; Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Modern Fortran translation of computational routines from the R package ftsa"
+categories = ["statistics", "time-series", "functional-data"]
+
+[build]
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 39
+r_functions_translated = 39
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "extract"
+r_source = "upstream/R/extract.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_extract_time", "ftsa_extract_x"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Numeric time-column and grid-row extraction is translated; R fts object reconstruction and character-time matching are omitted."
+
+[[extra.translation.function]]
+r_name = "ftsm"
+r_source = "upstream/R/ftsm.R"
+fortran_module = "ftsa_models"
+fortran_names = ["ftsa_ftsm"]
+fortran_source = "src/ftsa_models.f90"
+status = "partial"
+notes = "Classical regular-grid PCA fitting, weighted centering, scores, fitted curves and residuals are translated; robust PCA, spline smoothing, missing-value handling and R ts/fts metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "forecast.ftsm"
+r_source = "upstream/R/forecast.ftsm.R"
+fortran_module = "ftsa_models"
+fortran_names = ["ftsa_forecast_ftsm"]
+fortran_source = "src/ftsa_models.f90"
+status = "partial"
+notes = "Random-walk and random-walk-with-drift score forecasts are translated; ETS, ARIMA, AR, structural, ARFIMA and prediction-interval object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "residuals.fm"
+r_source = "upstream/R/residuals.fm.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_residuals"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "complete"
+notes = "The numerical observed-minus-fitted residual operation is translated; R class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "diff.fts"
+r_source = "upstream/R/diff.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_difference"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Repeated lag differencing is translated using rfortran-core; R time-series metadata reconstruction is omitted."
+
+[[extra.translation.function]]
+r_name = "mean.fts"
+r_source = "upstream/R/mean.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_mean_coordinate"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Coordinatewise arithmetic means including optional NaN removal are translated; robust alternative methods and R object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "median.fts"
+r_source = "upstream/R/median.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_median_coordinate"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Coordinatewise type-7 medians are translated; R object construction is omitted."
+
+[[extra.translation.function]]
+r_name = "var.fts"
+r_source = "upstream/R/var.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_variance_coordinate"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Coordinatewise population variance used by the functional method is translated; R method dispatch and object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "error"
+r_source = "upstream/R/error.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_error_metric", "ftsa_error_all"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "complete"
+notes = "All 22 upstream scalar forecast-error measures and upstream decimal rounding are translated."
+
+[[extra.translation.function]]
+r_name = "fbootstrap"
+r_source = "upstream/R/fbootstrap.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_bootstrap_mean"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "partial"
+notes = "Nonparametric curve resampling, mean estimates and Euclidean bootstrap radius are translated; smoothing and non-mean functionals are omitted, and RNG streams are not R-identical."
+
+[[extra.translation.function]]
+r_name = "sd.fts"
+r_source = "upstream/R/sd.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_sd_coordinate"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "The upstream coordinatewise finite-data scale calculation is translated; R class metadata is omitted."
+
+[[extra.translation.function]]
+r_name = "quantile.fts"
+r_source = "upstream/R/quantile.fts.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_quantiles"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Coordinatewise R type-7 quantiles are translated; names and fts object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "sd.default"
+r_source = "upstream/R/sd.default.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_sd_vector", "ftsa_sd_columns"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "substantial"
+notes = "Sample standard deviation for vectors and matrix columns is translated; R generic dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "ftsmiterativeforecasts"
+r_source = "upstream/R/ftsmiterativeforecasts.R"
+fortran_module = "ftsa_models"
+fortran_names = ["ftsa_ftsm_iterative_forecasts"]
+fortran_source = "src/ftsa_models.f90"
+status = "partial"
+notes = "Recursive refit-and-one-step forecasting is translated using the translated classical FTSM and random-walk score forecast core."
+
+[[extra.translation.function]]
+r_name = "centre"
+r_source = "upstream/R/centre.R"
+fortran_module = "ftsa_statistics"
+fortran_names = ["ftsa_centre_mean", "ftsa_centre_variance"]
+fortran_source = "src/ftsa_statistics.f90"
+status = "partial"
+notes = "Mean and variance center functions are translated; robust depth/mode/trimmed-center alternatives remain outside this mapping."
+
+[[extra.translation.function]]
+r_name = "long_run_covariance_estimation"
+r_source = "upstream/R/long_run_covariance_estimation.R"
+fortran_module = "ftsa_covariance"
+fortran_names = ["ftsa_long_run_covariance"]
+fortran_source = "src/ftsa_covariance.f90"
+status = "substantial"
+notes = "Flat-top pilot selection and Bartlett plug-in long-run covariance estimation are translated on numeric grid-by-time matrices."
+
+[[extra.translation.function]]
+r_name = "facf"
+r_source = "upstream/R/facf.R"
+fortran_module = "ftsa_covariance"
+fortran_names = ["ftsa_facf"]
+fortran_source = "src/ftsa_covariance.f90"
+status = "complete"
+notes = "The functional autocorrelation norm calculation is translated for numeric time-by-grid matrices; lag zero is represented as zero rather than R NA."
+
+[[extra.translation.function]]
+r_name = "ER_GR"
+r_source = "upstream/R/ER_GR.R"
+fortran_module = "ftsa_factor"
+fortran_names = ["ftsa_er_gr"]
+fortran_source = "src/ftsa_factor.f90"
+status = "substantial"
+notes = "Eigenvalue-ratio and growth-ratio component selectors are translated with checked symmetric eigendecomposition."
+
+[[extra.translation.function]]
+r_name = "stop_time_sim_data"
+r_source = "upstream/R/stop_time_sim_data.R"
+fortran_module = "ftsa_simulation"
+fortran_names = ["ftsa_stop_time_sim_data"]
+fortran_source = "src/ftsa_simulation.f90"
+status = "substantial"
+notes = "The Brownian-driven regime-change simulation and stationarizing transformation are translated; Fortran and R RNG streams differ."
+
+[[extra.translation.function]]
+r_name = "sim_FARMA"
+r_source = "upstream/R/sim_FARMA.R"
+fortran_module = "ftsa_simulation"
+fortran_names = ["ftsa_sim_farma"]
+fortran_source = "src/ftsa_simulation.f90"
+status = "substantial"
+notes = "Fractionally filtered Brownian innovations plus the upstream FAR and FARMA integral operators are translated; RNG streams are not R-identical."
+
+[[extra.translation.function]]
+r_name = "H_estimate_RS"
+r_source = "upstream/R/H_estimate_RS.R"
+fortran_module = "ftsa_factor"
+fortran_names = ["ftsa_h_estimate_rs"]
+fortran_source = "src/ftsa_factor.f90"
+status = "substantial"
+notes = "Long-run covariance construction, 95-percent eigenspace selection, first/average scores and classical/modified rescaled-range estimates are translated."
+
+[[extra.translation.function]]
+r_name = "isfe.fts"
+r_source = "upstream/R/isfe.fts.r"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_isfe"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "Rolling integrated-squared forecast-error evaluation over component orders and horizons is translated using the translated FTSM random-walk score forecasts; upstream spline-grid MISE and additional forecast-package models are omitted."
+
+[[extra.translation.function]]
+r_name = "fplsr"
+r_source = "upstream/R/fplsr.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_fplsr"]
+fortran_source = "src/ftsa_extended.f90"
+status = "substantial"
+notes = "Lag-one functional SIMPLS regression, fitted curves, residuals, optional exponential weighting, and one-step prediction are translated; NIPALS, interval forecasts, and R fm/fts object construction are omitted."
+
+[[extra.translation.function]]
+r_name = "dynupdate"
+r_source = "upstream/R/dynupdate.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_dynupdate"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "The numerical ts, OLS, penalized PLS, and ridge partial-curve update calculations are translated using the classical FTSM basis and random-walk score forecasts; block updates, ARIMA/ETS forecasts, and interval bootstraps are omitted."
+
+[[extra.translation.function]]
+r_name = "ftsmweightselect"
+r_source = "upstream/R/ftsmweightselect.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_ftsm_weight_select"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "Golden-section selection of the exponential beta parameter from rolling MAE/MSE/MAPE validation is translated using the package's weighted FTSM core and random-walk score forecast."
+
+[[extra.translation.function]]
+r_name = "forecastfplsr"
+r_source = "upstream/R/forecastfplsr.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_forecast_fplsr"]
+fortran_source = "src/ftsa_extended.f90"
+status = "substantial"
+notes = "Recursive refit-and-one-step functional PLS forecasting is translated with SIMPLS; R fts metadata and NIPALS alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "pcscorebootstrapdata"
+r_source = "upstream/R/pcscorebootstrapdata.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_pcscore_bootstrap_data"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "The standard principal-score row-resampling bootstrap is translated for mean and variance center functions; smoothed, MVN, Stiefel and maximum-entropy bootstrap variants are omitted and RNG streams are not R-identical."
+
+[[extra.translation.function]]
+r_name = "MAF_multivariate"
+r_source = "upstream/R/MAF_multivariate.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_maf_multivariate"]
+fortran_source = "src/ftsa_extended.f90"
+status = "substantial"
+notes = "Multivariate MAF construction, normalized loadings/reconstruction, generalized eigenvalue diagnostics and component selection are translated; the covariance inverse square root uses its spectral matrix definition rather than R elementwise power syntax."
+
+[[extra.translation.function]]
+r_name = "dynamic_FLR"
+r_source = "upstream/R/dynamic_FLR.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_dynamic_flr"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "The classical point-forecast functional linear regression based on prefix/suffix covariance eigenspaces is translated; robust-M decomposition and maximum-entropy bootstrap interval construction are omitted."
+
+[[extra.translation.function]]
+r_name = "stop_time_detect"
+r_source = "upstream/R/stop_time_detect.R"
+fortran_module = "ftsa_extended"
+fortran_names = ["ftsa_stop_time_detect"]
+fortran_source = "src/ftsa_extended.f90"
+status = "partial"
+notes = "Forward and reverse ER/GR-selected one-step FTSM error sequences are translated; external strucchange/ecp breakpoint calls are replaced by a documented single mean-shift minimum-SSE breakpoint selector."
+
+[[extra.translation.function]]
+r_name = "MFDM"
+r_source = "upstream/R/MFDM.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_mfdm"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "The common and sex-specific two-level SVD decomposition, upstream nearest-cumulative-variance component selection, and deterministic score forecasts are translated; JAGS posterior sampling, posterior predictive uncertainty, Box-Cox handling, and exact forecast-package ARIMA/ETS models are omitted."
+
+[[extra.translation.function]]
+r_name = "farforecast"
+r_source = "upstream/R/farforecast.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_farforecast"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Functional PCA, joint FPE selection of FPC dimension and VAR lag, stabilized local score-VAR fitting, recursive score forecasting, and curve reconstruction are translated; exact R vars/arima fitting details and prediction-interval objects are omitted."
+
+[[extra.translation.function]]
+r_name = "T_stationary"
+r_source = "upstream/R/T_stationary.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_t_stationary"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Lag-window long-run covariance construction, nonpivotal and pivotal statistics, Fourier-basis projection, and Monte Carlo p-values are translated; analytic Fourier evaluation replaces fda basis objects and RNG streams are not R-identical."
+
+[[extra.translation.function]]
+r_name = "skew_t_fun"
+r_source = "upstream/R/skew_t_fun.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_skew_t_fun"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Fernandez-Steel standardized skew-Student log-likelihood fitting, the upstream variance/df transformations, stabilized parameter-VAR forecasting, df-tail inversion, and forecast density evaluation are translated; derivative-free fitting and local VAR AIC replace fGarch sstdFit and vars internals."
+
+[[extra.translation.function]]
+r_name = "Horta_Ziegelmann_FPCA"
+r_source = "upstream/R/Horta_Ziegelmann_FPCA.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_horta_ziegelmann_fpca"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "The fixed-dimension dynamic long-run eigenspace, score construction, FPE-selected score VAR, and normalized density forecast are translated; raw-sample KDE preprocessing, bootstrap dimension tests, and exact forecast/vars interfaces are omitted."
+
+[[extra.translation.function]]
+r_name = "CoDa_FPCA"
+r_source = "upstream/R/CoDa_FPCA.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_coda_fpca"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Closure/geometric-centering, CLR transformation, SVD component selection, score random-walk forecasting, and inverse-CLR density reconstruction are translated for positive discretized densities; raw-sample KDE and ETS/ARIMA alternatives are omitted."
+
+[[extra.translation.function]]
+r_name = "LQDT_FPCA"
+r_source = "upstream/R/LQDT_FPCA.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_lqdt_fpca"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Log-quantile-density forward/inverse transforms, reconstruction diagnostics, component selection, boundary treatment, and univariate FTSM point forecasting are translated; the multivariate bootstrap/VAR branch and exact auto.arima probability forecast are omitted."
+
+[[extra.translation.function]]
+r_name = "CoDa_BayesNW"
+r_source = "upstream/R/CoDa_BayesNW.R"
+fortran_module = "ftsa_remaining"
+fortran_names = ["ftsa_coda_bayes_nw"]
+fortran_source = "src/ftsa_remaining.f90"
+status = "partial"
+notes = "Density closure/CLR transformation, L2 functional k-nearest-neighbor Nadaraya-Watson regression, leave-one-out bandwidth selection, and inverse-CLR forecast reconstruction are translated; raw-sample KDE and exact fda.usc helper behavior are omitted."
+
+[[extra.translation.function]]
+r_name = "GAEVforecast"
+r_source = "upstream/R/GAEVforecast.R"
+fortran_module = "ftsa_gaev"
+fortran_names = ["ftsa_gaev_forecast"]
+fortran_source = "src/ftsa_gaev.f90"
+status = "partial"
+notes = "Smooth GEV location/log-scale fitting, constant shape estimation, leave-last-curve basis selection using symmetric KLD, ridge-stabilized trend/VAR parameter forecasting, GEV mode reconstruction, and density evaluation are translated; an open-uniform B-spline penalized ML fit replaces evgam cubic-regression-spline smoothing and its smoothing-parameter machinery."
+

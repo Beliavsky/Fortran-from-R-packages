@@ -1,0 +1,110 @@
+export(
+is.fts,
+extract,
+ftsm,
+plot.ftsm,
+plot.fm,
+plot.fmres,
+forecast.ftsm,
+isfe.fts,
+plot.ftsf,
+plot.fm,
+residuals.fm,
+summary.fm,
+diff.fts,
+mean.fts,
+median.fts,
+var.fts,
+error,
+fbootstrap,
+fplsr,
+dynupdate,
+sd.fts,
+quantile.fts,
+sd.default,
+var.default,
+sd,
+var,
+quantile,
+ftsmweightselect,
+forecastfplsr,
+ftsmiterativeforecasts,
+plotfplsr,
+centre,
+pcscorebootstrapdata,
+MFDM,
+farforecast,
+T_stationary,
+dynamic_FLR,
+long_run_covariance_estimation,
+facf,
+ER_GR,
+stop_time_detect,
+stop_time_sim_data,
+MAF_multivariate,
+skew_t_fun,
+Horta_Ziegelmann_FPCA,
+CoDa_FPCA,
+LQDT_FPCA,
+CoDa_BayesNW,
+GAEVforecast,
+sim_FARMA,
+H_estimate_RS
+)
+
+
+S3method(mean,fts)
+S3method(median,fts)
+S3method(quantile,fts)
+S3method(plot,ftsf)
+S3method(plot,fm)
+S3method(plot,ftsm)
+S3method(plot,fmres)
+S3method(residuals,fm)
+S3method(summary,fm)
+S3method(forecast,ftsm)
+S3method(forecast,dfpca)
+S3method(var,fts)
+S3method(sd,fts)
+S3method(var,default)
+S3method(sd,default)
+S3method(diff,fts)
+S3method(print,fm)
+S3method(print,ftsm)
+S3method(print,ftsf)
+S3method(print,fmres)
+
+import(forecast)
+import(rainbow)
+import(stats)
+import(colorspace)
+import(MASS)
+import(pdfCluster)
+import(ecp)
+import(strucchange)
+import(e1071)
+
+importFrom(pcaPP, PCAproj)
+importFrom(pcaPP, l1median)
+importFrom(sde, BBridge)
+importFrom(fda, create.fourier.basis)
+importFrom(fda, eval.basis)
+importFrom(psych, geometric.mean)
+importFrom(fGarch, dsstd)
+importFrom(fGarch, sstdFit)
+importFrom(KernSmooth, dpik)
+importFrom(vars, VARselect)
+importFrom(vars, VAR)
+importFrom(fdapace, trapzRcpp)
+importFrom(fdapace, cumtrapzRcpp)
+importFrom(boot, logit)
+importFrom(boot, inv.logit)
+importFrom(evgam, evgam)
+importFrom(glue, glue)
+importFrom(LaplacesDemon, KLD)
+importFrom(ROOPSD, dgev)
+importFrom("graphics", "abline", "contour", "filled.contour", "image", "legend", "lines", "par", "persp", "points", "text", "title")
+importFrom("utils", "head", "tail", "globalVariables")
+importFrom("grDevices", "dev.new", "gray")
+importFrom("methods", "is")
+importFrom(sde, BM)
