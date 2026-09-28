@@ -1,0 +1,428 @@
+name = "SparseM"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Fortran translation preserving attribution to SparseM authors and contributors"
+maintainer = "Fortran-from-R-packages project"
+description = "Modern free-form Fortran translation of SparseM computational sparse linear algebra"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 45
+r_functions_translated = 45
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "as.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_modules = ["sparsem_core", "sparsem_factor"]
+fortran_names = ["csr_from_dense", "csr_from_csc", "csr_from_coo", "csr_from_ssr", "csr_from_ssc", "chol_as_csr"]
+fortran_sources = ["src/sparsem_core.f90", "src/sparsem_factor.f90"]
+status = "substantial"
+notes = "Dense and supported sparse representations convert to CSR, and Cholesky factors convert to upper/lower CSR triangular form; R recycling and S4 dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "as.matrix.csc"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csc_from_dense", "csc_from_csr"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Dense and CSR inputs convert to CSC; S4 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "as.matrix.ssr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["ssr_from_dense", "ssr_from_csr"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Symmetric matrices convert to lower-triangle sparse-row storage with explicit symmetry validation."
+
+[[extra.translation.function]]
+r_name = "as.matrix.ssc"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["ssc_from_dense", "ssc_from_csr"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Symmetric matrices convert to lower-triangle sparse-column storage with explicit symmetry validation."
+
+[[extra.translation.function]]
+r_name = "as.matrix.coo"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["coo_from_dense", "coo_from_csr"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Dense and CSR inputs convert to coordinate storage; S4 dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "as.matrix"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_to_dense", "csc_to_dense", "coo_to_dense", "ssr_to_dense", "ssc_to_dense"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Sparse representations expand to dense real arrays; R dimnames and class dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "det"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["csr_determinant", "chol_determinant"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Matrix determinants and triangular Cholesky-factor determinants are computed from the translated Cholesky path."
+
+[[extra.translation.function]]
+r_name = "forwardsolve"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["chol_forwardsolve", "chol_forwardsolve_matrix", "chol_forwardsolve_csr"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Solves lower-triangular Cholesky systems for dense vector/matrix or CSR right-hand sides; CSR input is densified as in the R coercion path."
+
+[[extra.translation.function]]
+r_name = "norm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_norm"]
+fortran_source = "src/sparsem_core.f90"
+status = "complete"
+notes = "Implements SparseM sup/M, HS/F, and l1 definitions over stored entries."
+
+[[extra.translation.function]]
+r_name = "rbind.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_rbind"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Binds two CSR matrices by rows; R variadic argument and name handling are omitted."
+
+[[extra.translation.function]]
+r_name = "cbind.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_cbind"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Binds two CSR matrices by columns; R variadic argument and name handling are omitted."
+
+[[extra.translation.function]]
+r_name = "Ops.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_add", "csr_subtract", "csr_hadamard", "csr_divide", "csr_power", "csr_intdiv", "csr_modulo", "csr_relation", "csr_complement"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Matrix-matrix arithmetic, comparisons, and logical complement are translated; R scalar/vector recycling is only partly represented by lower-level procedures."
+
+[[extra.translation.function]]
+r_name = "Ops.matrix.diag.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_add", "csr_subtract", "csr_hadamard", "csr_divide", "csr_power", "csr_relation"]
+fortran_source = "src/sparsem_core.f90"
+status = "partial"
+notes = "Diagonal CSR operands use the same matrix kernels; the dedicated R diagonal class dispatch is omitted."
+
+[[extra.translation.function]]
+r_name = "[.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_submatrix"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Positive one-based row/column selection with duplicates is supported; negative/logical R subscripts are omitted."
+
+[[extra.translation.function]]
+r_name = "[<-.matrix.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_assign_submatrix"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Rectangular CSR replacement is supported for explicit positive row/column index vectors."
+
+[[extra.translation.function]]
+r_name = "[.matrix.diag.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_submatrix"]
+fortran_source = "src/sparsem_core.f90"
+status = "partial"
+notes = "Subsetting is translated but dedicated diagonal-class preservation is omitted."
+
+[[extra.translation.function]]
+r_name = "slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm"]
+fortran_source = "src/sparsem_factor.f90"
+status = "partial"
+notes = "Numerical sparse least squares is translated; R formula/model-frame processing is omitted."
+
+[[extra.translation.function]]
+r_name = "slm.fit"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_fit"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Fits a single-response sparse linear model from an explicit CSR design matrix."
+
+[[extra.translation.function]]
+r_name = "slm.wfit"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_wfit"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Weighted single-response sparse linear least squares is translated with nonnegative-weight validation."
+
+[[extra.translation.function]]
+r_name = "slm.fit.csr"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_fit_csr", "mslm_fit_csr"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Normal-equation sparse-model fitting is translated for single- and multi-response dense RHS arrays and uses the translated sparse Ng-Peyton Cholesky path."
+
+[[extra.translation.function]]
+r_name = "t"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_transpose"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "CSR transpose is implemented directly; other R class dispatch is represented through conversions."
+
+[[extra.translation.function]]
+r_name = "chol"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["csr_chol"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Positive-definite Cholesky uses translated Ng-Peyton/Liu MMD ordering, SFINIT/SYMFCT symbolic analysis, cache splitting, selectable level-1/2/4/8 numerical kernels, tiny-pivot replacement, workspace ceilings, and supernodal triangular solves. R S4 construction, warning emission, timing fields, and exact allocation heuristics are omitted."
+
+[[extra.translation.function]]
+r_name = "coef.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_coef"]
+fortran_source = "src/sparsem_factor.f90"
+status = "complete"
+notes = "Returns fitted coefficient vector."
+
+[[extra.translation.function]]
+r_name = "fitted.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_fitted"]
+fortran_source = "src/sparsem_factor.f90"
+status = "complete"
+notes = "Returns fitted-value vector."
+
+[[extra.translation.function]]
+r_name = "residuals.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_residuals"]
+fortran_source = "src/sparsem_factor.f90"
+status = "complete"
+notes = "Returns residual vector."
+
+[[extra.translation.function]]
+r_name = "deviance.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_deviance"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Computes residual sum of squares; R weighted.residuals NA behavior is not reproduced."
+
+[[extra.translation.function]]
+r_name = "extractAIC.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_extract_aic"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Implements the SparseM effective-df and AIC criterion formulas for finite residuals."
+
+[[extra.translation.function]]
+r_name = "summary.slm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["slm_summary"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Computes covariance, standard errors, t statistics and two-sided p-values, sigma, R-squared, adjusted R-squared, F statistic/p-value, and coefficient correlations; R terms/call metadata, residual printing summaries, and weighted-model metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "[<-.matrix.coo"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["coo_assign_submatrix"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Coordinate-matrix rectangular replacement is translated through CSR conversion."
+
+[[extra.translation.function]]
+r_name = "[.matrix.coo"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["coo_submatrix"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Coordinate-matrix positive index subsetting is translated through CSR conversion."
+
+[[extra.translation.function]]
+r_name = "dim"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_shape"]
+fortran_source = "src/sparsem_core.f90"
+status = "complete"
+notes = "Returns CSR row and column counts."
+
+[[extra.translation.function]]
+r_name = "diff"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_diff_rows"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Repeated row differencing with positive lag and differences is translated."
+
+[[extra.translation.function]]
+r_name = "diag"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_diag"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Extracts the main diagonal; R names handling is omitted."
+
+[[extra.translation.function]]
+r_name = "diag<-"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_set_diag"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Replaces the main diagonal with scalar broadcast or a full diagonal vector."
+
+[[extra.translation.function]]
+r_name = "determinant"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["csr_determinant", "chol_determinant"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Returns matrix or triangular Cholesky-factor determinant/log determinant plus optional sign; matrix input forwards Ng-Peyton tuning/workspace controls, including tiny-pivot warning status."
+
+[[extra.translation.function]]
+r_name = "backsolve"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["chol_backsolve", "chol_backsolve_matrix", "chol_backsolve_csr", "chol_solve", "chol_solve_matrix", "chol_solve_csr"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Triangular backsolve and full Cholesky solves are provided for dense vector/matrix and CSR right-hand sides; CSR input is densified before the numerical kernels."
+
+[[extra.translation.function]]
+r_name = "solve"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["csr_solve", "csr_solve_matrix", "csr_solve_csr_rhs", "csr_inverse"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Solves symmetric positive-definite CSR systems for dense or CSR right-hand sides and returns a CSR inverse when no RHS is needed; Cholesky tuning/workspace controls are forwarded, while S4 return conventions are omitted."
+
+[[extra.translation.function]]
+r_name = "%*%"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_matmul", "csr_matvec", "csr_vecmat"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "CSR-CSR, CSR-vector, and vector-CSR products are translated; dense-matrix overloads require explicit conversion."
+
+[[extra.translation.function]]
+r_name = "kronecker"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_core"
+fortran_names = ["csr_kronecker"]
+fortran_source = "src/sparsem_core.f90"
+status = "substantial"
+notes = "Sparse Kronecker product is translated for CSR factors; R FUN and dimname customization are omitted."
+
+[[extra.translation.function]]
+r_name = "read.matrix.hb"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_hb"
+fortran_names = ["read_matrix_hb"]
+fortran_source = "src/sparsem_hb.f90"
+status = "substantial"
+notes = "Reads real assembled Harwell-Boeing R/S/U storage with fixed-width I/D/E/F/G fields and full RHS blocks, including optional guess and exact-solution blocks; R connection objects are omitted."
+
+[[extra.translation.function]]
+r_name = "model.matrix"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_hb"
+fortran_names = ["hb_model_matrix"]
+fortran_source = "src/sparsem_hb.f90"
+status = "substantial"
+notes = "Extracts the coefficient matrix from the translated Harwell-Boeing object as CSR, expanding symmetric storage; generic R model-frame dispatch is outside this HB-specific mapping."
+
+[[extra.translation.function]]
+r_name = "model.response"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_hb"
+fortran_names = ["hb_model_response"]
+fortran_source = "src/sparsem_hb.f90"
+status = "substantial"
+notes = "Returns the full-storage Harwell-Boeing RHS as a dense rank-two array; R type coercion and generic non-HB dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "model.guess"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_hb"
+fortran_names = ["hb_model_guess"]
+fortran_source = "src/sparsem_hb.f90"
+status = "substantial"
+notes = "Returns the optional Harwell-Boeing starting-vector block as a dense rank-two array and reports absence through a status code."
+
+[[extra.translation.function]]
+r_name = "model.xexact"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_hb"
+fortran_names = ["hb_model_xexact"]
+fortran_source = "src/sparsem_hb.f90"
+status = "substantial"
+notes = "Returns the optional Harwell-Boeing exact-solution block as a dense rank-two array and reports absence through a status code."
+
+[[extra.translation.function]]
+r_name = "summary.mslm"
+r_source = "upstream/R/SparseM.R"
+fortran_module = "sparsem_factor"
+fortran_names = ["mslm_summary"]
+fortran_source = "src/sparsem_factor.f90"
+status = "substantial"
+notes = "Produces one numerical slm summary per response, including coefficient p-values, F tests, and correlations; response names, formula/effects metadata, weighted-model metadata, and R list/class behavior are omitted."
+
