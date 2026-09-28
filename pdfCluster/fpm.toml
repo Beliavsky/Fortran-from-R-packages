@@ -1,0 +1,115 @@
+name = "pdfCluster"
+version = "1.0.4"
+license = "GPL-2"
+author = "Giovanna Menardi, Adelchi Azzalini; Fortran translation"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "Upstream pdfCluster authors and contributors"
+description = "Modern Fortran translation of density-based clustering algorithms from the R pdfCluster package"
+categories = ["statistics", "clustering", "kernel-density-estimation"]
+
+[build]
+auto-executables = false
+auto-tests = false
+auto-examples = false
+module-naming = false
+
+[library]
+source-dir = "src"
+
+[dependencies]
+geometry = { path = "../geometry" }
+
+[[test]]
+name = "unit"
+source-dir = "test/unit"
+main = "main.f90"
+
+[[test]]
+name = "clustering"
+source-dir = "test/clustering"
+main = "main.f90"
+
+[[example]]
+name = "basic"
+source-dir = "example"
+main = "basic.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 8
+r_functions_translated = 8
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "kepdf"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_kde"
+fortran_names = ["kepdf_fit", "kepdf_estimate"]
+fortran_source = "src/pdfcluster_kde.f90"
+status = "substantial"
+notes = "Gaussian and t7 product-kernel density estimation, fixed/adaptive diagonal bandwidths, and evaluation at arbitrary points are translated; R S4 object construction and data-frame coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "h.norm"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_kde"
+fortran_names = ["h_norm"]
+fortran_source = "src/pdfcluster_kde.f90"
+status = "complete"
+notes = "The multivariate normal-reference bandwidth rule is translated directly using sample standard deviations."
+
+[[extra.translation.function]]
+r_name = "hprop2f"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_kde"
+fortran_names = ["hprop2f"]
+fortran_source = "src/pdfcluster_kde.f90"
+status = "complete"
+notes = "Pilot-density geometric mean and Abramson row-specific bandwidth scaling are translated for Gaussian and t7 kernels."
+
+[[extra.translation.function]]
+r_name = "pdfCluster"
+r_source = "upstream/R/pdfCluster.R"
+fortran_modules = ["pdfcluster_cluster", "pdfcluster_graph"]
+fortran_names = ["pdfcluster_fit", "pdfcluster_regraph_pairs", "density_profile", "core_labels_from_profile"]
+fortran_sources = ["src/pdfcluster_cluster.f90", "src/pdfcluster_graph.f90"]
+status = "substantial"
+notes = "Density estimation, unidimensional/Delaunay/pair graphs, connected density-level components, con2tree-style core allocation, pair-threshold refitting, and optional staged classification are translated. Dendrogram/S4 construction, Qhull option strings, discrete/NA warnings, and exact R presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "pdfClassification"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_cluster"
+fortran_names = ["pdf_classification"]
+fortran_source = "src/pdfcluster_cluster.f90"
+status = "substantial"
+notes = "Staged density-ratio classification, optional standard-error scaling, fixed/adaptive bandwidth updates, and unclassified density-underflow outliers are translated; zero labels replace R NA values and adaptive hcores avoids the upstream loop's cumulative in-place bandwidth multiplication."
+
+[[extra.translation.function]]
+r_name = "groups"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_cluster"
+fortran_names = ["groups_at_stage"]
+fortran_source = "src/pdfcluster_cluster.f90"
+status = "substantial"
+notes = "Core and staged group extraction is translated; unallocated observations use integer zero instead of R NA."
+
+[[extra.translation.function]]
+r_name = "dbs"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_dbs"
+fortran_names = ["dbs_from_labels", "dbs_from_pdfcluster"]
+fortran_source = "src/pdfcluster_dbs.f90"
+status = "substantial"
+notes = "Cluster-specific KDE posterior weights and normalized density-based silhouette scores are translated for explicit labels and pdfCluster results; arbitrary R bandwidth-function lookup, S4 objects, and NA storage are omitted."
+
+[[extra.translation.function]]
+r_name = "adj.rand.index"
+r_source = "upstream/R/pdfCluster.R"
+fortran_module = "pdfcluster_metrics"
+fortran_names = ["adjusted_rand_index"]
+fortran_source = "src/pdfcluster_metrics.f90"
+status = "complete"
+notes = "The contingency-table adjusted Rand index formula is translated directly, including NaN for a zero denominator."

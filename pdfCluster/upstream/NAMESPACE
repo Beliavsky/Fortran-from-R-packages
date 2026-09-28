@@ -1,0 +1,48 @@
+#exportPattern("^[[:alpha:]]+")
+importFrom("graphics", plot)
+importFrom("geometry", delaunayn)
+import("methods")
+
+export("adj.rand.index",
+    "dbs",
+    "groups",
+    "h.norm",
+	"hprop2f",
+	"kepdf",
+   	"pdfClassification",
+	"plot.dbs",
+    "plot.kepdf",
+	"plot.pdfCluster" ,     
+    "summary.kepdf",
+    "summary.pdfCluster",   
+    "summary.dbs"
+)
+
+exportMethods(
+    "dbs",
+    "pdfCluster",
+	"plot",
+    "summary",
+	"show" 
+)
+
+exportClasses(
+     "kepdf",
+     "pdfCluster",
+     "dbs"
+)
+
+importFrom("grDevices", "extendrange", "heat.colors")
+importFrom("graphics", "Axis", "axis", "box", "contour", "image",
+             "lines", "mtext", "pairs", "par", "persp", "points", "rug",
+             "segments", "text", "title")
+importFrom("stats", "median", "na.omit", "quantile", "var")
+importFrom("utils", "combn", "str")
+
+S3method(plot, dbs)
+S3method(plot, kepdf)
+S3method(plot, pdfCluster)
+S3method(summary, dbs)
+S3method(summary, kepdf)
+S3method(summary, pdfCluster)
+

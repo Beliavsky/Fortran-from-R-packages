@@ -1,0 +1,30 @@
+Package: pdfCluster
+Type: Package
+Title: Cluster Analysis via Nonparametric Density Estimation
+Version: 1.0-4
+Date: 2022-12-01
+Authors@R: c(
+    person("Menardi", "Giovanna", role = c("aut", "cre"), email = "menardi@stat.unipd.it"),
+    person("Azzalini", "Adelchi", role = c("aut")),
+    person("Rosolin", "Tiziana", role = c("ctb"), comment = "up to version 0.1-13")
+  )
+Maintainer: Menardi Giovanna <menardi@stat.unipd.it>
+Description: Cluster analysis via nonparametric density 
+   estimation is performed. Operationally, the kernel method is used throughout to estimate
+   the density. Diagnostics methods for evaluating the quality of the clustering 
+   are available. The package includes also a routine to estimate the 
+   probability density function obtained by the kernel method, given a set of
+   data with arbitrary dimensions.
+License: GPL-2
+LazyLoad: yes
+Imports: geometry, methods
+Suggests: cluster
+Packaged: 2022-12-01 16:50:50 UTC; giovanna
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2022-12-02 09:50:02 UTC
+Encoding: UTF-8
+Language: en-US
+Author: Menardi Giovanna [aut, cre],
+  Azzalini Adelchi [aut],
+  Rosolin Tiziana [ctb] (up to version 0.1-13)
