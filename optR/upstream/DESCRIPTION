@@ -1,0 +1,16 @@
+Package: optR
+Type: Package
+Title: Optimization Toolbox for Solving Linear Systems
+Version: 1.2.5
+Date: 2016-11-29
+Author: Prakash (PKS Prakash) <prakash2@uwalumni.com>
+Maintainer: Prakash <prakash2@uwalumni.com>
+Description: Solves linear systems of form Ax=b via Gauss elimination, 
+  LU decomposition, Gauss-Seidel, Conjugate Gradient Method (CGM) and Cholesky methods.
+License: GPL (>= 2)
+Packaged: 2016-11-29 12:31:37 UTC; prakash
+RoxygenNote: 5.0.1
+Depends: graphics, stats
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2016-11-29 15:08:40

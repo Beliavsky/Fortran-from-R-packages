@@ -1,0 +1,133 @@
+name = "optR"
+version = "1.2.5"
+license = "GPL-2.0-or-later"
+author = "Prakash (PKS Prakash)"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Modern Fortran translation of the computational core of the R package optR"
+categories = ["linear-algebra", "optimization"]
+keywords = ["linear-systems", "lu", "cholesky", "gauss-seidel", "conjugate-gradient", "newton-raphson"]
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+source-dir = "src"
+
+[[test]]
+name = "test_optr"
+source-dir = "test"
+main = "test_optr.f90"
+
+[[example]]
+name = "solve_demo"
+source-dir = "example"
+main = "solve_demo.f90"
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 11
+r_functions_translated = 11
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "LUsplit"
+r_source = "upstream/R/inv_optR.R"
+fortran_module = "optr"
+fortran_names = ["lu_split"]
+fortran_source = "src/optr_linear.f90"
+status = "complete"
+notes = "Returns explicit unit-lower and upper factors from the compact LU representation; R list construction is replaced by separate Fortran outputs."
+
+[[extra.translation.function]]
+r_name = "choleskiDecomposition"
+r_source = "upstream/R/choleskiDecomposition.R"
+fortran_module = "optr"
+fortran_names = ["cholesky_decompose"]
+fortran_source = "src/optr_linear.f90"
+status = "complete"
+notes = "Implements the lower-triangular Cholesky factor with explicit status reporting for non-positive-definite inputs."
+
+[[extra.translation.function]]
+r_name = "hatMatrix"
+r_source = "upstream/R/hatMatrix.R"
+fortran_module = "optr"
+fortran_names = ["hat_matrix"]
+fortran_source = "src/optr_model.f90"
+status = "substantial"
+notes = "Ordinary and covariance-weighted projection matrices are implemented; R matrix coercion and stop-message text are omitted."
+
+[[extra.translation.function]]
+r_name = "inv.optR"
+r_source = "upstream/R/inv_optR.R"
+fortran_module = "optr"
+fortran_names = ["invert_matrix"]
+fortran_source = "src/optr_linear.f90"
+status = "substantial"
+notes = "Uses a pivoted LU factorization once for all identity columns; exact R object dispatch and machine-precision cleanup semantics are simplified."
+
+[[extra.translation.function]]
+r_name = "jacobian"
+r_source = "upstream/R/newtonRapshon.R"
+fortran_module = "optr"
+fortran_names = ["finite_difference_jacobian"]
+fortran_source = "src/optr_optimization.f90"
+status = "substantial"
+notes = "Preserves the forward-difference step default of 1e-4; R function objects are represented by the Fortran vector_function callback wrapper."
+
+[[extra.translation.function]]
+r_name = "optR"
+r_source = "upstream/R/optR.R"
+fortran_module = "optr"
+fortran_names = ["optr_solve", "optr_fit_design"]
+fortran_source = "src/optr_model.f90"
+status = "substantial"
+notes = "The numerical solver dispatch and design-matrix fitting paths are translated; R S3 dispatch, data frames, and formula construction are omitted."
+
+[[extra.translation.function]]
+r_name = "optRFun"
+r_source = "upstream/R/optRFun.R"
+fortran_module = "optr"
+fortran_names = ["newton_raphson"]
+fortran_source = "src/optr_optimization.f90"
+status = "substantial"
+notes = "The package's only function-optimization method, Newton-Raphson, is implemented; R list/class construction and method strings are omitted."
+
+[[extra.translation.function]]
+r_name = "optRFun.newtonRapson"
+r_source = "upstream/R/optRFun.R"
+fortran_module = "optr"
+fortran_names = ["newton_raphson"]
+fortran_source = "src/optr_optimization.f90"
+status = "substantial"
+notes = "Implements Newton-Raphson with the translated forward-difference Jacobian and linear solve; R list/class construction is omitted."
+
+[[extra.translation.function]]
+r_name = "optR.default"
+r_source = "upstream/R/optR.R"
+fortran_module = "optr"
+fortran_names = ["optr_solve", "optr_fit_design"]
+fortran_source = "src/optr_model.f90"
+status = "substantial"
+notes = "Matrix solving and rectangular design fitting are implemented directly; automatic data-frame conversion and generated R formulas are omitted."
+
+[[extra.translation.function]]
+r_name = "optR.formula"
+r_source = "upstream/R/optR.R"
+fortran_module = "optr"
+fortran_names = ["optr_fit_design"]
+fortran_source = "src/optr_model.f90"
+status = "partial"
+notes = "The weighted design-matrix and normal-equation computation is translated; formula parsing, model.frame/model.matrix processing, contrasts, NA actions, and S3 metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "predict.optR"
+r_source = "upstream/R/predict_optR.R"
+fortran_module = "optr"
+fortran_names = ["predict_linear"]
+fortran_source = "src/optr_model.f90"
+status = "substantial"
+notes = "Prediction as design-matrix multiplication by fitted coefficients is implemented; R terms reconstruction, factor-level checks, NA handling, and list metadata are omitted."
