@@ -1,0 +1,21 @@
+# NAMESPACE for package 'HDInterval'
+
+importFrom("stats", "optimize", "uniroot")
+
+export(hdi)
+
+S3method("hdi", "default")
+S3method("hdi", "matrix")
+S3method("hdi", "data.frame")
+S3method("hdi", "list")
+S3method("hdi", "density")
+S3method("hdi", "mcmc.list")
+S3method("hdi", "mcmc")
+S3method("hdi", "mcarray")
+S3method("hdi", "function")
+S3method("hdi", "bugs")
+S3method("hdi", "rjags")
+S3method("hdi", "runjags")
+S3method("hdi", "jagsUI")
+
+export("inverseCDF")

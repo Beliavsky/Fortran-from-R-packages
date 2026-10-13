@@ -1,0 +1,17 @@
+507be5077f4eb17ce515d103284df30c *DESCRIPTION
+c9b7fbe565bfa08acf34f1d569b253ab *NAMESPACE
+5bb72950350f155a941984e9fac9ed55 *NEWS
+20d333130946b07a98590b7e849e0632 *R/checkCredMass.R
+ca317ba2bd882c30ab3ad468e5ce3616 *R/hdi.R
+fcd7aa8297149c902027a63a8605e320 *R/hdiVector.R
+f4ffb81df8462568c57df18b3de13b73 *R/hdi_density.R
+da4bb4beea7fc258a30f9d5ae39462ff *R/hdi_function.R
+afe6bc401482a7d9bc3641ae53e5e9fd *R/inverseCDF.R
+ec4bdf087467d743a755ff9fc364e082 *README
+160978d945e58ccf455996a3deca8a0d *inst/tests/testthat/test-hdi.R
+5e97dc5977de7d0716cde78edb7a6b44 *inst/tests/testthat/test-hdi_density.R
+c726dbff2392d16e9f075830da85ab74 *inst/tests/testthat/test-inverseCDF.R
+8f2ce76d6ee6fe5e31e667bd82dcb910 *man/figures/HDIbimodal.jpg
+8bb80cb7b69647f7ef5a67b4164dfd95 *man/figures/HDIskew.jpg
+747302ffb61265d66a5d87223abec4c2 *man/hdi.Rd
+d81677b50c70aef370a4c3c284f3895b *man/inverseCDF.Rd

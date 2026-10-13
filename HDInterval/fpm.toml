@@ -1,0 +1,48 @@
+name = "HDInterval"
+version = "0.2.4"
+license = "GPL-3.0-only"
+author = "Mike Meredith, John Kruschke, and Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Highest-density intervals for samples, density grids, and quantile functions"
+categories = ["statistics", "numerical"]
+keywords = ["HDI", "credible-interval", "Bayesian", "inverse-CDF"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 2
+r_functions_translated = 2
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "hdi"
+r_source = "upstream/R/hdi.R"
+fortran_module = "hdinterval"
+fortran_names = ["hdi_samples", "hdi_columns", "hdi_density", "hdi_function"]
+fortran_source = "src/hdinterval.f90"
+status = "substantial"
+notes = "Implements numerical operations of sample, matrix, density and function methods. R S3 dispatch, heterogeneous lists, MCMC/JAGS object extraction, attributes and warnings are omitted. Density grids must be uniform. Function minimization uses golden-section search instead of R Brent search."
+
+[[extra.translation.function]]
+r_name = "inverseCDF"
+r_source = "upstream/R/inverseCDF.R"
+fortran_module = "hdinterval"
+fortran_names = ["inverse_cdf", "inverse_cdf_scalar", "inverse_cdf_vector"]
+fortran_source = "src/hdinterval.f90"
+status = "substantial"
+notes = "Preserves probability clipping and extending root search with pure CDF callbacks. Uses bisection instead of R uniroot; scalar/vector statuses replace R errors and preserve successful vector elements. log.p and lower.tail remain unsupported."
