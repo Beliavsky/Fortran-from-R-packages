@@ -1,0 +1,25 @@
+Package: randtests
+Type: Package
+Title: Testing Randomness in R
+Version: 1.0.2
+Date: 2024-04-22
+Authors@R: 
+    c(person(given = "Frederico",
+             family = "Caeiro",
+             role = c("aut", "cre"),
+             email = "fac@fct.unl.pt",
+             comment = c(ORCID = "0000-0001-8628-7281")),
+      person(given = "Ayana",
+             family = "Mateus",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-5630-3321"))
+			 )
+Maintainer: Frederico Caeiro <fac@fct.unl.pt>
+Description: Provides several non parametric randomness tests for numeric sequences.
+License: GPL (>= 2)
+NeedsCompilation: no
+Packaged: 2024-04-23 14:54:39 UTC; fac
+Author: Frederico Caeiro [aut, cre] (<https://orcid.org/0000-0001-8628-7281>),
+  Ayana Mateus [aut] (<https://orcid.org/0000-0002-5630-3321>)
+Repository: CRAN
+Date/Publication: 2024-04-23 15:30:02 UTC

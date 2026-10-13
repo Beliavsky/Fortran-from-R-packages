@@ -1,0 +1,6 @@
+importFrom("grDevices", "gray")
+importFrom("graphics", "abline", "points")
+importFrom("stats", "embed", "median", "na.omit", "pbeta", "pbinom",
+             "pnorm", "runif")
+# Export all names
+exportPattern(".")

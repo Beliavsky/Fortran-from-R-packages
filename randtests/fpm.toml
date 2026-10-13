@@ -1,0 +1,154 @@
+name = "randtests"
+version = "1.0.2"
+license = "GPL-2.0-or-later"
+author = "Frederico Caeiro, Ayana Mateus; Fortran translation contributors"
+description = "Randomness tests, exact runs and Bartels distributions, and permutations"
+keywords = ["randomness", "nonparametric", "runs", "Bartels", "R"]
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 14
+r_functions_translated = 14
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bartels.rank.test"
+r_source = "upstream/R/bartels.rank.test.R"
+fortran_module = "randtests"
+fortran_names = ["bartels_rank_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Normal, beta, auto, and corrected exact p-values; exact mode requires untied n <= 9. R htest metadata is omitted."
+
+[[extra.translation.function]]
+r_name = "cox.stuart.test"
+r_source = "upstream/R/cox.stuart.test.R"
+fortran_module = "randtests"
+fortran_names = ["cox_stuart_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Exact binomial tails, odd-middle deletion, and pair-tie removal; two-sided p-values capped at one. NaNs are omitted."
+
+[[extra.translation.function]]
+r_name = "difference.sign.test"
+r_source = "upstream/R/difference.sign.test.R"
+fortran_module = "randtests"
+fortran_names = ["difference_sign_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Normal approximation with consecutive equal differences removed; typed result replaces R htest."
+
+[[extra.translation.function]]
+r_name = "rank.test"
+r_source = "upstream/R/rank.test.R"
+fortran_module = "randtests"
+fortran_names = ["rank_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Pair-count rank statistic and original untied normal variance; no tie correction or R htest metadata."
+
+[[extra.translation.function]]
+r_name = "runs.test"
+r_source = "upstream/R/runs.test.R"
+fortran_module = "randtests"
+fortran_names = ["runs_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Normal and exact methods; plotting and htest metadata omitted. Degenerate exact case returns p=1, two-sided values are capped at one."
+
+[[extra.translation.function]]
+r_name = "turning.point.test"
+r_source = "upstream/R/turning.point.test.R"
+fortran_module = "randtests"
+fortran_names = ["turning_point_test"]
+fortran_source = "src/randtests.f90"
+status = "substantial"
+notes = "Consecutive ties collapsed, original normal approximation; NaNs are consistently omitted, R htest omitted."
+
+[[extra.translation.function]]
+r_name = "druns"
+r_source = "upstream/R/runs.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["druns"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Elemental mass and log mass; positive integer counts with total <= 100000. Conformable arrays replace R recycling."
+
+[[extra.translation.function]]
+r_name = "pruns"
+r_source = "upstream/R/runs.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["pruns"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Correct log CDF and direct upper tail; cutoff is floored rather than upstream rounding. Counts total <= 100000."
+
+[[extra.translation.function]]
+r_name = "qruns"
+r_source = "upstream/R/runs.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["qruns"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Quantile inversion honors lower-tail and log-probability flags and endpoints; corrected upstream ignored flags."
+
+[[extra.translation.function]]
+r_name = "rruns"
+r_source = "upstream/R/runs.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["rruns"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Inverse-CDF sampling with Fortran random_number; caller controls random_seed, no R RNG sequence parity."
+
+[[extra.translation.function]]
+r_name = "dbartelsrank"
+r_source = "upstream/R/misc.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["dbartelsrank"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Exact permutation distribution for n=1..9, including corrected n=1 and n=2 behavior; no factorial-sized matrix."
+
+[[extra.translation.function]]
+r_name = "pbartelsrank"
+r_source = "upstream/R/misc.R"
+fortran_module = "randtests_distributions"
+fortran_names = ["pbartelsrank"]
+fortran_source = "src/randtests_distributions.f90"
+status = "substantial"
+notes = "Exact permutation tails and log probabilities for n=1..9, corrected small-n callback behavior."
+
+[[extra.translation.function]]
+r_name = "permut"
+r_source = "upstream/R/misc.R"
+fortran_module = "randtests_permutations"
+fortran_names = ["permut", "permut_apply"]
+fortran_source = "src/randtests_permutations.f90"
+status = "partial"
+notes = "Finite real source vectors and optional pure scalar-real callback pointer; arbitrary R types, vector callback results and variadic arguments omitted. One million matrix entries maximum."
+
+[[extra.translation.function]]
+r_name = "randtests.aux"
+r_source = "upstream/R/misc.R"
+fortran_module = "randtests_permutations"
+fortran_names = ["randtests_aux"]
+fortran_source = "src/randtests_permutations.f90"
+status = "substantial"
+notes = "Bartels squared-difference and difference-sign increase statistics; invalid methods, nonfinite data or unrepresentable squared sums return NaN."
