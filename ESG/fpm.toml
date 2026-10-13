@@ -1,0 +1,206 @@
+name = "ESG"
+version = "1.3.0"
+license = "GPL-2.0-or-later"
+author = "Jean-Charles Croix, Thierry Moudiki, Frederic Planchet, Wassim Youssef; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "ESG economic scenarios and source-compatible asset price distributions"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+randompack = { path = "../randompack" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 20
+r_functions_translated = 20
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "setForwardRates"
+r_source = "upstream/R/2-Object_Scenarios.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_forward_rates"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Finite-difference extraction retained; typed arrays replace S4 setter and strict shape checks replace R NA removal."
+
+[[extra.translation.function]]
+r_name = "rShortRate"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_short_rate"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Full short-rate recurrence with explicit innovations and extracted forwards; R object construction and RNG omitted."
+
+[[extra.translation.function]]
+r_name = "rStock"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_stock"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Full correlated stock recurrence using rate paths and explicit normals; redundant discarded R rate draws are not consumed."
+
+[[extra.translation.function]]
+r_name = "rRealEstate"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_real_estate"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Full estate recurrence using rate paths and explicit normals; redundant discarded R rate draws are not consumed."
+
+[[extra.translation.function]]
+r_name = "rLiquiditySpread"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_liquidity"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Full arithmetic liquidity process with explicit innovations rather than R RNG."
+
+[[extra.translation.function]]
+r_name = "rDefaultSpread"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_default"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Upstream volDefault/4 drift retained; negative paths return status 3 rather than subsequent sqrt NaN warnings."
+
+[[extra.translation.function]]
+r_name = "rAllRisksFactors"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_generate"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "All five risks generated into typed scenario arrays with controlled innovations; no R RNG sequence parity."
+
+[[extra.translation.function]]
+r_name = "rAssetDistribution"
+r_source = "upstream/R/Interface.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_simulate_asset"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Required risks generated and all nine asset branches valued; supplied innovations and explicit horizon replace hidden RNG/S4; broken stock-call alias repaired."
+
+[[extra.translation.function]]
+r_name = "MartingaleTest"
+r_source = "upstream/R/Methods_MartingaleTest.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_martingale"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "Mean discounted stocks and maximum deviation computed; plot, lines and title omitted."
+
+[[extra.translation.function]]
+r_name = "customPathsGeneration"
+r_source = "upstream/R/Methods_PathsGeneration.R"
+fortran_module = "esg_models"
+fortran_names = ["esg_generate"]
+fortran_source = "src/esg_models.f90"
+status = "substantial"
+notes = "All five processes and risk selection supported; typed scenario replaces S4, supplied normals replace rnorm."
+
+[[extra.translation.function]]
+r_name = "Asset_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_Assets.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_asset_price"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "All nine pricing branches; typed arguments and status replace R missing/recycling/warnings. Both stock-call aliases accepted."
+
+[[extra.translation.function]]
+r_name = "Bond_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_Bond.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_bond"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Full coupon schedule and source accrued-interest convention; integer coupon frequency and consistent terminal shape."
+
+[[extra.translation.function]]
+r_name = "CDSPremium_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_CDSPremium.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_cds"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source 100-step numerator/denominator and omega multiplier retained; stable LMN algebra extends finite range."
+
+[[extra.translation.function]]
+r_name = "ConvBond_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_ConvBond.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_convertible_bond"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source bond plus unit-strike stock call; source terminal-one convention retained in scenario-sized array."
+
+[[extra.translation.function]]
+r_name = "CBond_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_CorporateBond.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_corporate_bond"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Full source coupon, bare A(T) principal and 100-step recovery formula; stable equivalent LMN algebra extends finite range."
+
+[[extra.translation.function]]
+r_name = "EuroCall_Stock_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_EuroCallPut_Stock.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_stock_call"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source lagged stock index, absolute Tau(T) and terminal-one convention retained; zero variance extended by continuous limit."
+
+[[extra.translation.function]]
+r_name = "EuroPut_Stock_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_EuroCallPut_Stock.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_stock_put"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source lagged stock index, absolute Tau(T) and terminal-one convention retained; zero variance extended by continuous limit."
+
+[[extra.translation.function]]
+r_name = "EuroCall_ZC_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_EuroCallPut_ZC.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_zc_call"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source d1 logarithm placement and absolute H retained; zero H extended by continuous intrinsic limit."
+
+[[extra.translation.function]]
+r_name = "EuroPut_ZC_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_EuroCallPut_ZC.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_zc_put"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Source d1 logarithm placement and absolute H retained; zero H extended by continuous intrinsic limit."
+
+[[extra.translation.function]]
+r_name = "ZCBond_PriceDistribution"
+r_source = "upstream/R/Methods_PriceDistribution_ZCBond.R"
+fortran_module = "esg_pricing"
+fortran_names = ["esg_zc_bond"]
+fortran_source = "src/esg_pricing.f90"
+status = "substantial"
+notes = "Upstream monthly indexing, exact grid comparisons and discount interpolation preserved; explicit validation and consistent result shapes."
