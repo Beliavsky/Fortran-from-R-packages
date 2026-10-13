@@ -1,0 +1,46 @@
+name = "credule"
+version = "0.1.4"
+license = "MIT AND LGPL-2.1-or-later"
+author = "Bertrand Le Nezet; Richard Brent; John Burkardt; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "CDS par spreads and sequential credit-curve bootstrap from R credule 0.1.4"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 2
+r_functions_translated = 2
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "priceCDS"
+r_source = "upstream/R/credule.R"
+fortran_module = "credule"
+fortran_names = ["price_cds"]
+fortran_source = "src/credule.f90"
+status = "substantial"
+notes = "All curve interpolation, leg grids and half-period accrual calculations are translated. A direct linear leg ratio replaces the spread root solve. R data.frame construction, coercion and warning behavior are omitted; explicit validation and status codes are added. Upstream truncated grids and zero-hazard pricing beyond the final credit knot are preserved."
+
+[[extra.translation.function]]
+r_name = "bootstrapCDS"
+r_source = "upstream/R/credule.R"
+fortran_module = "credule"
+fortran_names = ["bootstrap_cds"]
+fortran_source = "src/credule.f90"
+status = "substantial"
+notes = "Sequential piecewise-hazard calibration and the original Brent numerical algorithm are translated using pure local state. The original [0,30] hazard bracket and leg-specific grid anchoring are preserved. R object construction and stops are replaced by status codes; exact endpoint roots are accepted and unbracketed/invalid/underflowing curves are rejected explicitly."

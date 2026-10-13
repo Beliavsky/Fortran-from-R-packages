@@ -1,0 +1,46 @@
+credule Fortran translation, based on CRAN credule version 0.1.4 (2020-05-09).
+Upstream publication: 2020-05-10 21:20:12 UTC.
+Upstream package: https://cran.r-project.org/package=credule
+Source repository: https://github.com/blenezet/credule
+Source archive: https://cran.r-project.org/src/contrib/credule_0.1.4.tar.gz
+
+Original credule author, maintainer and copyright holder:
+  Bertrand Le Nezet, copyright 2015.
+DESCRIPTION declares: MIT + file LICENSE.
+The exact upstream LICENSE, DESCRIPTION, NAMESPACE, R wrapper and C computation
+sources are preserved under upstream/. These are provenance/reference copies,
+not FPM compilation units. Source hashes appear in upstream/SHA256SUMS.
+
+Separate Brent component:
+  upstream/src/brent.c states: "This code is distributed under the GNU LGPL
+  license." It does not specify a version. This distribution elects version 2.1
+  or (at your option) any later version, consistent with LGPL section 13 for an
+  unspecified version. The corresponding LGPL 2.1 and GPL 2 license texts are
+  included under licenses/.
+  Original FORTRAN77 version by Richard Brent.
+  C version by John Burkardt.
+  Modified: 11 February 2013.
+  Thanks to Thomas Secretin for pointing out a transcription error in the
+  setting of the value of P, 11 February 2013.
+  Reference: Richard Brent, Algorithms for Minimization Without Derivatives,
+  Dover, 2002, ISBN 0-486-41998-3, LC QA402.5.B74.
+  Richard Brent and John Burkardt are additionally listed as contributors and
+  copyright holders in the upstream DESCRIPTION.
+
+The maintained LGPL source src/credule_brent.f90 translates that algorithm to
+pure free-form Fortran with explicit reverse-communication state. The numerical
+branches, interpolation conditions and machine-epsilon convergence rule are
+retained. Bounds, nonfinite checks, exact endpoint handling and the iteration
+limit are enforced by the MIT CDS caller. No callback with mutable global state
+or embedded copy of another repository package is used.
+
+The maintained CDS module, examples, tests and translation documentation carry
+MIT notices. Mixed licensing is explicit in fpm.toml as
+"MIT AND LGPL-2.1-or-later". Recipients of binaries linking the LGPL component
+must observe the LGPL's applicable linking/relinking and source obligations.
+The complete modified LGPL component is provided in source form here.
+
+Dependency review: sibling rfortran-core supplies r_kinds:dp. The available
+focused sibling libraries do not expose a compatible CDS or bracketed Brent
+solver API. No shared dependency sources were copied or modified. No BLAS,
+LAPACK, ARPACK, r.f90, r_mod.f90 or rfortran-compat is bundled or linked.

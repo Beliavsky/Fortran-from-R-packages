@@ -1,0 +1,22 @@
+Package: credule
+Version: 0.1.4
+Date: 2020-05-09
+Title: Credit Default Swap Functions
+Authors@R: c(person("Bertrand", "Le Nezet", role = c("cre","aut", "cph"), email = "bertrand.lenezet@gmail.com" ),
+             person("Richard", "Brent", role = c("ctb", "cph")),
+			 person("John", "Burkardt", role = c("ctb", "cph")))
+Maintainer: Bertrand Le Nezet <bertrand.lenezet@gmail.com>
+Depends: R (>= 2.14.1)
+Description: It provides functions to bootstrap Credit Curves from market quotes (Credit Default Swap - CDS - spreads) and price Credit Default Swaps - CDS.
+License: MIT + file LICENSE
+URL: https://github.com/blenezet/credule
+BugReports: https://github.com/blenezet/credule/issues
+Suggests: knitr
+VignetteBuilder: knitr
+NeedsCompilation: yes
+Packaged: 2020-05-10 11:49:52 UTC; Troune
+Author: Bertrand Le Nezet [cre, aut, cph],
+  Richard Brent [ctb, cph],
+  John Burkardt [ctb, cph]
+Repository: CRAN
+Date/Publication: 2020-05-10 21:20:12 UTC
