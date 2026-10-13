@@ -1,0 +1,1424 @@
+[
+  {
+    "label": "rowSums2",
+    "r": "rowSums2(x)",
+    "f": "row_sums2(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSums2 selected",
+    "r": "rowSums2(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_sums2(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSums2 missing",
+    "r": "rowSums2(xn)",
+    "f": "row_sums2(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMeans2",
+    "r": "rowMeans2(x)",
+    "f": "row_means2(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMeans2 selected",
+    "r": "rowMeans2(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_means2(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMeans2 missing",
+    "r": "rowMeans2(xn)",
+    "f": "row_means2(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowVars",
+    "r": "rowVars(x)",
+    "f": "row_vars(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowVars selected",
+    "r": "rowVars(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_vars(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowVars missing",
+    "r": "rowVars(xn)",
+    "f": "row_vars(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSds",
+    "r": "rowSds(x)",
+    "f": "row_sds(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSds selected",
+    "r": "rowSds(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_sds(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSds missing",
+    "r": "rowSds(xn)",
+    "f": "row_sds(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMedians",
+    "r": "rowMedians(x)",
+    "f": "row_medians(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMedians selected",
+    "r": "rowMedians(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_medians(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMedians missing",
+    "r": "rowMedians(xn)",
+    "f": "row_medians(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMads",
+    "r": "rowMads(x)",
+    "f": "row_mads(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMads selected",
+    "r": "rowMads(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_mads(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMads missing",
+    "r": "rowMads(xn)",
+    "f": "row_mads(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowIQRs",
+    "r": "rowIQRs(x)",
+    "f": "row_iqrs(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowIQRs selected",
+    "r": "rowIQRs(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_iqrs(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowIQRs missing",
+    "r": "rowIQRs(xn)",
+    "f": "row_iqrs(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMins",
+    "r": "rowMins(x)",
+    "f": "row_mins(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMins selected",
+    "r": "rowMins(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_mins(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMins missing",
+    "r": "rowMins(xn)",
+    "f": "row_mins(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMaxs",
+    "r": "rowMaxs(x)",
+    "f": "row_maxs(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMaxs selected",
+    "r": "rowMaxs(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_maxs(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMaxs missing",
+    "r": "rowMaxs(xn)",
+    "f": "row_maxs(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowLogSumExps",
+    "r": "rowLogSumExps(x)",
+    "f": "row_log_sum_exps(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowLogSumExps selected",
+    "r": "rowLogSumExps(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_log_sum_exps(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowLogSumExps missing",
+    "r": "rowLogSumExps(xn)",
+    "f": "row_log_sum_exps(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowCounts",
+    "r": "rowCounts(x)",
+    "f": "row_counts(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowCounts selected",
+    "r": "rowCounts(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_counts(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowCounts missing",
+    "r": "rowCounts(xn)",
+    "f": "row_counts(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAlls",
+    "r": "rowAlls(x)",
+    "f": "row_alls(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAlls selected",
+    "r": "rowAlls(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_alls(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAlls missing",
+    "r": "rowAlls(xn)",
+    "f": "row_alls(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAnys",
+    "r": "rowAnys(x)",
+    "f": "row_anys(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAnys selected",
+    "r": "rowAnys(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_anys(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAnys missing",
+    "r": "rowAnys(xn)",
+    "f": "row_anys(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowProds",
+    "r": "rowProds(x)",
+    "f": "row_prods(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowProds selected",
+    "r": "rowProds(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "row_prods(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowProds missing",
+    "r": "rowProds(xn)",
+    "f": "row_prods(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowRanges",
+    "r": "rowRanges(x)",
+    "f": "row_ranges(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowRanges missing",
+    "r": "rowRanges(xn)",
+    "f": "row_ranges(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowQuantiles",
+    "r": "rowQuantiles(x,probs=c(0,.25,.5,.75,1))",
+    "f": "row_quantiles(x, probs = [0.0_dp, 0.25_dp, 0.5_dp, 0.75_dp, 1.0_dp])",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowRanks",
+    "r": "rowRanks(x,ties.method=\"average\")",
+    "f": "row_ranks(x, ties_method = 'average')",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowRanks missing",
+    "r": "rowRanks(xn,ties.method=\"average\")",
+    "f": "row_ranks(xn, ties_method = 'average')",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCumsums",
+    "r": "rowCumsums(x)",
+    "f": "row_cumsums(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCumsums missing",
+    "r": "rowCumsums(xn)",
+    "f": "row_cumsums(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCumprods",
+    "r": "rowCumprods(x)",
+    "f": "row_cumprods(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCumprods missing",
+    "r": "rowCumprods(xn)",
+    "f": "row_cumprods(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCummins",
+    "r": "rowCummins(x)",
+    "f": "row_cummins(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCummins missing",
+    "r": "rowCummins(xn)",
+    "f": "row_cummins(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCummaxs",
+    "r": "rowCummaxs(x)",
+    "f": "row_cummaxs(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCummaxs missing",
+    "r": "rowCummaxs(xn)",
+    "f": "row_cummaxs(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowDiffs",
+    "r": "rowDiffs(x)",
+    "f": "row_diffs(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowDiffs missing",
+    "r": "rowDiffs(xn)",
+    "f": "row_diffs(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowOrderStats",
+    "r": "rowOrderStats(x,which=2)",
+    "f": "row_order_stats(x, 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAnyMissings",
+    "r": "rowAnyMissings(xn)",
+    "f": "merge(1.0_dp, 0.0_dp, row_any_missings(xn))",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAnyNAs",
+    "r": "rowAnyNAs(xn)",
+    "f": "merge(1.0_dp, 0.0_dp, row_any_nas(xn))",
+    "kind": "vector"
+  },
+  {
+    "label": "rowVarDiffs",
+    "r": "rowVarDiffs(x,diff=2)",
+    "f": "row_var_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowVarDiffs missing",
+    "r": "rowVarDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "row_var_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSdDiffs",
+    "r": "rowSdDiffs(x,diff=2)",
+    "f": "row_sd_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowSdDiffs missing",
+    "r": "rowSdDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "row_sd_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMadDiffs",
+    "r": "rowMadDiffs(x,diff=2)",
+    "f": "row_mad_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMadDiffs missing",
+    "r": "rowMadDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "row_mad_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowIQRDiffs",
+    "r": "rowIQRDiffs(x,diff=2)",
+    "f": "row_iqr_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowIQRDiffs missing",
+    "r": "rowIQRDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "row_iqr_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMeans no weights",
+    "r": "rowWeightedMeans(x)",
+    "f": "row_weighted_means(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMeans",
+    "r": "rowWeightedMeans(x,w=wr)",
+    "f": "row_weighted_means(x, wr)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMeans missing",
+    "r": "rowWeightedMeans(xn,w=wr,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "row_weighted_means(xn, wr, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMedians no weights",
+    "r": "rowWeightedMedians(x)",
+    "f": "row_weighted_medians(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMedians",
+    "r": "rowWeightedMedians(x,w=wr)",
+    "f": "row_weighted_medians(x, wr)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMedians missing",
+    "r": "rowWeightedMedians(xn,w=wr,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "row_weighted_medians(xn, wr, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedVars no weights",
+    "r": "rowWeightedVars(x)",
+    "f": "row_weighted_vars(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedVars",
+    "r": "rowWeightedVars(x,w=wr)",
+    "f": "row_weighted_vars(x, wr)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedVars missing",
+    "r": "rowWeightedVars(xn,w=wr,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "row_weighted_vars(xn, wr, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedSds no weights",
+    "r": "rowWeightedSds(x)",
+    "f": "row_weighted_sds(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedSds",
+    "r": "rowWeightedSds(x,w=wr)",
+    "f": "row_weighted_sds(x, wr)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedSds missing",
+    "r": "rowWeightedSds(xn,w=wr,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "row_weighted_sds(xn, wr, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMads no weights",
+    "r": "rowWeightedMads(x)",
+    "f": "row_weighted_mads(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMads",
+    "r": "rowWeightedMads(x,w=wr)",
+    "f": "row_weighted_mads(x, wr)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowWeightedMads missing",
+    "r": "rowWeightedMads(xn,w=wr,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "row_weighted_mads(xn, wr, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowTabulates",
+    "r": "rowTabulates(matrix(as.integer(xn),4,5),values=c(1,4,NA))",
+    "f": "real(row_tabulates(xn, [1.0_dp, 4.0_dp, nan]), dp)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowCollapse",
+    "r": "rowCollapse(x,idxs=c(3,1,2))",
+    "f": "row_collapse(x, [3, 1, 2])",
+    "kind": "vector"
+  },
+  {
+    "label": "colSums2",
+    "r": "colSums2(x)",
+    "f": "col_sums2(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSums2 selected",
+    "r": "colSums2(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_sums2(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSums2 missing",
+    "r": "colSums2(xn)",
+    "f": "col_sums2(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMeans2",
+    "r": "colMeans2(x)",
+    "f": "col_means2(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMeans2 selected",
+    "r": "colMeans2(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_means2(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMeans2 missing",
+    "r": "colMeans2(xn)",
+    "f": "col_means2(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colVars",
+    "r": "colVars(x)",
+    "f": "col_vars(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colVars selected",
+    "r": "colVars(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_vars(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colVars missing",
+    "r": "colVars(xn)",
+    "f": "col_vars(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSds",
+    "r": "colSds(x)",
+    "f": "col_sds(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSds selected",
+    "r": "colSds(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_sds(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSds missing",
+    "r": "colSds(xn)",
+    "f": "col_sds(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMedians",
+    "r": "colMedians(x)",
+    "f": "col_medians(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMedians selected",
+    "r": "colMedians(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_medians(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMedians missing",
+    "r": "colMedians(xn)",
+    "f": "col_medians(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMads",
+    "r": "colMads(x)",
+    "f": "col_mads(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMads selected",
+    "r": "colMads(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_mads(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMads missing",
+    "r": "colMads(xn)",
+    "f": "col_mads(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colIQRs",
+    "r": "colIQRs(x)",
+    "f": "col_iqrs(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colIQRs selected",
+    "r": "colIQRs(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_iqrs(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colIQRs missing",
+    "r": "colIQRs(xn)",
+    "f": "col_iqrs(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMins",
+    "r": "colMins(x)",
+    "f": "col_mins(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMins selected",
+    "r": "colMins(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_mins(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMins missing",
+    "r": "colMins(xn)",
+    "f": "col_mins(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMaxs",
+    "r": "colMaxs(x)",
+    "f": "col_maxs(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMaxs selected",
+    "r": "colMaxs(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_maxs(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMaxs missing",
+    "r": "colMaxs(xn)",
+    "f": "col_maxs(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colLogSumExps",
+    "r": "colLogSumExps(x)",
+    "f": "col_log_sum_exps(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colLogSumExps selected",
+    "r": "colLogSumExps(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_log_sum_exps(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colLogSumExps missing",
+    "r": "colLogSumExps(xn)",
+    "f": "col_log_sum_exps(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colCounts",
+    "r": "colCounts(x)",
+    "f": "col_counts(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colCounts selected",
+    "r": "colCounts(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_counts(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colCounts missing",
+    "r": "colCounts(xn)",
+    "f": "col_counts(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAlls",
+    "r": "colAlls(x)",
+    "f": "col_alls(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAlls selected",
+    "r": "colAlls(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_alls(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAlls missing",
+    "r": "colAlls(xn)",
+    "f": "col_alls(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAnys",
+    "r": "colAnys(x)",
+    "f": "col_anys(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAnys selected",
+    "r": "colAnys(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_anys(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAnys missing",
+    "r": "colAnys(xn)",
+    "f": "col_anys(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colProds",
+    "r": "colProds(x)",
+    "f": "col_prods(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colProds selected",
+    "r": "colProds(xn,rows=c(4,1,4),cols=c(5,2,3),na.rm=TRUE)",
+    "f": "col_prods(xn, rows = [4, 1, 4], cols = [5, 2, 3], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colProds missing",
+    "r": "colProds(xn)",
+    "f": "col_prods(xn)",
+    "kind": "vector"
+  },
+  {
+    "label": "colRanges",
+    "r": "colRanges(x)",
+    "f": "col_ranges(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colRanges missing",
+    "r": "colRanges(xn)",
+    "f": "col_ranges(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colQuantiles",
+    "r": "colQuantiles(x,probs=c(0,.25,.5,.75,1))",
+    "f": "col_quantiles(x, probs = [0.0_dp, 0.25_dp, 0.5_dp, 0.75_dp, 1.0_dp])",
+    "kind": "matrix"
+  },
+  {
+    "label": "colRanks",
+    "r": "colRanks(x,ties.method=\"average\")",
+    "f": "col_ranks(x, ties_method = 'average')",
+    "kind": "matrix"
+  },
+  {
+    "label": "colRanks missing",
+    "r": "colRanks(xn,ties.method=\"average\")",
+    "f": "col_ranks(xn, ties_method = 'average')",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCumsums",
+    "r": "colCumsums(x)",
+    "f": "col_cumsums(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCumsums missing",
+    "r": "colCumsums(xn)",
+    "f": "col_cumsums(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCumprods",
+    "r": "colCumprods(x)",
+    "f": "col_cumprods(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCumprods missing",
+    "r": "colCumprods(xn)",
+    "f": "col_cumprods(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCummins",
+    "r": "colCummins(x)",
+    "f": "col_cummins(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCummins missing",
+    "r": "colCummins(xn)",
+    "f": "col_cummins(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCummaxs",
+    "r": "colCummaxs(x)",
+    "f": "col_cummaxs(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCummaxs missing",
+    "r": "colCummaxs(xn)",
+    "f": "col_cummaxs(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colDiffs",
+    "r": "colDiffs(x)",
+    "f": "col_diffs(x)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colDiffs missing",
+    "r": "colDiffs(xn)",
+    "f": "col_diffs(xn)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colOrderStats",
+    "r": "colOrderStats(x,which=2)",
+    "f": "col_order_stats(x, 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "colAnyMissings",
+    "r": "colAnyMissings(xn)",
+    "f": "merge(1.0_dp, 0.0_dp, col_any_missings(xn))",
+    "kind": "vector"
+  },
+  {
+    "label": "colAnyNAs",
+    "r": "colAnyNAs(xn)",
+    "f": "merge(1.0_dp, 0.0_dp, col_any_nas(xn))",
+    "kind": "vector"
+  },
+  {
+    "label": "colVarDiffs",
+    "r": "colVarDiffs(x,diff=2)",
+    "f": "col_var_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "colVarDiffs missing",
+    "r": "colVarDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "col_var_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSdDiffs",
+    "r": "colSdDiffs(x,diff=2)",
+    "f": "col_sd_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "colSdDiffs missing",
+    "r": "colSdDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "col_sd_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMadDiffs",
+    "r": "colMadDiffs(x,diff=2)",
+    "f": "col_mad_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "colMadDiffs missing",
+    "r": "colMadDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "col_mad_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "colIQRDiffs",
+    "r": "colIQRDiffs(x,diff=2)",
+    "f": "col_iqr_diffs(x, diff = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "colIQRDiffs missing",
+    "r": "colIQRDiffs(xn,na.rm=TRUE,trim=.2)",
+    "f": "col_iqr_diffs(xn, na_rm = .true., trim = 0.2_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMeans no weights",
+    "r": "colWeightedMeans(x)",
+    "f": "col_weighted_means(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMeans",
+    "r": "colWeightedMeans(x,w=wc)",
+    "f": "col_weighted_means(x, wc)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMeans missing",
+    "r": "colWeightedMeans(xn,w=wc,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "col_weighted_means(xn, wc, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMedians no weights",
+    "r": "colWeightedMedians(x)",
+    "f": "col_weighted_medians(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMedians",
+    "r": "colWeightedMedians(x,w=wc)",
+    "f": "col_weighted_medians(x, wc)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMedians missing",
+    "r": "colWeightedMedians(xn,w=wc,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "col_weighted_medians(xn, wc, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedVars no weights",
+    "r": "colWeightedVars(x)",
+    "f": "col_weighted_vars(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedVars",
+    "r": "colWeightedVars(x,w=wc)",
+    "f": "col_weighted_vars(x, wc)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedVars missing",
+    "r": "colWeightedVars(xn,w=wc,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "col_weighted_vars(xn, wc, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedSds no weights",
+    "r": "colWeightedSds(x)",
+    "f": "col_weighted_sds(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedSds",
+    "r": "colWeightedSds(x,w=wc)",
+    "f": "col_weighted_sds(x, wc)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedSds missing",
+    "r": "colWeightedSds(xn,w=wc,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "col_weighted_sds(xn, wc, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMads no weights",
+    "r": "colWeightedMads(x)",
+    "f": "col_weighted_mads(x)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMads",
+    "r": "colWeightedMads(x,w=wc)",
+    "f": "col_weighted_mads(x, wc)",
+    "kind": "vector"
+  },
+  {
+    "label": "colWeightedMads missing",
+    "r": "colWeightedMads(xn,w=wc,na.rm=TRUE,rows=c(4,2),cols=c(5,2,1))",
+    "f": "col_weighted_mads(xn, wc, rows = [4, 2], cols = [5, 2, 1], na_rm = .true.)",
+    "kind": "vector"
+  },
+  {
+    "label": "colTabulates",
+    "r": "colTabulates(matrix(as.integer(xn),4,5),values=c(1,4,NA))",
+    "f": "real(col_tabulates(xn, [1.0_dp, 4.0_dp, nan]), dp)",
+    "kind": "matrix"
+  },
+  {
+    "label": "colCollapse",
+    "r": "colCollapse(x,idxs=c(3,1,2))",
+    "f": "col_collapse(x, [3, 1, 2])",
+    "kind": "vector"
+  },
+  {
+    "label": "sum2",
+    "r": "sum2(v)",
+    "f": "sum2(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "sum2 subset",
+    "r": "sum2(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "sum2(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "mean2",
+    "r": "mean2(v)",
+    "f": "mean2(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "mean2 subset",
+    "r": "mean2(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "mean2(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "product",
+    "r": "product(v)",
+    "f": "product(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "product subset",
+    "r": "product(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "product(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "allValue",
+    "r": "allValue(v)",
+    "f": "all_value(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "allValue subset",
+    "r": "allValue(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "all_value(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "anyValue",
+    "r": "anyValue(v)",
+    "f": "any_value(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "anyValue subset",
+    "r": "anyValue(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "any_value(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "count",
+    "r": "count(v)",
+    "f": "count_value(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "count subset",
+    "r": "count(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "count_value(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "logSumExp",
+    "r": "logSumExp(v)",
+    "f": "log_sum_exp(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "logSumExp subset",
+    "r": "logSumExp(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "log_sum_exp(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "iqr",
+    "r": "iqr(v)",
+    "f": "iqr(v)",
+    "kind": "scalar"
+  },
+  {
+    "label": "iqr subset",
+    "r": "iqr(vn,idxs=c(6,1,4,2),na.rm=TRUE)",
+    "f": "iqr(vn, idxs = [6, 1, 4, 2], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "anyMissing",
+    "r": "anyMissing(vn)",
+    "f": "merge(1.0_dp, 0.0_dp, any_missing(vn))",
+    "kind": "scalar"
+  },
+  {
+    "label": "diff2",
+    "r": "diff2(v,lag=2,differences=2)",
+    "f": "diff2(v, lag = 2, differences = 2)",
+    "kind": "vector"
+  },
+  {
+    "label": "varDiff",
+    "r": "varDiff(v,diff=2,trim=.2)",
+    "f": "var_diff(v, diff = 2, trim = 0.2_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "sdDiff",
+    "r": "sdDiff(v,diff=2,trim=.2)",
+    "f": "sd_diff(v, diff = 2, trim = 0.2_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "madDiff",
+    "r": "madDiff(v,diff=2,trim=.2)",
+    "f": "mad_diff(v, diff = 2, trim = 0.2_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "iqrDiff",
+    "r": "iqrDiff(v,diff=2,trim=.2)",
+    "f": "iqr_diff(v, diff = 2, trim = 0.2_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMean",
+    "r": "weightedMean(v,w)",
+    "f": "weighted_mean(v, w)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMean missing subset",
+    "r": "weightedMean(vn,w,idxs=c(6,3,2,1),na.rm=TRUE)",
+    "f": "weighted_mean(vn, w, idxs = [6, 3, 2, 1], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMedian",
+    "r": "weightedMedian(v,w)",
+    "f": "weighted_median(v, w)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMedian missing subset",
+    "r": "weightedMedian(vn,w,idxs=c(6,3,2,1),na.rm=TRUE)",
+    "f": "weighted_median(vn, w, idxs = [6, 3, 2, 1], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedVar",
+    "r": "weightedVar(v,w)",
+    "f": "weighted_var(v, w)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedVar missing subset",
+    "r": "weightedVar(vn,w,idxs=c(6,3,2,1),na.rm=TRUE)",
+    "f": "weighted_var(vn, w, idxs = [6, 3, 2, 1], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedSd",
+    "r": "weightedSd(v,w)",
+    "f": "weighted_sd(v, w)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedSd missing subset",
+    "r": "weightedSd(vn,w,idxs=c(6,3,2,1),na.rm=TRUE)",
+    "f": "weighted_sd(vn, w, idxs = [6, 3, 2, 1], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMad",
+    "r": "weightedMad(v,w)",
+    "f": "weighted_mad(v, w)",
+    "kind": "scalar"
+  },
+  {
+    "label": "weightedMad missing subset",
+    "r": "weightedMad(vn,w,idxs=c(6,3,2,1),na.rm=TRUE)",
+    "f": "weighted_mad(vn, w, idxs = [6, 3, 2, 1], na_rm = .true.)",
+    "kind": "scalar"
+  },
+  {
+    "label": "binCounts",
+    "r": "binCounts(v,bx=c(0,2,4,8,10))",
+    "f": "real(bin_counts(v, [0.0_dp, 2.0_dp, 4.0_dp, 8.0_dp, 10.0_dp]), dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "binCounts right",
+    "r": "binCounts(v,bx=c(0,2,4,8,10),right=TRUE)",
+    "f": "real(bin_counts(v, [0.0_dp, 2.0_dp, 4.0_dp, 8.0_dp, 10.0_dp], right = .true.), dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "binMeans",
+    "r": "binMeans(vn,v,bx=c(0,2,4,8,10))",
+    "f": "bm",
+    "kind": "vector"
+  },
+  {
+    "label": "signTabulate",
+    "r": "signTabulate(c(-Inf,-2,0,NA,NaN,Inf,1))",
+    "f": "real(sign_tabulate([ninf, -2.0_dp, 0.0_dp, nan, nan, inf, 1.0_dp]), dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "indexByRow",
+    "r": "indexByRow(c(4,5),idxs=c(1,2,5,6,20))",
+    "f": "real(index_by_row([4, 5], [1, 2, 5, 6, 20]), dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rowAvgsPerColSet",
+    "r": "rowAvgsPerColSet(x,S=matrix(c(1,3,5,2,4,NA),3,2))",
+    "f": "row_avgs_per_col_set(x, reshape([1, 3, 5, 2, 4, 0], [3, 2]))",
+    "kind": "matrix"
+  },
+  {
+    "label": "colAvgsPerRowSet",
+    "r": "colAvgsPerRowSet(x,S=matrix(c(1,3,4,2,4,NA),3,2))",
+    "f": "col_avgs_per_row_set(x, reshape([1, 3, 4, 2, 4, 0], [3, 2]))",
+    "kind": "matrix"
+  },
+  {
+    "label": "x_OP_y+",
+    "r": "x_OP_y(xn,c(2,NA,4),OP=\"+\",commute=TRUE,na.rm=TRUE)",
+    "f": "x_op_y(xn, [2.0_dp, nan, 4.0_dp], '+', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "x_OP_y-",
+    "r": "x_OP_y(xn,c(2,NA,4),OP=\"-\",commute=TRUE,na.rm=TRUE)",
+    "f": "x_op_y(xn, [2.0_dp, nan, 4.0_dp], '-', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "x_OP_y*",
+    "r": "x_OP_y(xn,c(2,NA,4),OP=\"*\",commute=TRUE,na.rm=TRUE)",
+    "f": "x_op_y(xn, [2.0_dp, nan, 4.0_dp], '*', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "x_OP_y/",
+    "r": "x_OP_y(xn,c(2,NA,4),OP=\"/\",commute=TRUE,na.rm=TRUE)",
+    "f": "x_op_y(xn, [2.0_dp, nan, 4.0_dp], '/', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "t_tx_OP_y+",
+    "r": "t_tx_OP_y(xn,c(2,NA,4),OP=\"+\",commute=TRUE,na.rm=TRUE)",
+    "f": "t_tx_op_y(xn, [2.0_dp, nan, 4.0_dp], '+', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "t_tx_OP_y-",
+    "r": "t_tx_OP_y(xn,c(2,NA,4),OP=\"-\",commute=TRUE,na.rm=TRUE)",
+    "f": "t_tx_op_y(xn, [2.0_dp, nan, 4.0_dp], '-', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "t_tx_OP_y*",
+    "r": "t_tx_OP_y(xn,c(2,NA,4),OP=\"*\",commute=TRUE,na.rm=TRUE)",
+    "f": "t_tx_op_y(xn, [2.0_dp, nan, 4.0_dp], '*', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "t_tx_OP_y/",
+    "r": "t_tx_OP_y(xn,c(2,NA,4),OP=\"/\",commute=TRUE,na.rm=TRUE)",
+    "f": "t_tx_op_y(xn, [2.0_dp, nan, 4.0_dp], '/', commute = .true., na_rm = .true.)",
+    "kind": "matrix"
+  },
+  {
+    "label": "rowMeans centered",
+    "r": "rowVars(x,center=rowMeans(x))",
+    "f": "row_vars(x, center = row_means2(x))",
+    "kind": "vector"
+  },
+  {
+    "label": "rowMAD centered",
+    "r": "rowMads(x,center=rowMedians(x),constant=2)",
+    "f": "row_mads(x, center = row_medians(x), constant = 2.0_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "rownegative subset",
+    "r": "rowSums2(x,rows=c(-1,-3),cols=c(0,2,5))",
+    "f": "row_sums2(x, rows = [-1, -3], cols = [0, 2, 5])",
+    "kind": "vector"
+  },
+  {
+    "label": "colMeans centered",
+    "r": "colVars(x,center=colMeans(x))",
+    "f": "col_vars(x, center = col_means2(x))",
+    "kind": "vector"
+  },
+  {
+    "label": "colMAD centered",
+    "r": "colMads(x,center=colMedians(x),constant=2)",
+    "f": "col_mads(x, center = col_medians(x), constant = 2.0_dp)",
+    "kind": "vector"
+  },
+  {
+    "label": "colnegative subset",
+    "r": "colSums2(x,rows=c(-1,-3),cols=c(0,2,5))",
+    "f": "col_sums2(x, rows = [-1, -3], cols = [0, 2, 5])",
+    "kind": "vector"
+  },
+  {
+    "label": "sum2 empty",
+    "r": "sum2(numeric())",
+    "f": "sum2([real(dp) ::])",
+    "kind": "scalar"
+  },
+  {
+    "label": "sum2 infinities",
+    "r": "sum2(c(-Inf,Inf))",
+    "f": "sum2([ninf, inf])",
+    "kind": "scalar"
+  },
+  {
+    "label": "mean2 empty",
+    "r": "mean2(numeric())",
+    "f": "mean2([real(dp) ::])",
+    "kind": "scalar"
+  },
+  {
+    "label": "mean2 infinities",
+    "r": "mean2(c(-Inf,Inf))",
+    "f": "mean2([ninf, inf])",
+    "kind": "scalar"
+  },
+  {
+    "label": "product empty",
+    "r": "product(numeric())",
+    "f": "product([real(dp) ::])",
+    "kind": "scalar"
+  },
+  {
+    "label": "product infinities",
+    "r": "product(c(-Inf,Inf))",
+    "f": "product([ninf, inf])",
+    "kind": "scalar"
+  },
+  {
+    "label": "logSumExp empty",
+    "r": "logSumExp(numeric())",
+    "f": "log_sum_exp([real(dp) ::])",
+    "kind": "scalar"
+  },
+  {
+    "label": "logSumExp infinities",
+    "r": "logSumExp(c(-Inf,Inf))",
+    "f": "log_sum_exp([ninf, inf])",
+    "kind": "scalar"
+  },
+  {
+    "label": "iqr empty",
+    "r": "iqr(numeric())",
+    "f": "iqr([real(dp) ::])",
+    "kind": "scalar"
+  },
+  {
+    "label": "iqr infinities",
+    "r": "iqr(c(-Inf,Inf))",
+    "f": "iqr([ninf, inf])",
+    "kind": "scalar"
+  },
+  {
+    "label": "all missing decisive",
+    "r": "allValue(c(NA,0),value=1)",
+    "f": "all_value([nan, 0.0_dp], value = 1.0_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "any missing decisive",
+    "r": "anyValue(c(NA,1),value=1)",
+    "f": "any_value([nan, 1.0_dp], value = 1.0_dp)",
+    "kind": "scalar"
+  },
+  {
+    "label": "count NA",
+    "r": "count(c(NA,1,NaN),value=NA_real_)",
+    "f": "count_value([nan, 1.0_dp, nan], value = nan)",
+    "kind": "scalar"
+  },
+  {
+    "label": "colRanks preserveShape",
+    "r": "colRanks(x,ties.method=\"dense\",preserveShape=TRUE)",
+    "f": "col_ranks(x, ties_method = 'dense', preserve_shape = .true.)",
+    "kind": "matrix"
+  }
+]

@@ -1,0 +1,916 @@
+name = "matrixStats"
+version = "0.1.0"
+license = "Artistic-2.0 AND GPL-2.0-or-later"
+author = "matrixStats authors; modern Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Pure modern Fortran matrixStats numerical operations"
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 99
+r_functions_translated = 99
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "allValue"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["all_value"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "anyMissing"
+r_source = "upstream/R/anyMissing.R"
+fortran_module = "matrixstats"
+fortran_names = ["any_missing"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "anyValue"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["any_value"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "binCounts"
+r_source = "upstream/R/binCounts.R"
+fortran_module = "matrixstats"
+fortran_names = ["bin_counts"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "binMeans"
+r_source = "upstream/R/binMeans.R"
+fortran_module = "matrixstats"
+fortran_names = ["bin_means"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Means and optional counts are explicit subroutine outputs instead of an R count attribute."
+
+[[extra.translation.function]]
+r_name = "colAlls"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_alls"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colAnyMissings"
+r_source = "upstream/R/anyMissing.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_any_missings"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colAnyNAs"
+r_source = "upstream/R/anyMissing.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_any_nas"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colAnys"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_anys"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colAvgsPerRowSet"
+r_source = "upstream/R/rowAvgsPerColSet.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_avgs_per_row_set"]
+fortran_source = "src/matrixstats.f90"
+status = "partial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Mean and weighted-mean aggregation only; arbitrary FUN/tFUN callbacks are omitted. Nonpositive set entries pad ragged sets."
+
+[[extra.translation.function]]
+r_name = "colCollapse"
+r_source = "upstream/R/rowCollapse.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_collapse"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colCounts"
+r_source = "upstream/R/rowCounts.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_counts"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colCummaxs"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_cummaxs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colCummins"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_cummins"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colCumprods"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_cumprods"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colCumsums"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_cumsums"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colDiffs"
+r_source = "upstream/R/rowDiffs.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colIQRDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_iqr_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colIQRs"
+r_source = "upstream/R/rowIQRs.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_iqrs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colLogSumExps"
+r_source = "upstream/R/rowLogSumExps.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_log_sum_exps"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMadDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_mad_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMads"
+r_source = "upstream/R/rowMads.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_mads"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMaxs"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_maxs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMeans2"
+r_source = "upstream/R/rowMeans2.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_means2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMedians"
+r_source = "upstream/R/rowMedians.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_medians"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colMins"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_mins"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colOrderStats"
+r_source = "upstream/R/rowOrderStats.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_order_stats"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colProds"
+r_source = "upstream/R/rowProds.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_prods"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colQuantiles"
+r_source = "upstream/R/rowQuantiles.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_quantiles"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colRanges"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_ranges"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colRanks"
+r_source = "upstream/R/rowRanks.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_ranks"]
+fortran_source = "src/matrixstats.f90"
+status = "partial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Six deterministic tie methods and preserveShape are supported; random ties/R RNG are omitted."
+
+[[extra.translation.function]]
+r_name = "colSdDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_sd_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colSds"
+r_source = "upstream/R/rowSds.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_sds"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colSums2"
+r_source = "upstream/R/rowSums2.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_sums2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colTabulates"
+r_source = "upstream/R/rowTabulates.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_tabulates"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Integer/logical categories are passed as real(dp); numeric categories are also accepted as an extension."
+
+[[extra.translation.function]]
+r_name = "colVarDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_var_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colVars"
+r_source = "upstream/R/rowVars.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_vars"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "colWeightedMads"
+r_source = "upstream/R/weightedMad.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_weighted_mads"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "colWeightedMeans"
+r_source = "upstream/R/rowWeightedMeans.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_weighted_means"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "colWeightedMedians"
+r_source = "upstream/R/rowWeightedMedians.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_weighted_medians"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Deliberately repairs the upstream wrong median for odd counts of infinite weights; see README."
+
+[[extra.translation.function]]
+r_name = "colWeightedSds"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_weighted_sds"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "colWeightedVars"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["col_weighted_vars"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "count"
+r_source = "upstream/R/rowCounts.R"
+fortran_module = "matrixstats"
+fortran_names = ["count_value"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "diff2"
+r_source = "upstream/R/diff2.R"
+fortran_module = "matrixstats"
+fortran_names = ["diff2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "indexByRow"
+r_source = "upstream/R/indexByRow.R"
+fortran_module = "matrixstats"
+fortran_names = ["index_by_row"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Indices use default Fortran integers; invalid indices return ms_na_index rather than an R error."
+
+[[extra.translation.function]]
+r_name = "iqr"
+r_source = "upstream/R/rowIQRs.R"
+fortran_module = "matrixstats"
+fortran_names = ["iqr"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "iqrDiff"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["iqr_diff"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "logSumExp"
+r_source = "upstream/R/logSumExp.R"
+fortran_module = "matrixstats"
+fortran_names = ["log_sum_exp"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "madDiff"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["mad_diff"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "mean2"
+r_source = "upstream/R/mean2.R"
+fortran_module = "matrixstats"
+fortran_names = ["mean2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "product"
+r_source = "upstream/R/product.R"
+fortran_module = "matrixstats"
+fortran_names = ["product"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowAlls"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_alls"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowAnyMissings"
+r_source = "upstream/R/anyMissing.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_any_missings"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowAnyNAs"
+r_source = "upstream/R/anyMissing.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_any_nas"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowAnys"
+r_source = "upstream/R/rowAlls.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_anys"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowAvgsPerColSet"
+r_source = "upstream/R/rowAvgsPerColSet.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_avgs_per_col_set"]
+fortran_source = "src/matrixstats.f90"
+status = "partial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Mean and weighted-mean aggregation only; arbitrary FUN/tFUN callbacks are omitted. Nonpositive set entries pad ragged sets."
+
+[[extra.translation.function]]
+r_name = "rowCollapse"
+r_source = "upstream/R/rowCollapse.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_collapse"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowCounts"
+r_source = "upstream/R/rowCounts.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_counts"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowCummaxs"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_cummaxs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowCummins"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_cummins"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowCumprods"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_cumprods"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowCumsums"
+r_source = "upstream/R/rowCumsums.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_cumsums"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowDiffs"
+r_source = "upstream/R/rowDiffs.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowIQRDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_iqr_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowIQRs"
+r_source = "upstream/R/rowIQRs.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_iqrs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowLogSumExps"
+r_source = "upstream/R/rowLogSumExps.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_log_sum_exps"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMadDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_mad_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMads"
+r_source = "upstream/R/rowMads.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_mads"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMaxs"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_maxs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMeans2"
+r_source = "upstream/R/rowMeans2.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_means2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMedians"
+r_source = "upstream/R/rowMedians.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_medians"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowMins"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_mins"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowOrderStats"
+r_source = "upstream/R/rowOrderStats.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_order_stats"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowProds"
+r_source = "upstream/R/rowProds.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_prods"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowQuantiles"
+r_source = "upstream/R/rowQuantiles.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_quantiles"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowRanges"
+r_source = "upstream/R/rowRanges.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_ranges"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowRanks"
+r_source = "upstream/R/rowRanks.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_ranks"]
+fortran_source = "src/matrixstats.f90"
+status = "partial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Six deterministic tie methods are supported; random ties/R RNG are omitted."
+
+[[extra.translation.function]]
+r_name = "rowSdDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_sd_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowSds"
+r_source = "upstream/R/rowSds.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_sds"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowSums2"
+r_source = "upstream/R/rowSums2.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_sums2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowTabulates"
+r_source = "upstream/R/rowTabulates.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_tabulates"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Integer/logical categories are passed as real(dp); numeric categories are also accepted as an extension."
+
+[[extra.translation.function]]
+r_name = "rowVarDiffs"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_var_diffs"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowVars"
+r_source = "upstream/R/rowVars.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_vars"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "rowWeightedMads"
+r_source = "upstream/R/weightedMad.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_weighted_mads"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "rowWeightedMeans"
+r_source = "upstream/R/rowWeightedMeans.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_weighted_means"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "rowWeightedMedians"
+r_source = "upstream/R/rowWeightedMedians.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_weighted_medians"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Deliberately repairs the upstream wrong median for odd counts of infinite weights; see README."
+
+[[extra.translation.function]]
+r_name = "rowWeightedSds"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_weighted_sds"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "rowWeightedVars"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["row_weighted_vars"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "sdDiff"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["sd_diff"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "signTabulate"
+r_source = "upstream/R/signTabulate.R"
+fortran_module = "matrixstats"
+fortran_names = ["sign_tabulate"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "sum2"
+r_source = "upstream/R/sum2.R"
+fortran_module = "matrixstats"
+fortran_names = ["sum2"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "t_tx_OP_y"
+r_source = "upstream/R/x_OP_y.R"
+fortran_module = "matrixstats"
+fortran_names = ["t_tx_op_y"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "varDiff"
+r_source = "upstream/R/varDiff.R"
+fortran_module = "matrixstats"
+fortran_names = ["var_diff"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."
+
+[[extra.translation.function]]
+r_name = "weightedMad"
+r_source = "upstream/R/weightedMad.R"
+fortran_module = "matrixstats"
+fortran_names = ["weighted_mad"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Applies idxs consistently when weights are omitted, repairing upstream subset defects; see README."
+
+[[extra.translation.function]]
+r_name = "weightedMean"
+r_source = "upstream/R/weightedMean.R"
+fortran_module = "matrixstats"
+fortran_names = ["weighted_mean"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained."
+
+[[extra.translation.function]]
+r_name = "weightedMedian"
+r_source = "upstream/R/weightedMedian.R"
+fortran_module = "matrixstats"
+fortran_names = ["weighted_median"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Deliberately repairs the upstream wrong median for odd counts of infinite weights; see README."
+
+[[extra.translation.function]]
+r_name = "weightedSd"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["weighted_sd"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Applies idxs consistently when weights are omitted, repairing upstream subset defects; see README."
+
+[[extra.translation.function]]
+r_name = "weightedVar"
+r_source = "upstream/R/weightedVar.R"
+fortran_module = "matrixstats"
+fortran_names = ["weighted_var"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN. Upstream weight rules and deterministic R quicksort tie ordering are retained. Applies idxs consistently when weights are omitted, repairing upstream subset defects; see README."
+
+[[extra.translation.function]]
+r_name = "x_OP_y"
+r_source = "upstream/R/x_OP_y.R"
+fortran_module = "matrixstats"
+fortran_names = ["x_op_y"]
+fortran_source = "src/matrixstats.f90"
+status = "substantial"
+notes = "Numeric computational operation translated. R names, attributes, storage-type dispatch, warnings and error objects are omitted; NA and NaN use IEEE NaN."

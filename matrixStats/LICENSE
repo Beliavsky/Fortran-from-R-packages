@@ -1,0 +1,18 @@
+Licensing of this modified version
+==================================
+
+The matrixStats-derived implementation and accompanying source references are
+licensed under the Artistic License 2.0; see LICENSE-Artistic-2.0.
+
+The private weighted_median_order helper in src/matrixstats_order.f90 is adapted from
+R's GPL-2.0-or-later qsort-body.c. Its copyright and license notice are retained
+beside the helper; see LICENSE-GPL-2.0. The combined distribution must satisfy
+both the Artistic-2.0 and GPL-2.0-or-later terms.
+
+SPDX license expression: Artistic-2.0 AND GPL-2.0-or-later
+
+The sibling rfortran-core dependency is independently MIT licensed. It is not
+copied into this package. See its own license when obtaining the dependency.
+
+This is a clearly identified, modified Fortran translation, not an official
+matrixStats release. See NOTICE.md for authorship and upstream provenance.

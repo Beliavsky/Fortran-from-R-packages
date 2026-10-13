@@ -1,0 +1,987 @@
+
+
+SOURCE: upstream matrixStats src/anyMissing.c
+
+/***************************************************************************
+ Public methods:
+ anyMissing(SEXP x, SEXP idxs)
+
+ TO DO: Support list():s too.
+
+ Copyright Henrik Bengtsson, 2007
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/binCounts.c
+
+/***************************************************************************
+ Public methods:
+ binCounts(SEXP x, SEXP bx, SEXP right)
+
+ Copyright Henrik Bengtsson, 2012-2013
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/binCounts_lowlevel_template.h
+
+/***************************************************************************
+ TEMPLATE:
+  void binCounts_<L|R>(...)
+
+ GENERATES:
+  void binCounts_L(double *x, int nx, double *bx, int nbins, int *count)
+  void binCounts_R(double *x, int nx, double *bx, int nbins, int *count)
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+  - BIN_BY: 'L' or 'R'
+
+ Copyright Henrik Bengtsson, 2012-2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/binMeans.c
+
+/***************************************************************************
+ Public methods:
+ binMeans(SEXP y, SEXP x, SEXP bx, SEXP retCount, SEXP right)
+
+ Copyright Henrik Bengtsson, 2012-2013
+ **************************************************************************/
+
+/***************************************************************************
+ HISTORY:
+ 2015-05-30 [HB]
+  o Added protected against 'bx' too short.
+ 2014-10-06 [HB]
+  o CLEANUP: All argument validation is now done by the high-level C API.
+ 2014-06-02 [HB]
+  o CLEANUP: Removed unused variable in binMeans().
+ 2013-10-08 [HB]
+  o Now binCounts() calls binCounts_<Lr|lR>().
+ 2013-05-10 [HB]
+  o SPEEDUP: binMeans() no longer tests in every iteration (=for every
+    data point) whether the last bin has been reached or not.
+ 2012-10-10 [HB]
+  o BUG FIX: binMeans() would return random/garbage means/counts for
+    bins that were beyond the last data point.
+  o BUG FIX: In some cases binMeans() could try to go past the last bin.
+ 2012-10-03 [HB]
+  o Created binMeans(), which was adopted from from code proposed by
+    Martin Morgan (Fred Hutchinson Cancer Research Center, Seattle) as
+    a reply to HB's R-devel thread 'Fastest non-overlapping binning mean
+    function out there?' on Oct 3, 2012.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/binMeans_lowlevel_template.h
+
+/***************************************************************************
+ TEMPLATE:
+  binMeans_<L|R>(...)
+
+ GENERATES:
+  void binMeans_L(double *y, R_xlen_t ny, double *x, R_xlen_t nx, double *bx, R_xlen_t nbins, double *ans, int *count)
+  void binMeans_R(double *y, R_xlen_t ny, double *x, R_xlen_t nx, double *bx, R_xlen_t nbins, double *ans, int *count)
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+  - BIN_BY: 'L' or 'R'
+
+ Copyright Henrik Bengtsson, 2012-2013
+ **************************************************************************/
+
+/***************************************************************************
+ HISTORY:
+2014-11-07 [HB]
+  o ROBUSTNESS: Added protection for integer overflow in bin counts.
+2014-11-06 [HB]
+  o CLEANUP: Moving away from R data types in low-level C functions.
+2014-10-01 [HB]
+  o BUG FIX: binMeans() returned 0.0 instead of NA_real_ for empty bins.
+2014-04-04 [HB]
+  o BUG FIX: The native code of binMeans(x, bx) would try to access
+    an out-of-bounds value of argument 'y' iff 'x' contained elements
+    that are left of all bins in 'bx'.  This bug had no impact on the
+    results and since no assignment was done it should also not crash/
+    core dump R.  This was discovered thanks to new memtests (ASAN and
+    valgrind) provided by CRAN.
+ 2013-10-08 [HB]
+  o Created template for binMeans_<L|R>() to create functions that
+    bin either by [u,v) or (u,v].
+ 2013-05-10 [HB]
+  o SPEEDUP: binMeans() no longer tests in every iteration (=for every
+    data point) whether the last bin has been reached or not.
+ 2012-10-10 [HB]
+  o BUG FIX: binMeans() would return random/garbage means/counts for
+    bins that were beyond the last data point.
+  o BUG FIX: In some cases binMeans() could try to go past the last bin.
+ 2012-10-03 [HB]
+  o Created binMeans(), which was adopted from from code proposed by
+    Martin Morgan (Fred Hutchinson Cancer Research Center, Seattle) as
+    a reply to HB's R-devel thread 'Fastest non-overlapping binning mean
+    function out there?' on Oct 3, 2012.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/colCounts.c
+
+/***************************************************************************
+ Public methods:
+ SEXP colCounts(SEXP x, ...)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/colCounts_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void colCounts_<int|dbl|lgl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, X_C_TYPE value, int what, int narm, int hasna, double *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i', 'r', or 'l'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/colOrderStats.c
+
+/***************************************************************************
+ Public methods:
+ SEXP colOrderStats(SEXP x, SEXP dim, SEXP rows, SEXP cols, SEXP which, SEXP useNames)
+
+ Authors: Henrik Bengtsson
+
+ To do: Add support for missing values.
+
+ Copyright Henrik Bengtsson, 2007-2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/colOrderStats_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void colOrderStats_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, R_xlen_t *cols, R_xlen_t ncols, R_xlen_t qq, X_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+  - ANS_TYPE: 'i' or 'r'
+
+ Authors:
+  Adopted from ditto for rows.
+
+ Copyright: Henrik Bengtsson, 2007-2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/colRanges.c
+
+/***************************************************************************
+ Public methods:
+ SEXP colRanges(SEXP x, ...)
+
+ Authors: Henrik Bengtsson.
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/colRanges_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void colRanges_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int what, int narm, int hasna, X_C_TYPE *ans, int *is_counted
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+  - ANS_TYPE: 'i' or 'r'
+
+ Authors:
+  Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/diff2.c
+
+/***************************************************************************
+ Public methods:
+ SEXP diff2(SEXP x, SEXP idxs, SEXP lag, SEXP differences)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/diff2_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void diff2_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, R_xlen_t *idxs, R_xlen_t nidxs, R_xlen_t lag, R_xlen_t differences, X_C_TYPE *ans, R_xlen_t nans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/indexByRow.c
+
+/***************************************************************************
+ Public methods:
+ SEXP indexByRow(SEXP dim, SEXP idxs)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/logSumExp.c
+
+/***************************************************************************
+ Public methods:
+ SEXP logSumExp(SEXP lx, SEXP idxs, SEXP naRm, SEXP hasNA)
+
+ Arguments:
+   lx   : numeric vector
+   idxs : subsetting indices
+   naRm : a logical scalar
+   hasNA: a logical scalar
+
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2013
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/mean2.c
+
+/***************************************************************************
+ Public methods:
+ SEXP mean2(SEXP x, SEXP idxs, SEXP naRm, SEXP refine)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/mean2_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  double mean2_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA int narm, int refine
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014-2017
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/productExpSumLog.c
+
+/***************************************************************************
+ Public methods:
+ SEXP productExpSumLog(SEXP x, SEXP idxs, SEXP naRm, SEXP hasNA)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/productExpSumLog_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  double productExpSumLog_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA, int narm, int hasna
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/psortKM.c
+
+/***************************************************************************
+ Public methods:
+ SEXP psortKM(SEXP x, SEXP k, SEXP nk)
+
+ Arguments:
+   x: numeric vector
+   k: integer scalar in [1,length(x)]
+   m: integer scalar in [1,k] and not too large if k is large.
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2012
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCounts.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowCounts(SEXP x, ...)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCounts_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowCounts_<int|dbl|lgl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, R_xlen_t *cols, R_xlen_t ncols, X_C_TYPE value, int what, int narm, int hasna, int *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i', 'r', or 'l'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowCumMinMaxs_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowCummins_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int byrow, ANS_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowCummaxs.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowCummaxs(SEXP x, ...)
+ SEXP colCummaxs(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCummins.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowCummins(SEXP x, ...)
+ SEXP colCummins(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCumprods.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowCumprods(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCumprods_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowCumprods_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int byrow, ANS_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowCumsums.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowCumsums(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowCumsums_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowCumsums_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, R_xlen_t *cols, R_xlen_t ncols, int byrow, ANS_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowDiffs.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowDiffs(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowDiffs_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowDiffs_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, R_xlen_t *cols, R_xlen_t ncols, int byrow, R_xlen_t lag, R_xlen_t differences, X_C_TYPE *ans, R_xlen_t nrow_ans, R_xlen_t ncol_ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowLogSumExp.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowLogSumExps(SEXP lx, SEXP dim, SEXP rows, SEXP cols, SEXP naRm, SEXP hasNA, SEXP byRow, SEXP useNames)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2013-2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowMads.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowMads(SEXP x, ...)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowMads_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowMads_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, double scale, int narm, int hasna, int byrow, double *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Adopted from rowQuantiles.c by R. Gentleman.
+  Template by Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2007-2013
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowMeans2.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowMeans2(SEXP x, SEXP naRm, SEXP hasNA)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2017
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowMeans2_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowMeans2_<int|dbl>(ARGUMENTS_LIST)
+
+ Copyright: Henrik Bengtsson, 2017
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowMedians.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowMedians(SEXP x, ...)
+
+ Authors: Adopted from rowQuantiles.c by R. Gentleman.
+
+ Copyright Henrik Bengtsson, 2007
+ **************************************************************************/
+
+/***************************************************************************
+ HISTORY:
+ 2015-06-07 [DJ]
+  o Supported subsetted computation.
+ 2013-01-13 [HB]
+ o Added argument 'byRow' to rowMedians() and dropped colMedians().
+ o Using internal arguments 'by_row' instead of 'by_column'.
+ 2011-12-11 [HB]
+ o BUG FIX: rowMediansReal(..., na.rm=TRUE) did not handle NaN:s, only NA:s.
+   Note that NaN:s does not exist for integers.
+ 2011-10-12 [HJ]
+ o Added colMedians().
+ o Now rowMediansInteger/Real() can operate also by columns, cf. argument
+   'by_column'.
+ 2007-08-14 [HB]
+ o Added checks for user interrupts every 1000 line.
+ o Added argument 'hasNA' to rowMedians().
+ 2005-12-07 [HB]
+ o BUG FIX: When calculating the median of an even number (non-NA) values,
+    the length of the second sort was one element too short, which made the
+    method to freeze, i.e. rPsort(rowData, qq, qq) is now (...qq+1, qq).
+ 2005-11-24 [HB]
+  o By implementing a special version for integers, there is no need to
+    coerce to double in R, which would take up twice the amount of memory.
+  o rowMedians() now handles NAs too.
+  o Adopted from rowQuantiles.c in Biobase of Bioconductor.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowMedians_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowMedians_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int narm, int hasna, int byrow, double *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Adopted from rowQuantiles.c by R. Gentleman.
+  Template by Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2007-2013
+ ***********************************************************************/
+
+/***************************************************************************
+ HISTORY:
+ 2015-06-07 [DJ]
+  o Supported subsetted computation.
+ 2014-11-06 [HB]
+  o CLEANUP: Moving away from R data types in low-level C functions.
+ 2014-11-01 [HB]
+  o SPEEDUP: Now using 'ansp = REAL(ans)' once and then assigning to
+    'ansp' instead of to 'REAL(ans)'.
+ 2013-04-23 [HB]
+  o BUG FIX: The integer template of rowMedians_<int|dbl>() would
+    not handle ties properly.  This was because ties were calculated as
+    '(double)((rowData[qq] + value)/2)' instead of
+    '((double)(rowData[qq] + value))/2'.
+ 2013-01-13 [HB]
+  o Merged rowMedians_int() and rowMedians_dbl() into template
+    rowMedians_<int|dbl>().
+ 2013-01-13 [HB]
+ o Using internal arguments 'by_row' instead of 'by_column'.
+ 2011-12-11 [HB]
+ o BUG FIX: rowMediansReal(..., na.rm=TRUE) did not handle NaN:s, only NA:s.
+   Note that NaN:s does not exist for integers.
+ 2011-10-12 [HJ]
+ o Added colMedians().
+ o Now rowMediansInteger/Real() can operate also by columns, cf. argument
+   'by_column'.
+ 2007-08-14 [HB]
+ o Added checks for user interrupts every 1000 line.
+ o Added argument 'hasNA' to rowMedians().
+ 2005-12-07 [HB]
+ o BUG FIX: When calculating the median of an even number (non-NA) values,
+    the length of the second sort was one element too short, which made the
+    method to freeze, i.e. rPsort(rowData, qq, qq) is now (...qq+1, qq).
+ 2005-11-24 [HB]
+  o By implementing a special version for integers, there is no need to
+    coerce to double in R, which would take up twice the amount of memory.
+  o rowMedians() now handles NAs too.
+  o Adopted from rowQuantiles.c in Biobase of Bioconductor.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowOrderStats.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowOrderStats(SEXP x, SEXP dim, SEXP rows, SEXP cols, SEXP which, SEXP useNames)
+
+ Authors: Henrik Bengtsson. Adopted from rowQ() by R. Gentleman.
+
+ To do: Add support for missing values.
+
+ Copyright Henrik Bengtsson, 2007-2014
+ **************************************************************************/
+
+/***************************************************************************
+ HISTORY:
+ 2015-07-11 [DJ]
+  o Supported subsetted computation.
+ 2009-02-04 [HB]
+  o BUG FIX: For some errors in rowOrderStats(), the stack would not become
+    UNPROTECTED before calling error.
+ 2008-03-25 [HB]
+  o Renamed from 'rowQuantiles' to 'rowOrderStats'.
+ 2007-08-10 [HB]
+  o Removed arguments for NAs since rowOrderStats() still don't support it.
+ 2005-11-24 [HB]
+  o Cool, it works and compiles nicely.
+  o Preallocate colOffset to speed up things even more.
+  o Added more comments and error checking.
+  o Adopted from rowQ() in Biobase of Bioconductor.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowOrderStats_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowOrderStats_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, R_xlen_t *cols, R_xlen_t ncols, R_xlen_t qq, X_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+  - ANS_TYPE: 'i' or 'r'
+
+ Authors:
+  Adopted from rowQ() by R. Gentleman.
+  Template by Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2007-2014
+ ***********************************************************************/
+
+/***************************************************************************
+ HISTORY:
+ 2015-07-08 [DJ]
+  o Supported subsetted computation.
+ 2014-11-06 [HB]
+  o CLEANUP: Moving away from R data types in low-level C functions.
+ 2013-01-13 [HB]
+  o Merged rowOrderStatsReal() and rowOrderStatsInteger() into
+    one rowOrderStats_<int|dbl>() templated function.
+ 2009-02-04 [HB]
+  o BUG FIX: For some errors in rowOrderStats(), the stack would not become
+    UNPROTECTED before calling error.
+ 2008-03-25 [HB]
+  o Renamed from 'rowQuantiles' to 'rowOrderStats'.
+ 2007-08-10 [HB]
+  o Removed arguments for NAs since rowOrderStats() still don't support it.
+ 2005-11-24 [HB]
+  o Cool, it works and compiles nicely.
+  o Preallocate colOffset to speed up things even more.
+  o Added more comments and error checking.
+  o Adopted from rowQ() in Biobase of Bioconductor.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowRanges.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowRanges(SEXP x, ...)
+
+ Authors: Henrik Bengtsson.
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowRanges_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowRanges_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int what, int narm, int hasna, X_C_TYPE *ans, int *is_counted
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+  - ANS_TYPE: 'i' or 'r'
+
+ Authors:
+  Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowRanksWithTies.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowRanksWithTies(SEXP x, SEXP rows, SEXP cols, SEXP tiesMethod, SEXP byRow)
+
+ Authors: Hector Corrada Bravo, Peter Langfelder and Henrik Bengtsson
+
+ TO DO: Add support for missing values.
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowRanksWithTies_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  <col|row>Ranks_dbl_ties<Min|Max|Average>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, ANS_C_TYPE *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+  - ANS_TYPE: 'i' or 'r'
+  - TIESMETHOD: 'a' (average), 'f' (first), 'l' (last), 'r' (random), '0' (min), '1' (max), 'd' (dense)
+
+ Authors:
+  Hector Corrada Bravo [HCB]
+  Peter Langfelder [PL]
+  Henrik Bengtsson [HB]
+  Brian Montgomery 
+  Jakob Peder Pettersen [JPP]
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowSums2.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowSums2(SEXP x, SEXP naRm, SEXP hasNA)
+ SEXP colSums2(SEXP x, SEXP naRm, SEXP hasNA)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2017
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowSums2_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowSums2_<int|dbl>(ARGUMENTS_LIST)
+
+ Copyright: Henrik Bengtsson, 2017
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/rowVars.c
+
+/***************************************************************************
+ Public methods:
+ SEXP rowVars(SEXP x, SEXP naRm, SEXP hasNA)
+ SEXP colVars(SEXP x, SEXP naRm, SEXP hasNA)
+
+ Authors: Henrik Bengtsson
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/rowVars_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void rowVars_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nrow, R_xlen_t ncol, R_xlen_t *rows, R_xlen_t nrows, int rowsHasNA, R_xlen_t *cols, R_xlen_t ncols, int colsHasNA, int narm, int refine, int hasna, int byrow, double *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Authors:
+  Adopted from rowQuantiles.c by R. Gentleman.
+  Template by Henrik Bengtsson.
+
+ Copyright: Henrik Bengtsson, 2007-2013
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/signTabulate.c
+
+/***************************************************************************
+ Public methods:
+ SEXP signTabulate(SEXP x, SEXP idxs)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/signTabulate_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  void signTabulate_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA, double *ans
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/sum2.c
+
+/***************************************************************************
+ Public methods:
+ SEXP sum2(SEXP x, SEXP idxs, SEXP naRm, SEXP mode)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/sum2_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  double sum2_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA, int narm
+
+ Arguments:
+   The following macros ("arguments") should be defined for the
+   template to work as intended.
+
+  - METHOD_NAME: the name of the resulting function
+  - X_TYPE: 'i' or 'r'
+
+ Copyright: Henrik Bengtsson, 2014-2018
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/weightedMean.c
+
+/***************************************************************************
+ Public methods:
+ SEXP weightedMean(SEXP x, SEXP w, SEXP idxs, SEXP naRm, SEXP refine)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/weightedMean_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  double weightedMean_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, double *w, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA, int narm, int refine
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
+
+SOURCE: upstream matrixStats src/weightedMedian.c
+
+/***************************************************************************
+ Public methods:
+ SEXP weightedMedian(SEXP x, SEXP w, SEXP idxs, SEXP naRm, SEXP interpolate, SEXP ties)
+
+ Copyright Henrik Bengtsson, 2014
+ **************************************************************************/
+
+SOURCE: upstream matrixStats src/weightedMedian_lowlevel_template.h
+
+/***********************************************************************
+ TEMPLATE:
+  double weightedMedian_<int|dbl>(ARGUMENTS_LIST)
+
+ ARGUMENTS_LIST:
+  X_C_TYPE *x, R_xlen_t nx, double *w, R_xlen_t *idxs, R_xlen_t nidxs, int idxsHasNA, int narm, int interpolate, int ties
+
+ Copyright: Henrik Bengtsson, 2014
+ ***********************************************************************/
