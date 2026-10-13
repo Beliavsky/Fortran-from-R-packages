@@ -1,0 +1,37 @@
+Package: trend
+Version: 1.1.8
+Date: 2026-09-03
+Title: Non-Parametric Trend Tests and Change-Point Detection
+Authors@R: person(given = "Thorsten", family = "Pohlert",
+                 email = "thorsten.pohlert@gmx.de",
+                 comment = c(ORCID = "0000-0003-3855-3025"),
+                 role = c("aut", "cre"))
+Depends: R (>= 3.0)
+Description: The analysis of environmental data often requires
+	     the detection of trends and change-points. 
+	     This package includes tests for trend detection
+	     (Cox-Stuart Trend Test, Mann-Kendall Trend Test, 
+	     (correlated) Hirsch-Slack Test,
+             partial Mann-Kendall Trend Test, multivariate (multisite)
+	     Mann-Kendall Trend Test, (Seasonal) Sen's slope, 
+	     partial Pearson and Spearman correlation trend test),
+             change-point detection (Lanzante's test procedures, 
+	     Pettitt's test, Buishand Range Test,
+	     Buishand U Test, Standard Normal Homogeinity Test),
+	     detection of non-randomness (Wallis-Moore Phase Frequency Test,
+	     Bartels rank von Neumann's ratio test, Wald-Wolfowitz Test)
+	     and the two sample Robust Rank-Order Distributional Test.
+Imports: extraDistr (>= 1.8.0)
+Suggests: strucchange, Kendall, psych, datasets
+Classification/MSC-2010: 62F03, 62G10, 62M10, 62P12
+License: GPL-3
+Encoding: UTF-8
+ZipData: yes
+NeedsCompilation: yes
+Config/roxygen2/version: 8.1.0
+Packaged: 2026-09-03 13:29:36 UTC; thorsten
+Author: Thorsten Pohlert [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-3855-3025>)
+Maintainer: Thorsten Pohlert <thorsten.pohlert@gmx.de>
+Repository: CRAN
+Date/Publication: 2026-09-03 14:40:02 UTC

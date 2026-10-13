@@ -1,0 +1,201 @@
+name = "trend"
+version = "1.1.8"
+license = "GPL-3.0-only"
+author = "Thorsten Pohlert; modern Fortran translation contributors"
+description = "Trend detection, Sen slopes, change points, and randomness tests"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+Kendall = { path = "../Kendall" }
+randtests = { path = "../randtests" }
+exactRankTests = { path = "../exactRankTests" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 19
+r_functions_translated = 19
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bartels.test"
+r_source = "upstream/R/bartels.test.R"
+fortran_module = "trend_module"
+fortran_names = ["bartels_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Reuses randtests RVN and beta lower tail for 10<=n<100; upstream normal approximation for n>=100. R objects omitted; explicit finite-input and degeneracy statuses."
+
+[[extra.translation.function]]
+r_name = "br.test"
+r_source = "upstream/R/br.test.R"
+fortran_module = "trend_module"
+fortran_names = ["br_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Buishand range statistic, scaled cumulative process and all split candidates. Actual Monte Carlo normal-null significance, strict exceedance and upstream n versus n-1 SD convention. Local deterministic RNG or supplied null samples replaces R RNG; ts-specific unscaled process branch omitted; stable centering/scaling."
+
+[[extra.translation.function]]
+r_name = "bu.test"
+r_source = "upstream/R/bu.test.R"
+fortran_module = "trend_module"
+fortran_names = ["bu_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Buishand U statistic and Monte Carlo significance with the upstream population-null versus sample-observed SD convention. Local deterministic RNG or supplied null samples; R ts metadata and unscaled ts process branch omitted; stable centering/scaling."
+
+[[extra.translation.function]]
+r_name = "cs.test"
+r_source = "upstream/R/cs.test.R"
+fortran_module = "trend_module"
+fortran_names = ["cs_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Upstream first/last-third comparison, n-dependent normal continuity correction and NaN omission. This differs from randtests half-series/binomial Cox-Stuart implementation. R objects and warnings omitted."
+
+[[extra.translation.function]]
+r_name = "csmk.test"
+r_source = "upstream/R/csmk.test.R"
+fortran_module = "trend_module"
+fortran_names = ["csmk_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Correlated seasonal score covariance and n<=10 correction via the translated multisite computation. Explicit period and complete cycles replace ts metadata; same upstream covariance convention, with diagnostic statuses."
+
+[[extra.translation.function]]
+r_name = "itam"
+r_source = "upstream/R/itam.R"
+fortran_module = "trend_module"
+fortran_names = ["itam"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Innovative trend slope, standard deviation, normal significance, confidence interval and sorted half-series. Odd midpoint omitted only from the halves, retained in full-series SD and n; normalized moments prevent overflow. R objects and plot.itam omitted; invalid/undefined cases receive statuses."
+
+[[extra.translation.function]]
+r_name = "lanzante.test"
+r_source = "upstream/R/lanzante.test.R"
+fortran_module = "trend_module"
+fortran_names = ["lanzante_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Unique Pettitt split followed by exact/small-untied or continuity-corrected asymptotic Wilcoxon through exactRankTests, or robust rank-order significance. Multiple maximizing splits produce an explicit ambiguity status rather than the R vector-condition error. R formula/S3 handling omitted."
+
+[[extra.translation.function]]
+r_name = "mk.test"
+r_source = "upstream/R/mk.test.R"
+fortran_module = "trend_module"
+fortran_names = ["mk_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Reuses Kendall score, tie-corrected variance and tau-b; supports upstream tail choices and optional continuity correction. Complete finite observations required; R objects/errors replaced by result/status."
+
+[[extra.translation.function]]
+r_name = "mult.mk.test"
+r_source = "upstream/R/mult.mk.test.R"
+fortran_module = "trend_module"
+fortran_names = ["mult_mk_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Upstream multisite score covariance, aggregation and n<=10 continuity correction. Input is an observation-by-site matrix; ts metadata/warnings omitted. Upstream covariance treatment of ties retained."
+
+[[extra.translation.function]]
+r_name = "partial.cor.trend.test"
+r_source = "upstream/R/partial.cor.trend.test.R"
+fortran_module = "trend_module"
+fortran_names = ["partial_cor_trend_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Pearson and Spearman partial trend correlation, n-2 Student-t significance and full correlation matrix. Normalized correlation inputs prevent overflow. Exact method names; R objects omitted; undefined correlations diagnosed."
+
+[[extra.translation.function]]
+r_name = "partial.mk.test"
+r_source = "upstream/R/partial.mk.test.R"
+fortran_module = "trend_module"
+fortran_names = ["partial_mk_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Upstream score covariance, partial score, variance, correlation and all normal tails; no added tie or continuity corrections. Equal finite vectors and explicit statuses replace R validation/objects."
+
+[[extra.translation.function]]
+r_name = "pettitt.test"
+r_source = "upstream/R/pettitt.test.R"
+fortran_module = "trend_module"
+fortran_names = ["pettitt_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Rank change-point process, maximum statistic, all maximizing splits and exponential approximate significance. Array/result interface with minimum size two; R classes and ts metadata omitted."
+
+[[extra.translation.function]]
+r_name = "rrod.test"
+r_source = "upstream/R/rrod.test.R"
+fortran_module = "trend_module"
+fortran_names = ["rrod_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Numerical default method with independent nonfinite omission, strict cross-group comparisons and all normal tails. Infinite z for complete separation retained. Formula/default S3 dispatch is not reproduced or separately counted."
+
+[[extra.translation.function]]
+r_name = "sea.sens.slope"
+r_source = "upstream/R/sea.sens.slope.R"
+fortran_module = "trend_module"
+fortran_names = ["sea_sens_slope"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Pooled within-season pairwise median slope per cycle. Explicit period and complete cycles replace ts metadata; allocation limit documented."
+
+[[extra.translation.function]]
+r_name = "sens.slope"
+r_source = "upstream/R/sens.slope.R"
+fortran_module = "trend_module"
+fortran_names = ["sens_slope"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Pairwise median slope, continuity-corrected significance and rank-index confidence interval using ties-to-even rounding. Out-of-range bounds are NaN rather than variable-length R indexing results; explicit size/allocation bounds."
+
+[[extra.translation.function]]
+r_name = "smk.test"
+r_source = "upstream/R/smk.test.R"
+fortran_module = "trend_module"
+fortran_names = ["smk_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Aggregate and per-season scores, tie variances, tau, z and selected-tail p-values; optional continuity and incomplete terminal cycles. Explicit period replaces ts calendar metadata; constant components yield undefined individual significance but can contribute zero to a valid aggregate."
+
+[[extra.translation.function]]
+r_name = "snh.test"
+r_source = "upstream/R/snht.test.R"
+fortran_module = "trend_module"
+fortran_names = ["snh_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "SNHT process, maximum and all splits, with actual upstream normal-null Monte Carlo inference. Population-null versus sample-observed SD and strict exceedance preserved. Local deterministic RNG or supplied null samples; stable centering/scaling replaces cancellation-prone raw arithmetic."
+
+[[extra.translation.function]]
+r_name = "wm.test"
+r_source = "upstream/R/wm.test.R"
+fortran_module = "trend_module"
+fortran_names = ["wm_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Upstream Wallis-Moore phase count, including short-sign-sequence handling and n-dependent correction. NaNs omitted; R interface metadata omitted."
+
+[[extra.translation.function]]
+r_name = "ww.test"
+r_source = "upstream/R/ww.test.R"
+fortran_module = "trend_module"
+fortran_names = ["ww_test"]
+fortran_source = "src/trend_module.f90"
+status = "substantial"
+notes = "Cyclic-product Wald-Wolfowitz z and normal significance with NaN omission. Centering/scaling corrects catastrophic cancellation for large offsets and avoids overflow; undefined n=3 and constant cases diagnosed. R objects omitted."
