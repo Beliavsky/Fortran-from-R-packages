@@ -1,0 +1,35 @@
+export(chooseMatrix,
+    permTS,
+    permKS,
+    permTREND,
+    getcnt,
+    methodRuleTS1,
+    methodRuleKS1,
+    methodRuleTREND1,
+    twosample.exact.ce,
+    twosample.exact.mc,
+    twosample.exact.network,
+    twosample.pclt,
+    ksample.pclt,
+    ksample.exact.mc,
+    trend.pclt,
+    trend.exact.mc,
+    calcPvals,
+    permControl,
+    calcPvalsMC,
+    pCI)
+
+
+importFrom("stats", "cor", "pchisq", "pnorm", "qbeta", "terms")
+
+
+S3method(print, mchtest)
+S3method(permTS, formula)
+S3method(permTS, default)
+S3method(permKS, formula)
+S3method(permKS, default)
+S3method(permTREND, formula)
+S3method(permTREND, default)
+
+
+

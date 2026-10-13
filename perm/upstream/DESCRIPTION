@@ -1,0 +1,15 @@
+Package: perm
+Type: Package
+Title: Exact or Asymptotic Permutation Tests
+Version: 1.0-0.4
+Date: 2023-08-24
+Author: Michael Fay
+Maintainer: Michael P. Fay <mfay@niaid.nih.gov>
+Depends: R (>= 2.2.1), stats
+Suggests: coin
+Description: Perform Exact or Asymptotic permutation tests [see Fay and Shaw <doi:10.18637/jss.v036.i02>].
+License: GPL
+NeedsCompilation: no
+Packaged: 2023-08-24 19:53:14 UTC; faym
+Repository: CRAN
+Date/Publication: 2023-08-24 21:00:02 UTC

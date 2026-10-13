@@ -1,0 +1,12 @@
+perm: computational Fortran translation of R package perm 1.0-0.4
+
+Upstream author and maintainer: Michael P. Fay <mfay@niaid.nih.gov>.
+The upstream DESCRIPTION specifies GPL. CRAN resolves this as GPL-2 | GPL-3.
+This translation preserves that choice: GPL-2.0-only OR GPL-3.0-only.
+Choose either the full GNU GPL version 2 in LICENSE-GPL-2 or the full GNU GPL
+version 3 in LICENSE-GPL-3. The software is provided WITHOUT ANY WARRANTY.
+
+Original R files, metadata and documentation in upstream/ retain their
+original contents and attribution. Fortran translation, tests and original
+package documentation: Copyright (c) 2026 Fortran translation contributors.
+See NOTICE.md for provenance, upstream references and external dependencies.

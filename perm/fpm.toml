@@ -1,0 +1,203 @@
+name = "perm"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Michael P. Fay; Fortran translation contributors"
+description = "Exact, Monte Carlo and asymptotic two-sample, k-sample and trend permutation tests"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 20
+r_functions_translated = 20
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "chooseMatrix"
+r_source = "upstream/R/chooseMatrix.R"
+fortran_module = "perm_api"
+fortran_names = ["choose_matrix"]
+fortran_source = "src/perm_api.f90"
+status = "complete"
+notes = "Enumerates zero/one selection rows in upstream order, with explicit allocation and combinatorial limits."
+
+[[extra.translation.function]]
+r_name = "permTS"
+r_source = "upstream/R/permTS.R"
+fortran_module = "perm_api"
+fortran_names = ["perm_ts"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Numerical two-sample workflow and method selection; formulas, S3 objects, R warnings and custom method-rule callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "permKS"
+r_source = "upstream/R/permKS.R"
+fortran_module = "perm_api"
+fortran_names = ["perm_ks"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Numerical k-sample workflow; integer category labels replace R factors. This is not a Kolmogorov-Smirnov test; formulas, S3 objects and callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "permTREND"
+r_source = "upstream/R/permTREND.R"
+fortran_module = "perm_api"
+fortran_names = ["perm_trend"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Numerical trend workflow and correlation estimate; formulas, S3 objects, R warnings and callbacks are omitted."
+
+[[extra.translation.function]]
+r_name = "getcnt"
+r_source = "upstream/R/getcnt.R"
+fortran_module = "perm_api"
+fortran_names = ["getcnt"]
+fortran_source = "src/perm_api.f90"
+status = "complete"
+notes = "Concatenates outgoing network-edge indices, with one-based indices and explicit shape and bounds validation."
+
+[[extra.translation.function]]
+r_name = "methodRuleTS1"
+r_source = "upstream/R/methodRules.R"
+fortran_module = "perm_api"
+fortran_names = ["method_rule_ts1"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Distinct-score-count method thresholds; exact=-1/0/1 replaces NULL/FALSE/TRUE. One-distinct-score groups use the first bound rather than the upstream index-zero error."
+
+[[extra.translation.function]]
+r_name = "methodRuleKS1"
+r_source = "upstream/R/methodRules.R"
+fortran_module = "perm_api"
+fortran_names = ["method_rule_ks1"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Smallest-group method threshold; integer labels replace R factors and exact=-1/0/1 replaces NULL/FALSE/TRUE."
+
+[[extra.translation.function]]
+r_name = "methodRuleTREND1"
+r_source = "upstream/R/methodRules.R"
+fortran_module = "perm_api"
+fortran_names = ["method_rule_trend1"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Sample-size method threshold, with exact=-1/0/1 replacing NULL/FALSE/TRUE and explicit finite-data validation."
+
+[[extra.translation.function]]
+r_name = "twosample.exact.ce"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["twosample_exact_ce"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Complete binary-label enumeration or supplied selection rows, with both two-sided conventions, significant-digit comparisons and resource guards."
+
+[[extra.translation.function]]
+r_name = "twosample.exact.mc"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["twosample_exact_mc"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Fixed-count permutations with add-one tails and Monte Carlo intervals; local Park-Miller RNG differs from R and requires an explicit stream for continuation."
+
+[[extra.translation.function]]
+r_name = "twosample.exact.network"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["twosample_exact_network"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Exact grouped-score occupancy paths weighted by binomial multiplicities, using log weights to avoid overflow. Arbitrary real scores and ties are retained; resource limits are explicit."
+
+[[extra.translation.function]]
+r_name = "twosample.pclt"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["twosample_pclt"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Permutation normal approximation, with the larger integer label selected; stable upper tails and explicit degenerate-data status replace cancellation or NaN."
+
+[[extra.translation.function]]
+r_name = "ksample.pclt"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["ksample_pclt"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Centered between-group quadratic statistic and chi-square approximation; integer labels replace factors and constant scores return a degenerate status."
+
+[[extra.translation.function]]
+r_name = "ksample.exact.mc"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["ksample_exact_mc"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Fixed-count k-sample permutations and upper-tail uncertainty; local RNG and power-of-two scaling differ from R."
+
+[[extra.translation.function]]
+r_name = "trend.pclt"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["trend_pclt"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Correlation-based permutation normal approximation with stable scaling and explicit degenerate-data status."
+
+[[extra.translation.function]]
+r_name = "trend.exact.mc"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["trend_exact_mc"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Fixed-count linear-statistic permutations and both two-sided conventions; local RNG, scaled statistics and explicit continuation replace R global RNG handling."
+
+[[extra.translation.function]]
+r_name = "calcPvals"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["calc_pvals"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Weighted centered-statistic tails with ties-to-even significant-digit comparisons. The unused R denom argument is omitted; extreme finite scales are handled safely."
+
+[[extra.translation.function]]
+r_name = "permControl"
+r_source = "upstream/R/permControl.R"
+fortran_module = "perm_api"
+fortran_names = ["perm_control"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Constructs and validates sampling, rounding, confidence, supplied-matrix and tail-convention controls, with additional explicit resource bounds."
+
+[[extra.translation.function]]
+r_name = "calcPvalsMC"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["calc_pvals_mc"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Add-one Monte Carlo tails and Clopper-Pearson intervals; both doubled central interval endpoints are capped at one to repair reversed all-ties intervals upstream."
+
+[[extra.translation.function]]
+r_name = "pCI"
+r_source = "upstream/R/algorithms.R"
+fortran_module = "perm_api"
+fortran_names = ["p_ci"]
+fortran_source = "src/perm_api.f90"
+status = "substantial"
+notes = "Equal-tailed Clopper-Pearson interval through shared beta/F numerics. Stable tail symmetry avoids upstream probability-rounding loss at confidence near one; trial count is bounded."
