@@ -1,0 +1,200 @@
+name = "irr"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Matthias Gamer, Jim Lemon, Ian Fellows, Puspendra Singh; Fortran translation contributors"
+description = "Inter-rater agreement, reliability, homogeneity tests, and sample-size calculations"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+lpsolve-fortran = { path = "../lpSolve" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 19
+r_functions_translated = 19
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "agree"
+r_source = "upstream/R/agree.R"
+fortran_module = "irr_agreement"
+fortran_names = ["agree"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Percentage agreement with numeric tolerance and complete-case deletion."
+
+[[extra.translation.function]]
+r_name = "bhapkar"
+r_source = "upstream/R/bhapkar.r"
+fortran_module = "irr_marginal"
+fortran_names = ["bhapkar", "bhapkar_table"]
+fortran_source = "src/irr_marginal.f90"
+status = "substantial"
+notes = "Bhapkar marginal-homogeneity statistic and chi-square tail; explicit score and count-table entry points."
+
+[[extra.translation.function]]
+r_name = "finn"
+r_source = "upstream/R/finn.R"
+fortran_module = "irr_agreement"
+fortran_names = ["finn"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Both ANOVA models, coefficient, infinite-numerator-df F statistic and p-value."
+
+[[extra.translation.function]]
+r_name = "icc"
+r_source = "upstream/R/icc.R"
+fortran_module = "irr_icc"
+fortran_names = ["icc"]
+fortran_source = "src/irr_icc.f90"
+status = "substantial"
+notes = "One-/two-way, consistency/agreement, single/average, null reliability, F inference and confidence bounds; Fortran keyword kind replaces R type."
+
+[[extra.translation.function]]
+r_name = "iota"
+r_source = "upstream/R/iota.R"
+fortran_module = "irr_agreement"
+fortran_names = ["iota"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Quantitative or nominal multivariate arrays and optional standardization; explicit cross-variable listwise NaN deletion."
+
+[[extra.translation.function]]
+r_name = "kappa2"
+r_source = "upstream/R/kappa2.R"
+fortran_module = "irr_kappa"
+fortran_names = ["kappa2", "kappa2_table"]
+fortran_source = "src/irr_kappa.f90"
+status = "substantial"
+notes = "Unweighted, linear, squared and arbitrary R-normalized numeric weights; numeric categories, no factor metadata."
+
+[[extra.translation.function]]
+r_name = "kappam.fleiss"
+r_source = "upstream/R/kappam.fleiss.R"
+fortran_module = "irr_kappa"
+fortran_names = ["kappam_fleiss"]
+fortran_source = "src/irr_kappa.f90"
+status = "substantial"
+notes = "Fleiss and exact Conger estimates with unrounded category details; R detail-table rounding omitted."
+
+[[extra.translation.function]]
+r_name = "kappam.light"
+r_source = "upstream/R/kappam.light.R"
+fortran_module = "irr_kappa"
+fortran_names = ["kappam_light"]
+fortran_source = "src/irr_kappa.f90"
+status = "substantial"
+notes = "Mean pairwise kappas and upstream variance formula; negative variance retains coefficient and returns degenerate inference."
+
+[[extra.translation.function]]
+r_name = "kendall"
+r_source = "upstream/R/kendall.R"
+fortran_module = "irr_agreement"
+fortran_names = ["kendall"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Average ranks, optional tie correction, chi-square statistic and tail."
+
+[[extra.translation.function]]
+r_name = "kripp.alpha"
+r_source = "upstream/R/kripp.alpha.R"
+fortran_module = "irr_agreement"
+fortran_names = ["kripp_alpha"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "All four distances, pairwise missingness and coincidence matrix. R complete-data weights default; optional corrected normalization."
+
+[[extra.translation.function]]
+r_name = "maxwell"
+r_source = "upstream/R/maxwell.R"
+fortran_module = "irr_agreement"
+fortran_names = ["maxwell"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Binary coefficient with explicit category count validation."
+
+[[extra.translation.function]]
+r_name = "meancor"
+r_source = "upstream/R/meancor.R"
+fortran_module = "irr_agreement"
+fortran_names = ["meancor"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Mean Pearson correlations, Fisher transform and upstream inference; dropped perfect-pair count."
+
+[[extra.translation.function]]
+r_name = "meanrho"
+r_source = "upstream/R/meanrho.R"
+fortran_module = "irr_agreement"
+fortran_names = ["meanrho"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Mean Spearman correlations with average ranks, Fisher transform and upstream inference."
+
+[[extra.translation.function]]
+r_name = "N.cohen.kappa"
+r_source = "upstream/R/N.cohen.kappa.R"
+fortran_module = "irr_designs"
+fortran_names = ["n_cohen_kappa"]
+fortran_source = "src/irr_designs.f90"
+status = "substantial"
+notes = "Binary sample size, both test tails and optional raw size; infeasible probability tables rejected."
+
+[[extra.translation.function]]
+r_name = "N2.cohen.kappa"
+r_source = "upstream/R/N2.cohen.kappa.R"
+fortran_module = "irr_designs"
+fortran_names = ["n2_cohen_kappa"]
+fortran_source = "src/irr_designs.f90"
+status = "substantial"
+notes = "Continuous LP variance maximization for 2-10 categories via sibling lpSolve; solver failures return status."
+
+[[extra.translation.function]]
+r_name = "rater.bias"
+r_source = "upstream/R/rater.bias.R"
+fortran_module = "irr_marginal"
+fortran_names = ["rater_bias", "rater_bias_ratings"]
+fortran_source = "src/irr_marginal.f90"
+status = "substantial"
+notes = "Ordered disagreement ratio and chi-square test; explicit table/rating entry points replace R shape guessing."
+
+[[extra.translation.function]]
+r_name = "relInterIntra"
+r_source = "upstream/R/relInterIntra.R"
+fortran_module = "irr_designs"
+fortran_names = ["rel_inter_intra"]
+fortran_source = "src/irr_designs.f90"
+status = "substantial"
+notes = "All numeric reliability, F, p-value, lower-bound and SEM vectors for balanced complete data; R formula/labels omitted."
+
+[[extra.translation.function]]
+r_name = "robinson"
+r_source = "upstream/R/robinson.R"
+fortran_module = "irr_agreement"
+fortran_names = ["robinson"]
+fortran_source = "src/irr_agreement.f90"
+status = "substantial"
+notes = "Robinson A based on two-way sums of squares."
+
+[[extra.translation.function]]
+r_name = "stuart.maxwell.mh"
+r_source = "upstream/R/stuart.maxwell.R"
+fortran_module = "irr_marginal"
+fortran_names = ["stuart_maxwell_mh", "stuart_maxwell_ratings"]
+fortran_source = "src/irr_marginal.f90"
+status = "substantial"
+notes = "Upstream equal-marginal removal default; optional retention of discordant equal-marginal categories; singular covariance returns status."

@@ -1,0 +1,37 @@
+R oracle: R version 4.5.0 (2025-04-11) 
+Upstream irr version: 0.85 
+N.cohen.kappa
+c(117, 77, 119, 16)
+N2.cohen.kappa, lpSolve 5.6.23 
+c(101, 136, 18, 117, 35, 20, 59)
+relInterIntra goniometer example, all five numeric vectors
+list(rohat = c(rhohat.inter.random = 0.945065704196461, rhohat.intra.random = 0.984249114673392, 
+rhohat.inter.fixed = 0.961251443214779, rhohat.intra.fixed = 0.983979355948605, 
+rhohat.intra.random.part.a = 0.986438933579531, rhohat.intra.random.part.b = 0.982068996692559, 
+rhohat.intra.fixed.part.a = 0.986206153348779, rhohat.intra.fixed.part.b = 0.981762591857534
+), Fs = c(Finter = 17.3735406785844, Fintra = 14.0484917766797, 
+Fintra.a = 16.3533224587912, Fintra.b = 12.3130898513252), pvalue = c(pvalue.Finter = 2.04033456796537e-11, 
+pvalue.Fintra = 0, pvalue.Fintra.a = 0, pvalue.Fintra.b = 1.4432899320127e-15
+), lowvalue = c(lowinter.random = 0.853592283119829, lowinter.fixed = 0.935356881665683, 
+lowintra = 0.973051501584253, lowintra.a = 0.976790844808306, 
+lowintra.b = 0.969331047117566), sem = c(SEMintra = 0.92537659311248, 
+SEMintra.part.a = 0.857690027870237, SEMintra.part.b = 0.988438917815801, 
+SEMinter.random = 1.72817534941168, SEMinter.fixed = 1.43915075608538
+))
+relInterIntra deterministic 7 subjects, 3 raters, 2 repetitions, custom options
+list(rohat = c(rhohat.inter.random = 0.949445962376724, rhohat.intra.random = 0.95695628079327, 
+rhohat.inter.fixed = 0.952779499324907, rhohat.intra.fixed = 0.956805152836495, 
+rhohat.intra.random.part.a = 0.950790707102804, rhohat.intra.random.part.b = 0.969530470925734, 
+rhohat.intra.random.part.c = 0.950790707102804, rhohat.intra.fixed.part.a = 0.950619048666242, 
+rhohat.intra.fixed.part.b = 0.969422080688928, rhohat.intra.fixed.part.c = 0.950619048666241
+), Fs = c(Finter = 64.3161645610626, Fintra = 23.9674018013756, 
+Fintra.a = 20.829385266259, Fintra.b = 34.3031790358523, Fintra.c = 20.829385266259
+), pvalue = c(pvalue.Finter = 1.99930692001971e-08, pvalue.Fintra = 0.00024776067801846, 
+pvalue.Fintra.a = 0.000390932720240267, pvalue.Fintra.b = 7.58328053342971e-05, 
+pvalue.Fintra.c = 0.000390932720240267), lowvalue = c(lowinter.random = 0.903575250350722, 
+lowinter.fixed = 0.909531833028201, lowintra = 0.880545208167668, 
+lowintra.a = 0.863774717431673, lowintra.b = 0.915008200923793, 
+lowintra.c = 0.863774717431672), sem = c(SEMintra = 1.47252617407411, 
+SEMintra.part.a = 1.57955689989313, SEMintra.part.b = 1.23085336250912, 
+SEMintra.part.c = 1.57955689989313, SEMinter.random = 1.59582789381144, 
+SEMinter.fixed = 1.53961575292885))

@@ -1,0 +1,22 @@
+Package: irr
+Version: 0.85
+Date: 2026-06-15
+Title: Various Coefficients of Interrater Reliability and Agreement
+Authors@R: c(person(given = "Matthias", family = "Gamer", role = c("aut", "cre"), email = "matthias.gamer@uni-wuerzburg.de"),
+               person(given = "Jim", family = "Lemon", role = "aut"),
+               person(given = "Ian", family = "Fellows", role = "aut"),
+               person(given = "Puspendra", family = "Singh", role = "aut"))
+Maintainer: Matthias Gamer <matthias.gamer@uni-wuerzburg.de>
+Depends: lpSolve
+Description: Coefficients of Interrater Reliability and Agreement for quantitative, ordinal and nominal data: ICC, Finn-Coefficient, Robinson's A, Kendall's W, Cohen's Kappa, ...
+License: GPL (>= 2)
+URL: https://www.r-project.org
+Config/roxygen2/version: 8.0.0
+NeedsCompilation: no
+Packaged: 2026-06-16 06:50:03 UTC; gamer
+Author: Matthias Gamer [aut, cre],
+  Jim Lemon [aut],
+  Ian Fellows [aut],
+  Puspendra Singh [aut]
+Repository: CRAN
+Date/Publication: 2026-06-17 11:40:02 UTC

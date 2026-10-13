@@ -1,0 +1,46 @@
+Changes in 0.x releases of irr:
+=======
+ 0.85: - An error in the function agree was corrected. The old function 
+         returned an erroneous output when categorial variables showed perfect
+         disagreement. (Thanks to Emile Latour for spotting this error).
+ 0.84: - An error in the function kripp.alpha was corrected. The old function 
+         returned an error when raters showed perfect agreement. (Thanks to 
+         Steve Mooney for raising this issue).
+       - The function kappa2 now allows for sorting factor levels which becomes
+         important when one rater does not use the same rating categories as
+         the other one. (Thanks to Sarah Barry for pointing this out).
+       - The calculation of confidence intervals and null hypothesis tests in
+         ICC(A,1) and ICC(A,k) has been corrected to exactly match the equations
+         given in McGraw & Wong, 1996, Psychological Methods (Thanks to Andrew
+         Gill for spotting this error).
+       - The handling of factors in the kappa functions was improved.
+ 0.83: - The function N2.cohen.kappa was included (Thanks to Puspendra Singh
+         for providing this function)
+ 0.82: - An error in the function icc was corrected. The old function returned
+         p-values bigger than 1 for very low icc estimates.
+         (Thanks to Elmar Kisslinger for raising this issue)
+ 0.81: - An error in the function kripp.alpha was corrected
+ 0.80: - The function relInterIntra was included (Thanks to Tore Wentzel-Larsen
+         for providing this function)
+       - An error in the function N.cohen.kappa was corrected
+ 0.70: - The following functions from the concord package were included:
+         kripp.alpha (Krippendorff's alpha), rater.bias (test of bias 
+         between two raters) and stuart.maxwell.mh (Stuart-Maxwell marginal 
+         homogeneity test).
+         (Thanks to Jim Lemon for providing these functions)
+       - The new function bhapkar was added. It calculates the Bhapkar 
+         coefficient of concordance for two raters.
+ 0.63: - Errors in functions kappa2 and maxwell were corrected
+ 0.62: - Problematic output characters were removed
+ 0.61: - Calls to deprecated functions were removed
+ 0.6:  - Corrected computation of the large sample standard error of the
+         weighted kappa coefficient for two raters and the Fleiss' Kappa for
+         m raters.
+         (Thanks to Tatsuo Kagimura for this hint)
+       - Corrected output and documentation of the intraclass correlation 
+         coefficient's (ICC) estimate of average score ICCs.
+         (Thanks to Jonathan Williams for raising this issue)
+       - New functions: agree (computation of simple and extended percentage 
+         agreement among several raters), maxwell (Maxwell's RE-coefficient
+         for binary scales), iota (interrater agreement for multivariate
+         observations)
