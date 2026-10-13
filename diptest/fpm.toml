@@ -1,0 +1,46 @@
+name = "diptest"
+version = "0.77.2"
+license = "GPL-2.0-or-later"
+author = "P. M. Hartigan, Dario Ringach, Martin Maechler; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Hartigan's corrected dip statistic, full hull diagnostics, and unimodality tests"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 2
+r_functions_translated = 2
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "dip"
+r_source = "upstream/R/dip.R"
+fortran_module = "diptest_api"
+fortran_names = ["dip", "dip_compute"]
+fortran_source = "src/diptest_api.f90"
+status = "substantial"
+notes = "Corrected C kernel, min.is.0 and full modal/full-sample GCM/LCM diagnostics. R S3 objects, calls and debug printing omitted. Defined constant-sample diagnostics and locally scaled differences are extensions; dp-only intermediates can change roundoff-sensitive hull choices."
+
+[[extra.translation.function]]
+r_name = "dip.test"
+r_source = "upstream/R/dipTest.R"
+fortran_module = "diptest_api"
+fortran_names = ["dip_test", "dip_test_simulate", "dip_p_value"]
+fortran_source = "src/diptest_api.f90"
+status = "substantial"
+notes = "Original quantile table, sqrt(n) interpolation with tied knots averaged, NaN omission, small-n p=1 and Monte Carlo exceedance proportion. Caller-supplied uniforms give reproducibility; intrinsic Fortran RNG differs from R. htest presentation omitted; empty or infinite samples return explicit errors."

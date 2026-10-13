@@ -1,0 +1,27 @@
+Package: diptest
+Version: 0.77-2
+VersionNote: Last CRAN: 0.77-1 on 2024-03-31
+Date: 2025-08-19
+Authors@R: c(
+    person("Martin", "Maechler", role = c("aut", "cre"),
+	   email = "maechler@stat.math.ethz.ch",
+	   comment = c("Ported to R and C from Fortran and S-plus; much enhanced",
+		       ORCID = "0000-0002-8685-9910")),
+    person("Dario Ringach", role = "aut", comment = "Fortran and S-plus; at NYU.edu"))
+Title: Hartigan's Dip Test Statistic for Unimodality - Corrected
+Description: Compute Hartigan's dip test statistic for unimodality /
+ multimodality and provide a test with simulation based p-values,  where
+ the original public code has been corrected.
+Imports: graphics, stats
+BuildResaveData: no
+License: GPL (>= 2)
+URL: https://github.com/mmaechler/diptest
+BugReports: https://github.com/mmaechler/diptest/issues
+NeedsCompilation: yes
+Packaged: 2025-08-19 16:06:17 UTC; maechler
+Author: Martin Maechler [aut, cre] (Ported to R and C from Fortran and S-plus;
+    much enhanced, ORCID: <https://orcid.org/0000-0002-8685-9910>),
+  Dario Ringach [aut] (Fortran and S-plus; at NYU.edu)
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Repository: CRAN
+Date/Publication: 2025-08-20 10:20:02 UTC
