@@ -1,0 +1,843 @@
+name = "posterior"
+version = "1.7.0"
+license = "BSD-3-Clause"
+author = "posterior package authors and Stan Developers; Fortran translation contributors"
+maintainer = "Beliavsky/Fortran-from-R-packages contributors"
+description = "Posterior draws, convergence diagnostics and generalized Pareto computations"
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 113
+r_functions_translated = 91
+frac_functions_translated = 0.80530973451327437
+untranslated_r_functions = ["as_draws", "as_draws_df", "as_draws_list", "as_draws_rvars", "as_rvar_factor", "as_rvar_numeric", "as_rvar_ordered", "draws_df", "draws_list", "draws_matrix", "draws_rvars", "drop", "extract_list_of_variable_arrays", "extract_variable_array", "rdo", "repair_draws", "rfun", "rstar", "rvar", "rvar_factor", "rvar_ordered", "rvar_rng"]
+
+[[extra.translation.function]]
+r_name = "%**%"
+r_source = "upstream/R/rvar-math.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_matmul"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Per-draw matrix multiplication with one-draw constant broadcasting. Left/right inputs are explicit (draw,row,inner)/(draw,inner,column) arrays; vectors must be shaped as a row/column, and R class/chain/name handling is omitted."
+
+[[extra.translation.function]]
+r_name = "%in%"
+r_source = "upstream/R/rvar-.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_in"]
+fortran_source = "src/posterior_transforms.f90"
+status = "substantial"
+notes = "Draw-wise numeric matching and membership. NaN matches NaN, without distinguishing R NA from NaN. match defaults to unmatched integer 0 rather than R NA_integer_; nomatch is configurable. Character/factor inputs and incomparables are omitted."
+
+[[extra.translation.function]]
+r_name = "E"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_expectation"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Sample expectation across draws for each flattened numeric rvar element, with na_rm. R class, shape restoration and non-rvar dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "Pr"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_probability"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Probability across logical draws encoded as zero, one or NaN, with validation and na_rm. R logical classes and higher-dimensional shape restoration are omitted."
+
+[[extra.translation.function]]
+r_name = "as_draws_array"
+r_source = "upstream/R/as_draws_array.R"
+fortran_module = "posterior_draws"
+fortran_names = ["matrix_to_draws"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Numeric draws_matrix conversion with explicit chain count and divisibility validation. Names, classes, list/data-frame input and automatic variable reconstruction are omitted."
+
+[[extra.translation.function]]
+r_name = "as_draws_matrix"
+r_source = "upstream/R/as_draws_matrix.R"
+fortran_module = "posterior_draws"
+fortran_names = ["draws_to_matrix"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Numeric draws_array to draws_matrix conversion with R column-major chain ordering. Names, classes and chain attributes are caller-managed; other R object formats are omitted."
+
+[[extra.translation.function]]
+r_name = "as_rvar"
+r_source = "upstream/R/rvar-cast.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_constant"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Numeric constants are represented by a one-draw matrix for broadcasting. Arbitrary-dimensional constants can be flattened by the caller; class coercion, names and categorical rvars are omitted."
+
+[[extra.translation.function]]
+r_name = "as_rvar_integer"
+r_source = "upstream/R/rvar-cast.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_as_integer"]
+fortran_source = "src/posterior_transforms.f90"
+status = "substantial"
+notes = "Elementwise conversion of numeric draw arrays to numeric representations of R integer/logical values, preserving NaN. Integer coercion truncates toward zero with R signed-32-bit range checks; logical values are 0/1. Class construction and categorical coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "as_rvar_logical"
+r_source = "upstream/R/rvar-cast.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_as_logical"]
+fortran_source = "src/posterior_transforms.f90"
+status = "substantial"
+notes = "Elementwise conversion of numeric draw arrays to numeric representations of R integer/logical values, preserving NaN. Integer coercion truncates toward zero with R signed-32-bit range checks; logical values are 0/1. Class construction and categorical coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "autocorrelation"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["autocorrelation"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Direct O(N^2) biased-lag computation reuses rfortran-core rather than the upstream FFT."
+
+[[extra.translation.function]]
+r_name = "autocovariance"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["autocovariance"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Direct O(N^2) biased-lag computation reuses rfortran-core rather than the upstream FFT."
+
+[[extra.translation.function]]
+r_name = "bind_draws"
+r_source = "upstream/R/bind_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["bind_draws_arrays"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Binds two numeric draws arrays along iteration, chain or variable, checking non-binding dimensions. Repeated calls bind more inputs. Names, variable-identity checks and other R representations are omitted."
+
+[[extra.translation.function]]
+r_name = "cdf"
+r_source = "upstream/R/rvar-dist.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_cdf"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Numeric rvar empirical CDF, ignoring missing draws as R ecdf does and accepting infinite thresholds. Outputs threshold-by-element values. Ordered/unordered factor behavior and R dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "diag"
+r_source = "upstream/R/rvar-math.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_diagonal", "rvar_diagonal_matrix"]
+fortran_source = "src/posterior_transforms.f90"
+status = "substantial"
+notes = "Extracts random-matrix diagonals or constructs random diagonal matrices, including diagonal-vector recycling. Arrays are draws by rows by columns; R names and scalar-as-dimension special dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "dissent"
+r_source = "upstream/R/discrete-summaries.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["dissent"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "Numeric category/ordinal sample computation; labels and factor levels (including unobserved levels) are not represented. Modal ties preserve first occurrence. R empty modal-category result is represented by NaN."
+
+[[extra.translation.function]]
+r_name = "draws_array"
+r_source = "upstream/R/as_draws_array.R"
+fortran_module = "posterior_draws"
+fortran_names = ["matrix_to_draws"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Constructs a numeric draws array from columns of supplied variable draws and an explicit chain count. R variadic arguments and variable names are replaced by an input matrix."
+
+[[extra.translation.function]]
+r_name = "entropy"
+r_source = "upstream/R/discrete-summaries.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["entropy"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "Numeric category/ordinal sample computation; labels and factor levels (including unobserved levels) are not represented. Modal ties preserve first occurrence. R empty modal-category result is represented by NaN."
+
+[[extra.translation.function]]
+r_name = "ess_basic"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_basic"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "ess_bulk"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_bulk"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Infinities remain rankable, as in upstream; missing ranks propagate NaN."
+
+[[extra.translation.function]]
+r_name = "ess_mean"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_mean"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "ess_median"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_median"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "ess_quantile"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_quantile"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "ess_sd"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_sd"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "ess_tail"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["ess_tail"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "extract_variable"
+r_source = "upstream/R/extract_variable.R"
+fortran_module = "posterior_draws"
+fortran_names = ["extract_draws_variable"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Extracts one resolved scalar variable as a pooled numeric vector. Variable names, factor values and other R representations are omitted."
+
+[[extra.translation.function]]
+r_name = "extract_variable_matrix"
+r_source = "upstream/R/extract_variable_matrix.R"
+fortran_module = "posterior_draws"
+fortran_names = ["extract_draws_variable_matrix"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Extracts one resolved scalar variable as an iteration-by-chain matrix. Name parsing, factor values and other R representations are omitted."
+
+[[extra.translation.function]]
+r_name = "for_each_draw"
+r_source = "upstream/R/for_each_draw.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["for_each_draw"]
+fortran_source = "src/posterior_transforms.f90"
+status = "partial"
+notes = "Visits numeric variable vectors in chain-major draw order using an explicit procedure-pointer callback and draw ID. R expression environments and arbitrary rvar objects are omitted. Callback side effects are caller-controlled."
+
+[[extra.translation.function]]
+r_name = "gpdfit"
+r_source = "upstream/R/gpd.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["gpdfit"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical generalized-Pareto computation with explicit real arguments and finite valid distribution parameters. NaN denotes invalid results; R vectors/recycling, warnings and list construction are omitted. Includes weak-prior toggle, explicit grid count, sorting and nonnegative weights with positive total. Invalid/constant-tail inputs are guarded."
+
+[[extra.translation.function]]
+r_name = "is_constant"
+r_source = "upstream/R/misc.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["is_constant"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "partial"
+notes = "Range-tolerance comparison translated for finite numeric vectors. Logical output has no R missing state: empty/nonfinite input or invalid finite/nonnegative tolerance returns false. A range exceeding the largest finite real returns false without overflow."
+
+[[extra.translation.function]]
+r_name = "mad"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_over_draws_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Numeric rvar per-element summary across draws, selecting method='mad', with na_rm and configurable MAD constant. R non-rvar covariance-matrix dispatch, extra statistics arguments, names and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "match"
+r_source = "upstream/R/rvar-.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_match"]
+fortran_source = "src/posterior_transforms.f90"
+status = "substantial"
+notes = "Draw-wise numeric matching and membership. NaN matches NaN, without distinguishing R NA from NaN. match defaults to unmatched integer 0 rather than R NA_integer_; nomatch is configurable. Character/factor inputs and incomparables are omitted."
+
+[[extra.translation.function]]
+r_name = "mcse_mean"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["mcse_mean"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "mcse_median"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["mcse_median"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Beta quantiles use bisection through shared regularized beta; order-statistic endpoints follow R."
+
+[[extra.translation.function]]
+r_name = "mcse_quantile"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["mcse_quantile"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Beta quantiles use bisection through shared regularized beta; order-statistic endpoints follow R."
+
+[[extra.translation.function]]
+r_name = "mcse_sd"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["mcse_sd"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "merge_chains"
+r_source = "upstream/R/merge_chains.R"
+fortran_module = "posterior_draws"
+fortran_names = ["merge_draws_chains"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Merges numeric array chains in chain-major draw order. R metadata and other draws representations are omitted."
+
+[[extra.translation.function]]
+r_name = "modal_category"
+r_source = "upstream/R/discrete-summaries.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["modal_category"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "Numeric category/ordinal sample computation; labels and factor levels (including unobserved levels) are not represented. Modal ties preserve first occurrence. R empty modal-category result is represented by NaN."
+
+[[extra.translation.function]]
+r_name = "mutate_variables"
+r_source = "upstream/R/mutate_variables.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["mutate_variables"]
+fortran_source = "src/posterior_transforms.f90"
+status = "partial"
+notes = "One pure scalar callback per draw appends or replaces a variable. Sequential calls implement multiple mutations. Named R expressions, lazy evaluation, environment access and automatic vector-variable reconstruction are omitted."
+
+[[extra.translation.function]]
+r_name = "order_draws"
+r_source = "upstream/R/order_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["order_draws_array"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Stable reordering of numeric draws-array axes by explicit integer iteration and chain labels. R names and metadata repair are caller-managed."
+
+[[extra.translation.function]]
+r_name = "pareto_convergence_rate"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_convergence_rate"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported."
+
+[[extra.translation.function]]
+r_name = "pareto_diags"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_diags"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported. Both/right/left paths and log-weight behavior are supported as applicable; smoothing accepts the documented default GPD grid/prior, without forwarding arbitrary R ellipsis arguments."
+
+[[extra.translation.function]]
+r_name = "pareto_khat"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_khat"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported. Both/right/left paths and log-weight behavior are supported as applicable; smoothing accepts the documented default GPD grid/prior, without forwarding arbitrary R ellipsis arguments."
+
+[[extra.translation.function]]
+r_name = "pareto_khat_threshold"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_khat_threshold"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported."
+
+[[extra.translation.function]]
+r_name = "pareto_min_ss"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_min_ss"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported."
+
+[[extra.translation.function]]
+r_name = "pareto_pit"
+r_source = "upstream/R/pit.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["pareto_pit"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "Per-variable numeric predictive PIT with linear/log weights; pass columns separately. Caller supplies tie uniform in [0,1]; default 0.5 is deterministic mid-PIT rather than R randomization. pareto_pit includes weighted tail fitting and endpoint clipping; R class/name handling is omitted."
+
+[[extra.translation.function]]
+r_name = "pareto_smooth"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pareto_smooth"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Vector inputs default to one-chain tail ESS; supply r_eff to preserve externally computed multi-chain efficiency where supported. Both/right/left paths and log-weight behavior are supported as applicable; smoothing accepts the documented default GPD grid/prior, without forwarding arbitrary R ellipsis arguments."
+
+[[extra.translation.function]]
+r_name = "pgeneralized_pareto"
+r_source = "upstream/R/gpd.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["pgeneralized_pareto"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical generalized-Pareto computation with explicit real arguments and finite valid distribution parameters. NaN denotes invalid results; R vectors/recycling, warnings and list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "pit"
+r_source = "upstream/R/pit.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["pit"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "Per-variable numeric predictive PIT with linear/log weights; pass columns separately. Caller supplies tie uniform in [0,1]; default 0.5 is deterministic mid-PIT rather than R randomization. pareto_pit includes weighted tail fitting and endpoint clipping; R class/name handling is omitted."
+
+[[extra.translation.function]]
+r_name = "ps_convergence_rate"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["ps_convergence_rate"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Preserves pinned upstream zero rate at k=0 and k=1; requires ndraws>1 and returns NaN for NaN k."
+
+[[extra.translation.function]]
+r_name = "ps_khat_threshold"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["ps_khat_threshold"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted."
+
+[[extra.translation.function]]
+r_name = "ps_min_ss"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["ps_min_ss"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted."
+
+[[extra.translation.function]]
+r_name = "ps_tail"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["ps_tail"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Both/right/left paths and log-weight behavior are supported as applicable; smoothing accepts the documented default GPD grid/prior, without forwarding arbitrary R ellipsis arguments."
+
+[[extra.translation.function]]
+r_name = "ps_tail_length"
+r_source = "upstream/R/pareto_smooth.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["ps_tail_length"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical Pareto operation translated with explicit scalars/vectors and outputs; R objects, attributes and warning messages are omitted. Returns integer -1 for invalid efficiency instead of R NA."
+
+[[extra.translation.function]]
+r_name = "qgeneralized_pareto"
+r_source = "upstream/R/gpd.R"
+fortran_module = "posterior_pareto"
+fortran_names = ["qgeneralized_pareto"]
+fortran_source = "src/posterior_pareto.f90"
+status = "substantial"
+notes = "Numerical generalized-Pareto computation with explicit real arguments and finite valid distribution parameters. NaN denotes invalid results; R vectors/recycling, warnings and list construction are omitted."
+
+[[extra.translation.function]]
+r_name = "quantile2"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["quantile2"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Implements type 7 only, with optional NaN removal and infinite endpoint handling; other R quantile types are omitted."
+
+[[extra.translation.function]]
+r_name = "r_scale"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["r_scale"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "resample_draws"
+r_source = "upstream/R/resample_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["resample_draws_array", "subset_draws_array"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Implements upstream deterministic and stratified weighted algorithms; stratified sampling consumes supplied uniforms. Explicit draw indices can be applied with subset_draws_array unique=false. R RNG, simple sampling modes, stored-weight lookup and weight-column removal are omitted. Default method here is deterministic."
+
+[[extra.translation.function]]
+r_name = "rhat"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["rhat"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors. Infinities remain rankable, as in upstream; missing ranks propagate NaN."
+
+[[extra.translation.function]]
+r_name = "rhat_basic"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["rhat_basic"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "rhat_nested"
+r_source = "upstream/R/nested_rhat.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["rhat_nested"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical nested Rhat for equal-size superchain groups supplied as integer IDs. R names, dispatch and warnings are omitted; invalid groups return NaN."
+
+[[extra.translation.function]]
+r_name = "rvar_all"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='all' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_any"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='any' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_apply"
+r_source = "upstream/R/rvar-apply.R"
+fortran_module = "posterior_transforms"
+fortran_names = ["rvar_apply_margin"]
+fortran_source = "src/posterior_transforms.f90"
+status = "partial"
+notes = "Pure within-draw scalar reduction of a random matrix along retained row or column margin. Arbitrary-dimensional multiple margins, array-valued callback results and R evaluation machinery are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_ifelse"
+r_source = "upstream/R/rvar-.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_ifelse"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Numeric selection with three-valued tests encoded as zero, one or NaN and singleton broadcasting in draw/element dimensions. Factor coercion, general-rank arrays and R class/chain metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_is_finite"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_special_masks"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "The finite output gives the per-draw predicate mask for numeric arrays. IEEE infinities and NaNs are supported; R's distinct NA versus NaN payloads and rvar class metadata are not represented."
+
+[[extra.translation.function]]
+r_name = "rvar_is_infinite"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_special_masks"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "The infinite output gives the per-draw predicate mask for numeric arrays. IEEE infinities and NaNs are supported; R's distinct NA versus NaN payloads and rvar class metadata are not represented."
+
+[[extra.translation.function]]
+r_name = "rvar_is_na"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_special_masks"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "The missing output gives the per-draw predicate mask for numeric arrays. IEEE infinities and NaNs are supported; R's distinct NA versus NaN payloads and rvar class metadata are not represented."
+
+[[extra.translation.function]]
+r_name = "rvar_is_nan"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_special_masks"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "The missing output gives the per-draw predicate mask for numeric arrays. IEEE infinities and NaNs are supported; R's distinct NA versus NaN payloads and rvar class metadata are not represented."
+
+[[extra.translation.function]]
+r_name = "rvar_mad"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='mad' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_max"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='max' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_mean"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='mean' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_median"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='median' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_min"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='min' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_prod"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='prod' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_quantile"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_quantiles"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Per-draw numeric type-7 quantiles for probabilities strictly in [0,1], including tested infinite endpoints and NaN propagation/removal. Ordered-factor type-1 quantiles, probability tolerance outside the unit interval and names are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_range"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_ranges"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Per-draw numeric minimum and maximum with na_rm; supports empty-element and IEEE special-value behavior. Returns a draw-by-two array; class and factor handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_sd"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='sd' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_sum"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='sum' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "rvar_var"
+r_source = "upstream/R/rvar-summaries-within-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Set method='var' to reduce within each numeric draw across flattened elements. Supports na_rm; MAD uses the configurable default 1.4826 multiplier. Logical results are encoded as zero, one or NaN. Multiple rvars must first be concatenated by the caller; class, factor and names handling are omitted."
+
+[[extra.translation.function]]
+r_name = "sd"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_over_draws_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Numeric rvar per-element summary across draws, selecting method='sd', with na_rm and configurable MAD constant. R non-rvar covariance-matrix dispatch, extra statistics arguments, names and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "split_chains"
+r_source = "upstream/R/split_chains.R"
+fortran_module = "posterior_draws"
+fortran_names = ["split_draws_chains"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Public draws-array operation: drops the final odd iteration and binds first-half chains before second-half chains. R warning and metadata are omitted; distinct from diagnostics internal splitting."
+
+[[extra.translation.function]]
+r_name = "subset_draws"
+r_source = "upstream/R/subset_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["subset_draws_array"]
+fortran_source = "src/posterior_draws.f90"
+status = "substantial"
+notes = "Numeric positional iteration/chain/draw selection is sorted as in R, with uniqueness, complement and pooled draw selection. Variables are supplied as resolved scalar positions, preserving requested order. Names, regex, reserved-variable rules and object repair are omitted."
+
+[[extra.translation.function]]
+r_name = "summarise_draws"
+r_source = "upstream/R/summarise_draws.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["summarise_draws"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "partial"
+notes = "Computes the nine numeric default summaries (mean, median, SD, MAD, q5, q95, Rhat, bulk ESS, tail ESS) by variable. Arbitrary summary functions, arguments, parallelism, factor summaries and tibble construction are omitted."
+
+[[extra.translation.function]]
+r_name = "summarize_draws"
+r_source = "upstream/R/summarise_draws.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["summarise_draws"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "partial"
+notes = "Computes the nine numeric default summaries (mean, median, SD, MAD, q5, q95, Rhat, bulk ESS, tail ESS) by variable. Arbitrary summary functions, arguments, parallelism, factor summaries and tibble construction are omitted."
+
+[[extra.translation.function]]
+r_name = "thin_draws"
+r_source = "upstream/R/thin_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["thin_draws_array"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Explicit real thinning factor uses round(seq(1,niterations,by=thin)) with ties to even. Automatic ESS-based factor selection, messages and metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "u_scale"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["u_scale"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
+
+[[extra.translation.function]]
+r_name = "uniformity_test"
+r_source = "upstream/R/uniformity_test.R"
+fortran_module = "posterior_predictive"
+fortran_names = ["uniformity_test"]
+fortran_source = "src/posterior_predictive.f90"
+status = "substantial"
+notes = "POT, PRIT and PIET numerical tests with Cauchy combination and sorted-PIT Shapley contributions. Requires finite probabilities in [0,1]. No eligible truncated p-values returns status 2 and NaNs rather than an R error."
+
+[[extra.translation.function]]
+r_name = "var"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_over_draws_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Numeric rvar per-element summary across draws, selecting method='var', with na_rm and configurable MAD constant. R non-rvar covariance-matrix dispatch, extra statistics arguments, names and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "variance"
+r_source = "upstream/R/rvar-summaries-over-draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["rvar_over_draws_summary"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Numeric rvar per-element summary across draws, selecting method='var', with na_rm and configurable MAD constant. R non-rvar covariance-matrix dispatch, extra statistics arguments, names and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "weight_draws"
+r_source = "upstream/R/weight_draws.R"
+fortran_module = "posterior_draws"
+fortran_names = ["weight_draws_array", "extract_draws_weights"]
+fortran_source = "src/posterior_draws.f90"
+status = "partial"
+notes = "Appends or replaces unnormalized log weights using explicit weight-column position; accepts linear/log weights with upstream validity checks. Extraction supports log/linear and normalized/unnormalized values. Pareto smoothing, names and object dispatch are omitted; all-zero weights normalize to NaN as in R."
+
+[[extra.translation.function]]
+r_name = "z_scale"
+r_source = "upstream/R/convergence.R"
+fortran_module = "posterior_diagnostics"
+fortran_names = ["z_scale"]
+fortran_source = "src/posterior_diagnostics.f90"
+status = "substantial"
+notes = "Numerical operation translated for explicit real arrays; R names, S3/rvar dispatch, warnings and object construction are omitted. Diagnostics use iterations-by-chains matrices; scaling, quantiles and autocovariances use vectors."
