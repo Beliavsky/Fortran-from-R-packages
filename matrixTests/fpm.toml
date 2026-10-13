@@ -1,0 +1,408 @@
+name = "matrixTests"
+version = "0.2.3"
+license = "GPL-2.0-only"
+author = "Karolis Koncevicius; modern Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Matrix-wise hypothesis tests translated from matrixTests"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+matrixStats = { path = "../matrixStats" }
+exactRankTests = { path = "../exactRankTests" }
+nortest = { path = "../nortest" }
+moments = { path = "../moments" }
+fortran-lapack = { git = "https://github.com/Beliavsky/fortran-lapack.git", rev = "9b43beb7644479af46a56e743f61dbc8ae63ac7a" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 42
+r_functions_translated = 42
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "row_t_equalvar"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_t_equalvar"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_t_equalvar"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_t_equalvar"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_t_paired"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_t_paired"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_t_paired"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_t_paired"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_t_onesample"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_t_onesample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_t_onesample"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_t_onesample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_t_welch"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_t_welch"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_t_welch"
+r_source = "upstream/R/ttest.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_t_welch"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_cor_pearson"
+r_source = "upstream/R/cor.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_cor_pearson"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_cor_pearson"
+r_source = "upstream/R/cor.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_cor_pearson"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_f_var"
+r_source = "upstream/R/fvar.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_f_var"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_f_var"
+r_source = "upstream/R/fvar.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_f_var"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_oneway_equalvar"
+r_source = "upstream/R/oneway.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_oneway_equalvar"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_oneway_equalvar"
+r_source = "upstream/R/oneway.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_oneway_equalvar"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_oneway_welch"
+r_source = "upstream/R/oneway.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_oneway_welch"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Zero-variance groups give explicit degeneracy instead of upstream unstable finite results."
+
+[[extra.translation.function]]
+r_name = "col_oneway_welch"
+r_source = "upstream/R/oneway.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_oneway_welch"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Zero-variance groups give explicit degeneracy instead of upstream unstable finite results."
+
+[[extra.translation.function]]
+r_name = "row_kruskalwallis"
+r_source = "upstream/R/kruskal.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_kruskalwallis"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_kruskalwallis"
+r_source = "upstream/R/kruskal.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_kruskalwallis"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_waerden"
+r_source = "upstream/R/waerden.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_waerden"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_waerden"
+r_source = "upstream/R/waerden.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_waerden"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_bartlett"
+r_source = "upstream/R/bartlett.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_bartlett"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_bartlett"
+r_source = "upstream/R/bartlett.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_bartlett"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_jarquebera"
+r_source = "upstream/R/jarque.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_jarquebera"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_jarquebera"
+r_source = "upstream/R/jarque.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_jarquebera"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_flignerkilleen"
+r_source = "upstream/R/fligner.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_flignerkilleen"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_flignerkilleen"
+r_source = "upstream/R/fligner.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_flignerkilleen"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_levene"
+r_source = "upstream/R/levene.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_levene"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Requires a group with three observations separately per tested row, repairing upstream matrix-global eligibility."
+
+[[extra.translation.function]]
+r_name = "col_levene"
+r_source = "upstream/R/levene.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_levene"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Requires a group with three observations separately per tested row, repairing upstream matrix-global eligibility."
+
+[[extra.translation.function]]
+r_name = "row_brownforsythe"
+r_source = "upstream/R/levene.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_brownforsythe"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Requires a group with three observations separately per tested row, repairing upstream matrix-global eligibility."
+
+[[extra.translation.function]]
+r_name = "col_brownforsythe"
+r_source = "upstream/R/levene.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_brownforsythe"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Requires a group with three observations separately per tested row, repairing upstream matrix-global eligibility."
+
+[[extra.translation.function]]
+r_name = "row_wilcoxon_onesample"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_wilcoxon_onesample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_wilcoxon_onesample"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_wilcoxon_onesample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_wilcoxon_paired"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_wilcoxon_paired"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_wilcoxon_paired"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_wilcoxon_paired"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_wilcoxon_twosample"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_wilcoxon_twosample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_wilcoxon_twosample"
+r_source = "upstream/R/wilcox.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_wilcoxon_twosample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_cosinor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_cosinor"]
+fortran_source = "src/matrixtests.f90"
+status = "partial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Uses pivoted minimum-norm least squares; rank-deficient coefficients can differ from R ordered QR."
+
+[[extra.translation.function]]
+r_name = "col_cosinor"
+r_source = "upstream/R/cosinor.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_cosinor"]
+fortran_source = "src/matrixtests.f90"
+status = "partial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Uses pivoted minimum-norm least squares; rank-deficient coefficients can differ from R ordered QR."
+
+[[extra.translation.function]]
+r_name = "row_andersondarling"
+r_source = "upstream/R/anderson.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_andersondarling"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "col_andersondarling"
+r_source = "upstream/R/anderson.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_andersondarling"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values."
+
+[[extra.translation.function]]
+r_name = "row_kolmogorovsmirnov_twosample"
+r_source = "upstream/R/kolmogorov.R"
+fortran_module = "matrixtests"
+fortran_names = ["row_kolmogorovsmirnov_twosample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Exact conditional ties and converged asymptotic tails; explicit exact work limit. Corrects R repeated-infinity ties and small-argument theta truncation."
+
+[[extra.translation.function]]
+r_name = "col_kolmogorovsmirnov_twosample"
+r_source = "upstream/R/kolmogorov.R"
+fortran_module = "matrixtests"
+fortran_names = ["col_kolmogorovsmirnov_twosample"]
+fortran_source = "src/matrixtests.f90"
+status = "substantial"
+notes = "Numerical test and diagnostic columns are translated. R data frames, row names, warnings, argument recycling, partial alternative matching, and per-test vector options are omitted; options are scalar. NaNs represent missing values. Exact conditional ties and converged asymptotic tails; explicit exact work limit. Corrects R repeated-infinity ties and small-argument theta truncation."
