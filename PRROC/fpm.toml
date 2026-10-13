@@ -1,0 +1,46 @@
+name = "PRROC"
+version = "1.4.0"
+license = "GPL-3.0-only"
+author = "Jan Grau, Jens Keilwagen; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Weighted precision-recall and ROC curves with exact nonlinear PR integration"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 2
+r_functions_translated = 2
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "pr.curve"
+r_source = "upstream/R/PRROC.R"
+fortran_module = "prroc_api"
+fortran_names = ["pr_curve"]
+fortran_source = "src/prroc_api.f90"
+status = "substantial"
+notes = "Weighted, unweighted and soft-label exact nonlinear PR AUC, binary Davis-Goadrich AUC, optional interpolated curves and maximum/minimum/random references. Typed results replace S3 objects; finite nonnegative weights are validated, zero-mass thresholds omitted, degenerate classes reported, curve size bounded, unequal-length random prevalence corrected, random NA padding removed."
+
+[[extra.translation.function]]
+r_name = "roc.curve"
+r_source = "upstream/R/PRROC.R"
+fortran_module = "prroc_api"
+fortran_names = ["roc_curve"]
+fortran_source = "src/prroc_api.f90"
+status = "substantial"
+notes = "Weighted, unweighted and soft-label ROC AUC, optional curves and maximum/minimum/random references. Typed results replace S3 objects; finite nonnegative weights and sorted inputs are validated, zero-mass thresholds omitted, degenerate classes reported, and random NA padding removed."

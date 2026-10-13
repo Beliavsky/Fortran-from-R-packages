@@ -1,0 +1,23 @@
+Package: PRROC
+Type: Package
+Title: Precision-Recall and ROC Curves for Weighted and Unweighted Data
+Version: 1.4
+Date: 2025-03-15
+Authors@R: c(person(given = "Jan",
+                      family = "Grau",
+                      role = c("aut", "cre"),
+                      email = "grau@informatik.uni-halle.de"),
+               person(given = "Jens",
+                      family = "Keilwagen",
+                      role = "aut"))
+Description: Computes the areas under the precision-recall (PR) and ROC curve for weighted (e.g., soft-labeled) and unweighted data. In contrast to other implementations, the interpolation between points of the PR curve is done by a non-linear piecewise function. In addition to the areas under the curves, the curves themselves can also be computed and plotted by a specific S3-method. References: Davis and Goadrich (2006) <doi:10.1145/1143844.1143874>; Keilwagen et al. (2014) <doi:10.1371/journal.pone.0092209>; Grau et al. (2015) <doi:10.1093/bioinformatics/btv153>.
+License: GPL-3
+Packaged: 2025-03-16 21:21:27 UTC; dev
+Suggests: testthat, ggplot2, ROCR
+Depends: rlang
+NeedsCompilation: no
+Author: Jan Grau [aut, cre],
+  Jens Keilwagen [aut]
+Maintainer: Jan Grau <grau@informatik.uni-halle.de>
+Repository: CRAN
+Date/Publication: 2025-03-18 12:30:02 UTC

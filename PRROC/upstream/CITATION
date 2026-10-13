@@ -1,0 +1,31 @@
+citHeader("To cite package 'PRROC' in publications use:")
+     
+     year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+     vers <- paste("R package version", meta$Version)
+     
+     bibentry(bibtype="article",
+              title = "Area under Precision-Recall Curves for Weighted and Unweighted Data",
+              author = c(as.person("Jens Keilwagen"),
+                                  as.person("Ivo Grosse"),
+                                  as.person("Jan Grau")),
+              year = 2014,
+              volume = 9,
+              number = 3,
+     		  journal = "PLOS ONE",
+              textVersion = "Jens Keilwagen, Ivo Grosse and Jan Grau (2014). Area under Precision-Recall Curves for Weighted and Unweighted Data. PLOS ONE (9) 3. "
+              )
+                    
+                    
+     bibentry(bibtype="article",
+              title = "PRROC: computing and visualizing precision-recall and receiver operating characteristic curves in R",
+              author = c(as.person("Jan Grau"),
+                                  as.person("Ivo Grosse"),
+                                  as.person("Jens Keilwagen")),
+              year = 2015,
+              volume = 31,
+              number = 15,
+              pages = "2595-2597",
+     		  journal = "Bioinformatics",
+              textVersion =
+              paste("Jan Grau, Ivo Grosse, and Jens Keilwagen (2015). PRROC: computing and visualizing precision-recall and receiver operating characteristic curves in R. Bioinformatics (31) 15, pp. 2595-2597.",
+                    vers, ".", sep=""))
