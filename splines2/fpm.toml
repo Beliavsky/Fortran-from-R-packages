@@ -1,0 +1,163 @@
+name = "splines2"
+version = "0.5.4"
+license = "GPL-3.0-or-later"
+author = "Wenjie Wang and Jun Yan; modern Fortran translation contributors"
+maintainer = "Beliavsky/Fortran-from-R-packages"
+description = "B, M, I, C, periodic, natural and Bernstein spline bases and calculus"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+splines-fortran = { path = "../splines" }
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 15
+r_functions_translated = 15
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "bSpline"
+r_source = "upstream/R/bSpline.R"
+fortran_module = "splines2"
+fortran_names = ["b_spline"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Ordinary and periodic B-splines, derivatives, integrals, and automatic or explicit knots. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "bsp"
+r_source = "upstream/R/bSpline.R"
+fortran_module = "splines2"
+fortran_names = ["bsp"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for bSpline; Fortran generic alias for b_spline. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "dbs"
+r_source = "upstream/R/bSpline.R"
+fortran_module = "splines2"
+fortran_names = ["dbs"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "B-spline derivatives; default derivative order is one, including periodic option. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "ibs"
+r_source = "upstream/R/bSpline.R"
+fortran_module = "splines2"
+fortran_names = ["ibs"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Integrated B-splines from the left boundary, including periodic option. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "mSpline"
+r_source = "upstream/R/mSpline.R"
+fortran_module = "splines2"
+fortran_names = ["m_spline"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Ordinary and periodic M-splines, derivatives, unit-integral normalization, and integrals. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "msp"
+r_source = "upstream/R/mSpline.R"
+fortran_module = "splines2"
+fortran_names = ["msp"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for mSpline; Fortran generic alias for m_spline. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "iSpline"
+r_source = "upstream/R/iSpline.R"
+fortran_module = "splines2"
+fortran_names = ["i_spline"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "I-spline basis as integrated M-splines and arbitrary derivatives; degree denotes associated M-spline degree. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "isp"
+r_source = "upstream/R/iSpline.R"
+fortran_module = "splines2"
+fortran_names = ["isp"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for iSpline; Fortran generic alias for i_spline. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "cSpline"
+r_source = "upstream/R/cSpline.R"
+fortran_module = "splines2"
+fortran_names = ["c_spline"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "C-splines, scaling, and derivatives. Repairs upstream scaled-derivative dimension mismatch when intercept is false. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "csp"
+r_source = "upstream/R/cSpline.R"
+fortran_module = "splines2"
+fortran_names = ["csp"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for cSpline; Fortran generic alias for c_spline, including the documented upstream bug repair. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "naturalSpline"
+r_source = "upstream/R/naturalSpline.R"
+fortran_module = "splines2"
+fortran_names = ["natural_spline"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Closed-form natural cubic basis transform, linear boundary extrapolation, derivatives, integrals, and trim. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "nsp"
+r_source = "upstream/R/naturalSpline.R"
+fortran_module = "splines2"
+fortran_names = ["nsp"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for naturalSpline; Fortran generic alias for natural_spline. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "nsk"
+r_source = "upstream/R/naturalSpline.R"
+fortran_module = "splines2"
+fortran_names = ["nsk"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Cardinal natural cubic basis whose complete-basis coefficients give knot heights; derivatives and integrals. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "bernsteinPoly"
+r_source = "upstream/R/bernsteinPoly.R"
+fortran_module = "splines2"
+fortran_names = ["bernstein_poly"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "Generalized Bernstein polynomials on a finite interval, derivatives and integrals. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
+
+[[extra.translation.function]]
+r_name = "bpoly"
+r_source = "upstream/R/bernsteinPoly.R"
+fortran_module = "splines2"
+fortran_names = ["bpoly"]
+fortran_source = "src/splines2.f90"
+status = "substantial"
+notes = "R alias for bernsteinPoly; Fortran generic alias for bernstein_poly. R classes, attributes, dimnames, formula integration, coercion, and warning emission are omitted; typed results expose settings and status."
