@@ -1,0 +1,73 @@
+name = "nortest"
+version = "1.0.4"
+license = "GPL-2.0-or-later"
+author = "Juergen Gross, Uwe Ligges, and Fortran translation contributors"
+description = "Five fitted-normal omnibus normality tests translated from R nortest"
+keywords = ["normality", "statistics", "Anderson-Darling", "Shapiro-Francia"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 5
+r_functions_translated = 5
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "ad.test"
+r_source = "upstream/R/ad.test.R"
+fortran_module = "nortest"
+fortran_names = ["ad_test"]
+fortran_source = "src/nortest.f90"
+status = "substantial"
+notes = "Fitted-normal statistic and all p-value branches translated. Structured status replaces R errors; htest/data-name construction omitted."
+
+[[extra.translation.function]]
+r_name = "cvm.test"
+r_source = "upstream/R/cvm.test.R"
+fortran_module = "nortest"
+fortran_names = ["cvm_test"]
+fortran_source = "src/nortest.f90"
+status = "substantial"
+notes = "Statistic and all p-value branches translated. p_value_at_floor replaces the R warning; htest/data-name construction omitted."
+
+[[extra.translation.function]]
+r_name = "lillie.test"
+r_source = "upstream/R/lillie.test.R"
+fortran_module = "nortest"
+fortran_names = ["lillie_test"]
+fortran_source = "src/nortest.f90"
+status = "substantial"
+notes = "Dallal-Wilkinson/Stephens p-value approximations and sample-size adjustment translated. R object construction omitted."
+
+[[extra.translation.function]]
+r_name = "pearson.test"
+r_source = "upstream/R/pearson.test.R"
+fortran_module = "nortest"
+fortran_names = ["pearson_test"]
+fortran_source = "src/nortest.f90"
+status = "substantial"
+notes = "Default/custom integer classes and adjusted/unadjusted degrees of freedom translated, including zero degrees of freedom. Negative df and invalid data return status; R object construction omitted."
+
+[[extra.translation.function]]
+r_name = "sf.test"
+r_source = "upstream/R/sf.test.R"
+fortran_module = "nortest"
+fortran_names = ["sf_test"]
+fortran_source = "src/nortest.f90"
+status = "substantial"
+notes = "Normal-quantile squared correlation and Royston p-value translated for n=5..5000. Correlation is clamped for roundoff; R object construction omitted."
