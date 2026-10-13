@@ -1,0 +1,16 @@
+useDynLib(Kendall)
+
+import("boot")
+importFrom("stats", "cycle", "frequency", "is.ts", "pnorm")
+
+export(
+"Kendall",
+"MannKendall",
+"SeasonalMannKendall"
+)
+
+#methods
+	S3method("print",   	"Kendall")
+	S3method("summary",		"Kendall")
+
+

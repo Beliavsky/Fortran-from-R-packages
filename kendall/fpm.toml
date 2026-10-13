@@ -1,0 +1,56 @@
+name = "Kendall"
+version = "2.2.2"
+license = "GPL-2.0-or-later"
+author = "A.I. McLeod; modern Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Kendall tau-b, Mann-Kendall and seasonal trend tests in modern Fortran"
+keywords = ["statistics", "rank-correlation", "trend", "kendall"]
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 3
+r_functions_translated = 3
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "Kendall"
+r_source = "upstream/R/Kendall.R"
+fortran_module = "kendall_module"
+fortran_names = ["kendall"]
+fortran_source = "src/kendall_module.f90"
+status = "substantial"
+notes = "Pairwise NaN omission, tau-b, score, tie-corrected variance and continuity-corrected normal p-value. Explicit statuses replace R errors/warnings. Double precision, corrected short/constant behavior and an optional exact no-ties extension differ from upstream. R factors and S3 objects are omitted."
+
+[[extra.translation.function]]
+r_name = "MannKendall"
+r_source = "upstream/R/MannKendall.R"
+fortran_module = "kendall_module"
+fortran_names = ["mann_kendall"]
+fortran_source = "src/kendall_module.f90"
+status = "substantial"
+notes = "Kendall trend against original observation positions, with NaN omission and the same documented numerical/error-handling differences as kendall. R class and printing machinery are omitted."
+
+[[extra.translation.function]]
+r_name = "SeasonalMannKendall"
+r_source = "upstream/R/SeasonalMannKendall.R"
+fortran_module = "kendall_module"
+fortran_names = ["seasonal_mann_kendall"]
+fortran_source = "src/kendall_module.f90"
+status = "substantial"
+notes = "Season-wise score, denominator and variance aggregation, followed by a normal p-value without continuity correction. An explicit integer period replaces R ts metadata. Each season needs three complete values; constant seasons contribute zero. Serial/cross-season covariance adjustment and bootstrap are not implemented upstream or here."

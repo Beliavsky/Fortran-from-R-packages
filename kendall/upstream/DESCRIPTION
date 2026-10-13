@@ -1,0 +1,25 @@
+Package: Kendall
+Version: 2.2.2
+Date: 2011-05-16
+Title: Kendall Rank Correlation and Mann-Kendall Trend Test
+Authors@R: person(given = "A.I.",
+                  family = "McLeod",
+                  role = c("aut", "cre"),
+                  email = "aimcleod@uwo.ca")
+Depends: R (>= 2.1.0)
+Description: Computes the Kendall rank correlation and Mann-Kendall
+        trend test. See documentation for use of block bootstrap when
+        there is autocorrelation.
+Imports: boot
+LazyLoad: yes
+LazyData: yes
+Classification/ACM: G.3, G.4, I.5.1
+Classification/MSC: 62M10, 91B84
+License: GPL (>= 2)
+URL: http://www.stats.uwo.ca/faculty/aim
+Repository: CRAN
+Date/Publication: 2025-12-22 19:42:50 UTC
+Packaged: 2025-12-22 19:24:29 UTC; hornik
+NeedsCompilation: yes
+Author: A.I. McLeod [aut, cre]
+Maintainer: A.I. McLeod <aimcleod@uwo.ca>
