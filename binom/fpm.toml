@@ -1,0 +1,188 @@
+name = "binom"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Sundar Dorai-Raj, Arianna D. Cascone; Fortran translation contributors"
+description = "Binomial confidence intervals, coverage, length, power, design and coverage optimization"
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+lbfgsb3 = { path = "../lbfgsb3" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 18
+r_functions_translated = 18
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "binom.asymp"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_asymp"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Wald interval; the unbounded limits are deliberately not clipped."
+
+[[extra.translation.function]]
+r_name = "binom.agresti.coull"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_agresti_coull"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Agresti-Coull adjusted-count interval, without clipping."
+
+[[extra.translation.function]]
+r_name = "binom.exact"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_exact"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Clopper-Pearson interval with explicit boundary values and stable beta inversion."
+
+[[extra.translation.function]]
+r_name = "binom.wilson"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_wilson"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Wilson score interval, with exact 0/1 observed-boundary limits to correct floating-point endpoint coverage artifacts."
+
+[[extra.translation.function]]
+r_name = "binom.prop.test"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_prop_test"]
+fortran_source = "src/binom_intervals.f90"
+status = "substantial"
+notes = "One-sample two-sided stats::prop.test confidence interval, including null-dependent continuity correction; R warnings omitted."
+
+[[extra.translation.function]]
+r_name = "binom.bayes"
+r_source = "upstream/R/binom.bayes.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_bayes"]
+fortran_source = "src/binom_intervals.f90"
+status = "substantial"
+notes = "Central and highest-density beta intervals, prior shapes, tolerance and iteration cap. Pure equal-density tail-allocation solver replaces C density-height roots; R data frames and warnings omitted."
+
+[[extra.translation.function]]
+r_name = "binom.cloglog"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_cloglog"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Complementary-log-log interval and exact boundary correction."
+
+[[extra.translation.function]]
+r_name = "binom.probit"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_probit"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Probit interval and exact boundary correction."
+
+[[extra.translation.function]]
+r_name = "binom.profile"
+r_source = "upstream/R/binom.profile.R"
+fortran_module = "binom_profile_module"
+fortran_names = ["binom_profile"]
+fortran_source = "src/binom_profile.f90"
+status = "substantial"
+notes = "Sampled signed deviance, FMM spline, three-times-knot grid and inverse linear interpolation; maxsteps, del and Bayesian edge adjustment. Plotting and R objects omitted; explicit resource and bracket status."
+
+[[extra.translation.function]]
+r_name = "binom.confint"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_confint", "binom_confint_all"]
+fortran_source = "src/binom_intervals.f90"
+status = "substantial"
+notes = "All eleven numerical methods. Scalar/elemental selected-method API plus all-method array; no partial-name matching, recycling, warnings, data frames or ellipsis forwarding."
+
+[[extra.translation.function]]
+r_name = "binom.coverage"
+r_source = "upstream/R/binom.coverage.R"
+fortran_module = "binom_design"
+fortran_names = ["binom_coverage"]
+fortran_source = "src/binom_design.f90"
+status = "substantial"
+notes = "Exact binomial-mass enumeration, inclusive endpoints. One named method per call; R callbacks, implicit probability grid and table construction omitted."
+
+[[extra.translation.function]]
+r_name = "binom.lrt"
+r_source = "upstream/R/binom.lrt.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_lrt"]
+fortran_source = "src/binom_intervals.f90"
+status = "substantial"
+notes = "Likelihood-ratio roots, Bayesian pseudocounts, conf.adj and explicit tol/maxit. Upstream Brent defaults and boundary clipping retained; stable likelihood differences avoid common-coefficient cancellation. Plotting and R object handling omitted."
+
+[[extra.translation.function]]
+r_name = "binom.logit"
+r_source = "upstream/R/binom.confint.R"
+fortran_module = "binom_intervals"
+fortran_names = ["binom_logit"]
+fortran_source = "src/binom_intervals.f90"
+status = "complete"
+notes = "Logit interval and exact boundary correction."
+
+[[extra.translation.function]]
+r_name = "cloglog.sample.size"
+r_source = "upstream/R/cloglog.sample.size.R"
+fortran_module = "binom_design"
+fortran_names = ["cloglog_sample_size"]
+fortran_source = "src/binom_design.f90"
+status = "substantial"
+notes = "Sample size, attained power and detectable-alternative branches, alternatives, dispersion, real-valued rounding and exact.n. One parameter combination per elemental call; R expand.grid table omitted."
+
+[[extra.translation.function]]
+r_name = "binom.power"
+r_source = "upstream/R/binom.power.R"
+fortran_module = "binom_design"
+fortran_names = ["binom_power"]
+fortran_source = "src/binom_design.f90"
+status = "substantial"
+notes = "All six power methods and three alternatives; retains upstream beta-tail formula for exact/lrt. Scalar/elemental evaluation avoids R vector-recycling bug; nonlinear links require interior probabilities, while asymptotic/exact/lrt include endpoints."
+
+[[extra.translation.function]]
+r_name = "binom.sim"
+r_source = "upstream/R/binom.sim.R"
+fortran_module = "binom_design"
+fortran_names = ["binom_sim", "binom_sim_counts"]
+fortran_source = "src/binom_design.f90"
+status = "substantial"
+notes = "Full capture-count confidence interval and mean-width calculation from caller-supplied uniforms or binomial counts. Caller controls RNG; no R RNG stream or implicit M/default draws."
+
+[[extra.translation.function]]
+r_name = "binom.length"
+r_source = "upstream/R/binom.length.R"
+fortran_module = "binom_design"
+fortran_names = ["binom_length"]
+fortran_source = "src/binom_design.f90"
+status = "substantial"
+notes = "Exact binomial-weighted interval length for every named method; R callbacks and expand.grid output omitted."
+
+[[extra.translation.function]]
+r_name = "binom.optim"
+r_source = "upstream/R/binom.optim.R"
+fortran_module = "binom_optimization"
+fortran_names = ["binom_optim"]
+fortran_source = "src/binom_optimization.f90"
+status = "substantial"
+notes = "Symmetric confidence optimization, beta-integrated squared coverage loss and shared L-BFGS-B with R-style fixed finite differences. Supports k, p0, transform, start and bounded solver controls. Raw closed-form trial algebra, partial-NaN removal and empty-count integration failures follow R; all-invalid zero-loss artifacts are rejected and invalid final intervals return failure. Public intervals retain (0,1). No R callbacks, plotting or general optim scaling arguments."

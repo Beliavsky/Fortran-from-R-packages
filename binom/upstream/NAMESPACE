@@ -1,0 +1,32 @@
+useDynLib(binom)
+
+export(binom.asymp,
+       binom.agresti.coull,
+       binom.exact,
+       binom.wilson,
+       binom.prop.test,
+       binom.bayes,
+       binom.bayes.densityplot,
+       binom.cloglog,
+       binom.probit,
+       binom.profile,
+       binom.confint,
+       binom.coverage,
+       binom.lrt,
+       binom.logit,
+       cloglog.sample.size,
+       binom.power,
+       binom.sim,
+       tkbinom.power,
+       binom.length,
+       binom.optim,
+       binom.plot)
+
+importFrom(grid, pushViewport)
+
+importFrom("grDevices", "heat.colors")
+importFrom("graphics", "abline", "axis", "box", "legend", "lines")
+importFrom("stats", "aggregate", "approx", "binomial", "dbeta",
+           "dbinom", "dnorm", "optim", "pbeta", "pnorm", "predict",
+           "qbeta", "qnorm", "rbinom", "reorder", "spline", "uniroot")
+importFrom("utils", "find")
