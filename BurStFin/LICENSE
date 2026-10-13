@@ -1,0 +1,38 @@
+BurStFin upstream license and public-domain notices
+=================================================
+
+The official BurStFin 1.3 DESCRIPTION states:
+
+  License: Unlimited
+  Author: Burns Statistics
+  Maintainer: Pat Burns <patrick@burns-stat.com>
+
+The computational R files explicitly state the following notices:
+
+alpha.proxy:
+  Placed in the public domain 2003-2012 by Burns Statistics Ltd.
+factor.model.stat:
+  Placed in the public domain 2006-2014 by Burns Statistics Ltd.
+slideWeight:
+  Placed in the public domain 2014 by Burns Statistics Ltd.
+var.add.benchmark:
+  Placed in the public domain 2009-2014 by  Burns Statistics Ltd.
+var.relative.benchmark:
+  Placed in the public domain 2009-2012  Burns Statistics Ltd.
+var.shrink.eqcor:
+  Placed in the public domain 2009-2014 by Burns Statistics Ltd.
+fitted.statfacmodBurSt:
+  Placed in the public domain 2006-2009 by Burns Statistics
+
+The original files and all their embedded notices are preserved unchanged in
+upstream/. Their public-domain dedication and Unlimited license are retained.
+This file does not substitute an unrelated license for the upstream work.
+
+The modern Fortran translation, tests, examples and documentation contributed
+in 2026 are also placed in the public domain by their contributors, to the
+extent permitted by law. They are supplied without warranty of any kind,
+express or implied, including merchantability or fitness for a particular
+purpose. No contributor is liable for damages arising from their use.
+
+External sibling packages retain their own licenses. They are not included in
+this package. See NOTICE.md for shared dependency and LAPACK attribution.

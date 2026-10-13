@@ -1,0 +1,6 @@
+export(alpha.proxy, factor.model.stat, partial.rainbow, slideWeight, threeDarr,
+	var.add.benchmark, var.relative.benchmark, var.shrink.eqcor)
+importFrom("grDevices", "rainbow")
+importFrom("graphics", "axis", "contour", "filled.contour")
+importFrom("stats", "fitted", "cov2cor", "lsfit", "quantile", "var")
+S3method(fitted, statfacmodBurSt)

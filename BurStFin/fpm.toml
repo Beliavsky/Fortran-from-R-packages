@@ -1,0 +1,86 @@
+name = "BurStFin"
+version = "1.3.0"
+license = "LicenseRef-Public-Domain"
+author = "Burns Statistics Ltd.; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Burns Statistics financial covariance, factor-model and portfolio algorithms"
+
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[install]
+library = true
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+rfortran-linalg = { path = "../rfortran-linalg" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 6
+r_functions_translated = 6
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "alpha.proxy"
+r_source = "upstream/R/alpha.proxy.R"
+fortran_module = "burstfin_portfolio"
+fortran_names = ["alpha_proxy", "alpha_proxy_grid"]
+fortran_source = "src/burstfin_portfolio.f90"
+status = "substantial"
+notes = "Elemental scalar/array calculation and sorted two-axis surfaces retained; plotting, warning messages, R recycling and call objects omitted."
+
+[[extra.translation.function]]
+r_name = "factor.model.stat"
+r_source = "upstream/R/factor.model.stat.R"
+fortran_module = "burstfin_factor"
+fortran_names = ["factor_model_stat", "factor_covariance"]
+fortran_source = "src/burstfin_factor.f90"
+status = "substantial"
+notes = "SVD, principal-factor iterations, missing-data regression, variance replacement and floors retained. A typed model and explicit covariance selector replace output polymorphism, names, S3 and timestamp/call metadata; zero-factor and degenerate cases have documented handling."
+
+[[extra.translation.function]]
+r_name = "slideWeight"
+r_source = "upstream/R/slideWeight.R"
+fortran_module = "burstfin_portfolio"
+fortran_names = ["slide_weight"]
+fortran_source = "src/burstfin_portfolio.f90"
+status = "complete"
+notes = "Fractions, observation ages, absolute endpoints, nearest-even rounding and clipping to observation range retained; invalid specifications use status."
+
+[[extra.translation.function]]
+r_name = "var.add.benchmark"
+r_source = "upstream/R/var.add.benchmark.R"
+fortran_module = "burstfin_portfolio"
+fortran_names = ["var_add_benchmark"]
+fortran_source = "src/burstfin_portfolio.f90"
+status = "substantial"
+notes = "Matrix/cube augmentation and absolute-weight normalization retained; explicit asset positions replace names and name matching, with optional sparse holdings."
+
+[[extra.translation.function]]
+r_name = "var.relative.benchmark"
+r_source = "upstream/R/var.relative.benchmark.R"
+fortran_module = "burstfin_portfolio"
+fortran_names = ["var_relative_benchmark"]
+fortran_source = "src/burstfin_portfolio.f90"
+status = "substantial"
+notes = "Matrix/cube relative covariance operation retained; one-based benchmark index replaces name lookup, names/call attributes omitted."
+
+[[extra.translation.function]]
+r_name = "var.shrink.eqcor"
+r_source = "upstream/R/var.shrink.eqcor.R"
+fortran_module = "burstfin_shrink"
+fortran_names = ["var_shrink_eqcor"]
+fortran_source = "src/burstfin_shrink.f90"
+status = "substantial"
+notes = "Time weights, pairwise missingness, center choices, automatic/explicit shrinkage, volatility shrinkage, compatibility scale and eigenvalue floor retained. Common rescaling protects automatic fourth moments, and per-asset scaling protects explicit-shrink mixed dynamic ranges; coincident sample/target uses intensity zero. Warnings, timestamps and R argument recycling omitted."

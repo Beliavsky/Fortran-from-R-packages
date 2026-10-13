@@ -1,0 +1,16 @@
+Package: BurStFin
+Version: 1.3
+Date: 2022-04-16
+Title: Burns Statistics Financial
+Author: Burns Statistics
+Maintainer: Pat Burns <patrick@burns-stat.com>
+Depends: stats
+Description: A suite of functions for finance, including the estimation
+	of variance matrices via a statistical factor model or
+	Ledoit-Wolf shrinkage.
+License: Unlimited
+URL: https://www.burns-stat.com/
+NeedsCompilation: no
+Packaged: 2022-04-18 11:53:41 UTC; alfre
+Repository: CRAN
+Date/Publication: 2022-04-18 12:12:29 UTC
