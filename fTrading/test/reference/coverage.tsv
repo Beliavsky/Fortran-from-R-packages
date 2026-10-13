@@ -1,0 +1,45 @@
+R function	Coverage category	Fixture labels
+.dailyTA	additional exported helper	dailyTA_ema, dailyTA_bias, dailyTA_medprice, dailyTA_typicalprice, dailyTA_wclose, dailyTA_roc, dailyTA_mom, dailyTA_osc, dailyTA_macd, dailyTA_cds, dailyTA_cdo, dailyTA_vohl, dailyTA_vor, dailyTA_rsi, dailyTA_fpk, dailyTA_fpd, dailyTA_spd, dailyTA_apd, dailyTA_wpr, dailyTA_select
+.hitRate	additional exported helper	hitRate_default, hitRate_missing
+.tradeLengths	additional exported helper	tradeLengths
+.tradeSignals	additional exported helper	tradeSignals_values, tradeSignals_indices
+EWMA	documented computational export	EWMA_default_startup, EWMA_custom_startup
+SMA	documented computational export	SMA_default, SMA_custom
+accelTA	documented computational export	accelTA_default, accelTA_custom
+adiTA	documented computational export	adiTA_default
+adoscillatorTA	documented computational export	adoscillatorTA_default
+apdTA	documented computational export	apdTA_default, apdTA_custom
+biasTA	documented computational export	biasTA_default, biasTA_custom
+bollingerTA	documented computational export	bollingerTA_default, bollingerTA_custom
+cdoTA	documented computational export	cdoTA_default, cdoTA_custom
+cdsTA	documented computational export	cdsTA_default, cdsTA_custom
+chaikinoTA	documented computational export	chaikinoTA_default, chaikinoTA_custom
+chaikinvTA	documented computational export	chaikinvTA_default_ts, chaikinvTA_custom_ts
+emaTA	documented computational export	emaTA_default, emaTA_zero, emaTA_period, emaTA_one, emaTA_decay, emaTA_startup, emaTA_oversized, emaTA_short
+fpdTA	documented computational export	fpdTA_default, fpdTA_custom
+fpkTA	documented computational export	fpkTA_default, fpkTA_custom
+garmanklassTA	documented computational export	garmanklassTA_default
+macdTA	documented computational export	macdTA_default, macdTA_custom
+maxDrawDown	documented computational export	maxDrawDown_levels_{value,from,to}, maxDrawDown_ties_{value,from,to}, maxDrawDown_rising_{value,from,to}
+medpriceTA	documented computational export	medpriceTA_default
+momTA	documented computational export	momTA_default, momTA_custom
+nviTA	documented computational export	nviTA_default
+obvTA	documented computational export	obvTA_default
+oscTA	documented computational export	oscTA_default, oscTA_custom
+pviTA	documented computational export	pviTA_default
+pvtrendTA	documented computational export	pvtrendTA_default
+rocTA	documented computational export	rocTA_default, rocTA_custom
+rollFun	documented computational export	rollFun_mean, rollFun_sum, rollFun_min, rollFun_max, rollFun_var, rollFun_sd, rollFun_padded, rollFun_na_windows, rollFun_na_removed, rollFun_callback, rollFun_unit
+rollVar	documented computational export	rollVar_default, rollVar_biased, rollVar_na_removed, rollVar_unit
+rsiTA	documented computational export	rsiTA_default, rsiTA_custom
+sharpeRatio	documented computational export	sharpeRatio_default, sharpeRatio_scalar, sharpeRatio_rates, sharpeRatio_short
+spdTA	documented computational export	spdTA_default, spdTA_custom
+sterlingRatio	documented computational export	sterlingRatio_default, sterlingRatio_rising
+stochasticTA	documented computational export	stochasticTA_fast, stochasticTA_slow
+typicalpriceTA	documented computational export	typicalpriceTA_default
+vohlTA	documented computational export	vohlTA_default
+vorTA	documented computational export	vorTA_default
+wcloseTA	documented computational export	wcloseTA_default
+williamsadTA	documented computational export	williamsadTA_ts
+williamsrTA	documented computational export	williamsrTA_default_ts, williamsrTA_custom_ts
+wprTA	documented computational export	wprTA_default, wprTA_custom

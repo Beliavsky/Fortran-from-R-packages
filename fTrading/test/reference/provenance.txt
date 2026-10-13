@@ -1,0 +1,15 @@
+Oracle: genuine installed fTrading 3042.79, with all 45 source bodies/formals
+verified identical to the bundled upstream R functions before generation.
+R: R version 4.5.0 (2025-04-11)
+timeSeries: 4052.112
+timeDate: 4052.112
+fBasics: 4052.98
+Records: 131
+Numeric values: 10366
+NA and NaN are both encoded as NaN; infinities retain their sign.
+Matrices are flattened in column-major order, matching Fortran storage.
+No random-number generator, dependency clone, source repair, or stub is used.
+Known original vector-path errors; genuine timeSeries paths are compared:
+chaikinvTA: object of type 'closure' is not subsettable
+williamsadTA: object 'x' not found
+williamsrTA: object 'x' not found

@@ -1,0 +1,384 @@
+name = "fTrading"
+version = "3042.79.0"
+license = "GPL-2.0-or-later AND LGPL-2.0-or-later"
+author = "Diethelm Wuertz, Tobias Setz, Yohan Chalabi; Fortran translation contributors"
+description = "Modern Fortran translation of fTrading numerical trading utilities"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+TTR = { path = "../TTR" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 40
+r_functions_translated = 40
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "maxDrawDown"
+r_source = "upstream/R/BenchmarkAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["max_draw_down"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "All tied troughs and latest preceding peaks are returned as one-based indices. Empty or nonfinite levels yield NaN and empty indices; timeSeries timestamps omitted."
+
+[[extra.translation.function]]
+r_name = "sharpeRatio"
+r_source = "upstream/R/BenchmarkAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["sharpe_ratio"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Differences of levels, sample standard deviation, default sqrt(250) annualization; scalar or exactly aligned risk-free rates, without R recycling. Nonfinite levels rejected."
+
+[[extra.translation.function]]
+r_name = "sterlingRatio"
+r_source = "upstream/R/BenchmarkAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["sterling_ratio"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Absolute-level drawdown denominator retained; zero denominators yield IEEE NaN or infinity; timeSeries metadata omitted."
+
+[[extra.translation.function]]
+r_name = "rollFun"
+r_source = "upstream/R/rollFun.R"
+fortran_module = "ftrading_base"
+fortran_names = ["roll_fun"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Pure scalar procedure-pointer callback or named scalar reduction, optional trim and global NaN removal. R ellipsis, vector-valued callbacks, class and index handling omitted."
+
+[[extra.translation.function]]
+r_name = "rollVar"
+r_source = "upstream/R/rollFun.R"
+fortran_module = "ftrading_base"
+fortran_names = ["roll_var"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Sample variance or its (n-1)/n rescaling; global NaN removal and trim preserved. Invalid windows return an empty vector."
+
+[[extra.translation.function]]
+r_name = "emaTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["ema_ta"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "First result is startup-window mean; periods map to decay 2/(period+1), default seed floor(2/decay). Zero decay is full-series mean. Invalid/oversized seed gives NaNs."
+
+[[extra.translation.function]]
+r_name = "biasTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["bias_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "medpriceTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["medprice_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "typicalpriceTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["typicalprice_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "wcloseTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["wclose_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "rocTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["roc_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "oscTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["osc_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "momTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["mom_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "macdTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["macd_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "cdsTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["cds_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "cdoTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["cdo_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Preserves upstream quirk: signal MACD uses default 12/26 periods even when the initial MACD has custom lag1/lag2."
+
+[[extra.translation.function]]
+r_name = "vohlTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["vohl_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "vorTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["vor_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "stochasticTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["stochastic_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "fpkTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["fpk_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Ratio in [0,1] for valid OHLC. Full window contains lag+1 observations, startup uses all available history."
+
+[[extra.translation.function]]
+r_name = "fpdTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["fpd_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "spdTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["spd_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "apdTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["apd_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "wprTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["wpr_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Preserves upstream definition exactly equal to fpkTA, rather than conventional Williams percent R; default lag is 50."
+
+[[extra.translation.function]]
+r_name = "rsiTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["rsi_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Unsmoothed sum-of-gains / sum-of-absolute-changes, width lag+1, scaled 0 to 1; first output copies second; flat window is NaN."
+
+[[extra.translation.function]]
+r_name = "accelTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["accel_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "adiTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["adi_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "adoscillatorTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["adoscillator_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "bollingerTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["bollinger_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Columns upper, original x, lower; sample-standard-deviation bands and complete-window startup NaNs retained."
+
+[[extra.translation.function]]
+r_name = "chaikinoTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["chaikino_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical univariate-array operation translated; timeSeries class construction, dates, labels, warnings, and R recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "chaikinvTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["chaikinv_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Numerical timeSeries path translated; vector-path upstream undefined rt bug repaired by using the computed range EMA."
+
+[[extra.translation.function]]
+r_name = "garmanklassTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["garmanklass_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Preserves unusual raw-price intraday differences with log overnight difference; not conventional scale-invariant Garman-Klass volatility."
+
+[[extra.translation.function]]
+r_name = "nviTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["nvi_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Cumulative selected ROC/100, where ROC uses current close denominator and falling volume selects observations. Initial value zero."
+
+[[extra.translation.function]]
+r_name = "obvTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["obv_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Initial value zero and exact price ties contribute zero, unlike TTR initial-volume and near-tie conventions."
+
+[[extra.translation.function]]
+r_name = "pviTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["pvi_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Cumulative selected ROC/100, where ROC uses current close denominator and rising volume selects observations. Initial value zero."
+
+[[extra.translation.function]]
+r_name = "pvtrendTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["pvtrend_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Cumulative volume times percentage previous-close returns, initial zero; preserves upstream factor 100."
+
+[[extra.translation.function]]
+r_name = "williamsadTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["williamsad_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Cumulative close-low on rising close, minus high-close on falling close; vector-path undefined x label bug omitted."
+
+[[extra.translation.function]]
+r_name = "williamsrTA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_indicators"
+fortran_names = ["williamsr_ta"]
+fortran_source = "src/ftrading_indicators.f90"
+status = "substantial"
+notes = "Complete lag-width high/low windows and percentage distance below high; differs wprTA. Vector-path undefined x label bug omitted."
+
+[[extra.translation.function]]
+r_name = "SMA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["sma"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Trimmed complete-window arithmetic means; missing values affect their windows only; invalid windows return an empty vector."
+
+[[extra.translation.function]]
+r_name = "EWMA"
+r_source = "upstream/R/TechnicalAnalysis.R"
+fortran_module = "ftrading_base"
+fortran_names = ["ewma"]
+fortran_source = "src/ftrading_base.f90"
+status = "substantial"
+notes = "Same startup-seeded EMA operation as emaTA, with required decay/period argument. R class and index handling omitted."
