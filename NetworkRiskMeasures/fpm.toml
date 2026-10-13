@@ -1,0 +1,136 @@
+name = "NetworkRiskMeasures"
+version = "0.1.7"
+license = "GPL-3.0-only"
+author = "Carlos Cinelli, Thiago Cristiano Silva; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Directed financial-network risk, contagion, communicability and reconstruction"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+expm-fortran = { path = "../expm" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 12
+r_functions_translated = 12
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "risk_matrix"
+r_source = "upstream/R/risk_matrices.R"
+fortran_module = "network_risk_base"
+fortran_names = ["risk_matrix"]
+fortran_source = "src/network_risk_base.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "impact_matrix"
+r_source = "upstream/R/risk_matrices.R"
+fortran_module = "network_risk_base"
+fortran_names = ["impact_matrix"]
+fortran_source = "src/network_risk_base.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "vulnerability_matrix"
+r_source = "upstream/R/risk_matrices.R"
+fortran_module = "network_risk_base"
+fortran_names = ["vulnerability_matrix"]
+fortran_source = "src/network_risk_base.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "criticality"
+r_source = "upstream/R/communicability_measures.R"
+fortran_module = "network_risk_base"
+fortran_names = ["criticality"]
+fortran_source = "src/network_risk_base.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "communicability_matrix"
+r_source = "upstream/R/communicability_measures.R"
+fortran_module = "network_communicability"
+fortran_names = ["communicability_matrix"]
+fortran_source = "src/network_communicability.f90"
+status = "substantial"
+notes = "Full exponential reuses sibling expm; finite Taylor recurrence avoids factorial overflow; degree zero returns identity rather than R 1:0 loop artifact."
+
+[[extra.translation.function]]
+r_name = "impact_susceptibility"
+r_source = "upstream/R/communicability_measures.R"
+fortran_module = "network_communicability"
+fortran_names = ["impact_susceptibility"]
+fortran_source = "src/network_communicability.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "impact_fluidity"
+r_source = "upstream/R/communicability_measures.R"
+fortran_module = "network_communicability"
+fortran_names = ["impact_fluidity"]
+fortran_source = "src/network_communicability.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "impact_diffusion"
+r_source = "upstream/R/communicability_measures.R"
+fortran_module = "network_communicability"
+fortran_names = ["impact_diffusion"]
+fortran_source = "src/network_communicability.f90"
+status = "substantial"
+notes = "Dense numerical operation translated; R names, sparse Matrix and igraph containers, dispatch, messages and presentation omitted."
+
+[[extra.translation.function]]
+r_name = "contagion"
+r_source = "upstream/R/contagion.R"
+fortran_module = "network_contagion"
+fortran_names = ["contagion"]
+fortran_source = "src/network_contagion.f90"
+status = "substantial"
+notes = "DebtRank, single-hit and threshold dynamics, scenarios, history and numerical summaries; R callback environments and S3 objects omitted. Uncapped final stress preserved; omitted-buffer/weight initialization bug corrected."
+
+[[extra.translation.function]]
+r_name = "matrix_estimation"
+r_source = "upstream/R/matrix_estimation.R"
+fortran_module = "network_reconstruction"
+fortran_names = ["matrix_estimation"]
+fortran_source = "src/network_reconstruction.f90"
+status = "substantial"
+notes = "Original reconstruction objective and updates; local Park-Miller or supplied uniforms replace R RNG and categorical ordering; scalar alpha/delta; explicit diagnostics and zero/invalid handling."
+
+[[extra.translation.function]]
+r_name = "max_ent"
+r_source = "upstream/R/matrix_estimation.R"
+fortran_module = "network_reconstruction"
+fortran_names = ["max_ent"]
+fortran_source = "src/network_reconstruction.f90"
+status = "substantial"
+notes = "Zero-diagonal alternating marginal scaling, with explicit feasibility and iteration diagnostics; R names and progress printing omitted."
+
+[[extra.translation.function]]
+r_name = "min_dens"
+r_source = "upstream/R/matrix_estimation.R"
+fortran_module = "network_reconstruction"
+fortran_names = ["min_dens"]
+fortran_source = "src/network_reconstruction.f90"
+status = "substantial"
+notes = "Original reconstruction objective and updates; local Park-Miller or supplied uniforms replace R RNG and categorical ordering; scalar alpha/delta; explicit diagnostics and zero/invalid handling."

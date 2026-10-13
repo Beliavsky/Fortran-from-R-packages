@@ -1,0 +1,29 @@
+Package: NetworkRiskMeasures
+Type: Package
+Title: Risk Measures for (Financial) Networks
+Version: 0.1.7
+Encoding: UTF-8
+Authors@R: c(person(given = "Carlos",
+                    family = "Cinelli",
+                    role = c("aut", "cre"),
+                    email = "carloscinelli@hotmail.com"),
+             person(given = c("Thiago", "Cristiano"),
+                    family = "Silva",
+                    role = "aut",
+                    email = "thiagochris@gmail.com"))
+Author: Carlos Cinelli [aut, cre],
+  Thiago Cristiano Silva [aut]
+Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
+Description: Implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
+License: GPL-3
+LazyData: TRUE
+Suggests: testthat, igraph, covr
+Depends: Matrix
+Imports: expm, ggplot2, dplyr
+URL: https://github.com/carloscinelli/NetworkRiskMeasures
+BugReports: https://github.com/carloscinelli/NetworkRiskMeasures/issues
+RoxygenNote: 7.3.2
+NeedsCompilation: no
+Packaged: 2025-05-04 19:08:56 UTC; cinelli
+Repository: CRAN
+Date/Publication: 2025-05-04 19:20:02 UTC
