@@ -1,0 +1,234 @@
+{
+  "package": "monobin",
+  "version": "0.2.4",
+  "coverage_basis": "exported computational R functions",
+  "r_functions_total": 7,
+  "inventory": [
+    {
+      "r_name": "pct.bin",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "format.bin",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "tbl.summary.bina",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "pct.bin.bina",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "tbl.summary.cont",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "pct.bin.cont",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "slice.variable",
+      "r_source": "upstream/R/01_PCT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "iso.bin",
+      "r_source": "upstream/R/02_ISO_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "iso.summary",
+      "r_source": "upstream/R/02_ISO_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "iso",
+      "r_source": "upstream/R/02_ISO_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "tbl.correction.00",
+      "r_source": "upstream/R/02_ISO_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "woe.calc",
+      "r_source": "upstream/R/02_ISO_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "woe.bin",
+      "r_source": "upstream/R/03_WOE_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "tbl.correction.01",
+      "r_source": "upstream/R/03_WOE_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "cum.bin",
+      "r_source": "upstream/R/04_CUM_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "cum.bin.aux",
+      "r_source": "upstream/R/04_CUM_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "sts.bin",
+      "r_source": "upstream/R/05_STS_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "add.sd",
+      "r_source": "upstream/R/05_STS_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "t2p.merge",
+      "r_source": "upstream/R/05_STS_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "t.test.g",
+      "r_source": "upstream/R/05_STS_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "ttg.merge",
+      "r_source": "upstream/R/05_STS_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "ndr.bin",
+      "r_source": "upstream/R/06_NDR_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "ndr",
+      "r_source": "upstream/R/06_NDR_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "stepwise.reg",
+      "r_source": "upstream/R/06_NDR_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "mdt.bin",
+      "r_source": "upstream/R/07_MDT_BINNING.R",
+      "exported": true,
+      "in_coverage_basis": true,
+      "reason": "exported computational function"
+    },
+    {
+      "r_name": "mdt",
+      "r_source": "upstream/R/07_MDT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "node.split",
+      "r_source": "upstream/R/07_MDT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "sse",
+      "r_source": "upstream/R/07_MDT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "gini",
+      "r_source": "upstream/R/07_MDT_BINNING.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "checks.init",
+      "r_source": "upstream/R/99_CHECKS.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    },
+    {
+      "r_name": "checks.iter",
+      "r_source": "upstream/R/99_CHECKS.R",
+      "exported": false,
+      "in_coverage_basis": false,
+      "reason": "unexported internal helper"
+    }
+  ],
+  "exported_names": [
+    "cum.bin",
+    "iso.bin",
+    "mdt.bin",
+    "ndr.bin",
+    "pct.bin",
+    "sts.bin",
+    "woe.bin"
+  ]
+}

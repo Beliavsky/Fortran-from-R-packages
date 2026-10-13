@@ -1,0 +1,88 @@
+name = "monobin"
+version = "0.2.4"
+license = "GPL-3.0-or-later"
+author = "Andrija Djurovic (upstream R); Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Seven monotonic binning algorithms for binary and continuous credit-risk responses"
+[build]
+auto-tests = true
+auto-examples = true
+auto-executables = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+Hmisc = { path = "../Hmisc" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 7
+r_functions_translated = 7
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "pct.bin"
+r_source = "upstream/R/01_PCT_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["pct_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Iterative cut2 percentile grouping with binary mean or continuous WoE trend checks. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "iso.bin"
+r_source = "upstream/R/02_ISO_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["iso_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Weighted tied-predictor isotonic regression, minimum-count and target-rate corrections. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "woe.bin"
+r_source = "upstream/R/03_WOE_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["woe_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Corrected isotonic regression followed by strict adjacent WoE-gap merging. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "cum.bin"
+r_source = "upstream/R/04_CUM_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["cum_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "cut2 percentile prebins and directional cumulative-mean maximization. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "sts.bin"
+r_source = "upstream/R/05_STS_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["sts_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Corrected isotonic regression and adjacent one-sided proportion or Welch t tests. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "ndr.bin"
+r_source = "upstream/R/06_NDR_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["ndr_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Nested-dummy logistic or linear regression with backward p-value deletion and explicit-cut reassignment. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
+
+[[extra.translation.function]]
+r_name = "mdt.bin"
+r_source = "upstream/R/07_MDT_BINNING.R"
+fortran_module = "monobin"
+fortran_names = ["mdt_bin"]
+fortran_source = "src/monobin.f90"
+status = "substantial"
+notes = "Breadth-first monotone decision tree, node-specific cut2 candidates, and Gini/SSE criteria. Typed arrays replace R data frames and formatted bin labels; see README for NA, prediction, and documented defect handling."
