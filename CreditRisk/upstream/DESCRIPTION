@@ -1,0 +1,24 @@
+Package: CreditRisk
+Type: Package
+Title: Evaluation of Credit Risk with Structural and Reduced Form
+        Models
+Version: 0.1.7
+Date: 2024-04-18
+Authors@R: c(
+    person("Alessandro", "Cimarelli", email = "alessandro.cimarelli@icloud.com", role = c("aut", "cre")),
+    person("Nicolò", "Manca", email = "n.manca1992@gmail.com", role = c("aut"))
+    )
+Maintainer: Alessandro Cimarelli <alessandro.cimarelli@icloud.com>
+Description: Evaluation of default probability of sovereign and corporate entities based on structural or intensity based models and calibration on market Credit Default Swap quotes. References: Damiano Brigo, Massimo Morini, Andrea Pallavicini (2013) <doi:10.1002/9781118818589>. Print ISBN: 9780470748466, Online ISBN: 9781118818589. © 2013 John Wiley & Sons Ltd.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: stats
+RoxygenNote: 7.3.1
+Suggests: testthat
+NeedsCompilation: no
+Packaged: 2024-04-19 08:00:09 UTC; alessandro.cimarelli
+Repository: CRAN
+Date/Publication: 2024-04-19 10:53:09 UTC
+Author: Alessandro Cimarelli [aut, cre],
+  Nicolò Manca [aut]

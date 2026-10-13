@@ -1,0 +1,145 @@
+name = "CreditRisk"
+version = "0.1.7"
+license = "MIT"
+author = "Alessandro Cimarelli and Nicolò Manca; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+copyright = "Copyright (c) 2017 Alessandro Cimarelli & Nicolò Manca"
+description = "Structural credit-risk models, CDS valuation and bounded calibration translated from CreditRisk 0.1.7"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[install]
+library = true
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+lbfgsb3 = { path = "../lbfgsb3" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 13
+r_functions_translated = 13
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "BlackCox"
+r_source = "upstream/R/BlackCox.R"
+fortran_module = "creditrisk"
+fortran_names = ["black_cox"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling."
+
+[[extra.translation.function]]
+r_name = "Merton"
+r_source = "upstream/R/Merton.R"
+fortran_module = "creditrisk"
+fortran_names = ["merton"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling. Upstream r rather than r*t in survival is deliberately retained."
+
+[[extra.translation.function]]
+r_name = "Merton.sim"
+r_source = "upstream/R/Merton.sim.R"
+fortran_module = "creditrisk"
+fortran_names = ["merton_sim", "merton_sim_from_shocks"]
+fortran_source = "src/creditrisk.f90"
+status = "substantial"
+notes = "Geometric-Brownian trajectories with explicit normal innovations or a reproducible local RNG; R RNG and Sys.time seed are not reproduced."
+
+[[extra.translation.function]]
+r_name = "at1p"
+r_source = "upstream/R/at1p.R"
+fortran_module = "creditrisk"
+fortran_names = ["at1p"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling."
+
+[[extra.translation.function]]
+r_name = "calibrate.BlackCox"
+r_source = "upstream/R/calibrate.BlackCox.R"
+fortran_module = "creditrisk_calibration"
+fortran_names = ["calibrate_black_cox"]
+fortran_source = "src/creditrisk_calibration.f90"
+status = "substantial"
+notes = "Same objective and starting coordinates; sibling L-BFGS-B 3.0; fitted L/K returned instead of upstream initial L/K; finite invalid-trial penalty."
+
+[[extra.translation.function]]
+r_name = "calibrate.at1p"
+r_source = "upstream/R/calibrate.at1p.R"
+fortran_module = "creditrisk_calibration"
+fortran_names = ["calibrate_at1p"]
+fortran_source = "src/creditrisk_calibration.f90"
+status = "substantial"
+notes = "Same objective and starting coordinates; sibling L-BFGS-B 3.0 with explicit diagnostics; R optim trajectory need not match; finite invalid-trial penalty."
+
+[[extra.translation.function]]
+r_name = "calibrate.cds"
+r_source = "upstream/R/calibrate.cds.R"
+fortran_module = "creditrisk_calibration"
+fortran_names = ["calibrate_cds"]
+fortran_source = "src/creditrisk_calibration.f90"
+status = "substantial"
+notes = "Same objective and starting coordinates; sibling L-BFGS-B 3.0 with explicit diagnostics; R optim trajectory need not match; finite invalid-trial penalty."
+
+[[extra.translation.function]]
+r_name = "calibrate.sbtv"
+r_source = "upstream/R/calibrate.sbtv.R"
+fortran_module = "creditrisk_calibration"
+fortran_names = ["calibrate_sbtv"]
+fortran_source = "src/creditrisk_calibration.f90"
+status = "substantial"
+notes = "Same objective and starting coordinates; sibling L-BFGS-B 3.0 with explicit diagnostics; R optim trajectory need not match; finite invalid-trial penalty. Upstream ignored ellipsis retained as default-only CDS settings."
+
+[[extra.translation.function]]
+r_name = "cds"
+r_source = "upstream/R/cds.R"
+fortran_module = "creditrisk"
+fortran_names = ["cds"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling. Preserves upstream subtraction of accrued premium; stable zero combined-rate limit."
+
+[[extra.translation.function]]
+r_name = "cds2"
+r_source = "upstream/R/cds2.R"
+fortran_module = "creditrisk"
+fortran_names = ["cds2"]
+fortran_source = "src/creditrisk.f90"
+status = "substantial"
+notes = "Linear interpolation with constant extrapolation; knots must be sorted and unique, unlike R approx sorting/tie handling; rates reconstructed from interpolated legs."
+
+[[extra.translation.function]]
+r_name = "cum_normal_density"
+r_source = "upstream/R/cum_normal_density.R"
+fortran_module = "creditrisk"
+fortran_names = ["cum_normal_density"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling."
+
+[[extra.translation.function]]
+r_name = "generalized_black_scholes"
+r_source = "upstream/R/generalized_black_scholes.R"
+fortran_module = "creditrisk"
+fortran_names = ["generalized_black_scholes"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling."
+
+[[extra.translation.function]]
+r_name = "sbtv"
+r_source = "upstream/R/sbtv.R"
+fortran_module = "creditrisk"
+fortran_names = ["sbtv"]
+fortran_source = "src/creditrisk.f90"
+status = "complete"
+notes = "Numerical operation retained; typed arrays and status replace R data frames, validation, and recycling."
