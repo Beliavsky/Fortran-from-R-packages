@@ -1,0 +1,324 @@
+name = "entropy"
+version = "1.0.0"
+license = "GPL-3.0-or-later"
+author = "Jean Hausser, Korbinian Strimmer; Fortran translation contributors"
+description = "Entropy, mutual information, divergence and shrinkage estimators translated from R entropy 1.3.2"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 34
+r_functions_translated = 33
+frac_functions_translated = 0.9705882352941176
+untranslated_r_functions = ["entropy.NSB"]
+
+[[extra.translation.function]]
+r_name = "chi2.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar per-cell pseudocounts are implemented. For cell-specific priors, compose freqs_dirichlet with the corresponding plugin estimator; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "chi2.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "chi2.plugin"
+r_source = "upstream/R/KL.plugin.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2_plugin"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "chi2.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."
+
+[[extra.translation.function]]
+r_name = "chi2indep.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2indep_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar per-cell pseudocounts are implemented. For cell-specific priors, compose freqs_dirichlet with the corresponding plugin estimator; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "chi2indep.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2indep_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "chi2indep.plugin"
+r_source = "upstream/R/mi.plugin.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2indep_plugin"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "chi2indep.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2indep_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."
+
+[[extra.translation.function]]
+r_name = "Gstat"
+r_source = "upstream/R/Gstat.R"
+fortran_module = "entropy_module"
+fortran_names = ["gstat"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "A typed stat/df/pval result replaces the R list. Stable direct upper-tail evaluation avoids cancellation from 1 minus the CDF."
+
+[[extra.translation.function]]
+r_name = "Gstatindep"
+r_source = "upstream/R/Gstat.R"
+fortran_module = "entropy_module"
+fortran_names = ["gstatindep"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "A typed stat/df/pval result replaces the R list. Stable direct upper-tail evaluation avoids cancellation from 1 minus the CDF."
+
+[[extra.translation.function]]
+r_name = "chi2stat"
+r_source = "upstream/R/Gstat.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2stat"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "A typed stat/df/pval result replaces the R list. Stable direct upper-tail evaluation avoids cancellation from 1 minus the CDF."
+
+[[extra.translation.function]]
+r_name = "chi2statindep"
+r_source = "upstream/R/Gstat.R"
+fortran_module = "entropy_module"
+fortran_names = ["chi2statindep"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "A typed stat/df/pval result replaces the R list. Stable direct upper-tail evaluation avoids cancellation from 1 minus the CDF."
+
+[[extra.translation.function]]
+r_name = "discretize"
+r_source = "upstream/R/discretize.R"
+fortran_module = "entropy_module"
+fortran_names = ["discretize"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Equal-width right-closed counts are returned as an integer array; interval labels and R table objects are omitted. Optional status replaces R errors."
+
+[[extra.translation.function]]
+r_name = "discretize2d"
+r_source = "upstream/R/discretize.R"
+fortran_module = "entropy_module"
+fortran_names = ["discretize2d"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Paired equal-width bin counts are returned as an integer matrix; interval labels and R table objects are omitted. Optional status replaces R errors."
+
+[[extra.translation.function]]
+r_name = "entropy"
+r_source = "upstream/R/entropy.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Eight estimator methods are implemented; NSB requires an absent external algorithm and returns NaN. Exact method names replace R partial matching."
+
+[[extra.translation.function]]
+r_name = "entropy.ChaoShen"
+r_source = "upstream/R/entropy.ChaoShen.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_chaoshen"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "entropy.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar per-cell pseudocounts are implemented. For cell-specific priors, compose freqs_dirichlet with the corresponding plugin estimator; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "entropy.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "entropy.MillerMadow"
+r_source = "upstream/R/entropy.MillerMadow.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_millermadow"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "entropy.plugin"
+r_source = "upstream/R/entropy.plugin.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_plugin"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "entropy.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["entropy_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."
+
+[[extra.translation.function]]
+r_name = "freqs"
+r_source = "upstream/R/entropy.R"
+fortran_module = "entropy_module"
+fortran_names = ["freqs"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "ML, Dirichlet-family and shrinkage estimates are implemented. MM, CS and NSB return NaN arrays, matching upstream missing-frequency results."
+
+[[extra.translation.function]]
+r_name = "freqs.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["freqs_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar and shape-matched bin-specific priors are supported for vectors and matrices; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "freqs.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["freqs_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "freqs.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["freqs_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."
+
+[[extra.translation.function]]
+r_name = "mi.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["mi_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar per-cell pseudocounts are implemented. For cell-specific priors, compose freqs_dirichlet with the corresponding plugin estimator; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "mi.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["mi_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "mi.plugin"
+r_source = "upstream/R/mi.plugin.R"
+fortran_module = "entropy_module"
+fortran_names = ["mi_plugin"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "mi.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["mi_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."
+
+[[extra.translation.function]]
+r_name = "KL.Dirichlet"
+r_source = "upstream/R/entropy.Dirichlet.R"
+fortran_module = "entropy_module"
+fortran_names = ["kl_dirichlet"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Scalar per-cell pseudocounts are implemented. For cell-specific priors, compose freqs_dirichlet with the corresponding plugin estimator; R recycling is omitted."
+
+[[extra.translation.function]]
+r_name = "KL.empirical"
+r_source = "upstream/R/entropy.empirical.R"
+fortran_module = "entropy_module"
+fortran_names = ["kl_empirical"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "KL.plugin"
+r_source = "upstream/R/KL.plugin.R"
+fortran_module = "entropy_module"
+fortran_names = ["kl_plugin"]
+fortran_source = "src/entropy_module.f90"
+status = "complete"
+notes = "The numerical operation is implemented. Explicit shape validation and NaN error results replace R recycling, warnings and dynamic object behavior."
+
+[[extra.translation.function]]
+r_name = "KL.shrink"
+r_source = "upstream/R/entropy.shrink.R"
+fortran_module = "entropy_module"
+fortran_names = ["kl_shrink"]
+fortran_source = "src/entropy_module.f90"
+status = "substantial"
+notes = "Automatic or fixed uniform-target shrinkage is implemented; R attributes and verbose output are replaced by the separate shrinkage_intensity helper. Fixed intensities must lie in [0,1]."

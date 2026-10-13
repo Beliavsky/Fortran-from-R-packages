@@ -1,0 +1,124 @@
+
+                 Release History of "entropy" Package
+               ========================================
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.3.1
+
+- updated Authors@R field.
+- updated URLs.
+- fixed errors flagged by R-devel in documentation.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.3.1
+
+- updated URLs in documentation.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.3.0
+
+- updated documentation for chi2.plugin() and and chi2.empirical() to compute
+  chi-squared divergence.
+- new functions  Gstat() and chi2stat() to compute the statistic and the Pearson
+  chi-squared statistic with (asymptotic) p-values.
+- new functions Gstatindep() and chi2statindep() to compute the G statistic and
+  Pearson chi-squared statistic to test independence.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.2.1
+
+- change of maintainer email address.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.2.0
+
+* new functions KL.plugin(), KL.empirical(), Kl.Dirichlet(), and 
+  KL.shrink() for computing the Kullback-Leibler divergence.
+* new functions chi2.plugin(), chi2.empirical(), chi2.Dirichlet(), and
+  chi2.shrink() for computing the chi-squared statistic.
+* new functions chi2indep.plugin(), chi2indep.empirical(), 
+  chi2indep.Dirichlet(), and chi2indep.shrink() for computing the 
+  chi-squared statistic of independence.
+* new discretize2d() function for simple binning of a pair of random
+  variables.
+* in all shrinkage functions the target option has been removed (and
+  the default uniform target is now always used).
+ 
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.9
+
+* new discretize() function for simple binning of a continuous random
+  variable.
+* now requires R >= 2.15.1.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.8
+
+* License file removed.
+* Dependencies updated.
+* the functions freqs.shrink(), entropy.shrink(), mi.shrink(), 
+  entropy(), and freqs() now allow to specify the shrinkage intensity.
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.7
+
+* NAMESPACE file added
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.6
+
+* small in documentation file fixed (for R 2.13.0 release)
+* added in documentation that the default unit for the entropy
+  is "nats" (natural units), for "bits" one needs to set unit="log2".
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.5
+
+* small bug in documentation file fixed (for R 2.11.0 release)
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.4
+
+* reference to publication (Hausser and Strimmer, 2009) added
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.3
+
+* small changes to update documentation
+
+
+             CHANGES IN `entropy' PACKAGE VERSION 1.1.2
+
+* verbose messages for shrinkage entropy are now more informative and 
+  in the same style as those from corpcor
+* man pages slightly updated
+
+
+              CHANGES IN `entropy' PACKAGE VERSION 1.1.1
+
+* bug fix: freqs.shrink() now also works for sample sizes 1 and 0
+* freqs.shrink(), entropy.shrink() and mi.shrink() now return the
+  estimated shrinkage intensity as attribute (lambda.freqs).
+
+
+              CHANGES IN `entropy' PACKAGE VERSION 1.1.0
+
+* several new functions added for estimating mutual information:
+  mi.plugin(), mi.empirical(), mi.Dirichlet() and mi.shrink().
+
+
+              CHANGES IN `entropy' PACKAGE VERSION 1.0.0
+
+
+This package implements the following entropy estimators:
+
+* the James-Stein shrinkage estimator by Hausser and Strimmer,
+* the maximum likelihood estimator,
+* the Miller-Madow estimator,
+* various Bayesian estimators (based on Dirichlet-multinomial model),
+* and the Chen-Shao estimator.
+
+It also provides an R interface to the
+*  Nemenman-Shafee-Bialek (NSB) estimator.
+
+* This is the first public release (2 September 2008).
+
