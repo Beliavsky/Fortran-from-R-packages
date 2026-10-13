@@ -1,0 +1,219 @@
+name = "propcis"
+version = "0.3.0"
+license = "GPL-2.0-only"
+author = "Ralph Scherer; modern Fortran translation contributors"
+maintainer = "Fortran translation contributors"
+description = "Confidence intervals for single, paired, and independent proportions"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+extraDistr-fortran = { path = "../extraDistr" }
+rcppnumerical = { path = "../RcppNumerical" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 21
+r_functions_translated = 21
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "acceptbin"
+r_source = "upstream/R/acceptbin.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["acceptbin"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Binomial acceptance probability; scalar integer counts and explicit validation."
+
+[[extra.translation.function]]
+r_name = "add4ci"
+r_source = "upstream/R/add4ci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["add4ci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Agresti-Coull add-four interval with point estimate; R htest construction omitted."
+
+[[extra.translation.function]]
+r_name = "addz2ci"
+r_source = "upstream/R/addz2ci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["addz2ci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Confidence-dependent pseudo-count interval with point estimate; R htest construction omitted."
+
+[[extra.translation.function]]
+r_name = "blakerci"
+r_source = "upstream/R/blakerci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["blakerci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Original tolerance-stepped acceptance inversion; tolerance range 1e-9 to 1 and extreme-tail status documented."
+
+[[extra.translation.function]]
+r_name = "diffci.bayes"
+r_source = "upstream/R/diffci.bayes.R"
+fortran_module = "propcis_bayesian"
+fortran_names = ["diffci_bayes"]
+fortran_source = "src/propcis_bayesian.f90"
+status = "substantial"
+notes = "Same beta-posterior equal-tail target using deterministic infinite quadrature and bracketed inversion; simulation starts, nsim, R RNG, and optim trajectories omitted."
+
+[[extra.translation.function]]
+r_name = "diffci.bayes.hpd"
+r_source = "upstream/R/diffci.bayes.hpd.R"
+fortran_module = "propcis_bayesian"
+fortran_names = ["diffci_bayes_hpd"]
+fortran_source = "src/propcis_bayesian.f90"
+status = "substantial"
+notes = "Shortest connected credible interval using quantile-span optimization; fixes asymmetric-prior reflection and upper clipping defects; not a disconnected HPD set or exact optim trajectory."
+
+[[extra.translation.function]]
+r_name = "diffpropci.Wald.mp"
+r_source = "upstream/R/diffpropci.Wald.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["diffpropci_wald_mp"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Unadjusted paired Wald difference interval and estimate; R htest construction omitted."
+
+[[extra.translation.function]]
+r_name = "diffpropci.mp"
+r_source = "upstream/R/diffpropci.mp.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["diffpropci_mp"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Adjusted paired difference interval and estimate, clipped to [-1,1]; R htest construction omitted."
+
+[[extra.translation.function]]
+r_name = "diffscoreci"
+r_source = "upstream/R/diffscoreci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["diffscoreci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Miettinen-Nurminen corrected score inversion; stable constrained likelihood root replaces the cubic helper, preserving original endpoint-search tolerances."
+
+[[extra.translation.function]]
+r_name = "exactci"
+r_source = "upstream/R/exactci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["exactci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Clopper-Pearson interval using equivalent beta quantiles; reports limited numerical resolution for extreme confidence tails."
+
+[[extra.translation.function]]
+r_name = "limit"
+r_source = "upstream/R/limit.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["limit"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Exported multiplicative odds-ratio grid helper; stable quadratic root handles initial ratio one, with bounded iterations and NaN failure."
+
+[[extra.translation.function]]
+r_name = "midPci"
+r_source = "upstream/R/midPci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["midpci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Original 0.0001 + k*0.0005 grid and strict comparisons, including analytic zero/all-success branches; extreme-tail resolution flagged."
+
+[[extra.translation.function]]
+r_name = "oddsratioci.mp"
+r_source = "upstream/R/oddsratioci.mp.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["oddsratioci_mp"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Paired odds-ratio score interval; explicitly corrects zero-discordance endpoint roundoff."
+
+[[extra.translation.function]]
+r_name = "orci.bayes"
+r_source = "upstream/R/orci.bayes.R"
+fortran_module = "propcis_bayesian"
+fortran_names = ["orci_bayes"]
+fortran_source = "src/propcis_bayesian.f90"
+status = "substantial"
+notes = "Deterministic beta-logit convolution and equal-tail inversion, equivalent to the F-ratio posterior; fixes upstream all-success undefined-variable and asymmetric-prior complement defects; simulation starts omitted."
+
+[[extra.translation.function]]
+r_name = "orscoreci"
+r_source = "upstream/R/orscoreci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["orscoreci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Original 1.001 multiplicative score grids with stable constrained root and exact zero/infinite support endpoints."
+
+[[extra.translation.function]]
+r_name = "riskscoreci"
+r_source = "upstream/R/riskscoreci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["riskscoreci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Same constrained-binomial risk-ratio score using bracketed inversion; replaces unstable cubic and boundary grid searches, so boundary bounds can differ by their former 1.0001 step."
+
+[[extra.translation.function]]
+r_name = "rrci.bayes"
+r_source = "upstream/R/rrci.bayes.R"
+fortran_module = "propcis_bayesian"
+fortran_names = ["rrci_bayes"]
+fortran_source = "src/propcis_bayesian.f90"
+status = "substantial"
+notes = "Beta-posterior risk-ratio equal-tail interval from deterministic quadrature and log-ratio inversion; simulation starts, nsim, RNG, and optim trajectories omitted."
+
+[[extra.translation.function]]
+r_name = "scoreci"
+r_source = "upstream/R/scoreci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["scoreci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Wilson score interval rounded to four decimals; uses Fortran ANINT and a tail-stable normal critical value."
+
+[[extra.translation.function]]
+r_name = "scoreci.mp"
+r_source = "upstream/R/scoreci.mp.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["scoreci_mp"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Paired score inversion with original stepping and stopping tolerances; degenerate variance handled explicitly."
+
+[[extra.translation.function]]
+r_name = "wald2ci"
+r_source = "upstream/R/wald2ci.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["wald2ci"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Independent Wald or add-two-per-sample interval and estimate; fixes upstream unusable vector default by choosing AC."
+
+[[extra.translation.function]]
+r_name = "z2stat"
+r_source = "upstream/R/z2stat.R"
+fortran_module = "propcis_frequentist"
+fortran_names = ["z2stat"]
+fortran_source = "src/propcis_frequentist.f90"
+status = "substantial"
+notes = "Exported Miettinen-Nurminen statistic; maximizes the constrained binomial likelihood by a bracketed derivative root instead of the fragile cubic."

@@ -1,0 +1,4 @@
+importFrom("stats", "pbinom", "qbeta", "qbinom", "qchisq", "qf",
+             "qnorm", "dbeta", "df", "integrate", "optim", "pbeta", "pf",
+             "rbeta", "rf")
+exportPattern("^[[:alpha:]]+")
