@@ -1,0 +1,910 @@
+case	value
+positive Gini	0.3833333333333333
+positive RS	0.29999999999999999
+positive Atkinson	0.12573593128807148
+positive Theil	0.2493777692868899
+positive Kolm	1.7133608762821197
+positive var.coeff	0.7149203529842405
+positive entropy	0.25991643149636912
+positive Herfindahl	0.37777777777777777
+positive Rosenbluth	0.40540540540540537
+positive Gini correction	0.51111111111111107
+positive squared CV	0.51111111111111107
+positive Watts k 0	0
+positive Watts k 3	0.37601934919406854
+positive Watts k 9	1.1575038064963015
+positive Sen k 0	0
+positive Sen k 3	0.29166666666666669
+positive Sen k 9	0.74305555555555558
+positive SST k 0	0
+positive SST k 3	0.39583333333333337
+positive SST k 9	0.74305555555555558
+positive Foster k 0	0
+positive Foster k 3	0.5
+positive Foster k 9	1
+zero Gini	0.64999999999999991
+zero RS	0.55000000000000004
+zero Atkinson	0.55000000000000004
+zero Theil	0.1927447570217575
+zero Kolm	0.73340571950709521
+zero var.coeff	1.3114877048604001
+zero entropy	1.3167184270002523
+zero Herfindahl	0.68000000000000016
+zero Rosenbluth	0.71428571428571408
+zero Gini correction	0.86666666666666659
+zero squared CV	1.72
+zero Watts k 0	0
+zero Watts k 3	Inf
+zero Watts k 9	Inf
+zero Sen k 0	0
+zero Sen k 3	0.72222222222222221
+zero Sen k 9	0.95138888888888884
+zero SST k 0	0
+zero SST k 3	0.875
+zero SST k 9	0.95138888888888884
+zero Foster k 0	0
+zero Foster k 3	0.75
+zero Foster k 9	1
+equal Gini	0
+equal RS	0
+equal Atkinson	0
+equal Theil	0
+equal Kolm	0
+equal var.coeff	0
+equal entropy	-0
+equal Herfindahl	0.25
+equal Rosenbluth	0.25
+equal Gini correction	0
+equal squared CV	0
+equal Watts k 0	0
+equal Watts k 3	0
+equal Watts k 9	0.58778666490211906
+equal Sen k 0	0
+equal Sen k 3	0
+equal Sen k 9	0.44444444444444442
+equal SST k 0	0
+equal SST k 3	0
+equal SST k 9	0.44444444444444442
+equal Foster k 0	0
+equal Foster k 3	0
+equal Foster k 9	1
+signed Gini	1.1071428571428572
+signed RS	0.9285714285714286
+signed Atkinson	NaN
+signed Theil	NaN
+signed Kolm	2.6819708416643775
+signed var.coeff	2.0354009783964293
+signed entropy	NaN
+signed Herfindahl	1.2857142857142856
+signed Rosenbluth	-2.3333333333333339
+signed Gini correction	1.4761904761904763
+signed squared CV	4.1428571428571415
+signed Watts k 0	-Inf
+signed Watts k 3	NaN
+signed Watts k 9	NaN
+signed Sen k 0	Inf
+signed Sen k 3	0.79166666666666674
+signed Sen k 9	1.0208333333333333
+signed SST k 0	Inf
+signed SST k 3	1.1458333333333333
+signed SST k 9	1.0208333333333333
+signed Foster k 0	0.5
+signed Foster k 3	0.5
+signed Foster k 9	1
+negative Gini	-0.3833333333333333
+negative RS	-0.29999999999999999
+negative Atkinson	0.12573593128807148
+negative Theil	0.2493777692868899
+negative Kolm	2.885179685273854
+negative var.coeff	-0.7149203529842405
+negative entropy	0.25991643149636912
+negative Herfindahl	0.37777777777777777
+negative Rosenbluth	0.18072289156626506
+negative Gini correction	-0.51111111111111107
+negative squared CV	0.51111111111111107
+negative Watts k 0	-Inf
+negative Watts k 3	NaN
+negative Watts k 9	NaN
+negative Sen k 0	Inf
+negative Sen k 3	2.7291666666666665
+negative Sen k 9	1.5763888888888891
+negative SST k 0	Inf
+negative SST k 3	2.7291666666666665
+negative SST k 9	1.5763888888888888
+negative Foster k 0	1
+negative Foster k 3	1
+negative Foster k 9	1
+single Gini	0
+single RS	0
+single Atkinson	0
+single Theil	0
+single Kolm	0
+single var.coeff	NA
+single entropy	-0
+single Herfindahl	1
+single Rosenbluth	1
+single Gini correction	NaN
+single squared CV	NA
+single Watts k 0	0
+single Watts k 3	0.40546510810816438
+single Watts k 9	1.5040773967762742
+single Sen k 0	0
+single Sen k 3	0.33333333333333331
+single Sen k 9	0.77777777777777779
+single SST k 0	0
+single SST k 3	0.33333333333333331
+single SST k 9	0.77777777777777779
+single Foster k 0	0
+single Foster k 3	1
+single Foster k 9	1
+zero_total Gini	Inf
+zero_total RS	Inf
+zero_total Atkinson	NaN
+zero_total Theil	NaN
+zero_total Kolm	1.0443193398317898
+zero_total var.coeff	Inf
+zero_total entropy	NaN
+zero_total Herfindahl	NaN
+zero_total Rosenbluth	NaN
+zero_total Gini correction	Inf
+zero_total squared CV	Inf
+zero_total Watts k 0	-Inf
+zero_total Watts k 3	NaN
+zero_total Watts k 9	NaN
+zero_total Sen k 0	NaN
+zero_total Sen k 3	NaN
+zero_total Sen k 9	NaN
+zero_total SST k 0	Inf
+zero_total SST k 3	1.2962962962962965
+zero_total SST k 9	1.0987654320987654
+zero_total Foster k 0	0.33333333333333331
+zero_total Foster k 3	1
+zero_total Foster k 9	1
+all_zero Gini	NaN
+all_zero RS	NaN
+all_zero Atkinson	NaN
+all_zero Theil	NaN
+all_zero Kolm	0
+all_zero var.coeff	NaN
+all_zero entropy	NaN
+all_zero Herfindahl	NaN
+all_zero Rosenbluth	NaN
+all_zero Gini correction	NaN
+all_zero squared CV	NaN
+all_zero Watts k 0	0
+all_zero Watts k 3	Inf
+all_zero Watts k 9	Inf
+all_zero Sen k 0	0
+all_zero Sen k 3	NaN
+all_zero Sen k 9	NaN
+all_zero SST k 0	0
+all_zero SST k 3	1
+all_zero SST k 9	1
+all_zero Foster k 0	0
+all_zero Foster k 3	1
+all_zero Foster k 9	1
+missing Gini	0.42424242424242414
+missing Gini keepNA	NA
+missing RS	0.39393939393939392
+missing RS keepNA	NA
+missing Atkinson	0.16711268562913428
+missing Atkinson keepNA	NA
+missing Theil	0.3390648971932464
+missing Theil keepNA	NA
+missing Kolm	1.8819824825452329
+missing Kolm keepNA	NA
+missing var.coeff	0.84305622686324577
+missing var.coeff keepNA	NA
+missing entropy	0.34949359267322305
+missing entropy keepNA	NA
+missing Herfindahl	0.57024793388429751
+missing Herfindahl keepNA	NA
+missing Rosenbluth	0.57894736842105254
+missing Rosenbluth keepNA	NA
+missing Gini correction	0.63636363636363624
+missing squared CV	0.71074380165289253
+missing Watts k 0	0
+missing Watts k 3	0.50135913225875806
+missing Watts k 9	1.2730283365896258
+missing Watts keepNA	NA
+missing Sen k 0	0
+missing Sen k 3	0.3888888888888889
+missing Sen k 9	0.76543209876543206
+missing Sen keepNA	NA
+missing SST k 0	0
+missing SST k 3	0.48148148148148157
+missing SST k 9	0.76543209876543217
+missing SST keepNA	NA
+missing Foster k 0	0
+missing Foster k 3	0.66666666666666663
+missing Foster k 9	1
+missing Foster keepNA	NA
+positive Atkinson a -2	-0.40497099070617493
+zero Atkinson a -2	-1.0263188076403544
+signed Atkinson a -2	-1.5631716338471384
+negative Atkinson a -2	-0.40497099070617493
+positive Atkinson a -1	-0.22927259430571834
+zero Atkinson a -1	-0.6492422502470645
+signed Atkinson a -1	-1.2677868380553634
+negative Atkinson a -1	-0.22927259430571834
+positive Atkinson a 0	0
+zero Atkinson a 0	0
+signed Atkinson a 0	0
+negative Atkinson a 0	0
+positive Atkinson a 0.5	0.12573593128807148
+zero Atkinson a 0.5	0.55000000000000004
+signed Atkinson a 0.5	NaN
+negative Atkinson a 0.5	0.12573593128807148
+positive Atkinson a 1	0.24575276673434943
+zero Atkinson a 1	1
+signed Atkinson a 1	NaN
+negative Atkinson a 1	NaN
+positive Atkinson a 2	0.43111111111111111
+zero Atkinson a 2	1
+signed Atkinson a 2	3.2325581395348837
+negative Atkinson a 2	0.43111111111111111
+positive Atkinson a 3	0.53721502332020021
+zero Atkinson a 3	1
+signed Atkinson a 3	0.027670476380009634
+negative Atkinson a 3	0.53721502332020021
+positive Atkinson a 1e-06	2.4937778042577463e-07
+zero Atkinson a 1e-06	8.8589227731361575e-07
+signed Atkinson a 1e-06	NaN
+negative Atkinson a 1e-06	2.4937778042577463e-07
+positive Atkinson a 0.999999	0.24575254026997628
+zero Atkinson a 0.999999	1
+signed Atkinson a 0.999999	NaN
+negative Atkinson a 0.999999	0.24575254026997628
+positive Atkinson a 1.000001	0.2457529932785254
+zero Atkinson a 1.000001	1
+signed Atkinson a 1.000001	NaN
+negative Atkinson a 1.000001	0.2457529932785254
+positive Theil a -2	0.28203506914240162
+zero Theil a -2	Inf
+signed Theil a -2	NaN
+negative Theil a -2	NaN
+positive Theil a -1	0.28203506914240162
+zero Theil a -1	Inf
+signed Theil a -1	NaN
+negative Theil a -1	NaN
+positive Theil a 0	0.2493777692868899
+zero Theil a 0	0.1927447570217575
+signed Theil a 0	NaN
+negative Theil a 0	0.2493777692868899
+positive Theil a 0.5	0.28203506914240162
+zero Theil a 0.5	Inf
+signed Theil a 0.5	NaN
+negative Theil a 0.5	NaN
+positive Theil a 1	0.28203506914240162
+zero Theil a 1	Inf
+signed Theil a 1	NaN
+negative Theil a 1	NaN
+positive Theil a 2	0.28203506914240162
+zero Theil a 2	Inf
+signed Theil a 2	NaN
+negative Theil a 2	NaN
+positive Theil a 3	0.28203506914240162
+zero Theil a 3	Inf
+signed Theil a 3	NaN
+negative Theil a 3	NaN
+positive Theil a 1e-06	0.28203506914240162
+zero Theil a 1e-06	Inf
+signed Theil a 1e-06	NaN
+negative Theil a 1e-06	NaN
+positive Theil a 0.999999	0.28203506914240162
+zero Theil a 0.999999	Inf
+signed Theil a 0.999999	NaN
+negative Theil a 0.999999	NaN
+positive Theil a 1.000001	0.28203506914240162
+zero Theil a 1.000001	Inf
+signed Theil a 1.000001	NaN
+negative Theil a 1.000001	NaN
+positive Kolm a -2	-3.5570240093152239
+zero Kolm a -2	-2.0584251832347493
+signed Kolm a -2	-4.5570205864876527
+negative Kolm a -2	-2.1214076392610961
+positive Kolm a -1	-2.885179685273854
+zero Kolm a -1	-1.4465920036597193
+signed Kolm a -1	-3.882306084355724
+negative Kolm a -1	-1.7133608762821197
+positive Kolm a 0	NaN
+zero Kolm a 0	NaN
+signed Kolm a 0	NaN
+negative Kolm a 0	NaN
+positive Kolm a 0.5	1.2184117778106378
+zero Kolm a 0.5	0.49468865716088578
+signed Kolm a 0.5	2.0383438182067422
+negative Kolm a 0.5	1.8674256749074067
+positive Kolm a 1	1.7133608762821197
+zero Kolm a 1	0.73340571950709521
+signed Kolm a 1	2.6819708416643775
+negative Kolm a 1	2.885179685273854
+positive Kolm a 2	2.1214076392610961
+zero Kolm a 2	0.93624320145097539
+signed Kolm a 2	3.1203368253315191
+negative Kolm a 2	3.5570240093152239
+positive Kolm a 3	2.3041368470843828
+zero Kolm a 3	1.0271481850101412
+signed Kolm a 3	3.3040977606167452
+negative Kolm a 3	3.7879039330205746
+positive Kolm a 1e-06	3.5937919307051744e-06
+zero Kolm a 1e-06	1.3438139490053865e-06
+signed Kolm a 1e-06	6.3438143626880224e-06
+negative Kolm a 1e-06	3.5937919307051744e-06
+positive Kolm a 0.999999	1.7133602087612694
+zero Kolm a 0.999999	0.73340538778516584
+signed Kolm a 0.999999	2.6819700665479003
+negative Kolm a 0.999999	2.885178412962663
+positive Kolm a 1.000001	1.713361543802105
+zero Kolm a 1.000001	0.73340605122860369
+signed Kolm a 1.000001	2.6819716167796162
+negative Kolm a 1.000001	2.8851809575829108
+positive entropy a -2	0.61153157552083337
+zero entropy a -2	Inf
+signed entropy a -2	0.0096209490740740977
+negative entropy a -2	0.61153157552083337
+positive entropy a -1	0.37890625
+zero entropy a -1	Inf
+signed entropy a -1	-0.72395833333333337
+negative entropy a -1	0.37890625
+positive entropy a 0	0.28203506914240162
+zero entropy a 0	Inf
+signed entropy a 0	NaN
+negative entropy a 0	NaN
+positive entropy a 0.5	0.25991643149636912
+zero entropy a 0.5	1.3167184270002523
+signed entropy a 0.5	NaN
+negative entropy a 0.5	0.25991643149636912
+positive entropy a 1	0.2493777692868899
+zero entropy a 1	0.1927447570217575
+signed entropy a 1	NaN
+negative entropy a 1	0.2493777692868899
+positive entropy a 2	0.25555555555555554
+zero entropy a 2	0.86000000000000032
+signed entropy a 2	2.0714285714285712
+negative entropy a 2	0.25555555555555554
+positive entropy a 3	0.29555555555555552
+zero entropy a 3	1.2200000000000004
+signed entropy a 3	2.639941690962099
+negative entropy a 3	0.29555555555555552
+positive entropy a 1e-06	0.28203501110607898
+zero entropy a 1e-06	500000.26499827503
+signed entropy a 1e-06	NaN
+negative entropy a 1e-06	0.28203501110607898
+positive entropy a 0.999999	0.24937778044029271
+zero entropy a 0.999999	0.88589227730571174
+signed entropy a 0.999999	NaN
+negative entropy a 0.999999	0.24937778044029271
+positive entropy a 1.000001	0.24937775816465166
+zero entropy a 1.000001	0.88589159794086869
+signed entropy a 1.000001	NaN
+negative entropy a 1.000001	0.24937775816465166
+positive Herfindahl a -2	0.18856180831641267
+zero Herfindahl a -2	0
+signed Herfindahl a -2	NaN
+negative Herfindahl a -2	0.18856180831641267
+positive Herfindahl a -1	0.25
+zero Herfindahl a -1	0.25
+signed Herfindahl a -1	0.25
+negative Herfindahl a -1	0.25
+positive Herfindahl a 0	1
+zero Herfindahl a 0	1
+signed Herfindahl a 0	1
+negative Herfindahl a 0	1
+positive Herfindahl a 0.5	0.35176450198781706
+zero Herfindahl a 0.5	0.64800000000000013
+signed Herfindahl a 0.5	NaN
+negative Herfindahl a 0.5	0.35176450198781706
+positive Herfindahl a 1	0.37777777777777777
+zero Herfindahl a 1	0.68000000000000016
+signed Herfindahl a 1	1.2857142857142856
+negative Herfindahl a 1	0.37777777777777777
+positive Herfindahl a 2	0.41633319989322654
+zero Herfindahl a 2	0.72111025509279791
+signed Herfindahl a 2	1.025903569596474
+negative Herfindahl a 2	0.41633319989322654
+positive Herfindahl a 3	0.44191526423775029
+zero Herfindahl a 3	0.74361995466551123
+signed Herfindahl a 3	1.0134244206786729
+negative Herfindahl a 3	0.44191526423775029
+positive Herfindahl a 1e-06	0.32080674276376409
+zero Herfindahl a 1e-06	0.60628671987423144
+signed Herfindahl a 1e-06	NaN
+negative Herfindahl a 1e-06	0.32080674276376409
+positive Herfindahl a 0.999999	0.37777773068235737
+zero Herfindahl a 0.999999	0.67999994493888583
+signed Herfindahl a 0.999999	NaN
+negative Herfindahl a 0.999999	0.37777773068235737
+positive Herfindahl a 1.000001	0.37777782487317912
+zero Herfindahl a 1.000001	0.68000005506108097
+signed Herfindahl a 1.000001	NaN
+negative Herfindahl a 1.000001	0.37777782487317912
+Foster parameter 0	0.83333333333333326
+Foster parameter 1	0.75
+Foster parameter 2	0.6875
+Foster parameter 3	0.640625
+Foster parameter 0.5	0.78867513459481287
+Foster parameter -1	0.94444444444444442
+ineq dispatcher Gini	0.3833333333333333
+ineq dispatcher RS	0.29999999999999999
+ineq dispatcher Atkinson	0.12573593128807148
+ineq dispatcher Theil	0.2493777692868899
+ineq dispatcher Kolm	1.7133608762821197
+ineq dispatcher var	0.7149203529842405
+ineq dispatcher square.var	0.51111111111111107
+ineq dispatcher entropy	0.25991643149636912
+conc dispatcher Herfindahl	0.37777777777777777
+conc dispatcher Rosenbluth	0.40540540540540537
+pov dispatcher Watts	0.51986038541995894
+pov dispatcher Sen	0.34375
+pov dispatcher SST	0.484375
+pov dispatcher Foster	0.5
+Lc.exp 0	0
+Lc.lognorm 0	0
+Lc.pareto 0	0
+Lc.singh 0	0
+Lc.dagum 0	0
+Lc.lognorm 0 parameter -2	0
+Lc.lognorm 0 parameter 0	0
+Lc.lognorm 0 parameter 0.5	0
+Lc.lognorm 0 parameter 1	0
+Lc.lognorm 0 parameter 3.4	0
+Lc.lognorm 0 parameter 20	0
+Lc.pareto 0 parameter -2	0
+Lc.pareto 0 parameter 0	0
+Lc.pareto 0 parameter 0.5	0
+Lc.pareto 0 parameter 1	0
+Lc.pareto 0 parameter 3.4	0
+Lc.pareto 0 parameter 20	0
+Lc.singh 0 parameters 3.4,2.6	0
+Lc.singh 0 parameters 1.5,3	0
+Lc.singh 0 parameters 0,0	0
+Lc.singh 0 parameters 1,2	NaN
+Lc.singh 0 parameters 2	0
+Lc.singh 0 parameters 2,-3	0
+Lc.dagum 0 parameters 3.4,2.6	0
+Lc.dagum 0 parameters 1.5,3	0
+Lc.dagum 0 parameters 0,0	0
+Lc.dagum 0 parameters 1,2	0
+Lc.dagum 0 parameters 2	0
+Lc.dagum 0 parameters 2,-3	1
+Lc.exp 1e-10	-8.2590370935106605e-18
+Lc.lognorm 1e-10	9.1035963853963687e-14
+Lc.pareto 1e-10	5.000000413701855e-11
+Lc.singh 1e-10	2.8789226178765616e-14
+Lc.dagum 1e-10	5.0000000000000005e-21
+Lc.lognorm 1e-10 parameter -2	9.1035963853963687e-14
+Lc.lognorm 1e-10 parameter 0	9.1035963853963687e-14
+Lc.lognorm 1e-10 parameter 0.5	3.4108575602153127e-12
+Lc.lognorm 1e-10 parameter 1	9.1035963853963687e-14
+Lc.lognorm 1e-10 parameter 3.4	8.2479759926659839e-23
+Lc.lognorm 1e-10 parameter 20	1.9023712948046378e-153
+Lc.pareto 1e-10 parameter -2	5.000000413701855e-11
+Lc.pareto 1e-10 parameter 0	5.000000413701855e-11
+Lc.pareto 1e-10 parameter 0.5	5.000000413701855e-11
+Lc.pareto 1e-10 parameter 1	5.000000413701855e-11
+Lc.pareto 1e-10 parameter 3.4	7.0588201950272378e-11
+Lc.pareto 1e-10 parameter 20	9.5000007860335245e-11
+Lc.singh 1e-10 parameters 3.4,2.6	1.2494722355679985e-12
+Lc.singh 1e-10 parameters 1.5,3	2.868437022635925e-14
+Lc.singh 1e-10 parameters 0,0	2.8789226178765616e-14
+Lc.singh 1e-10 parameters 1,2	NaN
+Lc.singh 1e-10 parameters 2	2.8789226178765616e-14
+Lc.singh 1e-10 parameters 2,-3	2.8789226178765616e-14
+Lc.dagum 1e-10 parameters 3.4,2.6	1.7167853686523814e-18
+Lc.dagum 1e-10 parameters 1.5,3	3.3333333333333342e-31
+Lc.dagum 1e-10 parameters 0,0	5.0000000000000005e-21
+Lc.dagum 1e-10 parameters 1,2	5.0000000000000005e-21
+Lc.dagum 1e-10 parameters 2	5.0000000000000005e-21
+Lc.dagum 1e-10 parameters 2,-3	1
+Lc.exp 1e-06	4.9999453273376468e-13
+Lc.lognorm 1e-06	4.37268071908705e-09
+Lc.pareto 1e-06	5.0000012496997925e-07
+Lc.singh 1e-06	6.2024512551525939e-09
+Lc.dagum 1e-06	5.00000000000125e-13
+Lc.lognorm 1e-06 parameter -2	4.37268071908705e-09
+Lc.lognorm 1e-06 parameter 0	4.37268071908705e-09
+Lc.lognorm 1e-06 parameter 0.5	7.464852374278749e-08
+Lc.lognorm 1e-06 parameter 1	4.37268071908705e-09
+Lc.lognorm 1e-06 parameter 3.4	1.7688085246834942e-16
+Lc.lognorm 1e-06 parameter 20	1.4239749909845927e-135
+Lc.pareto 1e-06 parameter -2	5.0000012496997925e-07
+Lc.pareto 1e-06 parameter 0	5.0000012496997925e-07
+Lc.pareto 1e-06 parameter 0.5	5.0000012496997925e-07
+Lc.pareto 1e-06 parameter 1	5.0000012496997925e-07
+Lc.pareto 1e-06 parameter 3.4	7.0588245681957318e-07
+Lc.pareto 1e-06 parameter 20	9.5000002375833503e-07
+Lc.singh 1e-06 parameters 3.4,2.6	1.6137513953692108e-07
+Lc.singh 1e-06 parameters 1.5,3	2.8684382196694822e-09
+Lc.singh 1e-06 parameters 0,0	6.2024512551525939e-09
+Lc.singh 1e-06 parameters 1,2	NaN
+Lc.singh 1e-06 parameters 2	6.2024512551525939e-09
+Lc.singh 1e-06 parameters 2,-3	6.2024512551525939e-09
+Lc.dagum 1e-06 parameters 3.4,2.6	1.9658009144810087e-11
+Lc.dagum 1e-06 parameters 1.5,3	3.3333333333333334e-19
+Lc.dagum 1e-06 parameters 0,0	5.00000000000125e-13
+Lc.dagum 1e-06 parameters 1,2	5.00000000000125e-13
+Lc.dagum 1e-06 parameters 2	5.00000000000125e-13
+Lc.dagum 1e-06 parameters 2,-3	1
+Lc.exp 0.01	5.0167505033510071e-05
+Lc.lognorm 0.01	0.00043996018047378645
+Lc.pareto 0.01	0.0050125628933800348
+Lc.singh 0.01	0.0013388345999334654
+Lc.dagum 0.01	5.0001250062503911e-05
+Lc.lognorm 0.01 parameter -2	0.00043996018047378645
+Lc.lognorm 0.01 parameter 0	0.00043996018047378645
+Lc.lognorm 0.01 parameter 0.5	0.0023541050829546453
+Lc.lognorm 0.01 parameter 1	0.00043996018047378645
+Lc.lognorm 0.01 parameter 3.4	5.1307847048077919e-09
+Lc.lognorm 0.01 parameter 20	1.0250622142556887e-110
+Lc.pareto 0.01 parameter -2	0.0050125628933800348
+Lc.pareto 0.01 parameter 0	0.0050125628933800348
+Lc.pareto 0.01 parameter 0.5	0.0050125628933800348
+Lc.pareto 0.01 parameter 1	0.0050125628933800348
+Lc.pareto 0.01 parameter 3.4	0.0070692491899323473
+Lc.pareto 0.01 parameter 20	0.009502383355363242
+Lc.singh 0.01 parameters 3.4,2.6	0.020346856621884866
+Lc.singh 0.01 parameters 1.5,3	0.00028834765790169861
+Lc.singh 0.01 parameters 0,0	0.0013388345999334654
+Lc.singh 0.01 parameters 1,2	NaN
+Lc.singh 0.01 parameters 2	0.0013388345999334654
+Lc.singh 0.01 parameters 2,-3	0.0013388345999334654
+Lc.dagum 0.01 parameters 3.4,2.6	0.00022509372490037627
+Lc.dagum 0.01 parameters 1.5,3	3.3333344444450625e-07
+Lc.dagum 0.01 parameters 0,0	5.0001250062503911e-05
+Lc.dagum 0.01 parameters 1,2	5.0001250062503911e-05
+Lc.dagum 0.01 parameters 2	5.0001250062503911e-05
+Lc.dagum 0.01 parameters 2,-3	1
+Lc.exp 0.1	0.0051755359079562885
+Lc.lognorm 0.1	0.01125791451260476
+Lc.pareto 0.1	0.051316701949486232
+Lc.singh 0.1	0.029364822487633488
+Lc.dagum 0.1	0.0050125628933800461
+Lc.lognorm 0.1 parameter -2	0.01125791451260476
+Lc.lognorm 0.1 parameter 0	0.01125791451260476
+Lc.lognorm 0.1 parameter 0.5	0.037411194400060098
+Lc.lognorm 0.1 parameter 1	0.01125791451260476
+Lc.lognorm 0.1 parameter 3.4	1.4235587889648923e-06
+Lc.lognorm 0.1 parameter 20	8.414032542607048e-101
+Lc.pareto 0.1 parameter -2	0.051316701949486232
+Lc.pareto 0.1 parameter 0	0.051316701949486232
+Lc.pareto 0.1 parameter 0.5	0.051316701949486232
+Lc.pareto 0.1 parameter 1	0.051316701949486232
+Lc.pareto 0.1 parameter 3.4	0.071673827255390843
+Lc.pareto 0.1 parameter 20	0.095246266393630208
+Lc.singh 0.1 parameters 3.4,2.6	0.31038291520098676
+Lc.singh 0.1 parameters 1.5,3	0.0053856419575478154
+Lc.singh 0.1 parameters 0,0	0.029364822487633488
+Lc.singh 0.1 parameters 1,2	NaN
+Lc.singh 0.1 parameters 2	0.029364822487633488
+Lc.singh 0.1 parameters 2,-3	0.029364822487633488
+Lc.dagum 0.1 parameters 3.4,2.6	0.013097812895283332
+Lc.dagum 0.1 parameters 1.5,3	0.00033344450621402205
+Lc.dagum 0.1 parameters 0,0	0.0050125628933800461
+Lc.dagum 0.1 parameters 1,2	0.0050125628933800461
+Lc.dagum 0.1 parameters 2	0.0050125628933800461
+Lc.dagum 0.1 parameters 2,-3	1
+Lc.exp 0.5	0.15342640972002736
+Lc.lognorm 0.5	0.15865525393145705
+Lc.pareto 0.5	0.29289321881345243
+Lc.singh 0.5	0.27757936314507792
+Lc.dagum 0.5	0.13397459621556135
+Lc.lognorm 0.5 parameter -2	0.15865525393145705
+Lc.lognorm 0.5 parameter 0	0.15865525393145705
+Lc.lognorm 0.5 parameter 0.5	0.30853753872598694
+Lc.lognorm 0.5 parameter 1	0.15865525393145705
+Lc.lognorm 0.5 parameter 3.4	0.00033692926567688107
+Lc.lognorm 0.5 parameter 20	2.7536241186062337e-89
+Lc.pareto 0.5 parameter -2	0.29289321881345243
+Lc.pareto 0.5 parameter 0	0.29289321881345243
+Lc.pareto 0.5 parameter 0.5	0.29289321881345243
+Lc.pareto 0.5 parameter 1	0.29289321881345243
+Lc.pareto 0.5 parameter 3.4	0.3869325783700347
+Lc.pareto 0.5 parameter 20	0.48236753807931121
+Lc.singh 0.5 parameters 3.4,2.6	0.95847031526671134
+Lc.singh 0.5 parameters 1.5,3	0.053432105346664149
+Lc.singh 0.5 parameters 0,0	0.27757936314507792
+Lc.singh 0.5 parameters 1,2	NaN
+Lc.singh 0.5 parameters 2	0.27757936314507792
+Lc.singh 0.5 parameters 2,-3	0.27757936314507792
+Lc.dagum 0.5 parameters 3.4,2.6	0.22887426254593293
+Lc.dagum 0.5 parameters 1.5,3	0.043534408613805455
+Lc.dagum 0.5 parameters 0,0	0.13397459621556135
+Lc.dagum 0.5 parameters 1,2	0.13397459621556135
+Lc.dagum 0.5 parameters 2	0.13397459621556135
+Lc.dagum 0.5 parameters 2,-3	1
+Lc.exp 0.9	0.66974149070059552
+Lc.lognorm 0.9	0.61085630835463922
+Lc.pareto 0.9	0.68377223398316211
+Lc.singh 0.9	0.73638533867481293
+Lc.dagum 0.9	0.56411010564593278
+Lc.lognorm 0.9 parameter -2	0.61085630835463922
+Lc.lognorm 0.9 parameter 0	0.61085630835463922
+Lc.lognorm 0.9 parameter 0.5	0.78276091957269489
+Lc.lognorm 0.9 parameter 1	0.61085630835463922
+Lc.lognorm 0.9 parameter 3.4	0.01706855381744778
+Lc.lognorm 0.9 parameter 20	1.7510214091374481e-78
+Lc.pareto 0.9 parameter -2	0.68377223398316211
+Lc.pareto 0.9 parameter 0	0.68377223398316211
+Lc.pareto 0.9 parameter 0.5	0.68377223398316211
+Lc.pareto 0.9 parameter 1	0.68377223398316211
+Lc.pareto 0.9 parameter 3.4	0.80315805527133888
+Lc.pareto 0.9 parameter 20	0.88779815456980371
+Lc.singh 0.9 parameters 3.4,2.6	0.99998812364739775
+Lc.singh 0.9 parameters 1.5,3	0.20484776852514702
+Lc.singh 0.9 parameters 0,0	0.73638533867481293
+Lc.singh 0.9 parameters 1,2	NaN
+Lc.singh 0.9 parameters 2	0.73638533867481293
+Lc.singh 0.9 parameters 2,-3	0.73638533867481293
+Lc.dagum 0.9 parameters 3.4,2.6	0.72335211653434517
+Lc.dagum 0.9 parameters 1.5,3	0.35287263730396357
+Lc.dagum 0.9 parameters 0,0	0.56411010564593278
+Lc.dagum 0.9 parameters 1,2	0.56411010564593278
+Lc.dagum 0.9 parameters 2	0.56411010564593278
+Lc.dagum 0.9 parameters 2,-3	1
+Lc.exp 0.99	0.94394829814011905
+Lc.lognorm 0.99	0.90763775192630602
+Lc.pareto 0.99	0.89999999999999991
+Lc.singh 0.99	0.94249848584674334
+Lc.dagum 0.99	0.85893264020334104
+Lc.lognorm 0.99 parameter -2	0.90763775192630602
+Lc.lognorm 0.99 parameter 0	0.90763775192630602
+Lc.lognorm 0.99 parameter 0.5	0.96610106087715719
+Lc.lognorm 0.99 parameter 1	0.90763775192630602
+Lc.lognorm 0.99 parameter 3.4	0.14148931284817909
+Lc.lognorm 0.99 parameter 20	3.3460383509444899e-70
+Lc.pareto 0.99 parameter -2	0.89999999999999991
+Lc.pareto 0.99 parameter 0	0.89999999999999991
+Lc.pareto 0.99 parameter 0.5	0.89999999999999991
+Lc.pareto 0.99 parameter 1	0.89999999999999991
+Lc.pareto 0.99 parameter 3.4	0.96125324879543872
+Lc.pareto 0.99 parameter 20	0.98741074588205835
+Lc.singh 0.99 parameters 3.4,2.6	0.99999999990413158
+Lc.singh 0.99 parameters 1.5,3	0.39649837181494679
+Lc.singh 0.99 parameters 0,0	0.94249848584674334
+Lc.singh 0.99 parameters 1,2	NaN
+Lc.singh 0.99 parameters 2	0.94249848584674334
+Lc.singh 0.99 parameters 2,-3	0.94249848584674334
+Lc.dagum 0.99 parameters 3.4,2.6	0.94441668021336778
+Lc.dagum 0.99 parameters 1.5,3	0.69031248971147363
+Lc.dagum 0.99 parameters 0,0	0.85893264020334104
+Lc.dagum 0.99 parameters 1,2	0.85893264020334104
+Lc.dagum 0.99 parameters 2	0.85893264020334104
+Lc.dagum 0.99 parameters 2,-3	1
+Lc.exp 0.999999	0.99998518448944163
+Lc.lognorm 0.999999	0.99991278238985759
+Lc.pareto 0.999999	0.99899999999998568
+Lc.singh 0.999999	0.99987595101506765
+Lc.dagum 0.999999	0.99858578679115217
+Lc.lognorm 0.999999 parameter -2	0.99991278238985759
+Lc.lognorm 0.999999 parameter 0	0.99991278238985759
+Lc.lognorm 0.999999 parameter 0.5	0.99998947369397428
+Lc.lognorm 0.999999 parameter 1	0.99991278238985759
+Lc.lognorm 0.999999 parameter 3.4	0.9120399420585461
+Lc.lognorm 0.999999 parameter 20	8.674821679535069e-53
+Lc.pareto 0.999999 parameter -2	0.99899999999998568
+Lc.pareto 0.999999 parameter 0	0.99899999999998568
+Lc.pareto 0.999999 parameter 0.5	0.99899999999998568
+Lc.pareto 0.999999 parameter 1	0.99899999999998568
+Lc.pareto 0.999999 parameter 3.4	0.99994182908670504
+Lc.pareto 0.999999 parameter 20	0.99999800473768496
+Lc.singh 0.999999 parameters 3.4,2.6	1
+Lc.singh 0.999999 parameters 1.5,3	0.80818566810569514
+Lc.singh 0.999999 parameters 0,0	0.99987595101506765
+Lc.singh 0.999999 parameters 1,2	NaN
+Lc.singh 0.999999 parameters 2	0.99987595101506765
+Lc.singh 0.999999 parameters 2,-3	0.99987595101506765
+Lc.dagum 0.999999 parameters 3.4,2.6	0.99991636854779686
+Lc.dagum 0.999999 parameters 1.5,3	0.98557750910435948
+Lc.dagum 0.999999 parameters 0,0	0.99858578679115217
+Lc.dagum 0.999999 parameters 1,2	0.99858578679115217
+Lc.dagum 0.999999 parameters 2	0.99858578679115217
+Lc.dagum 0.999999 parameters 2,-3	1
+Lc.exp 0.9999999999	0.99999999759741476
+Lc.lognorm 0.9999999999	0.99999995869676828
+Lc.pareto 0.9999999999	0.99998999999958627
+Lc.singh 0.9999999999	0.99999973274451315
+Lc.dagum 0.9999999999	0.99998585786379124
+Lc.lognorm 0.9999999999 parameter -2	0.99999995869676828
+Lc.lognorm 0.9999999999 parameter 0	0.99999995869676828
+Lc.lognorm 0.9999999999 parameter 0.5	0.9999999977042785
+Lc.lognorm 0.9999999999 parameter 1	0.99999995869676828
+Lc.lognorm 0.9999999999 parameter 3.4	0.99846848644474284
+Lc.lognorm 0.9999999999 parameter 20	1.1792873389951443e-42
+Lc.pareto 0.9999999999 parameter -2	0.99998999999958627
+Lc.pareto 0.9999999999 parameter 0	0.99998999999958627
+Lc.pareto 0.9999999999 parameter 0.5	0.99998999999958627
+Lc.pareto 0.9999999999 parameter 1	0.99998999999958627
+Lc.pareto 0.9999999999 parameter 3.4	0.99999991266737864
+Lc.pareto 0.9999999999 parameter 20	0.99999999968377218
+Lc.singh 0.9999999999 parameters 3.4,2.6	1
+Lc.singh 0.9999999999 parameters 1.5,3	0.93933997840323435
+Lc.singh 0.9999999999 parameters 0,0	0.99999973274451315
+Lc.singh 0.9999999999 parameters 1,2	NaN
+Lc.singh 0.9999999999 parameters 2	0.99999973274451315
+Lc.singh 0.9999999999 parameters 2,-3	0.99999973274451315
+Lc.dagum 0.9999999999 parameters 3.4,2.6	0.99999987444316862
+Lc.dagum 0.9999999999 parameters 1.5,3	0.99933056703145473
+Lc.dagum 0.9999999999 parameters 0,0	0.99998585786379124
+Lc.dagum 0.9999999999 parameters 1,2	0.99998585786379124
+Lc.dagum 0.9999999999 parameters 2	0.99998585786379124
+Lc.dagum 0.9999999999 parameters 2,-3	1
+Lc.lognorm 1	1
+Lc.pareto 1	1
+Lc.singh 1	1
+Lc.dagum 1	1
+Lc.lognorm 1 parameter -2	1
+Lc.lognorm 1 parameter 0	1
+Lc.lognorm 1 parameter 0.5	1
+Lc.lognorm 1 parameter 1	1
+Lc.lognorm 1 parameter 3.4	1
+Lc.lognorm 1 parameter 20	1
+Lc.pareto 1 parameter -2	1
+Lc.pareto 1 parameter 0	1
+Lc.pareto 1 parameter 0.5	1
+Lc.pareto 1 parameter 1	1
+Lc.pareto 1 parameter 3.4	1
+Lc.pareto 1 parameter 20	1
+Lc.singh 1 parameters 3.4,2.6	1
+Lc.singh 1 parameters 1.5,3	1
+Lc.singh 1 parameters 0,0	1
+Lc.singh 1 parameters 1,2	NaN
+Lc.singh 1 parameters 2	1
+Lc.singh 1 parameters 2,-3	1
+Lc.dagum 1 parameters 3.4,2.6	1
+Lc.dagum 1 parameters 1.5,3	1
+Lc.dagum 1 parameters 0,0	1
+Lc.dagum 1 parameters 1,2	1
+Lc.dagum 1 parameters 2	1
+Lc.dagum 1 parameters 2,-3	1
+theorLc dispatcher Singh-Maddala	0.84809394638215574
+theorLc dispatcher Dagum	0.12040308185647428
+theorLc dispatcher lognorm	7.6755313455699595e-05
+theorLc dispatcher Pareto	0.26219967876080752
+theorLc dispatcher exponential	0.069991104539904758
+Lc regular p[1]	0
+Lc regular p[2]	0.29999999999999999
+Lc regular p[3]	0.40000000000000002
+Lc regular p[4]	0.59999999999999998
+Lc regular p[5]	1
+Lc regular L[1]	0
+Lc regular L[2]	0.066666666666666666
+Lc regular L[3]	0.1111111111111111
+Lc regular L[4]	0.28888888888888886
+Lc regular L[5]	1
+Lc regular L.general[1]	0
+Lc regular L.general[2]	0.29999999999999999
+Lc regular L.general[3]	0.5
+Lc regular L.general[4]	1.2999999999999998
+Lc regular L.general[5]	4.5
+Lasym regular interval FALSE[1]	0.92361111111111116
+Lasym regular interval TRUE[1]	0.92361111111111116
+Lc unsorted p[1]	0
+Lc unsorted p[2]	0.29999999999999999
+Lc unsorted p[3]	0.40000000000000002
+Lc unsorted p[4]	0.59999999999999998
+Lc unsorted p[5]	1
+Lc unsorted L[1]	0
+Lc unsorted L[2]	0.066666666666666666
+Lc unsorted L[3]	0.1111111111111111
+Lc unsorted L[4]	0.28888888888888886
+Lc unsorted L[5]	1
+Lc unsorted L.general[1]	0
+Lc unsorted L.general[2]	0.29999999999999999
+Lc unsorted L.general[3]	0.5
+Lc unsorted L.general[4]	1.2999999999999998
+Lc unsorted L.general[5]	4.5
+Lasym unsorted interval FALSE[1]	0.92361111111111116
+Lasym unsorted interval TRUE[1]	0.92361111111111116
+Lc missing p[1]	0
+Lc missing p[2]	0.33333333333333331
+Lc missing p[3]	0.55555555555555558
+Lc missing p[4]	1
+Lc missing L[1]	0
+Lc missing L[2]	0.069767441860465115
+Lc missing L[3]	0.2558139534883721
+Lc missing L[4]	1
+Lc missing L.general[1]	0
+Lc missing L.general[2]	0.33333333333333331
+Lc missing L.general[3]	1.2222222222222223
+Lc missing L.general[4]	4.7777777777777777
+Lasym missing interval FALSE[1]	0.055267296998645465
+Lasym missing interval TRUE[1]	0.055267296998645465
+Lc equal p[1]	0
+Lc equal p[2]	0.16666666666666666
+Lc equal p[3]	0.5
+Lc equal p[4]	1
+Lc equal L[1]	0
+Lc equal L[2]	0.16666666666666666
+Lc equal L[3]	0.5
+Lc equal L[4]	1
+Lc equal L.general[1]	0
+Lc equal L.general[2]	0.33333333333333331
+Lc equal L.general[3]	1
+Lc equal L.general[4]	2
+Lasym equal interval FALSE[1]	1
+Lasym equal interval TRUE[1]	0
+Lasym equal interval TRUE[2]	2
+Lc tied_mean p[1]	0
+Lc tied_mean p[2]	0.33333333333333331
+Lc tied_mean p[3]	0.66666666666666663
+Lc tied_mean p[4]	1
+Lc tied_mean L[1]	0
+Lc tied_mean L[2]	0.16666666666666666
+Lc tied_mean L[3]	0.5
+Lc tied_mean L[4]	1
+Lc tied_mean L.general[1]	0
+Lc tied_mean L.general[2]	0.33333333333333331
+Lc tied_mean L.general[3]	1
+Lc tied_mean L.general[4]	2
+Lasym tied_mean interval FALSE[1]	0.83333333333333326
+Lasym tied_mean interval TRUE[1]	0.5
+Lasym tied_mean interval TRUE[2]	1.1666666666666665
+Lc zeros p[1]	0
+Lc zeros p[2]	0.40000000000000002
+Lc zeros p[3]	0.40000000000000002
+Lc zeros p[4]	1
+Lc zeros L[1]	0
+Lc zeros L[2]	0
+Lc zeros L[3]	0
+Lc zeros L[4]	1
+Lc zeros L.general[1]	0
+Lc zeros L.general[2]	0
+Lc zeros L.general[3]	0
+Lc zeros L.general[4]	2.3999999999999999
+Lasym zeros interval FALSE[1]	0.64888888888888885
+Lasym zeros interval TRUE[1]	0.64888888888888885
+Lc signed p[1]	0
+Lc signed p[2]	0.33333333333333331
+Lc signed p[3]	0.5
+Lc signed p[4]	1
+Lc signed L[1]	0
+Lc signed L[2]	-0.44444444444444442
+Lc signed L[3]	-0.33333333333333331
+Lc signed L[4]	1
+Lc signed L.general[1]	0
+Lc signed L.general[2]	-0.66666666666666663
+Lc signed L.general[3]	-0.5
+Lc signed L.general[4]	1.5
+Lasym signed interval FALSE[1]	0.26851851851851849
+Lasym signed interval TRUE[1]	0.26851851851851849
+Mehran 10 p[1]	0
+Mehran 10 p[2]	-0
+Mehran 10 p[3]	0.048393574297188768
+Mehran 10 p[4]	0.13122489959839359
+Mehran 10 p[5]	0.20371485943775103
+Mehran 10 p[6]	0.27299196787148583
+Mehran 10 p[7]	0.3393574297188755
+Mehran 10 p[8]	0.41566265060240976
+Mehran 10 p[9]	0.63079094316307327
+Mehran 10 p[10]	1
+Mehran 10 p[11]	1
+Mehran 10 L[1]	0
+Mehran 10 L[2]	0
+Mehran 10 L[3]	0.0032304800766785914
+Mehran 10 L[4]	0.018183228907218095
+Mehran 10 L[5]	0.040052727432923339
+Mehran 10 L[6]	0.069441248181722898
+Mehran 10 L[7]	0.10577528499018178
+Mehran 10 L[8]	0.15662757711689973
+Mehran 10 L[9]	0.32630200701804779
+Mehran 10 L[10]	0.86861169907478852
+Mehran 10 L[11]	1
+Mehran 2 p[1]	0
+Mehran 2 p[2]	-0
+Mehran 2 p[3]	1
+Mehran 2 p[4]	1
+Mehran 2 L[1]	0
+Mehran 2 L[2]	0
+Mehran 2 L[3]	0.26315789473684209
+Mehran 2 L[4]	1
+Mehran 3 p[1]	0
+Mehran 3 p[2]	-0
+Mehran 3 p[3]	0.16666666666666663
+Mehran 3 p[4]	1
+Mehran 3 p[5]	1
+Mehran 3 L[1]	0
+Mehran 3 L[2]	0
+Mehran 3 L[3]	0.032258064516129024
+Mehran 3 L[4]	0.5161290322580645
+Mehran 3 L[5]	1

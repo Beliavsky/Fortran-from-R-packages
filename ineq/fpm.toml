@@ -1,0 +1,258 @@
+name = "ineq"
+version = "0.1.0"
+license = "GPL-2.0-only OR GPL-3.0-only"
+author = "Achim Zeileis, Christian Kleiber; Fortran translation contributors"
+description = "Inequality, concentration, poverty and Lorenz curve computations from R ineq"
+[build]
+auto-executables = false
+auto-examples = true
+auto-tests = true
+module-naming = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 26
+r_functions_translated = 26
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "ineq"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["ineq"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Exact-name numerical dispatch; R partial matching omitted."
+
+[[extra.translation.function]]
+r_name = "Gini"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["gini"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Sample Gini, including optional finite-sample correction and missing-value removal."
+
+[[extra.translation.function]]
+r_name = "RS"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["rs"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Relative mean absolute deviation; stable scaling avoids overflow."
+
+[[extra.translation.function]]
+r_name = "Atkinson"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["atkinson"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Aversion parameter and geometric-mean branch; stable near-one evaluation."
+
+[[extra.translation.function]]
+r_name = "Theil"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["theil"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Both upstream branches, including zero removal before the parameter-zero mean."
+
+[[extra.translation.function]]
+r_name = "Kolm"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["kolm"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Absolute inequality with stable log-mean-exponential evaluation."
+
+[[extra.translation.function]]
+r_name = "var.coeff"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["var_coeff"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Population coefficient of variation and optional square; singleton remains NaN."
+
+[[extra.translation.function]]
+r_name = "entropy"
+r_source = "upstream/R/ineq.R"
+fortran_module = "ineq_indices"
+fortran_names = ["entropy"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Generalized entropy, with exact parameter-zero and parameter-one upstream dispatch."
+
+[[extra.translation.function]]
+r_name = "conc"
+r_source = "upstream/R/conc.R"
+fortran_module = "ineq_indices"
+fortran_names = ["conc"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Exact-name concentration dispatch; R partial matching omitted."
+
+[[extra.translation.function]]
+r_name = "Herfindahl"
+r_source = "upstream/R/conc.R"
+fortran_module = "ineq_indices"
+fortran_names = ["herfindahl"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Generalized concentration including empty and zero-parameter conventions."
+
+[[extra.translation.function]]
+r_name = "Rosenbluth"
+r_source = "upstream/R/conc.R"
+fortran_module = "ineq_indices"
+fortran_names = ["rosenbluth"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Ascending-rank concentration formula; empty sample returns minus one."
+
+[[extra.translation.function]]
+r_name = "pov"
+r_source = "upstream/R/pov.R"
+fortran_module = "ineq_indices"
+fortran_names = ["pov"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Exact-name poverty dispatch; R partial matching omitted."
+
+[[extra.translation.function]]
+r_name = "Watts"
+r_source = "upstream/R/pov.R"
+fortran_module = "ineq_indices"
+fortran_names = ["watts"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Log poverty gaps with strict income threshold; stable ratios in the log domain."
+
+[[extra.translation.function]]
+r_name = "Sen"
+r_source = "upstream/R/pov.R"
+fortran_module = "ineq_indices"
+fortran_names = ["sen"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Headcount, mean poverty gap, and poor-subsample Gini formula."
+
+[[extra.translation.function]]
+r_name = "SST"
+r_source = "upstream/R/pov.R"
+fortran_module = "ineq_indices"
+fortran_names = ["sst"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Sen-Shorrocks-Thon rank-weighted poverty index."
+
+[[extra.translation.function]]
+r_name = "Foster"
+r_source = "upstream/R/pov.R"
+fortran_module = "ineq_indices"
+fortran_names = ["foster"]
+fortran_source = "src/ineq_indices.f90"
+status = "substantial"
+notes = "Upstream exponent is parameter minus one; default is the headcount ratio."
+
+[[extra.translation.function]]
+r_name = "Lc"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Weighted empirical and generalized Lorenz coordinates; numeric derived type replaces S3 object."
+
+[[extra.translation.function]]
+r_name = "Lc.mehran"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_mehran"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Mehran upper bounds including finite-abscissa filtering; undefined inputs use status instead of R errors."
+
+[[extra.translation.function]]
+r_name = "Lasym"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lasym"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Lorenz asymmetry with optional mean-tie interval and original NA/frequency alignment."
+
+[[extra.translation.function]]
+r_name = "theorLc"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["theor_lc"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Direct parameterized evaluation replaces closure construction; exact-name dispatch."
+
+[[extra.translation.function]]
+r_name = "Lc.dagum"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_dagum"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Dagum beta-CDF formula and parameter fallback; beta degenerate limits retained."
+
+[[extra.translation.function]]
+r_name = "Lc.exp"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_exp"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Exponential Lorenz curve; p=1 deliberately returns the mathematical limit one instead of upstream NaN."
+
+[[extra.translation.function]]
+r_name = "Lc.lognorm"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_lognorm"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Lognormal Lorenz curve using shared normal quantile and CDF routines."
+
+[[extra.translation.function]]
+r_name = "Lc.pareto"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_pareto"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Pareto Lorenz curve with upstream parameter fallback and cancellation-resistant evaluation."
+
+[[extra.translation.function]]
+r_name = "Lc.singh"
+r_source = "upstream/R/Lc.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["lc_singh"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Singh-Maddala beta-CDF formula, upstream parameter guard and zero-shape limits."
+
+[[extra.translation.function]]
+r_name = "major"
+r_source = "upstream/R/major.R"
+fortran_module = "ineq_lorenz"
+fortran_names = ["major"]
+fortran_source = "src/ineq_lorenz.f90"
+status = "substantial"
+notes = "Majorization with explicit comparable/status outputs replacing an R exception."

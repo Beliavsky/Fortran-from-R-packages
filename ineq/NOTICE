@@ -1,0 +1,22 @@
+ineq 0.2-13 numerical translation
+
+Original R package: ineq, version 0.2-13, released 2014-07-21.
+Author and maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>.
+Contributor: Christian Kleiber <Christian.Kleiber@unibas.ch>.
+Title: Measuring Inequality, Concentration, and Poverty.
+
+The Fortran implementation translates and modifies numerical algorithms in the
+original R package, with explicit static types, IEEE missing values, stable
+numerical evaluation, and new deterministic tests. Translation prepared in 2026.
+It is distributed under the upstream choice GPL version 2 OR GPL version 3.
+See LICENSE-GPL-2 and LICENSE-GPL-3. This software has no warranty.
+
+The upstream DESCRIPTION, NAMESPACE, MD5, THANKS, R sources, and manual pages
+are retained verbatim under upstream/. No original author copyright or license
+notice has been removed. The upstream THANKS credits Christian Kleiber,
+Rein Halbersma, and the National Statistics Office, Philippines.
+The Ilocos data and upstream test output are not redistributed in this subset.
+
+Shared rfortran-core routines are linked through a sibling FPM dependency.
+They remain subject to their own MIT license and authors' notices; their source
+is not copied into this package. See PROVENANCE.md for the tested repository pin.

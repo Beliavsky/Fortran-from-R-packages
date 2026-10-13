@@ -1,0 +1,50 @@
+import("stats", "graphics", "grDevices")
+
+export(
+  ## inequality
+  "ineq",
+  "Gini",
+  "RS",
+  "Atkinson",
+  "Theil",
+  "Kolm",
+  "var.coeff",
+  "entropy",
+
+  ## concentration
+  "conc",
+  "Herfindahl",
+  "Rosenbluth",
+
+  ## poverty
+  "pov",
+  "Watts",
+  "Sen",
+  "SST",
+  "Foster",
+
+  ## empirical Lorenz curves
+  "Lc",
+  "Lc.mehran",
+  "Lasym",
+
+  ## theoretical Lorenz curves
+  "theorLc",
+  "Lc.dagum",
+  "Lc.exp",
+  "Lc.lognorm",
+  "Lc.pareto",
+  "Lc.singh",
+
+  ## Pen's parade
+  "Pen",
+
+  ## majorization
+  "major"
+)
+
+## S3 methods for (theoretical) Lorenz curves
+S3method("plot", "Lc")
+S3method("lines", "Lc")
+S3method("plot", "theorLc")
+S3method("lines", "theorLc")
