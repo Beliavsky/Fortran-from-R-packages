@@ -1,0 +1,244 @@
+name = "optionstrat"
+version = "1.4.1"
+license = "GPL-3.0-only"
+author = "John T. Buynak; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "European option pricing, Greeks, probability and spread analytics from R optionstrat 1.4.1"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 24
+r_functions_translated = 24
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "calldelta"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["calldelta"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "calleval"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["calleval"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "All six numerical fields are translated to option_result. R data.frame construction and recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "callgreek"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["callgreek"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "callpremium"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["callpremium"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "callrho"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["callrho"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "calltheta"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["calltheta"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Preserves the upstream full 1 / t multiplier; this differs from a standard daily theta. calltheta_standard is a separately documented extension."
+
+[[extra.translation.function]]
+r_name = "dv"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["dv"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "All ten numeric source fields are translated. Derived type replaces transposed data.frame; two-decimal rounding is omitted and invalid strike ordering returns NaN."
+
+[[extra.translation.function]]
+r_name = "iv.calc"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["iv_calc"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Preserves the 0:0.001:5 nearest grid and its forward-ATM first-grid-point defect. Invalid inputs return NaN. The continuous implied_volatility extension is not counted separately."
+
+[[extra.translation.function]]
+r_name = "lambda"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["lambda"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "opteval"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["opteval"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Both six-field option evaluations are translated to dual_option_result. R data.frame and character-label construction are omitted."
+
+[[extra.translation.function]]
+r_name = "optiongamma"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["optiongamma"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "optionvega"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["optionvega"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "prob.above"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["prob_above", "prob_above_quantile"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Normal arithmetic-return probability and upstream whole-quantile negation are preserved. Quantile output is a price scalar; R data.frame and percent-change presentation are omitted. Corrected quantile extension is separate."
+
+[[extra.translation.function]]
+r_name = "prob.below"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["prob_below", "prob_below_quantile"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Normal arithmetic-return CDF and quantile branches are translated. Quantile output is a price scalar; R data.frame and percent-change presentation are omitted."
+
+[[extra.translation.function]]
+r_name = "prob.btwn"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["prob_btwn", "prob_btwn_quantile"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Normal arithmetic-return probability and the upstream sign-mirrored quantile range are translated into a price_range result. Nonzero-mean source convention is preserved; corrected extension is separate."
+
+[[extra.translation.function]]
+r_name = "putdelta"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["putdelta"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "puteval"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["puteval"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "All six numerical fields are translated to option_result. R data.frame construction and recycling are omitted."
+
+[[extra.translation.function]]
+r_name = "putgreek"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["putgreek"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "putpremium"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["putpremium"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "putrho"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["putrho"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Numerical operation translated as a pure elemental function. Decimal inputs, source units, and tiny-tenor convention are retained. Explicit zero-volatility limits and NaN validation replace R warnings, recycling, and undefined arithmetic."
+
+[[extra.translation.function]]
+r_name = "puttheta"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["puttheta"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Preserves the upstream full 1 / t multiplier; this differs from a standard daily theta. puttheta_standard is a separately documented extension."
+
+[[extra.translation.function]]
+r_name = "r.cont"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["r_cont"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Computational rate conversion uses the equivalent stable n * log1p(r / n); nonpositive frequency and nonpositive compounding base return NaN."
+
+[[extra.translation.function]]
+r_name = "tdiff"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["tdiff"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "Date difference and 365-day years are translated for valid Gregorian ISO dates YYYY-MM-DD. General R datetime parsing, time zones, subday values, and fallback period coercion are omitted."
+
+[[extra.translation.function]]
+r_name = "vertical"
+r_source = "upstream/R/optionstrat.R"
+fortran_module = "optionstrat"
+fortran_names = ["vertical"]
+fortran_source = "src/optionstrat.f90"
+status = "substantial"
+notes = "All four call/put debit/credit branches and source probabilities are translated. Derived type replaces transposed data.frame; two-decimal rounding is omitted and invalid equal strikes return NaN."

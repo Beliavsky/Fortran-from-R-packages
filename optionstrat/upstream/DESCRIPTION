@@ -1,0 +1,22 @@
+Package: optionstrat
+Type: Package
+Title: Utilizes the Black-Scholes Option Pricing Model to Perform
+        Strategic Option Analysis and Plot Option Strategies
+Version: 1.4.1
+Author: John T. Buynak [aut, cre]
+Maintainer: John T. Buynak <jbuynak94@gmail.com>
+Description: Utilizes the Black-Scholes-Merton option pricing model to 
+    calculate key option analytics and perform graphical analysis of various option strategies.
+    Provides functions to calculate the option premium and option
+    greeks of European-style options. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: graphics, stats
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2019-12-03 18:14:26 UTC; John Buynak
+Repository: CRAN
+Date/Publication: 2019-12-03 19:20:02 UTC
