@@ -1,0 +1,15 @@
+Package: outliers
+Version: 0.15
+Date: 2022-03-26
+Title: Tests for Outliers
+Author: Lukasz Komsta <lukasz.komsta@umlub.pl>
+Maintainer: Lukasz Komsta <lukasz.komsta@umlub.pl>
+Depends: R (>= 2.0)
+Description: A collection of some tests commonly used for identifying
+        outliers.
+License: GPL (>= 2)
+URL: https://www.R-project.org, http://www.komsta.net/
+Repository: CRAN
+NeedsCompilation: no
+Packaged: 2022-03-26 08:10:08 UTC; root
+Date/Publication: 2022-03-26 09:00:02 UTC

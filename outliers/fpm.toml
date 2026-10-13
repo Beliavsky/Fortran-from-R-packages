@@ -1,0 +1,154 @@
+name = "outliers"
+version = "0.15.0"
+license = "GPL-2.0-or-later"
+author = "Lukasz Komsta; Fortran translation contributors"
+maintainer = "Fortran-from-R-packages contributors"
+description = "Outlier tests, scores and tabulated distributions translated from R outliers 0.15"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 14
+r_functions_translated = 14
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "chisq.out.test"
+r_source = "upstream/R/chisq.out.test.R"
+fortran_module = "outliers_api"
+fortran_names = ["chisq_out_test"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "NaN omission, selected endpoint, statistic and upper-tail probability; typed result replaces htest and labels."
+
+[[extra.translation.function]]
+r_name = "cochran.test"
+r_source = "upstream/R/cochran.test.R"
+fortran_module = "outliers_api"
+fortran_names = ["cochran_test", "cochran_groups"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "Variance/count, equal-size matrix, and integer-labelled grouped samples support outlying/inlying tests and ties; R formula evaluation and htest construction omitted."
+
+[[extra.translation.function]]
+r_name = "dixon.test"
+r_source = "upstream/R/dixon.test.R"
+fortran_module = "outliers_api"
+fortran_names = ["dixon_test"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "All six ratio types and automatic type, opposite and two-sided options; upstream tables and anomalies preserved; typed result replaces htest."
+
+[[extra.translation.function]]
+r_name = "grubbs.test"
+r_source = "upstream/R/grubbs.test.R"
+fortran_module = "outliers_api"
+fortran_names = ["grubbs_test"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "All three variants, G/U statistics, opposite and two-sided options; type 11 inverse uses algebra with the upstream clipping/bracket domain."
+
+[[extra.translation.function]]
+r_name = "outlier"
+r_source = "upstream/R/outlier.R"
+fortran_module = "outliers_api"
+fortran_names = ["outlier", "outlier_mask"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "Vector and matrix-column values plus logical masks; all selected ties retained; missing mask entries are false rather than R NA."
+
+[[extra.translation.function]]
+r_name = "pcochran"
+r_source = "upstream/R/pcochran.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["pcochran"]
+fortran_source = "src/outliers_distributions.f90"
+status = "complete"
+notes = "Scalar/elemental cumulative probability using the shared F distribution, with documented valid parameter domain."
+
+[[extra.translation.function]]
+r_name = "pdixon"
+r_source = "upstream/R/pdixon.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["pdixon"]
+fortran_source = "src/outliers_distributions.f90"
+status = "substantial"
+notes = "Scalar/elemental reverse table interpolation for every Dixon ratio type, including original anomalous entries."
+
+[[extra.translation.function]]
+r_name = "pgrubbs"
+r_source = "upstream/R/pgrubbs.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["pgrubbs"]
+fortran_source = "src/outliers_distributions.f90"
+status = "substantial"
+notes = "Scalar/elemental distribution values for all three variants; type 11 uses the exact algebraic inverse rather than R uniroot tolerance."
+
+[[extra.translation.function]]
+r_name = "qcochran"
+r_source = "upstream/R/qcochran.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["qcochran"]
+fortran_source = "src/outliers_distributions.f90"
+status = "complete"
+notes = "Scalar/elemental critical values using the shared F quantile, including probability endpoints."
+
+[[extra.translation.function]]
+r_name = "qdixon"
+r_source = "upstream/R/qdixon.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["qdixon"]
+fortran_source = "src/outliers_distributions.f90"
+status = "substantial"
+notes = "Scalar/elemental forward and reverse table interpolation with original sample-size restrictions and source table anomalies."
+
+[[extra.translation.function]]
+r_name = "qgrubbs"
+r_source = "upstream/R/qgrubbs.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["qgrubbs"]
+fortran_source = "src/outliers_distributions.f90"
+status = "substantial"
+notes = "Scalar/elemental critical values and reverse mode for types 10, 11, 20; table domains and type 11 clipping/bracket gap retained."
+
+[[extra.translation.function]]
+r_name = "qtable"
+r_source = "upstream/R/qtable.R"
+fortran_module = "outliers_distributions"
+fortran_names = ["qtable"]
+fortran_source = "src/outliers_distributions.f90"
+status = "complete"
+notes = "Scalar/vector local cubic interpolation and endpoint linear extrapolation; paired sorting and tied-endpoint regression retained; local interior duplicate coordinates return NaN."
+
+[[extra.translation.function]]
+r_name = "rm.outlier"
+r_source = "upstream/R/rm.outlier.R"
+fortran_module = "outliers_api"
+fortran_names = ["rm_outlier"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "Vector and matrix-column removal or mean/median replacement, opposite choice and all ties; matrix removal returns typed ragged columns."
+
+[[extra.translation.function]]
+r_name = "scores"
+r_source = "upstream/R/scores.R"
+fortran_module = "outliers_api"
+fortran_names = ["scores"]
+fortran_source = "src/outliers_api.f90"
+status = "substantial"
+notes = "All five score types, probability, zero-probability and IQR-limit modes, vector/matrix columns; threshold results are real 0/1 with NaN for missing, no data-frame dispatch."
