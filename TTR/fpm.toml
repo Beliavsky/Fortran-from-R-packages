@@ -1,0 +1,608 @@
+name = "TTR"
+version = "0.24.4"
+license = "GPL-2.0-or-later"
+author = "Joshua M. Ulrich and TTR contributors; Fortran translation contributors"
+description = "Modern Fortran technical trading indicators translated from TTR 0.24.4"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 65
+r_functions_translated = 65
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "ADX"
+r_source = "upstream/R/ADX.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["adx"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "ALMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["alma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "ATR"
+r_source = "upstream/R/ATR.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["atr"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "BBands"
+r_source = "upstream/R/bollingerBands.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["bbands"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "CCI"
+r_source = "upstream/R/CCI.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["cci"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "CLV"
+r_source = "upstream/R/CLV.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["clv"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "CMF"
+r_source = "upstream/R/CMF.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["cmf"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "CMO"
+r_source = "upstream/R/CMO.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["cmo"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "CTI"
+r_source = "upstream/R/CTI.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["cti"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Rolling Spearman correlation with average ranks, slope sign and window-local missingness. Zero/nonfinite slope gives NaNs."
+
+[[extra.translation.function]]
+r_name = "DEMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["dema"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "DPO"
+r_source = "upstream/R/DPO.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["dpo"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "DVI"
+r_source = "upstream/R/DVI.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["dvi"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "DonchianChannel"
+r_source = "upstream/R/DonchianChannel.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["donchian_channel"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "EMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["ema"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "SMA-seeded EMA with Wilder or explicit ratio. n remains explicit; inference of n from ratio and R warnings omitted."
+
+[[extra.translation.function]]
+r_name = "EMV"
+r_source = "upstream/R/EMV.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["emv"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "EVWMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["evwma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Elastic volume-weighted recurrence with first seed equal to current price. Scalar volume is explicitly expanded, repairing upstream wrapper row-count failure."
+
+[[extra.translation.function]]
+r_name = "GMMA"
+r_source = "upstream/R/GMMA.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["gmma"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "HMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["hma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "KST"
+r_source = "upstream/R/KST.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["kst"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "MACD"
+r_source = "upstream/R/MACD.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["macd"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "MFI"
+r_source = "upstream/R/MFI.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["mfi"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "OBV"
+r_source = "upstream/R/OBV.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["obv"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "PBands"
+r_source = "upstream/R/priceBands.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["pbands"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "ROC"
+r_source = "upstream/R/changes.R"
+fortran_module = "ttr_base"
+fortran_names = ["roc"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Padded continuous or discrete lagged returns; zero-lag is a safe extension and nonpositive log-price inputs yield NaNs."
+
+[[extra.translation.function]]
+r_name = "RSI"
+r_source = "upstream/R/RSI.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["rsi"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "SAR"
+r_source = "upstream/R/SAR.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["sar"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Initial gap is sample SD of high-low range. Upstream equality-based acceleration cap, including possible overshoot, retained."
+
+[[extra.translation.function]]
+r_name = "SMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["sma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "SMI"
+r_source = "upstream/R/stochastics.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["smi"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Single common moving-average selector supported; upstream unbounded low-series runMax behavior retained. Per-stage R maType lists omitted."
+
+[[extra.translation.function]]
+r_name = "SNR"
+r_source = "upstream/R/SNR.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["snr"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "TDI"
+r_source = "upstream/R/TDI.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["tdi"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "TR"
+r_source = "upstream/R/ATR.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["tr"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "TRIX"
+r_source = "upstream/R/TRIX.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["trix"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "VHF"
+r_source = "upstream/R/VHF.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["vhf"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "VWAP"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["vwap"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Distinct exported alias of VWMA, exposed as its own public procedure."
+
+[[extra.translation.function]]
+r_name = "VWMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["vwma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "WMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["wma"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Both fixed window weights and aligned series weights; oldest-to-newest order and upstream n-length priority retained."
+
+[[extra.translation.function]]
+r_name = "WPR"
+r_source = "upstream/R/WPR.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["wpr"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "ZLEMA"
+r_source = "upstream/R/MovingAverages.R"
+fortran_module = "ttr_base"
+fortran_names = ["zlema"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Upstream fractional 1/ratio lag and SMA seed preserved; n remains explicit. Unsafe custom lags return NaNs."
+
+[[extra.translation.function]]
+r_name = "ZigZag"
+r_source = "upstream/R/ZigZag.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["zigzag"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Percent/dollar, retracement, first/last extreme modes and linear interpolation; leading/trailing missing output retained."
+
+[[extra.translation.function]]
+r_name = "adjRatios"
+r_source = "upstream/R/adjRatios.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["adj_ratios"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Split and dividend adjustment factors for caller-aligned arrays. Date merging and omission of missing-close rows are caller responsibilities."
+
+[[extra.translation.function]]
+r_name = "aroon"
+r_source = "upstream/R/aroon.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["aroon"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Upstream initial window, subsequent n+1 extrema window, latest-tie selection and leading-NA quirks retained."
+
+[[extra.translation.function]]
+r_name = "chaikinAD"
+r_source = "upstream/R/chaikinAD.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["chaikin_ad"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "chaikinVolatility"
+r_source = "upstream/R/chaikinVolatility.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["chaikin_volatility"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "growth"
+r_source = "upstream/R/TTRtools.R"
+fortran_module = "ttr_base"
+fortran_names = ["growth"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Compounded ROC times signals. The default padded result propagates leading NaNs as upstream. Unpadded output is shortened without R vector recycling; signals must have matching length."
+
+[[extra.translation.function]]
+r_name = "keltnerChannels"
+r_source = "upstream/R/keltnerChannels.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["keltner_channels"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "lags"
+r_source = "upstream/R/TTRtools.R"
+fortran_module = "ttr_base"
+fortran_names = ["lags"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "R embed ordering for time-by-variable matrices; incomplete leading rows omitted. Callers reshape a vector into one column."
+
+[[extra.translation.function]]
+r_name = "momentum"
+r_source = "upstream/R/changes.R"
+fortran_module = "ttr_base"
+fortran_names = ["momentum"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Padded lagged difference; zero lag yields zeros rather than R diff error. Oversized lag retains input-length NaNs."
+
+[[extra.translation.function]]
+r_name = "naCheck"
+r_source = "upstream/R/TTRtools.R"
+fortran_module = "ttr_base"
+fortran_names = ["na_check"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Vector leading-NaN count and begin index plus validity flag; nonNA indices are the contiguous range n_missing+1:size(x). Matrix row checking is caller-managed; errors are flags."
+
+[[extra.translation.function]]
+r_name = "rollSFM"
+r_source = "upstream/R/rollFun.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["roll_sfm"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runCor"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_cor"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runCov"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_cov"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runMAD"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_mad"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runMax"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_max"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runMean"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_mean"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runMedian"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_median"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runMin"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_min"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runPercentRank"
+r_source = "upstream/R/percentRank.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_percent_rank"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Upstream asymmetric 1e-8 tie rule and cumulative initialization, including n=1 leading-missing quirk, retained."
+
+[[extra.translation.function]]
+r_name = "runSD"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_sd"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runSum"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_sum"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "runVar"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["run_var"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "stoch"
+r_source = "upstream/R/stochastics.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["stoch"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "ultimateOscillator"
+r_source = "upstream/R/ultimateOscillator.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["ultimate_oscillator"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
+
+[[extra.translation.function]]
+r_name = "volatility"
+r_source = "upstream/R/volatility.R"
+fortran_module = "ttr_advanced"
+fortran_names = ["volatility"]
+fortran_source = "src/ttr_advanced.f90"
+status = "substantial"
+notes = "All six estimators, annualization and zero-mean/simple-return variants. Documented Yang-Zhang alpha/k overrides repaired; these throw object-not-found in upstream 0.24.4."
+
+[[extra.translation.function]]
+r_name = "wilderSum"
+r_source = "upstream/R/runFun.R"
+fortran_module = "ttr_base"
+fortran_names = ["wilder_sum"]
+fortran_source = "src/ttr_base.f90"
+status = "substantial"
+notes = "Upstream seed x[n] plus (n-1)/n times the preceding sum, including n=1 leading-missing propagation, retained."
+
+[[extra.translation.function]]
+r_name = "williamsAD"
+r_source = "upstream/R/williamsAD.R"
+fortran_module = "ttr_indicators"
+fortran_names = ["williams_ad"]
+fortran_source = "src/ttr_indicators.f90"
+status = "substantial"
+notes = "Numerical array operation translated. R classes, indices, naming, warnings, and dynamic argument dispatch are omitted. Common maType selectors supported where applicable; R callback/list interfaces omitted."
