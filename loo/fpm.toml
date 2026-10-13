@@ -1,0 +1,386 @@
+name = "loo"
+version = "2.10.1"
+license = "GPL-3.0-or-later"
+author = "loo authors and Fortran translation contributors"
+maintainer = "Beliavsky/Fortran-from-R-packages contributors"
+description = "Pareto smoothed importance sampling and Bayesian predictive assessment"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+matrixStats = { path = "../matrixStats" }
+posterior = { path = "../posterior" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 44
+r_functions_translated = 40
+frac_functions_translated = 0.90909090909090906
+untranslated_r_functions = ["loo_moment_match", "loo_moment_match.default", "loo_subsample", "loo_subsample.function"]
+
+[[extra.translation.function]]
+r_name = ".compute_point_estimate"
+r_source = "upstream/R/loo_subsample.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["compute_point_estimate"]
+fortran_source = "src/loo_evaluation.f90"
+status = "complete"
+notes = "Column means of a numeric posterior-draw matrix; the single R output row is represented by a vector."
+
+[[extra.translation.function]]
+r_name = ".thin_draws"
+r_source = "upstream/R/loo_subsample.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["thin_draws"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "Deterministic draw subsampling preserves R integer-division precedence; arbitrary S3 objects and NULL pass-through are omitted."
+
+[[extra.translation.function]]
+r_name = "E_loo"
+r_source = "upstream/R/E_loo.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["E_loo"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "substantial"
+notes = "Weighted mean, corrected variance, SD, type-seven/uniform or interpolated weighted quantiles, and function-specific Pareto k; explicit PSIS result and optional raw ratios replace S3 arguments. Centered variance improves release numerical stability."
+
+[[extra.translation.function]]
+r_name = "compare"
+r_source = "upstream/R/compare.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["compare"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "partial"
+notes = "Deprecated two-model pointwise difference and paired standard error are implemented. The old multi-model table interface is omitted; use loo_compare for ordered multi-model comparisons."
+
+[[extra.translation.function]]
+r_name = "crps"
+r_source = "upstream/R/crps.R"
+fortran_module = "loo_metrics"
+fortran_names = ["crps"]
+fortran_source = "src/loo_metrics.f90"
+status = "substantial"
+notes = "Numeric predictive score and standard error. Explicit permutation indexes replace R RNG; LOO variants take normalized marginal and separately PSIS-smoothed paired joint weights. R object construction and automatic weight fitting are omitted."
+
+[[extra.translation.function]]
+r_name = "elpd"
+r_source = "upstream/R/elpd.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["elpd"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "Matrix and iteration/chain-array log predictive density, information criterion, totals and standard errors; inputs are finite and R S3 metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "kfold_split_grouped"
+r_source = "upstream/R/kfold-helpers.R"
+fortran_module = "loo_folds"
+fortran_names = ["kfold_split_grouped"]
+fortran_source = "src/loo_folds.f90"
+status = "substantial"
+notes = "Fold assignment algorithm with explicitly supplied permutations in place of R random-number generation. Categories/groups are integer labels, ordered numerically; invalid arguments return zeros."
+
+[[extra.translation.function]]
+r_name = "kfold_split_random"
+r_source = "upstream/R/kfold-helpers.R"
+fortran_module = "loo_folds"
+fortran_names = ["kfold_split_random"]
+fortran_source = "src/loo_folds.f90"
+status = "substantial"
+notes = "Fold assignment algorithm with explicitly supplied permutations in place of R random-number generation. Categories/groups are integer labels, ordered numerically; invalid arguments return zeros."
+
+[[extra.translation.function]]
+r_name = "kfold_split_stratified"
+r_source = "upstream/R/kfold-helpers.R"
+fortran_module = "loo_folds"
+fortran_names = ["kfold_split_stratified"]
+fortran_source = "src/loo_folds.f90"
+status = "substantial"
+notes = "Fold assignment algorithm with explicitly supplied permutations in place of R random-number generation. Categories/groups are integer labels, ordered numerically; invalid arguments return zeros."
+
+[[extra.translation.function]]
+r_name = "loo"
+r_source = "upstream/R/loo.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS/SIS/TIS pointwise LOO, effective parameter count, information criterion, MCSE and summary errors. Arrays are iterations by chains by observations; callbacks are explicit procedure pointers with indexed draw-vector output. All likelihoods must be finite; R objects, parallel dispatch and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "loo.array"
+r_source = "upstream/R/loo.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_array"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS/SIS/TIS pointwise LOO, effective parameter count, information criterion, MCSE and summary errors. Arrays are iterations by chains by observations; callbacks are explicit procedure pointers with indexed draw-vector output. All likelihoods must be finite; R objects, parallel dispatch and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "loo.function"
+r_source = "upstream/R/loo.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_function"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS/SIS/TIS pointwise LOO, effective parameter count, information criterion, MCSE and summary errors. Arrays are iterations by chains by observations; callbacks are explicit procedure pointers with indexed draw-vector output. All likelihoods must be finite; R objects, parallel dispatch and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "loo.matrix"
+r_source = "upstream/R/loo.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_matrix"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS/SIS/TIS pointwise LOO, effective parameter count, information criterion, MCSE and summary errors. Arrays are iterations by chains by observations; callbacks are explicit procedure pointers with indexed draw-vector output. All likelihoods must be finite; R objects, parallel dispatch and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_approximate_posterior"
+r_source = "upstream/R/loo_approximate_posterior.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_approximate_posterior"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS ratios corrected by target-minus-approximation log densities, with full LOO summaries. Density vectors must be finite and use the same draw order; R dispatch, deprecated log_q and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_approximate_posterior.array"
+r_source = "upstream/R/loo_approximate_posterior.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_approximate_posterior_array"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS ratios corrected by target-minus-approximation log densities, with full LOO summaries. Density vectors must be finite and use the same draw order; R dispatch, deprecated log_q and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_approximate_posterior.function"
+r_source = "upstream/R/loo_approximate_posterior.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_approximate_posterior_function"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS ratios corrected by target-minus-approximation log densities, with full LOO summaries. Density vectors must be finite and use the same draw order; R dispatch, deprecated log_q and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_approximate_posterior.matrix"
+r_source = "upstream/R/loo_approximate_posterior.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_approximate_posterior_matrix"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS ratios corrected by target-minus-approximation log densities, with full LOO summaries. Density vectors must be finite and use the same draw order; R dispatch, deprecated log_q and class metadata are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_compare"
+r_source = "upstream/R/loo_compare.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["loo_compare"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "substantial"
+notes = "Orders at least two models by total predictive score; returns paired differences/SEs, normal-approximation worse probabilities and each model ELPD/SE. Takes pointwise scores rather than R objects; ancillary penalty/IC columns, diagnostic text, subsampling comparison and many-model selection-bias warning are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_crps"
+r_source = "upstream/R/crps.R"
+fortran_module = "loo_metrics"
+fortran_names = ["loo_crps"]
+fortran_source = "src/loo_metrics.f90"
+status = "substantial"
+notes = "Numeric predictive score and standard error. Explicit permutation indexes replace R RNG; LOO variants take normalized marginal and separately PSIS-smoothed paired joint weights. R object construction and automatic weight fitting are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_i"
+r_source = "upstream/R/loo.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["loo_i"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "PSIS/SIS/TIS pointwise LOO, effective parameter count, information criterion, MCSE and summary errors. Arrays are iterations by chains by observations; callbacks are explicit procedure pointers with indexed draw-vector output. All likelihoods must be finite; R objects, parallel dispatch and warnings are omitted."
+
+[[extra.translation.function]]
+r_name = "loo_model_weights"
+r_source = "upstream/R/loo_model_weights.R"
+fortran_module = "loo_model_weights"
+fortran_names = ["model_weights"]
+fortran_source = "src/loo_model_weights.f90"
+status = "partial"
+notes = "Routes stacking, pseudo-BMA and pseudo-BMA+ for supplied pointwise log predictive scores. The R list-of-model/log-likelihood evaluation layer is omitted; Bayesian-bootstrap weights must be supplied explicitly."
+
+[[extra.translation.function]]
+r_name = "loo_model_weights.default"
+r_source = "upstream/R/loo_model_weights.R"
+fortran_module = "loo_model_weights"
+fortran_names = ["model_weights"]
+fortran_source = "src/loo_model_weights.f90"
+status = "partial"
+notes = "Routes stacking, pseudo-BMA and pseudo-BMA+ for supplied pointwise log predictive scores. The R list-of-model/log-likelihood evaluation layer is omitted; Bayesian-bootstrap weights must be supplied explicitly."
+
+[[extra.translation.function]]
+r_name = "loo_predictive_metric"
+r_source = "upstream/R/loo_predictive_metric.R"
+fortran_module = "loo_metrics"
+fortran_names = ["loo_predictive_metric"]
+fortran_source = "src/loo_metrics.f90"
+status = "substantial"
+notes = "MAE, MSE, RMSE, accuracy and balanced accuracy with mean-based PSIS-weighted predictions. Weights are supplied explicitly; optional upstream E_loo quantile/variance prediction selection is omitted."
+
+[[extra.translation.function]]
+r_name = "loo_scrps"
+r_source = "upstream/R/crps.R"
+fortran_module = "loo_metrics"
+fortran_names = ["loo_scrps"]
+fortran_source = "src/loo_metrics.f90"
+status = "substantial"
+notes = "Numeric predictive score and standard error. Explicit permutation indexes replace R RNG; LOO variants take normalized marginal and separately PSIS-smoothed paired joint weights. R object construction and automatic weight fitting are omitted."
+
+[[extra.translation.function]]
+r_name = "mcse_loo"
+r_source = "upstream/R/diagnostics.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["mcse_loo"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "complete"
+notes = "Quadrature aggregation of pointwise LOO Monte Carlo errors gated by the sample-size-dependent or supplied Pareto-k threshold; unreliable estimates return quiet NaN."
+
+[[extra.translation.function]]
+r_name = "pareto_k_ids"
+r_source = "upstream/R/diagnostics.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["pareto_k_ids"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "complete"
+notes = "One-based indexes above the supplied or automatic reliability threshold, operating on explicit importance results."
+
+[[extra.translation.function]]
+r_name = "pareto_k_table"
+r_source = "upstream/R/diagnostics.R"
+fortran_module = "loo_diagnostics"
+fortran_names = ["pareto_k_table"]
+fortran_source = "src/loo_diagnostics.f90"
+status = "substantial"
+notes = "Three numeric reliability groups with counts, proportions and minimum reliable ESS. Human-readable row/column names and formatted printing are omitted."
+
+[[extra.translation.function]]
+r_name = "pseudobma_weights"
+r_source = "upstream/R/loo_model_weights.R"
+fortran_module = "loo_model_weights"
+fortran_names = ["pseudobma_weights"]
+fortran_source = "src/loo_model_weights.f90"
+status = "substantial"
+notes = "Plain pseudo-BMA and Bayesian-bootstrap pseudo-BMA+ weighting; explicit normalized bootstrap rows replace the R Dirichlet RNG and B/alpha controls."
+
+[[extra.translation.function]]
+r_name = "psis"
+r_source = "upstream/R/psis.R"
+fortran_module = "loo_importance"
+fortran_names = ["psis"]
+fortran_source = "src/loo_importance.f90"
+status = "substantial"
+notes = "Vector, matrix and chain-array importance sampling with normalized/raw log weights, relative-efficiency-corrected ESS and tail diagnostics. PSIS uses release ceiling tail length and sibling posterior GPD fitting; warnings and parallel R dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "psislw"
+r_source = "upstream/R/psislw.R"
+fortran_module = "loo_importance"
+fortran_names = ["psislw"]
+fortran_source = "src/loo_importance.f90"
+status = "substantial"
+notes = "Deprecated quantile-tail PSIS algorithm including weak-prior-off GPD fit, selectable tail proportion and truncation exponent; normalized output, matrix input. Deprecated llfun/llargs/internal COMPUTE_LOOS modes are omitted."
+
+[[extra.translation.function]]
+r_name = "relative_eff"
+r_source = "upstream/R/effective_sample_sizes.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["relative_eff", "relative_eff_function"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "Likelihood-scale ESS divided by draw count via sibling posterior ess_mean. Vector/matrix chain IDs preserve within-chain order even when interleaved; arrays and explicit callbacks supported. Equal-length contiguous positive chain IDs required; parallel R dispatch and object getter omitted."
+
+[[extra.translation.function]]
+r_name = "scrps"
+r_source = "upstream/R/crps.R"
+fortran_module = "loo_metrics"
+fortran_names = ["scrps"]
+fortran_source = "src/loo_metrics.f90"
+status = "substantial"
+notes = "Numeric predictive score and standard error. Explicit permutation indexes replace R RNG; LOO variants take normalized marginal and separately PSIS-smoothed paired joint weights. R object construction and automatic weight fitting are omitted."
+
+[[extra.translation.function]]
+r_name = "sis"
+r_source = "upstream/R/sis.R"
+fortran_module = "loo_importance"
+fortran_names = ["sis"]
+fortran_source = "src/loo_importance.f90"
+status = "substantial"
+notes = "Vector, matrix and chain-array importance sampling with normalized/raw log weights, relative-efficiency-corrected ESS and tail diagnostics. PSIS uses release ceiling tail length and sibling posterior GPD fitting; warnings and parallel R dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "stacking_weights"
+r_source = "upstream/R/loo_model_weights.R"
+fortran_module = "loo_model_weights"
+fortran_names = ["stacking_weights"]
+fortran_source = "src/loo_model_weights.f90"
+status = "substantial"
+notes = "Same concave log-score objective on the closed probability simplex, solved by vertex exchange and exact line search instead of constrOptim. Reports a primal-dual gap and explicit nonconvergence; R optimizer-specific controls are omitted."
+
+[[extra.translation.function]]
+r_name = "tis"
+r_source = "upstream/R/tis.R"
+fortran_module = "loo_importance"
+fortran_names = ["tis"]
+fortran_source = "src/loo_importance.f90"
+status = "substantial"
+notes = "Vector, matrix and chain-array importance sampling with normalized/raw log weights, relative-efficiency-corrected ESS and tail diagnostics. PSIS uses release ceiling tail length and sibling posterior GPD fitting; warnings and parallel R dispatch are omitted."
+
+[[extra.translation.function]]
+r_name = "waic"
+r_source = "upstream/R/waic.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["waic"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "WAIC pointwise ELPD, variance penalty, information criterion and summary errors for finite log likelihoods with at least two draws. Matrix/chain-array or indexed callback APIs replace R object/formal-argument handling; warnings omitted."
+
+[[extra.translation.function]]
+r_name = "waic.array"
+r_source = "upstream/R/waic.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["waic_array"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "WAIC pointwise ELPD, variance penalty, information criterion and summary errors for finite log likelihoods with at least two draws. Matrix/chain-array or indexed callback APIs replace R object/formal-argument handling; warnings omitted."
+
+[[extra.translation.function]]
+r_name = "waic.function"
+r_source = "upstream/R/waic.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["waic_function"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "WAIC pointwise ELPD, variance penalty, information criterion and summary errors for finite log likelihoods with at least two draws. Matrix/chain-array or indexed callback APIs replace R object/formal-argument handling; warnings omitted."
+
+[[extra.translation.function]]
+r_name = "waic.matrix"
+r_source = "upstream/R/waic.R"
+fortran_module = "loo_evaluation"
+fortran_names = ["waic_matrix"]
+fortran_source = "src/loo_evaluation.f90"
+status = "substantial"
+notes = "WAIC pointwise ELPD, variance penalty, information criterion and summary errors for finite log likelihoods with at least two draws. Matrix/chain-array or indexed callback APIs replace R object/formal-argument handling; warnings omitted."
+
+[[extra.translation.function]]
+r_name = "weights.importance_sampling"
+r_source = "upstream/R/importance_sampling.R"
+fortran_module = "loo_importance"
+fortran_names = ["importance_weights"]
+fortran_source = "src/loo_importance.f90"
+status = "complete"
+notes = "Selects normalized or raw weights on the log or ordinary scale. Centered stored normalized log weights preserve mass under enormous common offsets; ordinary unnormalized weights can overflow mathematically."
