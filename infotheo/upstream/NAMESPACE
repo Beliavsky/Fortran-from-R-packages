@@ -1,0 +1,6 @@
+useDynLib("infotheo")
+
+importFrom("stats", "na.omit")
+
+# Export all names
+exportPattern(".")

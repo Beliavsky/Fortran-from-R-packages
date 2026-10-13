@@ -1,0 +1,159 @@
+  Translate the computational code of the attached R package to modern
+  free-form Fortran with FPM. Preserve all applicable licenses, notices,
+  copyrights, attribution, and upstream provenance. Skip plotting,
+  interactive, and other R-specific interface code.
+
+  The result will be placed in the root of:
+
+  https://github.com/Beliavsky/Fortran-from-R-packages
+
+  Before implementing a dependency, check that repository for an existing
+  top-level translation or shared module with a compatible API. Reuse compatible
+  packages through sibling FPM path dependencies such as:
+
+  dependency-name = { path = "../dependency-directory" }
+
+  Do not copy, vendor, or embed those dependency packages in the output ZIP.
+  Do not include copies of r.f90, r_mod.f90, BLAS, LAPACK, ARPACK, or translated
+  R-package dependencies when an appropriate shared package already exists.
+
+  The package must build with FPM and gfortran on Windows without separately installed BLAS or LAPACK libraries. Do
+  not use system library links such as link = ["lapack", "blas"], -llapack, or -lblas. Use rfortran-linalg when its
+  higher-level API is sufficient. When direct LAPACK access or a pure LAPACK call chain is needed, use the
+  FPM-compatible fork at:
+
+  https://github.com/Beliavsky/fortran-lapack
+
+  For example:
+
+  fortran-lapack = { git = "https://github.com/Beliavsky/fortran-lapack.git" }
+
+  Pin a tested revision in release-quality manifests when practical. Do not copy the dependency source into the
+  translated package. Preserve attribution to Federico Perini, the original fortran-lapack author, and document use
+  of the Beliavsky fork. Use explicit interfaces. Run all builds, tests, and examples successfully before creating
+  the zip.
+
+  Prefer:
+  - rfortran-core for common R-like statistics and numerical helpers
+  - rfortran-linalg for its shared high-level linear-algebra API
+  - https://github.com/Beliavsky/fortran-lapack for direct LAPACK access and pure LAPACK call chains
+  - rfortran-arpack for iterative eigensolvers
+  - existing top-level translated R packages for package dependencies
+
+  Do not use rfortran-compat for a new translation unless the required API is
+  not available from the focused shared modules.
+
+  The package must build after extraction as a top-level repository directory
+  using:
+
+  fpm build
+  fpm test
+
+  Use only free-form Fortran for translated or newly created Fortran code.
+
+  Declare procedures as pure elemental when possible, or as pure when they are pure
+  but not elemental.
+
+  Use a single named real kind consistently throughout all maintained Fortran source. If rfortran-core is already a
+  dependency, import dp from r_kinds. Otherwise, define dp = real64 once in a small package-specific kinds module
+  using iso_fortran_env, and import that same dp wherever needed. Use real(dp) for real variables and _dp suffixes for
+  real constants, such as 0.0_dp, 1.0_dp, and 0.5_dp. Do not use double precision, real*8, kind(0.0d0), or d0/D-
+  exponent literals in translated or newly created code. Re-export dp from the package's public module when useful.
+  Ensure that BLAS/LAPACK interfaces use the same real kind.
+
+  Do not place multiple statements on one line using semicolons. The only
+  permitted exception is an optional simple SELECT CASE form such as:
+
+  case ("sin"); y = sin(x)
+
+  Use spaces around assignment, comparison, and arithmetic operators. Avoid
+  unnecessary wrappers around Fortran intrinsics.
+
+  Use `ieee_is_nan` from the intrinsic `ieee_arithmetic` module for explicit
+  NaN tests. Do not use self-comparison idioms such as `x /= x`. Code whose
+  documented behavior depends on NaNs or infinities must not be built with
+  `-ffast-math`, `-Ofast`, `-ffinite-math-only`, or equivalent assumptions.
+
+  Give every dummy argument an explicit INTENT or VALUE attribute. Declare each
+  dummy argument on its own declaration line. Give every dummy-argument
+  declaration a meaningful trailing FORD documentation comment beginning with
+  `!!`. The comment must explain the argument's meaning and, where applicable,
+  its shape, units, valid range, default, or special-value behavior. Do not use
+  placeholder comments such as "input value" or merely repeat the argument name.
+
+  Include deterministic tests, examples, README.md, fpm.toml, license files,
+  NOTICE/provenance documentation, and a concise API-coverage document. Do not
+  include build products, executables, object files, module files, caches, or
+  ZIP files.
+
+  Document R-to-Fortran function coverage in fpm.toml using exactly this
+  structure:
+
+  [extra.translation]
+  status = "substantial"
+  coverage_basis = "exported computational R functions"
+  r_functions_total = 2
+  r_functions_translated = 1
+  frac_functions_translated = 0.5
+  untranslated_r_functions = ["otherFunction"]
+
+  [[extra.translation.function]]
+  r_name = "exampleR"
+  r_source = "upstream/R/example.R"
+  fortran_module = "package_api"
+  fortran_names = ["example_fortran"]
+  fortran_source = "src/package_api.f90"
+  status = "substantial"
+  notes = "The numerical operation is translated; R formula and S3 object handling are omitted."
+
+  Use these translation-coverage conventions:
+
+  - Count distinct exported computational R functions. Exclude plotting,
+    printing, formatting, dataset, data-download, interactive-display, and
+    presentation-only functions. Exclude internal helpers and functions that
+    merely dispatch to another package. Include an exported fitting or
+    computational function even when part of its R interface is omitted.
+  - Include explicitly exported S3 methods when they perform a computational
+    operation. Do not count registered but unexported printing or presentation
+    methods.
+  - Set r_functions_total to the number of functions in that coverage basis.
+    Keep untranslated functions in this denominator and list their exact R names
+    in untranslated_r_functions. Use an empty array when none are untranslated.
+  - Add one [[extra.translation.function]] entry for every distinct R function
+    with a meaningful complete, substantial, or partial translation. Count each
+    R function once even when it maps to several Fortran procedures.
+  - Set r_functions_translated to the number of function mapping entries and set
+    frac_functions_translated to r_functions_translated / r_functions_total.
+    Ensure the integers, fraction, mapping entries, and untranslated list agree.
+  - Preserve the exact case and punctuation of each R function in r_name. Always
+    use fortran_names as an array, including for a one-to-one mapping.
+  - Name only public Fortran procedures that actually implement the mapped R
+    operation. Do not claim coverage merely because a related low-level helper
+    exists.
+  - Give package status one of: complete, substantial, partial, experimental,
+    or foundation-only. Give each function mapping one of: complete,
+    substantial, or partial. A complete function count does not imply a complete
+    package or exact compatibility with R interfaces.
+  - Record repository-relative source paths in r_source and fortran_source.
+    When an R function maps to procedures in more than one module or source file,
+    use fortran_modules and fortran_sources arrays instead of the singular keys.
+  - Use notes to identify omitted formula processing, S3 behavior, R object
+    construction, warnings, recycling, RNG behavior, or other material
+    differences. Do not inflate coverage claims.
+
+  Add a matching "Translation coverage" section to README.md. State the package
+  status, show "N of M (P%)", explain that the fraction measures mapped
+  computational functions rather than complete R compatibility, and include a
+  table with columns for R function, Fortran module, Fortran procedure(s), and
+  mapping status. The README and fpm.toml must agree.
+
+  Give the ZIP a single top-level directory whose name exactly matches the R
+  package name, without suffixes such as -fortran or -modern-fortran.
+
+  Before creating the ZIP:
+  1. Run fpm build and fpm test.
+  2. Check that no dependency source has been copied into the package.
+  3. Check for duplicate Fortran source files.
+  4. Check for disallowed semicolon-separated statements.
+  5. Check that self-comparison NaN tests have not been used.
+  6. Run fpm clean --all.

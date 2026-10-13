@@ -1,0 +1,13 @@
+Package: infotheo
+Title: Information-Theoretic Measures
+Version: 1.2.0.1
+Date: 2014-07-16
+Author: Patrick E. Meyer
+Description: Implements various measures of information theory based on several entropy estimators.
+Maintainer: Patrick E. Meyer <software@meyerp.com>
+License: GPL (>= 3)
+URL: http://homepage.meyerp.com/software
+Repository: CRAN
+Packaged: 2022-04-08 10:26:51 UTC; hornik
+NeedsCompilation: yes
+Date/Publication: 2022-04-08 11:00:24 UTC

@@ -1,0 +1,99 @@
+name = "infotheo"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+author = "Patrick E. Meyer; Fortran translation contributors"
+description = "Discrete information measures and discretization from R infotheo 1.2.0.1"
+
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+module-naming = false
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 8
+r_functions_translated = 8
+frac_functions_translated = 1.0
+untranslated_r_functions = []
+
+[[extra.translation.function]]
+r_name = "entropy"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["entropy"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Integer vector or observation-by-variable matrix, all four estimators. sg uses corrected floating prior 1/k; sg_r retains upstream integer-division behavior. R coercions and warnings omitted."
+
+[[extra.translation.function]]
+r_name = "condentropy"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["condentropy"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Integer matrix blocks and optional conditioning block; each entropy uses its own complete observations as in R."
+
+[[extra.translation.function]]
+r_name = "mutinformation"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["mutinformation", "mutinformation_matrix"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Scalar block and pairwise matrix forms; scalar negative results clipped, matrix entries untruncated as in R. R dimnames and data frames omitted."
+
+[[extra.translation.function]]
+r_name = "condinformation"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["condinformation"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Correct full-block conditioning, deliberately fixes R's hardcoded column-index bug for multicolumn X, Y, or S."
+
+[[extra.translation.function]]
+r_name = "multiinformation"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["multiinformation"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Total correlation for integer observation-by-variable matrices; R coercions and dimnames omitted."
+
+[[extra.translation.function]]
+r_name = "interinformation"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["interinformation"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "Alternating subset entropy sum with R's co-information sign; rejects more than 20 variables to bound exponential work, versus upstream nominal 500-variable guard."
+
+[[extra.translation.function]]
+r_name = "discretize"
+r_source = "upstream/R/discretize.R"
+fortran_module = "infotheo"
+fortran_names = ["discretize"]
+fortran_source = "src/infotheo.f90"
+status = "substantial"
+notes = "All three methods, real matrix input and integer matrix output. Safe NA, extrema and bounds handling; legacy equal-frequency cut ranks retained, invalid nbins rejected. R data-frame/factor handling omitted."
+
+[[extra.translation.function]]
+r_name = "natstobits"
+r_source = "upstream/R/entropy.R"
+fortran_module = "infotheo"
+fortran_names = ["natstobits"]
+fortran_source = "src/infotheo.f90"
+status = "complete"
+notes = "Pure elemental conversion using 1/log(2), correcting upstream's truncated 1.442695 constant."
