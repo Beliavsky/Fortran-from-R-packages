@@ -1,0 +1,158 @@
+name = "exactRankTests"
+version = "0.1.0"
+license = "GPL-2.0-or-later"
+author = "Torsten Hothorn, Kurt Hornik; Fortran translation contributors"
+description = "Exact conditional rank and permutation distributions with tie support"
+[build]
+auto-executables = false
+auto-tests = true
+auto-examples = true
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+[dependencies]
+rfortran-core = { path = "../rfortran-core" }
+
+[extra.translation]
+status = "substantial"
+coverage_basis = "exported computational R functions"
+r_functions_total = 18
+r_functions_translated = 15
+frac_functions_translated = 0.8333333333333334
+untranslated_r_functions = ["wilcox.exact.formula", "ansari.exact.formula", "perm.test.formula"]
+
+[[extra.translation.function]]
+r_name = "wilcox.exact"
+r_source = "upstream/R/wilcox.exact.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["wilcox_exact"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "One/two-sample and paired exact/asymptotic tests, exact shift intervals and estimates. Asymptotic confidence intervals, formula processing and S3 objects are omitted. Undefined upstream estimates are normalized to NaN."
+
+[[extra.translation.function]]
+r_name = "wilcox.exact.default"
+r_source = "upstream/R/wilcox.exact.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["wilcox_exact"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "One/two-sample and paired exact/asymptotic tests, exact shift intervals and estimates. Asymptotic confidence intervals, formula processing and S3 objects are omitted. Undefined upstream estimates are normalized to NaN."
+
+[[extra.translation.function]]
+r_name = "ansari.exact"
+r_source = "upstream/R/ansari.exact.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["ansari_exact"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "Exact/asymptotic tests and exact scale intervals for finite nonzero data. Asymptotic confidence intervals, formula processing and S3 objects are omitted."
+
+[[extra.translation.function]]
+r_name = "ansari.exact.default"
+r_source = "upstream/R/ansari.exact.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["ansari_exact"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "Exact/asymptotic tests and exact scale intervals for finite nonzero data. Asymptotic confidence intervals, formula processing and S3 objects are omitted."
+
+[[extra.translation.function]]
+r_name = "perm.test"
+r_source = "upstream/R/perm.test.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["perm_test"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "One/two-sample and paired exact/asymptotic tests, including upstream noninteger score remapping. Permutation confidence sets, formula processing and S3 objects are omitted."
+
+[[extra.translation.function]]
+r_name = "perm.test.default"
+r_source = "upstream/R/perm.test.R"
+fortran_module = "exact_rank_tests"
+fortran_names = ["perm_test"]
+fortran_source = "src/exact_rank_tests.f90"
+status = "partial"
+notes = "One/two-sample and paired exact/asymptotic tests, including upstream noninteger score remapping. Permutation confidence sets, formula processing and S3 objects are omitted."
+
+[[extra.translation.function]]
+r_name = "dperm"
+r_source = "upstream/R/dpqperm.R"
+fortran_module = "exact_rank_distribution"
+fortran_names = ["permutation_distribution", "simulate_distribution", "dperm"]
+fortran_source = "src/exact_rank_distribution.f90"
+status = "substantial"
+notes = "Density queried from a reusable exact or simulated distribution. Full support/mass arrays replace the R density data-frame option. Supplied uniforms replace R RNG state; resource limits return status."
+
+[[extra.translation.function]]
+r_name = "pperm"
+r_source = "upstream/R/dpqperm.R"
+fortran_module = "exact_rank_distribution"
+fortran_names = ["permutation_distribution", "simulate_distribution", "pperm", "dperm"]
+fortran_source = "src/exact_rank_distribution.f90"
+status = "substantial"
+notes = "Inclusive one/two-sided tail probabilities and point mass via dperm; supplied uniforms replace R RNG state; resource limits return status."
+
+[[extra.translation.function]]
+r_name = "qperm"
+r_source = "upstream/R/dpqperm.R"
+fortran_module = "exact_rank_distribution"
+fortran_names = ["permutation_distribution", "simulate_distribution", "qperm"]
+fortran_source = "src/exact_rank_distribution.f90"
+status = "substantial"
+notes = "Left-continuous inverse CDF on a reusable exact/simulated distribution, with robust endpoint handling. Supplied uniforms replace R RNG state."
+
+[[extra.translation.function]]
+r_name = "rperm"
+r_source = "upstream/R/dpqperm.R"
+fortran_module = "exact_rank_distribution"
+fortran_names = ["rperm"]
+fortran_source = "src/exact_rank_distribution.f90"
+status = "substantial"
+notes = "Uniform fixed-size sampling without replacement through caller-supplied independent uniforms and Fisher-Yates selection; R RNG sequences are not reproduced."
+
+[[extra.translation.function]]
+r_name = "cscores"
+r_source = "upstream/R/cscores.R"
+fortran_module = "exact_rank_scores"
+fortran_names = ["cscores", "cscores_factor", "cscores_surv"]
+fortran_source = "src/exact_rank_scores.f90"
+status = "substantial"
+notes = "All seven numerical score families, factor codes, log-rank scores and integer scaling. Type-specific entry points replace S3 dispatch; nonfinite values are rejected."
+
+[[extra.translation.function]]
+r_name = "cscores.default"
+r_source = "upstream/R/cscores.R"
+fortran_module = "exact_rank_scores"
+fortran_names = ["cscores"]
+fortran_source = "src/exact_rank_scores.f90"
+status = "substantial"
+notes = "All seven numerical score families, factor codes, log-rank scores and integer scaling. Type-specific entry points replace S3 dispatch; nonfinite values are rejected."
+
+[[extra.translation.function]]
+r_name = "cscores.factor"
+r_source = "upstream/R/cscores.R"
+fortran_module = "exact_rank_scores"
+fortran_names = ["cscores_factor"]
+fortran_source = "src/exact_rank_scores.f90"
+status = "substantial"
+notes = "Numeric scores for one-based factor codes 1 and 2; label/level construction is caller-managed."
+
+[[extra.translation.function]]
+r_name = "cscores.Surv"
+r_source = "upstream/R/cscores.R"
+fortran_module = "exact_rank_scores"
+fortran_names = ["cscores_surv"]
+fortran_source = "src/exact_rank_scores.f90"
+status = "substantial"
+notes = "Log-rank scores including ties/censoring and optional integer scaling; explicit time/event arrays replace Surv objects. Undefined rescaling returns status."
+
+[[extra.translation.function]]
+r_name = "irank"
+r_source = "upstream/R/cscores.R"
+fortran_module = "exact_rank_scores"
+fortran_names = ["irank"]
+fortran_source = "src/exact_rank_scores.f90"
+status = "substantial"
+notes = "Maximum integer ranks with validated optional one-based sorting order; finite data only."
