@@ -2,7 +2,7 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Optimization and Mathematical Programming](https://CRAN.R-project.org/view=Optimization), maintained by
-Florian Schwendinger, Hans W. Borchers, version 2026-07-21. The
+Florian Schwendinger, Hans W. Borchers, version 2026-09-23. The
 [source task view](https://github.com/cran-task-views/Optimization/blob/main/Optimization.md) provides the broader annotated
 guide to R packages.
 
