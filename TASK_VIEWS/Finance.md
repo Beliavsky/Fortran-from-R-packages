@@ -6,7 +6,7 @@ Dirk Eddelbuettel, version 2026-08-25. The
 [source task view](https://github.com/cran-task-views/Finance/blob/main/Finance.md) provides the broader annotated
 guide to R packages.
 
-This page includes 90 translated packages. Package membership and broad
+This page includes 97 translated packages. Package membership and broad
 topic organization follow the source task view; the concise descriptions are
 the high-level summaries maintained by this project. They describe translated
 computational scope and intentionally omit plotting, interactive interfaces, R
@@ -56,13 +56,16 @@ API coverage and validation status.
 - [`fextremes`](../fextremes/) - Models extreme values and financial tail risk.
 - [`fnonlinear`](../fnonlinear/) - Models nonlinear and chaotic time series.
 - [`fportfolio`](../fportfolio/) - Performs portfolio selection, optimization, risk analysis, and backtesting.
+- [`fTrading`](../fTrading/) - Computes technical trading indicators, moving averages, oscillators, and related price and volume summaries.
 - [`rquantlib`](../rquantlib/) - Implements option, bond, and fixed-income pricing algorithms.
 - [`backtest`](../backtest/) - Explores portfolio-based conjectures about financial instruments.
 - [`pa`](../pa/) - Performs equity-portfolio performance attribution.
 - [`performanceanalytics`](../performanceanalytics/) - Provides econometric tools for performance and risk analysis.
+- [`TTR`](../TTR/) - Computes technical trading indicators and price, volume, and rolling-statistic summaries.
 - [`sde`](../sde/) - Simulates and performs inference for stochastic differential equations.
 - [`vrtest`](../vrtest/) - Performs variance-ratio and martingale-difference tests.
 - [`gmm`](../gmm/) - Fits generalized method of moments and generalized empirical likelihood models.
+- [`BurStFin`](../BurStFin/) - Estimates financial covariance matrices and provides benchmark transformations, alpha proxies, and time weights.
 - [`parma`](../parma/) - Provides portfolio allocation and risk-management applications.
 - [`sharper`](../sharper/) - Evaluates the statistical significance of Sharpe ratios.
 - [`rnd`](../rnd/) - Extracts option-implied risk-neutral densities.
@@ -73,6 +76,7 @@ API coverage and validation status.
 - [`markowitzr`](../markowitzr/) - Performs statistical inference for Markowitz portfolios.
 - [`pbo`](../pbo/) - Estimates the probability of backtest overfitting.
 - [`optionpricing`](../optionpricing/) - Prices options with efficient simulation algorithms.
+- [`credule`](../credule/) - Prices credit default swaps and bootstraps hazard-rate curves using the upstream discretized model, not the ISDA standard model.
 - [`derivmkts`](../derivmkts/) - Provides derivative pricing and financial-market calculations.
 - [`financialmath`](../financialmath/) - Provides financial mathematics for actuaries.
 - [`bcc1997`](../bcc1997/) - Prices European options with stochastic volatility, rates, and jumps.
@@ -99,15 +103,18 @@ API coverage and validation status.
 - [`copula`](../copula/) - Models multivariate dependence with common copula families.
 - [`actuar`](../actuar/) - Provides actuarial distributions, aggregate-loss and ruin models, coverage transformations, credibility methods, and minimum-distance estimation.
 - [`ghyp`](../ghyp/) - Evaluates, fits, and simulates generalized hyperbolic distributions.
+- [`ESG`](../ESG/) - Simulates economic and asset-price scenarios using upstream models with documented formula and time-index limitations.
 - [`risksimul`](../risksimul/) - Simulates rare portfolio losses under t-copulas with t or generalized-hyperbolic marginals.
 - [`gcpm`](../gcpm/) - Models credit-portfolio risk analytically and by Monte Carlo simulation.
 - [`fattailsr`](../fattailsr/) - Provides Kiener distributions and fat-tail analytics.
 - [`Dowd`](../Dowd/) - Provides quantitative financial risk-management calculations.
+- [`NetworkRiskMeasures`](../NetworkRiskMeasures/) - Computes financial-network risk measures, including DebtRank, impact susceptibility, diffusion, and fluidity.
 - [`Risk`](../Risk/) - Computes financial risk measures for continuous distributions.
 - [`RiskPortfolios`](../RiskPortfolios/) - Constructs portfolios using risk-based allocation methods.
 - [`RM2006`](../RM2006/) - Estimates conditional covariance using the RiskMetrics 2006 methodology.
 - [`cvar`](../cvar/) - Computes value at risk and expected shortfall from distributions or samples.
 - [`riskParityPortfolio`](../riskParityPortfolio/) - Designs risk-parity and risk-budgeting portfolios.
+- [`monobin`](../monobin/) - Performs monotonic binning for credit-rating models with binary or continuous responses.
 - [`etrm`](../etrm/) - Values and analyzes energy-trading and risk-management instruments.
 - [`ufRisk`](../ufRisk/) - Estimates GARCH-based value at risk and expected shortfall and backtests the forecasts.
 - [`bondAnalyst`](../bondAnalyst/) - Performs fixed-income valuation and yield, spread, and duration calculations.

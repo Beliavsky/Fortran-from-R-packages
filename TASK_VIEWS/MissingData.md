@@ -2,7 +2,7 @@
 
 This is an independent, filtered adaptation of the
 [CRAN Task View: Missing Data](https://CRAN.R-project.org/view=MissingData), maintained by
-Julie Josse, Imke Mayer, Nicholas Tierney, Nathalie Vialaneix, version 2026-09-22. The
+Julie Josse, Imke Mayer, Nicholas Tierney, Nathalie Vialaneix, version 2026-10-12. The
 [source task view](https://github.com/cran-task-views/MissingData/blob/main/MissingData.md) provides the broader annotated
 guide to R packages.
 

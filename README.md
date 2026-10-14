@@ -2,7 +2,7 @@
 
 This repository collects experimental modern Fortran translations and
 ports by ChatGPT on High mode (Extra High starting 2026-08-29) of
-computational code in 566 package directories derived from R packages.
+computational code in 596 package directories derived from R packages.
 Each subdirectory is an independent Fortran Package Manager (fpm)
 project with its own documentation, tests, provenance record, and
 license.
@@ -201,6 +201,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`BiasedUrn`](BiasedUrn/) | Provides Fisher and Wallenius noncentral hypergeometric distributions. | `2.0.12` · `GPL-3.0-only` |
 | [`bidask`](bidask/) | Estimates bid-ask spreads efficiently from OHLC prices. | `2.1.5` · `MIT` |
 | [`bigstatsr`](bigstatsr/) | Provides statistical tools for large file-backed matrices. | `1.6.2` · `GPL-3.0-only` |
+| [`binom`](binom/) | Computes binomial confidence intervals, coverage, expected lengths, power, and sample-size designs. | `1.1-2` · `GPL-2.0-or-later` |
 | [`BivGeo`](BivGeo/) | Provides the Basu-Dhar bivariate geometric distribution. | `2.1.1` · `GPL-2.0-or-later` |
 | [`bivgeom`](bivgeom/) | Provides Roy's bivariate geometric distribution. | `1.0` · `GPL` |
 | [`BivKLD`](BivKLD/) | Estimates directed bivariate Kullback-Leibler divergence using kernel density estimates and exact parametric formulas. | `0.1.0` · `GPL-3.0-only` |
@@ -210,6 +211,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`BondValuation`](BondValuation/) | Values fixed-coupon bonds with odd coupon periods and multiple day-count conventions. | `0.1.1` · `GPL-3.0-only` |
 | [`boot`](boot/) | Provides bootstrap methods and functions. | `1.3-32` · `Unlimited` |
 | [`bridgedist`](bridgedist/) | Implements the bridge distribution with a logit link. | `0.1.3` · `GPL-2.0-or-later` |
+| [`BurStFin`](BurStFin/) | Estimates financial covariance matrices and provides benchmark transformations, alpha proxies, and time weights. | `1.3` · `LicenseRef-Public-Domain` |
 | [`bvls`](bvls/) | Solves bounded-variable least-squares problems with the Stark-Parker algorithm. | `1.4` · `GPL-2.0-or-later` |
 | [`bzinb`](bzinb/) | Estimates bivariate zero-inflated negative-binomial models. | `1.0.8` · `GPL-2.0-only` |
 | [`calibrar`](calibrar/) | Automates parameter estimation for complex models. | `0.9.0` · `GPL-2.0-only` |
@@ -246,6 +248,8 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`corpmetrics`](corpmetrics/) | Provides corporate valuation, financial-metric, and modelling calculations. | `1.0` · `GPL-2.0-or-later` |
 | [`countDM`](countDM/) | Estimates statistical models for count data. | `0.1.0` · `GPL-2.0-or-later` |
 | [`creditr`](creditr/) | Values credit-default swaps using the ISDA CDS Standard Model. | `0.6.2` · `GPL-3.0-only AND LicenseRef-ISDA-CDS-Standard-Model` |
+| [`CreditRisk`](CreditRisk/) | Implements structural credit-risk models, firm-value simulation, CDS valuation, and calibration, retaining documented upstream formula quirks. | `0.1.7` · `MIT` |
+| [`credule`](credule/) | Prices credit default swaps and bootstraps hazard-rate curves using the upstream discretized model, not the ISDA standard model. | `0.1.4` · `MIT AND LGPL-2.1-or-later` |
 | [`cubature`](cubature/) | Performs adaptive multivariate integration over hypercubes. | `2.1.4-1` · `GPL-3.0-or-later` |
 | [`cvar`](cvar/) | Computes value at risk and expected shortfall from distributions or samples. | `0.6` · `GPL-2.0-or-later` |
 | [`dbscan`](dbscan/) | Performs density-based clustering, nearest-neighbor search, and local outlier detection. | `1.2.6` · `GPL-2.0-or-later` |
@@ -261,6 +265,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`dfoptim`](dfoptim/) | Provides derivative-free optimization algorithms. | `2023.1.0` · `GPL-2.0-or-later` |
 | [`DiceDesign`](DiceDesign/) | Constructs designs for computer experiments. | `1.10` · `GPL-3.0-only` |
 | [`DiceKriging`](DiceKriging/) | Fits Gaussian-process models for computer experiments. | `1.6.1` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`diptest`](diptest/) | Computes Hartigan's dip statistic and tabulated or simulated p-values for unimodality testing. | `0.77-2` · `GPL-2.0-or-later` |
 | [`Directional`](Directional/) | Provides efficient statistical and mathematical functions, including directional-data methods. | `2.1.5.2` · `GPL-2.0-or-later` |
 | [`DirichletReg`](DirichletReg/) | Fits Dirichlet regression models. | `0.7-2` · `GPL-2.0-or-later` |
 | [`dirmult`](dirmult/) | Estimates Dirichlet-multinomial distributions. | `0.1.3-5` · `GPL-2.0-or-later` |
@@ -281,12 +286,15 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`ecp`](ecp/) | Detects multiple change points using energy statistics, hierarchical segmentation, and kernel methods. | `3.1.6` · `GPL-2.0-or-later` |
 | [`ecpdist`](ecpdist/) | Provides the extended Chen-Poisson lifetime distribution. | `0.2.1` · `GPL-3.0-only` |
 | [`elliptic`](elliptic/) | Computes Weierstrass and Jacobi elliptic functions. | `1.5-1` · `GPL-2.0-only` |
+| [`entropy`](entropy/) | Estimates entropy, mutual information, divergences, and related test statistics using shrinkage and other estimators. | `1.3.2` · `GPL-3.0-or-later` |
 | [`epo`](epo/) | Performs enhanced portfolio optimization with correlation shrinkage. | `0.1.0.9000` · `MIT` |
 | [`esback`](esback/) | Backtests expected-shortfall forecasts. | `0.3.1` · `GPL-3.0-only` |
+| [`ESG`](ESG/) | Simulates economic and asset-price scenarios using upstream models with documented formula and time-index limitations. | `1.3` · `GPL-2.0-or-later` |
 | [`etrm`](etrm/) | Values and analyzes energy-trading and risk-management instruments. | `1.0.2` · `MIT` |
 | [`evd`](evd/) | Provides distributions and methods for univariate and multivariate extreme-value analysis. | `2.3-7.1` · `GPL-3.0-only` |
 | [`evir`](evir/) | Performs extreme-value analysis for financial risk. | `1.7-4` · `GPL-2.0-or-later` |
 | [`ewens`](ewens/) | Provides the Ewens sampling distribution. | `0.1.0` · `GPL-3.0-or-later` |
+| [`exactRankTests`](exactRankTests/) | Computes exact conditional rank and permutation tests, including Wilcoxon and Ansari-Bradley tests with ties. | `0.8-37` · `GPL-2.0-or-later` |
 | [`expint`](expint/) | Computes exponential integrals and incomplete gamma functions. | `0.2-1` · `GPL-3.0-or-later` |
 | [`expm`](expm/) | Computes matrix exponentials, logarithms, square roots, and related functions. | `1.0-0` · `GPL-3.0-or-later` |
 | [`extraDistr`](extraDistr/) | Provides additional univariate and multivariate probability distributions. | `1.10.0.5` · `GPL-2.0-only` |
@@ -327,6 +335,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`fracdiff`](fracdiff/) | Estimates, simulates, and analyzes fractionally differenced time-series models. | `1.5-4` · `GPL-2.0-or-later` |
 | [`frapo`](frapo/) | Provides financial risk modelling and portfolio optimization methods. | `0.4-2` · `GPL-3.0-or-later` |
 | [`frbinom`](frbinom/) | Provides fractional binomial distributions. | `1.0.0` · `MIT` |
+| [`fTrading`](fTrading/) | Computes technical trading indicators, moving averages, oscillators, and related price and volume summaries. | `3042.79` · `GPL-2.0-or-later AND LGPL-2.0-or-later` |
 | [`ftsa`](ftsa/) | Provides functional time-series summaries, principal components, forecasting, and forecast-error measures. | `6.7` · `GPL-3.0-only` |
 | [`funData`](funData/) | Represents and manipulates regular, irregular, and multivariate functional data, with numerical integration. | `1.3-9` · `GPL-2.0-only` |
 | [`GA`](GA/) | Performs optimization with genetic algorithms. | `3.2.5` · `GPL-2.0-or-later` |
@@ -369,6 +378,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`grpreg`](grpreg/) | Fits grouped-penalty regularization paths for regression, generalized linear models, and survival models. | `3.6.0` · `GPL-3.0-only` |
 | [`gsl`](gsl/) | Wraps GNU GSL special functions and numerical routines. | `2.1-9` · `GPL-3.0-only` |
 | [`gslnls`](gslnls/) | Performs multistart nonlinear least-squares fitting. | `1.4.2` · `LGPL-3.0-only` |
+| [`HDInterval`](HDInterval/) | Computes highest-density intervals from draws, density grids, and quantile functions. | `0.2.4` · `GPL-3.0-only` |
 | [`hdshop`](hdshop/) | Constructs high-dimensional shrinkage optimal portfolios. | `0.1.7` · `GPL-3.0-only` |
 | [`hermite`](hermite/) | Provides the generalized Hermite distribution. | `1.2.1` · `GPL-2.0-or-later` |
 | [`HierPortfolios`](HierPortfolios/) | Constructs portfolios using hierarchical risk clustering. | `1.0.2` · `GPL-2.0-only` |
@@ -383,11 +393,14 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`imputeFin`](imputeFin/) | Imputes missing values and outliers in financial time series. | `0.1.2.9000` · `GPL-3.0-only` |
 | [`imputeTS`](imputeTS/) | Imputes missing time-series values using interpolation, smoothing, and model-based methods. | `3.4` · `GPL-3.0-only` |
 | [`IndGenErrors`](IndGenErrors/) | Tests independence between innovations of generalized-error models. | `0.1.6` · `GPL-3.0-only` |
+| [`ineq`](ineq/) | Computes inequality, concentration, poverty, and Lorenz-curve measures. | `0.2-13` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`INFOSET`](INFOSET/) | Computes informative distribution sets for asset returns. | `4.1.1` · `GPL-2.0-or-later` |
+| [`infotheo`](infotheo/) | Computes entropy, mutual and conditional information, total correlation, and discretization methods. | `1.2.0.1` · `GPL-3.0-or-later` |
 | [`intradayModel`](intradayModel/) | Models and forecasts periodic financial intraday signals. | `0.0.1` · `Apache-2.0` |
 | [`intrinsicFRP`](intrinsicFRP/) | Estimates and tests factor-model asset-pricing relationships. | `2.1.0` · `GPL-3.0-or-later` |
 | [`invgamstochvol`](invgamstochvol/) | Computes likelihoods and posterior smoothing for inverse-gamma stochastic-volatility models. | `1.0.0` · `MIT` |
 | [`irlba`](irlba/) | Computes fast truncated singular-value decompositions. | `2.3.7` · `GPL-3.0-or-later` |
+| [`irr`](irr/) | Computes inter-rater agreement, reliability statistics, and related sample-size calculations. | `0.85` · `GPL-2.0-or-later` |
 | [`isotone`](isotone/) | Performs isotone optimization and inequality-restricted regression. | `1.1-2` · `GPL-2.0-only` |
 | [`Jdmbs`](Jdmbs/) | Prices options by Monte Carlo under geometric Brownian and jump-diffusion models. | `1.4` · `GPL-2.0-or-later` |
 | [`jfe`](jfe/) | Analyzes financial and economic time-series data. | `2.5.11` · `GPL-2.0-or-later` |
@@ -397,6 +410,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`JumpTest`](JumpTest/) | Detects jumps in financial time series. | `1.1` · `MIT` |
 | [`kde1d`](kde1d/) | Estimates univariate kernel densities with boundary handling, bandwidth selection, and distribution evaluation. | `1.2.2` · `MIT` |
 | [`kdensity`](kdensity/) | Performs parametrically guided kernel-density estimation with asymmetric kernels. | `1.2.0` · `MIT` |
+| [`kendall`](kendall/) | Computes Kendall tau-b and ordinary and seasonal Mann-Kendall trend tests. | `2.2.2` · `GPL-2.0-or-later` |
 | [`kernlab`](kernlab/) | Provides kernel-based machine-learning algorithms. | `0.9-33` · `GPL-2.0-only` |
 | [`KernSmooth`](KernSmooth/) | Performs kernel density estimation and local polynomial regression. | `2.23-27` · `Unlimited` |
 | [`KFAS`](KFAS/) | Fits and analyzes Gaussian and non-Gaussian state-space models using Kalman methods. | `1.6.0` · `GPL-2.0-or-later` |
@@ -424,6 +438,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`lmtest`](lmtest/) | Provides diagnostic and hypothesis tests for linear regression models. | `0.9-40` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`locfit`](locfit/) | Performs local regression, likelihood, and density estimation. | `1.5-9.12` · `GPL-2.0-or-later` |
 | [`longmemo`](longmemo/) | Provides statistical methods for long-memory processes. | `1.1-4` · `GPL-2.0-or-later` |
+| [`loo`](loo/) | Computes importance-sampling diagnostics, leave-one-out predictive assessment, WAIC, and Bayesian model comparison. | `2.10.1` · `GPL-3.0-or-later` |
 | [`LowRankQP`](LowRankQP/) | Solves low-rank quadratic programming problems. | `1.0.6` · `GPL-2.0-or-later` |
 | [`lpSolve`](lpSolve/) | Solves linear and integer programming problems. | `5.6.23.9000` · `LGPL-2.0-only` |
 | [`lsei`](lsei/) | Solves least-squares and quadratic-programming problems under constraints. | `1.3-1` · `GPL-2.0-or-later` |
@@ -444,6 +459,8 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`matrixdist`](matrixdist/) | Provides matrix-exponential and matrix phase-type distributions, fitting, regression, and simulation. | `1.1.9` · `GPL-3.0-only` |
 | [`MatrixExtra`](MatrixExtra/) | Provides additional methods for sparse matrices. | `0.1.15` · `GPL-3.0-only` |
 | [`matrixNormal`](matrixNormal/) | Provides matrix-variate normal distribution calculations and simulation. | `0.1.2` · `GPL-3.0-only` |
+| [`matrixStats`](matrixStats/) | Computes row-wise, column-wise, weighted, and other numerical summaries of vectors and matrices. | `1.5.0` · `Artistic-2.0 AND GPL-2.0-or-later` |
+| [`matrixTests`](matrixTests/) | Applies statistical tests by matrix row or column, including mean, variance, rank, correlation, and normality tests. | `0.2.3.1` · `GPL-2.0-only` |
 | [`maxLik`](maxLik/) | Performs maximum-likelihood estimation and related calculations. | `1.5-2.2` · `GPL-2.0-or-later` |
 | [`mbbefd`](mbbefd/) | Provides Maxwell-Boltzmann, Bose-Einstein, and Fermi-Dirac distributions. | `0.8.14` · `GPL-2.0-only` |
 | [`mbend`](mbend/) | Adjusts symmetric matrices to positive-definite form using weighted or unweighted matrix bending. | `1.3.1` · `GPL-3.0-only` |
@@ -476,6 +493,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`MNB`](MNB/) | Provides diagnostics for multivariate negative-binomial regression models. | `1.2.0` · `GPL-2.0-or-later` |
 | [`mnormt`](mnormt/) | Provides multivariate normal and Student-t distributions, including truncated probabilities. | `2.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`moments`](moments/) | Computes moments, cumulants, skewness, kurtosis, and related tests. | `0.14.1` · `GPL-2.0-or-later` |
+| [`monobin`](monobin/) | Performs monotonic binning for credit-rating models with binary or continuous responses. | `0.2.4` · `GPL-3.0-or-later` |
 | [`msgarch`](msgarch/) | Fits Markov-switching GARCH models. | `2.51` · `GPL-2.0-or-later` |
 | [`msm`](msm/) | Fits continuous-time multi-state and hidden Markov models. | `1.8.2` · `GPL-2.0-or-later` |
 | [`mstate`](mstate/) | Prepares data and estimates and predicts multi-state models. | `0.3.3` · `GPL-2.0-or-later` |
@@ -489,6 +507,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`nbconv`](nbconv/) | Evaluates arbitrary convolutions of negative-binomial distributions. | `1.0.1` · `GPL-3.0-or-later` |
 | [`neighbours`](neighbours/) | Provides neighbourhood functions for local-search algorithms. | `0.1-5` · `GPL-3.0-only` |
 | [`neldermead`](neldermead/) | Performs derivative-free optimization using Nelder-Mead methods. | `1.0-13` · `CeCILL-2.0` |
+| [`NetworkRiskMeasures`](NetworkRiskMeasures/) | Computes financial-network risk measures, including DebtRank, impact susceptibility, diffusion, and fluidity. | `0.1.7` · `GPL-3.0-only` |
 | [`new.dist`](new.dist/) | Provides alternative continuous and discrete probability distributions. | `0.1.2` · `GPL-3.0-only` |
 | [`NFCP`](NFCP/) | Estimates term structures with N-factor commodity-pricing models. | `1.2.2` · `GPL-3.0-only` |
 | [`nilde`](nilde/) | Finds nonnegative integer solutions of linear Diophantine equations. | `1.1-7` · `GPL-2.0-or-later` |
@@ -504,6 +523,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`nnls`](nnls/) | Solves nonnegative and mixed-sign least-squares problems. | `1.6` · `GPL-2.0-or-later` |
 | [`nonneg-cg`](nonneg-cg/) | Performs nonnegative conjugate-gradient minimization. | `0.1.6-1` · `BSD-2-Clause` |
 | [`normalp`](normalp/) | Provides exponential-power distributions, estimation, and regression. | `0.7.2.1` · `GPL` |
+| [`nortest`](nortest/) | Tests normality with distribution parameters estimated from the observations. | `1.0-4` · `GPL-2.0-or-later` |
 | [`nspmix`](nspmix/) | Fits nonparametric and semiparametric mixture models. | `2.0-0` · `GPL-2.0-or-later` |
 | [`numDeriv`](numDeriv/) | Computes accurate numerical gradients, Jacobians, and Hessians. | `2016.8-1.1` · `GPL-2.0-or-later` |
 | [`nvmix`](nvmix/) | Computes and simulates multivariate normal variance-mixture distributions. | `0.1-2` · `GPL-3.0-or-later` |
@@ -514,12 +534,14 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`optimflex`](optimflex/) | Performs derivative-based optimization with user-defined convergence criteria. | `0.1.8` · `MIT` |
 | [`optimx`](optimx/) | Provides an expanded toolkit for general-purpose optimization. | `2025-4.9` · `GPL-2.0-only` |
 | [`optionpricing`](optionpricing/) | Prices options with efficient simulation algorithms. | `0.1.2` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`optionstrat`](optionstrat/) | Computes European option and spread analytics. | `1.4.1` · `GPL-3.0-only` |
 | [`optmatch`](optmatch/) | Performs optimal distance-based matching for observational studies. | `0.10.8` · `MIT` |
 | [`optR`](optR/) | Solves linear systems and provides matrix inversion, projection matrices, numerical Jacobians, and Newton root finding. | `1.2.5` · `GPL-2.0-or-later` |
 | [`ordinal`](ordinal/) | Fits cumulative-link models for ordinal responses, including mixed models. | `2026.7-26` · `GPL-2.0-or-later` |
 | [`orthopolynom`](orthopolynom/) | Provides orthogonal and orthonormal polynomial families. | `1.0-6.1` · `GPL-2.0-only` |
 | [`osqp`](osqp/) | Solves convex quadratic programs using the OSQP algorithm. | `1.0.0` · `Apache-2.0` |
 | [`otrimle`](otrimle/) | Performs robust clustering using optimally tuned improper maximum-likelihood mixture models. | `2.0` · `GPL-2.0-or-later` |
+| [`outliers`](outliers/) | Provides outlier tests, critical values, probabilities, and outlier scores. | `0.15` · `GPL-2.0-or-later` |
 | [`pa`](pa/) | Performs equity-portfolio performance attribution. | `1.2-4` · `GPL-2.0-only` |
 | [`pan`](pan/) | Performs multiple imputation for multivariate panel or clustered data. | `2.0` · `GPL-3.0-only` |
 | [`parma`](parma/) | Provides portfolio allocation and risk-management applications. | `1.7` · `GPL-3.0-or-later` |
@@ -534,6 +556,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`pearsonds`](pearsonds/) | Evaluates, simulates, and fits distributions in the Pearson distribution system. | `1.3.2` · `GPL-2.0-or-later` |
 | [`peerperformance`](peerperformance/) | Performs luck-corrected peer-performance analysis. | `2.4.0` · `GPL-2.0-or-later` |
 | [`performanceanalytics`](performanceanalytics/) | Provides econometric tools for performance and risk analysis. | `2.1.0` · `GPL-2.0-or-later` |
+| [`perm`](perm/) | Computes exact, simulated, and asymptotic two-sample, k-sample, and trend permutation tests. | `1.0-0.4` · `GPL-2.0-only OR GPL-3.0-only` |
 | [`pgnorm`](pgnorm/) | Evaluates and simulates p-generalized normal distributions. | `2.0.1` · `GPL-2.0-or-later` |
 | [`PINstimation`](PINstimation/) | Estimates the probability of informed trading. | `0.2.0` · `GPL-3.0-or-later` |
 | [`piqp`](piqp/) | Solves quadratic programs with a proximal interior-point method. | `0.6.2` · `GPL-3.0-only` |
@@ -550,11 +573,14 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`portfoliooptim`](portfoliooptim/) | Performs small- and large-sample portfolio optimization. | `1.1.1` · `GPL-3.0-only` |
 | [`PortfolioTesteR`](PortfolioTesteR/) | Tests investment strategies using an English-like specification. | `0.1.4` · `MIT` |
 | [`portvine`](portvine/) | Estimates portfolio risk with rolling ARMA-GARCH and vine-copula models. | `1.0.3.9000` · `GPL-3.0-only` |
+| [`posterior`](posterior/) | Summarizes posterior draws and computes convergence diagnostics, generalized Pareto fits, and predictive checks. | `1.7.0` · `BSD-3-Clause` |
 | [`poweRlaw`](poweRlaw/) | Analyzes power-law and other heavy-tailed distributions. | `1.0.0` · `GPL-3.0-only` |
 | [`ppcor`](ppcor/) | Computes partial and semi-partial correlations. | `1.1` · `GPL-2.0-only` |
 | [`ppso`](ppso/) | Performs particle-swarm optimization and dynamically dimensioned search. | `0.9-99994` · `Unlimited` |
 | [`pracma`](pracma/) | Provides practical numerical mathematics functions. | `2.4.6` · `GPL-3.0-or-later` |
+| [`PropCIs`](PropCIs/) | Computes confidence intervals for proportions, differences, risk ratios, and odds ratios. | `0.3-0` · `GPL-2.0-only` |
 | [`proxy`](proxy/) | Computes distances and similarities for numeric, binary, nominal, mixed, and sequence data. | `0.4-29` · `GPL-2.0-only OR GPL-3.0-only` |
+| [`PRROC`](PRROC/) | Computes precision-recall and ROC curves and areas, including weighted observations and soft labels. | `1.4` · `GPL-3.0-only` |
 | [`PSDistr`](PSDistr/) | Provides practical numerical mathematics functions. | `2.4.6` · `GPL-3.0-or-later` |
 | [`pso`](pso/) | Performs particle-swarm optimization. | `1.0.4` · `LGPL-3.0-only` |
 | [`psoptim`](psoptim/) | Performs particle-swarm optimization. | `1.0` · `GPL-2.0-or-later` |
@@ -578,6 +604,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`ragtop`](ragtop/) | Prices equity derivatives with extensions of Black-Scholes. | `2.0.0` · `GPL-2.0-or-later` |
 | [`randomForest`](randomForest/) | Fits classification and regression random forests. | `4.7-1.2` · `GPL-2.0-or-later` |
 | [`randompack`](randompack/) | Provides stateful random-number generators and univariate and multivariate distribution simulation. | `0.1.10` · `BSD-3-Clause` |
+| [`randtests`](randtests/) | Performs nonparametric randomness tests and computes runs and Bartels distributions. | `1.0.2` · `GPL-2.0-or-later` |
 | [`randtoolbox`](randtoolbox/) | Provides pseudo-random and quasi-random number generators. | `2.0.5` · `BSD-3-Clause AND LicenseRef-WELL-Upstream` |
 | [`rangen`](rangen/) | Provides fast random-number and matrix generators and sampling utilities. | `0.0.1` · `GPL-3.0-only` |
 | [`ranger`](ranger/) | Fits fast random forests for classification, regression, probability, and survival models. | `0.18.0` · `GPL-3.0-only` |
@@ -664,6 +691,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`spdep`](spdep/) | Provides spatial-neighbor, spatial-weight, autocorrelation, and spatial-regression computations. | `1.4-2` · `GPL-2.0-or-later` |
 | [`spectralGraphTopology`](spectralGraphTopology/) | Learns graph topologies from data using spectral constraints. | `0.2.3` · `GPL-3.0-only` |
 | [`Spillover`](Spillover/) | Computes VAR-based generalized and orthogonalized connectedness measures. | `0.1.1` · `GPL-2.0-only` |
+| [`splines2`](splines2/) | Constructs spline and Bernstein bases, including B-, M-, I-, C-, periodic, and natural cubic splines. | `0.5.4` · `GPL-3.0-or-later` |
 | [`splines`](splines/) | Provides B-spline and natural-spline basis calculations. | `2.0-7` · `GPL-2.0-or-later` |
 | [`stabledist`](stabledist/) | Evaluates, computes quantiles for, and simulates stable probability distributions. | `0.7-2` · `GPL-2.0-or-later` |
 | [`statmod`](statmod/) | Provides statistical-modeling utilities including inverse-Gaussian methods, quadrature, REML, and randomized quantile residuals. | `1.5.2` · `GPL-2.0-only OR GPL-3.0-only` |
@@ -697,6 +725,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`Trading`](Trading/) | Provides trading, correlation, beta, and betting calculations. | `3.2` · `GPL-3.0-only` |
 | [`trawl`](trawl/) | Estimates and simulates trawl processes. | `0.2.2` · `GPL-3.0-only` |
 | [`treasuryTR`](treasuryTR/) | Generates Treasury total returns from yield data. | `0.1.6` · `MIT` |
+| [`trend`](trend/) | Computes trend tests, Sen slopes, change-point tests, and randomness tests. | `1.1.8` · `GPL-3.0-only` |
 | [`TruncatedNormal`](TruncatedNormal/) | Computes probabilities and generates samples for truncated multivariate normal and Student-t distributions. | `2.3` · `GPL-3.0-only` |
 | [`truncnorm`](truncnorm/) | Evaluates and simulates univariate truncated normal distributions. | `1.0-9` · `GPL-2.0-or-later` |
 | [`trust`](trust/) | Performs trust-region optimization. | `0.1-9` · `MIT` |
@@ -710,6 +739,7 @@ packages. See the [dependency planner guide](docs/TRANSLATION_DEPENDENCY_PLANNER
 | [`tsgarch`](tsgarch/) | Fits, simulates, forecasts, and diagnoses univariate GARCH models. | `1.0.4` · `GPL-2.0-only` |
 | [`tsmarch`](tsmarch/) | Fits and forecasts multivariate ARCH models. | `1.0.3` · `GPL-2.0-only` |
 | [`TSP`](TSP/) | Provides algorithms and infrastructure for traveling-salesperson problems. | `1.2.7` · `GPL-3.0-only` |
+| [`TTR`](TTR/) | Computes technical trading indicators and price, volume, and rolling-statistic summaries. | `0.24.4` · `GPL-2.0-or-later` |
 | [`tvgarch`](tvgarch/) | Fits time-varying GARCH models. | `2.4.3` · `GPL-2.0-or-later` |
 | [`tvGarchKF`](tvGarchKF/) | Fits time-varying GARCH models through a state-space representation. | `0.0.1` · `GPL-3.0-or-later` |
 | [`tvm`](tvm/) | Performs time-value-of-money and interest-rate calculations. | `0.5.2` · `MIT` |

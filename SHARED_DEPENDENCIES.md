@@ -15,7 +15,7 @@ The exact-source scan fell from 102 duplicate groups representing about
 test and demo groups totaling about 4.9 KiB.
 
 The table below reflects direct sibling dependencies in the current top-level
-FPM manifests, refreshed on 2026-09-28, plus the separately listed integration
+FPM manifests, refreshed on 2026-10-14, plus the separately listed integration
 adapters. It excludes development-only dependencies and does not imply that
 every consumer has been rebuilt or tested in this documentation refresh.
 The duplicate-file figures above describe earlier audits, not a fresh scan.
@@ -39,6 +39,12 @@ originally developed by Federico Perini. Those Git dependencies are not sibling
 paths and therefore are not listed in the table. These observations describe
 manifests, not a fresh build or regression-test pass.
 
+The October additions also reuse `matrixStats`, `posterior`, `exactRankTests`,
+`nortest`, `moments`, `Hmisc`, `TTR`, `randompack`, `expm`, `lpSolve`,
+`lbfgsb3`, `splines`, `kendall`, and `randtests` as sibling dependencies.
+`matrixTests` additionally declares a pinned Git dependency on the same
+`fortran-lapack` fork; this is distinct from the sibling paths listed below.
+
 | Canonical package | Consumers using the shared package |
 |---|---|
 | `actuar` | `mbbefd` |
@@ -59,7 +65,10 @@ manifests, not a fresh build or regression-test pass.
 | `DiceKriging` | `GPareto`, `mlrMBO` |
 | `dplyr` | `tidyr` |
 | `elliptic` | `hypergeo` |
+| `exactRankTests` | `matrixTests`, `trend` |
 | `expint` | `actuar`, `mev`, `new.dist` |
+| `expm` | `NetworkRiskMeasures` |
+| `extraDistr` | `PropCIs` |
 | `fastcluster` | `cluster`, `stats` |
 | `fastmatrix` | `L1pack` |
 | `fitdistrplus` | `mbbefd` |
@@ -74,22 +83,26 @@ manifests, not a fresh build or regression-test pass.
 | `ghyp` | `sharpeRratio`, `tsdistributions`, `tsgarch`, `tsmarch` |
 | `GPArotation` | `lavaan` |
 | `gRbase` | `gRain` |
+| `Hmisc` | `monobin` |
 | `igraph` | `gRbase` |
+| `kendall` | `trend` |
 | `KFAS` | `MARSS` |
 | `lbfgs` | `RcppNumerical` |
-| `lbfgsb3` | `NFCP`, `RcppNumerical`, `roptim` |
+| `lbfgsb3` | `binom`, `CreditRisk`, `NFCP`, `RcppNumerical`, `roptim` |
 | `leaps` | `tsa` |
 | `lme4` | `gamm4` |
-| `lpSolve` | `adagio`, `clue`, `limSolve`, `linprog`, `matchingMarkets` |
+| `lpSolve` | `adagio`, `clue`, `irr`, `limSolve`, `linprog`, `matchingMarkets` |
 | `lsei` | `nspmix` |
 | `matchingR` | `matchingMarkets` |
 | `Matrix` | `MatrixExtra`, `piqp` |
 | `MatrixExtra` | `ECOSolveR/integration/matrixextra-adapter` |
+| `matrixStats` | `loo`, `matrixTests` |
 | `maxLik` | `dccmidas`, `rumidas` |
 | `mclust` | `otrimle` |
 | `mcmc` | `MCMCpack` |
 | `mgcv` | `gamm4` |
 | `minqa` | `lme4`, `survey` |
+| `moments` | `matrixTests` |
 | `MTS` | `SteadyStateBVAR` |
 | `mvtnorm` | `ks`, `matrixNormal`, `mc2d`, `mixSPE`, `tmvtnorm` |
 | `nleqslv` | `mev`, `TruncatedNormal` |
@@ -97,26 +110,30 @@ manifests, not a fresh build or regression-test pass.
 | `NMOF` | `neighbours/integration/nmof-demo` |
 | `nnet` | `forecast` |
 | `nnls` | `isotone` |
+| `nortest` | `matrixTests` |
 | `numDeriv` | `alabama`, `compound.Cox`, `flexsurv`, `gkwdist`, `lavaan`, `pbkrtest`, `survey` |
 | `optimx` | `dlm` |
 | `partitions` | `hyper2`, `MM` |
 | `pbivnorm` | `lavaan` |
 | `pdqutils` | `sadists` |
 | `polynom` | `orthopolynom` |
+| `posterior` | `loo` |
 | `pracma` | `new.dist`, `poweRlaw` |
 | `QCSIS` | `wqc` |
 | `qrng` | `TruncatedNormal` |
 | `quadform` | `MM` |
 | `quadprog` | `BB`, `flexsurv`, `INFOSET`, `limSolve`, `NlcOptim`, `pracma`, `quadprogXT` |
 | `quantreg` | `MCMCpack` |
-| `randompack` | `varmapack` |
+| `randompack` | `ESG`, `varmapack` |
+| `randtests` | `trend` |
+| `RcppNumerical` | `PropCIs` |
 | `readr` | `tidyr` |
 | `relsurv` | `flexsurv`, `mstate` |
 | `Rfast` | `Rfast2` |
 | `rfortran-arpack` | `bigstatsr`, `rARPACK`, `RSpectra` |
 | `rfortran-compat` | `CompQuadForm`, `DPQ`, `evd`, `gmm`, `matrixdist`, `nnet`, `pearsonds`, `qrng`, `spam`, `SpatialExtremes`, `stabledist`, `statmod`, `TruncatedNormal`, `truncnorm`, `tweedie` |
-| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `changepoint`, `cmprsk`, `corpcor`, `dccmidas`, `DiscreteWeibull`, `dlm`, `fda`, `fda.usc`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `ftsa`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `isotone`, `kde1d`, `kSamples`, `matrixcalc`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `pbkrtest`, `performanceanalytics`, `psych`, `quarks`, `randomForest`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `tseries`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
-| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fda.usc`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `ftsa`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixcalc`, `matrixdist`, `mbend`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `psych`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
+| `rfortran-core` | `ape`, `bayesgarch`, `bayesm`, `binom`, `BurStFin`, `changepoint`, `cmprsk`, `corpcor`, `CreditRisk`, `credule`, `dccmidas`, `diptest`, `DiscreteWeibull`, `dlm`, `entropy`, `ESG`, `exactRankTests`, `fda`, `fda.usc`, `FinTS`, `fitdistrplus`, `fportfolio`, `fracdiff`, `fTrading`, `ftsa`, `GB2`, `geepack`, `gkwdist`, `gRain`, `gRbase`, `HDInterval`, `ineq`, `infotheo`, `irr`, `isotone`, `kde1d`, `kendall`, `kSamples`, `loo`, `matrixcalc`, `matrixStats`, `matrixTests`, `MCMCglmm`, `mice`, `mitml`, `mitools`, `monobin`, `NetworkRiskMeasures`, `nortest`, `optionstrat`, `outliers`, `pbkrtest`, `performanceanalytics`, `perm`, `posterior`, `PropCIs`, `PRROC`, `psych`, `quarks`, `randomForest`, `randtests`, `ranger`, `roll`, `rrcov`, `rugarch`, `spantest`, `splines2`, `stats`, `SteadyStateBVAR`, `strucchange`, `survey`, `trend`, `tseries`, `TTR`, `vares`, `vars`, `vrtest`, `waveslim`, `wavethresh` |
+| `rfortran-linalg` | `ape`, `apt`, `bayesianOU`, `BEKKs`, `binom`, `BurStFin`, `cccp`, `CEoptim`, `changepoint`, `CLA`, `cmaes`, `cmprsk`, `compositions`, `dccmidas`, `dlm`, `esback`, `etrm`, `expm`, `fastmatrix`, `fbasics`, `fbonds`, `fcopulae`, `fda`, `fda.usc`, `fmultivar`, `fnonlinear`, `forecast`, `fportfolio`, `ftsa`, `gamm4`, `garchx`, `geepack`, `gmm`, `gogarch`, `gRbase`, `irlba`, `irr`, `ks`, `lgarch`, `lmtest`, `MARSS`, `matchingMarkets`, `matrixcalc`, `matrixdist`, `mbend`, `mclust`, `MCMCglmm`, `mice`, `mitml`, `mixsqp`, `msm`, `MultiATSM`, `nmof`, `nnet`, `pa`, `pbkrtest`, `psych`, `randomForest`, `randompack`, `Rcsdp`, `Rdsdp`, `riskParityPortfolio`, `RiskPortfolios`, `Rmalschains`, `robustbase`, `roll`, `rquantlib`, `Rssa`, `SpatialExtremes`, `statmod`, `stats`, `SteadyStateBVAR`, `stochfactor`, `strucchange`, `svd`, `tsdyn`, `tvgarch`, `urca`, `varmapack`, `vars`, `wavethresh` |
 | `rfortran-optional` | `rfortran-core`, `rfortran-linalg`, `stats` |
 | `rngWELL` | `randtoolbox` |
 | `RobStatTM` | `RPEIF` |
@@ -134,7 +151,7 @@ manifests, not a fresh build or regression-test pass.
 | `SACCR` | `xVA` |
 | `smoots` | `ufRisk` |
 | `spacefillr` | `TruncatedNormal` |
-| `splines` | `gamlss`, `mgcv`, `survival`, `VGAM` |
+| `splines` | `gamlss`, `mgcv`, `splines2`, `survival`, `VGAM` |
 | `stinepack` | `imputeTS` |
 | `stringr` | `tidyr` |
 | `SuppDists` | `kSamples` |
@@ -148,6 +165,7 @@ manifests, not a fresh build or regression-test pass.
 | `Trading` | `SACCR`, `xVA` |
 | `tsdistributions` | `tsgarch`, `tsmarch` |
 | `tsgarch` | `tsmarch` |
+| `TTR` | `fTrading` |
 | `tvm` | `yrnd` |
 | `tweedie` | `statmod` |
 | `urca` | `forecast` |
